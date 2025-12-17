@@ -1,32 +1,336 @@
 {
-  "last_updated": "2025-12-17 12:00 PM",
+  "last_updated": "2025-12-17 11:39 PM",
   "games": [
     {
-      "id": "CLE-CHI",
-      "teams": ["CLE", "CHI"],
+      "id": "CHI-CLE",
+      "teams": [
+        "CHI",
+        "CLE"
+      ],
       "meta": {
-        "spread": "-5.5",
+        "spread": "+5.5",
         "total": "242.5"
       },
       "rosters": {
-        "CLE": {
-          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/cle.png",
-          "players": [
-            {"pos": "PG", "name": "Darius Garland", "salary": 7200, "proj": 37.6, "value": 5.22},
-            {"pos": "SG", "name": "Donovan Mitchell", "salary": 9700, "proj": 45.9, "value": 4.73},
-            {"pos": "SF", "name": "De'Andre Hunter", "salary": 5100, "proj": 27.0, "value": 5.3},
-            {"pos": "PF", "name": "Dean Wade", "salary": 4000, "proj": 18.4, "value": 4.6},
-            {"pos": "C", "name": "Jarrett Allen", "salary": 6100, "proj": 32.8, "value": 5.4}
-          ]
-        },
         "CHI": {
           "logo": "https://a.espncdn.com/i/teamlogos/nba/500/chi.png",
           "players": [
-            {"pos": "PG", "name": "Josh Giddey", "salary": 9400, "proj": 42.2, "value": 4.5},
-            {"pos": "SG", "name": "Coby White", "salary": 7100, "proj": 31.6, "value": 4.5},
-            {"pos": "SF", "name": "Isaac Okoro", "salary": 3800, "proj": 13.9, "value": 3.7},
-            {"pos": "PF", "name": "Matas Buzelis", "salary": 5900, "proj": 26.3, "value": 4.5},
-            {"pos": "C", "name": "Nikola Vucevic", "salary": 6400, "proj": 32.3, "value": 5.1}
+            {
+              "pos": "PG",
+              "name": "Josh Giddey",
+              "salary": 9400,
+              "proj": 42.2,
+              "value": 4.49,
+              "injury": ""
+            },
+            {
+              "pos": "SG",
+              "name": "Coby White",
+              "salary": 7100,
+              "proj": 31.6,
+              "value": 4.46,
+              "injury": ""
+            },
+            {
+              "pos": "SG",
+              "name": "Ayo Dosunmu",
+              "salary": 5300,
+              "proj": 20.9,
+              "value": 3.94,
+              "injury": "Q"
+            },
+            {
+              "pos": "SF",
+              "name": "Isaac Okoro",
+              "salary": 3800,
+              "proj": 13.9,
+              "value": 3.65,
+              "injury": ""
+            },
+            {
+              "pos": "PF",
+              "name": "Noa Essengue",
+              "salary": 3500,
+              "proj": 0.0,
+              "value": 0.0,
+              "injury": "O"
+            },
+            {
+              "pos": "PF",
+              "name": "Matas Buzelis",
+              "salary": 5900,
+              "proj": 26.3,
+              "value": 4.45,
+              "injury": ""
+            },
+            {
+              "pos": "C",
+              "name": "Nikola Vucevic",
+              "salary": 6400,
+              "proj": 32.3,
+              "value": 5.05,
+              "injury": ""
+            }
+          ]
+        },
+        "CLE": {
+          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/cle.png",
+          "players": [
+            {
+              "pos": "PG",
+              "name": "Darius Garland",
+              "salary": 7200,
+              "proj": 37.6,
+              "value": 5.22,
+              "injury": ""
+            },
+            {
+              "pos": "SG",
+              "name": "Donovan Mitchell",
+              "salary": 9700,
+              "proj": 45.9,
+              "value": 4.73,
+              "injury": ""
+            },
+            {
+              "pos": "SG",
+              "name": "Max Strus",
+              "salary": 3900,
+              "proj": 0.0,
+              "value": 0.0,
+              "injury": "O"
+            },
+            {
+              "pos": "SF",
+              "name": "De'Andre Hunter",
+              "salary": 5100,
+              "proj": 27.0,
+              "value": 5.3,
+              "injury": ""
+            },
+            {
+              "pos": "SF",
+              "name": "Sam Merrill",
+              "salary": 3900,
+              "proj": 0.0,
+              "value": 0.0,
+              "injury": "O"
+            },
+            {
+              "pos": "PF",
+              "name": "Dean Wade",
+              "salary": 4000,
+              "proj": 18.4,
+              "value": 4.61,
+              "injury": ""
+            },
+            {
+              "pos": "PF",
+              "name": "Evan Mobley",
+              "salary": 3500,
+              "proj": 0.0,
+              "value": 0.0,
+              "injury": "O"
+            },
+            {
+              "pos": "C",
+              "name": "Jarrett Allen",
+              "salary": 6100,
+              "proj": 32.8,
+              "value": 5.37,
+              "injury": ""
+            },
+            {
+              "pos": "C",
+              "name": "Larry Nance",
+              "salary": 3600,
+              "proj": 0.0,
+              "value": 0.0,
+              "injury": "O"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "MEM-MIN",
+      "teams": [
+        "MEM",
+        "MIN"
+      ],
+      "meta": {
+        "spread": "+7.5",
+        "total": "232.5"
+      },
+      "rosters": {
+        "MEM": {
+          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/mem.png",
+          "players": [
+            {
+              "pos": "PG",
+              "name": "Ja Morant",
+              "salary": 7700,
+              "proj": 35.4,
+              "value": 4.6,
+              "injury": "Q"
+            },
+            {
+              "pos": "PG",
+              "name": "Ty Jerome",
+              "salary": 3500,
+              "proj": 0.0,
+              "value": 0.0,
+              "injury": "O"
+            },
+            {
+              "pos": "PG",
+              "name": "Javon Small",
+              "salary": 3500,
+              "proj": 0.0,
+              "value": 0.0,
+              "injury": "O"
+            },
+            {
+              "pos": "PG",
+              "name": "Scotty Pippen",
+              "salary": 3500,
+              "proj": 0.0,
+              "value": 0.0,
+              "injury": "O"
+            },
+            {
+              "pos": "SG",
+              "name": "Vince Williams",
+              "salary": 4100,
+              "proj": 19.4,
+              "value": 4.73,
+              "injury": ""
+            },
+            {
+              "pos": "SG",
+              "name": "Cam Spencer",
+              "salary": 5800,
+              "proj": 0.0,
+              "value": 0.0,
+              "injury": "O"
+            },
+            {
+              "pos": "SG",
+              "name": "Jaylen Wells",
+              "salary": 5400,
+              "proj": 23.5,
+              "value": 4.36,
+              "injury": ""
+            },
+            {
+              "pos": "SG",
+              "name": "Cedric Coward",
+              "salary": 5600,
+              "proj": 27.2,
+              "value": 4.86,
+              "injury": ""
+            },
+            {
+              "pos": "SF",
+              "name": "John Konchar",
+              "salary": 3500,
+              "proj": 0.0,
+              "value": 0.0,
+              "injury": "O"
+            },
+            {
+              "pos": "PF",
+              "name": "Jaren Jackson",
+              "salary": 7000,
+              "proj": 34.6,
+              "value": 4.94,
+              "injury": ""
+            },
+            {
+              "pos": "PF",
+              "name": "Santi Aldama",
+              "salary": 6500,
+              "proj": 34.6,
+              "value": 5.32,
+              "injury": ""
+            },
+            {
+              "pos": "C",
+              "name": "Brandon Clarke",
+              "salary": 3900,
+              "proj": 11.5,
+              "value": 2.96,
+              "injury": "Q"
+            },
+            {
+              "pos": "C",
+              "name": "Zach Edey",
+              "salary": 3500,
+              "proj": 0.0,
+              "value": 0.0,
+              "injury": "O"
+            }
+          ]
+        },
+        "MIN": {
+          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/min.png",
+          "players": [
+            {
+              "pos": "PG",
+              "name": "Mike Conley",
+              "salary": 3700,
+              "proj": 0.0,
+              "value": 0.0,
+              "injury": "O"
+            },
+            {
+              "pos": "PG",
+              "name": "Bones Hyland",
+              "salary": 5000,
+              "proj": 19.0,
+              "value": 3.8,
+              "injury": ""
+            },
+            {
+              "pos": "SG",
+              "name": "Anthony Edwards",
+              "salary": 9300,
+              "proj": 43.9,
+              "value": 4.72,
+              "injury": "Q"
+            },
+            {
+              "pos": "SG",
+              "name": "Donte DiVincenzo",
+              "salary": 6300,
+              "proj": 29.9,
+              "value": 4.75,
+              "injury": ""
+            },
+            {
+              "pos": "SF",
+              "name": "Jaden McDaniels",
+              "salary": 6600,
+              "proj": 29.7,
+              "value": 4.5,
+              "injury": ""
+            },
+            {
+              "pos": "PF",
+              "name": "Julius Randle",
+              "salary": 8900,
+              "proj": 41.2,
+              "value": 4.62,
+              "injury": ""
+            },
+            {
+              "pos": "C",
+              "name": "Rudy Gobert",
+              "salary": 6200,
+              "proj": 31.2,
+              "value": 5.03,
+              "injury": ""
+            }
           ]
         }
       }
