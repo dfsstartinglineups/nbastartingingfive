@@ -4,12 +4,12 @@ import glob
 import os
 import datetime
 import requests
+import sys
 from bs4 import BeautifulSoup
 
 # URL to scrape for confirmed starters
 ROTOWIRE_URL = "https://www.rotowire.com/basketball/nba-lineups.php"
 
-# Headers to look like a real browser
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
 }
@@ -20,14 +20,8 @@ def get_confirmed_starters_from_web():
     
     try:
         response = requests.get(ROTOWIRE_URL, headers=HEADERS, timeout=10)
-        if response.status_code != 200:
-            print(f"Failed to fetch website. Status Code: {response.status_code}")
-            return {}
-            
         soup = BeautifulSoup(response.text, 'html.parser')
         lineup_boxes = soup.find_all(class_='lineup')
-        
-        print(f"Found {len(lineup_boxes)} games on the web schedule.")
         
         for box in lineup_boxes:
             lists = box.find_all(class_='lineup__list')
@@ -52,26 +46,23 @@ def get_confirmed_starters_from_web():
                     confirmed_starters[team_code] = players
                     
     except Exception as e:
-        print(f"Error scraping web: {e}")
+        print(f"Warning: Web scraping failed ({e}). Using projections only.")
         
-    print(f"Scraped starters for {len(confirmed_starters)} teams.")
     return confirmed_starters
 
 def build_json():
     print("--- Starting NBA Data Build ---")
-    
-    # FIND FILES AUTOMATICALLY
+
+    # FIND FILES
     dff_files = glob.glob('*DFF*.csv')
     fd_files = glob.glob('*FanDuel*.csv')
     
     if not dff_files or not fd_files:
-        print("ERROR: Could not find both CSV files.")
-        return
+        print("ERROR: MISSING CSV FILES")
+        sys.exit(1)
 
     dff_path = sorted(dff_files)[-1]
     fd_path = sorted(fd_files)[-1]
-    print(f"Reading: {dff_path}")
-    print(f"Reading: {fd_path}")
 
     # LOAD & MERGE
     try:
@@ -79,9 +70,8 @@ def build_json():
         fd_df = pd.read_csv(fd_path)
     except Exception as e:
         print(f"Error reading CSVs: {e}")
-        return
+        sys.exit(1)
 
-    # Normalize Names
     dff_df['norm_first'] = dff_df['first_name'].str.lower().str.strip()
     dff_df['norm_last'] = dff_df['last_name'].str.lower().str.strip()
     dff_df['norm_team'] = dff_df['team'].str.strip()
@@ -96,7 +86,10 @@ def build_json():
         how='inner'
     )
     
-    # GET DYNAMIC STARTERS
+    # Clean duplicates if any
+    merged_df = merged_df.drop_duplicates(subset=['norm_first', 'norm_last', 'norm_team'])
+
+    # GET WEB STARTERS
     web_starters = get_confirmed_starters_from_web()
     web_starters_norm = {}
     for team, players in web_starters.items():
@@ -106,7 +99,7 @@ def build_json():
     merged_df['Full_Name'] = merged_df['first_name'] + " " + merged_df['last_name']
     merged_df['Full_Name_Norm'] = merged_df['Full_Name'].str.lower().str.strip()
     
-    # Sort by Projection for fallback
+    # Sort by Projection initially
     merged_df.sort_values(by=['team', 'ppg_projection'], ascending=[True, False], inplace=True)
     merged_df['Is_Starter'] = False
     
@@ -119,13 +112,12 @@ def build_json():
         if starters_list:
             mask = team_players['Full_Name_Norm'].apply(lambda x: any(s in x for s in starters_list) or any(x in s for s in starters_list))
             if mask.any():
-                print(f"[{team}] Using {mask.sum()} starters found on web.")
                 merged_df.loc[team_players[mask].index, 'Is_Starter'] = True
             else:
-                 print(f"[{team}] Web data found but no name matches. Using Projections.")
+                 # Fallback to Top 5 Proj if name match fails
                  merged_df.loc[team_players.head(5).index, 'Is_Starter'] = True
         else:
-            print(f"[{team}] No web data. Using Top 5 Projected.")
+            # Fallback to Top 5 Proj
             merged_df.loc[team_players.head(5).index, 'Is_Starter'] = True
 
     # BUILD JSON
@@ -170,10 +162,17 @@ def build_json():
         }
         
         for current_team in [team, opp]:
-            starters = merged_df[
-                (merged_df['team'] == current_team) & 
-                (merged_df['Is_Starter'] == True)
-            ].sort_values('Pos_Rank')
+            # Filter specifically for this team
+            team_subset = merged_df[merged_df['team'] == current_team].copy()
+            
+            # Sort: Confirmed Starters first (True>False), then Position, then Projection
+            team_subset = team_subset.sort_values(
+                by=['Is_Starter', 'Pos_Rank', 'ppg_projection'], 
+                ascending=[False, True, False]
+            )
+            
+            # SAFETY CLAMP: Force strictly Top 5
+            starters = team_subset.head(5)
             
             player_list = []
             for _, p in starters.iterrows():
