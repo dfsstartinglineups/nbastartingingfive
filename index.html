@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA Lineup Dashboard</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f4f9; color: #333; margin: 0; padding: 20px; }
+        .container { max_width: 1200px; margin: 0 auto; }
+        h1 { text-align: center; color: #2c3e50; margin-bottom: 10px; }
+        .update-time { text-align: center; color: #7f8c8d; font-size: 0.9em; margin-bottom: 30px; }
+        .game-card { background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 30px; overflow: hidden; }
+        .game-header { background-color: #2c3e50; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .game-title { font-size: 1.2em; font-weight: bold; }
+        .game-meta { font-size: 0.9em; color: #ecf0f1; }
+        .teams-container { display: flex; flex-wrap: wrap; }
+        .team-section { flex: 1; min-width: 300px; padding: 20px; border-right: 1px solid #eee; }
+        .team-section:last-child { border-right: none; }
+        .team-header { display: flex; align-items: center; border-bottom: 2px solid #3498db; padding-bottom: 5px; margin-bottom: 10px; }
+        .team-logo { width: 50px; height: 50px; margin-right: 15px; object-fit: contain; }
+        .team-name { font-size: 1.5em; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em; }
+        th { text-align: left; padding: 8px; border-bottom: 2px solid #ddd; color: #7f8c8d; }
+        td { padding: 8px; border-bottom: 1px solid #eee; }
+        .pos { font-weight: bold; color: #7f8c8d; width: 40px; }
+        .name { font-weight: 600; }
+        .salary { color: #27ae60; }
+        .proj { font-weight: bold; }
+        .value { color: #d35400; }
+        .injury { color: #c0392b; font-size: 0.8em; font-weight: bold; }
+        #loading { text-align: center; padding: 50px; font-size: 1.5em; color: #7f8c8d; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>NBA Lineup Dashboard</h1>
+        <div id="last-updated" class="update-time">Loading...</div>
+        <div id="content">
+            <div id="loading">Loading live data...</div>
+        </div>
+    </div>
+
+    <script>
+        async function loadData() {
+            try {
+                // Fetch the JSON file with a timestamp query to prevent caching
+                const response = await fetch('nba_data.json?v=' + new Date().getTime()); 
+                const data = await response.json();
+                renderDashboard(data);
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('content').innerHTML = '<div style="text-align:center; color:red">Error loading data. Please try again later.</div>';
+            }
+        }
+
+        function renderDashboard(data) {
+            document.getElementById('last-updated').textContent = 'Last Updated: ' + data.last_updated;
+            const container = document.getElementById('content');
+            container.innerHTML = '';
+
+            data.games.forEach(game => {
+                const gameCard = document.createElement('div');
+                gameCard.className = 'game-card';
+
+                const headerHtml = `
+                    <div class="game-header">
+                        <div class="game-title">${game.teams[0]} vs ${game.teams[1]}</div>
+                        <div class="game-meta">Spread: ${game.meta.spread} | Total: ${game.meta.total}</div>
+                    </div>
+                `;
+
+                let teamsHtml = '<div class="teams-container">';
+                game.teams.forEach(teamName => {
+                    const teamData = game.rosters[teamName];
+                    const logoSrc = teamData.logo || '';
+                    
+                    let rows = '';
+                    teamData.players.forEach(p => {
+                        const inj = p.injury ? `<span class="injury">${p.injury}</span>` : '';
+                        rows += `
+                            <tr>
+                                <td class="pos">${p.pos}</td>
+                                <td class="name">${p.name} ${inj}</td>
+                                <td class="salary">$${p.salary}</td>
+                                <td class="proj">${p.proj}</td>
+                                <td class="value">${p.value}x</td>
+                            </tr>
+                        `;
+                    });
+
+                    teamsHtml += `
+                        <div class="team-section">
+                            <div class="team-header">
+                                <img src="${logoSrc}" alt="${teamName}" class="team-logo">
+                                <div class="team-name">${teamName}</div>
+                            </div>
+                            <table>
+                                <thead><tr><th>Pos</th><th>Player</th><th>Sal</th><th>Proj</th><th>Val</th></tr></thead>
+                                <tbody>${rows}</tbody>
+                            </table>
+                        </div>
+                    `;
+                });
+                teamsHtml += '</div>';
+
+                gameCard.innerHTML = headerHtml + teamsHtml;
+                container.appendChild(gameCard);
+            });
+        }
+
+        loadData();
+    </script>
+</body>
+</html>
