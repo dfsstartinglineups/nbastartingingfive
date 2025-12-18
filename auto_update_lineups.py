@@ -8,16 +8,75 @@ import sys
 from bs4 import BeautifulSoup
 from datetime import timedelta
 
-# URL to scrape for confirmed starters
+# --- CONFIGURATION ---
+BBM_URL = "https://basketballmonster.com/nbalineups.aspx"
 ROTOWIRE_URL = "https://www.rotowire.com/basketball/nba-lineups.php"
 
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
 }
 
-def get_confirmed_starters_from_web():
-    print(f"Fetching confirmed starters from {ROTOWIRE_URL}...")
-    confirmed_starters = {} 
+def clean_player_name(name):
+    """Removes injury tags like ' Q', ' Out', ' IN' from names."""
+    if not name: return ""
+    # Common tags found on these sites
+    tags = [' Q', ' Out', ' IN', ' GTD', ' P', ' Probable', ' Questionable', ' Doubtful']
+    for tag in tags:
+        if name.endswith(tag):
+            name = name[:-len(tag)]
+    return name.strip()
+
+def get_starters_from_basketball_monster():
+    print(f"Checking {BBM_URL}...")
+    starters = {}
+    
+    try:
+        response = requests.get(BBM_URL, headers=HEADERS, timeout=10)
+        if response.status_code != 200:
+            print(f"BBM unreachable (Status {response.status_code})")
+            return {}
+
+        soup = BeautifulSoup(response.text, 'html.parser')
+        rows = soup.find_all('tr')
+        
+        current_away = None
+        current_home = None
+        
+        for row in rows:
+            cols = [c.get_text(strip=True) for c in row.find_all(['td', 'th'])]
+            
+            # skip empty rows
+            if not cols: continue
+            
+            # HEADER ROW DETECTION (e.g. "MEM", "@ MIN")
+            # BBM usually puts "@" before the home team in the 3rd column
+            if len(cols) >= 3 and "@" in cols[2]:
+                current_away = cols[1].replace('@', '').strip()
+                current_home = cols[2].replace('@', '').strip()
+                
+                if current_away not in starters: starters[current_away] = []
+                if current_home not in starters: starters[current_home] = []
+                continue
+                
+            # PLAYER ROW DETECTION (Starts with Pos like PG, SG...)
+            if len(cols) >= 3 and cols[0] in ['PG', 'SG', 'SF', 'PF', 'C']:
+                # Ensure we have active teams
+                if current_away and current_home:
+                    p_away = clean_player_name(cols[1])
+                    p_home = clean_player_name(cols[2])
+                    
+                    if p_away and p_away != "-": starters[current_away].append(p_away)
+                    if p_home and p_home != "-": starters[current_home].append(p_home)
+                    
+    except Exception as e:
+        print(f"Warning: Basketball Monster check failed ({e})")
+        
+    print(f"BBM found lineups for: {list(starters.keys())}")
+    return starters
+
+def get_starters_from_rotowire():
+    print(f"Checking {ROTOWIRE_URL}...")
+    starters = {} 
     
     try:
         response = requests.get(ROTOWIRE_URL, headers=HEADERS, timeout=10)
@@ -44,17 +103,17 @@ def get_confirmed_starters_from_web():
                         players.append(name)
                 
                 if players:
-                    confirmed_starters[team_code] = players
+                    starters[team_code] = players
                     
     except Exception as e:
-        print(f"Warning: Web scraping failed ({e}). Using projections only.")
+        print(f"Warning: Rotowire check failed ({e})")
         
-    return confirmed_starters
+    return starters
 
 def build_json():
     print("--- Starting NBA Data Build ---")
 
-    # 1. FIND FILES
+    # 1. FIND CSV FILES
     dff_files = glob.glob('*DFF*.csv')
     fd_files = glob.glob('*FanDuel*.csv')
     
@@ -88,8 +147,22 @@ def build_json():
     )
     merged_df = merged_df.drop_duplicates(subset=['norm_first', 'norm_last', 'norm_team'])
 
-    # 3. GET WEB STARTERS
-    web_starters = get_confirmed_starters_from_web()
+    # 3. GET WEB STARTERS (Chain Logic)
+    # Step A: Try Basketball Monster
+    web_starters = get_starters_from_basketball_monster()
+    
+    # Step B: Check Rotowire for any missing teams
+    unique_teams = merged_df['team'].unique()
+    missing_teams = [t for t in unique_teams if t not in web_starters or len(web_starters[t]) < 5]
+    
+    if missing_teams:
+        print(f"Checking Rotowire for missing teams: {missing_teams}")
+        rw_starters = get_starters_from_rotowire()
+        for t in missing_teams:
+            if t in rw_starters:
+                web_starters[t] = rw_starters[t]
+
+    # Normalize web data for matching
     web_starters_norm = {}
     for team, players in web_starters.items():
         norm_team = team.strip()
@@ -97,34 +170,32 @@ def build_json():
 
     merged_df['Full_Name'] = merged_df['first_name'] + " " + merged_df['last_name']
     merged_df['Full_Name_Norm'] = merged_df['Full_Name'].str.lower().str.strip()
-    
     merged_df['Is_Starter'] = False
     
-    # 4. IDENTIFY STARTERS
-    unique_teams = merged_df['team'].unique()
-    
+    # 4. MARK STARTERS
     for team in unique_teams:
         team_players = merged_df[merged_df['team'] == team]
         starters_list = web_starters_norm.get(team, [])
         
+        # A. Match names from web
         if starters_list:
             mask = team_players['Full_Name_Norm'].apply(lambda x: any(s in x for s in starters_list) or any(x in s for s in starters_list))
             if mask.any():
                 merged_df.loc[team_players[mask].index, 'Is_Starter'] = True
         
-        current_starters_count = merged_df[(merged_df['team'] == team) & (merged_df['Is_Starter'] == True)].shape[0]
-        
-        if current_starters_count < 5:
-            needed = 5 - current_starters_count
+        # B. Safety Fill (If < 5 found, fill with Projections)
+        current_count = merged_df[(merged_df['team'] == team) & (merged_df['Is_Starter'] == True)].shape[0]
+        if current_count < 5:
+            needed = 5 - current_count
+            print(f"[{team}] Found {current_count} confirmed. Filling {needed} with projections.")
+            
             candidates = merged_df[(merged_df['team'] == team) & (merged_df['Is_Starter'] == False)]
             candidates = candidates.sort_values('ppg_projection', ascending=False)
             fillers = candidates.head(needed)
             merged_df.loc[fillers.index, 'Is_Starter'] = True
 
-    # 5. BUILD JSON WITH CORRECT TIMEZONE
-    
-    # Calculate Eastern Time (UTC - 5 hours)
-    # Note: Does not account for Daylight Savings automatically perfectly, but close enough for general use
+    # 5. BUILD JSON
+    # Calculate Eastern Time
     utc_now = datetime.datetime.utcnow()
     et_now = utc_now - timedelta(hours=5)
     formatted_time = et_now.strftime("%b %d, %I:%M %p ET")
@@ -170,12 +241,14 @@ def build_json():
         }
         
         for current_team in [team, opp]:
+            # Sort: Starters First, then Position
             team_subset = merged_df[merged_df['team'] == current_team].copy()
             team_subset = team_subset.sort_values(
                 by=['Is_Starter', 'Pos_Rank', 'ppg_projection'], 
                 ascending=[False, True, False]
             )
             
+            # Clamp to Top 5 to ensure clean UI
             starters = team_subset.head(5)
             
             player_list = []
