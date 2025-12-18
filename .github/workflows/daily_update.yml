@@ -2,8 +2,10 @@ name: Update NBA Lineups
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # Run every 30 minutes
-  workflow_dispatch:        # Allows you to click a button to run manually
+    - cron: '*/5 * * * *'  # Keep this as a backup
+  workflow_dispatch:        # Keep this for manual button clicks
+  repository_dispatch:      # THIS IS NEW
+    types: [trigger-update]
 
 permissions:
   contents: write           # IMPORTANT: Allows the script to save changes
