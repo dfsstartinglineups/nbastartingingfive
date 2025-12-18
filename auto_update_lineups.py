@@ -33,7 +33,7 @@ NICKNAMES = {
     'mo': 'moritz', 'moe': 'moritz', 'zach': 'zachary', 'tim': 'timothy',
     'kj': 'kenyon', 'x': 'xavier', 'herb': 'herbert', 'bub': 'carrinton',
     'greg': 'gregory', 'nick': 'nicholas', 'mitch': 'mitchell', 'kelly': 'kelly',
-    'pj': 'pj'
+    'pj': 'pj', 'trey': 'trey' # Trey Murphy III
 }
 
 def normalize_team(team_name):
@@ -43,7 +43,7 @@ def normalize_team(team_name):
 
 def clean_player_name(name):
     if not name or name == '-': return None
-    name = name.lower().strip()
+    name = str(name).lower().strip()
     name = name.replace('.', '').replace("'", "")
     for suffix in [' jr', ' sr', ' ii', ' iii', ' iv']:
         if name.endswith(suffix):
@@ -59,7 +59,8 @@ def clean_player_name(name):
 
 def parse_time_to_minutes(time_str):
     try:
-        t = dt.strptime(time_str.strip(), "%I:%M %p")
+        # Handles "7:00 pm" or "7:00 PM"
+        t = dt.strptime(time_str.strip().upper(), "%I:%M %p")
         return t.hour * 60 + t.minute
     except:
         return 9999
@@ -74,49 +75,64 @@ def get_data_from_basketball_monster():
         from bs4 import BeautifulSoup
         soup = BeautifulSoup(response.text, 'html.parser')
         
-        # BBM Structure: We need to iterate rows carefully
         rows = soup.find_all('tr')
-        
-        # Variables to track current game block
-        current_away = None
-        current_home = None
         
         for row in rows:
             cols = [c.get_text(strip=True) for c in row.find_all(['td', 'th'])]
             if not cols: continue
             
-            # HEADER ROW DETECTION (Look for @ symbol in 2nd or 3rd col)
-            # Example: [Time, Away, @Home]
-            if len(cols) >= 3 and ("@" in cols[2] or "@" in cols[1]):
-                
-                # Grab time from first col
-                potential_time = cols[0]
-                time_val = "7:00 PM" # default
+            # HEADER ROW DETECTION
+            # Check for "@" symbol which indicates a matchup
+            is_header = False
+            raw_away, raw_home = "", ""
+            potential_time = ""
+
+            if len(cols) >= 3:
+                # Format 1: [Time, Away, @Home]
+                if "@" in cols[2]:
+                    potential_time = cols[0]
+                    raw_away = cols[1]
+                    raw_home = cols[2]
+                    is_header = True
+                # Format 2: [Away, @Home] (Rare but possible)
+                elif "@" in cols[1]:
+                    potential_time = "7:00 PM"
+                    raw_away = cols[0]
+                    raw_home = cols[1]
+                    is_header = True
+            
+            if is_header:
+                # Clean Time
+                game_time = "7:00 PM"
                 if ':' in potential_time and ('am' in potential_time.lower() or 'pm' in potential_time.lower()):
-                    time_val = potential_time
+                    game_time = potential_time.upper()
                 
-                raw_away = cols[1].replace('@', '').strip()
-                raw_home = cols[2].replace('@', '').strip()
+                raw_away = raw_away.replace('@', '').strip()
+                raw_home = raw_home.replace('@', '').strip()
                 
-                current_away = normalize_team(raw_away)
-                current_home = normalize_team(raw_home)
+                team_away = normalize_team(raw_away)
+                team_home = normalize_team(raw_home)
                 
-                if current_away not in starters: starters[current_away] = []
-                if current_home not in starters: starters[current_home] = []
+                if team_away not in starters: starters[team_away] = []
+                if team_home not in starters: starters[team_home] = []
                 
-                game_times[current_away] = time_val
-                game_times[current_home] = time_val
+                game_times[team_away] = game_time
+                game_times[team_home] = game_time
                 continue
             
             # PLAYER ROW DETECTION
-            # First col is Position
             if len(cols) >= 3 and cols[0] in ['PG', 'SG', 'SF', 'PF', 'C']:
-                if current_away and current_home:
-                    p_away = clean_player_name(cols[1])
-                    p_home = clean_player_name(cols[2])
-                    
-                    if p_away and p_away != '-': starters[current_away].append(p_away)
-                    if p_home and p_home != '-': starters[current_home].append(p_home)
+                if not starters: continue
+                # The last two keys added to starters are the current game
+                active_teams = list(starters.keys())[-2:] 
+                tm_away = active_teams[0]
+                tm_home = active_teams[1]
+                
+                p_away = clean_player_name(cols[1])
+                p_home = clean_player_name(cols[2])
+                
+                if p_away and p_away != '-': starters[tm_away].append(p_away)
+                if p_home and p_home != '-': starters[tm_home].append(p_home)
 
     except Exception as e:
         print(f"Error parsing BBM: {e}")
@@ -139,7 +155,6 @@ def build_json():
     fd_path = sorted(fd_files)[-1]
     print(f"Using {dff_path} and {fd_path}")
 
-    # 2. LOAD
     try:
         dff_df = pd.read_csv(dff_path)
         fd_df = pd.read_csv(fd_path)
@@ -147,12 +162,11 @@ def build_json():
         print(f"Error reading CSVs: {e}")
         sys.exit(1)
 
-    # 3. NORMALIZE TEAMS
+    # 2. MERGE DATA
     dff_df['team'] = dff_df['team'].apply(normalize_team)
     dff_df['opp'] = dff_df['opp'].apply(normalize_team)
     fd_df['Team'] = fd_df['Team'].apply(normalize_team)
 
-    # 4. PREPARE MERGE
     dff_df['norm_first'] = dff_df['first_name'].str.lower().str.strip()
     dff_df['norm_last'] = dff_df['last_name'].str.lower().str.strip()
     dff_df['norm_team'] = dff_df['team'].str.strip()
@@ -172,10 +186,10 @@ def build_json():
         lambda x: clean_player_name(f"{x['first_name']} {x['last_name']}"), axis=1
     )
 
-    # 5. GET WEB DATA
+    # 3. GET WEB DATA
     web_starters, web_times = get_data_from_basketball_monster()
     
-    # 6. MATCH STARTERS
+    # 4. MATCH STARTERS (STRICT)
     merged_df['Is_Starter'] = False
     unique_teams = merged_df['team'].unique()
     
@@ -183,22 +197,17 @@ def build_json():
         starters_list = web_starters.get(team, [])
         if not starters_list: continue
         
-        # Match Logic
-        # 1. Exact Name Match
+        # Match using 'Clean_Name'
         mask = merged_df['Clean_Name'].isin(starters_list)
         merged_df.loc[mask & (merged_df['team'] == team), 'Is_Starter'] = True
         
-        # 2. Check for missing players using fuzzy match
-        found_count = merged_df[(merged_df['team'] == team) & (merged_df['Is_Starter'] == True)].shape[0]
-        if found_count < len(starters_list):
-            for web_p in starters_list:
-                # If this specific web player wasn't found yet
-                # (Simple check: is he already matched?)
-                # We do a contains check
+        # Fuzzy Match Fallback (e.g. if name variations exist)
+        for web_p in starters_list:
+            if not mask.any(): 
                 fuzzy_mask = (merged_df['team'] == team) & (merged_df['Clean_Name'].str.contains(web_p, regex=False))
                 merged_df.loc[fuzzy_mask.index, 'Is_Starter'] = True
 
-    # 7. BUILD OUTPUT
+    # 5. BUILD OUTPUT
     utc_now = datetime.datetime.utcnow()
     et_now = utc_now - timedelta(hours=5)
     formatted_time = et_now.strftime("%b %d, %I:%M %p ET")
@@ -255,7 +264,6 @@ def build_json():
             
             player_list = []
             
-            # Only show if we found players
             if not starters_df.empty:
                 for _, p in starters_df.iterrows():
                     val = p['ppg_projection'] / (p['salary']/1000) if p['salary'] > 0 else 0
@@ -282,7 +290,7 @@ def build_json():
         
         games_list.append(game_obj)
     
-    # Sort games by time
+    # Sort by Time
     games_list.sort(key=lambda x: x['sort_index'])
     for g in games_list: del g['sort_index']
     
