@@ -126,7 +126,6 @@ def get_data_from_basketball_monster():
                         clean = clean_player_name(raw)
                         if clean: 
                             starters[tm_away].append(clean)
-                            # print(f"RAW WEB: Found {clean} for {tm_away}")
 
                 # Check Home Link (STRICT LIMIT: 5 PLAYERS)
                 if len(starters[tm_home]) < 5:
@@ -136,7 +135,6 @@ def get_data_from_basketball_monster():
                         clean = clean_player_name(raw)
                         if clean: 
                             starters[tm_home].append(clean)
-                            # print(f"RAW WEB: Found {clean} for {tm_home}")
 
     except Exception as e:
         print(f"Error parsing BBM: {e}")
@@ -207,6 +205,7 @@ def build_json():
             exact_mask = (merged_df['team'] == team) & (merged_df['Clean_Name'] == web_p)
             if exact_mask.any():
                 merged_df.loc[exact_mask.index, 'Is_Starter'] = True
+                print(f"  [MATCH] '{web_p}' -> Exact")
                 continue
             
             # B. SMART FALLBACK
@@ -223,6 +222,7 @@ def build_json():
                 
                 if len(candidates) == 1:
                     merged_df.loc[candidates.index, 'Is_Starter'] = True
+                    print(f"  [MATCH] '{web_p}' -> Initial+Last Match")
                 elif len(candidates) > 1:
                     best_match = None
                     for idx, row in candidates.iterrows():
@@ -231,10 +231,16 @@ def build_json():
                             break
                     if best_match:
                          merged_df.loc[best_match, 'Is_Starter'] = True
+                         print(f"  [MATCH] '{web_p}' -> Best Guess")
 
-    # 5. DUMP FINAL ROSTERS TO LOG
+    # 5. FILTERING: REMOVE NON-STARTERS (The "Purge")
+    print("\nREMOVING NON-STARTERS...")
+    final_df = merged_df[merged_df['Is_Starter'] == True].copy()
+    print(f"Total players remaining: {len(final_df)}")
+
+    # 6. DUMP FINAL ROSTERS TO LOG
     print("\n" + "="*40)
-    print("      FINAL STARTING LINEUPS FOUND")
+    print("      FINAL ROSTER DUMP")
     print("="*40)
     
     def position_rank(pos_str):
@@ -243,18 +249,12 @@ def build_json():
         order = {'PG': 1, 'SG': 2, 'SF': 3, 'PF': 4, 'C': 5}
         return order.get(primary_pos, 99)
     
-    merged_df['Pos_Rank'] = merged_df['position'].apply(position_rank)
+    final_df['Pos_Rank'] = final_df['position'].apply(position_rank)
     
-    for team in sorted(unique_teams):
-        starters_df = merged_df[(merged_df['team'] == team) & (merged_df['Is_Starter'] == True)]
-        starters_df = starters_df.sort_values('Pos_Rank').head(5)
-        
-        if not starters_df.empty:
-            print(f"\nTEAM: {team}")
-            for _, p in starters_df.iterrows():
-                print(f"  - {p['position']}: {p['Clean_Name']}")
-
-    # 6. BUILD OUTPUT
+    # We must use unique_teams from the ORIGINAL list to create game objects,
+    # even if one team currently has 0 matched starters (so we can show "Waiting").
+    
+    # 7. BUILD OUTPUT
     utc_now = datetime.datetime.utcnow()
     et_now = utc_now - timedelta(hours=5)
     formatted_time = et_now.strftime("%b %d, %I:%M %p ET")
@@ -270,7 +270,8 @@ def build_json():
     for team in unique_teams:
         if team in processed_teams: continue
         
-        team_row = merged_df[merged_df['team'] == team]
+        # Metadata logic (Get opponent from original data)
+        team_row = dff_df[dff_df['team'] == team]
         if team_row.empty: continue
         opp = normalize_team(team_row.iloc[0]['opp'])
         
@@ -297,18 +298,15 @@ def build_json():
         }
         
         for current_team in [team, opp]:
-            starters_df = merged_df[
-                (merged_df['team'] == current_team) & 
-                (merged_df['Is_Starter'] == True)
-            ].sort_values('Pos_Rank')
+            # Get starters from FINAL FILTERED DF
+            starters_df = final_df[final_df['team'] == current_team].sort_values('Pos_Rank')
             
             player_list = []
             
-            # Show ONLY if we have at least 1 starter found
-            # Clamp to 5 max
-            starters_df = starters_df.head(5)
-            
             if not starters_df.empty:
+                # Debug Print
+                print(f"TEAM: {current_team} -> {len(starters_df)} players found.")
+                
                 for _, p in starters_df.iterrows():
                     val = p['ppg_projection'] / (p['salary']/1000) if p['salary'] > 0 else 0
                     inj = str(p['injury_status']) if pd.notna(p['injury_status']) and str(p['injury_status']) != 'nan' else ""
@@ -322,6 +320,7 @@ def build_json():
                         "injury": inj
                     })
             else:
+                 print(f"TEAM: {current_team} -> Waiting for Lineup")
                  player_list.append({
                     "pos": "-", "name": "Waiting for Lineup",
                     "salary": 0, "proj": 0, "value": 0, "injury": ""
