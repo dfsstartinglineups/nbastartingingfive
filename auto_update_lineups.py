@@ -110,25 +110,28 @@ def get_data_from_basketball_monster():
                 game_times[team_home] = game_time
                 continue
             
-            # --- PLAYER ROW ---
+            # --- PLAYER ROW (Look for Links) ---
             if len(cols_text) >= 3 and cols_text[0] in ['PG', 'SG', 'SF', 'PF', 'C']:
                 if not starters: continue
+                
                 active_teams = list(starters.keys())[-2:] 
                 tm_away = active_teams[0]
                 tm_home = active_teams[1]
                 
-                # Away (Limit 5)
+                # Check Away Link (STRICT LIMIT: 5 PLAYERS)
                 if len(starters[tm_away]) < 5:
                     link_away = cells[1].find('a', href=True)
                     if link_away and 'playerinfo.aspx' in link_away['href']:
-                        clean = clean_player_name(link_away.get_text(strip=True))
+                        raw = link_away.get_text(strip=True)
+                        clean = clean_player_name(raw)
                         if clean: starters[tm_away].append(clean)
 
-                # Home (Limit 5)
+                # Check Home Link (STRICT LIMIT: 5 PLAYERS)
                 if len(starters[tm_home]) < 5:
                     link_home = cells[2].find('a', href=True)
                     if link_home and 'playerinfo.aspx' in link_home['href']:
-                        clean = clean_player_name(link_home.get_text(strip=True))
+                        raw = link_home.get_text(strip=True)
+                        clean = clean_player_name(raw)
                         if clean: starters[tm_home].append(clean)
 
     except Exception as e:
@@ -157,16 +160,16 @@ def build_json():
         print(f"Error reading CSVs: {e}")
         sys.exit(1)
 
-    # 2. MERGE DATA
+    # 2. MERGE DATA (STANDARD MERGE)
     dff_df['team'] = dff_df['team'].apply(normalize_team)
     dff_df['opp'] = dff_df['opp'].apply(normalize_team)
     fd_df['Team'] = fd_df['Team'].apply(normalize_team)
 
-    dff_df['norm_first'] = dff_df.apply(lambda x: clean_player_name(x['first_name']), axis=1)
+    dff_df['norm_first'] = dff_df['first_name'].str.lower().str.strip()
     dff_df['norm_last'] = dff_df['last_name'].str.lower().str.strip()
     dff_df['norm_team'] = dff_df['team'].str.strip()
     
-    fd_df['norm_first'] = fd_df.apply(lambda x: clean_player_name(x['First Name']), axis=1)
+    fd_df['norm_first'] = fd_df['First Name'].str.lower().str.strip()
     fd_df['norm_last'] = fd_df['Last Name'].str.lower().str.strip()
     fd_df['norm_team'] = fd_df['Team'].str.strip()
     
@@ -177,16 +180,17 @@ def build_json():
     )
     merged_df = merged_df.drop_duplicates(subset=['norm_first', 'norm_last', 'norm_team'])
     
+    # 3. SETUP CLEAN NAME & STATUS
     merged_df['Clean_Name'] = merged_df.apply(
         lambda x: clean_player_name(f"{x['first_name']} {x['last_name']}"), axis=1
     )
     merged_df['Last_Name_Lower'] = merged_df['last_name'].str.lower().str.strip()
+    merged_df['status'] = 'bench'
 
-    # 3. GET WEB DATA
+    # 4. GET WEB DATA
     web_starters, web_times = get_data_from_basketball_monster()
     
-    # 4. MATCH STARTERS
-    merged_df['Is_Starter'] = False
+    # 5. MATCH STARTERS
     unique_teams = merged_df['team'].unique()
     
     print("\n--- MATCHING LOGS ---")
@@ -196,32 +200,39 @@ def build_json():
         if not starters_list: continue
         
         for web_p in starters_list:
-            # EXACT
+            # A. EXACT MATCH
             exact_mask = (merged_df['team'] == team) & (merged_df['Clean_Name'] == web_p)
             if exact_mask.any():
-                merged_df.loc[exact_mask.index, 'Is_Starter'] = True
+                merged_df.loc[exact_mask.index, 'status'] = 'projected_starter'
+                print(f"  [MATCH] '{web_p}' -> Exact")
                 continue
             
-            # FALLBACK
+            # B. SMART FALLBACK
             parts = web_p.split()
             if len(parts) >= 2:
-                web_first = parts[0][0]
+                web_first_char = parts[0][0]
                 web_last = parts[-1]
+                
                 candidates = merged_df[
                     (merged_df['team'] == team) & 
-                    (merged_df['Last_Name_Lower'] == web_last) & 
-                    (merged_df['norm_first'].str.startswith(web_first, na=False))
+                    (merged_df['Last_Name_Lower'] == web_last)
                 ]
-                if not candidates.empty:
-                    # Pick best guess
-                    merged_df.loc[candidates.index[0], 'Is_Starter'] = True
+                candidates = candidates[candidates['norm_first'].str.startswith(web_first_char, na=False)]
+                
+                if len(candidates) == 1:
+                    merged_df.loc[candidates.index, 'status'] = 'projected_starter'
+                    print(f"  [MATCH] '{web_p}' -> Initial+Last Match")
+                elif len(candidates) > 1:
+                    best_match = None
+                    for idx, row in candidates.iterrows():
+                        if parts[0] in row['Clean_Name']: 
+                            best_match = idx
+                            break
+                    if best_match:
+                         merged_df.loc[best_match, 'status'] = 'projected_starter'
+                         print(f"  [MATCH] '{web_p}' -> Best Guess")
 
-    # 5. REMOVE NON-STARTERS (The "Purge")
-    final_df = merged_df[merged_df['Is_Starter'] == True].copy()
-    print(f"\nTotal players retained after purge: {len(final_df)}")
-
-    # 6. BUILD OUTPUT (DEBUGGING ADDED)
-    print("\n--- BUILDING JSON GAMES ---")
+    # 6. BUILD OUTPUT (FILTER BY STATUS)
     utc_now = datetime.datetime.utcnow()
     et_now = utc_now - timedelta(hours=5)
     formatted_time = et_now.strftime("%b %d, %I:%M %p ET")
@@ -234,28 +245,22 @@ def build_json():
         order = {'PG': 1, 'SG': 2, 'SF': 3, 'PF': 4, 'C': 5}
         return order.get(primary_pos, 99)
     
-    final_df['Pos_Rank'] = final_df['position'].apply(position_rank)
+    merged_df['Pos_Rank'] = merged_df['position'].apply(position_rank)
     meta_lookup = dff_df[['team', 'opp', 'spread', 'over_under']].drop_duplicates().set_index('team').to_dict('index')
     logo_base = "https://a.espncdn.com/i/teamlogos/nba/500/"
     
     games_list = []
     processed_teams = set()
     
-    # Iterate through unique teams found in the MERGED data
-    unique_merged_teams = merged_df['team'].unique()
-    print(f"Unique Teams in Data: {unique_merged_teams}")
-
-    for team in unique_merged_teams:
+    # Combine teams from data and web to ensure we catch everything
+    all_teams = list(set(list(merged_df['team'].unique()) + list(web_starters.keys())))
+    
+    for team in all_teams:
         if team in processed_teams: continue
         
-        # DEBUG: Check if we can find this team in DFF for opponent info
         team_row = dff_df[dff_df['team'] == team]
-        if team_row.empty: 
-            print(f"WARNING: Team {team} not found in DFF for metadata lookup. Skipping.")
-            continue
-            
+        if team_row.empty: continue
         opp = normalize_team(team_row.iloc[0]['opp'])
-        print(f"Processing Game: {team} vs {opp}")
         
         processed_teams.add(team)
         processed_teams.add(opp)
@@ -280,8 +285,11 @@ def build_json():
         }
         
         for current_team in [team, opp]:
-            # GET STARTERS FROM FINAL_DF
-            starters_df = final_df[final_df['team'] == current_team].sort_values('Pos_Rank')
+            # --- STRICT FILTER: ONLY PROJECTED STARTERS ---
+            starters_df = merged_df[
+                (merged_df['team'] == current_team) & 
+                (merged_df['status'] == 'projected_starter')
+            ].sort_values('Pos_Rank')
             
             player_list = []
             
@@ -298,9 +306,7 @@ def build_json():
                         "value": round(val, 2),
                         "injury": inj
                     })
-                print(f"  -> Added {len(player_list)} players for {current_team}")
             else:
-                 print(f"  -> No starters found for {current_team} (Adding Waiting placeholder)")
                  player_list.append({
                     "pos": "-", "name": "Waiting for Lineup",
                     "salary": 0, "proj": 0, "value": 0, "injury": ""
@@ -315,10 +321,6 @@ def build_json():
     
     games_list.sort(key=lambda x: x['sort_index'])
     for g in games_list: del g['sort_index']
-    
-    data_export['games'] = games_list
-    
-    print(f"Total Games Generated: {len(games_list)}")
     
     with open('nba_data.json', 'w') as f:
         json.dump(data_export, f, indent=2)
