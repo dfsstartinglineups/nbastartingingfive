@@ -81,15 +81,18 @@ def get_data_from_basketball_monster():
             
             if not cols_text: continue
             
-            # --- HEADER ROW ---
+            # --- HEADER ROW DETECTION ---
             is_header = False
-            raw_away, raw_home, potential_time = "", "", ""
+            raw_away, raw_home = "", ""
+            potential_time = ""
 
             if len(cols_text) >= 3:
+                # Format 1: [Time, Away, @Home]
                 if "@" in cols_text[2]:
                     potential_time = cols_text[0]
                     raw_away, raw_home = cols_text[1], cols_text[2]
                     is_header = True
+                # Format 2: [Away, @Home]
                 elif "@" in cols_text[1]:
                     potential_time = "7:00 PM"
                     raw_away, raw_home = cols_text[0], cols_text[1]
@@ -100,8 +103,11 @@ def get_data_from_basketball_monster():
                 if ':' in potential_time and ('am' in potential_time.lower() or 'pm' in potential_time.lower()):
                     game_time = potential_time.upper()
                 
-                team_away = normalize_team(raw_away.replace('@', '').strip())
-                team_home = normalize_team(raw_home.replace('@', '').strip())
+                raw_away = raw_away.replace('@', '').strip()
+                raw_home = raw_home.replace('@', '').strip()
+                
+                team_away = normalize_team(raw_away)
+                team_home = normalize_team(raw_home)
                 
                 if team_away not in starters: starters[team_away] = []
                 if team_home not in starters: starters[team_home] = []
@@ -110,7 +116,7 @@ def get_data_from_basketball_monster():
                 game_times[team_home] = game_time
                 continue
             
-            # --- PLAYER ROW (Look for Links) ---
+            # --- PLAYER ROW DETECTION (USING LINKS) ---
             if len(cols_text) >= 3 and cols_text[0] in ['PG', 'SG', 'SF', 'PF', 'C']:
                 if not starters: continue
                 
@@ -125,8 +131,7 @@ def get_data_from_basketball_monster():
                     clean = clean_player_name(raw)
                     if clean: 
                         starters[tm_away].append(clean)
-                        # DEBUG PRINT
-                        print(f"RAW WEB: Found {clean} for {tm_away} (from '{raw}')")
+                        print(f"RAW WEB: Found {clean} for {tm_away}")
 
                 # Check Home Link
                 link_home = cells[2].find('a', href=True)
@@ -135,8 +140,7 @@ def get_data_from_basketball_monster():
                     clean = clean_player_name(raw)
                     if clean: 
                         starters[tm_home].append(clean)
-                        # DEBUG PRINT
-                        print(f"RAW WEB: Found {clean} for {tm_home} (from '{raw}')")
+                        print(f"RAW WEB: Found {clean} for {tm_home}")
 
     except Exception as e:
         print(f"Error parsing BBM: {e}")
@@ -201,4 +205,130 @@ def build_json():
     for team in unique_teams:
         starters_list = web_starters.get(team, [])
         if not starters_list: 
-            print(f"Skipping {team}: No web
+            print(f"Skipping {team}: No web data found.")
+            continue
+        
+        for web_p in starters_list:
+            # A. Exact Match
+            exact_mask = (merged_df['team'] == team) & (merged_df['Clean_Name'] == web_p)
+            if exact_mask.any():
+                merged_df.loc[exact_mask.index, 'Is_Starter'] = True
+                print(f"  [MATCH] '{web_p}' -> Exact Match")
+                continue
+            
+            # B. Last Name Fallback
+            parts = web_p.split()
+            if len(parts) >= 2:
+                web_last = parts[-1]
+                candidates = merged_df[
+                    (merged_df['team'] == team) & 
+                    (merged_df['Last_Name_Lower'] == web_last)
+                ]
+                if len(candidates) == 1:
+                    merged_df.loc[candidates.index, 'Is_Starter'] = True
+                    matched_name = candidates.iloc[0]['Clean_Name']
+                    print(f"  [MATCH] '{web_p}' -> Unique Last Name Match ({matched_name})")
+                    continue
+                else:
+                    print(f"  [FAIL] '{web_p}' -> Ambiguous or Not Found ({len(candidates)} candidates)")
+            else:
+                print(f"  [FAIL] '{web_p}' -> Could not parse name")
+
+    # 5. BUILD OUTPUT
+    utc_now = datetime.datetime.utcnow()
+    et_now = utc_now - timedelta(hours=5)
+    formatted_time = et_now.strftime("%b %d, %I:%M %p ET")
+
+    data_export = {"last_updated": formatted_time, "games": []}
+
+    def position_rank(pos_str):
+        if not isinstance(pos_str, str): return 99
+        primary_pos = pos_str.split('/')[0]
+        order = {'PG': 1, 'SG': 2, 'SF': 3, 'PF': 4, 'C': 5}
+        return order.get(primary_pos, 99)
+    
+    merged_df['Pos_Rank'] = merged_df['position'].apply(position_rank)
+    meta_lookup = dff_df[['team', 'opp', 'spread', 'over_under']].drop_duplicates().set_index('team').to_dict('index')
+    logo_base = "https://a.espncdn.com/i/teamlogos/nba/500/"
+    
+    games_list = []
+    processed_teams = set()
+    
+    for team in unique_teams:
+        if team in processed_teams: continue
+        
+        team_row = merged_df[merged_df['team'] == team]
+        if team_row.empty: continue
+        opp = normalize_team(team_row.iloc[0]['opp'])
+        
+        processed_teams.add(team)
+        processed_teams.add(opp)
+        
+        meta = meta_lookup.get(team, {})
+        spread = meta.get('spread', 0)
+        spread_str = f"{spread}" if spread < 0 else f"+{spread}"
+        
+        game_time = web_times.get(team, "7:00 PM")
+        sort_val = parse_time_to_minutes(game_time)
+        
+        game_obj = {
+            "id": f"{team}-{opp}",
+            "sort_index": sort_val,
+            "teams": [team, opp],
+            "meta": {
+                "spread": spread_str,
+                "total": str(meta.get('over_under', 'TBD')),
+                "time": game_time
+            },
+            "rosters": {}
+        }
+        
+        for current_team in [team, opp]:
+            starters_df = merged_df[
+                (merged_df['team'] == current_team) & 
+                (merged_df['Is_Starter'] == True)
+            ].sort_values('Pos_Rank')
+            
+            player_list = []
+            
+            # Show ONLY if we have at least 1 starter found
+            # Clamp to 5 max
+            starters_df = starters_df.head(5)
+            
+            if not starters_df.empty:
+                for _, p in starters_df.iterrows():
+                    val = p['ppg_projection'] / (p['salary']/1000) if p['salary'] > 0 else 0
+                    inj = str(p['injury_status']) if pd.notna(p['injury_status']) and str(p['injury_status']) != 'nan' else ""
+                    
+                    player_list.append({
+                        "pos": p['position'],
+                        "name": f"{p['first_name']} {p['last_name']}",
+                        "salary": int(p['salary']),
+                        "proj": round(p['ppg_projection'], 1),
+                        "value": round(val, 2),
+                        "injury": inj
+                    })
+            else:
+                 player_list.append({
+                    "pos": "-", "name": "Waiting for Lineup",
+                    "salary": 0, "proj": 0, "value": 0, "injury": ""
+                })
+
+            game_obj['rosters'][current_team] = {
+                "logo": f"{logo_base}{current_team.lower()}.png",
+                "players": player_list
+            }
+        
+        games_list.append(game_obj)
+    
+    games_list.sort(key=lambda x: x['sort_index'])
+    for g in games_list: del g['sort_index']
+    
+    data_export['games'] = games_list
+    
+    with open('nba_data.json', 'w') as f:
+        json.dump(data_export, f, indent=2)
+    print("SUCCESS: nba_data.json updated.")
+
+if __name__ == "__main__":
+    build_json()
