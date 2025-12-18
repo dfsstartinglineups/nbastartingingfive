@@ -6,7 +6,6 @@ import datetime
 import requests
 import sys
 import re
-# --- FIX: Added timedelta import here ---
 from datetime import datetime as dt, timedelta
 
 # --- CONFIGURATION ---
@@ -16,7 +15,7 @@ HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
 }
 
-# STANDARD TEAM CODES (Map everything to ESPN/Standard 3-letter code)
+# STANDARD TEAM CODES
 TEAM_MAP = {
     'GS': 'GSW', 'GOLDEN STATE': 'GSW', 'GSW': 'GSW',
     'NO': 'NOP', 'NEW ORLEANS': 'NOP', 'NOP': 'NOP', 'NOH': 'NOP',
@@ -29,24 +28,12 @@ TEAM_MAP = {
     'CHO': 'CHA', 'CHA': 'CHA', 'CHARLOTTE': 'CHA'
 }
 
-# NAME MAPPING (Fixes "Cam" vs "Cameron", etc.)
 NICKNAMES = {
-    'cam': 'cameron',
-    'nic': 'nicolas',
-    'patti': 'patrick',
-    'pat': 'patrick',
-    'mo': 'moritz',
-    'moe': 'moritz',
-    'zach': 'zachary',
-    'tim': 'timothy',
-    'gucci': 'santi', # rare nickname edge cases
-    'kj': 'kenyon',
-    'x': 'xavier',
-    'herb': 'herbert',
-    'bub': 'carrinton',
-    'greg': 'gregory',
-    'nick': 'nicholas',
-    'mitch': 'mitchell'
+    'cam': 'cameron', 'nic': 'nicolas', 'patti': 'patrick', 'pat': 'patrick',
+    'mo': 'moritz', 'moe': 'moritz', 'zach': 'zachary', 'tim': 'timothy',
+    'kj': 'kenyon', 'x': 'xavier', 'herb': 'herbert', 'bub': 'carrinton',
+    'greg': 'gregory', 'nick': 'nicholas', 'mitch': 'mitchell', 'kelly': 'kelly',
+    'pj': 'pj'
 }
 
 def normalize_team(team_name):
@@ -55,104 +42,92 @@ def normalize_team(team_name):
     return TEAM_MAP.get(clean_name, clean_name)
 
 def clean_player_name(name):
-    """Normalizes player names for matching."""
     if not name or name == '-': return None
-    
-    # Lowercase and strip
     name = name.lower().strip()
-    
-    # Remove common suffixes and punctuation
     name = name.replace('.', '').replace("'", "")
     for suffix in [' jr', ' sr', ' ii', ' iii', ' iv']:
         if name.endswith(suffix):
             name = name[:-len(suffix)]
-    
-    # Remove injury tags if they snuck in
     tags = [' q', ' out', ' in', ' gtd', ' p', ' probable', ' questionable', ' doubtful']
     for tag in tags:
         if name.endswith(tag):
             name = name[:-len(tag)]
-            
-    # Handle Nicknames (First name only)
     parts = name.split()
     if parts and parts[0] in NICKNAMES:
         parts[0] = NICKNAMES[parts[0]]
-    
     return " ".join(parts)
 
 def parse_time_to_minutes(time_str):
-    """Converts '7:00 PM' to minutes from midnight for sorting."""
     try:
-        # Assume ET. Format is usually "7:00 pm"
         t = dt.strptime(time_str.strip(), "%I:%M %p")
         return t.hour * 60 + t.minute
     except:
-        return 9999 # Put at end if parse fails
+        return 9999
 
 def get_data_from_basketball_monster():
     print(f"Fetching from {BBM_URL}...")
-    
-    starters = {}      # { 'NOP': ['player1', 'player2'] }
-    game_times = {}    # { 'NOP': '7:00 PM' }
+    starters = {}
+    game_times = {}
     
     try:
         response = requests.get(BBM_URL, headers=HEADERS, timeout=10)
         from bs4 import BeautifulSoup
         soup = BeautifulSoup(response.text, 'html.parser')
         
+        # BBM Structure: We need to iterate rows carefully
         rows = soup.find_all('tr')
         
-        current_time = "TBD"
+        # Variables to track current game block
+        current_away = None
+        current_home = None
         
         for row in rows:
             cols = [c.get_text(strip=True) for c in row.find_all(['td', 'th'])]
             if not cols: continue
             
-            # --- HEADER ROW DETECTION ---
+            # HEADER ROW DETECTION (Look for @ symbol in 2nd or 3rd col)
+            # Example: [Time, Away, @Home]
             if len(cols) >= 3 and ("@" in cols[2] or "@" in cols[1]):
                 
-                # Try to grab time from first col
+                # Grab time from first col
                 potential_time = cols[0]
+                time_val = "7:00 PM" # default
                 if ':' in potential_time and ('am' in potential_time.lower() or 'pm' in potential_time.lower()):
-                    current_time = potential_time
+                    time_val = potential_time
                 
                 raw_away = cols[1].replace('@', '').strip()
                 raw_home = cols[2].replace('@', '').strip()
                 
-                team_away = normalize_team(raw_away)
-                team_home = normalize_team(raw_home)
+                current_away = normalize_team(raw_away)
+                current_home = normalize_team(raw_home)
                 
-                # Initialize
-                if team_away not in starters: starters[team_away] = []
-                if team_home not in starters: starters[team_home] = []
+                if current_away not in starters: starters[current_away] = []
+                if current_home not in starters: starters[current_home] = []
                 
-                game_times[team_away] = current_time
-                game_times[team_home] = current_time
+                game_times[current_away] = time_val
+                game_times[current_home] = time_val
                 continue
-                
-            # --- PLAYER ROW DETECTION ---
+            
+            # PLAYER ROW DETECTION
+            # First col is Position
             if len(cols) >= 3 and cols[0] in ['PG', 'SG', 'SF', 'PF', 'C']:
-                if not starters: continue
-                
-                active_teams = list(starters.keys())[-2:] 
-                tm_away = active_teams[0]
-                tm_home = active_teams[1]
-                
-                p_away = clean_player_name(cols[1])
-                p_home = clean_player_name(cols[2])
-                
-                if p_away and p_away != '-': starters[tm_away].append(p_away)
-                if p_home and p_home != '-': starters[tm_home].append(p_home)
+                if current_away and current_home:
+                    p_away = clean_player_name(cols[1])
+                    p_home = clean_player_name(cols[2])
+                    
+                    if p_away and p_away != '-': starters[current_away].append(p_away)
+                    if p_home and p_home != '-': starters[current_home].append(p_home)
 
     except Exception as e:
         print(f"Error parsing BBM: {e}")
         
+    print(f"BBM Data Found for {len(starters)} teams.")
     return starters, game_times
 
 def build_json():
-    print("--- Starting NBA Data Build ---")
+    print(f"--- Starting Build at {datetime.datetime.utcnow()} UTC ---")
 
-    # 1. FIND FILES
+    # 1. FILES
     dff_files = glob.glob('*DFF*.csv')
     fd_files = glob.glob('*FanDuel*.csv')
     
@@ -162,8 +137,9 @@ def build_json():
 
     dff_path = sorted(dff_files)[-1]
     fd_path = sorted(fd_files)[-1]
+    print(f"Using {dff_path} and {fd_path}")
 
-    # 2. LOAD FILES
+    # 2. LOAD
     try:
         dff_df = pd.read_csv(dff_path)
         fd_df = pd.read_csv(fd_path)
@@ -176,6 +152,145 @@ def build_json():
     dff_df['opp'] = dff_df['opp'].apply(normalize_team)
     fd_df['Team'] = fd_df['Team'].apply(normalize_team)
 
-    # 4. NORMALIZE NAMES FOR MERGE
+    # 4. PREPARE MERGE
     dff_df['norm_first'] = dff_df['first_name'].str.lower().str.strip()
-    dff_df['norm_last'] = dff_df['last_name'].str.lower().str.strip
+    dff_df['norm_last'] = dff_df['last_name'].str.lower().str.strip()
+    dff_df['norm_team'] = dff_df['team'].str.strip()
+    
+    fd_df['norm_first'] = fd_df['First Name'].str.lower().str.strip()
+    fd_df['norm_last'] = fd_df['Last Name'].str.lower().str.strip()
+    fd_df['norm_team'] = fd_df['Team'].str.strip()
+    
+    merged_df = pd.merge(dff_df, fd_df, 
+        left_on=['norm_first', 'norm_last', 'norm_team'],
+        right_on=['norm_first', 'norm_last', 'norm_team'],
+        how='inner'
+    )
+    merged_df = merged_df.drop_duplicates(subset=['norm_first', 'norm_last', 'norm_team'])
+    
+    merged_df['Clean_Name'] = merged_df.apply(
+        lambda x: clean_player_name(f"{x['first_name']} {x['last_name']}"), axis=1
+    )
+
+    # 5. GET WEB DATA
+    web_starters, web_times = get_data_from_basketball_monster()
+    
+    # 6. MATCH STARTERS
+    merged_df['Is_Starter'] = False
+    unique_teams = merged_df['team'].unique()
+    
+    for team in unique_teams:
+        starters_list = web_starters.get(team, [])
+        if not starters_list: continue
+        
+        # Match Logic
+        # 1. Exact Name Match
+        mask = merged_df['Clean_Name'].isin(starters_list)
+        merged_df.loc[mask & (merged_df['team'] == team), 'Is_Starter'] = True
+        
+        # 2. Check for missing players using fuzzy match
+        found_count = merged_df[(merged_df['team'] == team) & (merged_df['Is_Starter'] == True)].shape[0]
+        if found_count < len(starters_list):
+            for web_p in starters_list:
+                # If this specific web player wasn't found yet
+                # (Simple check: is he already matched?)
+                # We do a contains check
+                fuzzy_mask = (merged_df['team'] == team) & (merged_df['Clean_Name'].str.contains(web_p, regex=False))
+                merged_df.loc[fuzzy_mask.index, 'Is_Starter'] = True
+
+    # 7. BUILD OUTPUT
+    utc_now = datetime.datetime.utcnow()
+    et_now = utc_now - timedelta(hours=5)
+    formatted_time = et_now.strftime("%b %d, %I:%M %p ET")
+
+    data_export = {"last_updated": formatted_time, "games": []}
+
+    def position_rank(pos_str):
+        if not isinstance(pos_str, str): return 99
+        primary_pos = pos_str.split('/')[0]
+        order = {'PG': 1, 'SG': 2, 'SF': 3, 'PF': 4, 'C': 5}
+        return order.get(primary_pos, 99)
+    
+    merged_df['Pos_Rank'] = merged_df['position'].apply(position_rank)
+    meta_lookup = dff_df[['team', 'opp', 'spread', 'over_under']].drop_duplicates().set_index('team').to_dict('index')
+    logo_base = "https://a.espncdn.com/i/teamlogos/nba/500/"
+    
+    processed_teams = set()
+    games_list = []
+    
+    for team in unique_teams:
+        if team in processed_teams: continue
+        
+        team_row = merged_df[merged_df['team'] == team]
+        if team_row.empty: continue
+        opp = normalize_team(team_row.iloc[0]['opp'])
+        
+        processed_teams.add(team)
+        processed_teams.add(opp)
+        
+        meta = meta_lookup.get(team, {})
+        spread = meta.get('spread', 0)
+        spread_str = f"{spread}" if spread < 0 else f"+{spread}"
+        
+        game_time = web_times.get(team, "7:00 PM")
+        sort_val = parse_time_to_minutes(game_time)
+        
+        game_obj = {
+            "id": f"{team}-{opp}",
+            "sort_index": sort_val,
+            "teams": [team, opp],
+            "meta": {
+                "spread": spread_str,
+                "total": str(meta.get('over_under', 'TBD')),
+                "time": game_time
+            },
+            "rosters": {}
+        }
+        
+        for current_team in [team, opp]:
+            starters_df = merged_df[
+                (merged_df['team'] == current_team) & 
+                (merged_df['Is_Starter'] == True)
+            ].sort_values('Pos_Rank')
+            
+            player_list = []
+            
+            # Only show if we found players
+            if not starters_df.empty:
+                for _, p in starters_df.iterrows():
+                    val = p['ppg_projection'] / (p['salary']/1000) if p['salary'] > 0 else 0
+                    inj = str(p['injury_status']) if pd.notna(p['injury_status']) and str(p['injury_status']) != 'nan' else ""
+                    
+                    player_list.append({
+                        "pos": p['position'],
+                        "name": f"{p['first_name']} {p['last_name']}",
+                        "salary": int(p['salary']),
+                        "proj": round(p['ppg_projection'], 1),
+                        "value": round(val, 2),
+                        "injury": inj
+                    })
+            else:
+                 player_list.append({
+                    "pos": "-", "name": "Waiting for Lineup",
+                    "salary": 0, "proj": 0, "value": 0, "injury": ""
+                })
+
+            game_obj['rosters'][current_team] = {
+                "logo": f"{logo_base}{current_team.lower()}.png",
+                "players": player_list
+            }
+        
+        games_list.append(game_obj)
+    
+    # Sort games by time
+    games_list.sort(key=lambda x: x['sort_index'])
+    for g in games_list: del g['sort_index']
+    
+    data_export['games'] = games_list
+    
+    with open('nba_data.json', 'w') as f:
+        json.dump(data_export, f, indent=2)
+    print("SUCCESS: nba_data.json updated.")
+
+if __name__ == "__main__":
+    build_json()
