@@ -118,21 +118,25 @@ def get_data_from_basketball_monster():
                 tm_away = active_teams[0]
                 tm_home = active_teams[1]
                 
-                # Check Away Link
-                link_away = cells[1].find('a', href=True)
-                if link_away and 'playerinfo.aspx' in link_away['href']:
-                    raw = link_away.get_text(strip=True)
-                    clean = clean_player_name(raw)
-                    if clean: 
-                        starters[tm_away].append(clean)
+                # Check Away Link (STRICT LIMIT: 5 PLAYERS)
+                if len(starters[tm_away]) < 5:
+                    link_away = cells[1].find('a', href=True)
+                    if link_away and 'playerinfo.aspx' in link_away['href']:
+                        raw = link_away.get_text(strip=True)
+                        clean = clean_player_name(raw)
+                        if clean: 
+                            starters[tm_away].append(clean)
+                            # print(f"RAW WEB: Found {clean} for {tm_away}")
 
-                # Check Home Link
-                link_home = cells[2].find('a', href=True)
-                if link_home and 'playerinfo.aspx' in link_home['href']:
-                    raw = link_home.get_text(strip=True)
-                    clean = clean_player_name(raw)
-                    if clean: 
-                        starters[tm_home].append(clean)
+                # Check Home Link (STRICT LIMIT: 5 PLAYERS)
+                if len(starters[tm_home]) < 5:
+                    link_home = cells[2].find('a', href=True)
+                    if link_home and 'playerinfo.aspx' in link_home['href']:
+                        raw = link_home.get_text(strip=True)
+                        clean = clean_player_name(raw)
+                        if clean: 
+                            starters[tm_home].append(clean)
+                            # print(f"RAW WEB: Found {clean} for {tm_home}")
 
     except Exception as e:
         print(f"Error parsing BBM: {e}")
@@ -215,14 +219,11 @@ def build_json():
                     (merged_df['team'] == team) & 
                     (merged_df['Last_Name_Lower'] == web_last)
                 ]
-                
-                # FIRST INITIAL CHECK
                 candidates = candidates[candidates['norm_first'].str.startswith(web_first_char, na=False)]
                 
                 if len(candidates) == 1:
                     merged_df.loc[candidates.index, 'Is_Starter'] = True
                 elif len(candidates) > 1:
-                    # BEST GUESS (String containment)
                     best_match = None
                     for idx, row in candidates.iterrows():
                         if parts[0] in row['Clean_Name']: 
@@ -231,7 +232,7 @@ def build_json():
                     if best_match:
                          merged_df.loc[best_match, 'Is_Starter'] = True
 
-    # 5. DUMP FINAL ROSTERS TO LOG (CRITICAL DEBUG STEP)
+    # 5. DUMP FINAL ROSTERS TO LOG
     print("\n" + "="*40)
     print("      FINAL STARTING LINEUPS FOUND")
     print("="*40)
@@ -251,9 +252,7 @@ def build_json():
         if not starters_df.empty:
             print(f"\nTEAM: {team}")
             for _, p in starters_df.iterrows():
-                print(f"  - {p['position']}: {p['Clean_Name']} (Source: {p['first_name']} {p['last_name']})")
-        else:
-            print(f"\nTEAM: {team} -> Waiting for Lineup (0 starters found)")
+                print(f"  - {p['position']}: {p['Clean_Name']}")
 
     # 6. BUILD OUTPUT
     utc_now = datetime.datetime.utcnow()
@@ -301,9 +300,12 @@ def build_json():
             starters_df = merged_df[
                 (merged_df['team'] == current_team) & 
                 (merged_df['Is_Starter'] == True)
-            ].sort_values('Pos_Rank').head(5)
+            ].sort_values('Pos_Rank')
             
             player_list = []
+            
+            # Show ONLY if we have at least 1 starter found
+            starters_df = starters_df.head(5)
             
             if not starters_df.empty:
                 for _, p in starters_df.iterrows():
