@@ -18,7 +18,7 @@ HEADERS = {
 # STANDARD TEAM CODES
 TEAM_MAP = {
     'GS': 'GSW', 'GOLDEN STATE': 'GSW', 'GSW': 'GSW',
-    'NO': 'NOP', 'NEW ORLEANS': 'NOP', 'NOP': 'NOP', 'NOH': 'NOP', 'PELICANS': 'NOP',
+    'NO': 'NOP', 'NEW ORLEANS': 'NOP', 'NOP': 'NOP', 'NOH': 'NOP', 'PELICANS': 'NOP', 'NOR': 'NOP',
     'NY': 'NYK', 'NEW YORK': 'NYK', 'NYK': 'NYK', 'KNICKS': 'NYK',
     'SA': 'SAS', 'SAN ANTONIO': 'SAS', 'SAS': 'SAS', 'SPURS': 'SAS',
     'PHO': 'PHX', 'PHOENIX': 'PHX', 'PHX': 'PHX',
@@ -81,18 +81,15 @@ def get_data_from_basketball_monster():
             
             if not cols_text: continue
             
-            # --- HEADER ROW DETECTION ---
+            # --- HEADER ROW ---
             is_header = False
-            raw_away, raw_home = "", ""
-            potential_time = ""
+            raw_away, raw_home, potential_time = "", "", ""
 
             if len(cols_text) >= 3:
-                # Format 1: [Time, Away, @Home]
                 if "@" in cols_text[2]:
                     potential_time = cols_text[0]
                     raw_away, raw_home = cols_text[1], cols_text[2]
                     is_header = True
-                # Format 2: [Away, @Home]
                 elif "@" in cols_text[1]:
                     potential_time = "7:00 PM"
                     raw_away, raw_home = cols_text[0], cols_text[1]
@@ -103,11 +100,8 @@ def get_data_from_basketball_monster():
                 if ':' in potential_time and ('am' in potential_time.lower() or 'pm' in potential_time.lower()):
                     game_time = potential_time.upper()
                 
-                raw_away = raw_away.replace('@', '').strip()
-                raw_home = raw_home.replace('@', '').strip()
-                
-                team_away = normalize_team(raw_away)
-                team_home = normalize_team(raw_home)
+                team_away = normalize_team(raw_away.replace('@', '').strip())
+                team_home = normalize_team(raw_home.replace('@', '').strip())
                 
                 if team_away not in starters: starters[team_away] = []
                 if team_home not in starters: starters[team_home] = []
@@ -116,7 +110,7 @@ def get_data_from_basketball_monster():
                 game_times[team_home] = game_time
                 continue
             
-            # --- PLAYER ROW DETECTION (USING LINKS) ---
+            # --- PLAYER ROW (Look for Links) ---
             if len(cols_text) >= 3 and cols_text[0] in ['PG', 'SG', 'SF', 'PF', 'C']:
                 if not starters: continue
                 
@@ -168,19 +162,22 @@ def build_json():
         print(f"Error reading CSVs: {e}")
         sys.exit(1)
 
-    # 2. MERGE DATA
+    # 2. PREPARE & CLEAN DATA FOR MERGE
     dff_df['team'] = dff_df['team'].apply(normalize_team)
     dff_df['opp'] = dff_df['opp'].apply(normalize_team)
     fd_df['Team'] = fd_df['Team'].apply(normalize_team)
 
-    dff_df['norm_first'] = dff_df['first_name'].str.lower().str.strip()
+    # Clean names on both sides BEFORE merging to prevent data loss
+    dff_df['norm_first'] = dff_df.apply(lambda x: clean_player_name(x['first_name']), axis=1)
     dff_df['norm_last'] = dff_df['last_name'].str.lower().str.strip()
     dff_df['norm_team'] = dff_df['team'].str.strip()
     
-    fd_df['norm_first'] = fd_df['First Name'].str.lower().str.strip()
+    fd_df['norm_first'] = fd_df.apply(lambda x: clean_player_name(x['First Name']), axis=1)
     fd_df['norm_last'] = fd_df['Last Name'].str.lower().str.strip()
     fd_df['norm_team'] = fd_df['Team'].str.strip()
     
+    # 3. MERGE
+    # Note: Merging on cleaned first name ensures "Cam" matches "Cameron" across files
     merged_df = pd.merge(dff_df, fd_df, 
         left_on=['norm_first', 'norm_last', 'norm_team'],
         right_on=['norm_first', 'norm_last', 'norm_team'],
@@ -193,10 +190,12 @@ def build_json():
     )
     merged_df['Last_Name_Lower'] = merged_df['last_name'].str.lower().str.strip()
 
-    # 3. GET WEB DATA
+    print(f"Merged Data Rows: {len(merged_df)}")
+
+    # 4. GET WEB DATA
     web_starters, web_times = get_data_from_basketball_monster()
     
-    # 4. MATCH STARTERS
+    # 5. MATCH STARTERS
     merged_df['Is_Starter'] = False
     unique_teams = merged_df['team'].unique()
     
@@ -207,6 +206,8 @@ def build_json():
         if not starters_list: 
             print(f"Skipping {team}: No web data found.")
             continue
+        
+        print(f"Processing {team}. Web list: {starters_list}")
         
         for web_p in starters_list:
             # A. Exact Match
@@ -229,12 +230,17 @@ def build_json():
                     matched_name = candidates.iloc[0]['Clean_Name']
                     print(f"  [MATCH] '{web_p}' -> Unique Last Name Match ({matched_name})")
                     continue
-                else:
-                    print(f"  [FAIL] '{web_p}' -> Ambiguous or Not Found ({len(candidates)} candidates)")
-            else:
-                print(f"  [FAIL] '{web_p}' -> Could not parse name")
+            
+            # C. Fuzzy Match (Fallback)
+            fuzzy_mask = (merged_df['team'] == team) & (merged_df['Clean_Name'].str.contains(web_p, regex=False))
+            if fuzzy_mask.any():
+                merged_df.loc[fuzzy_mask.index, 'Is_Starter'] = True
+                print(f"  [MATCH] '{web_p}' -> Fuzzy Match")
+                continue
+                
+            print(f"  [FAIL] '{web_p}' -> No match found")
 
-    # 5. BUILD OUTPUT
+    # 6. BUILD OUTPUT
     utc_now = datetime.datetime.utcnow()
     et_now = utc_now - timedelta(hours=5)
     formatted_time = et_now.strftime("%b %d, %I:%M %p ET")
@@ -292,7 +298,6 @@ def build_json():
             player_list = []
             
             # Show ONLY if we have at least 1 starter found
-            # Clamp to 5 max
             starters_df = starters_df.head(5)
             
             if not starters_df.empty:
