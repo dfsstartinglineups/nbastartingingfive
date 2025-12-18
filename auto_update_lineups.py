@@ -16,7 +16,7 @@ HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
 }
 
-# STANDARD TEAM CODES (ESPN/FanDuel Format)
+# STANDARD TEAM CODES
 TEAM_MAP = {
     'GS': 'GSW', 'GOLDEN STATE': 'GSW',
     'NO': 'NOP', 'NEW ORLEANS': 'NOP',
@@ -29,18 +29,23 @@ TEAM_MAP = {
 }
 
 def normalize_team(team_name):
-    """Converts 'GS' -> 'GSW', etc."""
     if pd.isna(team_name): return ""
     clean_name = str(team_name).strip().upper()
     return TEAM_MAP.get(clean_name, clean_name)
 
 def clean_player_name(name):
-    """Removes injury tags like ' Q', ' Out', ' IN'."""
-    if not name: return ""
-    tags = [' Q', ' Out', ' IN', ' GTD', ' P', ' Probable', ' Questionable', ' Doubtful']
+    """Removes tags. Returns None if player is explicitly OUT."""
+    if not name: return None
+    
+    # If explicitly marked Out in the name string, skip him
+    if ' Out' in name or ' O ' in name:
+        return None
+        
+    tags = [' Q', ' IN', ' GTD', ' P', ' Probable', ' Questionable', ' Doubtful']
     for tag in tags:
         if name.endswith(tag):
             name = name[:-len(tag)]
+            
     return name.strip()
 
 def get_starters_from_basketball_monster():
@@ -57,7 +62,7 @@ def get_starters_from_basketball_monster():
             cols = [c.get_text(strip=True) for c in row.find_all(['td', 'th'])]
             if not cols: continue
             
-            # Header Row (e.g. "MEM", "@ MIN")
+            # Header Row
             if len(cols) >= 3 and "@" in cols[2]:
                 current_away = normalize_team(cols[1].replace('@', ''))
                 current_home = normalize_team(cols[2].replace('@', ''))
@@ -70,6 +75,7 @@ def get_starters_from_basketball_monster():
                 if current_away and current_home:
                     p_away = clean_player_name(cols[1])
                     p_home = clean_player_name(cols[2])
+                    
                     if p_away and p_away != "-": starters[current_away].append(p_away)
                     if p_home and p_home != "-": starters[current_home].append(p_home)
     except Exception as e:
@@ -98,8 +104,10 @@ def get_starters_from_rotowire():
                 for li in ul.find_all('li', class_='lineup__player'):
                     name_tag = li.find('a')
                     if name_tag:
-                        name = name_tag.get('title') or name_tag.text
-                        players.append(name)
+                        raw_name = name_tag.get('title') or name_tag.text
+                        clean_name = clean_player_name(raw_name)
+                        if clean_name:
+                            players.append(clean_name)
                 if players:
                     starters[team_code] = players
     except Exception as e:
@@ -128,12 +136,11 @@ def build_json():
         print(f"Error reading CSVs: {e}")
         sys.exit(1)
 
-    # 3. NORMALIZE TEAMS (The Fix!)
+    # 3. NORMALIZE TEAMS
     dff_df['team'] = dff_df['team'].apply(normalize_team)
     dff_df['opp'] = dff_df['opp'].apply(normalize_team)
     fd_df['Team'] = fd_df['Team'].apply(normalize_team)
 
-    # Normalize Names
     dff_df['norm_first'] = dff_df['first_name'].str.lower().str.strip()
     dff_df['norm_last'] = dff_df['last_name'].str.lower().str.strip()
     dff_df['norm_team'] = dff_df['team'].str.strip()
@@ -173,7 +180,7 @@ def build_json():
     merged_df['Full_Name_Norm'] = merged_df['Full_Name'].str.lower().str.strip()
     merged_df['Is_Starter'] = False
     
-    # 6. MARK STARTERS
+    # 6. MARK STARTERS & APPLY INJURY FILTER
     for team in unique_teams:
         team_players = merged_df[merged_df['team'] == team]
         starters_list = web_starters_norm.get(team, [])
@@ -184,11 +191,24 @@ def build_json():
             if mask.any():
                 merged_df.loc[team_players[mask].index, 'Is_Starter'] = True
         
-        # B. Safety Fill
+        # B. STRICT INJURY FILTER
+        # If player is 'O' in CSV, remove Starter status
+        injured_mask = (merged_df['team'] == team) & (merged_df['Is_Starter'] == True) & (merged_df['injury_status'] == 'O')
+        if injured_mask.any():
+            print(f"[{team}] Removing injured starters: {merged_df.loc[injured_mask.index, 'Full_Name'].values}")
+            merged_df.loc[injured_mask.index, 'Is_Starter'] = False
+
+        # C. Safety Fill
         current_count = merged_df[(merged_df['team'] == team) & (merged_df['Is_Starter'] == True)].shape[0]
         if current_count < 5:
             needed = 5 - current_count
-            candidates = merged_df[(merged_df['team'] == team) & (merged_df['Is_Starter'] == False)]
+            
+            # Find candidates: Same Team, Not Starter, Not Injured 'O'
+            candidates = merged_df[
+                (merged_df['team'] == team) & 
+                (merged_df['Is_Starter'] == False) & 
+                (merged_df['injury_status'] != 'O')
+            ]
             candidates = candidates.sort_values('ppg_projection', ascending=False)
             fillers = candidates.head(needed)
             merged_df.loc[fillers.index, 'Is_Starter'] = True
