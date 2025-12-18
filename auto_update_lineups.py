@@ -110,31 +110,26 @@ def get_data_from_basketball_monster():
                 game_times[team_home] = game_time
                 continue
             
-            # --- PLAYER ROW (Look for Links) ---
+            # --- PLAYER ROW ---
             if len(cols_text) >= 3 and cols_text[0] in ['PG', 'SG', 'SF', 'PF', 'C']:
                 if not starters: continue
-                
                 active_teams = list(starters.keys())[-2:] 
                 tm_away = active_teams[0]
                 tm_home = active_teams[1]
                 
-                # Check Away Link (STRICT LIMIT: 5 PLAYERS)
+                # Away (Limit 5)
                 if len(starters[tm_away]) < 5:
                     link_away = cells[1].find('a', href=True)
                     if link_away and 'playerinfo.aspx' in link_away['href']:
-                        raw = link_away.get_text(strip=True)
-                        clean = clean_player_name(raw)
-                        if clean: 
-                            starters[tm_away].append(clean)
+                        clean = clean_player_name(link_away.get_text(strip=True))
+                        if clean: starters[tm_away].append(clean)
 
-                # Check Home Link (STRICT LIMIT: 5 PLAYERS)
+                # Home (Limit 5)
                 if len(starters[tm_home]) < 5:
                     link_home = cells[2].find('a', href=True)
                     if link_home and 'playerinfo.aspx' in link_home['href']:
-                        raw = link_home.get_text(strip=True)
-                        clean = clean_player_name(raw)
-                        if clean: 
-                            starters[tm_home].append(clean)
+                        clean = clean_player_name(link_home.get_text(strip=True))
+                        if clean: starters[tm_home].append(clean)
 
     except Exception as e:
         print(f"Error parsing BBM: {e}")
@@ -201,47 +196,37 @@ def build_json():
         if not starters_list: continue
         
         for web_p in starters_list:
-            # A. EXACT MATCH
+            # EXACT
             exact_mask = (merged_df['team'] == team) & (merged_df['Clean_Name'] == web_p)
             if exact_mask.any():
                 merged_df.loc[exact_mask.index, 'Is_Starter'] = True
-                print(f"  [MATCH] '{web_p}' -> Exact")
                 continue
             
-            # B. SMART FALLBACK
+            # FALLBACK
             parts = web_p.split()
             if len(parts) >= 2:
-                web_first_char = parts[0][0]
+                web_first = parts[0][0]
                 web_last = parts[-1]
-                
                 candidates = merged_df[
                     (merged_df['team'] == team) & 
-                    (merged_df['Last_Name_Lower'] == web_last)
+                    (merged_df['Last_Name_Lower'] == web_last) & 
+                    (merged_df['norm_first'].str.startswith(web_first, na=False))
                 ]
-                candidates = candidates[candidates['norm_first'].str.startswith(web_first_char, na=False)]
-                
-                if len(candidates) == 1:
-                    merged_df.loc[candidates.index, 'Is_Starter'] = True
-                    print(f"  [MATCH] '{web_p}' -> Initial+Last Match")
-                elif len(candidates) > 1:
-                    best_match = None
-                    for idx, row in candidates.iterrows():
-                        if parts[0] in row['Clean_Name']: 
-                            best_match = idx
-                            break
-                    if best_match:
-                         merged_df.loc[best_match, 'Is_Starter'] = True
-                         print(f"  [MATCH] '{web_p}' -> Best Guess")
+                if not candidates.empty:
+                    # Pick best guess
+                    merged_df.loc[candidates.index[0], 'Is_Starter'] = True
 
-    # 5. FILTERING: REMOVE NON-STARTERS (The "Purge")
-    print("\nREMOVING NON-STARTERS...")
+    # 5. REMOVE NON-STARTERS (The "Purge")
     final_df = merged_df[merged_df['Is_Starter'] == True].copy()
-    print(f"Total players remaining: {len(final_df)}")
+    print(f"\nTotal players retained after purge: {len(final_df)}")
 
-    # 6. DUMP FINAL ROSTERS TO LOG
-    print("\n" + "="*40)
-    print("      FINAL ROSTER DUMP")
-    print("="*40)
+    # 6. BUILD OUTPUT (DEBUGGING ADDED)
+    print("\n--- BUILDING JSON GAMES ---")
+    utc_now = datetime.datetime.utcnow()
+    et_now = utc_now - timedelta(hours=5)
+    formatted_time = et_now.strftime("%b %d, %I:%M %p ET")
+
+    data_export = {"last_updated": formatted_time, "games": []}
     
     def position_rank(pos_str):
         if not isinstance(pos_str, str): return 99
@@ -250,30 +235,27 @@ def build_json():
         return order.get(primary_pos, 99)
     
     final_df['Pos_Rank'] = final_df['position'].apply(position_rank)
-    
-    # We must use unique_teams from the ORIGINAL list to create game objects,
-    # even if one team currently has 0 matched starters (so we can show "Waiting").
-    
-    # 7. BUILD OUTPUT
-    utc_now = datetime.datetime.utcnow()
-    et_now = utc_now - timedelta(hours=5)
-    formatted_time = et_now.strftime("%b %d, %I:%M %p ET")
-
-    data_export = {"last_updated": formatted_time, "games": []}
-    
     meta_lookup = dff_df[['team', 'opp', 'spread', 'over_under']].drop_duplicates().set_index('team').to_dict('index')
     logo_base = "https://a.espncdn.com/i/teamlogos/nba/500/"
     
     games_list = []
     processed_teams = set()
     
-    for team in unique_teams:
+    # Iterate through unique teams found in the MERGED data
+    unique_merged_teams = merged_df['team'].unique()
+    print(f"Unique Teams in Data: {unique_merged_teams}")
+
+    for team in unique_merged_teams:
         if team in processed_teams: continue
         
-        # Metadata logic (Get opponent from original data)
+        # DEBUG: Check if we can find this team in DFF for opponent info
         team_row = dff_df[dff_df['team'] == team]
-        if team_row.empty: continue
+        if team_row.empty: 
+            print(f"WARNING: Team {team} not found in DFF for metadata lookup. Skipping.")
+            continue
+            
         opp = normalize_team(team_row.iloc[0]['opp'])
+        print(f"Processing Game: {team} vs {opp}")
         
         processed_teams.add(team)
         processed_teams.add(opp)
@@ -298,15 +280,12 @@ def build_json():
         }
         
         for current_team in [team, opp]:
-            # Get starters from FINAL FILTERED DF
+            # GET STARTERS FROM FINAL_DF
             starters_df = final_df[final_df['team'] == current_team].sort_values('Pos_Rank')
             
             player_list = []
             
             if not starters_df.empty:
-                # Debug Print
-                print(f"TEAM: {current_team} -> {len(starters_df)} players found.")
-                
                 for _, p in starters_df.iterrows():
                     val = p['ppg_projection'] / (p['salary']/1000) if p['salary'] > 0 else 0
                     inj = str(p['injury_status']) if pd.notna(p['injury_status']) and str(p['injury_status']) != 'nan' else ""
@@ -319,8 +298,9 @@ def build_json():
                         "value": round(val, 2),
                         "injury": inj
                     })
+                print(f"  -> Added {len(player_list)} players for {current_team}")
             else:
-                 print(f"TEAM: {current_team} -> Waiting for Lineup")
+                 print(f"  -> No starters found for {current_team} (Adding Waiting placeholder)")
                  player_list.append({
                     "pos": "-", "name": "Waiting for Lineup",
                     "salary": 0, "proj": 0, "value": 0, "injury": ""
@@ -335,6 +315,10 @@ def build_json():
     
     games_list.sort(key=lambda x: x['sort_index'])
     for g in games_list: del g['sort_index']
+    
+    data_export['games'] = games_list
+    
+    print(f"Total Games Generated: {len(games_list)}")
     
     with open('nba_data.json', 'w') as f:
         json.dump(data_export, f, indent=2)
