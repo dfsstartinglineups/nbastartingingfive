@@ -10,7 +10,6 @@ from datetime import timedelta
 
 # --- CONFIGURATION ---
 BBM_URL = "https://basketballmonster.com/nbalineups.aspx"
-ROTOWIRE_URL = "https://www.rotowire.com/basketball/nba-lineups.php"
 
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
@@ -34,84 +33,69 @@ def normalize_team(team_name):
     return TEAM_MAP.get(clean_name, clean_name)
 
 def clean_player_name(name):
-    """Removes tags. Returns None if player is explicitly OUT."""
-    if not name: return None
-    
-    # If explicitly marked Out in the name string, skip him
-    if ' Out' in name or ' O ' in name:
-        return None
-        
-    tags = [' Q', ' IN', ' GTD', ' P', ' Probable', ' Questionable', ' Doubtful']
+    """Removes injury tags."""
+    if not name: return ""
+    tags = [' Q', ' Out', ' IN', ' GTD', ' P', ' Probable', ' Questionable', ' Doubtful']
     for tag in tags:
         if name.endswith(tag):
             name = name[:-len(tag)]
-            
     return name.strip()
 
 def get_starters_from_basketball_monster():
-    print(f"Checking {BBM_URL}...")
+    print(f"Fetching lineups from {BBM_URL}...")
     starters = {}
+    
     try:
         response = requests.get(BBM_URL, headers=HEADERS, timeout=10)
+        if response.status_code != 200:
+            print(f"Error: BBM returned status {response.status_code}")
+            return {}
+
         soup = BeautifulSoup(response.text, 'html.parser')
         rows = soup.find_all('tr')
+        
         current_away = None
         current_home = None
         
         for row in rows:
             cols = [c.get_text(strip=True) for c in row.find_all(['td', 'th'])]
+            
+            # Skip empty or malformed rows
             if not cols: continue
             
-            # Header Row
-            if len(cols) >= 3 and "@" in cols[2]:
-                current_away = normalize_team(cols[1].replace('@', ''))
-                current_home = normalize_team(cols[2].replace('@', ''))
+            # HEADER ROW DETECTION (e.g. "MEM", "@ MIN")
+            # BBM usually puts "@" before the home team in the 3rd column
+            # We look for a row where column 2 has '@' (sometimes) or column 3 has '@'
+            # Typical row: [Time, AwayTeam, @HomeTeam]
+            if len(cols) >= 3 and ("@" in cols[2] or "@" in cols[1]):
+                # Extract clean team names
+                raw_away = cols[1].replace('@', '').strip()
+                raw_home = cols[2].replace('@', '').strip()
+                
+                current_away = normalize_team(raw_away)
+                current_home = normalize_team(raw_home)
+                
+                # Initialize lists
                 if current_away not in starters: starters[current_away] = []
                 if current_home not in starters: starters[current_home] = []
                 continue
                 
-            # Player Row
+            # PLAYER ROW DETECTION
+            # First column is usually Position (PG, SG, SF, PF, C)
             if len(cols) >= 3 and cols[0] in ['PG', 'SG', 'SF', 'PF', 'C']:
                 if current_away and current_home:
                     p_away = clean_player_name(cols[1])
                     p_home = clean_player_name(cols[2])
                     
-                    if p_away and p_away != "-": starters[current_away].append(p_away)
-                    if p_home and p_home != "-": starters[current_home].append(p_home)
-    except Exception as e:
-        print(f"Warning: BBM check failed ({e})")
-    return starters
+                    if p_away and p_away != "-": 
+                        starters[current_away].append(p_away)
+                    if p_home and p_home != "-": 
+                        starters[current_home].append(p_home)
 
-def get_starters_from_rotowire():
-    print(f"Checking {ROTOWIRE_URL}...")
-    starters = {} 
-    try:
-        response = requests.get(ROTOWIRE_URL, headers=HEADERS, timeout=10)
-        soup = BeautifulSoup(response.text, 'html.parser')
-        lineup_boxes = soup.find_all(class_='lineup')
-        for box in lineup_boxes:
-            lists = box.find_all(class_='lineup__list')
-            if len(lists) < 2: continue
-            for ul in lists:
-                is_home = 'is-home' in ul.get('class', [])
-                team_div_class = 'is-home' if is_home else 'is-visit'
-                team_div = box.find(class_=f'lineup__team {team_div_class}')
-                if not team_div: continue
-                
-                team_code = normalize_team(team_div.text)
-                
-                players = []
-                for li in ul.find_all('li', class_='lineup__player'):
-                    name_tag = li.find('a')
-                    if name_tag:
-                        raw_name = name_tag.get('title') or name_tag.text
-                        clean_name = clean_player_name(raw_name)
-                        if clean_name:
-                            players.append(clean_name)
-                if players:
-                    starters[team_code] = players
     except Exception as e:
-        print(f"Warning: Rotowire check failed ({e})")
+        print(f"Error parsing BBM: {e}")
+        
+    print(f"Found lineups for {len(starters)} teams.")
     return starters
 
 def build_json():
@@ -127,7 +111,7 @@ def build_json():
 
     dff_path = sorted(dff_files)[-1]
     fd_path = sorted(fd_files)[-1]
-
+    
     # 2. LOAD FILES
     try:
         dff_df = pd.read_csv(dff_path)
@@ -149,7 +133,7 @@ def build_json():
     fd_df['norm_last'] = fd_df['Last Name'].str.lower().str.strip()
     fd_df['norm_team'] = fd_df['Team'].str.strip()
     
-    # 4. MERGE
+    # 4. MERGE DATA
     merged_df = pd.merge(dff_df, fd_df, 
         left_on=['norm_first', 'norm_last', 'norm_team'],
         right_on=['norm_first', 'norm_last', 'norm_team'],
@@ -157,20 +141,10 @@ def build_json():
     )
     merged_df = merged_df.drop_duplicates(subset=['norm_first', 'norm_last', 'norm_team'])
 
-    # 5. GET WEB STARTERS
+    # 5. GET WEB STARTERS (ONLY FROM BBM)
     web_starters = get_starters_from_basketball_monster()
-    
-    unique_teams = merged_df['team'].unique()
-    missing_teams = [t for t in unique_teams if t not in web_starters or len(web_starters[t]) < 5]
-    
-    if missing_teams:
-        print(f"Checking Rotowire for missing teams: {missing_teams}")
-        rw_starters = get_starters_from_rotowire()
-        for t in missing_teams:
-            if t in rw_starters:
-                web_starters[t] = rw_starters[t]
 
-    # Normalize web data
+    # Normalize web data names
     web_starters_norm = {}
     for team, players in web_starters.items():
         norm_team = normalize_team(team)
@@ -180,38 +154,20 @@ def build_json():
     merged_df['Full_Name_Norm'] = merged_df['Full_Name'].str.lower().str.strip()
     merged_df['Is_Starter'] = False
     
-    # 6. MARK STARTERS & APPLY INJURY FILTER
+    # 6. MATCH STARTERS
+    unique_teams = merged_df['team'].unique()
+    
     for team in unique_teams:
         team_players = merged_df[merged_df['team'] == team]
         starters_list = web_starters_norm.get(team, [])
         
-        # A. Match names from web
+        # Only mark as starter if we found a match from the web list
         if starters_list:
             mask = team_players['Full_Name_Norm'].apply(lambda x: any(s in x for s in starters_list) or any(x in s for s in starters_list))
             if mask.any():
                 merged_df.loc[team_players[mask].index, 'Is_Starter'] = True
         
-        # B. STRICT INJURY FILTER
-        # If player is 'O' in CSV, remove Starter status
-        injured_mask = (merged_df['team'] == team) & (merged_df['Is_Starter'] == True) & (merged_df['injury_status'] == 'O')
-        if injured_mask.any():
-            print(f"[{team}] Removing injured starters: {merged_df.loc[injured_mask.index, 'Full_Name'].values}")
-            merged_df.loc[injured_mask.index, 'Is_Starter'] = False
-
-        # C. Safety Fill
-        current_count = merged_df[(merged_df['team'] == team) & (merged_df['Is_Starter'] == True)].shape[0]
-        if current_count < 5:
-            needed = 5 - current_count
-            
-            # Find candidates: Same Team, Not Starter, Not Injured 'O'
-            candidates = merged_df[
-                (merged_df['team'] == team) & 
-                (merged_df['Is_Starter'] == False) & 
-                (merged_df['injury_status'] != 'O')
-            ]
-            candidates = candidates.sort_values('ppg_projection', ascending=False)
-            fillers = candidates.head(needed)
-            merged_df.loc[fillers.index, 'Is_Starter'] = True
+        # Note: We removed the fallback logic. If no starters found, Is_Starter stays False.
 
     # 7. BUILD JSON
     utc_now = datetime.datetime.utcnow()
@@ -259,29 +215,40 @@ def build_json():
         }
         
         for current_team in [team, opp]:
-            team_subset = merged_df[merged_df['team'] == current_team].copy()
-            # Sort: Starters First, then Position
-            team_subset = team_subset.sort_values(
-                by=['Is_Starter', 'Pos_Rank', 'ppg_projection'], 
-                ascending=[False, True, False]
-            )
-            
-            starters = team_subset.head(5)
+            # Filter for Is_Starter == True
+            starters_df = merged_df[
+                (merged_df['team'] == current_team) & 
+                (merged_df['Is_Starter'] == True)
+            ].copy()
             
             player_list = []
-            for _, p in starters.iterrows():
-                val = p['ppg_projection'] / (p['salary']/1000) if p['salary'] > 0 else 0
-                inj = str(p['injury_status']) if pd.notna(p['injury_status']) and str(p['injury_status']) != 'nan' else ""
-                
-                player_list.append({
-                    "pos": p['position'],
-                    "name": p['Full_Name'],
-                    "salary": int(p['salary']),
-                    "proj": round(p['ppg_projection'], 1),
-                    "value": round(val, 2),
-                    "injury": inj
-                })
             
+            # If we have starters, sort and add them
+            if not starters_df.empty:
+                starters_df = starters_df.sort_values('Pos_Rank')
+                for _, p in starters_df.iterrows():
+                    val = p['ppg_projection'] / (p['salary']/1000) if p['salary'] > 0 else 0
+                    inj = str(p['injury_status']) if pd.notna(p['injury_status']) and str(p['injury_status']) != 'nan' else ""
+                    
+                    player_list.append({
+                        "pos": p['position'],
+                        "name": p['Full_Name'],
+                        "salary": int(p['salary']),
+                        "proj": round(p['ppg_projection'], 1),
+                        "value": round(val, 2),
+                        "injury": inj
+                    })
+            else:
+                # If no starters found, add "Waiting for Lineup" placeholder
+                player_list.append({
+                    "pos": "-",
+                    "name": "Waiting for Lineup",
+                    "salary": 0,
+                    "proj": 0,
+                    "value": 0,
+                    "injury": ""
+                })
+
             game_obj['rosters'][current_team] = {
                 "logo": f"{logo_base}{current_team.lower()}.png",
                 "players": player_list
