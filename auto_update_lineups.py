@@ -125,11 +125,14 @@ def get_data_from_basketball_monster():
                 tm_away = active_teams[0]
                 tm_home = active_teams[1]
                 
-                p_away = clean_player_name(cols[1])
-                p_home = clean_player_name(cols[2])
-                
-                if p_away and p_away != '-': starters[tm_away].append(p_away)
-                if p_home and p_home != '-': starters[tm_home].append(p_home)
+                # SAFETY: Stop if we already have 5 players
+                if len(starters[tm_away]) < 5:
+                    p_away = clean_player_name(cols[1])
+                    if p_away and p_away != '-': starters[tm_away].append(p_away)
+                    
+                if len(starters[tm_home]) < 5:
+                    p_home = clean_player_name(cols[2])
+                    if p_home and p_home != '-': starters[tm_home].append(p_home)
 
     except Exception as e:
         print(f"Error parsing BBM: {e}")
@@ -197,36 +200,26 @@ def build_json():
         
         for web_p in starters_list:
             # Step A: Exact Clean Name Match
-            # --------------------------------
             exact_mask = (merged_df['team'] == team) & (merged_df['Clean_Name'] == web_p)
             if exact_mask.any():
                 merged_df.loc[exact_mask.index, 'Is_Starter'] = True
                 continue
             
             # Step B: Last Name Uniqueness Fallback (The "Herb Jones" Fix)
-            # -------------------------------------------------------------
-            # Extract last name from web string (assuming "First Last" format)
             parts = web_p.split()
             if len(parts) >= 2:
                 web_last = parts[-1]
-                
                 # Find all players on this team with that last name
                 candidates = merged_df[
                     (merged_df['team'] == team) & 
                     (merged_df['Last_Name_Lower'] == web_last)
                 ]
-                
                 # If exactly one candidate exists, assume it's him
                 if len(candidates) == 1:
-                    print(f"[{team}] Matched '{web_p}' to '{candidates.iloc[0]['Clean_Name']}' via unique last name.")
                     merged_df.loc[candidates.index, 'Is_Starter'] = True
                     continue
             
-            # Step C: Fuzzy Match (Partial string)
-            # ------------------------------------
-            fuzzy_mask = (merged_df['team'] == team) & (merged_df['Clean_Name'].str.contains(web_p, regex=False))
-            if fuzzy_mask.any():
-                merged_df.loc[fuzzy_mask.index, 'Is_Starter'] = True
+            # (Step C: Removed risky Fuzzy Match)
 
     # 5. BUILD OUTPUT
     utc_now = datetime.datetime.utcnow()
@@ -285,7 +278,10 @@ def build_json():
             
             player_list = []
             
-            # Only show if we found players
+            # Show players if we found at least 1 (even if <5, show what we have)
+            # Limiting strictly to 5 in display too, just in case
+            starters_df = starters_df.head(5)
+            
             if not starters_df.empty:
                 for _, p in starters_df.iterrows():
                     val = p['ppg_projection'] / (p['salary']/1000) if p['salary'] > 0 else 0
