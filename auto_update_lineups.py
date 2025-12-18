@@ -118,25 +118,21 @@ def get_data_from_basketball_monster():
                 tm_away = active_teams[0]
                 tm_home = active_teams[1]
                 
-                # Check Away Link (STRICT LIMIT: 5 PLAYERS)
+                # CHECK AWAY (Stop at 5 players)
                 if len(starters[tm_away]) < 5:
                     link_away = cells[1].find('a', href=True)
                     if link_away and 'playerinfo.aspx' in link_away['href']:
                         raw = link_away.get_text(strip=True)
                         clean = clean_player_name(raw)
-                        if clean: 
-                            starters[tm_away].append(clean)
-                            # print(f"RAW WEB: Found {clean} for {tm_away}")
+                        if clean: starters[tm_away].append(clean)
 
-                # Check Home Link (STRICT LIMIT: 5 PLAYERS)
+                # CHECK HOME (Stop at 5 players)
                 if len(starters[tm_home]) < 5:
                     link_home = cells[2].find('a', href=True)
                     if link_home and 'playerinfo.aspx' in link_home['href']:
                         raw = link_home.get_text(strip=True)
                         clean = clean_player_name(raw)
-                        if clean: 
-                            starters[tm_home].append(clean)
-                            # print(f"RAW WEB: Found {clean} for {tm_home}")
+                        if clean: starters[tm_home].append(clean)
 
     except Exception as e:
         print(f"Error parsing BBM: {e}")
@@ -189,11 +185,13 @@ def build_json():
     )
     merged_df['Last_Name_Lower'] = merged_df['last_name'].str.lower().str.strip()
 
-    # 3. GET WEB DATA
+    # 3. INITIALIZE STATUS
+    merged_df['status'] = 'bench' # Default everyone to bench
+
+    # 4. GET WEB DATA
     web_starters, web_times = get_data_from_basketball_monster()
     
-    # 4. MATCH STARTERS
-    merged_df['Is_Starter'] = False
+    # 5. MATCH & SET PROJECTED_STARTER
     unique_teams = merged_df['team'].unique()
     
     print("\n--- MATCHING LOGS ---")
@@ -206,7 +204,8 @@ def build_json():
             # A. EXACT MATCH
             exact_mask = (merged_df['team'] == team) & (merged_df['Clean_Name'] == web_p)
             if exact_mask.any():
-                merged_df.loc[exact_mask.index, 'Is_Starter'] = True
+                merged_df.loc[exact_mask.index, 'status'] = 'projected_starter'
+                print(f"  [MATCH] '{web_p}' -> Exact")
                 continue
             
             # B. SMART FALLBACK
@@ -222,7 +221,8 @@ def build_json():
                 candidates = candidates[candidates['norm_first'].str.startswith(web_first_char, na=False)]
                 
                 if len(candidates) == 1:
-                    merged_df.loc[candidates.index, 'Is_Starter'] = True
+                    merged_df.loc[candidates.index, 'status'] = 'projected_starter'
+                    print(f"  [MATCH] '{web_p}' -> Initial+Last Match")
                 elif len(candidates) > 1:
                     best_match = None
                     for idx, row in candidates.iterrows():
@@ -230,11 +230,12 @@ def build_json():
                             best_match = idx
                             break
                     if best_match:
-                         merged_df.loc[best_match, 'Is_Starter'] = True
+                         merged_df.loc[best_match, 'status'] = 'projected_starter'
+                         print(f"  [MATCH] '{web_p}' -> Best Guess")
 
-    # 5. DUMP FINAL ROSTERS TO LOG
+    # 6. DUMP FINAL ROSTERS
     print("\n" + "="*40)
-    print("      FINAL STARTING LINEUPS FOUND")
+    print("      FINAL ROSTER DUMP (Projected Starters Only)")
     print("="*40)
     
     def position_rank(pos_str):
@@ -246,15 +247,20 @@ def build_json():
     merged_df['Pos_Rank'] = merged_df['position'].apply(position_rank)
     
     for team in sorted(unique_teams):
-        starters_df = merged_df[(merged_df['team'] == team) & (merged_df['Is_Starter'] == True)]
-        starters_df = starters_df.sort_values('Pos_Rank').head(5)
+        starters_df = merged_df[
+            (merged_df['team'] == team) & 
+            (merged_df['status'] == 'projected_starter')
+        ]
+        starters_df = starters_df.sort_values('Pos_Rank')
         
         if not starters_df.empty:
             print(f"\nTEAM: {team}")
             for _, p in starters_df.iterrows():
                 print(f"  - {p['position']}: {p['Clean_Name']}")
+        else:
+            print(f"\nTEAM: {team} -> Waiting for Lineup")
 
-    # 6. BUILD OUTPUT
+    # 7. BUILD OUTPUT
     utc_now = datetime.datetime.utcnow()
     et_now = utc_now - timedelta(hours=5)
     formatted_time = et_now.strftime("%b %d, %I:%M %p ET")
@@ -297,15 +303,14 @@ def build_json():
         }
         
         for current_team in [team, opp]:
+            # --- CRITICAL FILTER ---
+            # ONLY include players with status='projected_starter'
             starters_df = merged_df[
                 (merged_df['team'] == current_team) & 
-                (merged_df['Is_Starter'] == True)
+                (merged_df['status'] == 'projected_starter')
             ].sort_values('Pos_Rank')
             
             player_list = []
-            
-            # Show ONLY if we have at least 1 starter found
-            starters_df = starters_df.head(5)
             
             if not starters_df.empty:
                 for _, p in starters_df.iterrows():
@@ -335,8 +340,6 @@ def build_json():
     
     games_list.sort(key=lambda x: x['sort_index'])
     for g in games_list: del g['sort_index']
-    
-    data_export['games'] = games_list
     
     with open('nba_data.json', 'w') as f:
         json.dump(data_export, f, indent=2)
