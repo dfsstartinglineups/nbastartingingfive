@@ -28,7 +28,7 @@ TEAM_MAP = {
     'CHO': 'CHA', 'CHA': 'CHA', 'CHARLOTTE': 'CHA'
 }
 
-# NICKNAME MAP (Still useful for first pass)
+# NICKNAME MAP
 NICKNAMES = {
     'cam': 'cameron', 'nic': 'nicolas', 'patti': 'patrick', 'pat': 'patrick',
     'mo': 'moritz', 'moe': 'moritz', 'zach': 'zachary', 'tim': 'timothy',
@@ -49,13 +49,12 @@ def clean_player_name(name):
     for suffix in [' jr', ' sr', ' ii', ' iii', ' iv']:
         if name.endswith(suffix):
             name = name[:-len(suffix)]
-    tags = [' q', ' out', ' in', ' gtd', ' p', ' probable', ' questionable', ' doubtful']
-    for tag in tags:
-        if name.endswith(tag):
-            name = name[:-len(tag)]
+    
+    # Nickname Mapping
     parts = name.split()
     if parts and parts[0] in NICKNAMES:
         parts[0] = NICKNAMES[parts[0]]
+    
     return " ".join(parts)
 
 def parse_time_to_minutes(time_str):
@@ -78,26 +77,31 @@ def get_data_from_basketball_monster():
         rows = soup.find_all('tr')
         
         for row in rows:
-            cols = [c.get_text(strip=True) for c in row.find_all(['td', 'th'])]
-            if not cols: continue
+            # Get the actual cell elements (td/th) so we can look for <a> tags
+            cells = row.find_all(['td', 'th'])
             
-            # HEADER ROW DETECTION
+            # Create a text-only version for header checking
+            cols_text = [c.get_text(strip=True) for c in cells]
+            
+            if not cols_text: continue
+            
+            # --- HEADER ROW DETECTION ---
             is_header = False
             raw_away, raw_home = "", ""
             potential_time = ""
 
-            if len(cols) >= 3:
+            if len(cols_text) >= 3:
                 # Format 1: [Time, Away, @Home]
-                if "@" in cols[2]:
-                    potential_time = cols[0]
-                    raw_away = cols[1]
-                    raw_home = cols[2]
+                if "@" in cols_text[2]:
+                    potential_time = cols_text[0]
+                    raw_away = cols_text[1]
+                    raw_home = cols_text[2]
                     is_header = True
                 # Format 2: [Away, @Home]
-                elif "@" in cols[1]:
+                elif "@" in cols_text[1]:
                     potential_time = "7:00 PM"
-                    raw_away = cols[0]
-                    raw_home = cols[1]
+                    raw_away = cols_text[0]
+                    raw_home = cols_text[1]
                     is_header = True
             
             if is_header:
@@ -118,21 +122,31 @@ def get_data_from_basketball_monster():
                 game_times[team_home] = game_time
                 continue
             
-            # PLAYER ROW DETECTION
-            if len(cols) >= 3 and cols[0] in ['PG', 'SG', 'SF', 'PF', 'C']:
+            # --- PLAYER ROW DETECTION (USING LINKS) ---
+            # Check if first col is a position
+            if len(cols_text) >= 3 and cols_text[0] in ['PG', 'SG', 'SF', 'PF', 'C']:
                 if not starters: continue
+                
                 active_teams = list(starters.keys())[-2:] 
                 tm_away = active_teams[0]
                 tm_home = active_teams[1]
                 
-                # SAFETY: Stop if we already have 5 players
-                if len(starters[tm_away]) < 5:
-                    p_away = clean_player_name(cols[1])
-                    if p_away and p_away != '-': starters[tm_away].append(p_away)
-                    
-                if len(starters[tm_home]) < 5:
-                    p_home = clean_player_name(cols[2])
-                    if p_home and p_home != '-': starters[tm_home].append(p_home)
+                # --- NEW PARSING LOGIC ---
+                # Search for <a> tags specifically with 'playerinfo.aspx' in href
+                
+                # Away Player (Index 1)
+                link_away = cells[1].find('a', href=True)
+                if link_away and 'playerinfo.aspx' in link_away['href']:
+                    name_raw = link_away.get_text(strip=True)
+                    p_away = clean_player_name(name_raw)
+                    if p_away: starters[tm_away].append(p_away)
+                
+                # Home Player (Index 2)
+                link_home = cells[2].find('a', href=True)
+                if link_home and 'playerinfo.aspx' in link_home['href']:
+                    name_raw = link_home.get_text(strip=True)
+                    p_home = clean_player_name(name_raw)
+                    if p_home: starters[tm_home].append(p_home)
 
     except Exception as e:
         print(f"Error parsing BBM: {e}")
@@ -184,7 +198,6 @@ def build_json():
     merged_df['Clean_Name'] = merged_df.apply(
         lambda x: clean_player_name(f"{x['first_name']} {x['last_name']}"), axis=1
     )
-    # Helper for fallback match
     merged_df['Last_Name_Lower'] = merged_df['last_name'].str.lower().str.strip()
 
     # 3. GET WEB DATA
@@ -199,27 +212,23 @@ def build_json():
         if not starters_list: continue
         
         for web_p in starters_list:
-            # Step A: Exact Clean Name Match
+            # A. Exact Match
             exact_mask = (merged_df['team'] == team) & (merged_df['Clean_Name'] == web_p)
             if exact_mask.any():
                 merged_df.loc[exact_mask.index, 'Is_Starter'] = True
                 continue
             
-            # Step B: Last Name Uniqueness Fallback (The "Herb Jones" Fix)
+            # B. Last Name Fallback
             parts = web_p.split()
             if len(parts) >= 2:
                 web_last = parts[-1]
-                # Find all players on this team with that last name
                 candidates = merged_df[
                     (merged_df['team'] == team) & 
                     (merged_df['Last_Name_Lower'] == web_last)
                 ]
-                # If exactly one candidate exists, assume it's him
                 if len(candidates) == 1:
                     merged_df.loc[candidates.index, 'Is_Starter'] = True
                     continue
-            
-            # (Step C: Removed risky Fuzzy Match)
 
     # 5. BUILD OUTPUT
     utc_now = datetime.datetime.utcnow()
@@ -238,8 +247,8 @@ def build_json():
     meta_lookup = dff_df[['team', 'opp', 'spread', 'over_under']].drop_duplicates().set_index('team').to_dict('index')
     logo_base = "https://a.espncdn.com/i/teamlogos/nba/500/"
     
-    processed_teams = set()
     games_list = []
+    processed_teams = set()
     
     for team in unique_teams:
         if team in processed_teams: continue
@@ -278,8 +287,8 @@ def build_json():
             
             player_list = []
             
-            # Show players if we found at least 1 (even if <5, show what we have)
-            # Limiting strictly to 5 in display too, just in case
+            # Show ONLY if we have at least 1 starter found
+            # Clamp to 5 max
             starters_df = starters_df.head(5)
             
             if not starters_df.empty:
