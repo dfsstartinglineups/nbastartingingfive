@@ -4,7 +4,7 @@ import glob
 import os
 import requests
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # --- CONFIGURATION ---
 # We use the specific Lineups URL because it contains the <a> tags we need
@@ -248,78 +248,3 @@ def build_json():
                     match = stats_df[
                         (stats_df['norm_team'] == team) & 
                         (stats_df['clean_name'] == clean)
-                    ]
-                    
-                    # 2. Fallback: Last Name + First Initial
-                    if match.empty:
-                        parts = clean.split()
-                        if len(parts) >= 2:
-                            last = parts[-1]
-                            first_init = parts[0][0]
-                            match = stats_df[
-                                (stats_df['norm_team'] == team) & 
-                                (stats_df['last_name_lower'] == last) &
-                                (stats_df['first_initial'] == first_init)
-                            ]
-                    
-                    # 3. Fallback: Just Last Name (if unique)
-                    if match.empty and len(clean.split()) >= 2:
-                         last = clean.split()[-1]
-                         candidates = stats_df[
-                            (stats_df['norm_team'] == team) & 
-                            (stats_df['last_name_lower'] == last)
-                         ]
-                         if len(candidates) == 1:
-                             match = candidates
-
-                    # If found, update stats
-                    if not match.empty:
-                        row = match.iloc[0]
-                        val = 0
-                        if row['salary'] > 0:
-                            val = row['ppg_projection'] / (row['salary']/1000)
-                            
-                        p_data = {
-                            "pos": row['position'],
-                            "name": f"{row['first_name']} {row['last_name']}",
-                            "salary": int(row['salary']),
-                            "proj": round(row['ppg_projection'], 1),
-                            "value": round(val, 2),
-                            "injury": str(row['injury_status']) if pd.notna(row['injury_status']) else ""
-                        }
-                        print(f"  [MATCH] {raw_name} -> Found stats")
-                    else:
-                        print(f"  [NO STATS] {raw_name} -> Added without stats")
-                
-                player_list.append(p_data)
-            
-            # If scraper came up empty for this team
-            if not player_list:
-                 player_list.append({
-                    "pos": "-", "name": "Waiting for Lineup",
-                    "salary": 0, "proj": 0, "value": 0, "injury": ""
-                })
-
-            game_obj['rosters'][team] = {
-                "logo": f"https://a.espncdn.com/i/teamlogos/nba/500/{team.lower()}.png",
-                "players": player_list
-            }
-            
-        games_output.append(game_obj)
-
-    # Sort
-    games_output.sort(key=lambda x: x['sort_index'])
-    for g in games_output: del g['sort_index']
-    
-    final_json = {
-        "last_updated": formatted_time,
-        "games": games_output
-    }
-    
-    with open('nba_data.json', 'w') as f:
-        json.dump(final_json, f, indent=2)
-    
-    print(f"SUCCESS. Generated {len(games_output)} games.")
-
-if __name__ == "__main__":
-    build_json()
