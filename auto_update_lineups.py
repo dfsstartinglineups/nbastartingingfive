@@ -121,19 +121,26 @@ def scrape_starters():
             tm_away = active_teams[0]
             tm_home = active_teams[1]
             
-            # Extract Away Player (Strict 5 Limit)
-            if len(starters_map[tm_away]) < 5:
-                link = cells[1].find('a', href=True)
+            # Helper to extract name + verified status
+            def extract_player_info(cell):
+                link = cell.find('a', href=True)
                 if link and 'playerinfo.aspx' in link['href']:
                     name = link.get_text(strip=True)
-                    starters_map[tm_away].append(name)
+                    # Check for 'verified' class in the TD
+                    classes = cell.get('class', [])
+                    is_verified = 'verified' in classes
+                    return {'name': name, 'verified': is_verified}
+                return None
+
+            # Extract Away Player (Strict 5 Limit)
+            if len(starters_map[tm_away]) < 5:
+                p_info = extract_player_info(cells[1])
+                if p_info: starters_map[tm_away].append(p_info)
 
             # Extract Home Player (Strict 5 Limit)
             if len(starters_map[tm_home]) < 5:
-                link = cells[2].find('a', href=True)
-                if link and 'playerinfo.aspx' in link['href']:
-                    name = link.get_text(strip=True)
-                    starters_map[tm_home].append(name)
+                p_info = extract_player_info(cells[2])
+                if p_info: starters_map[tm_home].append(p_info)
 
     print(f"Scraped {len(starters_map)} teams.")
     return starters_map, game_times
@@ -150,16 +157,13 @@ def load_cheat_sheet():
     
     try:
         df = pd.read_csv(path)
-        # Normalize for matching
         df['norm_team'] = df['team'].apply(normalize_team)
-        # Handle cases where columns might be missing first/last name if DFF format changes
         if 'first_name' in df.columns and 'last_name' in df.columns:
             df['clean_name'] = df.apply(lambda x: clean_player_name(f"{x['first_name']} {x['last_name']}"), axis=1)
             df['last_name_lower'] = df['last_name'].str.lower().str.strip()
             df['first_initial'] = df['first_name'].str[0].str.lower()
         else:
-            print("WARNING: 'first_name' or 'last_name' columns missing in DFF file.")
-            
+            print("WARNING: Columns missing in DFF file.")
         return df
     except Exception as e:
         print(f"Error reading CSV: {e}")
@@ -183,7 +187,6 @@ def build_json():
     
     print("\n--- MATCHING PLAYERS ---")
 
-    # Iterate in pairs (Away vs Home)
     for i in range(0, len(teams_list), 2):
         if i+1 >= len(teams_list): break
         
@@ -192,23 +195,19 @@ def build_json():
         
         game_time = game_times.get(team_a, "7:00 PM")
         
-        # Lookup Spread/Total
+        # Meta Lookup
         spread_str = "TBD"
         total_str = "TBD"
-        
         if not stats_df.empty:
-            # Try to find team_a row to get game meta
             meta_row = stats_df[stats_df['norm_team'] == team_a]
             if not meta_row.empty:
                 try:
                     s_val = meta_row.iloc[0].get('spread', 0)
                     s = float(str(s_val).replace('+', ''))
                     spread_str = f"{s}" if s < 0 else f"+{s}"
-                    
                     t_val = meta_row.iloc[0].get('over_under', 'TBD')
                     total_str = str(t_val)
-                except:
-                    spread_str = "TBD"
+                except: pass
 
         game_obj = {
             "id": f"{team_a}-{team_b}",
@@ -222,34 +221,33 @@ def build_json():
             "rosters": {}
         }
         
-        # Process Roster
         for team in [team_a, team_b]:
-            starters_names = scraped_rosters.get(team, [])
+            starters_data = scraped_rosters.get(team, [])
             player_list = []
             
-            # Loop through the SCRAPED names (Source of Truth)
-            for raw_name in starters_names:
+            for p_obj in starters_data:
+                raw_name = p_obj['name']
+                is_verified = p_obj['verified']
                 clean = clean_player_name(raw_name)
                 
-                # Default Stats
+                # Default
                 p_data = {
                     "pos": "Flex", 
                     "name": raw_name,
                     "salary": 0,
                     "proj": 0,
                     "value": 0,
-                    "injury": ""
+                    "injury": "",
+                    "verified": is_verified # Add to JSON
                 }
                 
-                # Try to find stats in CSV
+                # Match in CSV
                 if not stats_df.empty:
-                    # 1. Exact Match
                     match = stats_df[
                         (stats_df['norm_team'] == team) & 
                         (stats_df['clean_name'] == clean)
                     ]
                     
-                    # 2. Fallback: Last Name + First Initial
                     if match.empty:
                         parts = clean.split()
                         if len(parts) >= 2:
@@ -261,7 +259,6 @@ def build_json():
                                 (stats_df['first_initial'] == first_init)
                             ]
                     
-                    # 3. Fallback: Just Last Name (if unique on team)
                     if match.empty and len(clean.split()) >= 2:
                          last = clean.split()[-1]
                          candidates = stats_df[
@@ -271,15 +268,13 @@ def build_json():
                          if len(candidates) == 1:
                              match = candidates
 
-                    # If found, update stats
                     if not match.empty:
                         row = match.iloc[0]
                         val = 0
                         try:
                             sal = float(row['salary'])
                             proj = float(row['ppg_projection'])
-                            if sal > 0:
-                                val = proj / (sal/1000)
+                            if sal > 0: val = proj / (sal/1000)
                             
                             p_data = {
                                 "pos": row['position'],
@@ -287,21 +282,20 @@ def build_json():
                                 "salary": int(sal),
                                 "proj": round(proj, 1),
                                 "value": round(val, 2),
-                                "injury": str(row['injury_status']) if pd.notna(row['injury_status']) else ""
+                                "injury": str(row['injury_status']) if pd.notna(row['injury_status']) else "",
+                                "verified": is_verified
                             }
-                            print(f"  [MATCH] {raw_name} -> Found stats")
-                        except:
-                            print(f"  [ERROR] Could not parse stats for {raw_name}")
+                            print(f"  [MATCH] {raw_name} {'(Verified)' if is_verified else ''}")
+                        except: pass
                     else:
-                        print(f"  [NO STATS] {raw_name} -> Added without stats")
+                        print(f"  [NO STATS] {raw_name}")
                 
                 player_list.append(p_data)
             
-            # If scraper came up empty for this team
             if not player_list:
                  player_list.append({
                     "pos": "-", "name": "Waiting for Lineup",
-                    "salary": 0, "proj": 0, "value": 0, "injury": ""
+                    "salary": 0, "proj": 0, "value": 0, "injury": "", "verified": False
                 })
 
             game_obj['rosters'][team] = {
@@ -311,7 +305,6 @@ def build_json():
             
         games_output.append(game_obj)
 
-    # Sort
     games_output.sort(key=lambda x: x['sort_index'])
     for g in games_output: del g['sort_index']
     
