@@ -2,20 +2,19 @@ import pandas as pd
 import json
 import glob
 import os
-import datetime
 import requests
-import sys
 import re
-from datetime import datetime as dt, timedelta
+from datetime import datetime
 
 # --- CONFIGURATION ---
+# We use the specific Lineups URL because it contains the <a> tags we need
 BBM_URL = "https://basketballmonster.com/nbalineups.aspx"
 
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
 }
 
-# STANDARD TEAM CODES
+# STANDARD TEAM CODES (Map BBM/CSV codes to a standard 3-letter Key)
 TEAM_MAP = {
     'GS': 'GSW', 'GOLDEN STATE': 'GSW', 'GSW': 'GSW',
     'NO': 'NOP', 'NEW ORLEANS': 'NOP', 'NOP': 'NOP', 'NOH': 'NOP', 'PELICANS': 'NOP', 'NOR': 'NOP',
@@ -28,7 +27,7 @@ TEAM_MAP = {
     'CHO': 'CHA', 'CHA': 'CHA', 'CHARLOTTE': 'CHA'
 }
 
-# NICKNAME MAP
+# NICKNAME MAP (Helps CSV matching)
 NICKNAMES = {
     'cam': 'cameron', 'nic': 'nicolas', 'patti': 'patrick', 'pat': 'patrick',
     'mo': 'moritz', 'moe': 'moritz', 'zach': 'zachary', 'tim': 'timothy',
@@ -58,273 +57,269 @@ def clean_player_name(name):
 
 def parse_time_to_minutes(time_str):
     try:
-        t = dt.strptime(time_str.strip().upper(), "%I:%M %p")
+        t = datetime.strptime(time_str.strip().upper(), "%I:%M %p")
         return t.hour * 60 + t.minute
     except:
         return 9999
 
-def get_data_from_basketball_monster():
-    print(f"Fetching from {BBM_URL}...")
-    starters = {}
-    game_times = {}
+# --- STEP 1: SCRAPE BASKETBALL MONSTER ---
+def scrape_starters():
+    print(f"--- SCRAPING {BBM_URL} ---")
     
     try:
-        response = requests.get(BBM_URL, headers=HEADERS, timeout=10)
+        response = requests.get(BBM_URL, headers=HEADERS, timeout=15)
+        # Simple text parsing to avoid BS4 dependency issues if any, 
+        # but BS4 is safer for specific tag attributes.
         from bs4 import BeautifulSoup
         soup = BeautifulSoup(response.text, 'html.parser')
-        
         rows = soup.find_all('tr')
-        
-        for row in rows:
-            cells = row.find_all(['td', 'th'])
-            cols_text = [c.get_text(strip=True) for c in cells]
-            
-            if not cols_text: continue
-            
-            # --- HEADER ROW ---
-            is_header = False
-            raw_away, raw_home, potential_time = "", "", ""
-
-            if len(cols_text) >= 3:
-                if "@" in cols_text[2]:
-                    potential_time = cols_text[0]
-                    raw_away, raw_home = cols_text[1], cols_text[2]
-                    is_header = True
-                elif "@" in cols_text[1]:
-                    potential_time = "7:00 PM"
-                    raw_away, raw_home = cols_text[0], cols_text[1]
-                    is_header = True
-            
-            if is_header:
-                game_time = "7:00 PM"
-                if ':' in potential_time and ('am' in potential_time.lower() or 'pm' in potential_time.lower()):
-                    game_time = potential_time.upper()
-                
-                team_away = normalize_team(raw_away.replace('@', '').strip())
-                team_home = normalize_team(raw_home.replace('@', '').strip())
-                
-                if team_away not in starters: starters[team_away] = []
-                if team_home not in starters: starters[team_home] = []
-                
-                game_times[team_away] = game_time
-                game_times[team_home] = game_time
-                continue
-            
-            # --- PLAYER ROW (Look for Links) ---
-            if len(cols_text) >= 3 and cols_text[0] in ['PG', 'SG', 'SF', 'PF', 'C']:
-                if not starters: continue
-                
-                active_teams = list(starters.keys())[-2:] 
-                tm_away = active_teams[0]
-                tm_home = active_teams[1]
-                
-                # Check Away Link (STRICT LIMIT: 5 PLAYERS)
-                if len(starters[tm_away]) < 5:
-                    link_away = cells[1].find('a', href=True)
-                    if link_away and 'playerinfo.aspx' in link_away['href']:
-                        raw = link_away.get_text(strip=True)
-                        clean = clean_player_name(raw)
-                        if clean: starters[tm_away].append(clean)
-
-                # Check Home Link (STRICT LIMIT: 5 PLAYERS)
-                if len(starters[tm_home]) < 5:
-                    link_home = cells[2].find('a', href=True)
-                    if link_home and 'playerinfo.aspx' in link_home['href']:
-                        raw = link_home.get_text(strip=True)
-                        clean = clean_player_name(raw)
-                        if clean: starters[tm_home].append(clean)
-
     except Exception as e:
-        print(f"Error parsing BBM: {e}")
-        
-    return starters, game_times
+        print(f"CRITICAL ERROR SCRAPING: {e}")
+        return {}, {}
 
-def build_json():
-    print(f"--- Starting Build at {datetime.datetime.utcnow()} UTC ---")
-
-    # 1. LOAD FILES
-    dff_files = glob.glob('*DFF*.csv')
-    fd_files = glob.glob('*FanDuel*.csv')
+    starters_map = {} # { 'LAL': ['LeBron', 'AD'...] }
+    game_times = {}   # { 'LAL': '7:00 PM' }
     
-    if not dff_files or not fd_files:
-        print("ERROR: MISSING CSV FILES")
-        sys.exit(1)
+    for row in rows:
+        cells = row.find_all(['td', 'th'])
+        cols_text = [c.get_text(strip=True) for c in cells]
+        
+        if not cols_text: continue
+        
+        # A. Detect Header Row (Game Info)
+        # Looks for "@" in 2nd or 3rd column
+        is_header = False
+        raw_away, raw_home, time_str = "", "", "7:00 PM"
+        
+        if len(cols_text) >= 3:
+            if "@" in cols_text[2]: # Format: [Time, Away, @Home]
+                time_str = cols_text[0]
+                raw_away = cols_text[1]
+                raw_home = cols_text[2]
+                is_header = True
+            elif "@" in cols_text[1]: # Format: [Away, @Home]
+                raw_away = cols_text[0]
+                raw_home = cols_text[1]
+                is_header = True
+        
+        if is_header:
+            team_away = normalize_team(raw_away.replace('@', '').strip())
+            team_home = normalize_team(raw_home.replace('@', '').strip())
+            
+            # Clean Time
+            if ':' in time_str and ('am' in time_str.lower() or 'pm' in time_str.lower()):
+                time_str = time_str.upper()
+            else:
+                time_str = "7:00 PM"
 
-    dff_path = sorted(dff_files)[-1]
-    fd_path = sorted(fd_files)[-1]
+            if team_away not in starters_map: starters_map[team_away] = []
+            if team_home not in starters_map: starters_map[team_home] = []
+            
+            game_times[team_away] = time_str
+            game_times[team_home] = time_str
+            continue
+
+        # B. Detect Player Row
+        # Check if first col is a position (PG, SG, etc)
+        if len(cols_text) >= 3 and cols_text[0] in ['PG', 'SG', 'SF', 'PF', 'C']:
+            if not starters_map: continue
+            
+            # The last two teams added to the map are the current game
+            active_teams = list(starters_map.keys())[-2:]
+            tm_away = active_teams[0]
+            tm_home = active_teams[1]
+            
+            # Extract Away Player (Col 1)
+            # STRICT RULE: Only use if <a> tag with 'playerinfo.aspx?i=' exists
+            if len(starters_map[tm_away]) < 5: # STOP AT 5
+                link = cells[1].find('a', href=True)
+                if link and 'playerinfo.aspx' in link['href']:
+                    name = link.get_text(strip=True)
+                    starters_map[tm_away].append(name)
+
+            # Extract Home Player (Col 2)
+            if len(starters_map[tm_home]) < 5: # STOP AT 5
+                link = cells[2].find('a', href=True)
+                if link and 'playerinfo.aspx' in link['href']:
+                    name = link.get_text(strip=True)
+                    starters_map[tm_home].append(name)
+
+    print(f"Scraped {len(starters_map)} teams.")
+    return starters_map, game_times
+
+# --- STEP 2: LOAD CSV ---
+def load_cheat_sheet():
+    files = glob.glob('*DFF*.csv')
+    if not files:
+        print("ERROR: No DFF Cheat Sheet found.")
+        return pd.DataFrame()
+    
+    path = sorted(files)[-1]
+    print(f"Loading Cheat Sheet: {path}")
     
     try:
-        dff_df = pd.read_csv(dff_path)
-        fd_df = pd.read_csv(fd_path)
+        df = pd.read_csv(path)
+        # Normalize for matching
+        df['norm_team'] = df['team'].apply(normalize_team)
+        df['clean_name'] = df.apply(lambda x: clean_player_name(f"{x['first_name']} {x['last_name']}"), axis=1)
+        df['last_name_lower'] = df['last_name'].str.lower().str.strip()
+        df['first_initial'] = df['first_name'].str[0].str.lower()
+        return df
     except Exception as e:
-        print(f"Error reading CSVs: {e}")
-        sys.exit(1)
+        print(f"Error reading CSV: {e}")
+        return pd.DataFrame()
 
-    # 2. MERGE DATA (STANDARD MERGE)
-    dff_df['team'] = dff_df['team'].apply(normalize_team)
-    dff_df['opp'] = dff_df['opp'].apply(normalize_team)
-    fd_df['Team'] = fd_df['Team'].apply(normalize_team)
-
-    dff_df['norm_first'] = dff_df['first_name'].str.lower().str.strip()
-    dff_df['norm_last'] = dff_df['last_name'].str.lower().str.strip()
-    dff_df['norm_team'] = dff_df['team'].str.strip()
+# --- STEP 3: MAIN LOGIC ---
+def build_json():
+    # 1. Scrape
+    scraped_rosters, game_times = scrape_starters()
     
-    fd_df['norm_first'] = fd_df['First Name'].str.lower().str.strip()
-    fd_df['norm_last'] = fd_df['Last Name'].str.lower().str.strip()
-    fd_df['norm_team'] = fd_df['Team'].str.strip()
+    # 2. Load Stats
+    stats_df = load_cheat_sheet()
     
-    merged_df = pd.merge(dff_df, fd_df, 
-        left_on=['norm_first', 'norm_last', 'norm_team'],
-        right_on=['norm_first', 'norm_last', 'norm_team'],
-        how='inner'
-    )
-    merged_df = merged_df.drop_duplicates(subset=['norm_first', 'norm_last', 'norm_team'])
+    # 3. Build Games
+    # We iterate through the SCRAPED TEAMS to define the games.
+    # We pair them up based on the order they were scraped (Away, Home, Away, Home...)
+    # Or rely on the fact they share the same 'time' and are adjacent.
     
-    # 3. SETUP CLEAN NAME & STATUS
-    merged_df['Clean_Name'] = merged_df.apply(
-        lambda x: clean_player_name(f"{x['first_name']} {x['last_name']}"), axis=1
-    )
-    merged_df['Last_Name_Lower'] = merged_df['last_name'].str.lower().str.strip()
-    merged_df['status'] = 'bench'
-
-    # 4. GET WEB DATA
-    web_starters, web_times = get_data_from_basketball_monster()
-    
-    # 5. MATCH STARTERS
-    unique_teams = merged_df['team'].unique()
-    
-    print("\n--- MATCHING LOGS ---")
-    
-    for team in unique_teams:
-        starters_list = web_starters.get(team, [])
-        if not starters_list: continue
-        
-        for web_p in starters_list:
-            # A. EXACT MATCH
-            exact_mask = (merged_df['team'] == team) & (merged_df['Clean_Name'] == web_p)
-            if exact_mask.any():
-                merged_df.loc[exact_mask.index, 'status'] = 'projected_starter'
-                print(f"  [MATCH] '{web_p}' -> Exact")
-                continue
-            
-            # B. SMART FALLBACK
-            parts = web_p.split()
-            if len(parts) >= 2:
-                web_first_char = parts[0][0]
-                web_last = parts[-1]
-                
-                candidates = merged_df[
-                    (merged_df['team'] == team) & 
-                    (merged_df['Last_Name_Lower'] == web_last)
-                ]
-                candidates = candidates[candidates['norm_first'].str.startswith(web_first_char, na=False)]
-                
-                if len(candidates) == 1:
-                    merged_df.loc[candidates.index, 'status'] = 'projected_starter'
-                    print(f"  [MATCH] '{web_p}' -> Initial+Last Match")
-                elif len(candidates) > 1:
-                    best_match = None
-                    for idx, row in candidates.iterrows():
-                        if parts[0] in row['Clean_Name']: 
-                            best_match = idx
-                            break
-                    if best_match:
-                         merged_df.loc[best_match, 'status'] = 'projected_starter'
-                         print(f"  [MATCH] '{web_p}' -> Best Guess")
-
-    # 6. BUILD OUTPUT (FILTER BY STATUS)
-    utc_now = datetime.datetime.utcnow()
-    et_now = utc_now - timedelta(hours=5)
-    formatted_time = et_now.strftime("%b %d, %I:%M %p ET")
-
-    data_export = {"last_updated": formatted_time, "games": []}
-    
-    def position_rank(pos_str):
-        if not isinstance(pos_str, str): return 99
-        primary_pos = pos_str.split('/')[0]
-        order = {'PG': 1, 'SG': 2, 'SF': 3, 'PF': 4, 'C': 5}
-        return order.get(primary_pos, 99)
-    
-    merged_df['Pos_Rank'] = merged_df['position'].apply(position_rank)
-    meta_lookup = dff_df[['team', 'opp', 'spread', 'over_under']].drop_duplicates().set_index('team').to_dict('index')
-    logo_base = "https://a.espncdn.com/i/teamlogos/nba/500/"
-    
-    games_list = []
+    teams_list = list(scraped_rosters.keys())
+    games_output = []
     processed_teams = set()
     
-    # Combine teams from data and web to ensure we catch everything
-    all_teams = list(set(list(merged_df['team'].unique()) + list(web_starters.keys())))
+    utc_now = datetime.utcnow()
+    et_now = utc_now - timedelta(hours=5)
+    formatted_time = et_now.strftime("%b %d, %I:%M %p ET")
     
-    for team in all_teams:
-        if team in processed_teams: continue
+    print("\n--- MATCHING PLAYERS ---")
+
+    for i in range(0, len(teams_list), 2):
+        if i+1 >= len(teams_list): break
         
-        team_row = dff_df[dff_df['team'] == team]
-        if team_row.empty: continue
-        opp = normalize_team(team_row.iloc[0]['opp'])
+        team_a = teams_list[i]
+        team_b = teams_list[i+1]
         
-        processed_teams.add(team)
-        processed_teams.add(opp)
+        game_time = game_times.get(team_a, "7:00 PM")
         
-        meta = meta_lookup.get(team, {})
-        spread = meta.get('spread', 0)
-        spread_str = f"{spread}" if spread < 0 else f"+{spread}"
+        # Lookup Spread/Total from CSV if possible
+        spread_str = "TBD"
+        total_str = "TBD"
         
-        game_time = web_times.get(team, "7:00 PM")
-        sort_val = parse_time_to_minutes(game_time)
-        
+        if not stats_df.empty:
+            meta_row = stats_df[stats_df['norm_team'] == team_a]
+            if not meta_row.empty:
+                s = meta_row.iloc[0].get('spread', 0)
+                spread_str = f"{s}" if s < 0 else f"+{s}"
+                total_str = str(meta_row.iloc[0].get('over_under', 'TBD'))
+
         game_obj = {
-            "id": f"{team}-{opp}",
-            "sort_index": sort_val,
-            "teams": [team, opp],
+            "id": f"{team_a}-{team_b}",
+            "sort_index": parse_time_to_minutes(game_time),
+            "teams": [team_a, team_b],
             "meta": {
                 "spread": spread_str,
-                "total": str(meta.get('over_under', 'TBD')),
+                "total": total_str,
                 "time": game_time
             },
             "rosters": {}
         }
         
-        for current_team in [team, opp]:
-            # --- STRICT FILTER: ONLY PROJECTED STARTERS ---
-            starters_df = merged_df[
-                (merged_df['team'] == current_team) & 
-                (merged_df['status'] == 'projected_starter')
-            ].sort_values('Pos_Rank')
-            
+        # Process Roster for each team in this game
+        for team in [team_a, team_b]:
+            starters_names = scraped_rosters.get(team, [])
             player_list = []
             
-            if not starters_df.empty:
-                for _, p in starters_df.iterrows():
-                    val = p['ppg_projection'] / (p['salary']/1000) if p['salary'] > 0 else 0
-                    inj = str(p['injury_status']) if pd.notna(p['injury_status']) and str(p['injury_status']) != 'nan' else ""
+            # Loop through the SCRAPED names (Source of Truth)
+            for raw_name in starters_names:
+                clean = clean_player_name(raw_name)
+                
+                # Default Stats
+                p_data = {
+                    "pos": "Flex", # Placeholder
+                    "name": raw_name,
+                    "salary": 0,
+                    "proj": 0,
+                    "value": 0,
+                    "injury": ""
+                }
+                
+                # Try to find stats in CSV
+                if not stats_df.empty:
+                    # 1. Exact Match
+                    match = stats_df[
+                        (stats_df['norm_team'] == team) & 
+                        (stats_df['clean_name'] == clean)
+                    ]
                     
-                    player_list.append({
-                        "pos": p['position'],
-                        "name": f"{p['first_name']} {p['last_name']}",
-                        "salary": int(p['salary']),
-                        "proj": round(p['ppg_projection'], 1),
-                        "value": round(val, 2),
-                        "injury": inj
-                    })
-            else:
+                    # 2. Fallback: Last Name + First Initial
+                    if match.empty:
+                        parts = clean.split()
+                        if len(parts) >= 2:
+                            last = parts[-1]
+                            first_init = parts[0][0]
+                            match = stats_df[
+                                (stats_df['norm_team'] == team) & 
+                                (stats_df['last_name_lower'] == last) &
+                                (stats_df['first_initial'] == first_init)
+                            ]
+                    
+                    # 3. Fallback: Just Last Name (if unique)
+                    if match.empty and len(clean.split()) >= 2:
+                         last = clean.split()[-1]
+                         candidates = stats_df[
+                            (stats_df['norm_team'] == team) & 
+                            (stats_df['last_name_lower'] == last)
+                         ]
+                         if len(candidates) == 1:
+                             match = candidates
+
+                    # If found, update stats
+                    if not match.empty:
+                        row = match.iloc[0]
+                        val = 0
+                        if row['salary'] > 0:
+                            val = row['ppg_projection'] / (row['salary']/1000)
+                            
+                        p_data = {
+                            "pos": row['position'],
+                            "name": f"{row['first_name']} {row['last_name']}",
+                            "salary": int(row['salary']),
+                            "proj": round(row['ppg_projection'], 1),
+                            "value": round(val, 2),
+                            "injury": str(row['injury_status']) if pd.notna(row['injury_status']) else ""
+                        }
+                        print(f"  [MATCH] {raw_name} -> Found stats")
+                    else:
+                        print(f"  [NO STATS] {raw_name} -> Added without stats")
+                
+                player_list.append(p_data)
+            
+            # If scraper came up empty for this team
+            if not player_list:
                  player_list.append({
                     "pos": "-", "name": "Waiting for Lineup",
                     "salary": 0, "proj": 0, "value": 0, "injury": ""
                 })
 
-            game_obj['rosters'][current_team] = {
-                "logo": f"{logo_base}{current_team.lower()}.png",
+            game_obj['rosters'][team] = {
+                "logo": f"https://a.espncdn.com/i/teamlogos/nba/500/{team.lower()}.png",
                 "players": player_list
             }
-        
-        games_list.append(game_obj)
+            
+        games_output.append(game_obj)
+
+    # Sort
+    games_output.sort(key=lambda x: x['sort_index'])
+    for g in games_output: del g['sort_index']
     
-    games_list.sort(key=lambda x: x['sort_index'])
-    for g in games_list: del g['sort_index']
+    final_json = {
+        "last_updated": formatted_time,
+        "games": games_output
+    }
     
     with open('nba_data.json', 'w') as f:
-        json.dump(data_export, f, indent=2)
-    print("SUCCESS: nba_data.json updated.")
+        json.dump(final_json, f, indent=2)
+    
+    print(f"SUCCESS. Generated {len(games_output)} games.")
 
 if __name__ == "__main__":
     build_json()
