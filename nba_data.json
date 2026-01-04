@@ -1,11 +1,11 @@
 {
-  "last_updated": "Jan 03, 10:25 PM ET",
+  "last_updated": "Jan 03, 10:30 PM ET",
   "games": [
     {
-      "id": "MIN\r\n                                \r\n                                \u00a0\r\n                                125-MIA\r\n                                \r\n                                \u00a0\r\n                                115",
+      "id": "DET-CLE",
       "teams": [
-        "MIN\r\n                                \r\n                                \u00a0\r\n                                125",
-        "MIA\r\n                                \r\n                                \u00a0\r\n                                115"
+        "DET",
+        "CLE"
       ],
       "meta": {
         "spread": "TBD",
@@ -13,113 +13,797 @@
         "time": "7:00 PM"
       },
       "rosters": {
-        "MIN\r\n                                \r\n                                \u00a0\r\n                                125": {
-          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/min\r\n                                \r\n                                \u00a0\r\n                                125.png",
+        "DET": {
+          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/det.png",
           "players": [
             {
               "pos": "Flex",
+              "name": "Cade Cunningham",
+              "salary": 0,
+              "proj": 0,
+              "value": 0,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "Flex",
+              "name": "Duncan Robinson",
+              "salary": 0,
+              "proj": 0,
+              "value": 0,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "Flex",
+              "name": "Ausar Thompson",
+              "salary": 0,
+              "proj": 0,
+              "value": 0,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "Flex",
+              "name": "Javonte Green",
+              "salary": 0,
+              "proj": 0,
+              "value": 0,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "Flex",
+              "name": "Isaiah Stewart",
+              "salary": 0,
+              "proj": 0,
+              "value": 0,
+              "injury": "",
+              "verified": false
+            }
+          ]
+        },
+        "CLE": {
+          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/cle.png",
+          "players": [
+            {
+              "pos": "PG",
+              "name": "Darius Garland",
+              "salary": 7300,
+              "proj": 36.6,
+              "value": 5.01,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "SG",
+              "name": "Donovan Mitchell",
+              "salary": 9500,
+              "proj": 42.6,
+              "value": 4.48,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "PF",
+              "name": "Dean Wade",
+              "salary": 4100,
+              "proj": 14.2,
+              "value": 3.46,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "PF",
+              "name": "Evan Mobley",
+              "salary": 7500,
+              "proj": 36.1,
+              "value": 4.81,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "C",
+              "name": "Jarrett Allen",
+              "salary": 6600,
+              "proj": 29.3,
+              "value": 4.44,
+              "injury": "",
+              "verified": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "IND-ORL",
+      "teams": [
+        "IND",
+        "ORL"
+      ],
+      "meta": {
+        "spread": "+14.5",
+        "total": "221.5",
+        "time": "7:00 PM"
+      },
+      "rosters": {
+        "IND": {
+          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/ind.png",
+          "players": [
+            {
+              "pos": "PG",
+              "name": "Andrew Nembhard",
+              "salary": 6800,
+              "proj": 30.6,
+              "value": 4.5,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "SG",
+              "name": "Ben Sheppard",
+              "salary": 3800,
+              "proj": 6.0,
+              "value": 1.58,
+              "injury": "Q",
+              "verified": false
+            },
+            {
+              "pos": "SF",
+              "name": "Aaron Nesmith",
+              "salary": 5200,
+              "proj": 19.1,
+              "value": 3.67,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "PF",
+              "name": "Pascal Siakam",
+              "salary": 8400,
+              "proj": 39.0,
+              "value": 4.64,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "PF",
+              "name": "Micah Potter",
+              "salary": 3500,
+              "proj": 6.7,
+              "value": 1.91,
+              "injury": "",
+              "verified": false
+            }
+          ]
+        },
+        "ORL": {
+          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/orl.png",
+          "players": [
+            {
+              "pos": "PG",
+              "name": "Tyus Jones",
+              "salary": 4000,
+              "proj": 18.8,
+              "value": 4.7,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "PG",
+              "name": "Anthony Black",
+              "salary": 7700,
+              "proj": 27.4,
+              "value": 3.56,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "SG",
+              "name": "Desmond Bane",
+              "salary": 7600,
+              "proj": 34.8,
+              "value": 4.58,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "PF",
+              "name": "Paolo Banchero",
+              "salary": 9400,
+              "proj": 44.2,
+              "value": 4.7,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "C",
+              "name": "Wendell Carter",
+              "salary": 6100,
+              "proj": 29.6,
+              "value": 4.85,
+              "injury": "",
+              "verified": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "DEN-BKN",
+      "teams": [
+        "DEN",
+        "BKN"
+      ],
+      "meta": {
+        "spread": "-2.5",
+        "total": "245.5",
+        "time": "7:00 PM"
+      },
+      "rosters": {
+        "DEN": {
+          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/den.png",
+          "players": [
+            {
+              "pos": "PG",
+              "name": "Jamal Murray",
+              "salary": 8500,
+              "proj": 41.7,
+              "value": 4.91,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "SG",
+              "name": "Christian Braun",
+              "salary": 4200,
+              "proj": 0.0,
+              "value": 0.0,
+              "injury": "O",
+              "verified": false
+            },
+            {
+              "pos": "SF",
+              "name": "Peyton Watson",
+              "salary": 4900,
+              "proj": 25.5,
+              "value": 5.2,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "PF",
+              "name": "Aaron Gordon",
+              "salary": 5000,
+              "proj": 0.0,
+              "value": 0.0,
+              "injury": "O",
+              "verified": false
+            },
+            {
+              "pos": "Flex",
+              "name": "DaRon Holmes II",
+              "salary": 0,
+              "proj": 0,
+              "value": 0,
+              "injury": "",
+              "verified": false
+            }
+          ]
+        },
+        "BKN": {
+          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/bkn.png",
+          "players": [
+            {
+              "pos": "PG",
+              "name": "Egor Demin",
+              "salary": 4900,
+              "proj": 25.2,
+              "value": 5.14,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "SG",
+              "name": "Terance Mann",
+              "salary": 4300,
+              "proj": 18.6,
+              "value": 4.33,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "SF",
+              "name": "Michael Porter",
+              "salary": 8500,
+              "proj": 35.2,
+              "value": 4.14,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "PF",
+              "name": "Noah Clowney",
+              "salary": 5600,
+              "proj": 27.4,
+              "value": 4.89,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "C",
+              "name": "Day'Ron Sharpe",
+              "salary": 4900,
+              "proj": 21.4,
+              "value": 4.37,
+              "injury": "",
+              "verified": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "MIN-WAS",
+      "teams": [
+        "MIN",
+        "WAS"
+      ],
+      "meta": {
+        "spread": "-5.5",
+        "total": "239.5",
+        "time": "7:00 PM"
+      },
+      "rosters": {
+        "MIN": {
+          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/min.png",
+          "players": [
+            {
+              "pos": "PG",
               "name": "Donte DiVincenzo",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
+              "salary": 6300,
+              "proj": 29.4,
+              "value": 4.67,
               "injury": "",
-              "verified": true
+              "verified": false
             },
             {
-              "pos": "Flex",
+              "pos": "SG",
               "name": "Anthony Edwards",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
+              "salary": 9800,
+              "proj": 47.2,
+              "value": 4.82,
               "injury": "",
-              "verified": true
+              "verified": false
             },
             {
-              "pos": "Flex",
+              "pos": "SF",
               "name": "Jaden McDaniels",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
+              "salary": 6400,
+              "proj": 29.8,
+              "value": 4.66,
               "injury": "",
-              "verified": true
+              "verified": false
             },
             {
-              "pos": "Flex",
+              "pos": "PF",
               "name": "Julius Randle",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
+              "salary": 7700,
+              "proj": 38.5,
+              "value": 5.0,
               "injury": "",
-              "verified": true
+              "verified": false
             },
             {
-              "pos": "Flex",
+              "pos": "C",
               "name": "Rudy Gobert",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
+              "salary": 6800,
+              "proj": 36.0,
+              "value": 5.29,
               "injury": "",
-              "verified": true
+              "verified": false
             }
           ]
         },
-        "MIA\r\n                                \r\n                                \u00a0\r\n                                115": {
-          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/mia\r\n                                \r\n                                \u00a0\r\n                                115.png",
+        "WAS": {
+          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/was.png",
           "players": [
             {
-              "pos": "Flex",
+              "pos": "PG",
+              "name": "CJ McCollum",
+              "salary": 6200,
+              "proj": 28.9,
+              "value": 4.66,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "PG",
+              "name": "Tre Johnson",
+              "salary": 4100,
+              "proj": 18.6,
+              "value": 4.54,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "PF",
+              "name": "Khris Middleton",
+              "salary": 4300,
+              "proj": 22.8,
+              "value": 5.3,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "SF",
+              "name": "Bilal Coulibaly",
+              "salary": 5400,
+              "proj": 23.8,
+              "value": 4.41,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "C",
+              "name": "Alex Sarr",
+              "salary": 7300,
+              "proj": 33.8,
+              "value": 4.63,
+              "injury": "",
+              "verified": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "NOP-MIA",
+      "teams": [
+        "NOP",
+        "MIA"
+      ],
+      "meta": {
+        "spread": "+8.5",
+        "total": "242.5",
+        "time": "7:00 PM"
+      },
+      "rosters": {
+        "NOP": {
+          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/nop.png",
+          "players": [
+            {
+              "pos": "PG",
+              "name": "Jeremiah Fears",
+              "salary": 5600,
+              "proj": 23.1,
+              "value": 4.13,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "PG",
+              "name": "Jordan Poole",
+              "salary": 5300,
+              "proj": 26.7,
+              "value": 5.04,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "SG",
+              "name": "Trey Murphy",
+              "salary": 7500,
+              "proj": 36.0,
+              "value": 4.8,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "PF",
+              "name": "Zion Williamson",
+              "salary": 7400,
+              "proj": 37.6,
+              "value": 5.08,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "C",
+              "name": "Derik Queen",
+              "salary": 7300,
+              "proj": 26.8,
+              "value": 3.67,
+              "injury": "",
+              "verified": false
+            }
+          ]
+        },
+        "MIA": {
+          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/mia.png",
+          "players": [
+            {
+              "pos": "PG",
               "name": "Davion Mitchell",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
+              "salary": 5500,
+              "proj": 19.2,
+              "value": 3.49,
               "injury": "",
-              "verified": true
+              "verified": false
             },
             {
-              "pos": "Flex",
+              "pos": "SG",
               "name": "Norman Powell",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
+              "salary": 7500,
+              "proj": 29.3,
+              "value": 3.91,
               "injury": "",
-              "verified": true
+              "verified": false
             },
             {
-              "pos": "Flex",
+              "pos": "PF",
               "name": "Andrew Wiggins",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
+              "salary": 6300,
+              "proj": 32.1,
+              "value": 5.1,
               "injury": "",
-              "verified": true
+              "verified": false
             },
             {
-              "pos": "Flex",
+              "pos": "C",
               "name": "Bam Adebayo",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
+              "salary": 7500,
+              "proj": 39.0,
+              "value": 5.2,
+              "injury": "Q",
+              "verified": false
             },
             {
-              "pos": "Flex",
+              "pos": "C",
               "name": "Kel'el Ware",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
+              "salary": 7200,
+              "proj": 27.6,
+              "value": 3.83,
               "injury": "",
-              "verified": true
+              "verified": false
             }
           ]
         }
       }
     },
     {
-      "id": "ATL\r\n                                \r\n                                \u00a0\r\n                                117-TOR\r\n                                \r\n                                \u00a0\r\n                                134",
+      "id": "OKC-PHX",
       "teams": [
-        "ATL\r\n                                \r\n                                \u00a0\r\n                                117",
-        "TOR\r\n                                \r\n                                \u00a0\r\n                                134"
+        "OKC",
+        "PHX"
+      ],
+      "meta": {
+        "spread": "+nan",
+        "total": "nan",
+        "time": "7:00 PM"
+      },
+      "rosters": {
+        "OKC": {
+          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/okc.png",
+          "players": [
+            {
+              "pos": "PG",
+              "name": "Shai Gilgeous-Alexander",
+              "salary": 10900,
+              "proj": 47.3,
+              "value": 4.34,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "PG",
+              "name": "Cason Wallace",
+              "salary": 4300,
+              "proj": 20.7,
+              "value": 4.81,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "SG",
+              "name": "Luguentz Dort",
+              "salary": 4200,
+              "proj": 17.9,
+              "value": 4.26,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "SF",
+              "name": "Jalen Williams",
+              "salary": 8000,
+              "proj": 36.4,
+              "value": 4.55,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "PF",
+              "name": "Chet Holmgren",
+              "salary": 6800,
+              "proj": 34.6,
+              "value": 5.09,
+              "injury": "",
+              "verified": false
+            }
+          ]
+        },
+        "PHX": {
+          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/phx.png",
+          "players": [
+            {
+              "pos": "PG",
+              "name": "Collin Gillespie",
+              "salary": 6700,
+              "proj": 31.0,
+              "value": 4.63,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "PG",
+              "name": "Devin Booker",
+              "salary": 9100,
+              "proj": 42.6,
+              "value": 4.68,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "SF",
+              "name": "Royce O'Neale",
+              "salary": 5100,
+              "proj": 26.3,
+              "value": 5.16,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "SF",
+              "name": "Dillon Brooks",
+              "salary": 6100,
+              "proj": 29.0,
+              "value": 4.75,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "C",
+              "name": "Mark Williams",
+              "salary": 6200,
+              "proj": 0.0,
+              "value": 0.0,
+              "injury": "O",
+              "verified": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "MIL-SAC",
+      "teams": [
+        "MIL",
+        "SAC"
+      ],
+      "meta": {
+        "spread": "-3.5",
+        "total": "227.5",
+        "time": "7:00 PM"
+      },
+      "rosters": {
+        "MIL": {
+          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/mil.png",
+          "players": [
+            {
+              "pos": "PG",
+              "name": "Ryan Rollins",
+              "salary": 7100,
+              "proj": 29.3,
+              "value": 4.13,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "PG",
+              "name": "Kevin Porter",
+              "salary": 8700,
+              "proj": 38.3,
+              "value": 4.4,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "SG",
+              "name": "AJ Green",
+              "salary": 4100,
+              "proj": 17.3,
+              "value": 4.22,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "PF",
+              "name": "Giannis Antetokounmpo",
+              "salary": 10500,
+              "proj": 46.2,
+              "value": 4.4,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "C",
+              "name": "Myles Turner",
+              "salary": 5500,
+              "proj": 29.4,
+              "value": 5.35,
+              "injury": "",
+              "verified": false
+            }
+          ]
+        },
+        "SAC": {
+          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/sac.png",
+          "players": [
+            {
+              "pos": "Flex",
+              "name": "Russell Westbrook",
+              "salary": 0,
+              "proj": 0,
+              "value": 0,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "Flex",
+              "name": "Zach LaVine",
+              "salary": 0,
+              "proj": 0,
+              "value": 0,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "Flex",
+              "name": "DeMar DeRozan",
+              "salary": 0,
+              "proj": 0,
+              "value": 0,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "Flex",
+              "name": "Keegan Murray",
+              "salary": 0,
+              "proj": 0,
+              "value": 0,
+              "injury": "",
+              "verified": false
+            },
+            {
+              "pos": "Flex",
+              "name": "Maxime Raynaud",
+              "salary": 0,
+              "proj": 0,
+              "value": 0,
+              "injury": "",
+              "verified": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "MEM-LAL",
+      "teams": [
+        "MEM",
+        "LAL"
       ],
       "meta": {
         "spread": "TBD",
@@ -127,787 +811,94 @@
         "time": "7:00 PM"
       },
       "rosters": {
-        "ATL\r\n                                \r\n                                \u00a0\r\n                                117": {
-          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/atl\r\n                                \r\n                                \u00a0\r\n                                117.png",
+        "MEM": {
+          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/mem.png",
           "players": [
             {
               "pos": "Flex",
-              "name": "Nickeil Alexander-Walker",
+              "name": "Ja Morant",
               "salary": 0,
               "proj": 0,
               "value": 0,
               "injury": "",
-              "verified": true
+              "verified": false
             },
             {
               "pos": "Flex",
-              "name": "Dyson Daniels",
+              "name": "Jaylen Wells",
               "salary": 0,
               "proj": 0,
               "value": 0,
               "injury": "",
-              "verified": true
+              "verified": false
             },
             {
               "pos": "Flex",
-              "name": "Zaccharie Risacher",
+              "name": "Cedric Coward",
               "salary": 0,
               "proj": 0,
               "value": 0,
               "injury": "",
-              "verified": true
+              "verified": false
             },
             {
               "pos": "Flex",
-              "name": "Jalen Johnson",
+              "name": "Jaren Jackson Jr.",
               "salary": 0,
               "proj": 0,
               "value": 0,
               "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Onyeka Okongwu",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
+              "verified": false
             }
           ]
         },
-        "TOR\r\n                                \r\n                                \u00a0\r\n                                134": {
-          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/tor\r\n                                \r\n                                \u00a0\r\n                                134.png",
+        "LAL": {
+          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/lal.png",
           "players": [
             {
               "pos": "Flex",
-              "name": "Immanuel Quickley",
+              "name": "Luka Doncic",
               "salary": 0,
               "proj": 0,
               "value": 0,
               "injury": "",
-              "verified": true
+              "verified": false
             },
             {
               "pos": "Flex",
-              "name": "R.J. Barrett",
+              "name": "Marcus Smart",
               "salary": 0,
               "proj": 0,
               "value": 0,
               "injury": "",
-              "verified": true
+              "verified": false
             },
             {
               "pos": "Flex",
-              "name": "Brandon Ingram",
+              "name": "Jake LaRavia",
               "salary": 0,
               "proj": 0,
               "value": 0,
               "injury": "",
-              "verified": true
+              "verified": false
             },
             {
               "pos": "Flex",
-              "name": "Scottie Barnes",
+              "name": "LeBron James",
               "salary": 0,
               "proj": 0,
               "value": 0,
               "injury": "",
-              "verified": true
+              "verified": false
             },
             {
               "pos": "Flex",
-              "name": "Collin Murray-Boyles",
+              "name": "Deandre Ayton",
               "salary": 0,
               "proj": 0,
               "value": 0,
               "injury": "",
-              "verified": true
-            }
-          ]
-        }
-      }
-    },
-    {
-      "id": "PHI\r\n                                \r\n                                \u00a0\r\n                                130-NYK\r\n                                \r\n                                \u00a0\r\n                                119",
-      "teams": [
-        "PHI\r\n                                \r\n                                \u00a0\r\n                                130",
-        "NYK\r\n                                \r\n                                \u00a0\r\n                                119"
-      ],
-      "meta": {
-        "spread": "TBD",
-        "total": "TBD",
-        "time": "7:00 PM"
-      },
-      "rosters": {
-        "PHI\r\n                                \r\n                                \u00a0\r\n                                130": {
-          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/phi\r\n                                \r\n                                \u00a0\r\n                                130.png",
-          "players": [
-            {
-              "pos": "Flex",
-              "name": "Tyrese Maxey",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "VJ Edgecombe",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Paul George",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Dominick Barlow",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Joel Embiid",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            }
-          ]
-        },
-        "NYK\r\n                                \r\n                                \u00a0\r\n                                119": {
-          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/nyk\r\n                                \r\n                                \u00a0\r\n                                119.png",
-          "players": [
-            {
-              "pos": "Flex",
-              "name": "Jalen Brunson",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Mikal Bridges",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "O.G. Anunoby",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Karl-Anthony Towns",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Mitchell Robinson",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            }
-          ]
-        }
-      }
-    },
-    {
-      "id": "POR\r\n                                \r\n                                \u00a0\r\n                                111-SAS\r\n                                \r\n                                \u00a0\r\n                                110",
-      "teams": [
-        "POR\r\n                                \r\n                                \u00a0\r\n                                111",
-        "SAS\r\n                                \r\n                                \u00a0\r\n                                110"
-      ],
-      "meta": {
-        "spread": "TBD",
-        "total": "TBD",
-        "time": "7:00 PM"
-      },
-      "rosters": {
-        "POR\r\n                                \r\n                                \u00a0\r\n                                111": {
-          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/por\r\n                                \r\n                                \u00a0\r\n                                111.png",
-          "players": [
-            {
-              "pos": "Flex",
-              "name": "Deni Avdija",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Shaedon Sharpe",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Toumani Camara",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Kris Murray",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Donovan Clingan",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            }
-          ]
-        },
-        "SAS\r\n                                \r\n                                \u00a0\r\n                                110": {
-          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/sas\r\n                                \r\n                                \u00a0\r\n                                110.png",
-          "players": [
-            {
-              "pos": "Flex",
-              "name": "De'Aaron Fox",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Stephon Castle",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Julian Champagnie",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Harrison Barnes",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Luke Kornet",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            }
-          ]
-        }
-      }
-    },
-    {
-      "id": "CHA\r\n                                \r\n                                \u00a0\r\n                                112-CHI\r\n                                \r\n                                \u00a0\r\n                                99",
-      "teams": [
-        "CHA\r\n                                \r\n                                \u00a0\r\n                                112",
-        "CHI\r\n                                \r\n                                \u00a0\r\n                                99"
-      ],
-      "meta": {
-        "spread": "TBD",
-        "total": "TBD",
-        "time": "7:00 PM"
-      },
-      "rosters": {
-        "CHA\r\n                                \r\n                                \u00a0\r\n                                112": {
-          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/cha\r\n                                \r\n                                \u00a0\r\n                                112.png",
-          "players": [
-            {
-              "pos": "Flex",
-              "name": "LaMelo Ball",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Kon Knueppel",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Brandon Miller",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Miles Bridges",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "PJ Hall",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            }
-          ]
-        },
-        "CHI\r\n                                \r\n                                \u00a0\r\n                                99": {
-          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/chi\r\n                                \r\n                                \u00a0\r\n                                99.png",
-          "players": [
-            {
-              "pos": "Flex",
-              "name": "Tre Jones",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Isaac Okoro",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Matas Buzelis",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Jalen Smith",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Nikola Vucevic",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            }
-          ]
-        }
-      }
-    },
-    {
-      "id": "HOU\r\n                                \r\n                                \u00a0\r\n                                77-DAL\r\n                                \r\n                                \u00a0\r\n                                92",
-      "teams": [
-        "HOU\r\n                                \r\n                                \u00a0\r\n                                77",
-        "DAL\r\n                                \r\n                                \u00a0\r\n                                92"
-      ],
-      "meta": {
-        "spread": "TBD",
-        "total": "TBD",
-        "time": "7:00 PM"
-      },
-      "rosters": {
-        "HOU\r\n                                \r\n                                \u00a0\r\n                                77": {
-          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/hou\r\n                                \r\n                                \u00a0\r\n                                77.png",
-          "players": [
-            {
-              "pos": "Flex",
-              "name": "Amen Thompson",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Kevin Durant",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Tari Eason",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Jabari Smith Jr.",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Alperen Sengun",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            }
-          ]
-        },
-        "DAL\r\n                                \r\n                                \u00a0\r\n                                92": {
-          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/dal\r\n                                \r\n                                \u00a0\r\n                                92.png",
-          "players": [
-            {
-              "pos": "Flex",
-              "name": "Cooper Flagg",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Max Christie",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "PJ Washington",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Anthony Davis",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Daniel Gafford",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            }
-          ]
-        }
-      }
-    },
-    {
-      "id": "UTA\r\n                                \r\n                                \u00a0\r\n                                18-GSW\r\n                                \r\n                                \u00a0\r\n                                13",
-      "teams": [
-        "UTA\r\n                                \r\n                                \u00a0\r\n                                18",
-        "GSW\r\n                                \r\n                                \u00a0\r\n                                13"
-      ],
-      "meta": {
-        "spread": "TBD",
-        "total": "TBD",
-        "time": "7:00 PM"
-      },
-      "rosters": {
-        "UTA\r\n                                \r\n                                \u00a0\r\n                                18": {
-          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/uta\r\n                                \r\n                                \u00a0\r\n                                18.png",
-          "players": [
-            {
-              "pos": "Flex",
-              "name": "Keyonte George",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Svi Mykhailiuk",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Brice Sensabaugh",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Lauri Markkanen",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Kevin Love",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            }
-          ]
-        },
-        "GSW\r\n                                \r\n                                \u00a0\r\n                                13": {
-          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/gsw\r\n                                \r\n                                \u00a0\r\n                                13.png",
-          "players": [
-            {
-              "pos": "Flex",
-              "name": "Stephen Curry",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Moses Moody",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Jimmy Butler",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Draymond Green",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Quinten Post",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            }
-          ]
-        }
-      }
-    },
-    {
-      "id": "BOS-LAC",
-      "teams": [
-        "BOS",
-        "LAC"
-      ],
-      "meta": {
-        "spread": "TBD",
-        "total": "TBD",
-        "time": "7:00 PM"
-      },
-      "rosters": {
-        "BOS": {
-          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/bos.png",
-          "players": [
-            {
-              "pos": "Flex",
-              "name": "Derrick White",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Payton Pritchard",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Jaylen Brown",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Sam Hauser",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Neemias Queta",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            }
-          ]
-        },
-        "LAC": {
-          "logo": "https://a.espncdn.com/i/teamlogos/nba/500/lac.png",
-          "players": [
-            {
-              "pos": "Flex",
-              "name": "James Harden",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Kris Dunn",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Kawhi Leonard",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "John Collins",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
-            },
-            {
-              "pos": "Flex",
-              "name": "Brook Lopez",
-              "salary": 0,
-              "proj": 0,
-              "value": 0,
-              "injury": "",
-              "verified": true
+              "verified": false
             }
           ]
         }
