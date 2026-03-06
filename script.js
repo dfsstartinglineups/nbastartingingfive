@@ -148,34 +148,56 @@ async function init(dateToFetch) {
             }
 
             // --- OFFICIAL VS PROJECTED LOGIC ---
-            let awayIsProjected = false;
+            let awayIsProjected = true;
             let awayStarters = [];
+
+            // 1. Check Local JSON first
+            let localAwayPlayers = (localGameMatch && localGameMatch.rosters && localAwayKey && localGameMatch.rosters[localAwayKey]) ? localGameMatch.rosters[localAwayKey].players : null;
             
-            if (awayTeamData.starters && awayTeamData.starters.length > 0) {
-                awayStarters = awayTeamData.starters; // 1. Official ESPN Starters
-            } else if (localGameMatch && localGameMatch.rosters && localAwayKey && localGameMatch.rosters[localAwayKey]) {
-                awayStarters = localGameMatch.rosters[localAwayKey].players.map(p => ({
+            // Validate if ALL players in the local JSON are verified
+            let isLocalAwayVerified = localAwayPlayers && localAwayPlayers.length > 0 ? localAwayPlayers.every(p => p.verified === true) : false;
+
+            if (isLocalAwayVerified) {
+                awayStarters = localAwayPlayers.map(p => ({
                     athlete: { displayName: p.name, position: { abbreviation: p.pos } }
                 }));
-                awayIsProjected = true; // 2. Local Custom Projections
+                awayIsProjected = false; // Tier 1: Local Custom Verified (Official)
+            } else if (awayTeamData.starters && awayTeamData.starters.length > 0) {
+                awayStarters = awayTeamData.starters;
+                awayIsProjected = false; // Tier 2: Official ESPN Starters
+            } else if (localAwayPlayers && localAwayPlayers.length > 0) {
+                awayStarters = localAwayPlayers.map(p => ({
+                    athlete: { displayName: p.name, position: { abbreviation: p.pos } }
+                }));
+                awayIsProjected = true;  // Tier 3: Local Custom Projections
             } else if (awayTeamData.probables && awayTeamData.probables.length > 0) {
                 awayStarters = awayTeamData.probables;
-                awayIsProjected = true; // 3. ESPN Fallback Projections
+                awayIsProjected = true;  // Tier 4: ESPN Fallback Projections
             }
 
-            let homeIsProjected = false;
+
+            let homeIsProjected = true;
             let homeStarters = [];
-            
-            if (homeTeamData.starters && homeTeamData.starters.length > 0) {
-                homeStarters = homeTeamData.starters;
-            } else if (localGameMatch && localGameMatch.rosters && localHomeKey && localGameMatch.rosters[localHomeKey]) {
-                homeStarters = localGameMatch.rosters[localHomeKey].players.map(p => ({
+
+            let localHomePlayers = (localGameMatch && localGameMatch.rosters && localHomeKey && localGameMatch.rosters[localHomeKey]) ? localGameMatch.rosters[localHomeKey].players : null;
+            let isLocalHomeVerified = localHomePlayers && localHomePlayers.length > 0 ? localHomePlayers.every(p => p.verified === true) : false;
+
+            if (isLocalHomeVerified) {
+                homeStarters = localHomePlayers.map(p => ({
                     athlete: { displayName: p.name, position: { abbreviation: p.pos } }
                 }));
-                homeIsProjected = true;
+                homeIsProjected = false; // Tier 1: Local Custom Verified (Official)
+            } else if (homeTeamData.starters && homeTeamData.starters.length > 0) {
+                homeStarters = homeTeamData.starters;
+                homeIsProjected = false; // Tier 2: Official ESPN Starters
+            } else if (localHomePlayers && localHomePlayers.length > 0) {
+                homeStarters = localHomePlayers.map(p => ({
+                    athlete: { displayName: p.name, position: { abbreviation: p.pos } }
+                }));
+                homeIsProjected = true;  // Tier 3: Local Custom Projections
             } else if (homeTeamData.probables && homeTeamData.probables.length > 0) {
                 homeStarters = homeTeamData.probables;
-                homeIsProjected = true;
+                homeIsProjected = true;  // Tier 4: ESPN Fallback Projections
             }
 
             // --- THE TIME MACHINE (Historical Games Override) ---
@@ -210,7 +232,6 @@ async function init(dateToFetch) {
                     if (!athlete.position) athlete.position = { abbreviation: "-" };
 
                     // Only overwrite generic/missing positions. 
-                    // (If your custom JSON specifically labeled them PG/SG, we keep yours!)
                     if (athlete.position.abbreviation === "Flex" || athlete.position.abbreviation === "G" || athlete.position.abbreviation === "F" || athlete.position.abbreviation === "C") {
                         if (TRUE_POS_BY_ID[pId]) {
                             athlete.position.abbreviation = TRUE_POS_BY_ID[pId];
