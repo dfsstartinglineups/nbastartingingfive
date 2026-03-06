@@ -26,6 +26,7 @@ async function init(dateToFetch) {
             </div>`;
     }
     
+    // Format date for ESPN API (YYYYMMDD)
     const espnDate = dateToFetch.replace(/-/g, '');
     const ESPN_API_URL = `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${espnDate}`;
     
@@ -40,7 +41,7 @@ async function init(dateToFetch) {
 
         const rawGames = scheduleData.events;
 
-        // --- TRUE POSITION ENGINE ---
+        // --- TRUE POSITION ENGINE (UPDATED) ---
         // 1. Gather unique team IDs from today's schedule
         const teamIds = new Set();
         rawGames.forEach(game => {
@@ -48,15 +49,19 @@ async function init(dateToFetch) {
             comp.competitors.forEach(c => teamIds.add(c.team.id));
         });
 
-        // 2. Parallel fetch all rosters to map exact PG/SG/SF/PF/C positions
+        // 2. Parallel fetch all rosters using the Master Team Endpoint
         const TRUE_POSITIONS = {};
         const rosterPromises = Array.from(teamIds).map(async (teamId) => {
             try {
-                const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/${teamId}/roster`);
+                // Using ?enable=roster returns a perfectly flat array of athletes
+                const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/${teamId}?enable=roster`);
                 const data = await res.json();
-                if (data.athletes && data.athletes.length > 0) {
-                    data.athletes[0].items.forEach(p => {
-                        TRUE_POSITIONS[p.id] = p.position.abbreviation;
+                
+                if (data.team && data.team.athletes) {
+                    data.team.athletes.forEach(p => {
+                        if (p.position && p.position.abbreviation) {
+                            TRUE_POSITIONS[p.id] = p.position.abbreviation;
+                        }
                     });
                 }
             } catch(e) { console.log(`Failed to load roster for team ${teamId}`); }
@@ -103,7 +108,8 @@ async function init(dateToFetch) {
                 }
             }
 
-            // Overwrite G/F/C with true positions from our Roster Engine
+            // --- INJECT TRUE POSITIONS ---
+            // Overwrite generic G/F/C with true PG/SG/SF/PF/C from our Roster Engine
             [awayStarters, homeStarters].forEach(starters => {
                 starters.forEach(p => {
                     const athlete = p.athlete || p;
