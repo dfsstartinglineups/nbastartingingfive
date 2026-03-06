@@ -16,6 +16,21 @@ function normalizeName(name) {
     return name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z]/g, "").toLowerCase();
 }
 
+// THE ROSETTA STONE: Translates ESPN's 2-letter codes into standard 3-letter NBA codes
+function getStandardAbbr(abbr) {
+    if (!abbr) return "";
+    const map = {
+        "NY": "NYK",
+        "NO": "NOP",
+        "SA": "SAS",
+        "GS": "GSW",
+        "WSH": "WAS",
+        "UTAH": "UTA"
+    };
+    const upper = abbr.toUpperCase();
+    return map[upper] || upper;
+}
+
 async function fetchLocalProbables() {
     try {
         console.log("Checking for local nba_data.json...");
@@ -47,7 +62,6 @@ async function init(dateToFetch) {
             </div>`;
     }
     
-    // Format date for ESPN API (YYYYMMDD)
     const espnDate = dateToFetch.replace(/-/g, '');
     const ESPN_API_URL = `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${espnDate}`;
     
@@ -87,7 +101,6 @@ async function init(dateToFetch) {
                     data.team.athletes.forEach(p => {
                         if (p.position && p.position.abbreviation) {
                             TRUE_POS_BY_ID[String(p.id)] = p.position.abbreviation;
-                            
                             const normName = normalizeName(p.displayName || p.fullName);
                             TRUE_POS_BY_NAME[normName] = p.position.abbreviation;
                         }
@@ -108,6 +121,9 @@ async function init(dateToFetch) {
             const homeAbbr = homeTeamData.team.abbreviation;
             const awayAbbr = awayTeamData.team.abbreviation;
 
+            const homeStd = getStandardAbbr(homeAbbr);
+            const awayStd = getStandardAbbr(awayAbbr);
+
             // Odds
             let odds = { spread: "TBD", overUnder: "TBD" };
             if (comp.odds && comp.odds.length > 0) {
@@ -115,43 +131,51 @@ async function init(dateToFetch) {
                 odds.overUnder = comp.odds[0].overUnder ? `O/U ${comp.odds[0].overUnder}` : "O/U TBD";
             }
 
-            // Find matching local game from nba_data.json
-            const localGameMatch = localProbables.find(g => 
-                g.teams && g.teams.includes(homeAbbr) && g.teams.includes(awayAbbr)
-            );
+            // Find matching local game using the Rosetta Stone Map
+            const localGameMatch = localProbables.find(g => {
+                if (!g.teams || g.teams.length < 2) return false;
+                const t1 = getStandardAbbr(g.teams[0]);
+                const t2 = getStandardAbbr(g.teams[1]);
+                return (t1 === homeStd || t1 === awayStd) && (t2 === homeStd || t2 === awayStd);
+            });
 
-            // --- OFFICIAL VS PROBABLE LOGIC ---
-            let awayIsProbable = false;
+            let localAwayKey = null;
+            let localHomeKey = null;
+
+            if (localGameMatch) {
+                localAwayKey = localGameMatch.teams.find(t => getStandardAbbr(t) === awayStd);
+                localHomeKey = localGameMatch.teams.find(t => getStandardAbbr(t) === homeStd);
+            }
+
+            // --- OFFICIAL VS PROJECTED LOGIC ---
+            let awayIsProjected = false;
             let awayStarters = [];
             
             if (awayTeamData.starters && awayTeamData.starters.length > 0) {
-                // 1. Official ESPN Starters exist
-                awayStarters = awayTeamData.starters;
-            } else if (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[awayAbbr]) {
-                // 2. Use your local nba_data.json
-                awayStarters = localGameMatch.rosters[awayAbbr].players.map(p => ({
+                awayStarters = awayTeamData.starters; // 1. Official ESPN Starters
+            } else if (localGameMatch && localGameMatch.rosters && localAwayKey && localGameMatch.rosters[localAwayKey]) {
+                awayStarters = localGameMatch.rosters[localAwayKey].players.map(p => ({
                     athlete: { displayName: p.name, position: { abbreviation: p.pos } }
                 }));
-                awayIsProbable = true;
+                awayIsProjected = true; // 2. Local Custom Projections
             } else if (awayTeamData.probables && awayTeamData.probables.length > 0) {
-                // 3. Fallback to ESPN Probables
                 awayStarters = awayTeamData.probables;
-                awayIsProbable = true;
+                awayIsProjected = true; // 3. ESPN Fallback Projections
             }
 
-            let homeIsProbable = false;
+            let homeIsProjected = false;
             let homeStarters = [];
             
             if (homeTeamData.starters && homeTeamData.starters.length > 0) {
                 homeStarters = homeTeamData.starters;
-            } else if (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[homeAbbr]) {
-                homeStarters = localGameMatch.rosters[homeAbbr].players.map(p => ({
+            } else if (localGameMatch && localGameMatch.rosters && localHomeKey && localGameMatch.rosters[localHomeKey]) {
+                homeStarters = localGameMatch.rosters[localHomeKey].players.map(p => ({
                     athlete: { displayName: p.name, position: { abbreviation: p.pos } }
                 }));
-                homeIsProbable = true;
+                homeIsProjected = true;
             } else if (homeTeamData.probables && homeTeamData.probables.length > 0) {
                 homeStarters = homeTeamData.probables;
-                homeIsProbable = true;
+                homeIsProjected = true;
             }
 
             // --- THE TIME MACHINE (Historical Games Override) ---
@@ -164,13 +188,13 @@ async function init(dateToFetch) {
                     const awayBox = playersBox.find(p => p.team.id === awayTeamData.team.id);
                     if (awayBox && awayBox.statistics && awayBox.statistics[0].athletes) {
                          const timeMachineStarters = awayBox.statistics[0].athletes.filter(a => a.starter).map(a => a.athlete);
-                         if (timeMachineStarters.length > 0) { awayStarters = timeMachineStarters; awayIsProbable = false; }
+                         if (timeMachineStarters.length > 0) { awayStarters = timeMachineStarters; awayIsProjected = false; }
                     }
                     
                     const homeBox = playersBox.find(p => p.team.id === homeTeamData.team.id);
                     if (homeBox && homeBox.statistics && homeBox.statistics[0].athletes) {
                          const timeMachineStarters = homeBox.statistics[0].athletes.filter(a => a.starter).map(a => a.athlete);
-                         if (timeMachineStarters.length > 0) { homeStarters = timeMachineStarters; homeIsProbable = false; }
+                         if (timeMachineStarters.length > 0) { homeStarters = timeMachineStarters; homeIsProjected = false; }
                     }
                 } catch (e) {}
             }
@@ -185,13 +209,16 @@ async function init(dateToFetch) {
 
                     if (!athlete.position) athlete.position = { abbreviation: "-" };
 
-                    if (TRUE_POS_BY_ID[pId]) {
-                        athlete.position.abbreviation = TRUE_POS_BY_ID[pId];
-                    } else if (TRUE_POS_BY_NAME[normName]) {
-                        athlete.position.abbreviation = TRUE_POS_BY_NAME[normName];
-                    } else if (athlete.position.abbreviation === 'Flex') {
-                        // Clean fallback if the player couldn't be matched
-                        athlete.position.abbreviation = 'F/G';
+                    // Only overwrite generic/missing positions. 
+                    // (If your custom JSON specifically labeled them PG/SG, we keep yours!)
+                    if (athlete.position.abbreviation === "Flex" || athlete.position.abbreviation === "G" || athlete.position.abbreviation === "F" || athlete.position.abbreviation === "C") {
+                        if (TRUE_POS_BY_ID[pId]) {
+                            athlete.position.abbreviation = TRUE_POS_BY_ID[pId];
+                        } else if (TRUE_POS_BY_NAME[normName]) {
+                            athlete.position.abbreviation = TRUE_POS_BY_NAME[normName];
+                        } else if (athlete.position.abbreviation === 'Flex') {
+                            athlete.position.abbreviation = 'F/G';
+                        }
                     }
                 });
             });
@@ -202,8 +229,8 @@ async function init(dateToFetch) {
                 away: awayTeamData,
                 homeStarters: homeStarters,
                 awayStarters: awayStarters,
-                homeIsProbable: homeIsProbable,
-                awayIsProbable: awayIsProbable,
+                homeIsProjected: homeIsProjected,
+                awayIsProjected: awayIsProjected,
                 odds: odds,
                 venue: comp.venue?.fullName || "TBD",
                 gameDate: new Date(game.date),
@@ -259,8 +286,8 @@ function createGameCard(data) {
     const gameDateShort = data.gameDate.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' });
 
     // --- TWITTER EXPORT ---
-    const generateTweetText = (teamName, players, opponent, isProbable) => {
-        const statusText = isProbable ? "Projected Starting Five" : "Official Starting Five";
+    const generateTweetText = (teamName, players, opponent, isProjected) => {
+        const statusText = isProjected ? "Projected Starting Five" : "Official Starting Five";
         let text = `🏀 ${gameDateShort} ${teamName} ${statusText}\nvs ${opponent}\n\n`;
         
         if(players && players.length > 0) {
@@ -278,13 +305,12 @@ function createGameCard(data) {
     };
 
     // --- LINEUP LIST BUILDER ---
-    const buildLineupList = (playersArray, isProbable) => {
+    const buildLineupList = (playersArray, isProjected) => {
         if (!playersArray || playersArray.length === 0) return `<div class="p-4 text-center text-muted small fw-bold">Lineup pending...</div>`;
         
-        // Render the Official vs Probable Banner
         let headerHtml = "";
-        if (isProbable) {
-            headerHtml = `<div class="w-100 text-center py-1 fw-bold text-dark" style="font-size: 0.65rem; background-color: #ffecb5; border-bottom: 1px solid #ffe69c; letter-spacing: 0.5px;">⚠️ PROBABLE</div>`;
+        if (isProjected) {
+            headerHtml = `<div class="w-100 text-center py-1 fw-bold text-dark" style="font-size: 0.65rem; background-color: #ffecb5; border-bottom: 1px solid #ffe69c; letter-spacing: 0.5px;">⚠️ PROJECTED</div>`;
         } else {
             headerHtml = `<div class="w-100 text-center py-1 fw-bold text-white" style="font-size: 0.65rem; background-color: #198754; border-bottom: 1px solid #146c43; letter-spacing: 0.5px;">✅ OFFICIAL</div>`;
         }
@@ -308,15 +334,15 @@ function createGameCard(data) {
         return `${headerHtml}<ul class="batting-order w-100 m-0 p-0" style="list-style-type: none;">${listItems}</ul>`;
     };
 
-    const awayLineupHtml = buildLineupList(data.awayStarters, data.awayIsProbable);
-    const homeLineupHtml = buildLineupList(data.homeStarters, data.homeIsProbable);
+    const awayLineupHtml = buildLineupList(data.awayStarters, data.awayIsProjected);
+    const homeLineupHtml = buildLineupList(data.homeStarters, data.homeIsProjected);
 
     const X_ICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" class="x-icon" viewBox="0 0 16 16"><path d="${X_SVG_PATH}"/></svg>`;
     
-    const awayTweetText = generateTweetText(awayName, data.awayStarters, homeName, data.awayIsProbable);
+    const awayTweetText = generateTweetText(awayName, data.awayStarters, homeName, data.awayIsProjected);
     const awayTweetBtn = `<button class="x-btn tweet-trigger" data-tweet="${encodeURIComponent(awayTweetText)}">${X_ICON_SVG}</button>`;
     
-    const homeTweetText = generateTweetText(homeName, data.homeStarters, awayName, data.homeIsProbable);
+    const homeTweetText = generateTweetText(homeName, data.homeStarters, awayName, data.homeIsProjected);
     const homeTweetBtn = `<button class="x-btn tweet-trigger" data-tweet="${encodeURIComponent(homeTweetText)}">${X_ICON_SVG}</button>`;
 
     gameCard.innerHTML = `
