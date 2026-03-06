@@ -26,7 +26,6 @@ async function init(dateToFetch) {
             </div>`;
     }
     
-    // Format date for ESPN API (YYYYMMDD)
     const espnDate = dateToFetch.replace(/-/g, '');
     const ESPN_API_URL = `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${espnDate}`;
     
@@ -40,6 +39,31 @@ async function init(dateToFetch) {
         }
 
         const rawGames = scheduleData.events;
+
+        // --- TRUE POSITION ENGINE ---
+        // 1. Gather unique team IDs from today's schedule
+        const teamIds = new Set();
+        rawGames.forEach(game => {
+            const comp = game.competitions[0];
+            comp.competitors.forEach(c => teamIds.add(c.team.id));
+        });
+
+        // 2. Parallel fetch all rosters to map exact PG/SG/SF/PF/C positions
+        const TRUE_POSITIONS = {};
+        const rosterPromises = Array.from(teamIds).map(async (teamId) => {
+            try {
+                const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/${teamId}/roster`);
+                const data = await res.json();
+                if (data.athletes && data.athletes.length > 0) {
+                    data.athletes[0].items.forEach(p => {
+                        TRUE_POSITIONS[p.id] = p.position.abbreviation;
+                    });
+                }
+            } catch(e) { console.log(`Failed to load roster for team ${teamId}`); }
+        });
+        
+        // Wait for all rosters to load simultaneously before drawing the cards
+        await Promise.all(rosterPromises);
 
         for (let i = 0; i < rawGames.length; i++) {
             const game = rawGames[i];
@@ -78,6 +102,17 @@ async function init(dateToFetch) {
                     console.log("Could not fetch historical boxscore for game: ", game.id);
                 }
             }
+
+            // Overwrite G/F/C with true positions from our Roster Engine
+            [awayStarters, homeStarters].forEach(starters => {
+                starters.forEach(p => {
+                    const athlete = p.athlete || p;
+                    if (TRUE_POSITIONS[athlete.id]) {
+                        if (!athlete.position) athlete.position = {};
+                        athlete.position.abbreviation = TRUE_POSITIONS[athlete.id];
+                    }
+                });
+            });
 
             ALL_GAMES_DATA.push({
                 gameRaw: game,
@@ -143,7 +178,10 @@ function createGameCard(data) {
     const generateTweetText = (teamName, players, opponent) => {
         let text = `🏀 ${gameDateShort} ${teamName} Starting Five\nvs ${opponent}\n\n`;
         if(players && players.length > 0) {
-            const playerStrings = players.map(p => `${p.position?.abbreviation || '-'} ${p.displayName || p.fullName}`);
+            const playerStrings = players.map(p => {
+                const athlete = p.athlete || p;
+                return `${athlete.position?.abbreviation || '-'} ${athlete.displayName || athlete.fullName}`;
+            });
             text += playerStrings.join('\n'); 
         } else {
             text += "Lineup not yet announced.\n";
@@ -156,7 +194,8 @@ function createGameCard(data) {
     const buildLineupList = (playersArray) => {
         if (!playersArray || playersArray.length === 0) return `<div class="p-4 text-center text-muted small fw-bold">Lineup pending...</div>`;
         
-        const listItems = playersArray.map((athlete) => {
+        const listItems = playersArray.map((athleteWrapper) => {
+            const athlete = athleteWrapper.athlete || athleteWrapper;
             let pos = athlete.position?.abbreviation || "-";
             let name = athlete.displayName || athlete.fullName;
             return `
