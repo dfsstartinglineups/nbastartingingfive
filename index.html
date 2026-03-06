@@ -3,147 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NBA Starting Five | Confirmed DFS Lineups & Projections</title>
+    <link rel="icon" href="/favicon.ico" sizes="any">
     
-    <meta name="description" content="Get up-to-the-minute confirmed NBA starting lineups for today's games. View salaries, projections, and value rankings for FanDuel DFS contests. Updated instantly.">
-    <meta property="og:title" content="NBA Starting Five | Confirmed DFS Lineups">
-    <meta property="og:image" content="https://nbastartingfive.com/nba_banner.png">
-    <meta property="og:url" content="https://nbastartingfive.com">
-    <meta property="og:type" content="website">
+    <title id="dynamic-title">Today's NBA Starting Lineups & Odds | NBAStartingFive</title>
+    
+    <meta name="description" id="dynamic-desc" content="Live NBA starting lineups, injury updates, point spreads, moneylines, and totals. Built for NBA DFS and sports bettors.">
+    <meta name="keywords" content="NBA starting lineups, NBA odds, NBA injuries, DFS lineups, basketball betting, NBA point spreads, over unders, NBA starting five">
 
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nbastartingfive.com/">
+    <meta property="og:title" content="Today's NBA Starting Lineups & Odds | NBAStartingFive">
+    <meta property="og:description" content="Live NBA starting lineups, injury updates, point spreads, moneylines, and totals.">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:domain" content="nbastartingfive.com">
+    <meta property="twitter:url" content="https://nbastartingfive.com/">
+    <meta name="twitter:title" content="Today's NBA Starting Lineups & Odds | NBAStartingFive">
+    <meta name="twitter:description" content="Live NBA starting lineups, injury updates, point spreads, moneylines, and totals.">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f4f9; color: #333; margin: 0; padding: 20px; }
-        .container { max_width: 1200px; margin: 0 auto; }
+        body { background-color: #f1f3f5; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         
-        /* BANNER */
-        .site-header { text-align: center; margin-bottom: 20px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); background: #fff; }
-        .site-logo { width: 100%; height: auto; display: block; object-fit: cover; }
+        /* Sleek Header - Upgraded for NBA */
+        .header-brand { 
+            font-weight: 900; 
+            letter-spacing: -1px; 
+            font-size: 2rem; 
+            color: #fff; 
+            font-style: italic; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5); 
+        }
+        .header-brand a {
+            color: inherit;
+        }
+        .header-brand span { 
+            text-shadow: none !important;
+            /* Fiery Red Gradient for "Five" */
+            background: linear-gradient(to bottom, #ff6b6b 0%, #dc3545 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 12px rgba(220, 53, 69, 0.8));
+        }
         
-        .update-time { text-align: center; color: #7f8c8d; font-size: 0.9em; margin-bottom: 30px; font-weight: bold; }
+        /* Lineup Card */
+        .lineup-card { 
+            background: #fff; 
+            border: 1px solid #dee2e6; 
+            border-radius: 12px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        /* Logos */
+        .team-logo {
+            width: 65px;
+            height: 65px;
+            object-fit: contain;
+            filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.1));
+        }
         
-        /* GAME CARD */
-        .game-card { background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 30px; overflow: hidden; }
-        .game-header { background-color: #2c3e50; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .game-title { font-size: 1.2em; font-weight: bold; }
-        .game-meta { font-size: 0.9em; color: #ecf0f1; }
+        /* Starting Five List */
+        .batting-order { padding-left: 0; list-style-type: none; margin-bottom: 0; }
+        .batting-order li {
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #f1f3f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .batting-order li:last-child { border-bottom: none; }
+        .batter-name { font-weight: 600; color: #495057; }
         
-        /* TEAMS */
-        .teams-container { display: flex; flex-wrap: wrap; }
-        .team-section { flex: 1; min-width: 300px; padding: 20px; border-right: 1px solid #eee; }
-        .team-section:last-child { border-right: none; }
-        .team-header { display: flex; align-items: center; border-bottom: 2px solid #3498db; padding-bottom: 5px; margin-bottom: 10px; }
-        .team-logo { width: 50px; height: 50px; margin-right: 15px; object-fit: contain; }
-        .team-name { font-size: 1.5em; font-weight: bold; }
+        /* --- X (Twitter) Share Button Styles --- */
+        .x-btn {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+        .x-btn:hover { background-color: #333; color: #fff; }
+        .x-icon { fill: currentColor; width: 14px; height: 14px; }
+
+        .visually-hidden-seo { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
         
-        /* TABLE */
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em; }
-        th { text-align: left; padding: 8px; border-bottom: 2px solid #ddd; color: #7f8c8d; }
-        td { padding: 8px; border-bottom: 1px solid #eee; }
-        
-        .pos { font-weight: bold; color: #7f8c8d; width: 40px; }
-        .name { font-weight: 600; }
-        .salary { color: #27ae60; }
-        .proj { font-weight: bold; }
-        .value { color: #d35400; }
-        
-        /* UPDATED STATUS STYLES */
-        .injury { color: #c0392b; font-size: 0.8em; font-weight: bold; margin-left: 5px; }
-        .verified { color: #2ecc71; margin-left: 5px; font-weight: bold; font-size: 1.1em; }
-        
-        #loading { text-align: center; padding: 50px; font-size: 1.5em; color: #7f8c8d; }
+        #team-search { color: #ffffff !important; color-scheme: dark; }
+        #team-search::placeholder { color: #adb5bd !important; opacity: 1; }
+        #team-search:focus { background-color: #495057 !important; color: #ffffff !important; border-color: #dc3545 !important; box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important; }
     </style>
-</head>
-<body>
-    <div class="container">
-        <div class="site-header">
-            <img src="logo.png" alt="NBA Starting Five" class="site-logo">
-        </div>
-        
-        <div id="last-updated" class="update-time">Loading...</div>
-        <div id="content">
-            <div id="loading">Loading live data...</div>
-        </div>
-    </div>
 
     <script>
-        async function loadData() {
-            try {
-                // Fetch with timestamp to prevent caching
-                const response = await fetch('nba_data.json?v=' + new Date().getTime()); 
-                const data = await response.json();
-                renderDashboard(data);
-            } catch (error) {
-                console.error('Error loading data:', error);
-                document.getElementById('content').innerHTML = '<div style="text-align:center; color:red">Error loading data. Please try again later.</div>';
-            }
-        }
+        window.updateSEO = function(dateStr) {
+            let dateObj = dateStr ? new Date(dateStr + 'T00:00:00') : new Date();
+            const formattedDate = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            
+            let titleText = `NBA Starting Lineups & Odds for ${formattedDate} | NBAStartingFive`;
+            let descText = `Live NBA starting lineups, point spreads, over/unders, and matchup stats for ${formattedDate}. Built for DFS and sports bettors.`;
+            
+            document.title = titleText;
+            document.querySelector('meta[name="description"]')?.setAttribute('content', descText);
+            document.querySelector('meta[property="og:title"]')?.setAttribute('content', titleText);
+            document.querySelector('meta[property="og:description"]')?.setAttribute('content', descText);
+        };
 
-        function renderDashboard(data) {
-            document.getElementById('last-updated').textContent = 'Last Updated: ' + data.last_updated;
-            const container = document.getElementById('content');
-            container.innerHTML = '';
-
-            if (data.games.length === 0) {
-                container.innerHTML = '<div style="text-align:center; padding:20px;">No games found or data is updating.</div>';
-                return;
-            }
-
-            data.games.forEach(game => {
-                const gameCard = document.createElement('div');
-                gameCard.className = 'game-card';
-
-                const headerHtml = `
-                    <div class="game-header">
-                        <div class="game-title">${game.teams[0]} vs ${game.teams[1]}</div>
-                        <div class="game-meta">${game.meta.time} | Spread: ${game.meta.spread} | Total: ${game.meta.total}</div>
-                    </div>
-                `;
-
-                let teamsHtml = '<div class="teams-container">';
-                game.teams.forEach(teamName => {
-                    const teamData = game.rosters[teamName];
-                    const logoSrc = teamData.logo || '';
-                    
-                    let rows = '';
-                    teamData.players.forEach(p => {
-                        const inj = p.injury ? `<span class="injury">${p.injury}</span>` : '';
-                        
-                        // CHECKMARK LOGIC
-                        const verified = p.verified ? `<span class="verified" title="Confirmed Starter">✔</span>` : '';
-
-                        rows += `
-                            <tr>
-                                <td class="pos">${p.pos}</td>
-                                <td class="name">${p.name} ${verified} ${inj}</td>
-                                <td class="salary">$${p.salary}</td>
-                                <td class="proj">${p.proj}</td>
-                                <td class="value">${p.value}x</td>
-                            </tr>
-                        `;
-                    });
-
-                    teamsHtml += `
-                        <div class="team-section">
-                            <div class="team-header">
-                                <img src="${logoSrc}" alt="${teamName}" class="team-logo">
-                                <div class="team-name">${teamName}</div>
-                            </div>
-                            <table>
-                                <thead><tr><th>Pos</th><th>Player</th><th>Sal</th><th>Proj</th><th>Val</th></tr></thead>
-                                <tbody>${rows}</tbody>
-                            </table>
-                        </div>
-                    `;
-                });
-                teamsHtml += '</div>';
-
-                gameCard.innerHTML = headerHtml + teamsHtml;
-                container.appendChild(gameCard);
-            });
-        }
-
-        loadData();
+        document.addEventListener('DOMContentLoaded', () => window.updateSEO());
     </script>
+</head>
+<body>
+
+<h1 id="seo-h1" class="visually-hidden-seo">Daily NBA Starting Lineups, Injuries, and Betting Odds</h1>
+
+<nav class="navbar shadow-sm py-3 mb-2" style="background-color: #212529;">
+    <div class="container d-flex justify-content-between align-items-center flex-wrap">
+        
+        <div class="header-brand mb-2 mb-md-0">
+            <a href="/" class="text-decoration-none">NBAStarting<span>Five</span></a>
+        </div>
+
+        <div class="d-flex align-items-center gap-3">
+            <input type="text" id="team-search" class="form-control form-control-sm w-auto" placeholder="🔍 Search Team..." style="background-color: #343a40; border: 1px solid #495057; max-width: 140px;">
+            <button id="global-toggle-btn" class="btn btn-sm fw-bold" style="background-color: #343a40; color: #adb5bd; border: 1px solid #495057;">[+] Expand All</button>
+            <input type="date" id="date-picker" class="form-control form-control-sm text-center fw-bold w-auto" style="background-color: #343a40; color: #fff; border: none; color-scheme: dark;">
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div id="games-container" class="row justify-content-center">
+    </div>
+</div>
+
+<div class="modal fade" id="tweetModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-dark text-white py-2">
+          <h6 class="modal-title fw-bold">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-twitter-x me-2" viewBox="0 0 16 16">
+                <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.875 11.633Z"/>
+            </svg>
+            Share Lineup
+          </h6>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="small text-muted mb-2">Edit post below, then copy to clipboard.</p>
+          <textarea id="tweet-textarea" class="form-control" rows="12" style="font-size: 0.85rem; font-family: monospace;"></textarea>
+        </div>
+        <div class="modal-footer py-1">
+          <button type="button" class="btn btn-sm btn-dark w-100 fw-bold" id="copy-tweet-btn">
+              📋 Copy to Clipboard
+          </button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
-
