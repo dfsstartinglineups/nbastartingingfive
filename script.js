@@ -48,17 +48,43 @@ async function init(dateToFetch) {
             const homeTeamData = comp.competitors.find(c => c.homeAway === 'home');
             const awayTeamData = comp.competitors.find(c => c.homeAway === 'away');
 
-            // ESPN directly provides odds inside the scoreboard payload
             let odds = { spread: "TBD", overUnder: "TBD" };
             if (comp.odds && comp.odds.length > 0) {
                 odds.spread = comp.odds[0].details || "TBD";
                 odds.overUnder = comp.odds[0].overUnder ? `O/U ${comp.odds[0].overUnder}` : "O/U TBD";
             }
 
+            // --- THE TIME MACHINE: Fetch Historical Starters if Game is Over ---
+            let awayStarters = awayTeamData.probables || awayTeamData.starters || [];
+            let homeStarters = homeTeamData.probables || homeTeamData.starters || [];
+
+            if (awayStarters.length === 0 && game.status.type.state === 'post') {
+                try {
+                    const summaryRes = await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=${game.id}`);
+                    const summaryData = await summaryRes.json();
+                    
+                    const playersBox = summaryData.boxscore?.players || [];
+                    
+                    const awayBox = playersBox.find(p => p.team.id === awayTeamData.team.id);
+                    if (awayBox && awayBox.statistics && awayBox.statistics[0].athletes) {
+                         awayStarters = awayBox.statistics[0].athletes.filter(a => a.starter).map(a => a.athlete);
+                    }
+                    
+                    const homeBox = playersBox.find(p => p.team.id === homeTeamData.team.id);
+                    if (homeBox && homeBox.statistics && homeBox.statistics[0].athletes) {
+                         homeStarters = homeBox.statistics[0].athletes.filter(a => a.starter).map(a => a.athlete);
+                    }
+                } catch (e) {
+                    console.log("Could not fetch historical boxscore for game: ", game.id);
+                }
+            }
+
             ALL_GAMES_DATA.push({
                 gameRaw: game,
                 home: homeTeamData,
                 away: awayTeamData,
+                homeStarters: homeStarters,
+                awayStarters: awayStarters,
                 odds: odds,
                 venue: comp.venue?.fullName || "TBD",
                 gameDate: new Date(game.date),
@@ -117,7 +143,7 @@ function createGameCard(data) {
     const generateTweetText = (teamName, players, opponent) => {
         let text = `🏀 ${gameDateShort} ${teamName} Starting Five\nvs ${opponent}\n\n`;
         if(players && players.length > 0) {
-            const playerStrings = players.map(p => `${p.position || '-'} ${p.fullName}`);
+            const playerStrings = players.map(p => `${p.position?.abbreviation || '-'} ${p.displayName || p.fullName}`);
             text += playerStrings.join('\n'); 
         } else {
             text += "Lineup not yet announced.\n";
@@ -127,21 +153,18 @@ function createGameCard(data) {
         return text;
     };
 
-    const buildLineupList = (teamData) => {
-        // ESPN usually populates 'probables' or 'starters' when lineups lock
-        const playersArray = teamData.probables || teamData.starters || [];
-        
+    const buildLineupList = (playersArray) => {
         if (!playersArray || playersArray.length === 0) return `<div class="p-4 text-center text-muted small fw-bold">Lineup pending...</div>`;
         
-        const listItems = playersArray.map((p) => {
-            const athlete = p.athlete || p;
+        const listItems = playersArray.map((athlete) => {
             let pos = athlete.position?.abbreviation || "-";
+            let name = athlete.displayName || athlete.fullName;
             return `
                 <li class="d-flex flex-column w-100 px-2 py-1 border-bottom">
                     <div class="d-flex justify-content-between align-items-center w-100 player-toggle" style="cursor: pointer;">
                         <div class="text-truncate pe-1">
                             <span class="text-muted fw-bold d-inline-block text-start" style="font-size: 0.7rem; width: 25px;">${pos}</span>
-                            <span class="batter-name fw-bold text-dark" style="font-size: 0.85rem;" title="${athlete.displayName}">${athlete.displayName}</span>
+                            <span class="batter-name fw-bold text-dark" style="font-size: 0.85rem;" title="${name}">${name}</span>
                         </div>
                         <div><span class="badge bg-light text-secondary border toggle-icon" style="width: 24px;">+</span></div>
                     </div>
@@ -150,18 +173,15 @@ function createGameCard(data) {
         return `<ul class="batting-order w-100 m-0 p-0" style="list-style-type: none;">${listItems}</ul>`;
     };
 
-    const awayLineupHtml = buildLineupList(away);
-    const homeLineupHtml = buildLineupList(home);
+    const awayLineupHtml = buildLineupList(data.awayStarters);
+    const homeLineupHtml = buildLineupList(data.homeStarters);
 
     const X_ICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" class="x-icon" viewBox="0 0 16 16"><path d="${X_SVG_PATH}"/></svg>`;
     
-    // Pass empty array if starters aren't out yet so the modal still works
-    const awayStarters = away.probables || away.starters || [];
-    const awayTweetText = generateTweetText(awayName, awayStarters, homeName);
+    const awayTweetText = generateTweetText(awayName, data.awayStarters, homeName);
     const awayTweetBtn = `<button class="x-btn tweet-trigger" data-tweet="${encodeURIComponent(awayTweetText)}">${X_ICON_SVG}</button>`;
     
-    const homeStarters = home.probables || home.starters || [];
-    const homeTweetText = generateTweetText(homeName, homeStarters, awayName);
+    const homeTweetText = generateTweetText(homeName, data.homeStarters, awayName);
     const homeTweetBtn = `<button class="x-btn tweet-trigger" data-tweet="${encodeURIComponent(homeTweetText)}">${X_ICON_SVG}</button>`;
 
     gameCard.innerHTML = `
