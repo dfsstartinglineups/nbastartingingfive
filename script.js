@@ -41,39 +41,29 @@ async function init(dateToFetch) {
 
         const rawGames = scheduleData.events;
 
-        // --- BULLETPROOF TRUE POSITION ENGINE ---
-        // 1. Gather unique team IDs
+        // --- TRUE POSITION ENGINE ---
         const teamIds = new Set();
         rawGames.forEach(game => {
             const comp = game.competitions[0];
             comp.competitors.forEach(c => teamIds.add(c.team.id));
         });
 
-        // 2. Fetch all rosters and recursively hunt for exact positions
         const TRUE_POSITIONS = {};
         const rosterPromises = Array.from(teamIds).map(async (teamId) => {
             try {
-                const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/${teamId}/roster`);
+                const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/${teamId}?enable=roster`);
                 const data = await res.json();
                 
-                let players = [];
-                // ESPN nests rosters weirdly. We flatten it here.
-                if (data.athletes) {
-                    data.athletes.forEach(group => {
-                        if (group.items) players.push(...group.items);
-                        else players.push(group);
+                if (data.team && data.team.athletes) {
+                    data.team.athletes.forEach(p => {
+                        if (p.position && p.position.abbreviation) {
+                            TRUE_POSITIONS[p.id] = p.position.abbreviation;
+                        }
                     });
                 }
-                
-                players.forEach(p => {
-                    if (p.id && p.position && p.position.abbreviation) {
-                        TRUE_POSITIONS[String(p.id)] = p.position.abbreviation;
-                    }
-                });
             } catch(e) { console.log(`Failed to load roster for team ${teamId}`); }
         });
         
-        // Wait for all rosters to load simultaneously before drawing the cards
         await Promise.all(rosterPromises);
 
         for (let i = 0; i < rawGames.length; i++) {
@@ -89,10 +79,26 @@ async function init(dateToFetch) {
                 odds.overUnder = comp.odds[0].overUnder ? `O/U ${comp.odds[0].overUnder}` : "O/U TBD";
             }
 
-            // --- THE TIME MACHINE: Fetch Historical Starters if Game is Over ---
-            let awayStarters = awayTeamData.probables || awayTeamData.starters || [];
-            let homeStarters = homeTeamData.probables || homeTeamData.starters || [];
+            // --- OFFICIAL VS PROBABLE LOGIC ---
+            let awayIsProbable = false;
+            let awayStarters = [];
+            if (awayTeamData.starters && awayTeamData.starters.length > 0) {
+                awayStarters = awayTeamData.starters;
+            } else if (awayTeamData.probables && awayTeamData.probables.length > 0) {
+                awayStarters = awayTeamData.probables;
+                awayIsProbable = true;
+            }
 
+            let homeIsProbable = false;
+            let homeStarters = [];
+            if (homeTeamData.starters && homeTeamData.starters.length > 0) {
+                homeStarters = homeTeamData.starters;
+            } else if (homeTeamData.probables && homeTeamData.probables.length > 0) {
+                homeStarters = homeTeamData.probables;
+                homeIsProbable = true;
+            }
+
+            // --- THE TIME MACHINE (Historical Games) ---
             if (awayStarters.length === 0 && game.status.type.state === 'post') {
                 try {
                     const summaryRes = await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=${game.id}`);
@@ -103,19 +109,20 @@ async function init(dateToFetch) {
                     const awayBox = playersBox.find(p => p.team.id === awayTeamData.team.id);
                     if (awayBox && awayBox.statistics && awayBox.statistics[0].athletes) {
                          awayStarters = awayBox.statistics[0].athletes.filter(a => a.starter).map(a => a.athlete);
+                         awayIsProbable = false; // Time machine stats are strictly official
                     }
                     
                     const homeBox = playersBox.find(p => p.team.id === homeTeamData.team.id);
                     if (homeBox && homeBox.statistics && homeBox.statistics[0].athletes) {
                          homeStarters = homeBox.statistics[0].athletes.filter(a => a.starter).map(a => a.athlete);
+                         homeIsProbable = false;
                     }
                 } catch (e) {
                     console.log("Could not fetch historical boxscore for game: ", game.id);
                 }
             }
 
-            // --- INJECT TRUE POSITIONS ---
-            // Force the exact PG/SG/SF/PF/C from our Roster Engine onto the players
+            // INJECT TRUE POSITIONS
             [awayStarters, homeStarters].forEach(starters => {
                 starters.forEach(p => {
                     const athlete = p.athlete || p;
@@ -133,6 +140,8 @@ async function init(dateToFetch) {
                 away: awayTeamData,
                 homeStarters: homeStarters,
                 awayStarters: awayStarters,
+                homeIsProbable: homeIsProbable,
+                awayIsProbable: awayIsProbable,
                 odds: odds,
                 venue: comp.venue?.fullName || "TBD",
                 gameDate: new Date(game.date),
@@ -188,8 +197,10 @@ function createGameCard(data) {
     const gameDateShort = data.gameDate.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' });
 
     // --- TWITTER EXPORT ---
-    const generateTweetText = (teamName, players, opponent) => {
-        let text = `🏀 ${gameDateShort} ${teamName} Starting Five\nvs ${opponent}\n\n`;
+    const generateTweetText = (teamName, players, opponent, isProbable) => {
+        const statusText = isProbable ? "Projected Starting Five" : "Official Starting Five";
+        let text = `🏀 ${gameDateShort} ${teamName} ${statusText}\nvs ${opponent}\n\n`;
+        
         if(players && players.length > 0) {
             const playerStrings = players.map(p => {
                 const athlete = p.athlete || p;
@@ -204,9 +215,18 @@ function createGameCard(data) {
         return text;
     };
 
-    const buildLineupList = (playersArray) => {
+    // --- LINEUP LIST BUILDER ---
+    const buildLineupList = (playersArray, isProbable) => {
         if (!playersArray || playersArray.length === 0) return `<div class="p-4 text-center text-muted small fw-bold">Lineup pending...</div>`;
         
+        // Render the Official vs Probable Banner
+        let headerHtml = "";
+        if (isProbable) {
+            headerHtml = `<div class="w-100 text-center py-1 fw-bold text-dark" style="font-size: 0.65rem; background-color: #ffecb5; border-bottom: 1px solid #ffe69c; letter-spacing: 0.5px;">⚠️ PROBABLE</div>`;
+        } else {
+            headerHtml = `<div class="w-100 text-center py-1 fw-bold text-white" style="font-size: 0.65rem; background-color: #198754; border-bottom: 1px solid #146c43; letter-spacing: 0.5px;">✅ OFFICIAL</div>`;
+        }
+
         const listItems = playersArray.map((athleteWrapper) => {
             const athlete = athleteWrapper.athlete || athleteWrapper;
             let pos = athlete.position?.abbreviation || "-";
@@ -222,18 +242,19 @@ function createGameCard(data) {
                     </div>
                 </li>`;
         }).join('');
-        return `<ul class="batting-order w-100 m-0 p-0" style="list-style-type: none;">${listItems}</ul>`;
+        
+        return `${headerHtml}<ul class="batting-order w-100 m-0 p-0" style="list-style-type: none;">${listItems}</ul>`;
     };
 
-    const awayLineupHtml = buildLineupList(data.awayStarters);
-    const homeLineupHtml = buildLineupList(data.homeStarters);
+    const awayLineupHtml = buildLineupList(data.awayStarters, data.awayIsProbable);
+    const homeLineupHtml = buildLineupList(data.homeStarters, data.homeIsProbable);
 
     const X_ICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" class="x-icon" viewBox="0 0 16 16"><path d="${X_SVG_PATH}"/></svg>`;
     
-    const awayTweetText = generateTweetText(awayName, data.awayStarters, homeName);
+    const awayTweetText = generateTweetText(awayName, data.awayStarters, homeName, data.awayIsProbable);
     const awayTweetBtn = `<button class="x-btn tweet-trigger" data-tweet="${encodeURIComponent(awayTweetText)}">${X_ICON_SVG}</button>`;
     
-    const homeTweetText = generateTweetText(homeName, data.homeStarters, awayName);
+    const homeTweetText = generateTweetText(homeName, data.homeStarters, awayName, data.homeIsProbable);
     const homeTweetBtn = `<button class="x-btn tweet-trigger" data-tweet="${encodeURIComponent(homeTweetText)}">${X_ICON_SVG}</button>`;
 
     gameCard.innerHTML = `
