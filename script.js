@@ -7,8 +7,29 @@ let ALL_GAMES_DATA = [];
 const X_SVG_PATH = "M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.875 11.633Z";
 
 // ==========================================
-// 1. MAIN APP LOGIC (ESPN API)
+// 1. MAIN APP LOGIC 
 // ==========================================
+
+// Helper to match local JSON names with ESPN names (removes accents, spaces, punctuation)
+function normalizeName(name) {
+    if (!name) return "";
+    return name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z]/g, "").toLowerCase();
+}
+
+async function fetchLocalProbables() {
+    try {
+        console.log("Checking for local nba_data.json...");
+        const response = await fetch('nba_data.json?v=' + new Date().getTime());
+        if (response.ok) {
+            const data = await response.json();
+            return data.games || [];
+        }
+    } catch (e) {
+        console.log("No local nba_data.json found. Defaulting to ESPN only.");
+    }
+    return [];
+}
+
 async function init(dateToFetch) {
     if (window.updateSEO) window.updateSEO(dateToFetch);
     
@@ -31,8 +52,13 @@ async function init(dateToFetch) {
     const ESPN_API_URL = `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${espnDate}`;
     
     try {
-        const response = await fetch(ESPN_API_URL);
-        const scheduleData = await response.json();
+        // Fetch BOTH ESPN and your local JSON simultaneously
+        const [scheduleResponse, localProbables] = await Promise.all([
+            fetch(ESPN_API_URL),
+            fetchLocalProbables()
+        ]);
+        
+        const scheduleData = await scheduleResponse.json();
 
         if (!scheduleData.events || scheduleData.events.length === 0) {
             container.innerHTML = `<div class="col-12 text-center mt-5"><div class="alert alert-light border shadow-sm py-4"><h5 class="text-muted mb-0">No games scheduled for ${dateToFetch}</h5></div></div>`;
@@ -48,7 +74,10 @@ async function init(dateToFetch) {
             comp.competitors.forEach(c => teamIds.add(c.team.id));
         });
 
-        const TRUE_POSITIONS = {};
+        // We build TWO dictionaries: One for IDs (ESPN), One for Names (Local JSON)
+        const TRUE_POS_BY_ID = {};
+        const TRUE_POS_BY_NAME = {};
+        
         const rosterPromises = Array.from(teamIds).map(async (teamId) => {
             try {
                 const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/${teamId}?enable=roster`);
@@ -57,7 +86,10 @@ async function init(dateToFetch) {
                 if (data.team && data.team.athletes) {
                     data.team.athletes.forEach(p => {
                         if (p.position && p.position.abbreviation) {
-                            TRUE_POSITIONS[p.id] = p.position.abbreviation;
+                            TRUE_POS_BY_ID[String(p.id)] = p.position.abbreviation;
+                            
+                            const normName = normalizeName(p.displayName || p.fullName);
+                            TRUE_POS_BY_NAME[normName] = p.position.abbreviation;
                         }
                     });
                 }
@@ -72,64 +104,94 @@ async function init(dateToFetch) {
             
             const homeTeamData = comp.competitors.find(c => c.homeAway === 'home');
             const awayTeamData = comp.competitors.find(c => c.homeAway === 'away');
+            
+            const homeAbbr = homeTeamData.team.abbreviation;
+            const awayAbbr = awayTeamData.team.abbreviation;
 
+            // Odds
             let odds = { spread: "TBD", overUnder: "TBD" };
             if (comp.odds && comp.odds.length > 0) {
                 odds.spread = comp.odds[0].details || "TBD";
                 odds.overUnder = comp.odds[0].overUnder ? `O/U ${comp.odds[0].overUnder}` : "O/U TBD";
             }
 
+            // Find matching local game from nba_data.json
+            const localGameMatch = localProbables.find(g => 
+                g.teams && g.teams.includes(homeAbbr) && g.teams.includes(awayAbbr)
+            );
+
             // --- OFFICIAL VS PROBABLE LOGIC ---
             let awayIsProbable = false;
             let awayStarters = [];
+            
             if (awayTeamData.starters && awayTeamData.starters.length > 0) {
+                // 1. Official ESPN Starters exist
                 awayStarters = awayTeamData.starters;
+            } else if (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[awayAbbr]) {
+                // 2. Use your local nba_data.json
+                awayStarters = localGameMatch.rosters[awayAbbr].players.map(p => ({
+                    athlete: { displayName: p.name, position: { abbreviation: p.pos } }
+                }));
+                awayIsProbable = true;
             } else if (awayTeamData.probables && awayTeamData.probables.length > 0) {
+                // 3. Fallback to ESPN Probables
                 awayStarters = awayTeamData.probables;
                 awayIsProbable = true;
             }
 
             let homeIsProbable = false;
             let homeStarters = [];
+            
             if (homeTeamData.starters && homeTeamData.starters.length > 0) {
                 homeStarters = homeTeamData.starters;
+            } else if (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[homeAbbr]) {
+                homeStarters = localGameMatch.rosters[homeAbbr].players.map(p => ({
+                    athlete: { displayName: p.name, position: { abbreviation: p.pos } }
+                }));
+                homeIsProbable = true;
             } else if (homeTeamData.probables && homeTeamData.probables.length > 0) {
                 homeStarters = homeTeamData.probables;
                 homeIsProbable = true;
             }
 
-            // --- THE TIME MACHINE (Historical Games) ---
-            if (awayStarters.length === 0 && game.status.type.state === 'post') {
+            // --- THE TIME MACHINE (Historical Games Override) ---
+            if (game.status.type.state === 'post') {
                 try {
                     const summaryRes = await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=${game.id}`);
                     const summaryData = await summaryRes.json();
-                    
                     const playersBox = summaryData.boxscore?.players || [];
                     
                     const awayBox = playersBox.find(p => p.team.id === awayTeamData.team.id);
                     if (awayBox && awayBox.statistics && awayBox.statistics[0].athletes) {
-                         awayStarters = awayBox.statistics[0].athletes.filter(a => a.starter).map(a => a.athlete);
-                         awayIsProbable = false; // Time machine stats are strictly official
+                         const timeMachineStarters = awayBox.statistics[0].athletes.filter(a => a.starter).map(a => a.athlete);
+                         if (timeMachineStarters.length > 0) { awayStarters = timeMachineStarters; awayIsProbable = false; }
                     }
                     
                     const homeBox = playersBox.find(p => p.team.id === homeTeamData.team.id);
                     if (homeBox && homeBox.statistics && homeBox.statistics[0].athletes) {
-                         homeStarters = homeBox.statistics[0].athletes.filter(a => a.starter).map(a => a.athlete);
-                         homeIsProbable = false;
+                         const timeMachineStarters = homeBox.statistics[0].athletes.filter(a => a.starter).map(a => a.athlete);
+                         if (timeMachineStarters.length > 0) { homeStarters = timeMachineStarters; homeIsProbable = false; }
                     }
-                } catch (e) {
-                    console.log("Could not fetch historical boxscore for game: ", game.id);
-                }
+                } catch (e) {}
             }
 
-            // INJECT TRUE POSITIONS
+            // --- INJECT TRUE POSITIONS ---
+            // Resolves "Flex", "G", "F", "C" into exact positions using Name or ID
             [awayStarters, homeStarters].forEach(starters => {
                 starters.forEach(p => {
                     const athlete = p.athlete || p;
                     const pId = String(athlete.id);
-                    if (TRUE_POSITIONS[pId]) {
-                        if (!athlete.position) athlete.position = {};
-                        athlete.position.abbreviation = TRUE_POSITIONS[pId];
+                    const normName = normalizeName(athlete.displayName || athlete.fullName);
+
+                    if (!athlete.position) athlete.position = { abbreviation: "-" };
+
+                    if (TRUE_POS_BY_ID[pId]) {
+                        athlete.position.abbreviation = TRUE_POS_BY_ID[pId];
+                    } else if (TRUE_POS_BY_NAME[normName]) {
+                        athlete.position.abbreviation = TRUE_POS_BY_NAME[normName];
+                    } else if (athlete.position.abbreviation === 'Flex') {
+                        // Clean fallback if the player couldn't be matched
+                        athlete.position.abbreviation = 'F/G';
                     }
                 });
             });
