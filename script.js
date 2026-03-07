@@ -19,6 +19,11 @@ function normalizeName(name) {
 // THE ROSETTA STONE: Translates ESPN's 2-letter codes into standard 3-letter NBA codes
 function getStandardAbbr(abbr) {
     if (!abbr) return "";
+    
+    // Scrubber: Removes ALL spaces, line breaks, numbers, and hidden HTML characters
+    // Forces the string to ONLY keep standard letters.
+    let cleanAbbr = abbr.replace(/[^A-Za-z]/g, '').toUpperCase();
+    
     const map = {
         "NY": "NYK",
         "NO": "NOP",
@@ -27,8 +32,8 @@ function getStandardAbbr(abbr) {
         "WSH": "WAS",
         "UTAH": "UTA"
     };
-    const upper = abbr.toUpperCase();
-    return map[upper] || upper;
+    
+    return map[cleanAbbr] || cleanAbbr;
 }
 
 async function fetchLocalProbables() {
