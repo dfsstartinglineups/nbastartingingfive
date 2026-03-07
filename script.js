@@ -325,6 +325,34 @@ function createGameCard(data) {
     const gameTime = data.gameDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
     const gameDateShort = data.gameDate.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' });
 
+    // --- LIVE / POST GAME SCORE LOGIC ---
+    const gameState = data.gameRaw.status.type.state; // 'pre', 'in', 'post'
+    const statusDetail = data.gameRaw.status.type.shortDetail; // e.g., "11:20 - 3rd", "Halftime", "Final"
+
+    let middleSectionHtml = '';
+
+    if (gameState === 'in' || gameState === 'post') {
+        const awayScore = away.score || "0";
+        const homeScore = home.score || "0";
+        const scoreColor = gameState === 'in' ? 'text-danger' : 'text-dark';
+        const badgeClass = gameState === 'in' ? 'bg-danger text-white' : 'bg-dark text-white';
+
+        middleSectionHtml = `
+            <div class="fw-bold fs-4 ${scoreColor} d-flex justify-content-center align-items-center w-100" style="letter-spacing: -1px;">
+                <span class="text-end" style="width: 45%;">${awayScore}</span>
+                <span class="text-center" style="width: 10%; font-size: 0.9rem; color: #adb5bd;">-</span>
+                <span class="text-start" style="width: 45%;">${homeScore}</span>
+            </div>
+            <div class="badge ${badgeClass} w-100 mt-1 text-truncate" style="font-size: 0.70rem;" title="${statusDetail}">${statusDetail}</div>
+        `;
+    } else {
+        // Game hasn't started yet, show Odds
+        middleSectionHtml = `
+            <div class="badge bg-light text-dark border w-100 mb-1" style="font-size: 0.75rem; white-space: nowrap;">${data.odds.spread}</div>
+            <div class="badge bg-secondary text-white w-100" style="font-size: 0.70rem;">${data.odds.overUnder}</div>
+        `;
+    }
+
     // --- TWITTER EXPORT ---
     const generateTweetText = (teamName, players, opponent, isProjected) => {
         const statusText = isProjected ? "Projected Starting Five" : "Official Starting Five";
@@ -405,8 +433,7 @@ function createGameCard(data) {
                         <div class="text-muted mt-1" style="font-size:0.7rem;">(${awayRecord})</div>
                     </div>
                     <div class="text-center d-flex flex-column align-items-center justify-content-center" style="width: 30%;">
-                        <div class="badge bg-light text-dark border w-100 mb-1" style="font-size: 0.75rem; white-space: nowrap;">${data.odds.spread}</div>
-                        <div class="badge bg-secondary text-white w-100" style="font-size: 0.70rem;">${data.odds.overUnder}</div>
+                        ${middleSectionHtml}
                     </div>
                     <div class="text-center" style="width: 35%;"> 
                         <img src="${homeLogo}" alt="${homeName}" class="team-logo mb-1">
