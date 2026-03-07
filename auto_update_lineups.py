@@ -37,7 +37,8 @@ NICKNAMES = {
 
 def normalize_team(team_name):
     if pd.isna(team_name): return ""
-    clean_name = str(team_name).strip().upper()
+    # ROOT CAUSE SCRUBBER: Removes hidden line breaks, tabs, rotation numbers, and non-breaking spaces
+    clean_name = re.sub(r'[\r\n\t\d\xa0]', '', str(team_name)).strip().upper()
     return TEAM_MAP.get(clean_name, clean_name)
 
 def clean_player_name(name):
@@ -97,8 +98,8 @@ def scrape_starters():
                 is_header = True
         
         if is_header:
-            team_away = normalize_team(raw_away.replace('@', '').strip())
-            team_home = normalize_team(raw_home.replace('@', '').strip())
+            team_away = normalize_team(raw_away.replace('@', ''))
+            team_home = normalize_team(raw_home.replace('@', ''))
             
             # Clean Time
             if ':' in time_str and ('am' in time_str.lower() or 'pm' in time_str.lower()):
@@ -171,6 +172,19 @@ def load_cheat_sheet():
 
 # --- STEP 3: MAIN LOGIC ---
 def build_json():
+    # --- 0. LOAD OLD MEMORY FOR CLOSING ODDS ---
+    old_memory = {}
+    if os.path.exists('nba_data.json'):
+        try:
+            with open('nba_data.json', 'r') as f:
+                old_data = json.load(f)
+                for g in old_data.get('games', []):
+                    # Clean ID just in case old garbage string is still there
+                    clean_id = str(g['id']).replace('\r', '').replace('\n', '').replace(' ', '')
+                    old_memory[clean_id] = g.get('meta', {})
+        except Exception as e:
+            print(f"Notice: Could not load old memory file. Starting fresh. {e}")
+
     # 1. Scrape
     scraped_rosters, game_times = scrape_starters()
     
@@ -194,6 +208,7 @@ def build_json():
         team_b = teams_list[i+1]
         
         game_time = game_times.get(team_a, "7:00 PM")
+        game_id = f"{team_a}-{team_b}"
         
         # Meta Lookup
         spread_str = "TBD"
@@ -209,8 +224,22 @@ def build_json():
                     total_str = str(t_val)
                 except: pass
 
+        # --- THE GOLDFISH FIX: INJECT CLOSING ODDS MEMORY ---
+        old_meta = old_memory.get(game_id, {})
+        
+        # If new spread is missing/nan/TBD, but we have an old valid one, use the old one!
+        if spread_str in ["TBD", "nan", "+nan"] or pd.isna(spread_str):
+            old_s = str(old_meta.get("spread", "TBD"))
+            if old_s not in ["TBD", "nan", "+nan", "None"]:
+                spread_str = old_s
+                
+        if total_str in ["TBD", "nan", "+nan"] or pd.isna(total_str):
+            old_t = str(old_meta.get("total", "TBD"))
+            if old_t not in ["TBD", "nan", "+nan", "None"]:
+                total_str = old_t
+
         game_obj = {
-            "id": f"{team_a}-{team_b}",
+            "id": game_id,
             "sort_index": parse_time_to_minutes(game_time),
             "teams": [team_a, team_b],
             "meta": {
