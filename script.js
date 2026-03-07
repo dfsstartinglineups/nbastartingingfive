@@ -129,13 +129,6 @@ async function init(dateToFetch) {
             const homeStd = getStandardAbbr(homeAbbr);
             const awayStd = getStandardAbbr(awayAbbr);
 
-            // Odds
-            let odds = { spread: "TBD", overUnder: "TBD" };
-            if (comp.odds && comp.odds.length > 0) {
-                odds.spread = comp.odds[0].details || "TBD";
-                odds.overUnder = comp.odds[0].overUnder ? `O/U ${comp.odds[0].overUnder}` : "O/U TBD";
-            }
-
             // Find matching local game using the Rosetta Stone Map
             const localGameMatch = localProbables.find(g => {
                 if (!g.teams || g.teams.length < 2) return false;
@@ -150,6 +143,27 @@ async function init(dateToFetch) {
             if (localGameMatch) {
                 localAwayKey = localGameMatch.teams.find(t => getStandardAbbr(t) === awayStd);
                 localHomeKey = localGameMatch.teams.find(t => getStandardAbbr(t) === homeStd);
+            }
+
+            // --- ODDS ENGINE (With Local Fallback for Live Games) ---
+            let odds = { spread: "TBD", overUnder: "TBD" };
+            
+            if (comp.odds && comp.odds.length > 0) {
+                // 1. Try ESPN Live Odds First
+                odds.spread = comp.odds[0].details || "TBD";
+                odds.overUnder = comp.odds[0].overUnder ? `O/U ${comp.odds[0].overUnder}` : "O/U TBD";
+            } else if (localGameMatch && localGameMatch.meta) {
+                // 2. Fallback to your local JSON closing odds if ESPN drops them at tip-off
+                const locSpread = localGameMatch.meta.spread;
+                const locTotal = localGameMatch.meta.total;
+                
+                // Clean out any "nan" or "TBD" glitches from the local scraper
+                if (locSpread && !locSpread.includes("nan") && locSpread !== "TBD") {
+                    odds.spread = locSpread;
+                }
+                if (locTotal && !locTotal.includes("nan") && locTotal !== "TBD") {
+                    odds.overUnder = `O/U ${locTotal}`;
+                }
             }
 
             // --- OFFICIAL VS PROJECTED LOGIC ---
