@@ -51,37 +51,35 @@ function handleHashNavigation() {
                 // Scroll the card into the center of the view
                 targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 
-                const innerCard = targetCard.querySelector('.lineup-card');
                 const innerHeader = targetCard.querySelector('.bg-light'); // Grab the top header row
                 
-                if (innerCard) {
-                    // Apply the bold RED highlight and slight zoom
-                    innerCard.style.transition = 'all 0.4s ease-out';
-                    innerCard.style.transform = 'scale(1.02)';
-                    innerCard.style.boxShadow = '0 0 25px rgba(220, 53, 69, 0.8)'; // NBA Red Glow
-                    innerCard.style.border = '2px solid #dc3545';
-                    innerCard.style.zIndex = '10';
-                    
-                    // Temporarily turn the header slightly red to make it pop
-                    if (innerHeader) {
-                        innerHeader.classList.remove('bg-light');
-                        innerHeader.style.transition = 'background-color 0.4s ease-out';
-                        innerHeader.style.backgroundColor = '#f8d7da'; // Bootstrap light red
-                    }
-                    
-                    // Hold the red highlight for 4 seconds, then fade it back to normal
-                    setTimeout(() => {
-                        innerCard.style.transform = 'scale(1)';
-                        innerCard.style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)';
-                        innerCard.style.border = '1px solid #dee2e6';
-                        innerCard.style.zIndex = '1';
-                        
-                        if (innerHeader) {
-                            innerHeader.style.backgroundColor = '';
-                            innerHeader.classList.add('bg-light');
-                        }
-                    }, 4000); // 4000ms = 4 seconds
+                // Apply the bold RED highlight and slight zoom directly to the card
+                targetCard.style.transition = 'all 0.4s ease-out';
+                targetCard.style.transform = 'scale(1.02)';
+                targetCard.style.boxShadow = '0 0 25px rgba(220, 53, 69, 0.8)'; // NBA Red Glow
+                targetCard.style.border = '2px solid #dc3545';
+                targetCard.style.position = 'relative'; // Ensure z-index stacks properly
+                targetCard.style.zIndex = '10';
+                
+                // Temporarily turn the header slightly red to make it pop
+                if (innerHeader) {
+                    innerHeader.classList.remove('bg-light');
+                    innerHeader.style.transition = 'background-color 0.4s ease-out';
+                    innerHeader.style.backgroundColor = '#f8d7da'; // Bootstrap light red
                 }
+                
+                // Hold the red highlight for 4 seconds, then fade it back to normal
+                setTimeout(() => {
+                    targetCard.style.transform = 'scale(1)';
+                    targetCard.style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)';
+                    targetCard.style.border = '1px solid #dee2e6';
+                    targetCard.style.zIndex = '1';
+                    
+                    if (innerHeader) {
+                        innerHeader.style.backgroundColor = '';
+                        innerHeader.classList.add('bg-light');
+                    }
+                }, 4000); // 4000ms = 4 seconds
             }
         }, 600); // Slight delay to ensure DOM is fully rendered first
     }
@@ -239,7 +237,6 @@ function renderGames() {
 function createGameCard(data) {
     const gameCard = document.createElement('div');
     gameCard.className = 'col-md-6 col-lg-6 col-xl-4 mb-2';
-    gameCard.id = `game-${data.localId}`; // Attach ID for Hash Scroll
     
     const { away, home, gameRaw } = data;
     const gameState = gameRaw.status.type.state;
@@ -271,8 +268,9 @@ function createGameCard(data) {
         return `<div class="text-center py-1 fw-bold ${textColor}" style="font-size: 0.6rem; background-color: ${color};">${label}</div><ul class="list-unstyled m-0">${items}</ul>`;
     };
 
+    // The ID is now attached directly to the .lineup-card div so the highlight effect targets the physical box properly
     gameCard.innerHTML = `
-        <div class="lineup-card shadow-sm border rounded bg-white overflow-hidden">
+        <div class="lineup-card shadow-sm border rounded bg-white overflow-hidden" id="game-${data.localId}">
             <div class="p-2 border-bottom d-flex justify-content-between align-items-center bg-light">
                 <span class="badge bg-dark text-white" style="font-size: 0.7rem;">${data.gameDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
                 <span class="text-muted fw-bold text-uppercase" style="font-size: 0.6rem;">${data.venue}</span>
@@ -287,6 +285,7 @@ function createGameCard(data) {
                 <div class="col-6">${buildLineupList(data.homeStarters, data.homeIsProjected)}</div>
             </div>
         </div>`;
+        
     return gameCard;
 }
 
