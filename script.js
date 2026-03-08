@@ -56,8 +56,11 @@ function handleHashNavigation() {
                 // Apply the bold RED highlight and slight zoom directly to the card
                 targetCard.style.transition = 'all 0.4s ease-out';
                 targetCard.style.transform = 'scale(1.02)';
-                targetCard.style.boxShadow = '0 0 25px rgba(220, 53, 69, 0.8)'; // NBA Red Glow
-                targetCard.style.border = '2px solid #dc3545';
+                
+                // Force overrides on Bootstrap's utility classes
+                targetCard.style.setProperty('border', '3px solid #dc3545', 'important');
+                targetCard.style.setProperty('box-shadow', '0 0 25px rgba(220, 53, 69, 0.8)', 'important');
+                
                 targetCard.style.position = 'relative'; // Ensure z-index stacks properly
                 targetCard.style.zIndex = '10';
                 
@@ -71,8 +74,8 @@ function handleHashNavigation() {
                 // Hold the red highlight for 4 seconds, then fade it back to normal
                 setTimeout(() => {
                     targetCard.style.transform = 'scale(1)';
-                    targetCard.style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)';
-                    targetCard.style.border = '1px solid #dee2e6';
+                    targetCard.style.removeProperty('border'); // Reverts to bootstrap border class
+                    targetCard.style.setProperty('box-shadow', '0 2px 4px rgba(0,0,0,0.05)', 'important');
                     targetCard.style.zIndex = '1';
                     
                     if (innerHeader) {
