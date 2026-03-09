@@ -295,5 +295,8 @@ function createGameCard(data) {
 document.addEventListener('DOMContentLoaded', () => {
     init(DEFAULT_DATE);
     document.getElementById('team-search')?.addEventListener('input', renderGames);
-    document.getElementById('date-picker')?.addEventListener('change', (e) => init(e.target.value));
+    document.getElementById('date-picker')?.addEventListener('change', (e) => {
+        init(e.target.value);
+        e.target.blur(); // Forces the mobile calendar UI to close immediately upon selection
+    });
 });
