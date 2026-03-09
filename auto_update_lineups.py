@@ -4,6 +4,7 @@ import glob
 import os
 import requests
 import re
+import zoneinfo
 from datetime import datetime, timezone, timedelta
 
 # --- CONFIGURATION ---
@@ -61,30 +62,43 @@ def parse_time_to_minutes(time_str):
     except:
         return 9999
 
-# --- NEW: FETCH DATES FROM ESPN TO PREVENT PLAYOFF OVERWRITES ---
-def get_espn_schedule_dates():
-    print("--- Fetching true game dates from ESPN ---")
-    team_dates = {}
+# --- NEW: FETCH PRECISE DATES & TIMES FROM ESPN ---
+def get_espn_schedule_data():
+    print("--- Fetching true game dates and times from ESPN ---")
+    team_schedule = {}
     try:
+        ny_tz = zoneinfo.ZoneInfo("America/New_York")
+        now_est = datetime.now(ny_tz)
+        
         # Check today, tomorrow, and the next day
         for i in range(3):
-            target_date = (datetime.utcnow() - timedelta(hours=5) + timedelta(days=i))
+            target_date = now_est + timedelta(days=i)
             date_str = target_date.strftime('%Y%m%d')
-            local_date_format = target_date.strftime('%Y-%m-%d')
             
             url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates={date_str}"
             res = requests.get(url, timeout=10)
             data = res.json()
             
             for ev in data.get('events', []):
+                # ESPN gives dates in UTC ISO format (e.g. 2026-03-10T00:30Z)
+                utc_date_str = ev['date'].replace('Z', '+00:00')
+                dt_utc = datetime.fromisoformat(utc_date_str)
+                dt_est = dt_utc.astimezone(ny_tz)
+                
+                local_date_format = dt_est.strftime('%Y-%m-%d')
+                local_time_format = dt_est.strftime('%I:%M %p').lstrip('0') # Strips leading zero from hour
+                
                 for comp in ev['competitions'][0]['competitors']:
                     team_abbr = normalize_team(comp['team']['abbreviation'])
                     # Only map it the FIRST time we see them (their immediate next game)
-                    if team_abbr not in team_dates:
-                        team_dates[team_abbr] = local_date_format
+                    if team_abbr not in team_schedule:
+                        team_schedule[team_abbr] = {
+                            "date": local_date_format,
+                            "time": local_time_format
+                        }
     except Exception as e:
-        print(f"ESPN Date Fetch Error: {e}")
-    return team_dates
+        print(f"ESPN Date/Time Fetch Error: {e}")
+    return team_schedule
 
 # --- STEP 1: SCRAPE BASKETBALL MONSTER ---
 def scrape_starters():
@@ -100,7 +114,6 @@ def scrape_starters():
         return {}, {}
 
     starters_map = {} 
-    game_times = {}
     
     for row in rows:
         cells = row.find_all(['td', 'th'])
@@ -109,11 +122,10 @@ def scrape_starters():
         if not cols_text: continue
         
         is_header = False
-        raw_away, raw_home, time_str = "", "", "7:00 PM"
+        raw_away, raw_home = "", ""
         
         if len(cols_text) >= 3:
             if "@" in cols_text[2]: 
-                time_str = cols_text[0]
                 raw_away, raw_home = cols_text[1], cols_text[2]
                 is_header = True
             elif "@" in cols_text[1]: 
@@ -123,17 +135,9 @@ def scrape_starters():
         if is_header:
             team_away = normalize_team(raw_away.replace('@', ''))
             team_home = normalize_team(raw_home.replace('@', ''))
-            
-            if ':' in time_str and ('am' in time_str.lower() or 'pm' in time_str.lower()):
-                time_str = time_str.upper()
-            else:
-                time_str = "7:00 PM"
 
             if team_away not in starters_map: starters_map[team_away] = []
             if team_home not in starters_map: starters_map[team_home] = []
-            
-            game_times[team_away] = time_str
-            game_times[team_home] = time_str
             continue
 
         if len(cols_text) >= 3 and cols_text[0] in ['PG', 'SG', 'SF', 'PF', 'C']:
@@ -161,7 +165,7 @@ def scrape_starters():
                 if p_info: starters_map[tm_home].append(p_info)
 
     print(f"Scraped {len(starters_map)} teams.")
-    return starters_map, game_times
+    return starters_map
 
 # --- STEP 2: LOAD CSV ---
 def load_cheat_sheet():
@@ -184,8 +188,9 @@ def load_cheat_sheet():
 
 # --- STEP 3: MAIN LOGIC ---
 def build_json():
-    utc_now = datetime.utcnow()
-    et_now = utc_now - timedelta(hours=5)
+    # Setup timezone perfectly for Daylight Saving Time using zoneinfo
+    ny_tz = zoneinfo.ZoneInfo("America/New_York")
+    et_now = datetime.now(ny_tz)
     current_date_str = et_now.strftime("%Y-%m-%d")
     yesterday_str = (et_now - timedelta(days=1)).strftime("%Y-%m-%d")
     valid_dates = [current_date_str, yesterday_str]
@@ -203,10 +208,10 @@ def build_json():
                         old_memory[clean_id] = g
         except: pass
 
-    # Get the real dates mapping from ESPN to attach to BBM data
-    team_dates = get_espn_schedule_dates()
+    # Get the real dates and times from ESPN!
+    team_schedule = get_espn_schedule_data()
 
-    scraped_rosters, game_times = scrape_starters()
+    scraped_rosters = scrape_starters()
     stats_df = load_cheat_sheet()
     
     teams_list = list(scraped_rosters.keys())
@@ -221,12 +226,12 @@ def build_json():
         team_a = teams_list[i]
         team_b = teams_list[i+1]
         
-        # Find the specific date for this game from our ESPN mapping
-        # Fallback to today's date if ESPN API fails
-        game_date = team_dates.get(team_a, current_date_str)
-        game_time = game_times.get(team_a, "7:00 PM")
+        # Fetch exact Date and Time from ESPN map
+        schedule_info = team_schedule.get(team_a) or team_schedule.get(team_b, {})
+        game_date = schedule_info.get("date", current_date_str)
+        game_time = schedule_info.get("time", "TBD")
         
-        # NEW PLAYOFF UNIQUE ID: Includes the game date!
+        # Unique ID combining Teams + ESPN Date
         game_id = f"{team_a}-{team_b}-{game_date}"
         
         spread_str = "TBD"
@@ -257,13 +262,13 @@ def build_json():
 
         game_obj = {
             "id": game_id,
-            "date": game_date, # NEW FIELD: Specific date of the match
+            "date": game_date, 
             "date_added": current_date_str, 
             "teams": [team_a, team_b],
             "meta": {
                 "spread": spread_str,
                 "total": total_str,
-                "time": game_time
+                "time": game_time  # Injected directly from ESPN
             },
             "rosters": {}
         }
@@ -328,6 +333,7 @@ def build_json():
         
     games_output = list(old_memory.values())
 
+    # Sort strictly by the precise ESPN time
     for g in games_output:
         g['sort_index'] = parse_time_to_minutes(g['meta'].get('time', '7:00 PM'))
         
