@@ -4,9 +4,7 @@
 const DEFAULT_DATE = new Date().toLocaleDateString('en-CA');
 let ALL_GAMES_DATA = []; 
 let ALL_SLATES = { fanduel: [], draftkings: [] };
-let ARE_ALL_EXPANDED = false; // Controls global expand/collapse state
-
-const X_SVG_PATH = "M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.875 11.633Z";
+let ARE_ALL_EXPANDED = false;
 
 // ==========================================
 // 1. MAIN APP LOGIC 
@@ -26,7 +24,7 @@ function getStandardAbbr(abbr) {
     return map[cleanAbbr] || cleanAbbr;
 }
 
-async function fetchLocalData() {
+async function fetchLocalProbables() {
     try {
         const response = await fetch('nba_data.json?v=' + new Date().getTime());
         if (response.ok) {
@@ -104,6 +102,7 @@ function populateSlates() {
     const selector = document.getElementById('slate-selector');
     if (!selector) return;
     
+    const currentVal = selector.value;
     selector.innerHTML = '<option value="all">All Slates</option>';
     
     if (ALL_SLATES[platKey] && Array.isArray(ALL_SLATES[platKey])) {
@@ -115,7 +114,11 @@ function populateSlates() {
         });
     }
     
-    selector.value = 'all';
+    if(Array.from(selector.options).some(opt => opt.value === currentVal)) {
+        selector.value = currentVal;
+    } else {
+        selector.value = 'all';
+    }
 }
 
 function handleHashNavigation() {
@@ -178,10 +181,10 @@ async function init(dateToFetch) {
     try {
         const [scheduleResponse, localData] = await Promise.all([
             fetch(ESPN_API_URL),
-            fetchLocalData()
+            fetchLocalProbables()
         ]);
         const scheduleData = await scheduleResponse.json();
-        
+
         const localProbables = localData.games || [];
         ALL_SLATES = localData.slates || { fanduel: [], draftkings: [] };
         
@@ -273,7 +276,6 @@ async function init(dateToFetch) {
             }
             if (localHomeBench) homeBench = localHomeBench.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
 
-            // Fix Positions for Starters
             [awayStarters, homeStarters].forEach(starters => {
                 starters.forEach(p => {
                     const athlete = p.athlete || p;
@@ -319,7 +321,7 @@ function renderGames() {
 
 function createGameCard(data) {
     const gameCard = document.createElement('div');
-    gameCard.className = 'col-md-6 col-lg-6 col-xl-4 mb-2';
+    gameCard.className = 'col-md-6 col-lg-6 col-xl-4 mb-3';
     
     const { away, home, gameRaw } = data;
     const gameState = gameRaw.status.type.state;
@@ -358,7 +360,7 @@ function createGameCard(data) {
             const color = isProjected ? "#ffecb5" : "#198754";
             const textColor = isProjected ? "text-dark" : "text-white";
             const label = isProjected ? "⚠️ PROJECTED" : "✅ OFFICIAL";
-            headerHtml = `<div class="text-center py-1 fw-bold ${textColor}" style="font-size: 0.6rem; background-color: ${color};">${label}</div>`;
+            headerHtml = `<div class="text-center py-1 fw-bold border-bottom ${textColor}" style="font-size: 0.6rem; background-color: ${color};">${label}</div>`;
         }
         
         let generatedItemsCount = 0;
@@ -368,7 +370,6 @@ function createGameCard(data) {
             let statsHtml = '';
             let arrowHtml = '';
             
-            // Extract the correct position layout depending if they are a starter or bench
             let rawPos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position ? a.position.abbreviation : 'Flex');
             if (platform === 'dk' && a.dfs && a.dfs.dk_pos) {
                 rawPos = a.dfs.dk_pos;
@@ -399,9 +400,7 @@ function createGameCard(data) {
             const playerName = a.displayName || a.fullName || 'Unknown';
             
             if (isBench) {
-                // If they are on the bench and not in the selected slate, hide them.
                 if (selectedSlate !== 'all' && !showStats) return '';
-                // If viewing all slates, only show bench players who have a salary on the selected platform.
                 if (selectedSlate === 'all' && sal === 0) return '';
             }
             
@@ -444,12 +443,10 @@ function createGameCard(data) {
     const slateSelector = document.getElementById('slate-selector');
     const selectedSlate = slateSelector ? slateSelector.value : 'all';
     
-    // Auto-hide the game completely if NO players match the selected slate
     if (selectedSlate !== 'all') {
         const hasAnySlatePlayer = awayStartersInfo.hasValidPlayers || homeStartersInfo.hasValidPlayers || awayBenchInfo.hasValidPlayers || homeBenchInfo.hasValidPlayers;
         if (!hasAnySlatePlayer) {
-            gameCard.classList.add('d-none');
-            return gameCard;
+            return null; // Prevents the card from being rendered
         }
     }
 
@@ -457,7 +454,7 @@ function createGameCard(data) {
     if (awayBenchInfo.html || homeBenchInfo.html) {
         benchRibbonHtml = `
             <div class="border-top bg-light">
-                <div class="p-2 text-center border-bottom text-muted fw-bold bench-toggle" onclick="toggleBench(this)" style="font-size: 0.75rem; cursor: pointer; background-color: #f8f9fa;">
+                <div class="p-2 text-center border-bottom text-muted fw-bold bench-toggle" onclick="toggleBench(this)" style="font-size: 0.70rem; cursor: pointer; background-color: #f8f9fa; transition: background-color 0.2s;">
                     <span>View Bench Options</span> <span class="bench-arrow ms-1">▼</span>
                 </div>
                 <div class="row g-0 bench-container" style="display: none;">
@@ -467,6 +464,19 @@ function createGameCard(data) {
             </div>
         `;
     }
+
+    // Modal Builder Buttons
+    const gameDateShort = data.gameDate.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' });
+    const shareHtml = `
+        <div class="d-flex justify-content-between p-2 bg-light border-top" style="font-size: 0.75rem;">
+            <button class="btn btn-sm btn-outline-dark py-0 px-2 fw-bold" onclick='generateTweet(${JSON.stringify(away.team.shortDisplayName)}, ${JSON.stringify(home.team.shortDisplayName)}, ${JSON.stringify(data.awayStarters)}, ${JSON.stringify(data.odds)}, "${gameDateShort}", "${data.localId}", ${data.awayIsProjected})'>
+               <i class="fab fa-twitter text-primary"></i> ${away.team.shortDisplayName}
+            </button>
+            <button class="btn btn-sm btn-outline-dark py-0 px-2 fw-bold" onclick='generateTweet(${JSON.stringify(home.team.shortDisplayName)}, ${JSON.stringify(away.team.shortDisplayName)}, ${JSON.stringify(data.homeStarters)}, ${JSON.stringify(data.odds)}, "${gameDateShort}", "${data.localId}", ${data.homeIsProjected})'>
+               <i class="fab fa-twitter text-primary"></i> ${home.team.shortDisplayName}
+            </button>
+        </div>
+    `;
 
     gameCard.innerHTML = `
         <div class="lineup-card shadow-sm border rounded bg-white overflow-hidden" id="game-${data.localId}">
@@ -487,10 +497,50 @@ function createGameCard(data) {
                 <div class="col-6">${homeStartersInfo.html}</div>
             </div>
             ${benchRibbonHtml}
+            ${shareHtml}
         </div>`;
         
     return gameCard;
 }
+
+window.generateTweet = function(team, opp, starters, odds, gameDate, gameId, isProjected) {
+    if (isProjected) {
+        alert("Cannot share unverified lineups. Wait for ✅ OFFICIAL status.");
+        return;
+    }
+    
+    let oddsStr = odds.spread !== "TBD" ? `Odds: ${odds.spread} | ${odds.overUnder}` : "Odds: TBD";
+    let tweetText = `🏀 ${gameDate} ${team} Starting Lineup vs ${opp}\n${oddsStr}\n\n`;
+    
+    const fixedPositions = ['PG', 'SG', 'SF', 'PF', 'C'];
+    starters.forEach((p, i) => {
+        const a = p.athlete || p;
+        const name = a.displayName || a.fullName || 'Unknown';
+        tweetText += `${fixedPositions[i] || 'Flex'} ${name}\n`;
+    });
+    
+    const teamHash = team.replace(/\s+/g, '');
+    tweetText += `\n\nFull matchups & odds: https://nbastartingfive.com/#game-${gameId}\n\n#${teamHash} #${teamHash}Lineup #NBA #DFS #StartingFive`;
+    
+    document.getElementById('tweet-textarea').value = tweetText;
+    
+    const copyBtn = document.getElementById('copy-tweet-btn');
+    copyBtn.innerHTML = '📋 Copy to Clipboard';
+    copyBtn.classList.remove('btn-success');
+    copyBtn.classList.add('btn-dark');
+    
+    const modal = new bootstrap.Modal(document.getElementById('tweetModal'));
+    modal.show();
+};
+
+document.getElementById('copy-tweet-btn')?.addEventListener('click', function() {
+    const text = document.getElementById('tweet-textarea').value;
+    navigator.clipboard.writeText(text).then(() => {
+        this.innerHTML = '✅ Copied!';
+        this.classList.remove('btn-dark');
+        this.classList.add('btn-success');
+    });
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     init(DEFAULT_DATE);
@@ -501,16 +551,13 @@ document.addEventListener('DOMContentLoaded', () => {
         e.target.blur();
     });
     
-    // Auto-update UI when DFS platform is toggled
     document.querySelectorAll('.dfs-toggle').forEach(radio => radio.addEventListener('change', () => {
         populateSlates();
         renderGames();
     }));
     
-    // Re-render games when slate dropdown changes
     document.getElementById('slate-selector')?.addEventListener('change', renderGames);
     
-    // Global Expand/Collapse Button
     const globalToggleBtn = document.getElementById('global-toggle-btn');
     if (globalToggleBtn) {
         globalToggleBtn.addEventListener('click', (e) => {
