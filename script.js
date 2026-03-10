@@ -1,101 +1,84 @@
-// ==========================================
-// CONFIGURATION
-// ==========================================
-const DEFAULT_DATE = new Date().toLocaleDateString('en-CA');
-let ALL_GAMES_DATA = []; 
+let ALL_GAMES_DATA = [];
+let ARE_ALL_EXPANDED = false;
+let DEFAULT_DATE = new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
 
-const X_SVG_PATH = "M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.875 11.633Z";
-
-// ==========================================
-// 1. MAIN APP LOGIC 
-// ==========================================
+const TEAM_MAP_FOR_LOGOS = {
+    'GS': 'GSW', 'GOLDEN STATE': 'GSW',
+    'NO': 'NOP', 'NEW ORLEANS': 'NOP', 'NOH': 'NOP',
+    'NY': 'NYK', 'NEW YORK': 'NYK', 'KNICKS': 'NYK',
+    'SA': 'SAS', 'SAN ANTONIO': 'SAS', 'SPURS': 'SAS',
+    'PHO': 'PHX', 'PHOENIX': 'PHX',
+    'UT': 'UTA', 'UTAH': 'UTA', 'JAZZ': 'UTA',
+    'WSH': 'WAS', 'WASHINGTON': 'WAS',
+    'BKO': 'BKN', 'BROOKLYN': 'BKN',
+    'CHO': 'CHA', 'CHARLOTTE': 'CHA'
+};
 
 function normalizeName(name) {
     if (!name) return "";
-    return name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z]/g, "").toLowerCase();
+    const nicknames = {
+        'cam': 'cameron', 'nic': 'nicolas', 'patti': 'patrick', 'pat': 'patrick',
+        'mo': 'moritz', 'moe': 'moritz', 'zach': 'zachary', 'tim': 'timothy',
+        'kj': 'kenyon', 'x': 'xavier', 'herb': 'herbert', 'bub': 'carrinton',
+        'greg': 'gregory', 'nick': 'nicholas', 'mitch': 'mitchell', 'kelly': 'kelly',
+        'pj': 'pj', 'trey': 'trey', 'cj': 'cj', 'c.j.': 'cj', 'shai': 'shai'
+    };
+    let clean = name.toLowerCase().trim().replace(/['.]/g, '');
+    [' jr', ' sr', ' ii', ' iii', ' iv'].forEach(s => {
+        if (clean.endsWith(s)) clean = clean.slice(0, -s.length);
+    });
+    let parts = clean.split(' ');
+    if (parts.length > 0 && nicknames[parts[0]]) parts[0] = nicknames[parts[0]];
+    return parts.join(' ');
 }
 
 function getStandardAbbr(abbr) {
-    if (!abbr) return "";
-    let cleanAbbr = abbr.replace(/[^A-Za-z]/g, '').toUpperCase();
-    const map = {
-        "NY": "NYK", "NO": "NOP", "SA": "SAS", "GS": "GSW", "WSH": "WAS", "UTAH": "UTA"
-    };
-    return map[cleanAbbr] || cleanAbbr;
+    const upper = abbr.toUpperCase();
+    return TEAM_MAP_FOR_LOGOS[upper] || upper;
 }
 
 async function fetchLocalProbables() {
     try {
-        const response = await fetch('nba_data.json?v=' + new Date().getTime());
-        if (response.ok) {
-            const data = await response.json();
-            return data.games || [];
+        const ts = new Date().getTime();
+        const response = await fetch(`nba_data.json?v=${ts}`);
+        if (!response.ok) throw new Error('Local file not found');
+        const data = await response.json();
+        if (data.last_updated) {
+            document.getElementById('update-timestamp').innerText = `Last Updated: ${data.last_updated}`;
         }
+        return data.games || [];
     } catch (e) {
-        console.log("No local nba_data.json found.");
+        console.log("No local nba_data.json found. Continuing with purely ESPN data.");
+        return [];
     }
-    return [];
 }
 
-// ==========================================
-// 2. DEEP LINK SCROLLING (NBA RED THEME)
-// ==========================================
 function handleHashNavigation() {
-    if (window.location.hash) {
+    const hash = window.location.hash;
+    if (hash && hash.startsWith('#game-')) {
         setTimeout(() => {
-            // Remove the '#' to get the pure ID
-            const targetId = window.location.hash.substring(1);
-            const targetCard = document.getElementById(targetId);
-            
-            if (targetCard) {
-                // Scroll the card into the center of the view
-                targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            const targetEl = document.querySelector(hash);
+            if (targetEl) {
+                targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 
-                const innerHeader = targetCard.querySelector('.bg-light'); // Grab the top header row
+                // Remove existing highlights if any
+                document.querySelectorAll('.highlight-flash').forEach(el => {
+                    el.classList.remove('highlight-flash');
+                });
                 
-                // Apply the bold RED highlight and slight zoom directly to the card
-                targetCard.style.transition = 'all 0.4s ease-out';
-                targetCard.style.transform = 'scale(1.02)';
-                
-                // Force overrides on Bootstrap's utility classes
-                targetCard.style.setProperty('border', '3px solid #dc3545', 'important');
-                targetCard.style.setProperty('box-shadow', '0 0 25px rgba(220, 53, 69, 0.8)', 'important');
-                
-                targetCard.style.position = 'relative'; // Ensure z-index stacks properly
-                targetCard.style.zIndex = '10';
-                
-                // Temporarily turn the header slightly red to make it pop
-                if (innerHeader) {
-                    innerHeader.classList.remove('bg-light');
-                    innerHeader.style.transition = 'background-color 0.4s ease-out';
-                    innerHeader.style.backgroundColor = '#f8d7da'; // Bootstrap light red
-                }
-                
-                // Hold the red highlight for 4 seconds, then fade it back to normal
-                setTimeout(() => {
-                    targetCard.style.transform = 'scale(1)';
-                    targetCard.style.removeProperty('border'); // Reverts to bootstrap border class
-                    targetCard.style.setProperty('box-shadow', '0 2px 4px rgba(0,0,0,0.05)', 'important');
-                    targetCard.style.zIndex = '1';
-                    
-                    if (innerHeader) {
-                        innerHeader.style.backgroundColor = '';
-                        innerHeader.classList.add('bg-light');
-                    }
-                }, 4000); // 4000ms = 4 seconds
+                // Add fresh highlight class to trigger animation
+                targetEl.classList.add('highlight-flash');
             }
-        }, 600); // Slight delay to ensure DOM is fully rendered first
+        }, 300); // 300ms delay to ensure layout is completely stable before scrolling
     }
 }
 
 async function init(dateToFetch) {
-    if (window.updateSEO) window.updateSEO(dateToFetch);
-    const container = document.getElementById('games-container');
-    const datePicker = document.getElementById('date-picker');
+    document.getElementById('date-picker').value = dateToFetch;
     ALL_GAMES_DATA = [];
-    if (datePicker) datePicker.value = dateToFetch;
-
-    if (container) {
+    const container = document.getElementById('lineups-container');
+    
+    if (container.children.length === 0) {
         container.innerHTML = `
             <div class="col-12 text-center mt-5 pt-5">
                 <div class="spinner-border text-danger" role="status"></div>
@@ -178,27 +161,27 @@ async function init(dateToFetch) {
                 if (localGameMatch.meta.total && localGameMatch.meta.total !== "TBD") odds.overUnder = `O/U ${localGameMatch.meta.total}`;
             }
 
-            // Lineup Logic
+            // Lineup Logic with DFS data injection
             let awayStarters = [], awayIsProjected = true;
             let localAwayPlayers = (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[awayStd]) ? localGameMatch.rosters[awayStd].players : null;
             if (localAwayPlayers && localAwayPlayers.every(p => p.verified)) {
-                awayStarters = localAwayPlayers.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos } } }));
+                awayStarters = localAwayPlayers.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
                 awayIsProjected = false;
             } else if (awayTeamData.starters) {
                 awayStarters = awayTeamData.starters; awayIsProjected = false;
             } else if (localAwayPlayers) {
-                awayStarters = localAwayPlayers.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos } } }));
+                awayStarters = localAwayPlayers.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
             }
 
             let homeStarters = [], homeIsProjected = true;
             let localHomePlayers = (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[homeStd]) ? localGameMatch.rosters[homeStd].players : null;
             if (localHomePlayers && localHomePlayers.every(p => p.verified)) {
-                homeStarters = localHomePlayers.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos } } }));
+                homeStarters = localHomePlayers.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
                 homeIsProjected = false;
             } else if (homeTeamData.starters) {
                 homeStarters = homeTeamData.starters; homeIsProjected = false;
             } else if (localHomePlayers) {
-                homeStarters = localHomePlayers.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos } } }));
+                homeStarters = localHomePlayers.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
             }
 
             [awayStarters, homeStarters].forEach(starters => {
@@ -224,17 +207,33 @@ async function init(dateToFetch) {
         handleHashNavigation(); // Fire Deep Link scrolling!
         
     } catch (error) {
-        container.innerHTML = `<div class="col-12 text-center mt-5"><div class="alert alert-danger">Failed to load schedule.</div></div>`;
+        container.innerHTML = `
+            <div class="col-12 text-center mt-5">
+                <div class="alert alert-danger shadow-sm">
+                    <strong>Error loading data.</strong> Please try again later.
+                </div>
+            </div>`;
     }
 }
 
 function renderGames() {
-    const container = document.getElementById('games-container');
+    const container = document.getElementById('lineups-container');
     container.innerHTML = '';
-    const searchText = document.getElementById('team-search')?.value.toLowerCase() || '';
-    ALL_GAMES_DATA.filter(item => (item.away.team.displayName + " " + item.home.team.displayName).toLowerCase().includes(searchText))
-        .sort((a, b) => a.gameDate - b.gameDate)
-        .forEach(item => container.appendChild(createGameCard(item)));
+    
+    const filterText = (document.getElementById('team-search')?.value || '').toLowerCase();
+
+    ALL_GAMES_DATA.forEach(data => {
+        const homeName = data.home.team.displayName.toLowerCase();
+        const awayName = data.away.team.displayName.toLowerCase();
+        const homeAbbr = data.home.team.abbreviation.toLowerCase();
+        const awayAbbr = data.away.team.abbreviation.toLowerCase();
+
+        if (filterText && !homeName.includes(filterText) && !awayName.includes(filterText) && 
+            !homeAbbr.includes(filterText) && !awayAbbr.includes(filterText)) {
+            return;
+        }
+        container.appendChild(createGameCard(data));
+    });
 }
 
 function createGameCard(data) {
@@ -264,10 +263,46 @@ function createGameCard(data) {
         const color = isProjected ? "#ffecb5" : "#198754";
         const textColor = isProjected ? "text-dark" : "text-white";
         const label = isProjected ? "⚠️ PROJECTED" : "✅ OFFICIAL";
+        
+        // Find out which platform is toggled on the UI
+        const platformNode = document.querySelector('input[name="dfsPlatform"]:checked');
+        const platform = platformNode ? platformNode.value : 'fd';
+        
         const items = players.map(p => {
             const a = p.athlete || p;
-            return `<li class="px-2 py-1 border-bottom small"><span class="text-muted fw-bold me-2">${a.position?.abbreviation || '-'}</span><span class="fw-bold">${a.displayName || a.fullName}</span></li>`;
+            let statsHtml = '';
+            let injuryHtml = '';
+            
+            // If we mapped the DFS data to the player, extract it based on platform
+            if (a.dfs) {
+                const sal = platform === 'dk' ? a.dfs.dk_salary : a.dfs.salary;
+                const proj = platform === 'dk' ? a.dfs.dk_proj : a.dfs.proj;
+                const val = platform === 'dk' ? a.dfs.dk_value : a.dfs.value;
+                const injury = a.dfs.injury;
+                
+                // Only show stats if they exist
+                if (sal > 0 || proj > 0) {
+                    const salFormatted = sal > 0 ? `$${sal}` : '-';
+                    const projFormatted = proj > 0 ? `${proj} FP` : '-';
+                    const valFormatted = val > 0 ? `${val}x` : '-';
+                    statsHtml = `<div class="dfs-stats fw-bold">${salFormatted} | ${projFormatted} | ${valFormatted}</div>`;
+                }
+                
+                if (injury && injury !== "") {
+                    injuryHtml = `<span class="text-danger fw-bold ms-1" style="font-size:0.6rem;">${injury}</span>`;
+                }
+            }
+            
+            return `
+            <li class="px-2 py-1 border-bottom small d-flex flex-column">
+                <div>
+                    <span class="text-muted fw-bold me-2">${a.position?.abbreviation || '-'}</span>
+                    <span class="fw-bold">${a.displayName || a.fullName}</span>${injuryHtml}
+                </div>
+                ${statsHtml}
+            </li>`;
         }).join('');
+        
         return `<div class="text-center py-1 fw-bold ${textColor}" style="font-size: 0.6rem; background-color: ${color};">${label}</div><ul class="list-unstyled m-0">${items}</ul>`;
     };
 
@@ -298,5 +333,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('date-picker')?.addEventListener('change', (e) => {
         init(e.target.value);
         e.target.blur(); // Forces the mobile calendar UI to close immediately upon selection
+    });
+    
+    // Listen for DFS platform toggle changes
+    document.querySelectorAll('.dfs-toggle').forEach(radio => {
+        radio.addEventListener('change', renderGames);
     });
 });
