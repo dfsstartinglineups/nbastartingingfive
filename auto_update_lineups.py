@@ -166,7 +166,7 @@ def scrape_starters():
     print(f"Scraped {len(starters_map)} teams from BBM.")
     return starters_map
 
-# --- DYNAMIC SLATE CRAWLER FOR DFF (API DIRECT) ---
+# --- DYNAMIC SLATE CRAWLER FOR DFF ---
 def scrape_dff_projections(target_date_str):
     print(f"\n--- SCRAPING DAILY FANTASY FUEL FOR {target_date_str} ---")
     dff_data = {}
@@ -174,38 +174,49 @@ def scrape_dff_projections(target_date_str):
     
     for platform in platforms:
         base_url = f"https://www.dailyfantasyfuel.com/nba/projections/{platform}/{target_date_str}"
-        slate_ids = set()
-        
-        # 1. DIRECT API INTERCEPT
-        # Hit their hidden API to get all slate IDs for this date
-        api_url = f"https://api.dailyfantasyfuel.com/v1/slates?sport=nba&site={platform}&date={target_date_str}"
         
         try:
-            api_res = requests.get(api_url, headers=HEADERS, timeout=10)
-            if api_res.status_code == 200:
-                api_data = api_res.json()
-                # The API returns a list of slate objects. Extract the IDs.
-                for slate_obj in api_data:
-                    if 'id' in slate_obj:
-                        slate_ids.add(str(slate_obj['id']))
-        except Exception as e:
-            print(f"API Intercept Failed for {platform}: {e}")
+            response = requests.get(base_url, headers=HEADERS, timeout=15)
+            if response.status_code != 200:
+                print(f"{platform.upper()} returned status {response.status_code}. Skipping.")
+                continue
 
-        # Fallback to scraping the base URL if the API fails, but usually the API will catch everything
-        urls_to_scrape = [base_url]
-        for sid in slate_ids:
-            urls_to_scrape.append(f"{base_url}?slate={sid}")
+            html_text = response.text
+            slate_ids = set()
             
-        print(f"Found {len(slate_ids)} unique slates via API for {platform.upper()}: {slate_ids}")
+            # --- ULTIMATE JS SCRIPT HUNTER ---
+            # DFF stores all slate options inside a massive window.INITIAL_STATE javascript object.
+            # We will use regex to find every "slate" id hidden in that JSON block.
             
-        scraped_urls = set()
-        from bs4 import BeautifulSoup
-        
-        for url in urls_to_scrape:
-            if url in scraped_urls: continue
-            scraped_urls.add(url)
+            # 1. Look for the massive initialization script block
+            script_blocks = re.findall(r'<script[^>]*>(.*?)</script>', html_text, re.IGNORECASE | re.DOTALL)
+            for script in script_blocks:
+                if 'INITIAL_STATE' in script or 'slates' in script.lower():
+                    # Find all 24-character MongoDB Object IDs (which is what DFF uses for slate IDs)
+                    mongo_ids = re.findall(r'["\']([a-f0-9]{24})["\']', script)
+                    slate_ids.update(mongo_ids)
+                    
+                    # Find standard shorter slate IDs just in case
+                    short_ids = re.findall(r'["\']slate["\']\s*:\s*["\']([a-zA-Z0-9_-]{5,20})["\']', script)
+                    slate_ids.update(short_ids)
             
-            try:
+            # 2. Catch slates in standard URL links on the page
+            slate_ids.update(re.findall(r'slate=([a-zA-Z0-9_-]+)', html_text, re.IGNORECASE))
+
+            print(f"Found {len(slate_ids)} unique slates for {platform.upper()}: {slate_ids}")
+            
+            # Add all discovered slates to our scraping queue
+            urls_to_scrape = [base_url]
+            for sid in slate_ids:
+                urls_to_scrape.append(f"{base_url}?slate={sid}")
+                
+            scraped_urls = set()
+            from bs4 import BeautifulSoup
+            
+            for url in urls_to_scrape:
+                if url in scraped_urls: continue
+                scraped_urls.add(url)
+                
                 res = requests.get(url, headers=HEADERS, timeout=15)
                 if res.status_code != 200: continue
                 
@@ -255,10 +266,10 @@ def scrape_dff_projections(target_date_str):
                         dff_data[p_key]["dk_value"] = round(val, 2)
                         if injury: dff_data[p_key]["injury"] = injury
                         
-            except Exception as e:
-                print(f"Error scraping URL {url}: {e}")
-                
-        print(f"Successfully scraped {len(scraped_urls)} slates for {platform.upper()}.")
+            print(f"Successfully scraped {len(scraped_urls)} slates for {platform.upper()}.")
+            
+        except Exception as e:
+            print(f"Error scraping DFF ({platform}): {e}")
             
     return dff_data
 
@@ -458,5 +469,6 @@ def build_json():
 
 if __name__ == "__main__":
     build_json()
+
 
 
