@@ -184,23 +184,32 @@ def scrape_dff_projections(target_date_str):
             html_text = response.text
             slate_ids = set()
             
-            # 1. Catch slates in standard URL links
-            slate_ids.update(re.findall(r'slate=([a-zA-Z0-9_-]{4,15})', html_text))
+            # --- ULTIMATE SLATE HUNTER ---
+            # 1. URL Params (e.g., ?slate=12345 or %3D12345)
+            slate_ids.update(re.findall(r'slate(?:=|%3D)([a-zA-Z0-9_-]+)', html_text, re.IGNORECASE))
             
-            # 2. Catch slates in pre-rendered Modal tags
-            slate_ids.update(re.findall(r'data-slate=["\']([a-zA-Z0-9_-]{4,15})["\']', html_text))
+            # 2. JSON Attributes (e.g., "slateId": "12345")
+            slate_ids.update(re.findall(r'["\'](?:slate_?id|slateId)["\']\s*:\s*["\']?([a-zA-Z0-9_-]+)["\']?', html_text, re.IGNORECASE))
             
-            # 3. ULTIMATE FIX: Rip the slate IDs directly out of the hidden JSON arrays
-            slates_arrays = re.findall(r'"slates"\s*:\s*\[(.*?)\]', html_text, re.IGNORECASE)
-            for arr in slates_arrays:
-                ids = re.findall(r'"id"\s*:\s*"([a-zA-Z0-9_-]{4,15})"', arr)
+            # 3. HTML Data Attributes (e.g., data-slate="12345")
+            slate_ids.update(re.findall(r'data-slate=["\']([a-zA-Z0-9_-]+)["\']', html_text, re.IGNORECASE))
+            
+            # 4. Hidden Dropdowns (<option value="12345">Late Night</option>)
+            slate_ids.update(re.findall(r'<option[^>]+value=["\']([a-zA-Z0-9_-]{3,20})["\'][^>]*>', html_text, re.IGNORECASE))
+            
+            # 5. JSON blocks that define the modal (e.g., {"id": "12345", "name": "Late Night Slate"})
+            blocks = re.findall(r'\{[^{]*?["\'](?:name|label|title)["\']\s*:\s*["\'][^"\']*?(?:Slate|Night|Express|Turbo|Main|After|All)[^"\']*?["\'][^{]*?\}', html_text, re.IGNORECASE)
+            for b in blocks:
+                ids = re.findall(r'["\']id["\']\s*:\s*["\']?([a-zA-Z0-9_-]+)["\']?', b, re.IGNORECASE)
                 slate_ids.update(ids)
-                
-            # 4. Fallback for alternate JSON naming conventions
-            slate_ids.update(re.findall(r'"slateId"\s*:\s*"([a-zA-Z0-9_-]{4,15})"', html_text))
+
+            # Clean up and filter out invalid/generic words
+            bad_ids = {'true', 'false', 'null', 'undefined', '0', '1', 'yes', 'no', 'none'}
+            slate_ids = {sid for sid in slate_ids if sid.lower() not in bad_ids and 3 <= len(sid) <= 25}
             
             print(f"Found {len(slate_ids)} unique slates for {platform.upper()}: {slate_ids}")
             
+            # Add all discovered slates to our scraping queue
             urls_to_scrape = [base_url]
             for sid in slate_ids:
                 urls_to_scrape.append(f"{base_url}?slate={sid}")
@@ -464,3 +473,4 @@ def build_json():
 
 if __name__ == "__main__":
     build_json()
+
