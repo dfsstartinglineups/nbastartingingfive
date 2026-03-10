@@ -161,7 +161,7 @@ async function init(dateToFetch) {
                 if (localGameMatch.meta.total && localGameMatch.meta.total !== "TBD") odds.overUnder = `O/U ${localGameMatch.meta.total}`;
             }
 
-            // Lineup Logic with DFS data injection
+            // Lineup Logic
             let awayStarters = [], awayIsProjected = true;
             let localAwayPlayers = (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[awayStd]) ? localGameMatch.rosters[awayStd].players : null;
             if (localAwayPlayers && localAwayPlayers.every(p => p.verified)) {
@@ -294,8 +294,8 @@ function createGameCard(data) {
             }
             
             return `
-            <li class="px-2 py-1 border-bottom small d-flex flex-column">
-                <div>
+            <li class="px-2 py-1 border-bottom small d-flex flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-start align-items-center">
                     <span class="text-muted fw-bold me-2">${a.position?.abbreviation || '-'}</span>
                     <span class="fw-bold">${a.displayName || a.fullName}</span>${injuryHtml}
                 </div>
