@@ -1,6 +1,4 @@
-import pandas as pd
 import json
-import glob
 import os
 import requests
 import re
@@ -37,12 +35,12 @@ NICKNAMES = {
 }
 
 def normalize_team(team_name):
-    if pd.isna(team_name): return ""
+    if not team_name: return ""
     clean_name = re.sub(r'[\r\n\t\d\xa0]', '', str(team_name)).strip().upper()
     return TEAM_MAP.get(clean_name, clean_name)
 
 def clean_player_name(name):
-    if not name or name == '-': return None
+    if not name or name == '-': return ""
     name = str(name).lower().strip()
     name = name.replace('.', '').replace("'", "")
     for suffix in [' jr', ' sr', ' ii', ' iii', ' iv']:
@@ -62,7 +60,7 @@ def parse_time_to_minutes(time_str):
     except:
         return 9999
 
-# --- NEW: FETCH PRECISE DATES & TIMES FROM ESPN ---
+# --- FETCH PRECISE DATES & TIMES FROM ESPN ---
 def get_espn_schedule_data():
     print("--- Fetching true game dates and times from ESPN ---")
     team_schedule = {}
@@ -70,7 +68,6 @@ def get_espn_schedule_data():
         ny_tz = zoneinfo.ZoneInfo("America/New_York")
         now_est = datetime.now(ny_tz)
         
-        # Check today, tomorrow, and the next day
         for i in range(3):
             target_date = now_est + timedelta(days=i)
             date_str = target_date.strftime('%Y%m%d')
@@ -80,17 +77,15 @@ def get_espn_schedule_data():
             data = res.json()
             
             for ev in data.get('events', []):
-                # ESPN gives dates in UTC ISO format (e.g. 2026-03-10T00:30Z)
                 utc_date_str = ev['date'].replace('Z', '+00:00')
                 dt_utc = datetime.fromisoformat(utc_date_str)
                 dt_est = dt_utc.astimezone(ny_tz)
                 
                 local_date_format = dt_est.strftime('%Y-%m-%d')
-                local_time_format = dt_est.strftime('%I:%M %p').lstrip('0') # Strips leading zero from hour
+                local_time_format = dt_est.strftime('%I:%M %p').lstrip('0')
                 
                 for comp in ev['competitions'][0]['competitors']:
                     team_abbr = normalize_team(comp['team']['abbreviation'])
-                    # Only map it the FIRST time we see them (their immediate next game)
                     if team_abbr not in team_schedule:
                         team_schedule[team_abbr] = {
                             "date": local_date_format,
@@ -100,18 +95,17 @@ def get_espn_schedule_data():
         print(f"ESPN Date/Time Fetch Error: {e}")
     return team_schedule
 
-# --- STEP 1: SCRAPE BASKETBALL MONSTER ---
+# --- SCRAPE BASKETBALL MONSTER ---
 def scrape_starters():
     print(f"--- SCRAPING {BBM_URL} ---")
-    
     try:
         response = requests.get(BBM_URL, headers=HEADERS, timeout=15)
         from bs4 import BeautifulSoup
         soup = BeautifulSoup(response.text, 'html.parser')
         rows = soup.find_all('tr')
     except Exception as e:
-        print(f"CRITICAL ERROR SCRAPING: {e}")
-        return {}, {}
+        print(f"CRITICAL ERROR SCRAPING BBM: {e}")
+        return {}
 
     starters_map = {} 
     
@@ -135,7 +129,6 @@ def scrape_starters():
         if is_header:
             team_away = normalize_team(raw_away.replace('@', ''))
             team_home = normalize_team(raw_home.replace('@', ''))
-
             if team_away not in starters_map: starters_map[team_away] = []
             if team_home not in starters_map: starters_map[team_home] = []
             continue
@@ -164,31 +157,85 @@ def scrape_starters():
                 p_info = extract_player_info(cells[2])
                 if p_info: starters_map[tm_home].append(p_info)
 
-    print(f"Scraped {len(starters_map)} teams.")
+    print(f"Scraped {len(starters_map)} teams from BBM.")
     return starters_map
 
-# --- STEP 2: LOAD CSV ---
-def load_cheat_sheet():
-    files = glob.glob('*DFF*.csv')
-    if not files:
-        return pd.DataFrame()
+# --- SCRAPE BOTH PLATFORMS FROM DFF ---
+def scrape_dff_projections(target_date_str):
+    print(f"--- SCRAPING DAILY FANTASY FUEL FOR {target_date_str} ---")
+    dff_data = {}
+    platforms = ['fanduel', 'draftkings']
     
-    path = sorted(files)[-1]
-    
-    try:
-        df = pd.read_csv(path)
-        df['norm_team'] = df['team'].apply(normalize_team)
-        if 'first_name' in df.columns and 'last_name' in df.columns:
-            df['clean_name'] = df.apply(lambda x: clean_player_name(f"{x['first_name']} {x['last_name']}"), axis=1)
-            df['last_name_lower'] = df['last_name'].str.lower().str.strip()
-            df['first_initial'] = df['first_name'].str[0].str.lower()
-        return df
-    except Exception as e:
-        return pd.DataFrame()
+    for platform in platforms:
+        url = f"https://www.dailyfantasyfuel.com/nba/projections/{platform}/{target_date_str}"
+        try:
+            response = requests.get(url, headers=HEADERS, timeout=15)
+            if response.status_code != 200:
+                print(f"{platform.upper()} returned status {response.status_code}. Skipping.")
+                continue
 
-# --- STEP 3: MAIN LOGIC ---
+            html_text = response.text
+            
+            # Verify the server actually gave us the date we asked for
+            date_match = re.search(r"window\.url_start_date\s*=\s*'([^']+)'", html_text)
+            if date_match and date_match.group(1) != target_date_str:
+                print(f"WARNING: {platform.upper()} returned data for {date_match.group(1)} instead of {target_date_str}. Skipping.")
+                continue
+
+            from bs4 import BeautifulSoup
+            soup = BeautifulSoup(html_text, 'html.parser')
+            
+            for row in soup.find_all('tr', class_='projections-listing'):
+                team_raw = row.get('data-team')
+                if not team_raw: continue
+                
+                team = normalize_team(team_raw)
+                raw_name = row.get('data-name', '')
+                clean_name = clean_player_name(raw_name)
+                
+                try:
+                    sal = float(row.get('data-salary', 0))
+                    proj = float(row.get('data-ppg_proj', 0))
+                    val = float(row.get('data-value_proj', 0))
+                except:
+                    sal, proj, val = 0, 0, 0
+                    
+                pos = row.get('data-pos', 'Flex')
+                injury = row.get('data-inj', '')
+                
+                p_key = f"{team}_{clean_name}"
+                
+                # Initialize player dict if it doesn't exist yet
+                if p_key not in dff_data:
+                    dff_data[p_key] = {
+                        "name": raw_name, "injury": injury,
+                        "pos": "Flex", "salary": 0, "proj": 0.0, "value": 0.0,
+                        "dk_pos": "Flex", "dk_salary": 0, "dk_proj": 0.0, "dk_value": 0.0
+                    }
+                
+                # Update specific platform fields
+                if platform == 'fanduel':
+                    dff_data[p_key]["pos"] = pos
+                    dff_data[p_key]["salary"] = int(sal)
+                    dff_data[p_key]["proj"] = round(proj, 1)
+                    dff_data[p_key]["value"] = round(val, 2)
+                    if injury: dff_data[p_key]["injury"] = injury
+                else:
+                    dff_data[p_key]["dk_pos"] = pos
+                    dff_data[p_key]["dk_salary"] = int(sal)
+                    dff_data[p_key]["dk_proj"] = round(proj, 1)
+                    dff_data[p_key]["dk_value"] = round(val, 2)
+                    if injury: dff_data[p_key]["injury"] = injury
+                    
+            print(f"Successfully scraped {platform.upper()} projections.")
+            
+        except Exception as e:
+            print(f"Error scraping DFF ({platform}): {e}")
+            
+    return dff_data
+
+# --- MAIN LOGIC ---
 def build_json():
-    # Setup timezone perfectly for Daylight Saving Time using zoneinfo
     ny_tz = zoneinfo.ZoneInfo("America/New_York")
     et_now = datetime.now(ny_tz)
     current_date_str = et_now.strftime("%Y-%m-%d")
@@ -208,11 +255,11 @@ def build_json():
                         old_memory[clean_id] = g
         except: pass
 
-    # Get the real dates and times from ESPN!
     team_schedule = get_espn_schedule_data()
-
     scraped_rosters = scrape_starters()
-    stats_df = load_cheat_sheet()
+    
+    # Grab today's fresh projections for BOTH FD and DK
+    dff_projections = scrape_dff_projections(current_date_str)
     
     teams_list = list(scraped_rosters.keys())
     new_games_dict = {}
@@ -226,39 +273,20 @@ def build_json():
         team_a = teams_list[i]
         team_b = teams_list[i+1]
         
-        # Fetch exact Date and Time from ESPN map
         schedule_info = team_schedule.get(team_a) or team_schedule.get(team_b, {})
         game_date = schedule_info.get("date", current_date_str)
         game_time = schedule_info.get("time", "TBD")
         
-        # Unique ID combining Teams + ESPN Date
         game_id = f"{team_a}-{team_b}-{game_date}"
         
-        spread_str = "TBD"
-        total_str = "TBD"
-        if not stats_df.empty:
-            meta_row = stats_df[stats_df['norm_team'] == team_a]
-            if not meta_row.empty:
-                try:
-                    s_val = meta_row.iloc[0].get('spread', 0)
-                    s = float(str(s_val).replace('+', ''))
-                    spread_str = f"{s}" if s < 0 else f"+{s}"
-                    t_val = meta_row.iloc[0].get('over_under', 'TBD')
-                    total_str = str(t_val)
-                except: pass
-
         old_game = old_memory.get(game_id, {})
         old_meta = old_game.get("meta", {})
         
-        if spread_str in ["TBD", "nan", "+nan"] or pd.isna(spread_str):
-            old_s = str(old_meta.get("spread", "TBD"))
-            if old_s not in ["TBD", "nan", "+nan", "None"]:
-                spread_str = old_s
-                
-        if total_str in ["TBD", "nan", "+nan"] or pd.isna(total_str):
-            old_t = str(old_meta.get("total", "TBD"))
-            if old_t not in ["TBD", "nan", "+nan", "None"]:
-                total_str = old_t
+        spread_str = str(old_meta.get("spread", "TBD"))
+        total_str = str(old_meta.get("total", "TBD"))
+        
+        if spread_str in ["nan", "+nan", "None"]: spread_str = "TBD"
+        if total_str in ["nan", "+nan", "None"]: total_str = "TBD"
 
         game_obj = {
             "id": game_id,
@@ -268,7 +296,7 @@ def build_json():
             "meta": {
                 "spread": spread_str,
                 "total": total_str,
-                "time": game_time  # Injected directly from ESPN
+                "time": game_time 
             },
             "rosters": {}
         }
@@ -282,44 +310,71 @@ def build_json():
                 is_verified = p_obj['verified']
                 clean = clean_player_name(raw_name)
                 
+                # Setup default fallback with DK fields
                 p_data = {
                     "pos": "Flex", "name": raw_name,
                     "salary": 0, "proj": 0, "value": 0,
+                    "dk_pos": "Flex", "dk_salary": 0, "dk_proj": 0, "dk_value": 0,
                     "injury": "", "verified": is_verified 
                 }
                 
-                if not stats_df.empty:
-                    match = stats_df[(stats_df['norm_team'] == team) & (stats_df['clean_name'] == clean)]
-                    
-                    if match.empty:
-                        parts = clean.split()
-                        if len(parts) >= 2:
-                            match = stats_df[
-                                (stats_df['norm_team'] == team) & 
-                                (stats_df['last_name_lower'] == parts[-1]) &
-                                (stats_df['first_initial'] == parts[0][0])
-                            ]
-                    
-                    if not match.empty:
-                        row = match.iloc[0]
-                        try:
-                            sal = float(row['salary'])
-                            proj = float(row['ppg_projection'])
-                            p_data = {
-                                "pos": row['position'],
-                                "name": f"{row['first_name']} {row['last_name']}",
-                                "salary": int(sal),
-                                "proj": round(proj, 1),
-                                "value": round(proj / (sal/1000), 2) if sal > 0 else 0,
-                                "injury": str(row['injury_status']) if pd.notna(row['injury_status']) else "",
-                                "verified": is_verified
-                            }
-                        except: pass
+                # Check new DFF Scrape First
+                p_key = f"{team}_{clean}"
+                if p_key in dff_projections:
+                    dff_p = dff_projections[p_key]
+                    p_data.update({
+                        "pos": dff_p.get('pos', 'Flex'),
+                        "salary": dff_p.get('salary', 0),
+                        "proj": dff_p.get('proj', 0),
+                        "value": dff_p.get('value', 0),
+                        "dk_pos": dff_p.get('dk_pos', 'Flex'),
+                        "dk_salary": dff_p.get('dk_salary', 0),
+                        "dk_proj": dff_p.get('dk_proj', 0),
+                        "dk_value": dff_p.get('dk_value', 0),
+                        "injury": dff_p.get('injury', '')
+                    })
+                else:
+                    # Smart Fallback
+                    parts = clean.split()
+                    if len(parts) >= 2:
+                        last_name = parts[-1]
+                        first_initial = parts[0][0]
+                        for d_key, d_val in dff_projections.items():
+                            if d_key.startswith(f"{team}_") and last_name in d_key and d_key.split('_')[1].startswith(first_initial):
+                                p_data.update({
+                                    "pos": d_val.get('pos', 'Flex'),
+                                    "salary": d_val.get('salary', 0),
+                                    "proj": d_val.get('proj', 0),
+                                    "value": d_val.get('value', 0),
+                                    "dk_pos": d_val.get('dk_pos', 'Flex'),
+                                    "dk_salary": d_val.get('dk_salary', 0),
+                                    "dk_proj": d_val.get('dk_proj', 0),
+                                    "dk_value": d_val.get('dk_value', 0),
+                                    "injury": d_val.get('injury', '')
+                                })
+                                break
+
+                    # Last Resort Fallback (from old memory)
+                    if p_data["salary"] == 0 and old_game:
+                        old_roster = old_game.get('rosters', {}).get(team, {}).get('players', [])
+                        for old_p in old_roster:
+                            if clean_player_name(old_p['name']) == clean:
+                                p_data.update({
+                                    "pos": old_p.get("pos", "Flex"),
+                                    "salary": old_p.get("salary", 0),
+                                    "proj": old_p.get("proj", 0),
+                                    "value": old_p.get("value", 0),
+                                    "dk_pos": old_p.get("dk_pos", "Flex"),
+                                    "dk_salary": old_p.get("dk_salary", 0),
+                                    "dk_proj": old_p.get("dk_proj", 0),
+                                    "dk_value": old_p.get("dk_value", 0)
+                                })
+                                break
                 
                 player_list.append(p_data)
             
             if not player_list:
-                 player_list.append({"pos": "-", "name": "Waiting for Lineup", "salary": 0, "proj": 0, "value": 0, "injury": "", "verified": False})
+                 player_list.append({"pos": "-", "name": "Waiting for Lineup", "salary": 0, "proj": 0, "value": 0, "dk_pos": "-", "dk_salary": 0, "dk_proj": 0, "dk_value": 0, "injury": "", "verified": False})
 
             game_obj['rosters'][team] = {
                 "logo": f"https://a.espncdn.com/i/teamlogos/nba/500/{team.lower()}.png",
@@ -333,7 +388,6 @@ def build_json():
         
     games_output = list(old_memory.values())
 
-    # Sort strictly by the precise ESPN time
     for g in games_output:
         g['sort_index'] = parse_time_to_minutes(g['meta'].get('time', '7:00 PM'))
         
@@ -351,7 +405,7 @@ def build_json():
     with open('nba_data.json', 'w') as f:
         json.dump(final_json, f, indent=2)
     
-    print(f"SUCCESS. Generated {len(games_output)} games (Combined Active & Completed).")
+    print(f"SUCCESS. Generated {len(games_output)} games.")
 
 if __name__ == "__main__":
     build_json()
