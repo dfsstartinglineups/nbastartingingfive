@@ -214,31 +214,48 @@ def scrape_dff_projections(target_date_str):
                 time.sleep(1) 
             except: pass
 
-            html_text = driver.page_source
+            # --- BULLETPROOF SLATE EXTRACTION ---
+            soup = BeautifulSoup(driver.page_source, 'html.parser')
             
-            # Extract names and IDs from options tags
-            options = driver.find_elements(By.TAG_NAME, "option")
-            active_sid = None
-            for opt in options:
-                val = opt.get_attribute("value")
-                text = opt.text.strip()
-                if val and len(val) >= 4 and "http" not in val:
-                    slate_ids.add(val)
-                    GLOBAL_SLATES[platform][val] = text
-                    if opt.is_selected():
-                        active_sid = val
+            # Helper function to safely add and name slates
+            def add_slate_name(sid, name):
+                if not sid or not re.match(r'^[a-zA-Z0-9]{5}$', str(sid)): return # Strict 5-char alphanumeric check
+                slate_ids.add(sid)
+                name = str(name).strip()
+                if name and len(name) > 2:
+                    bad_names = ["projections", "matchups", "odds", "starting lineups", "players", "lineups", "optimizer"]
+                    if name.lower() not in bad_names:
+                        if sid not in GLOBAL_SLATES[platform] or GLOBAL_SLATES[platform][sid].startswith("Slate "):
+                            clean_name = re.sub(r'^(FD|DK)\s+', '', name, flags=re.IGNORECASE).strip()
+                            if clean_name:
+                                GLOBAL_SLATES[platform][sid] = clean_name
 
-            matches = re.findall(r'data-slate=["\']([a-zA-Z0-9]{5})["\']', html_text)
-            matches += re.findall(r'slate=([a-zA-Z0-9]{5})', html_text)
-            
+            # 1. Look in Option tags
+            active_sid = None
+            for opt in soup.find_all('option'):
+                val = opt.get('value', '')
+                if opt.has_attr('selected'): active_sid = val
+                add_slate_name(val, opt.get_text(separator=" ", strip=True))
+                
+            # 2. Look in React Divs/Spans with data-slate
+            for el in soup.find_all(attrs={"data-slate": True}):
+                add_slate_name(el.get("data-slate", ""), el.get_text(separator=" ", strip=True))
+                
+            # 3. Look in Links with slate=
+            for a in soup.find_all('a', href=True):
+                match = re.search(r'slate=([a-zA-Z0-9]{5})', a['href'])
+                if match:
+                    add_slate_name(match.group(1), a.get_text(separator=" ", strip=True))
+
+            # 4. Fallback Regex (Just in case the IDs are hidden in JS variables)
+            html_text = driver.page_source
+            matches = re.findall(r'slate=["\']?([a-zA-Z0-9]{5})', html_text)
             for m in matches:
                 slate_ids.add(m)
                 if m not in GLOBAL_SLATES[platform]:
                     GLOBAL_SLATES[platform][m] = f"Slate {m}"
             
             print(f"Browser found {len(slate_ids)} valid slates: {slate_ids}")
-            
-            from bs4 import BeautifulSoup
             
             def parse_row(row, plt, sid):
                 team_raw = row.get('data-team')
@@ -288,7 +305,6 @@ def scrape_dff_projections(target_date_str):
                         dff_data[p_key]["dk_slates"].append(sid)
 
             print(f"Scraping initial rendered slate: {base_url}")
-            soup = BeautifulSoup(driver.page_source, 'html.parser')
             if active_sid:
                 for row in soup.find_all('tr', class_='projections-listing'):
                     parse_row(row, platform, active_sid)
