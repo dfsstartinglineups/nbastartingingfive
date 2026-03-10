@@ -4,6 +4,11 @@ import requests
 import re
 import zoneinfo
 from datetime import datetime, timezone, timedelta
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+import time
 
 # --- CONFIGURATION ---
 BBM_URL = "https://basketballmonster.com/nbalineups.aspx"
@@ -166,46 +171,55 @@ def scrape_starters():
     print(f"Scraped {len(starters_map)} teams from BBM.")
     return starters_map
 
-# --- DYNAMIC SLATE CRAWLER FOR DFF ---
+# --- DYNAMIC SLATE CRAWLER FOR DFF (SELENIUM BROWSER BOT) ---
 def scrape_dff_projections(target_date_str):
-    print(f"\n--- SCRAPING DAILY FANTASY FUEL FOR {target_date_str} ---")
+    print(f"\n--- BROWSER BOT STARTING FOR: {target_date_str} ---")
     dff_data = {}
     platforms = ['fanduel', 'draftkings']
     
+    # 1. Setup the Headless Chrome Browser
+    chrome_options = Options()
+    chrome_options.add_argument("--headless") # Run invisibly
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+    
+    try:
+        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
+    except Exception as e:
+        print(f"Failed to launch browser bot: {e}")
+        return dff_data
+
     for platform in platforms:
         base_url = f"https://www.dailyfantasyfuel.com/nba/projections/{platform}/{target_date_str}"
         
         try:
-            response = requests.get(base_url, headers=HEADERS, timeout=15)
-            if response.status_code != 200:
-                print(f"{platform.upper()} returned status {response.status_code}. Skipping.")
-                continue
-
-            html_text = response.text
+            print(f"Loading {platform.upper()} Base URL: {base_url}")
+            driver.get(base_url)
+            
+            # Wait for React to build the page and the modal
+            time.sleep(4) 
+            
+            # Get the fully rendered HTML *after* Javascript executes
+            html_text = driver.page_source
             slate_ids = set()
             
-            # --- ULTIMATE JS SCRIPT HUNTER ---
-            # DFF stores all slate options inside a massive window.INITIAL_STATE javascript object.
-            # We will use regex to find every "slate" id hidden in that JSON block.
+            # Now that the DOM is built, the modal elements exist!
+            # Look for the data-slate tags we saw earlier
+            slate_ids.update(re.findall(r'data-slate=["\']([a-zA-Z0-9_-]+)["\']', html_text, re.IGNORECASE))
             
-            # 1. Look for the massive initialization script block
-            script_blocks = re.findall(r'<script[^>]*>(.*?)</script>', html_text, re.IGNORECASE | re.DOTALL)
-            for script in script_blocks:
-                if 'INITIAL_STATE' in script or 'slates' in script.lower():
-                    # Find all 24-character MongoDB Object IDs (which is what DFF uses for slate IDs)
-                    mongo_ids = re.findall(r'["\']([a-f0-9]{24})["\']', script)
-                    slate_ids.update(mongo_ids)
-                    
-                    # Find standard shorter slate IDs just in case
-                    short_ids = re.findall(r'["\']slate["\']\s*:\s*["\']([a-zA-Z0-9_-]{5,20})["\']', script)
-                    slate_ids.update(short_ids)
+            # Look for any dropdown options
+            slate_ids.update(re.findall(r'<option[^>]+value=["\']([a-zA-Z0-9_-]{3,24})["\'][^>]*>', html_text, re.IGNORECASE))
             
-            # 2. Catch slates in standard URL links on the page
-            slate_ids.update(re.findall(r'slate=([a-zA-Z0-9_-]+)', html_text, re.IGNORECASE))
+            # Look for Mongo IDs just to be safe
+            slate_ids.update(re.findall(r'["\']([a-f0-9]{24})["\']', html_text))
 
-            print(f"Found {len(slate_ids)} unique slates for {platform.upper()}: {slate_ids}")
+            # Filter out junk words
+            bad_ids = {'true', 'false', 'null', 'undefined', '0', '1', 'yes', 'no'}
+            slate_ids = {sid for sid in slate_ids if sid.lower() not in bad_ids and len(sid) >= 5}
             
-            # Add all discovered slates to our scraping queue
+            print(f"Browser found {len(slate_ids)} unique slates: {slate_ids}")
+            
             urls_to_scrape = [base_url]
             for sid in slate_ids:
                 urls_to_scrape.append(f"{base_url}?slate={sid}")
@@ -217,10 +231,11 @@ def scrape_dff_projections(target_date_str):
                 if url in scraped_urls: continue
                 scraped_urls.add(url)
                 
-                res = requests.get(url, headers=HEADERS, timeout=15)
-                if res.status_code != 200: continue
+                print(f"Scraping fully rendered slate: {url}")
+                driver.get(url)
+                time.sleep(3) # Wait for the table data to load
                 
-                soup = BeautifulSoup(res.text, 'html.parser')
+                soup = BeautifulSoup(driver.page_source, 'html.parser')
                 
                 for row in soup.find_all('tr', class_='projections-listing'):
                     team_raw = row.get('data-team')
@@ -271,6 +286,7 @@ def scrape_dff_projections(target_date_str):
         except Exception as e:
             print(f"Error scraping DFF ({platform}): {e}")
             
+    driver.quit() # Always close the browser to free memory
     return dff_data
 
 # --- MAIN LOGIC ---
@@ -469,6 +485,7 @@ def build_json():
 
 if __name__ == "__main__":
     build_json()
+
 
 
 
