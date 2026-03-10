@@ -179,8 +179,16 @@ def scrape_dff_projections(target_date_str):
 
             html_text = response.text
             
-            # Find ALL hidden slate IDs on the page so we don't miss late games
-            slate_ids = set(re.findall(r'slate=([a-zA-Z0-9]{4,15})', html_text))
+            # 1. Look for standard URL parameters
+            slate_ids = set(re.findall(r'slate=([a-zA-Z0-9_-]{4,30})', html_text))
+            
+            # 2. Look for data-slate attributes (Specifically targeting the Modal you found)
+            modal_slates = set(re.findall(r'data-slate=["\']([a-zA-Z0-9_-]{4,30})["\']', html_text))
+            slate_ids.update(modal_slates)
+            
+            # 3. Look for dropdown values inside a slate selector
+            option_slates = set(re.findall(r'value=["\']([a-zA-Z0-9_-]{4,30})["\'][^>]*>.*?(?:Slate|Night|Express|Turbo)', html_text, re.IGNORECASE))
+            slate_ids.update(option_slates)
             
             urls_to_scrape = [base_url]
             for sid in slate_ids:
@@ -232,7 +240,6 @@ def scrape_dff_projections(target_date_str):
                         }
                     
                     # Update specific platform fields ONLY IF it has a valid salary
-                    # This prevents an "Out" slate overriding an active slate
                     if platform == 'fanduel' and sal > 0:
                         dff_data[p_key]["pos"] = pos
                         dff_data[p_key]["salary"] = int(sal)
@@ -246,7 +253,7 @@ def scrape_dff_projections(target_date_str):
                         dff_data[p_key]["dk_value"] = round(val, 2)
                         if injury: dff_data[p_key]["injury"] = injury
                         
-            print(f"Successfully scraped {len(scraped_urls)} slates for {platform.upper()}.")
+            print(f"Successfully scraped {len(scraped_urls)} slates for {platform.upper()} (Found Slates: {slate_ids})")
             
         except Exception as e:
             print(f"Error scraping DFF ({platform}): {e}")
@@ -447,4 +454,5 @@ def build_json():
 
 if __name__ == "__main__":
     build_json()
+
 
