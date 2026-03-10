@@ -275,9 +275,28 @@ def build_json():
     team_schedule = get_espn_schedule_data()
     scraped_rosters = scrape_starters()
     
-    # Grab today's fresh projections for BOTH FD and DK across ALL slates
-    dff_projections = scrape_dff_projections(current_date_str)
+    # -------------------------------------------------------------
+    # THE FIX: SCRAPE MULTIPLE DATES BASED ON THE ESPN SCHEDULE
+    # -------------------------------------------------------------
+    unique_dates = set()
+    for team_data in team_schedule.values():
+        if "date" in team_data:
+            unique_dates.add(team_data["date"])
+            
+    # Fallback to ensure today is always scraped
+    unique_dates.add(current_date_str)
     
+    # Master dictionary for all projected players
+    dff_projections = {}
+    
+    for d_str in unique_dates:
+        slate_data = scrape_dff_projections(d_str)
+        # Merge this date's projections into the master dictionary
+        for player_key, stats in slate_data.items():
+            # If the player is already in master dict, only overwrite if we found a >$0 salary
+            if player_key not in dff_projections or (dff_projections[player_key]['salary'] == 0 and stats['salary'] > 0):
+                dff_projections[player_key] = stats
+
     teams_list = list(scraped_rosters.keys())
     new_games_dict = {}
     formatted_time = et_now.strftime("%b %d, %I:%M %p ET")
