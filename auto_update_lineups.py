@@ -26,12 +26,14 @@ TEAM_MAP = {
 }
 
 # NICKNAME MAP
+# NICKNAMES MAP
 NICKNAMES = {
     'cam': 'cameron', 'nic': 'nicolas', 'patti': 'patrick', 'pat': 'patrick',
     'mo': 'moritz', 'moe': 'moritz', 'zach': 'zachary', 'tim': 'timothy',
     'kj': 'kenyon', 'x': 'xavier', 'herb': 'herbert', 'bub': 'carrinton',
     'greg': 'gregory', 'nick': 'nicholas', 'mitch': 'mitchell', 'kelly': 'kelly',
-    'pj': 'pj', 'trey': 'trey', 'cj': 'cj', 'c.j.': 'cj', 'shai': 'shai'
+    'pj': 'pj', 'trey': 'trey', 'cj': 'cj', 'c.j.': 'cj', 'shai': 'shai',
+    'alexandre': 'alex'  # Added for Alexandre Sarr
 }
 
 def normalize_team(team_name):
@@ -445,3 +447,4 @@ def build_json():
 
 if __name__ == "__main__":
     build_json()
+
