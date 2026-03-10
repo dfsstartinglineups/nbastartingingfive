@@ -34,6 +34,7 @@
     <meta name="twitter:image" content="https://nbastartingfive.com/nba-social-share.png">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #f4f6f9;
@@ -54,16 +55,27 @@
             border: 0;
         }
 
-        .header-brand {
-            font-weight: 800;
-            font-size: 1.4rem;
-            letter-spacing: -0.5px;
+        .header-brand { 
+            font-weight: 900; 
+            letter-spacing: -1px; 
+            font-size: 2rem; 
+            color: #fff; 
+            font-style: italic; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5); 
         }
         .header-brand a {
-            color: #ffffff; 
+            color: inherit;
         }
-        .header-brand span {
-            color: #dc3545; 
+        .header-brand span { 
+            text-shadow: none !important;
+            /* Fiery Red Gradient for "Five" */
+            background: linear-gradient(to bottom, #ff6b6b 0%, #dc3545 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 12px rgba(220, 53, 69, 0.8));
+            padding-right: 2px; /* Fix for italic 'e' getting cut off */
+            display: inline-block; /* Required for padding to push the bounding box */
         }
 
         .lineup-card {
@@ -101,6 +113,23 @@
         
         /* DFS Stats formatting */
         .dfs-stats { font-size: 0.65rem; color: #6c757d; letter-spacing: -0.2px; margin-top: 2px; }
+        
+        /* Dark Theme overrides for the Navbar elements */
+        .navbar-dark-theme .btn-outline-light {
+            color: #adb5bd;
+            border-color: #495057;
+            background-color: #343a40;
+        }
+        .navbar-dark-theme .btn-outline-light:hover {
+            color: #fff;
+            background-color: #495057;
+        }
+        .navbar-dark-theme input[type="date"] {
+            background-color: #343a40; 
+            color: #fff; 
+            border: none; 
+            color-scheme: dark;
+        }
     </style>
 
     <script>
@@ -124,7 +153,7 @@
 
 <h1 id="seo-h1" class="visually-hidden-seo">Daily NBA Starting Lineups, Injuries, and Betting Odds</h1>
 
-<nav class="navbar shadow-sm py-3 mb-2" style="background-color: #212529;">
+<nav class="navbar shadow-sm py-3 mb-2 navbar-dark-theme" style="background-color: #212529;">
     <div class="container d-flex justify-content-between align-items-center flex-wrap">
         
         <div class="header-brand mb-2 mb-md-0">
@@ -132,10 +161,10 @@
         </div>
 
         <div class="d-flex align-items-center gap-2 gap-md-3">
-            <input type="text" id="team-search" class="form-control form-control-sm" placeholder="🔍">
+            <input type="text" id="team-search" class="form-control form-control-sm text-white" placeholder="🔍">
             
-            <button id="global-toggle-btn" class="btn btn-sm fw-bold" style="background-color: #343a40; color: #adb5bd; border: 1px solid #495057;">[+] Expand All</button>
-            <input type="date" id="date-picker" class="form-control form-control-sm text-center fw-bold w-auto" style="background-color: #343a40; color: #fff; border: none; color-scheme: dark;">
+            <button id="global-toggle-btn" class="btn btn-sm btn-outline-light fw-bold">[+] Expand All</button>
+            <input type="date" id="date-picker" class="form-control form-control-sm text-center fw-bold w-auto">
         </div>
     </div>
 </nav>
