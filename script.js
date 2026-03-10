@@ -289,7 +289,7 @@ function createGameCard(data) {
                     const valFmt = val > 0 ? `${val}x` : '-';
                     
                     statsHtml = `
-                    <div class="d-flex w-100 mt-1 dfs-stats" style="font-size: 0.65rem; color: #6c757d; border-top: 1px dashed rgba(0,0,0,0.05); padding-top: 3px;">
+                    <div class="d-flex w-100 mt-1 dfs-stats" style="font-size: 0.65rem; color: #6c757d; border-top: 1px dashed rgba(0,0,0,0.05); padding-top: 2px;">
                         <div class="text-start fw-bold" style="flex: 1;">${salFmt}</div>
                         <div class="text-center fw-bold border-start border-end" style="flex: 1; border-color: rgba(0,0,0,0.05) !important;">${projFmt}</div>
                         <div class="text-end fw-bold" style="flex: 1;">${valFmt}</div>
@@ -300,10 +300,10 @@ function createGameCard(data) {
             const playerName = a.displayName || a.fullName || 'Unknown';
             
             return `
-            <li class="px-2 py-2 border-bottom d-flex flex-column align-items-start" style="overflow: hidden;">
+            <li class="px-1 py-1 border-bottom d-flex flex-column align-items-start" style="overflow: hidden;">
                 <div class="d-flex w-100 justify-content-start align-items-center">
-                    <span class="text-muted fw-bold me-2 text-center" style="font-size: 0.75rem; width: 22px; display: inline-block;">${displayPos}</span>
-                    <span class="fw-bold text-truncate" style="font-size: 0.85rem; max-width: 80%;">${playerName}</span>
+                    <span class="text-muted fw-bold me-1 text-center" style="font-size: 0.75rem; width: 18px; display: inline-block;">${displayPos}</span>
+                    <span class="fw-bold text-truncate" style="font-size: 0.85rem; max-width: 85%;">${playerName}</span>
                 </div>
                 ${statsHtml}
             </li>`;
