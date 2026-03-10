@@ -160,74 +160,91 @@ def scrape_starters():
     print(f"Scraped {len(starters_map)} teams from BBM.")
     return starters_map
 
-# --- SCRAPE BOTH PLATFORMS FROM DFF ---
+# --- DYNAMIC SLATE CRAWLER FOR DFF ---
 def scrape_dff_projections(target_date_str):
     print(f"--- SCRAPING DAILY FANTASY FUEL FOR {target_date_str} ---")
     dff_data = {}
     platforms = ['fanduel', 'draftkings']
     
     for platform in platforms:
-        url = f"https://www.dailyfantasyfuel.com/nba/projections/{platform}/{target_date_str}"
+        base_url = f"https://www.dailyfantasyfuel.com/nba/projections/{platform}/{target_date_str}"
+        
         try:
-            response = requests.get(url, headers=HEADERS, timeout=15)
+            response = requests.get(base_url, headers=HEADERS, timeout=15)
             if response.status_code != 200:
                 print(f"{platform.upper()} returned status {response.status_code}. Skipping.")
                 continue
 
             html_text = response.text
             
-            # Verify the server actually gave us the date we asked for
-            date_match = re.search(r"window\.url_start_date\s*=\s*'([^']+)'", html_text)
-            if date_match and date_match.group(1) != target_date_str:
-                print(f"WARNING: {platform.upper()} returned data for {date_match.group(1)} instead of {target_date_str}. Skipping.")
-                continue
-
-            from bs4 import BeautifulSoup
-            soup = BeautifulSoup(html_text, 'html.parser')
+            # Find ALL hidden slate IDs on the page so we don't miss late games
+            slate_ids = set(re.findall(r'slate=([a-zA-Z0-9]{4,15})', html_text))
             
-            for row in soup.find_all('tr', class_='projections-listing'):
-                team_raw = row.get('data-team')
-                if not team_raw: continue
+            urls_to_scrape = [base_url]
+            for sid in slate_ids:
+                urls_to_scrape.append(f"{base_url}?slate={sid}")
                 
-                team = normalize_team(team_raw)
-                raw_name = row.get('data-name', '')
-                clean_name = clean_player_name(raw_name)
+            scraped_urls = set()
+            from bs4 import BeautifulSoup
+            
+            for url in urls_to_scrape:
+                if url in scraped_urls: continue
+                scraped_urls.add(url)
                 
-                try:
-                    sal = float(row.get('data-salary', 0))
-                    proj = float(row.get('data-ppg_proj', 0))
-                    val = float(row.get('data-value_proj', 0))
-                except:
-                    sal, proj, val = 0, 0, 0
+                res = requests.get(url, headers=HEADERS, timeout=15)
+                if res.status_code != 200: continue
+                
+                soup = BeautifulSoup(res.text, 'html.parser')
+                
+                for row in soup.find_all('tr', class_='projections-listing'):
+                    team_raw = row.get('data-team')
+                    if not team_raw: continue
                     
-                pos = row.get('data-pos', 'Flex')
-                injury = row.get('data-inj', '')
-                
-                p_key = f"{team}_{clean_name}"
-                
-                # Initialize player dict if it doesn't exist yet
-                if p_key not in dff_data:
-                    dff_data[p_key] = {
-                        "name": raw_name, "injury": injury,
-                        "pos": "Flex", "salary": 0, "proj": 0.0, "value": 0.0,
-                        "dk_pos": "Flex", "dk_salary": 0, "dk_proj": 0.0, "dk_value": 0.0
-                    }
-                
-                # Update specific platform fields
-                if platform == 'fanduel':
-                    dff_data[p_key]["pos"] = pos
-                    dff_data[p_key]["salary"] = int(sal)
-                    dff_data[p_key]["proj"] = round(proj, 1)
-                    dff_data[p_key]["value"] = round(val, 2)
-                    if injury: dff_data[p_key]["injury"] = injury
-                else:
-                    dff_data[p_key]["dk_pos"] = pos
-                    dff_data[p_key]["dk_salary"] = int(sal)
-                    dff_data[p_key]["dk_proj"] = round(proj, 1)
-                    dff_data[p_key]["dk_value"] = round(val, 2)
-                    if injury: dff_data[p_key]["injury"] = injury
+                    team = normalize_team(team_raw)
+                    raw_name = row.get('data-name', '')
+                    clean_name = clean_player_name(raw_name)
                     
-            print(f"Successfully scraped {platform.upper()} projections.")
+                    # Safe parsing so empty strings don't crash the float conversion
+                    try:
+                        raw_sal = row.get('data-salary', '0')
+                        raw_proj = row.get('data-ppg_proj', '0')
+                        raw_val = row.get('data-value_proj', '0')
+                        
+                        sal = float(raw_sal if raw_sal else '0')
+                        proj = float(raw_proj if raw_proj else '0')
+                        val = float(raw_val if raw_val else '0')
+                    except:
+                        sal, proj, val = 0, 0, 0
+                        
+                    pos = row.get('data-pos', 'Flex')
+                    injury = row.get('data-inj', '')
+                    
+                    p_key = f"{team}_{clean_name}"
+                    
+                    # Initialize player dict if it doesn't exist yet
+                    if p_key not in dff_data:
+                        dff_data[p_key] = {
+                            "name": raw_name, "injury": injury,
+                            "pos": "Flex", "salary": 0, "proj": 0.0, "value": 0.0,
+                            "dk_pos": "Flex", "dk_salary": 0, "dk_proj": 0.0, "dk_value": 0.0
+                        }
+                    
+                    # Update specific platform fields ONLY IF it has a valid salary
+                    # This prevents an "Out" slate overriding an active slate
+                    if platform == 'fanduel' and sal > 0:
+                        dff_data[p_key]["pos"] = pos
+                        dff_data[p_key]["salary"] = int(sal)
+                        dff_data[p_key]["proj"] = round(proj, 1)
+                        dff_data[p_key]["value"] = round(val, 2)
+                        if injury: dff_data[p_key]["injury"] = injury
+                    elif platform == 'draftkings' and sal > 0:
+                        dff_data[p_key]["dk_pos"] = pos
+                        dff_data[p_key]["dk_salary"] = int(sal)
+                        dff_data[p_key]["dk_proj"] = round(proj, 1)
+                        dff_data[p_key]["dk_value"] = round(val, 2)
+                        if injury: dff_data[p_key]["injury"] = injury
+                        
+            print(f"Successfully scraped {len(scraped_urls)} slates for {platform.upper()}.")
             
         except Exception as e:
             print(f"Error scraping DFF ({platform}): {e}")
@@ -258,7 +275,7 @@ def build_json():
     team_schedule = get_espn_schedule_data()
     scraped_rosters = scrape_starters()
     
-    # Grab today's fresh projections for BOTH FD and DK
+    # Grab today's fresh projections for BOTH FD and DK across ALL slates
     dff_projections = scrape_dff_projections(current_date_str)
     
     teams_list = list(scraped_rosters.keys())
