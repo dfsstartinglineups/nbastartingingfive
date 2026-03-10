@@ -166,7 +166,7 @@ def scrape_starters():
     print(f"Scraped {len(starters_map)} teams from BBM.")
     return starters_map
 
-# --- DYNAMIC SLATE CRAWLER FOR DFF ---
+# --- DYNAMIC SLATE CRAWLER FOR DFF (API DIRECT) ---
 def scrape_dff_projections(target_date_str):
     print(f"\n--- SCRAPING DAILY FANTASY FUEL FOR {target_date_str} ---")
     dff_data = {}
@@ -174,53 +174,38 @@ def scrape_dff_projections(target_date_str):
     
     for platform in platforms:
         base_url = f"https://www.dailyfantasyfuel.com/nba/projections/{platform}/{target_date_str}"
+        slate_ids = set()
+        
+        # 1. DIRECT API INTERCEPT
+        # Hit their hidden API to get all slate IDs for this date
+        api_url = f"https://api.dailyfantasyfuel.com/v1/slates?sport=nba&site={platform}&date={target_date_str}"
         
         try:
-            response = requests.get(base_url, headers=HEADERS, timeout=15)
-            if response.status_code != 200:
-                print(f"{platform.upper()} returned status {response.status_code}. Skipping.")
-                continue
+            api_res = requests.get(api_url, headers=HEADERS, timeout=10)
+            if api_res.status_code == 200:
+                api_data = api_res.json()
+                # The API returns a list of slate objects. Extract the IDs.
+                for slate_obj in api_data:
+                    if 'id' in slate_obj:
+                        slate_ids.add(str(slate_obj['id']))
+        except Exception as e:
+            print(f"API Intercept Failed for {platform}: {e}")
 
-            html_text = response.text
-            slate_ids = set()
+        # Fallback to scraping the base URL if the API fails, but usually the API will catch everything
+        urls_to_scrape = [base_url]
+        for sid in slate_ids:
+            urls_to_scrape.append(f"{base_url}?slate={sid}")
             
-            # --- ULTIMATE SLATE HUNTER ---
-            # 1. URL Params (e.g., ?slate=12345 or %3D12345)
-            slate_ids.update(re.findall(r'slate(?:=|%3D)([a-zA-Z0-9_-]+)', html_text, re.IGNORECASE))
+        print(f"Found {len(slate_ids)} unique slates via API for {platform.upper()}: {slate_ids}")
             
-            # 2. JSON Attributes (e.g., "slateId": "12345")
-            slate_ids.update(re.findall(r'["\'](?:slate_?id|slateId)["\']\s*:\s*["\']?([a-zA-Z0-9_-]+)["\']?', html_text, re.IGNORECASE))
+        scraped_urls = set()
+        from bs4 import BeautifulSoup
+        
+        for url in urls_to_scrape:
+            if url in scraped_urls: continue
+            scraped_urls.add(url)
             
-            # 3. HTML Data Attributes (e.g., data-slate="12345")
-            slate_ids.update(re.findall(r'data-slate=["\']([a-zA-Z0-9_-]+)["\']', html_text, re.IGNORECASE))
-            
-            # 4. Hidden Dropdowns (<option value="12345">Late Night</option>)
-            slate_ids.update(re.findall(r'<option[^>]+value=["\']([a-zA-Z0-9_-]{3,20})["\'][^>]*>', html_text, re.IGNORECASE))
-            
-            # 5. JSON blocks that define the modal (e.g., {"id": "12345", "name": "Late Night Slate"})
-            blocks = re.findall(r'\{[^{]*?["\'](?:name|label|title)["\']\s*:\s*["\'][^"\']*?(?:Slate|Night|Express|Turbo|Main|After|All)[^"\']*?["\'][^{]*?\}', html_text, re.IGNORECASE)
-            for b in blocks:
-                ids = re.findall(r'["\']id["\']\s*:\s*["\']?([a-zA-Z0-9_-]+)["\']?', b, re.IGNORECASE)
-                slate_ids.update(ids)
-
-            # Clean up and filter out invalid/generic words
-            bad_ids = {'true', 'false', 'null', 'undefined', '0', '1', 'yes', 'no', 'none'}
-            slate_ids = {sid for sid in slate_ids if sid.lower() not in bad_ids and 3 <= len(sid) <= 25}
-            
-            print(f"Found {len(slate_ids)} unique slates for {platform.upper()}: {slate_ids}")
-            
-            # Add all discovered slates to our scraping queue
-            urls_to_scrape = [base_url]
-            for sid in slate_ids:
-                urls_to_scrape.append(f"{base_url}?slate={sid}")
-                
-            scraped_urls = set()
-            from bs4 import BeautifulSoup
-            
-            for url in urls_to_scrape:
-                if url in scraped_urls: continue
-                scraped_urls.add(url)
-                
+            try:
                 res = requests.get(url, headers=HEADERS, timeout=15)
                 if res.status_code != 200: continue
                 
@@ -270,10 +255,10 @@ def scrape_dff_projections(target_date_str):
                         dff_data[p_key]["dk_value"] = round(val, 2)
                         if injury: dff_data[p_key]["injury"] = injury
                         
-            print(f"Successfully scraped {len(scraped_urls)} slates for {platform.upper()}.")
-            
-        except Exception as e:
-            print(f"Error scraping DFF ({platform}): {e}")
+            except Exception as e:
+                print(f"Error scraping URL {url}: {e}")
+                
+        print(f"Successfully scraped {len(scraped_urls)} slates for {platform.upper()}.")
             
     return dff_data
 
@@ -473,4 +458,5 @@ def build_json():
 
 if __name__ == "__main__":
     build_json()
+
 
