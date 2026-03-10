@@ -178,17 +178,24 @@ def scrape_dff_projections(target_date_str):
                 continue
 
             html_text = response.text
+            slate_ids = set()
             
-            # 1. Look for standard URL parameters
-            slate_ids = set(re.findall(r'slate=([a-zA-Z0-9_-]{4,30})', html_text))
+            # 1. Catch slates in standard URL links
+            slate_ids.update(re.findall(r'slate=([a-zA-Z0-9_-]{4,15})', html_text))
             
-            # 2. Look for data-slate attributes (Specifically targeting the Modal you found)
-            modal_slates = set(re.findall(r'data-slate=["\']([a-zA-Z0-9_-]{4,30})["\']', html_text))
-            slate_ids.update(modal_slates)
+            # 2. Catch slates in pre-rendered Modal tags
+            slate_ids.update(re.findall(r'data-slate=["\']([a-zA-Z0-9_-]{4,15})["\']', html_text))
             
-            # 3. Look for dropdown values inside a slate selector
-            option_slates = set(re.findall(r'value=["\']([a-zA-Z0-9_-]{4,30})["\'][^>]*>.*?(?:Slate|Night|Express|Turbo)', html_text, re.IGNORECASE))
-            slate_ids.update(option_slates)
+            # 3. ULTIMATE FIX: Rip the slate IDs directly out of the hidden JSON arrays
+            slates_arrays = re.findall(r'"slates"\s*:\s*\[(.*?)\]', html_text, re.IGNORECASE)
+            for arr in slates_arrays:
+                ids = re.findall(r'"id"\s*:\s*"([a-zA-Z0-9_-]{4,15})"', arr)
+                slate_ids.update(ids)
+                
+            # 4. Fallback for alternate JSON naming conventions
+            slate_ids.update(re.findall(r'"slateId"\s*:\s*"([a-zA-Z0-9_-]{4,15})"', html_text))
+            
+            print(f"Found {len(slate_ids)} unique slates for {platform.upper()}: {slate_ids}")
             
             urls_to_scrape = [base_url]
             for sid in slate_ids:
@@ -214,7 +221,6 @@ def scrape_dff_projections(target_date_str):
                     raw_name = row.get('data-name', '')
                     clean_name = clean_player_name(raw_name)
                     
-                    # Safe parsing so empty strings don't crash the float conversion
                     try:
                         raw_sal = row.get('data-salary', '0')
                         raw_proj = row.get('data-ppg_proj', '0')
@@ -231,7 +237,6 @@ def scrape_dff_projections(target_date_str):
                     
                     p_key = f"{team}_{clean_name}"
                     
-                    # Initialize player dict if it doesn't exist yet
                     if p_key not in dff_data:
                         dff_data[p_key] = {
                             "name": raw_name, "injury": injury,
@@ -239,7 +244,7 @@ def scrape_dff_projections(target_date_str):
                             "dk_pos": "Flex", "dk_salary": 0, "dk_proj": 0.0, "dk_value": 0.0
                         }
                     
-                    # Update specific platform fields ONLY IF it has a valid salary
+                    # Store data if valid salary exists
                     if platform == 'fanduel' and sal > 0:
                         dff_data[p_key]["pos"] = pos
                         dff_data[p_key]["salary"] = int(sal)
@@ -253,7 +258,7 @@ def scrape_dff_projections(target_date_str):
                         dff_data[p_key]["dk_value"] = round(val, 2)
                         if injury: dff_data[p_key]["injury"] = injury
                         
-            print(f"Successfully scraped {len(scraped_urls)} slates for {platform.upper()} (Found Slates: {slate_ids})")
+            print(f"Successfully scraped {len(scraped_urls)} slates for {platform.upper()}.")
             
         except Exception as e:
             print(f"Error scraping DFF ({platform}): {e}")
@@ -454,5 +459,6 @@ def build_json():
 
 if __name__ == "__main__":
     build_json()
+
 
 
