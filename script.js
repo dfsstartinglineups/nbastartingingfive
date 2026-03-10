@@ -43,12 +43,9 @@ async function fetchLocalProbables() {
         const response = await fetch(`nba_data.json?v=${ts}`);
         if (!response.ok) throw new Error('Local file not found');
         const data = await response.json();
-        if (data.last_updated) {
-            document.getElementById('update-timestamp').innerText = `Last Updated: ${data.last_updated}`;
-        }
         return data.games || [];
     } catch (e) {
-        console.log("No local nba_data.json found. Continuing with purely ESPN data.");
+        console.log("No local nba_data.json found.");
         return [];
     }
 }
@@ -60,25 +57,21 @@ function handleHashNavigation() {
             const targetEl = document.querySelector(hash);
             if (targetEl) {
                 targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                
-                // Remove existing highlights if any
-                document.querySelectorAll('.highlight-flash').forEach(el => {
-                    el.classList.remove('highlight-flash');
-                });
-                
-                // Add fresh highlight class to trigger animation
+                document.querySelectorAll('.highlight-flash').forEach(el => el.classList.remove('highlight-flash'));
                 targetEl.classList.add('highlight-flash');
             }
-        }, 300); // 300ms delay to ensure layout is completely stable before scrolling
+        }, 600);
     }
 }
 
 async function init(dateToFetch) {
-    document.getElementById('date-picker').value = dateToFetch;
+    if (window.updateSEO) window.updateSEO(dateToFetch);
+    const container = document.getElementById('games-container');
+    const datePicker = document.getElementById('date-picker');
     ALL_GAMES_DATA = [];
-    const container = document.getElementById('lineups-container');
-    
-    if (container.children.length === 0) {
+    if (datePicker) datePicker.value = dateToFetch;
+
+    if (container) {
         container.innerHTML = `
             <div class="col-12 text-center mt-5 pt-5">
                 <div class="spinner-border text-danger" role="status"></div>
@@ -131,25 +124,15 @@ async function init(dateToFetch) {
             const awayTeamData = comp.competitors.find(c => c.homeAway === 'away');
             const homeStd = getStandardAbbr(homeTeamData.team.abbreviation);
             const awayStd = getStandardAbbr(awayTeamData.team.abbreviation);
-
-            // Generate standard EST string (YYYY-MM-DD) for the ESPN Game to match the Python format
             const espnGameDate = new Date(game.date).toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
 
             const localGameMatch = localProbables.find(g => {
                 if (!g.teams || g.teams.length < 2) return false;
                 const t1 = getStandardAbbr(g.teams[0]);
                 const t2 = getStandardAbbr(g.teams[1]);
-                
-                // Match the teams playing
-                const isTeamMatch = (t1 === homeStd || t1 === awayStd) && (t2 === homeStd || t2 === awayStd);
-                
-                // Match the actual date if the python script has provided it
-                const isDateMatch = g.date ? (g.date === espnGameDate) : true;
-                
-                return isTeamMatch && isDateMatch;
+                return (t1 === homeStd || t1 === awayStd) && (t2 === homeStd || t2 === awayStd) && (g.date ? g.date === espnGameDate : true);
             });
 
-            // Create the ID (Match local exactly, or fallback to the logic python uses)
             const localId = localGameMatch ? localGameMatch.id : `${awayStd}-${homeStd}-${espnGameDate}`;
 
             let odds = { spread: "TBD", overUnder: "TBD" };
@@ -161,7 +144,6 @@ async function init(dateToFetch) {
                 if (localGameMatch.meta.total && localGameMatch.meta.total !== "TBD") odds.overUnder = `O/U ${localGameMatch.meta.total}`;
             }
 
-            // Lineup Logic
             let awayStarters = [], awayIsProjected = true;
             let localAwayPlayers = (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[awayStd]) ? localGameMatch.rosters[awayStd].players : null;
             if (localAwayPlayers && localAwayPlayers.every(p => p.verified)) {
@@ -199,41 +181,27 @@ async function init(dateToFetch) {
                 homeStarters, awayStarters, homeIsProjected, awayIsProjected,
                 odds, venue: comp.venue?.fullName || "TBD",
                 gameDate: new Date(game.date), status: game.status.type.detail,
-                localId: localId // Exposing to renderer
+                localId: localId
             });
         });
         
         renderGames();
-        handleHashNavigation(); // Fire Deep Link scrolling!
+        handleHashNavigation();
         
     } catch (error) {
-        container.innerHTML = `
-            <div class="col-12 text-center mt-5">
-                <div class="alert alert-danger shadow-sm">
-                    <strong>Error loading data.</strong> Please try again later.
-                </div>
-            </div>`;
+        console.error("Init error:", error);
+        if (container) container.innerHTML = `<div class="col-12 text-center mt-5"><div class="alert alert-danger">Failed to load schedule.</div></div>`;
     }
 }
 
 function renderGames() {
-    const container = document.getElementById('lineups-container');
+    const container = document.getElementById('games-container');
+    if (!container) return;
     container.innerHTML = '';
-    
-    const filterText = (document.getElementById('team-search')?.value || '').toLowerCase();
-
-    ALL_GAMES_DATA.forEach(data => {
-        const homeName = data.home.team.displayName.toLowerCase();
-        const awayName = data.away.team.displayName.toLowerCase();
-        const homeAbbr = data.home.team.abbreviation.toLowerCase();
-        const awayAbbr = data.away.team.abbreviation.toLowerCase();
-
-        if (filterText && !homeName.includes(filterText) && !awayName.includes(filterText) && 
-            !homeAbbr.includes(filterText) && !awayAbbr.includes(filterText)) {
-            return;
-        }
-        container.appendChild(createGameCard(data));
-    });
+    const searchText = document.getElementById('team-search')?.value.toLowerCase() || '';
+    ALL_GAMES_DATA.filter(item => (item.away.team.displayName + " " + item.home.team.displayName).toLowerCase().includes(searchText))
+        .sort((a, b) => a.gameDate - b.gameDate)
+        .forEach(item => container.appendChild(createGameCard(item)));
 }
 
 function createGameCard(data) {
@@ -264,7 +232,6 @@ function createGameCard(data) {
         const textColor = isProjected ? "text-dark" : "text-white";
         const label = isProjected ? "⚠️ PROJECTED" : "✅ OFFICIAL";
         
-        // Find out which platform is toggled on the UI
         const platformNode = document.querySelector('input[name="dfsPlatform"]:checked');
         const platform = platformNode ? platformNode.value : 'fd';
         
@@ -273,24 +240,19 @@ function createGameCard(data) {
             let statsHtml = '';
             let injuryHtml = '';
             
-            // If we mapped the DFS data to the player, extract it based on platform
             if (a.dfs) {
                 const sal = platform === 'dk' ? a.dfs.dk_salary : a.dfs.salary;
                 const proj = platform === 'dk' ? a.dfs.dk_proj : a.dfs.proj;
                 const val = platform === 'dk' ? a.dfs.dk_value : a.dfs.value;
                 const injury = a.dfs.injury;
                 
-                // Only show stats if they exist
                 if (sal > 0 || proj > 0) {
-                    const salFormatted = sal > 0 ? `$${sal}` : '-';
-                    const projFormatted = proj > 0 ? `${proj} FP` : '-';
-                    const valFormatted = val > 0 ? `${val}x` : '-';
-                    statsHtml = `<div class="dfs-stats fw-bold">${salFormatted} | ${projFormatted} | ${valFormatted}</div>`;
+                    const salFmt = sal > 0 ? `$${sal}` : '-';
+                    const projFmt = proj > 0 ? `${proj} FP` : '-';
+                    const valFmt = val > 0 ? `${val}x` : '-';
+                    statsHtml = `<div class="dfs-stats fw-bold">${salFmt} | ${projFmt} | ${valFmt}</div>`;
                 }
-                
-                if (injury && injury !== "") {
-                    injuryHtml = `<span class="text-danger fw-bold ms-1" style="font-size:0.6rem;">${injury}</span>`;
-                }
+                if (injury && injury !== "") injuryHtml = `<span class="text-danger fw-bold ms-1" style="font-size:0.6rem;">${injury}</span>`;
             }
             
             return `
@@ -306,7 +268,6 @@ function createGameCard(data) {
         return `<div class="text-center py-1 fw-bold ${textColor}" style="font-size: 0.6rem; background-color: ${color};">${label}</div><ul class="list-unstyled m-0">${items}</ul>`;
     };
 
-    // The ID is now attached directly to the .lineup-card div so the highlight effect targets the physical box properly
     gameCard.innerHTML = `
         <div class="lineup-card shadow-sm border rounded bg-white overflow-hidden" id="game-${data.localId}">
             <div class="p-2 border-bottom d-flex justify-content-between align-items-center bg-light">
@@ -332,11 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('team-search')?.addEventListener('input', renderGames);
     document.getElementById('date-picker')?.addEventListener('change', (e) => {
         init(e.target.value);
-        e.target.blur(); // Forces the mobile calendar UI to close immediately upon selection
+        e.target.blur();
     });
-    
-    // Listen for DFS platform toggle changes
-    document.querySelectorAll('.dfs-toggle').forEach(radio => {
-        radio.addEventListener('change', renderGames);
-    });
+    document.querySelectorAll('.dfs-toggle').forEach(radio => radio.addEventListener('change', renderGames));
 });
