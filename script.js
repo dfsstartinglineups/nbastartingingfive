@@ -3,6 +3,7 @@
 // ==========================================
 const DEFAULT_DATE = new Date().toLocaleDateString('en-CA');
 let ALL_GAMES_DATA = []; 
+let ARE_ALL_EXPANDED = false; // Controls global expand/collapse state
 
 const X_SVG_PATH = "M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.875 11.633Z";
 
@@ -38,43 +39,76 @@ async function fetchLocalProbables() {
 }
 
 // ==========================================
-// 2. DEEP LINK SCROLLING (NBA RED THEME)
+// 2. TOGGLE LOGIC (Player, Card, Global)
+// ==========================================
+
+window.togglePlayerStats = function(element) {
+    const li = element.closest('li');
+    const statsRow = li.querySelector('.player-stats-row');
+    const icon = li.querySelector('.stats-toggle-icon');
+    
+    if (!statsRow) return; // Ignore clicks if player has no DFS stats
+    
+    if (statsRow.classList.contains('d-none')) {
+        statsRow.classList.remove('d-none');
+        statsRow.classList.add('d-flex');
+        if (icon) icon.innerHTML = '▼';
+    } else {
+        statsRow.classList.add('d-none');
+        statsRow.classList.remove('d-flex');
+        if (icon) icon.innerHTML = '▶';
+    }
+};
+
+window.toggleCardStats = function(btn) {
+    const card = btn.closest('.lineup-card');
+    const isExpanding = btn.innerHTML.includes('+');
+    btn.innerHTML = isExpanding ? '[-] Stats' : '[+] Stats';
+    
+    card.querySelectorAll('.player-stats-row').forEach(row => {
+        if (isExpanding) {
+            row.classList.remove('d-none');
+            row.classList.add('d-flex');
+        } else {
+            row.classList.add('d-none');
+            row.classList.remove('d-flex');
+        }
+    });
+    
+    card.querySelectorAll('.stats-toggle-icon').forEach(icon => {
+        icon.innerHTML = isExpanding ? '▼' : '▶';
+    });
+};
+
+// ==========================================
+// 3. DEEP LINK SCROLLING 
 // ==========================================
 function handleHashNavigation() {
     if (window.location.hash) {
         setTimeout(() => {
-            // Remove the '#' to get the pure ID
             const targetId = window.location.hash.substring(1);
             const targetCard = document.getElementById(targetId);
             
             if (targetCard) {
-                // Scroll the card into the center of the view
                 targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                const innerHeader = targetCard.querySelector('.bg-light'); 
                 
-                const innerHeader = targetCard.querySelector('.bg-light'); // Grab the top header row
-                
-                // Apply the bold RED highlight and slight zoom directly to the card
                 targetCard.style.transition = 'all 0.4s ease-out';
                 targetCard.style.transform = 'scale(1.02)';
-                
-                // Force overrides on Bootstrap's utility classes
                 targetCard.style.setProperty('border', '3px solid #dc3545', 'important');
                 targetCard.style.setProperty('box-shadow', '0 0 25px rgba(220, 53, 69, 0.8)', 'important');
-                
-                targetCard.style.position = 'relative'; // Ensure z-index stacks properly
+                targetCard.style.position = 'relative'; 
                 targetCard.style.zIndex = '10';
                 
-                // Temporarily turn the header slightly red to make it pop
                 if (innerHeader) {
                     innerHeader.classList.remove('bg-light');
                     innerHeader.style.transition = 'background-color 0.4s ease-out';
-                    innerHeader.style.backgroundColor = '#f8d7da'; // Bootstrap light red
+                    innerHeader.style.backgroundColor = '#f8d7da'; 
                 }
                 
-                // Hold the red highlight for 4 seconds, then fade it back to normal
                 setTimeout(() => {
                     targetCard.style.transform = 'scale(1)';
-                    targetCard.style.removeProperty('border'); // Reverts to bootstrap border class
+                    targetCard.style.removeProperty('border'); 
                     targetCard.style.setProperty('box-shadow', '0 2px 4px rgba(0,0,0,0.05)', 'important');
                     targetCard.style.zIndex = '1';
                     
@@ -82,9 +116,9 @@ function handleHashNavigation() {
                         innerHeader.style.backgroundColor = '';
                         innerHeader.classList.add('bg-light');
                     }
-                }, 4000); // 4000ms = 4 seconds
+                }, 4000); 
             }
-        }, 600); // Slight delay to ensure DOM is fully rendered first
+        }, 600); 
     }
 }
 
@@ -149,24 +183,15 @@ async function init(dateToFetch) {
             const homeStd = getStandardAbbr(homeTeamData.team.abbreviation);
             const awayStd = getStandardAbbr(awayTeamData.team.abbreviation);
 
-            // Generate standard EST string (YYYY-MM-DD) for the ESPN Game to match the Python format
             const espnGameDate = new Date(game.date).toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
 
             const localGameMatch = localProbables.find(g => {
                 if (!g.teams || g.teams.length < 2) return false;
                 const t1 = getStandardAbbr(g.teams[0]);
                 const t2 = getStandardAbbr(g.teams[1]);
-                
-                // Match the teams playing
-                const isTeamMatch = (t1 === homeStd || t1 === awayStd) && (t2 === homeStd || t2 === awayStd);
-                
-                // Match the actual date if the python script has provided it
-                const isDateMatch = g.date ? (g.date === espnGameDate) : true;
-                
-                return isTeamMatch && isDateMatch;
+                return (t1 === homeStd || t1 === awayStd) && (t2 === homeStd || t2 === awayStd) && (g.date ? g.date === espnGameDate : true);
             });
 
-            // Create the ID (Match local exactly, or fallback to the logic python uses)
             const localId = localGameMatch ? localGameMatch.id : `${awayStd}-${homeStd}-${espnGameDate}`;
 
             let odds = { spread: "TBD", overUnder: "TBD" };
@@ -178,7 +203,6 @@ async function init(dateToFetch) {
                 if (localGameMatch.meta.total && localGameMatch.meta.total !== "TBD") odds.overUnder = `O/U ${localGameMatch.meta.total}`;
             }
 
-            // Lineup Logic
             let awayStarters = [], awayIsProjected = true;
             let localAwayPlayers = (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[awayStd]) ? localGameMatch.rosters[awayStd].players : null;
             if (localAwayPlayers && localAwayPlayers.every(p => p.verified)) {
@@ -216,12 +240,12 @@ async function init(dateToFetch) {
                 homeStarters, awayStarters, homeIsProjected, awayIsProjected,
                 odds, venue: comp.venue?.fullName || "TBD",
                 gameDate: new Date(game.date), status: game.status.type.detail,
-                localId: localId // Exposing to renderer
+                localId: localId
             });
         });
         
         renderGames();
-        handleHashNavigation(); // Fire Deep Link scrolling!
+        handleHashNavigation();
         
     } catch (error) {
         console.error("Init error:", error);
@@ -275,6 +299,7 @@ function createGameCard(data) {
         const items = players.map((p, index) => {
             const a = p.athlete || p;
             let statsHtml = '';
+            let arrowHtml = '';
             
             const displayPos = fixedPositions[index] || 'Flex';
             
@@ -288,12 +313,17 @@ function createGameCard(data) {
                     const projFmt = proj > 0 ? `${proj} FP` : '-';
                     const valFmt = val > 0 ? `${val}x` : '-';
                     
+                    // Conditionally show based on global toggle
+                    const displayState = ARE_ALL_EXPANDED ? 'd-flex' : 'd-none';
+                    
                     statsHtml = `
-                    <div class="d-flex w-100 mt-1 dfs-stats" style="font-size: 0.65rem; color: #6c757d; border-top: 1px dashed rgba(0,0,0,0.05); padding-top: 2px;">
+                    <div class="w-100 mt-1 dfs-stats player-stats-row ${displayState}" style="font-size: 0.65rem; color: #6c757d; border-top: 1px dashed rgba(0,0,0,0.05); padding-top: 2px;">
                         <div class="text-start fw-bold" style="flex: 1;">${salFmt}</div>
                         <div class="text-center fw-bold border-start border-end" style="flex: 1; border-color: rgba(0,0,0,0.05) !important;">${projFmt}</div>
                         <div class="text-end fw-bold" style="flex: 1;">${valFmt}</div>
                     </div>`;
+                    
+                    arrowHtml = `<span class="ms-auto stats-toggle-icon" style="font-size: 0.6rem; color: #adb5bd;">${ARE_ALL_EXPANDED ? '▼' : '▶'}</span>`;
                 }
             }
             
@@ -301,9 +331,10 @@ function createGameCard(data) {
             
             return `
             <li class="px-1 py-1 border-bottom d-flex flex-column align-items-start" style="overflow: hidden;">
-                <div class="d-flex w-100 justify-content-start align-items-center">
+                <div class="d-flex w-100 justify-content-start align-items-center" onclick="togglePlayerStats(this)" style="cursor: pointer;">
                     <span class="text-muted fw-bold me-1 text-center" style="font-size: 0.75rem; width: 18px; display: inline-block;">${displayPos}</span>
-                    <span class="fw-bold text-truncate" style="font-size: 0.85rem; max-width: 85%;">${playerName}</span>
+                    <span class="fw-bold text-truncate" style="font-size: 0.85rem; max-width: 75%;">${playerName}</span>
+                    ${arrowHtml}
                 </div>
                 ${statsHtml}
             </li>`;
@@ -315,7 +346,10 @@ function createGameCard(data) {
     gameCard.innerHTML = `
         <div class="lineup-card shadow-sm border rounded bg-white overflow-hidden" id="game-${data.localId}">
             <div class="p-2 border-bottom d-flex justify-content-between align-items-center bg-light">
-                <span class="badge bg-dark text-white" style="font-size: 0.7rem;">${data.gameDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                <div class="d-flex align-items-center">
+                    <span class="badge bg-dark text-white" style="font-size: 0.7rem;">${data.gameDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                    <button class="btn btn-sm btn-link text-decoration-none card-toggle-btn p-0 ms-2 fw-bold" style="font-size: 0.65rem; color: #6c757d;" onclick="toggleCardStats(this)">${ARE_ALL_EXPANDED ? '[-] Stats' : '[+] Stats'}</button>
+                </div>
                 <span class="text-muted fw-bold text-uppercase" style="font-size: 0.6rem;">${data.venue}</span>
             </div>
             <div class="p-2 d-flex align-items-center justify-content-between text-center">
@@ -334,10 +368,38 @@ function createGameCard(data) {
 
 document.addEventListener('DOMContentLoaded', () => {
     init(DEFAULT_DATE);
+    
     document.getElementById('team-search')?.addEventListener('input', renderGames);
     document.getElementById('date-picker')?.addEventListener('change', (e) => {
         init(e.target.value);
         e.target.blur();
     });
+    
+    // Auto-update UI when DFS platform is toggled
     document.querySelectorAll('.dfs-toggle').forEach(radio => radio.addEventListener('change', renderGames));
+    
+    // Global Expand/Collapse Button
+    const globalToggleBtn = document.getElementById('global-toggle-btn');
+    if (globalToggleBtn) {
+        globalToggleBtn.addEventListener('click', (e) => {
+            ARE_ALL_EXPANDED = !ARE_ALL_EXPANDED;
+            e.target.innerHTML = ARE_ALL_EXPANDED ? '[-] Collapse All' : '[+] Expand All';
+            
+            document.querySelectorAll('.player-stats-row').forEach(row => {
+                if (ARE_ALL_EXPANDED) {
+                    row.classList.remove('d-none');
+                    row.classList.add('d-flex');
+                } else {
+                    row.classList.add('d-none');
+                    row.classList.remove('d-flex');
+                }
+            });
+            document.querySelectorAll('.stats-toggle-icon').forEach(icon => {
+                icon.innerHTML = ARE_ALL_EXPANDED ? '▼' : '▶';
+            });
+            document.querySelectorAll('.card-toggle-btn').forEach(btn => {
+                btn.innerHTML = ARE_ALL_EXPANDED ? '[-] Stats' : '[+] Stats';
+            });
+        });
+    }
 });
