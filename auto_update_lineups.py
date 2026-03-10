@@ -26,7 +26,6 @@ TEAM_MAP = {
 }
 
 # NICKNAME MAP
-# NICKNAMES MAP
 NICKNAMES = {
     'cam': 'cameron', 'nic': 'nicolas', 'patti': 'patrick', 'pat': 'patrick',
     'mo': 'moritz', 'moe': 'moritz', 'zach': 'zachary', 'tim': 'timothy',
@@ -70,7 +69,8 @@ def get_espn_schedule_data():
         ny_tz = zoneinfo.ZoneInfo("America/New_York")
         now_est = datetime.now(ny_tz)
         
-        for i in range(3):
+        # Look at Yesterday (-1), Today (0), and Tomorrow (1)
+        for i in range(-1, 2):
             target_date = now_est + timedelta(days=i)
             date_str = target_date.strftime('%Y%m%d')
             
@@ -88,11 +88,15 @@ def get_espn_schedule_data():
                 
                 for comp in ev['competitions'][0]['competitors']:
                     team_abbr = normalize_team(comp['team']['abbreviation'])
+                    
                     if team_abbr not in team_schedule:
-                        team_schedule[team_abbr] = {
-                            "date": local_date_format,
-                            "time": local_time_format
-                        }
+                        team_schedule[team_abbr] = []
+                        
+                    # Append the game so we don't overwrite back-to-backs
+                    team_schedule[team_abbr].append({
+                        "date": local_date_format,
+                        "time": local_time_format
+                    })
     except Exception as e:
         print(f"ESPN Date/Time Fetch Error: {e}")
     return team_schedule
@@ -164,7 +168,7 @@ def scrape_starters():
 
 # --- DYNAMIC SLATE CRAWLER FOR DFF ---
 def scrape_dff_projections(target_date_str):
-    print(f"--- SCRAPING DAILY FANTASY FUEL FOR {target_date_str} ---")
+    print(f"\n--- SCRAPING DAILY FANTASY FUEL FOR {target_date_str} ---")
     dff_data = {}
     platforms = ['fanduel', 'draftkings']
     
@@ -244,7 +248,6 @@ def scrape_dff_projections(target_date_str):
                             "dk_pos": "Flex", "dk_salary": 0, "dk_proj": 0.0, "dk_value": 0.0
                         }
                     
-                    # Store data if valid salary exists
                     if platform == 'fanduel' and sal > 0:
                         dff_data[p_key]["pos"] = pos
                         dff_data[p_key]["salary"] = int(sal)
@@ -269,10 +272,14 @@ def scrape_dff_projections(target_date_str):
 def build_json():
     ny_tz = zoneinfo.ZoneInfo("America/New_York")
     et_now = datetime.now(ny_tz)
+    
     current_date_str = et_now.strftime("%Y-%m-%d")
     yesterday_str = (et_now - timedelta(days=1)).strftime("%Y-%m-%d")
-    valid_dates = [current_date_str, yesterday_str]
+    tomorrow_str = (et_now + timedelta(days=1)).strftime("%Y-%m-%d")
     
+    valid_dates = [yesterday_str, current_date_str, tomorrow_str]
+    
+    # 1. Load memory to retain the 3-day rolling window
     old_memory = {}
     if os.path.exists('nba_data.json'):
         try:
@@ -280,34 +287,29 @@ def build_json():
                 old_data = json.load(f)
                 for g in old_data.get('games', []):
                     clean_id = str(g['id']).replace('\r', '').replace('\n', '').replace(' ', '')
-                    g_date = g.get("date_added", current_date_str)
+                    g_date = g.get("date", current_date_str)
+                    
+                    # Only keep games if they belong to Yesterday, Today, or Tomorrow
                     if g_date in valid_dates:
-                        g['date_added'] = g_date 
                         old_memory[clean_id] = g
-        except: pass
+        except Exception as e:
+            print(f"Failed to load memory: {e}")
 
     team_schedule = get_espn_schedule_data()
     scraped_rosters = scrape_starters()
     
     # -------------------------------------------------------------
-    # THE FIX: SCRAPE MULTIPLE DATES BASED ON THE ESPN SCHEDULE
+    # SCRAPE YESTERDAY, TODAY, AND TOMORROW
     # -------------------------------------------------------------
-    unique_dates = set()
-    for team_data in team_schedule.values():
-        if "date" in team_data:
-            unique_dates.add(team_data["date"])
-            
-    # Fallback to ensure today is always scraped
-    unique_dates.add(current_date_str)
+    unique_dates = [yesterday_str, current_date_str, tomorrow_str]
     
-    # Master dictionary for all projected players
+    # Master dictionary for all projected players across all 3 days
     dff_projections = {}
     
     for d_str in unique_dates:
         slate_data = scrape_dff_projections(d_str)
         # Merge this date's projections into the master dictionary
         for player_key, stats in slate_data.items():
-            # If the player is already in master dict, only overwrite if we found a >$0 salary
             if player_key not in dff_projections or (dff_projections[player_key]['salary'] == 0 and stats['salary'] > 0):
                 dff_projections[player_key] = stats
 
@@ -323,7 +325,13 @@ def build_json():
         team_a = teams_list[i]
         team_b = teams_list[i+1]
         
-        schedule_info = team_schedule.get(team_a) or team_schedule.get(team_b, {})
+        # Grab schedule. Prefer today's date if they play multiple games in the 3 day window
+        team_scheds = team_schedule.get(team_a) or team_schedule.get(team_b, [])
+        schedule_info = {}
+        if team_scheds:
+            today_game = next((s for s in team_scheds if s['date'] == current_date_str), None)
+            schedule_info = today_game if today_game else team_scheds[0]
+            
         game_date = schedule_info.get("date", current_date_str)
         game_time = schedule_info.get("time", "TBD")
         
@@ -368,7 +376,6 @@ def build_json():
                     "injury": "", "verified": is_verified 
                 }
                 
-                # Check new DFF Scrape First
                 p_key = f"{team}_{clean}"
                 if p_key in dff_projections:
                     dff_p = dff_projections[p_key]
@@ -384,7 +391,6 @@ def build_json():
                         "injury": dff_p.get('injury', '')
                     })
                 else:
-                    # Smart Fallback
                     parts = clean.split()
                     if len(parts) >= 2:
                         last_name = parts[-1]
@@ -404,7 +410,6 @@ def build_json():
                                 })
                                 break
 
-                    # Last Resort Fallback (from old memory)
                     if p_data["salary"] == 0 and old_game:
                         old_roster = old_game.get('rosters', {}).get(team, {}).get('players', [])
                         for old_p in old_roster:
@@ -441,7 +446,7 @@ def build_json():
     for g in games_output:
         g['sort_index'] = parse_time_to_minutes(g['meta'].get('time', '7:00 PM'))
         
-    games_output.sort(key=lambda x: x['sort_index'])
+    games_output.sort(key=lambda x: (x['date'], x['sort_index']))
     
     for g in games_output: 
         if 'sort_index' in g:
@@ -459,6 +464,3 @@ def build_json():
 
 if __name__ == "__main__":
     build_json()
-
-
-
