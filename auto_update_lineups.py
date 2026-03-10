@@ -172,13 +172,16 @@ def scrape_starters():
     print(f"Scraped {len(starters_map)} teams from BBM.")
     return starters_map
 
+
+# GLOBAL SLATE DIRECTORY
+GLOBAL_SLATES = {'fanduel': {}, 'draftkings': {}}
+
 # --- DYNAMIC SLATE CRAWLER FOR DFF (HYBRID BOT) ---
 def scrape_dff_projections(target_date_str):
     print(f"\n--- BROWSER BOT STARTING FOR: {target_date_str} ---")
     dff_data = {}
     platforms = ['fanduel', 'draftkings']
     
-    # 1. Setup the Headless Chrome Browser
     chrome_options = Options()
     chrome_options.add_argument("--headless") 
     chrome_options.add_argument("--no-sandbox")
@@ -199,9 +202,8 @@ def scrape_dff_projections(target_date_str):
         try:
             print(f"Loading {platform.upper()} Base URL: {base_url}")
             driver.get(base_url)
-            time.sleep(2) # Let React fully mount
+            time.sleep(2) 
             
-            # --- AGGRESSIVE DOM INTERACTION ---
             try:
                 toggles = driver.find_elements(By.XPATH, "//*[contains(translate(text(), 'SLATE', 'slate'), 'slate') or contains(translate(text(), 'MAIN', 'main'), 'main') or contains(@class, 'slate')]")
                 for t in toggles:
@@ -212,26 +214,33 @@ def scrape_dff_projections(target_date_str):
                 time.sleep(1) 
             except: pass
 
-            # --- EXTRACT SLATES ---
             html_text = driver.page_source
             
+            # Extract names and IDs from options tags
+            options = driver.find_elements(By.TAG_NAME, "option")
+            active_sid = None
+            for opt in options:
+                val = opt.get_attribute("value")
+                text = opt.text.strip()
+                if val and len(val) >= 4 and "http" not in val:
+                    slate_ids.add(val)
+                    GLOBAL_SLATES[platform][val] = text
+                    if opt.is_selected():
+                        active_sid = val
+
             matches = re.findall(r'data-slate=["\']([a-zA-Z0-9]{5})["\']', html_text)
             matches += re.findall(r'slate=([a-zA-Z0-9]{5})', html_text)
-            matches += re.findall(r'<option[^>]+value=["\']([a-zA-Z0-9]{5})["\'][^>]*>', html_text, re.IGNORECASE)
             
-            slate_ids.update(matches)
+            for m in matches:
+                slate_ids.add(m)
+                if m not in GLOBAL_SLATES[platform]:
+                    GLOBAL_SLATES[platform][m] = f"Slate {m}"
             
             print(f"Browser found {len(slate_ids)} valid slates: {slate_ids}")
             
-            # --- HYBRID API INJECTION ---
-            # Instead of making Selenium load 6 massive React pages, we will rapidly query the internal JSON API directly for the remaining slates.
             from bs4 import BeautifulSoup
             
-            # Scrape the initial DOM first to guarantee we capture the base data
-            print(f"Scraping initial rendered slate: {base_url}")
-            soup = BeautifulSoup(driver.page_source, 'html.parser')
-            
-            def parse_row(row, plt):
+            def parse_row(row, plt, sid):
                 team_raw = row.get('data-team')
                 if not team_raw: return
                 
@@ -254,31 +263,40 @@ def scrape_dff_projections(target_date_str):
                 if p_key not in dff_data:
                     dff_data[p_key] = {
                         "name": raw_name, "injury": injury, "pos": "Flex", "salary": 0, "proj": 0.0, "value": 0.0,
-                        "dk_pos": "Flex", "dk_salary": 0, "dk_proj": 0.0, "dk_value": 0.0
+                        "dk_pos": "Flex", "dk_salary": 0, "dk_proj": 0.0, "dk_value": 0.0,
+                        "fd_slates": [], "dk_slates": []
                     }
                 
                 if plt == 'fanduel' and sal > 0:
                     dff_data[p_key]["pos"] = pos
-                    dff_data[p_key]["salary"] = int(sal)
-                    dff_data[p_key]["proj"] = round(proj, 1)
-                    dff_data[p_key]["value"] = round(val, 2)
+                    if proj > dff_data[p_key]["proj"]:
+                        dff_data[p_key]["salary"] = int(sal)
+                        dff_data[p_key]["proj"] = round(proj, 1)
+                        dff_data[p_key]["value"] = round(val, 2)
                     if injury: dff_data[p_key]["injury"] = injury
+                    if sid and sid not in dff_data[p_key]["fd_slates"]:
+                        dff_data[p_key]["fd_slates"].append(sid)
+                        
                 elif plt == 'draftkings' and sal > 0:
                     dff_data[p_key]["dk_pos"] = pos
-                    dff_data[p_key]["dk_salary"] = int(sal)
-                    dff_data[p_key]["dk_proj"] = round(proj, 1)
-                    dff_data[p_key]["dk_value"] = round(val, 2)
+                    if proj > dff_data[p_key]["dk_proj"]:
+                        dff_data[p_key]["dk_salary"] = int(sal)
+                        dff_data[p_key]["dk_proj"] = round(proj, 1)
+                        dff_data[p_key]["dk_value"] = round(val, 2)
                     if injury: dff_data[p_key]["injury"] = injury
+                    if sid and sid not in dff_data[p_key]["dk_slates"]:
+                        dff_data[p_key]["dk_slates"].append(sid)
+
+            print(f"Scraping initial rendered slate: {base_url}")
+            soup = BeautifulSoup(driver.page_source, 'html.parser')
+            if active_sid:
+                for row in soup.find_all('tr', class_='projections-listing'):
+                    parse_row(row, platform, active_sid)
             
-            # Parse the initial page
-            for row in soup.find_all('tr', class_='projections-listing'):
-                parse_row(row, platform)
-            
-            # Rapidly hit the API endpoint for the discovered slate IDs (much faster than Selenium)
             for sid in slate_ids:
+                if sid == active_sid: continue
                 print(f"Rapid JSON Scrape for Slate: {sid}")
                 try:
-                    # DFF sends back an HTML partial when requested via XHR
                     api_headers = HEADERS.copy()
                     api_headers['X-Requested-With'] = 'XMLHttpRequest'
                     res = requests.get(f"{base_url}?slate={sid}", headers=api_headers, timeout=5)
@@ -286,7 +304,7 @@ def scrape_dff_projections(target_date_str):
                     if res.status_code == 200:
                         sub_soup = BeautifulSoup(res.text, 'html.parser')
                         for row in sub_soup.find_all('tr', class_='projections-listing'):
-                            parse_row(row, platform)
+                            parse_row(row, platform, sid)
                 except: pass
                 
             print(f"Successfully compiled all slates for {platform.upper()}.")
@@ -306,7 +324,6 @@ def build_json():
     yesterday_str = (et_now - timedelta(days=1)).strftime("%Y-%m-%d")
     tomorrow_str = (et_now + timedelta(days=1)).strftime("%Y-%m-%d")
     
-    # Memory allows 3 days so we retain yesterday's finalized games without re-scraping them
     valid_dates = [yesterday_str, current_date_str, tomorrow_str]
     
     old_memory = {}
@@ -326,11 +343,6 @@ def build_json():
     team_schedule = get_espn_schedule_data()
     scraped_rosters = scrape_starters()
     
-    # -------------------------------------------------------------
-    # THE ULTIMATE OPTIMIZED SCRAPING LOGIC
-    # -------------------------------------------------------------
-    # Before 10:00 PM EST -> Scrape ONLY Today
-    # After 10:00 PM EST -> Scrape Today & Tomorrow
     if et_now.hour >= 22:
         unique_dates = [current_date_str, tomorrow_str]
         print(f"\n[TIME CHECK] After 10 PM EST. Scraping Today & Tomorrow: {unique_dates}")
@@ -343,8 +355,16 @@ def build_json():
     for d_str in unique_dates:
         slate_data = scrape_dff_projections(d_str)
         for player_key, stats in slate_data.items():
-            if player_key not in dff_projections or (dff_projections[player_key]['salary'] == 0 and stats['salary'] > 0):
+            if player_key not in dff_projections:
                 dff_projections[player_key] = stats
+            else:
+                # Merge arrays and update highest projections if necessary
+                dff_projections[player_key]['fd_slates'].extend(x for x in stats['fd_slates'] if x not in dff_projections[player_key]['fd_slates'])
+                dff_projections[player_key]['dk_slates'].extend(x for x in stats['dk_slates'] if x not in dff_projections[player_key]['dk_slates'])
+                if dff_projections[player_key]['salary'] == 0 and stats['salary'] > 0:
+                    dff_projections[player_key].update({k: v for k, v in stats.items() if k in ['salary', 'proj', 'value', 'pos', 'injury'] and v})
+                if dff_projections[player_key]['dk_salary'] == 0 and stats['dk_salary'] > 0:
+                    dff_projections[player_key].update({k: v for k, v in stats.items() if k in ['dk_salary', 'dk_proj', 'dk_value', 'dk_pos', 'injury'] and v})
 
     teams_list = list(scraped_rosters.keys())
     new_games_dict = {}
@@ -394,6 +414,7 @@ def build_json():
         for team in [team_a, team_b]:
             starters_data = scraped_rosters.get(team, [])
             player_list = []
+            matched_dff_keys = set()
             
             for p_obj in starters_data:
                 raw_name = p_obj['name']
@@ -404,11 +425,13 @@ def build_json():
                     "pos": "Flex", "name": raw_name,
                     "salary": 0, "proj": 0, "value": 0,
                     "dk_pos": "Flex", "dk_salary": 0, "dk_proj": 0, "dk_value": 0,
+                    "fd_slates": [], "dk_slates": [],
                     "injury": "", "verified": is_verified 
                 }
                 
                 p_key = f"{team}_{clean}"
                 if p_key in dff_projections:
+                    matched_dff_keys.add(p_key)
                     dff_p = dff_projections[p_key]
                     p_data.update({
                         "pos": dff_p.get('pos', 'Flex'),
@@ -419,6 +442,8 @@ def build_json():
                         "dk_salary": dff_p.get('dk_salary', 0),
                         "dk_proj": dff_p.get('dk_proj', 0),
                         "dk_value": dff_p.get('dk_value', 0),
+                        "fd_slates": dff_p.get('fd_slates', []),
+                        "dk_slates": dff_p.get('dk_slates', []),
                         "injury": dff_p.get('injury', '')
                     })
                 else:
@@ -428,6 +453,7 @@ def build_json():
                         first_initial = parts[0][0]
                         for d_key, d_val in dff_projections.items():
                             if d_key.startswith(f"{team}_") and last_name in d_key and d_key.split('_')[1].startswith(first_initial):
+                                matched_dff_keys.add(d_key)
                                 p_data.update({
                                     "pos": d_val.get('pos', 'Flex'),
                                     "salary": d_val.get('salary', 0),
@@ -437,6 +463,8 @@ def build_json():
                                     "dk_salary": d_val.get('dk_salary', 0),
                                     "dk_proj": d_val.get('dk_proj', 0),
                                     "dk_value": d_val.get('dk_value', 0),
+                                    "fd_slates": d_val.get('fd_slates', []),
+                                    "dk_slates": d_val.get('dk_slates', []),
                                     "injury": d_val.get('injury', '')
                                 })
                                 break
@@ -453,18 +481,45 @@ def build_json():
                                     "dk_pos": old_p.get("dk_pos", "Flex"),
                                     "dk_salary": old_p.get("dk_salary", 0),
                                     "dk_proj": old_p.get("dk_proj", 0),
-                                    "dk_value": old_p.get("dk_value", 0)
+                                    "dk_value": old_p.get("dk_value", 0),
+                                    "fd_slates": old_p.get("fd_slates", []),
+                                    "dk_slates": old_p.get("dk_slates", [])
                                 })
                                 break
                 
                 player_list.append(p_data)
             
             if not player_list:
-                 player_list.append({"pos": "-", "name": "Waiting for Lineup", "salary": 0, "proj": 0, "value": 0, "dk_pos": "-", "dk_salary": 0, "dk_proj": 0, "dk_value": 0, "injury": "", "verified": False})
+                 player_list.append({"pos": "-", "name": "Waiting for Lineup", "salary": 0, "proj": 0, "value": 0, "dk_pos": "-", "dk_salary": 0, "dk_proj": 0, "dk_value": 0, "fd_slates": [], "dk_slates": [], "injury": "", "verified": False})
+
+            # --- PROCESS BENCH PLAYERS ---
+            bench_list = []
+            for d_key, d_val in dff_projections.items():
+                if d_key.startswith(f"{team}_") and d_key not in matched_dff_keys:
+                    if d_val.get('salary', 0) > 0 or d_val.get('dk_salary', 0) > 0:
+                        bench_list.append({
+                            "pos": d_val.get('pos', 'Flex'),
+                            "name": d_val.get('name', 'Unknown'),
+                            "salary": d_val.get('salary', 0),
+                            "proj": d_val.get('proj', 0),
+                            "value": d_val.get('value', 0),
+                            "dk_pos": d_val.get('dk_pos', 'Flex'),
+                            "dk_salary": d_val.get('dk_salary', 0),
+                            "dk_proj": d_val.get('dk_proj', 0),
+                            "dk_value": d_val.get('dk_value', 0),
+                            "fd_slates": d_val.get('fd_slates', []),
+                            "dk_slates": d_val.get('dk_slates', []),
+                            "injury": d_val.get('injury', ''),
+                            "verified": False
+                        })
+            
+            # Sort bench players by highest projection so best value is up top
+            bench_list.sort(key=lambda x: max(x.get('proj', 0), x.get('dk_proj', 0)), reverse=True)
 
             game_obj['rosters'][team] = {
                 "logo": f"https://a.espncdn.com/i/teamlogos/nba/500/{team.lower()}.png",
-                "players": player_list
+                "players": player_list,
+                "bench": bench_list # Added safely without breaking the Twitter bot
             }
             
         new_games_dict[game_id] = game_obj
@@ -482,9 +537,16 @@ def build_json():
     for g in games_output: 
         if 'sort_index' in g:
             del g['sort_index']
+            
+    # Format the global slates directory for the UI Dropdown
+    formatted_slates = {
+        "fanduel": [{"id": k, "name": v} for k, v in GLOBAL_SLATES['fanduel'].items()],
+        "draftkings": [{"id": k, "name": v} for k, v in GLOBAL_SLATES['draftkings'].items()]
+    }
     
     final_json = {
         "last_updated": formatted_time,
+        "slates": formatted_slates, # Inject master slate directory
         "games": games_output
     }
     
@@ -495,7 +557,3 @@ def build_json():
 
 if __name__ == "__main__":
     build_json()
-
-
-
-
