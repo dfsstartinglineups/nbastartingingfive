@@ -25,7 +25,7 @@ jobs:
 
       - name: Install libraries
         run: |
-          pip install pandas requests beautifulsoup4 lxml
+          pip install pandas requests beautifulsoup4 lxml selenium webdriver-manager
 
       - name: Run Update Script
         run: python auto_update_lineups.py
