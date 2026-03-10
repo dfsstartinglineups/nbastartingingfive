@@ -4,11 +4,15 @@ import requests
 import re
 import zoneinfo
 from datetime import datetime, timezone, timedelta
+
+# --- SELENIUM IMPORTS ---
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 import time
+from bs4 import BeautifulSoup
 
 # --- CONFIGURATION ---
 BBM_URL = "https://basketballmonster.com/nbalineups.aspx"
@@ -30,14 +34,14 @@ TEAM_MAP = {
     'CHO': 'CHA', 'CHA': 'CHA', 'CHARLOTTE': 'CHA'
 }
 
-# NICKNAME MAP
+# NICKNAMES MAP
 NICKNAMES = {
     'cam': 'cameron', 'nic': 'nicolas', 'patti': 'patrick', 'pat': 'patrick',
     'mo': 'moritz', 'moe': 'moritz', 'zach': 'zachary', 'tim': 'timothy',
     'kj': 'kenyon', 'x': 'xavier', 'herb': 'herbert', 'bub': 'carrinton',
     'greg': 'gregory', 'nick': 'nicholas', 'mitch': 'mitchell', 'kelly': 'kelly',
     'pj': 'pj', 'trey': 'trey', 'cj': 'cj', 'c.j.': 'cj', 'shai': 'shai',
-    'alexandre': 'alex'  # Added for Alexandre Sarr
+    'alexandre': 'alex'
 }
 
 def normalize_team(team_name):
@@ -74,7 +78,6 @@ def get_espn_schedule_data():
         ny_tz = zoneinfo.ZoneInfo("America/New_York")
         now_est = datetime.now(ny_tz)
         
-        # Look at Yesterday (-1), Today (0), and Tomorrow (1)
         for i in range(-1, 2):
             target_date = now_est + timedelta(days=i)
             date_str = target_date.strftime('%Y%m%d')
@@ -97,7 +100,6 @@ def get_espn_schedule_data():
                     if team_abbr not in team_schedule:
                         team_schedule[team_abbr] = []
                         
-                    # Append the game so we don't overwrite back-to-backs
                     team_schedule[team_abbr].append({
                         "date": local_date_format,
                         "time": local_time_format
@@ -111,7 +113,6 @@ def scrape_starters():
     print(f"--- SCRAPING {BBM_URL} ---")
     try:
         response = requests.get(BBM_URL, headers=HEADERS, timeout=15)
-        from bs4 import BeautifulSoup
         soup = BeautifulSoup(response.text, 'html.parser')
         rows = soup.find_all('tr')
     except Exception as e:
@@ -177,11 +178,12 @@ def scrape_dff_projections(target_date_str):
     dff_data = {}
     platforms = ['fanduel', 'draftkings']
     
-    # 1. Setup the Headless Chrome Browser
+    # 1. Setup the Headless Chrome Browser (Full Desktop Mode)
     chrome_options = Options()
-    chrome_options.add_argument("--headless") # Run invisibly
+    chrome_options.add_argument("--headless") 
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--window-size=1920,1080") # Prevents mobile responsive menus from hiding data!
     chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
     
     try:
@@ -192,31 +194,56 @@ def scrape_dff_projections(target_date_str):
 
     for platform in platforms:
         base_url = f"https://www.dailyfantasyfuel.com/nba/projections/{platform}/{target_date_str}"
+        slate_ids = set()
         
         try:
             print(f"Loading {platform.upper()} Base URL: {base_url}")
             driver.get(base_url)
+            time.sleep(5) # Let React fully mount
             
-            # Wait for React to build the page and the modal
-            time.sleep(4) 
-            
-            # Get the fully rendered HTML *after* Javascript executes
-            html_text = driver.page_source
-            slate_ids = set()
-            
-            # Now that the DOM is built, the modal elements exist!
-            # Look for the data-slate tags we saw earlier
-            slate_ids.update(re.findall(r'data-slate=["\']([a-zA-Z0-9_-]+)["\']', html_text, re.IGNORECASE))
-            
-            # Look for any dropdown options
-            slate_ids.update(re.findall(r'<option[^>]+value=["\']([a-zA-Z0-9_-]{3,24})["\'][^>]*>', html_text, re.IGNORECASE))
-            
-            # Look for Mongo IDs just to be safe
-            slate_ids.update(re.findall(r'["\']([a-f0-9]{24})["\']', html_text))
+            # --- AGGRESSIVE DOM INTERACTION ---
+            # 1. Click anything that looks like a slate dropdown to force the modal open
+            try:
+                toggles = driver.find_elements(By.XPATH, "//*[contains(translate(text(), 'SLATE', 'slate'), 'slate') or contains(translate(text(), 'MAIN', 'main'), 'main') or contains(@class, 'slate')]")
+                for t in toggles:
+                    try:
+                        # Only click if it's not a direct link, to avoid navigating away
+                        if not t.get_attribute("href"):
+                            driver.execute_script("arguments[0].click();", t)
+                    except: pass
+                time.sleep(2) # Give modal time to animate/render
+            except: pass
 
-            # Filter out junk words
-            bad_ids = {'true', 'false', 'null', 'undefined', '0', '1', 'yes', 'no'}
-            slate_ids = {sid for sid in slate_ids if sid.lower() not in bad_ids and len(sid) >= 5}
+            # --- MULTI-VECTOR SLATE EXTRACTION ---
+            # Vector A: Look for standard links (<a> tags)
+            links = driver.find_elements(By.TAG_NAME, "a")
+            for link in links:
+                href = link.get_attribute("href")
+                if href and "slate=" in href:
+                    match = re.search(r'slate=([a-zA-Z0-9_-]+)', href)
+                    if match: slate_ids.add(match.group(1))
+
+            # Vector B: Look for data-slate attributes in the DOM
+            elements_with_slate = driver.find_elements(By.XPATH, "//*[@data-slate]")
+            for el in elements_with_slate:
+                val = el.get_attribute("data-slate")
+                if val: slate_ids.add(val)
+
+            # Vector C: Look for Dropdown Options (<option>)
+            options = driver.find_elements(By.TAG_NAME, "option")
+            for opt in options:
+                val = opt.get_attribute("value")
+                if val and len(val) >= 4 and "http" not in val:
+                    slate_ids.add(val)
+
+            # Vector D: Deep JSON scrape of the active Page Source
+            html_text = driver.page_source
+            slate_ids.update(re.findall(r'["\']([a-f0-9]{24})["\']', html_text)) # MongoDB IDs
+            slate_ids.update(re.findall(r'slate(?:=|%3D)([a-zA-Z0-9_-]+)', html_text, re.IGNORECASE)) # URL encoded
+
+            # Clean up extracted IDs
+            bad_ids = {'true', 'false', 'null', 'undefined', 'nba', 'fanduel', 'draftkings'}
+            slate_ids = {sid for sid in slate_ids if sid.lower() not in bad_ids and len(sid) >= 4}
             
             print(f"Browser found {len(slate_ids)} unique slates: {slate_ids}")
             
@@ -225,7 +252,6 @@ def scrape_dff_projections(target_date_str):
                 urls_to_scrape.append(f"{base_url}?slate={sid}")
                 
             scraped_urls = set()
-            from bs4 import BeautifulSoup
             
             for url in urls_to_scrape:
                 if url in scraped_urls: continue
@@ -233,7 +259,7 @@ def scrape_dff_projections(target_date_str):
                 
                 print(f"Scraping fully rendered slate: {url}")
                 driver.get(url)
-                time.sleep(3) # Wait for the table data to load
+                time.sleep(3) # Wait for table to load
                 
                 soup = BeautifulSoup(driver.page_source, 'html.parser')
                 
@@ -286,7 +312,7 @@ def scrape_dff_projections(target_date_str):
         except Exception as e:
             print(f"Error scraping DFF ({platform}): {e}")
             
-    driver.quit() # Always close the browser to free memory
+    driver.quit() # Free memory
     return dff_data
 
 # --- MAIN LOGIC ---
@@ -300,7 +326,6 @@ def build_json():
     
     valid_dates = [yesterday_str, current_date_str, tomorrow_str]
     
-    # 1. Load memory to retain the 3-day rolling window
     old_memory = {}
     if os.path.exists('nba_data.json'):
         try:
@@ -310,7 +335,6 @@ def build_json():
                     clean_id = str(g['id']).replace('\r', '').replace('\n', '').replace(' ', '')
                     g_date = g.get("date", current_date_str)
                     
-                    # Only keep games if they belong to Yesterday, Today, or Tomorrow
                     if g_date in valid_dates:
                         old_memory[clean_id] = g
         except Exception as e:
@@ -319,17 +343,11 @@ def build_json():
     team_schedule = get_espn_schedule_data()
     scraped_rosters = scrape_starters()
     
-    # -------------------------------------------------------------
-    # SCRAPE YESTERDAY, TODAY, AND TOMORROW
-    # -------------------------------------------------------------
     unique_dates = [yesterday_str, current_date_str, tomorrow_str]
-    
-    # Master dictionary for all projected players across all 3 days
     dff_projections = {}
     
     for d_str in unique_dates:
         slate_data = scrape_dff_projections(d_str)
-        # Merge this date's projections into the master dictionary
         for player_key, stats in slate_data.items():
             if player_key not in dff_projections or (dff_projections[player_key]['salary'] == 0 and stats['salary'] > 0):
                 dff_projections[player_key] = stats
@@ -346,7 +364,6 @@ def build_json():
         team_a = teams_list[i]
         team_b = teams_list[i+1]
         
-        # Grab schedule. Prefer today's date if they play multiple games in the 3 day window
         team_scheds = team_schedule.get(team_a) or team_schedule.get(team_b, [])
         schedule_info = {}
         if team_scheds:
@@ -389,7 +406,6 @@ def build_json():
                 is_verified = p_obj['verified']
                 clean = clean_player_name(raw_name)
                 
-                # Setup default fallback with DK fields
                 p_data = {
                     "pos": "Flex", "name": raw_name,
                     "salary": 0, "proj": 0, "value": 0,
@@ -485,7 +501,3 @@ def build_json():
 
 if __name__ == "__main__":
     build_json()
-
-
-
-
