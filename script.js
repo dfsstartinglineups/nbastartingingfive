@@ -1,66 +1,90 @@
-let ALL_GAMES_DATA = [];
-let ARE_ALL_EXPANDED = false;
-let DEFAULT_DATE = new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
+// ==========================================
+// CONFIGURATION
+// ==========================================
+const DEFAULT_DATE = new Date().toLocaleDateString('en-CA');
+let ALL_GAMES_DATA = []; 
 
-const TEAM_MAP_FOR_LOGOS = {
-    'GS': 'GSW', 'GOLDEN STATE': 'GSW',
-    'NO': 'NOP', 'NEW ORLEANS': 'NOP', 'NOH': 'NOP',
-    'NY': 'NYK', 'NEW YORK': 'NYK', 'KNICKS': 'NYK',
-    'SA': 'SAS', 'SAN ANTONIO': 'SAS', 'SPURS': 'SAS',
-    'PHO': 'PHX', 'PHOENIX': 'PHX',
-    'UT': 'UTA', 'UTAH': 'UTA', 'JAZZ': 'UTA',
-    'WSH': 'WAS', 'WASHINGTON': 'WAS',
-    'BKO': 'BKN', 'BROOKLYN': 'BKN',
-    'CHO': 'CHA', 'CHARLOTTE': 'CHA'
-};
+const X_SVG_PATH = "M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.875 11.633Z";
+
+// ==========================================
+// 1. MAIN APP LOGIC 
+// ==========================================
 
 function normalizeName(name) {
     if (!name) return "";
-    const nicknames = {
-        'cam': 'cameron', 'nic': 'nicolas', 'patti': 'patrick', 'pat': 'patrick',
-        'mo': 'moritz', 'moe': 'moritz', 'zach': 'zachary', 'tim': 'timothy',
-        'kj': 'kenyon', 'x': 'xavier', 'herb': 'herbert', 'bub': 'carrinton',
-        'greg': 'gregory', 'nick': 'nicholas', 'mitch': 'mitchell', 'kelly': 'kelly',
-        'pj': 'pj', 'trey': 'trey', 'cj': 'cj', 'c.j.': 'cj', 'shai': 'shai'
-    };
-    let clean = name.toLowerCase().trim().replace(/['.]/g, '');
-    [' jr', ' sr', ' ii', ' iii', ' iv'].forEach(s => {
-        if (clean.endsWith(s)) clean = clean.slice(0, -s.length);
-    });
-    let parts = clean.split(' ');
-    if (parts.length > 0 && nicknames[parts[0]]) parts[0] = nicknames[parts[0]];
-    return parts.join(' ');
+    return name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z]/g, "").toLowerCase();
 }
 
 function getStandardAbbr(abbr) {
-    const upper = abbr.toUpperCase();
-    return TEAM_MAP_FOR_LOGOS[upper] || upper;
+    if (!abbr) return "";
+    let cleanAbbr = abbr.replace(/[^A-Za-z]/g, '').toUpperCase();
+    const map = {
+        "NY": "NYK", "NO": "NOP", "SA": "SAS", "GS": "GSW", "WSH": "WAS", "UTAH": "UTA"
+    };
+    return map[cleanAbbr] || cleanAbbr;
 }
 
 async function fetchLocalProbables() {
     try {
-        const ts = new Date().getTime();
-        const response = await fetch(`nba_data.json?v=${ts}`);
-        if (!response.ok) throw new Error('Local file not found');
-        const data = await response.json();
-        return data.games || [];
+        const response = await fetch('nba_data.json?v=' + new Date().getTime());
+        if (response.ok) {
+            const data = await response.json();
+            return data.games || [];
+        }
     } catch (e) {
         console.log("No local nba_data.json found.");
-        return [];
     }
+    return [];
 }
 
+// ==========================================
+// 2. DEEP LINK SCROLLING (NBA RED THEME)
+// ==========================================
 function handleHashNavigation() {
-    const hash = window.location.hash;
-    if (hash && hash.startsWith('#game-')) {
+    if (window.location.hash) {
         setTimeout(() => {
-            const targetEl = document.querySelector(hash);
-            if (targetEl) {
-                targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                document.querySelectorAll('.highlight-flash').forEach(el => el.classList.remove('highlight-flash'));
-                targetEl.classList.add('highlight-flash');
+            // Remove the '#' to get the pure ID
+            const targetId = window.location.hash.substring(1);
+            const targetCard = document.getElementById(targetId);
+            
+            if (targetCard) {
+                // Scroll the card into the center of the view
+                targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                const innerHeader = targetCard.querySelector('.bg-light'); // Grab the top header row
+                
+                // Apply the bold RED highlight and slight zoom directly to the card
+                targetCard.style.transition = 'all 0.4s ease-out';
+                targetCard.style.transform = 'scale(1.02)';
+                
+                // Force overrides on Bootstrap's utility classes
+                targetCard.style.setProperty('border', '3px solid #dc3545', 'important');
+                targetCard.style.setProperty('box-shadow', '0 0 25px rgba(220, 53, 69, 0.8)', 'important');
+                
+                targetCard.style.position = 'relative'; // Ensure z-index stacks properly
+                targetCard.style.zIndex = '10';
+                
+                // Temporarily turn the header slightly red to make it pop
+                if (innerHeader) {
+                    innerHeader.classList.remove('bg-light');
+                    innerHeader.style.transition = 'background-color 0.4s ease-out';
+                    innerHeader.style.backgroundColor = '#f8d7da'; // Bootstrap light red
+                }
+                
+                // Hold the red highlight for 4 seconds, then fade it back to normal
+                setTimeout(() => {
+                    targetCard.style.transform = 'scale(1)';
+                    targetCard.style.removeProperty('border'); // Reverts to bootstrap border class
+                    targetCard.style.setProperty('box-shadow', '0 2px 4px rgba(0,0,0,0.05)', 'important');
+                    targetCard.style.zIndex = '1';
+                    
+                    if (innerHeader) {
+                        innerHeader.style.backgroundColor = '';
+                        innerHeader.classList.add('bg-light');
+                    }
+                }, 4000); // 4000ms = 4 seconds
             }
-        }, 600);
+        }, 600); // Slight delay to ensure DOM is fully rendered first
     }
 }
 
@@ -124,15 +148,25 @@ async function init(dateToFetch) {
             const awayTeamData = comp.competitors.find(c => c.homeAway === 'away');
             const homeStd = getStandardAbbr(homeTeamData.team.abbreviation);
             const awayStd = getStandardAbbr(awayTeamData.team.abbreviation);
+
+            // Generate standard EST string (YYYY-MM-DD) for the ESPN Game to match the Python format
             const espnGameDate = new Date(game.date).toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
 
             const localGameMatch = localProbables.find(g => {
                 if (!g.teams || g.teams.length < 2) return false;
                 const t1 = getStandardAbbr(g.teams[0]);
                 const t2 = getStandardAbbr(g.teams[1]);
-                return (t1 === homeStd || t1 === awayStd) && (t2 === homeStd || t2 === awayStd) && (g.date ? g.date === espnGameDate : true);
+                
+                // Match the teams playing
+                const isTeamMatch = (t1 === homeStd || t1 === awayStd) && (t2 === homeStd || t2 === awayStd);
+                
+                // Match the actual date if the python script has provided it
+                const isDateMatch = g.date ? (g.date === espnGameDate) : true;
+                
+                return isTeamMatch && isDateMatch;
             });
 
+            // Create the ID (Match local exactly, or fallback to the logic python uses)
             const localId = localGameMatch ? localGameMatch.id : `${awayStd}-${homeStd}-${espnGameDate}`;
 
             let odds = { spread: "TBD", overUnder: "TBD" };
@@ -144,6 +178,7 @@ async function init(dateToFetch) {
                 if (localGameMatch.meta.total && localGameMatch.meta.total !== "TBD") odds.overUnder = `O/U ${localGameMatch.meta.total}`;
             }
 
+            // Lineup Logic
             let awayStarters = [], awayIsProjected = true;
             let localAwayPlayers = (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[awayStd]) ? localGameMatch.rosters[awayStd].players : null;
             if (localAwayPlayers && localAwayPlayers.every(p => p.verified)) {
@@ -181,12 +216,12 @@ async function init(dateToFetch) {
                 homeStarters, awayStarters, homeIsProjected, awayIsProjected,
                 odds, venue: comp.venue?.fullName || "TBD",
                 gameDate: new Date(game.date), status: game.status.type.detail,
-                localId: localId
+                localId: localId // Exposing to renderer
             });
         });
         
         renderGames();
-        handleHashNavigation();
+        handleHashNavigation(); // Fire Deep Link scrolling!
         
     } catch (error) {
         console.error("Init error:", error);
@@ -235,31 +270,40 @@ function createGameCard(data) {
         const platformNode = document.querySelector('input[name="dfsPlatform"]:checked');
         const platform = platformNode ? platformNode.value : 'fd';
         
-        const items = players.map(p => {
+        const fixedPositions = ['PG', 'SG', 'SF', 'PF', 'C'];
+        
+        const items = players.map((p, index) => {
             const a = p.athlete || p;
             let statsHtml = '';
-            let injuryHtml = '';
+            
+            const displayPos = fixedPositions[index] || 'Flex';
             
             if (a.dfs) {
                 const sal = platform === 'dk' ? a.dfs.dk_salary : a.dfs.salary;
                 const proj = platform === 'dk' ? a.dfs.dk_proj : a.dfs.proj;
                 const val = platform === 'dk' ? a.dfs.dk_value : a.dfs.value;
-                const injury = a.dfs.injury;
                 
                 if (sal > 0 || proj > 0) {
                     const salFmt = sal > 0 ? `$${sal}` : '-';
                     const projFmt = proj > 0 ? `${proj} FP` : '-';
                     const valFmt = val > 0 ? `${val}x` : '-';
-                    statsHtml = `<div class="dfs-stats fw-bold">${salFmt} | ${projFmt} | ${valFmt}</div>`;
+                    
+                    statsHtml = `
+                    <div class="d-flex w-100 mt-1 dfs-stats" style="font-size: 0.65rem; color: #6c757d; border-top: 1px dashed rgba(0,0,0,0.05); padding-top: 3px;">
+                        <div class="text-start fw-bold" style="flex: 1;">${salFmt}</div>
+                        <div class="text-center fw-bold border-start border-end" style="flex: 1; border-color: rgba(0,0,0,0.05) !important;">${projFmt}</div>
+                        <div class="text-end fw-bold" style="flex: 1;">${valFmt}</div>
+                    </div>`;
                 }
-                if (injury && injury !== "") injuryHtml = `<span class="text-danger fw-bold ms-1" style="font-size:0.6rem;">${injury}</span>`;
             }
             
+            const playerName = a.displayName || a.fullName || 'Unknown';
+            
             return `
-            <li class="px-2 py-1 border-bottom small d-flex flex-column align-items-start">
+            <li class="px-2 py-2 border-bottom d-flex flex-column align-items-start" style="overflow: hidden;">
                 <div class="d-flex w-100 justify-content-start align-items-center">
-                    <span class="text-muted fw-bold me-2">${a.position?.abbreviation || '-'}</span>
-                    <span class="fw-bold">${a.displayName || a.fullName}</span>${injuryHtml}
+                    <span class="text-muted fw-bold me-2 text-center" style="font-size: 0.75rem; width: 22px; display: inline-block;">${displayPos}</span>
+                    <span class="fw-bold text-truncate" style="font-size: 0.85rem; max-width: 80%;">${playerName}</span>
                 </div>
                 ${statsHtml}
             </li>`;
