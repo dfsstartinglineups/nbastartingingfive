@@ -306,6 +306,7 @@ def build_json():
     yesterday_str = (et_now - timedelta(days=1)).strftime("%Y-%m-%d")
     tomorrow_str = (et_now + timedelta(days=1)).strftime("%Y-%m-%d")
     
+    # Memory allows 3 days so we don't wipe yesterday's games from the screen the second 10 PM hits
     valid_dates = [yesterday_str, current_date_str, tomorrow_str]
     
     old_memory = {}
@@ -325,7 +326,18 @@ def build_json():
     team_schedule = get_espn_schedule_data()
     scraped_rosters = scrape_starters()
     
-    unique_dates = [yesterday_str, current_date_str, tomorrow_str]
+    # -------------------------------------------------------------
+    # OPTIMIZED TIME-BASED SCRAPING LOGIC
+    # -------------------------------------------------------------
+    # Before 10:00 PM EST -> Scrape Yesterday & Today
+    # After 10:00 PM EST -> Scrape Today & Tomorrow
+    if et_now.hour >= 22:
+        unique_dates = [current_date_str, tomorrow_str]
+        print(f"\n[TIME CHECK] After 10 PM EST. Scraping Today & Tomorrow: {unique_dates}")
+    else:
+        unique_dates = [yesterday_str, current_date_str]
+        print(f"\n[TIME CHECK] Before 10 PM EST. Scraping Yesterday & Today: {unique_dates}")
+        
     dff_projections = {}
     
     for d_str in unique_dates:
@@ -483,5 +495,6 @@ def build_json():
 
 if __name__ == "__main__":
     build_json()
+
 
 
