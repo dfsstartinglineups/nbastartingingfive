@@ -3,6 +3,7 @@
 // ==========================================
 const DEFAULT_DATE = new Date().toLocaleDateString('en-CA');
 let ALL_GAMES_DATA = []; 
+let ALL_SLATES = { fanduel: [], draftkings: [] };
 let ARE_ALL_EXPANDED = false; // Controls global expand/collapse state
 
 const X_SVG_PATH = "M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.875 11.633Z";
@@ -25,21 +26,20 @@ function getStandardAbbr(abbr) {
     return map[cleanAbbr] || cleanAbbr;
 }
 
-async function fetchLocalProbables() {
+async function fetchLocalData() {
     try {
         const response = await fetch('nba_data.json?v=' + new Date().getTime());
         if (response.ok) {
-            const data = await response.json();
-            return data.games || [];
+            return await response.json();
         }
     } catch (e) {
         console.log("No local nba_data.json found.");
     }
-    return [];
+    return { games: [], slates: { fanduel: [], draftkings: [] } };
 }
 
 // ==========================================
-// 2. TOGGLE LOGIC (Player, Card, Global)
+// 2. TOGGLE LOGIC (Player, Card, Bench, Global)
 // ==========================================
 
 window.togglePlayerStats = function(element) {
@@ -47,7 +47,7 @@ window.togglePlayerStats = function(element) {
     const statsRow = li.querySelector('.player-stats-row');
     const icon = li.querySelector('.stats-toggle-icon');
     
-    if (!statsRow) return; // Ignore clicks if player has no DFS stats
+    if (!statsRow) return; 
     
     if (statsRow.classList.contains('d-none')) {
         statsRow.classList.remove('d-none');
@@ -80,9 +80,44 @@ window.toggleCardStats = function(btn) {
     });
 };
 
+window.toggleBench = function(el) {
+    const container = el.nextElementSibling;
+    const arrow = el.querySelector('.bench-arrow');
+    if (container.style.display === 'none') {
+        container.style.display = 'flex';
+        arrow.innerHTML = '▲';
+    } else {
+        container.style.display = 'none';
+        arrow.innerHTML = '▼';
+    }
+};
+
 // ==========================================
-// 3. DEEP LINK SCROLLING 
+// 3. UI RENDERING & DEEP LINKS
 // ==========================================
+
+function populateSlates() {
+    const platformNode = document.querySelector('input[name="dfsPlatform"]:checked');
+    const platform = platformNode ? platformNode.value : 'fd';
+    const platKey = platform === 'dk' ? 'draftkings' : 'fanduel';
+    
+    const selector = document.getElementById('slate-selector');
+    if (!selector) return;
+    
+    selector.innerHTML = '<option value="all">All Slates</option>';
+    
+    if (ALL_SLATES[platKey] && Array.isArray(ALL_SLATES[platKey])) {
+        ALL_SLATES[platKey].forEach(slate => {
+            const opt = document.createElement('option');
+            opt.value = slate.id;
+            opt.textContent = slate.name;
+            selector.appendChild(opt);
+        });
+    }
+    
+    selector.value = 'all';
+}
+
 function handleHashNavigation() {
     if (window.location.hash) {
         setTimeout(() => {
@@ -141,11 +176,16 @@ async function init(dateToFetch) {
     const ESPN_API_URL = `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${espnDate}`;
     
     try {
-        const [scheduleResponse, localProbables] = await Promise.all([
+        const [scheduleResponse, localData] = await Promise.all([
             fetch(ESPN_API_URL),
-            fetchLocalProbables()
+            fetchLocalData()
         ]);
         const scheduleData = await scheduleResponse.json();
+        
+        const localProbables = localData.games || [];
+        ALL_SLATES = localData.slates || { fanduel: [], draftkings: [] };
+        
+        populateSlates();
 
         if (!scheduleData.events || scheduleData.events.length === 0) {
             container.innerHTML = `<div class="col-12 text-center mt-5"><div class="alert alert-light border shadow-sm py-4"><h5 class="text-muted mb-0">No games scheduled for ${dateToFetch}</h5></div></div>`;
@@ -203,8 +243,11 @@ async function init(dateToFetch) {
                 if (localGameMatch.meta.total && localGameMatch.meta.total !== "TBD") odds.overUnder = `O/U ${localGameMatch.meta.total}`;
             }
 
-            let awayStarters = [], awayIsProjected = true;
+            // Extract Away Starters and Bench
+            let awayStarters = [], awayIsProjected = true, awayBench = [];
             let localAwayPlayers = (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[awayStd]) ? localGameMatch.rosters[awayStd].players : null;
+            let localAwayBench = (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[awayStd]) ? localGameMatch.rosters[awayStd].bench : [];
+            
             if (localAwayPlayers && localAwayPlayers.every(p => p.verified)) {
                 awayStarters = localAwayPlayers.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
                 awayIsProjected = false;
@@ -213,9 +256,13 @@ async function init(dateToFetch) {
             } else if (localAwayPlayers) {
                 awayStarters = localAwayPlayers.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
             }
+            if (localAwayBench) awayBench = localAwayBench.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
 
-            let homeStarters = [], homeIsProjected = true;
+            // Extract Home Starters and Bench
+            let homeStarters = [], homeIsProjected = true, homeBench = [];
             let localHomePlayers = (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[homeStd]) ? localGameMatch.rosters[homeStd].players : null;
+            let localHomeBench = (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[homeStd]) ? localGameMatch.rosters[homeStd].bench : [];
+            
             if (localHomePlayers && localHomePlayers.every(p => p.verified)) {
                 homeStarters = localHomePlayers.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
                 homeIsProjected = false;
@@ -224,7 +271,9 @@ async function init(dateToFetch) {
             } else if (localHomePlayers) {
                 homeStarters = localHomePlayers.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
             }
+            if (localHomeBench) homeBench = localHomeBench.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
 
+            // Fix Positions for Starters
             [awayStarters, homeStarters].forEach(starters => {
                 starters.forEach(p => {
                     const athlete = p.athlete || p;
@@ -238,6 +287,7 @@ async function init(dateToFetch) {
             ALL_GAMES_DATA.push({
                 gameRaw: game, home: homeTeamData, away: awayTeamData,
                 homeStarters, awayStarters, homeIsProjected, awayIsProjected,
+                homeBench, awayBench,
                 odds, venue: comp.venue?.fullName || "TBD",
                 gameDate: new Date(game.date), status: game.status.type.detail,
                 localId: localId
@@ -258,9 +308,13 @@ function renderGames() {
     if (!container) return;
     container.innerHTML = '';
     const searchText = document.getElementById('team-search')?.value.toLowerCase() || '';
+    
     ALL_GAMES_DATA.filter(item => (item.away.team.displayName + " " + item.home.team.displayName).toLowerCase().includes(searchText))
         .sort((a, b) => a.gameDate - b.gameDate)
-        .forEach(item => container.appendChild(createGameCard(item)));
+        .forEach(item => {
+            const card = createGameCard(item);
+            if (card) container.appendChild(card);
+        });
 }
 
 function createGameCard(data) {
@@ -285,53 +339,88 @@ function createGameCard(data) {
             <div class="badge bg-secondary text-white w-100" style="font-size: 0.70rem;">${data.odds.overUnder}</div>`;
     }
 
-    const buildLineupList = (players, isProjected) => {
-        if (!players.length) return `<div class="p-4 text-center text-muted small fw-bold">Lineup pending...</div>`;
-        const color = isProjected ? "#ffecb5" : "#198754";
-        const textColor = isProjected ? "text-dark" : "text-white";
-        const label = isProjected ? "⚠️ PROJECTED" : "✅ OFFICIAL";
+    const buildLineupList = (players, isProjected, isBench = false) => {
+        if (!players || !players.length) {
+            if (isBench) return { html: '', hasValidPlayers: false };
+            return { html: `<div class="p-4 text-center text-muted small fw-bold">Lineup pending...</div>`, hasValidPlayers: false };
+        }
         
         const platformNode = document.querySelector('input[name="dfsPlatform"]:checked');
         const platform = platformNode ? platformNode.value : 'fd';
+        const slateSelector = document.getElementById('slate-selector');
+        const selectedSlate = slateSelector ? slateSelector.value : 'all';
         
         const fixedPositions = ['PG', 'SG', 'SF', 'PF', 'C'];
+        let hasValidPlayersForList = false;
+        
+        let headerHtml = '';
+        if (!isBench) {
+            const color = isProjected ? "#ffecb5" : "#198754";
+            const textColor = isProjected ? "text-dark" : "text-white";
+            const label = isProjected ? "⚠️ PROJECTED" : "✅ OFFICIAL";
+            headerHtml = `<div class="text-center py-1 fw-bold ${textColor}" style="font-size: 0.6rem; background-color: ${color};">${label}</div>`;
+        }
+        
+        let generatedItemsCount = 0;
         
         const items = players.map((p, index) => {
             const a = p.athlete || p;
             let statsHtml = '';
             let arrowHtml = '';
             
-            const displayPos = fixedPositions[index] || 'Flex';
+            // Extract the correct position layout depending if they are a starter or bench
+            let rawPos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position ? a.position.abbreviation : 'Flex');
+            if (platform === 'dk' && a.dfs && a.dfs.dk_pos) {
+                rawPos = a.dfs.dk_pos;
+            }
+            const displayPos = isBench ? rawPos : (fixedPositions[index] || 'Flex');
+            
+            let showStats = false;
+            let salFmt = '-', projFmt = '-', valFmt = '-';
+            let sal = 0;
             
             if (a.dfs) {
-                const sal = platform === 'dk' ? a.dfs.dk_salary : a.dfs.salary;
+                sal = platform === 'dk' ? a.dfs.dk_salary : a.dfs.salary;
                 const proj = platform === 'dk' ? a.dfs.dk_proj : a.dfs.proj;
                 const val = platform === 'dk' ? a.dfs.dk_value : a.dfs.value;
+                const slates = platform === 'dk' ? (a.dfs.dk_slates || []) : (a.dfs.fd_slates || []);
                 
                 if (sal > 0 || proj > 0) {
-                    const salFmt = sal > 0 ? `$${sal}` : '-';
-                    const projFmt = proj > 0 ? `${proj} FP` : '-';
-                    const valFmt = val > 0 ? `${val}x` : '-';
-                    
-                    // Conditionally show based on global toggle
-                    const displayState = ARE_ALL_EXPANDED ? 'd-flex' : 'd-none';
-                    
-                    statsHtml = `
-                    <div class="w-100 mt-1 dfs-stats player-stats-row ${displayState}" style="font-size: 0.65rem; color: #6c757d; border-top: 1px dashed rgba(0,0,0,0.05); padding-top: 2px;">
-                        <div class="text-start fw-bold" style="flex: 1;">${salFmt}</div>
-                        <div class="text-center fw-bold border-start border-end" style="flex: 1; border-color: rgba(0,0,0,0.05) !important;">${projFmt}</div>
-                        <div class="text-end fw-bold" style="flex: 1;">${valFmt}</div>
-                    </div>`;
-                    
-                    arrowHtml = `<span class="ms-auto stats-toggle-icon" style="font-size: 0.6rem; color: #adb5bd;">${ARE_ALL_EXPANDED ? '▼' : '▶'}</span>`;
+                    if (selectedSlate === 'all' || slates.includes(selectedSlate)) {
+                        showStats = true;
+                        salFmt = sal > 0 ? `$${sal}` : '-';
+                        projFmt = proj > 0 ? `${proj} FP` : '-';
+                        valFmt = val > 0 ? `${val}x` : '-';
+                        hasValidPlayersForList = true;
+                    }
                 }
             }
             
             const playerName = a.displayName || a.fullName || 'Unknown';
             
+            if (isBench) {
+                // If they are on the bench and not in the selected slate, hide them.
+                if (selectedSlate !== 'all' && !showStats) return '';
+                // If viewing all slates, only show bench players who have a salary on the selected platform.
+                if (selectedSlate === 'all' && sal === 0) return '';
+            }
+            
+            generatedItemsCount++;
+            
+            if (showStats) {
+                const displayState = ARE_ALL_EXPANDED ? 'd-flex' : 'd-none';
+                statsHtml = `
+                <div class="w-100 mt-1 dfs-stats player-stats-row ${displayState}" style="font-size: 0.65rem; color: #6c757d; border-top: 1px dashed rgba(0,0,0,0.05); padding-top: 2px;">
+                    <div class="text-start fw-bold" style="flex: 1;">${salFmt}</div>
+                    <div class="text-center fw-bold border-start border-end" style="flex: 1; border-color: rgba(0,0,0,0.05) !important;">${projFmt}</div>
+                    <div class="text-end fw-bold" style="flex: 1;">${valFmt}</div>
+                </div>`;
+                arrowHtml = `<span class="ms-auto stats-toggle-icon" style="font-size: 0.6rem; color: #adb5bd;">${ARE_ALL_EXPANDED ? '▼' : '▶'}</span>`;
+            }
+            
             return `
             <li class="px-1 py-1 border-bottom d-flex flex-column align-items-start" style="overflow: hidden;">
-                <div class="d-flex w-100 justify-content-start align-items-center" onclick="togglePlayerStats(this)" style="cursor: pointer;">
+                <div class="d-flex w-100 justify-content-start align-items-center" ${showStats ? 'onclick="togglePlayerStats(this)" style="cursor: pointer;"' : ''}>
                     <span class="text-muted fw-bold me-1 text-center" style="font-size: 0.75rem; width: 18px; display: inline-block;">${displayPos}</span>
                     <span class="fw-bold text-truncate" style="font-size: 0.85rem; max-width: 75%;">${playerName}</span>
                     ${arrowHtml}
@@ -340,8 +429,44 @@ function createGameCard(data) {
             </li>`;
         }).join('');
         
-        return `<div class="text-center py-1 fw-bold ${textColor}" style="font-size: 0.6rem; background-color: ${color};">${label}</div><ul class="list-unstyled m-0">${items}</ul>`;
+        if (isBench && generatedItemsCount === 0) {
+            return { html: '', hasValidPlayers: false };
+        }
+        
+        return { html: `${headerHtml}<ul class="list-unstyled m-0">${items}</ul>`, hasValidPlayers: hasValidPlayersForList };
     };
+
+    const awayStartersInfo = buildLineupList(data.awayStarters, data.awayIsProjected, false);
+    const homeStartersInfo = buildLineupList(data.homeStarters, data.homeIsProjected, false);
+    const awayBenchInfo = buildLineupList(data.awayBench, false, true);
+    const homeBenchInfo = buildLineupList(data.homeBench, false, true);
+    
+    const slateSelector = document.getElementById('slate-selector');
+    const selectedSlate = slateSelector ? slateSelector.value : 'all';
+    
+    // Auto-hide the game completely if NO players match the selected slate
+    if (selectedSlate !== 'all') {
+        const hasAnySlatePlayer = awayStartersInfo.hasValidPlayers || homeStartersInfo.hasValidPlayers || awayBenchInfo.hasValidPlayers || homeBenchInfo.hasValidPlayers;
+        if (!hasAnySlatePlayer) {
+            gameCard.classList.add('d-none');
+            return gameCard;
+        }
+    }
+
+    let benchRibbonHtml = '';
+    if (awayBenchInfo.html || homeBenchInfo.html) {
+        benchRibbonHtml = `
+            <div class="border-top bg-light">
+                <div class="p-2 text-center border-bottom text-muted fw-bold bench-toggle" onclick="toggleBench(this)" style="font-size: 0.75rem; cursor: pointer; background-color: #f8f9fa;">
+                    <span>View Bench Options</span> <span class="bench-arrow ms-1">▼</span>
+                </div>
+                <div class="row g-0 bench-container" style="display: none;">
+                    <div class="col-6 border-end">${awayBenchInfo.html}</div>
+                    <div class="col-6">${homeBenchInfo.html}</div>
+                </div>
+            </div>
+        `;
+    }
 
     gameCard.innerHTML = `
         <div class="lineup-card shadow-sm border rounded bg-white overflow-hidden" id="game-${data.localId}">
@@ -358,9 +483,10 @@ function createGameCard(data) {
                 <div style="width: 35%;"><img src="${home.team.logo}" style="width: 40px;"><div class="fw-bold small">${home.team.shortDisplayName}</div></div>
             </div>
             <div class="row g-0 border-top">
-                <div class="col-6 border-end">${buildLineupList(data.awayStarters, data.awayIsProjected)}</div>
-                <div class="col-6">${buildLineupList(data.homeStarters, data.homeIsProjected)}</div>
+                <div class="col-6 border-end">${awayStartersInfo.html}</div>
+                <div class="col-6">${homeStartersInfo.html}</div>
             </div>
+            ${benchRibbonHtml}
         </div>`;
         
     return gameCard;
@@ -376,7 +502,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     // Auto-update UI when DFS platform is toggled
-    document.querySelectorAll('.dfs-toggle').forEach(radio => radio.addEventListener('change', renderGames));
+    document.querySelectorAll('.dfs-toggle').forEach(radio => radio.addEventListener('change', () => {
+        populateSlates();
+        renderGames();
+    }));
+    
+    // Re-render games when slate dropdown changes
+    document.getElementById('slate-selector')?.addEventListener('change', renderGames);
     
     // Global Expand/Collapse Button
     const globalToggleBtn = document.getElementById('global-toggle-btn');
