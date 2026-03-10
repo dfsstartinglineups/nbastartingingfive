@@ -172,18 +172,18 @@ def scrape_starters():
     print(f"Scraped {len(starters_map)} teams from BBM.")
     return starters_map
 
-# --- DYNAMIC SLATE CRAWLER FOR DFF (SELENIUM BROWSER BOT) ---
+# --- DYNAMIC SLATE CRAWLER FOR DFF (OPTIMIZED BROWSER BOT) ---
 def scrape_dff_projections(target_date_str):
     print(f"\n--- BROWSER BOT STARTING FOR: {target_date_str} ---")
     dff_data = {}
     platforms = ['fanduel', 'draftkings']
     
-    # 1. Setup the Headless Chrome Browser (Full Desktop Mode)
+    # 1. Setup the Headless Chrome Browser
     chrome_options = Options()
     chrome_options.add_argument("--headless") 
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--window-size=1920,1080") # Prevents mobile responsive menus from hiding data!
+    chrome_options.add_argument("--window-size=1920,1080")
     chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
     
     try:
@@ -199,59 +199,37 @@ def scrape_dff_projections(target_date_str):
         try:
             print(f"Loading {platform.upper()} Base URL: {base_url}")
             driver.get(base_url)
-            time.sleep(5) # Let React fully mount
+            time.sleep(3) # Let React fully mount
             
             # --- AGGRESSIVE DOM INTERACTION ---
-            # 1. Click anything that looks like a slate dropdown to force the modal open
             try:
                 toggles = driver.find_elements(By.XPATH, "//*[contains(translate(text(), 'SLATE', 'slate'), 'slate') or contains(translate(text(), 'MAIN', 'main'), 'main') or contains(@class, 'slate')]")
                 for t in toggles:
                     try:
-                        # Only click if it's not a direct link, to avoid navigating away
                         if not t.get_attribute("href"):
                             driver.execute_script("arguments[0].click();", t)
                     except: pass
-                time.sleep(2) # Give modal time to animate/render
+                time.sleep(1) 
             except: pass
 
-            # --- MULTI-VECTOR SLATE EXTRACTION ---
-            # Vector A: Look for standard links (<a> tags)
-            links = driver.find_elements(By.TAG_NAME, "a")
-            for link in links:
-                href = link.get_attribute("href")
-                if href and "slate=" in href:
-                    match = re.search(r'slate=([a-zA-Z0-9_-]+)', href)
-                    if match: slate_ids.add(match.group(1))
-
-            # Vector B: Look for data-slate attributes in the DOM
-            elements_with_slate = driver.find_elements(By.XPATH, "//*[@data-slate]")
-            for el in elements_with_slate:
-                val = el.get_attribute("data-slate")
-                if val: slate_ids.add(val)
-
-            # Vector C: Look for Dropdown Options (<option>)
-            options = driver.find_elements(By.TAG_NAME, "option")
-            for opt in options:
-                val = opt.get_attribute("value")
-                if val and len(val) >= 4 and "http" not in val:
-                    slate_ids.add(val)
-
-            # Vector D: Deep JSON scrape of the active Page Source
+            # --- EXTRACT SLATES ---
             html_text = driver.page_source
-            slate_ids.update(re.findall(r'["\']([a-f0-9]{24})["\']', html_text)) # MongoDB IDs
-            slate_ids.update(re.findall(r'slate(?:=|%3D)([a-zA-Z0-9_-]+)', html_text, re.IGNORECASE)) # URL encoded
-
-            # Clean up extracted IDs
-            bad_ids = {'true', 'false', 'null', 'undefined', 'nba', 'fanduel', 'draftkings'}
-            slate_ids = {sid for sid in slate_ids if sid.lower() not in bad_ids and len(sid) >= 4}
             
-            print(f"Browser found {len(slate_ids)} unique slates: {slate_ids}")
+            # Look for 5-character alphanumeric Slate IDs (e.g., 1F174, 23037)
+            matches = re.findall(r'data-slate=["\']([a-zA-Z0-9]{5})["\']', html_text)
+            matches += re.findall(r'slate=([a-zA-Z0-9]{5})', html_text)
+            matches += re.findall(r'<option[^>]+value=["\']([a-zA-Z0-9]{5})["\'][^>]*>', html_text, re.IGNORECASE)
+            
+            slate_ids.update(matches)
+            
+            print(f"Browser found {len(slate_ids)} valid slates: {slate_ids}")
             
             urls_to_scrape = [base_url]
             for sid in slate_ids:
                 urls_to_scrape.append(f"{base_url}?slate={sid}")
                 
             scraped_urls = set()
+            from bs4 import BeautifulSoup
             
             for url in urls_to_scrape:
                 if url in scraped_urls: continue
@@ -259,7 +237,8 @@ def scrape_dff_projections(target_date_str):
                 
                 print(f"Scraping fully rendered slate: {url}")
                 driver.get(url)
-                time.sleep(3) # Wait for table to load
+                # Wait for the table data to load. 1.5s is usually plenty for DFF.
+                time.sleep(1.5) 
                 
                 soup = BeautifulSoup(driver.page_source, 'html.parser')
                 
@@ -312,7 +291,7 @@ def scrape_dff_projections(target_date_str):
         except Exception as e:
             print(f"Error scraping DFF ({platform}): {e}")
             
-    driver.quit() # Free memory
+    driver.quit() 
     return dff_data
 
 # --- MAIN LOGIC ---
@@ -501,3 +480,4 @@ def build_json():
 
 if __name__ == "__main__":
     build_json()
+
