@@ -172,7 +172,7 @@ def scrape_starters():
     print(f"Scraped {len(starters_map)} teams from BBM.")
     return starters_map
 
-# --- DYNAMIC SLATE CRAWLER FOR DFF (OPTIMIZED BROWSER BOT) ---
+# --- DYNAMIC SLATE CRAWLER FOR DFF (HYBRID BOT) ---
 def scrape_dff_projections(target_date_str):
     print(f"\n--- BROWSER BOT STARTING FOR: {target_date_str} ---")
     dff_data = {}
@@ -199,7 +199,7 @@ def scrape_dff_projections(target_date_str):
         try:
             print(f"Loading {platform.upper()} Base URL: {base_url}")
             driver.get(base_url)
-            time.sleep(3) # Let React fully mount
+            time.sleep(2) # Let React fully mount
             
             # --- AGGRESSIVE DOM INTERACTION ---
             try:
@@ -215,7 +215,6 @@ def scrape_dff_projections(target_date_str):
             # --- EXTRACT SLATES ---
             html_text = driver.page_source
             
-            # Look for 5-character alphanumeric Slate IDs (e.g., 1F174, 23037)
             matches = re.findall(r'data-slate=["\']([a-zA-Z0-9]{5})["\']', html_text)
             matches += re.findall(r'slate=([a-zA-Z0-9]{5})', html_text)
             matches += re.findall(r'<option[^>]+value=["\']([a-zA-Z0-9]{5})["\'][^>]*>', html_text, re.IGNORECASE)
@@ -224,69 +223,73 @@ def scrape_dff_projections(target_date_str):
             
             print(f"Browser found {len(slate_ids)} valid slates: {slate_ids}")
             
-            urls_to_scrape = [base_url]
-            for sid in slate_ids:
-                urls_to_scrape.append(f"{base_url}?slate={sid}")
-                
-            scraped_urls = set()
+            # --- HYBRID API INJECTION ---
+            # Instead of making Selenium load 6 massive React pages, we will rapidly query the internal JSON API directly for the remaining slates.
             from bs4 import BeautifulSoup
             
-            for url in urls_to_scrape:
-                if url in scraped_urls: continue
-                scraped_urls.add(url)
+            # Scrape the initial DOM first to guarantee we capture the base data
+            print(f"Scraping initial rendered slate: {base_url}")
+            soup = BeautifulSoup(driver.page_source, 'html.parser')
+            
+            def parse_row(row, plt):
+                team_raw = row.get('data-team')
+                if not team_raw: return
                 
-                print(f"Scraping fully rendered slate: {url}")
-                driver.get(url)
-                # Wait for the table data to load. 1.5s is usually plenty for DFF.
-                time.sleep(1.5) 
+                team = normalize_team(team_raw)
+                raw_name = row.get('data-name', '')
+                clean_name = clean_player_name(raw_name)
                 
-                soup = BeautifulSoup(driver.page_source, 'html.parser')
+                try:
+                    sal = float(row.get('data-salary', '0') or '0')
+                    proj = float(row.get('data-ppg_proj', '0') or '0')
+                    val = float(row.get('data-value_proj', '0') or '0')
+                except:
+                    sal, proj, val = 0, 0, 0
+                    
+                pos = row.get('data-pos', 'Flex')
+                injury = row.get('data-inj', '')
                 
-                for row in soup.find_all('tr', class_='projections-listing'):
-                    team_raw = row.get('data-team')
-                    if not team_raw: continue
+                p_key = f"{team}_{clean_name}"
+                
+                if p_key not in dff_data:
+                    dff_data[p_key] = {
+                        "name": raw_name, "injury": injury, "pos": "Flex", "salary": 0, "proj": 0.0, "value": 0.0,
+                        "dk_pos": "Flex", "dk_salary": 0, "dk_proj": 0.0, "dk_value": 0.0
+                    }
+                
+                if plt == 'fanduel' and sal > 0:
+                    dff_data[p_key]["pos"] = pos
+                    dff_data[p_key]["salary"] = int(sal)
+                    dff_data[p_key]["proj"] = round(proj, 1)
+                    dff_data[p_key]["value"] = round(val, 2)
+                    if injury: dff_data[p_key]["injury"] = injury
+                elif plt == 'draftkings' and sal > 0:
+                    dff_data[p_key]["dk_pos"] = pos
+                    dff_data[p_key]["dk_salary"] = int(sal)
+                    dff_data[p_key]["dk_proj"] = round(proj, 1)
+                    dff_data[p_key]["dk_value"] = round(val, 2)
+                    if injury: dff_data[p_key]["injury"] = injury
+            
+            # Parse the initial page
+            for row in soup.find_all('tr', class_='projections-listing'):
+                parse_row(row, platform)
+            
+            # Rapidly hit the API endpoint for the discovered slate IDs (much faster than Selenium)
+            for sid in slate_ids:
+                print(f"Rapid JSON Scrape for Slate: {sid}")
+                try:
+                    # DFF sends back an HTML partial when requested via XHR
+                    api_headers = HEADERS.copy()
+                    api_headers['X-Requested-With'] = 'XMLHttpRequest'
+                    res = requests.get(f"{base_url}?slate={sid}", headers=api_headers, timeout=5)
                     
-                    team = normalize_team(team_raw)
-                    raw_name = row.get('data-name', '')
-                    clean_name = clean_player_name(raw_name)
-                    
-                    try:
-                        raw_sal = row.get('data-salary', '0')
-                        raw_proj = row.get('data-ppg_proj', '0')
-                        raw_val = row.get('data-value_proj', '0')
-                        
-                        sal = float(raw_sal if raw_sal else '0')
-                        proj = float(raw_proj if raw_proj else '0')
-                        val = float(raw_val if raw_val else '0')
-                    except:
-                        sal, proj, val = 0, 0, 0
-                        
-                    pos = row.get('data-pos', 'Flex')
-                    injury = row.get('data-inj', '')
-                    
-                    p_key = f"{team}_{clean_name}"
-                    
-                    if p_key not in dff_data:
-                        dff_data[p_key] = {
-                            "name": raw_name, "injury": injury,
-                            "pos": "Flex", "salary": 0, "proj": 0.0, "value": 0.0,
-                            "dk_pos": "Flex", "dk_salary": 0, "dk_proj": 0.0, "dk_value": 0.0
-                        }
-                    
-                    if platform == 'fanduel' and sal > 0:
-                        dff_data[p_key]["pos"] = pos
-                        dff_data[p_key]["salary"] = int(sal)
-                        dff_data[p_key]["proj"] = round(proj, 1)
-                        dff_data[p_key]["value"] = round(val, 2)
-                        if injury: dff_data[p_key]["injury"] = injury
-                    elif platform == 'draftkings' and sal > 0:
-                        dff_data[p_key]["dk_pos"] = pos
-                        dff_data[p_key]["dk_salary"] = int(sal)
-                        dff_data[p_key]["dk_proj"] = round(proj, 1)
-                        dff_data[p_key]["dk_value"] = round(val, 2)
-                        if injury: dff_data[p_key]["injury"] = injury
-                        
-            print(f"Successfully scraped {len(scraped_urls)} slates for {platform.upper()}.")
+                    if res.status_code == 200:
+                        sub_soup = BeautifulSoup(res.text, 'html.parser')
+                        for row in sub_soup.find_all('tr', class_='projections-listing'):
+                            parse_row(row, platform)
+                except: pass
+                
+            print(f"Successfully compiled all slates for {platform.upper()}.")
             
         except Exception as e:
             print(f"Error scraping DFF ({platform}): {e}")
@@ -480,4 +483,5 @@ def build_json():
 
 if __name__ == "__main__":
     build_json()
+
 
