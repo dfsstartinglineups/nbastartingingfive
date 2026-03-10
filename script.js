@@ -557,6 +557,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }));
     
     document.getElementById('slate-selector')?.addEventListener('change', renderGames);
+
+    // Mobile Search Toggle
+    const searchToggleBtn = document.getElementById('search-toggle-btn');
+    const teamSearchInput = document.getElementById('team-search');
+    
+    if (searchToggleBtn && teamSearchInput) {
+        searchToggleBtn.addEventListener('click', () => {
+            teamSearchInput.classList.toggle('expanded');
+            if (teamSearchInput.classList.contains('expanded')) {
+                teamSearchInput.focus();
+            }
+        });
+        
+        // Auto-collapse search when clicking somewhere else on the screen (Mobile only)
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth < 768 && teamSearchInput.classList.contains('expanded')) {
+                if (!teamSearchInput.contains(e.target) && !searchToggleBtn.contains(e.target)) {
+                    teamSearchInput.classList.remove('expanded');
+                }
+            }
+        });
+    }
     
     const globalToggleBtn = document.getElementById('global-toggle-btn');
     if (globalToggleBtn) {
