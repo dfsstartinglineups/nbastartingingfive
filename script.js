@@ -465,18 +465,7 @@ function createGameCard(data) {
         `;
     }
 
-    // Modal Builder Buttons
-    const gameDateShort = data.gameDate.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' });
-    const shareHtml = `
-        <div class="d-flex justify-content-between p-2 bg-light border-top" style="font-size: 0.75rem;">
-            <button class="btn btn-sm btn-outline-dark py-0 px-2 fw-bold" onclick='generateTweet(${JSON.stringify(away.team.shortDisplayName)}, ${JSON.stringify(home.team.shortDisplayName)}, ${JSON.stringify(data.awayStarters)}, ${JSON.stringify(data.odds)}, "${gameDateShort}", "${data.localId}", ${data.awayIsProjected})'>
-               <i class="fab fa-twitter text-primary"></i> ${away.team.shortDisplayName}
-            </button>
-            <button class="btn btn-sm btn-outline-dark py-0 px-2 fw-bold" onclick='generateTweet(${JSON.stringify(home.team.shortDisplayName)}, ${JSON.stringify(away.team.shortDisplayName)}, ${JSON.stringify(data.homeStarters)}, ${JSON.stringify(data.odds)}, "${gameDateShort}", "${data.localId}", ${data.homeIsProjected})'>
-               <i class="fab fa-twitter text-primary"></i> ${home.team.shortDisplayName}
-            </button>
-        </div>
-    `;
+    
 
     gameCard.innerHTML = `
         <div class="lineup-card shadow-sm border rounded bg-white overflow-hidden" id="game-${data.localId}">
@@ -497,7 +486,6 @@ function createGameCard(data) {
                 <div class="col-6">${homeStartersInfo.html}</div>
             </div>
             ${benchRibbonHtml}
-            ${shareHtml}
         </div>`;
         
     return gameCard;
