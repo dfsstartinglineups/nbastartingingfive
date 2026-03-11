@@ -281,28 +281,30 @@ def scrape_dff_projections(target_date_str):
                     dff_data[p_key] = {
                         "name": raw_name, "injury": injury, "pos": "Flex", "salary": 0, "proj": 0.0, "value": 0.0,
                         "dk_pos": "Flex", "dk_salary": 0, "dk_proj": 0.0, "dk_value": 0.0,
-                        "fd_slates": [], "dk_slates": []
+                        "fd_slates": {}, "dk_slates": {}
                     }
                 
                 if plt == 'fanduel' and sal > 0:
                     dff_data[p_key]["pos"] = pos
-                    if proj > dff_data[p_key]["proj"]:
-                        dff_data[p_key]["salary"] = int(sal)
-                        dff_data[p_key]["proj"] = round(proj, 1)
-                        dff_data[p_key]["value"] = round(val, 2)
                     if injury: dff_data[p_key]["injury"] = injury
-                    if sid and sid not in dff_data[p_key]["fd_slates"]:
-                        dff_data[p_key]["fd_slates"].append(sid)
+                    
+                    if sid:
+                        dff_data[p_key]["fd_slates"][sid] = {
+                            "salary": int(sal),
+                            "proj": round(proj, 1),
+                            "value": round(val, 2)
+                        }
                         
                 elif plt == 'draftkings' and sal > 0:
                     dff_data[p_key]["dk_pos"] = pos
-                    if proj > dff_data[p_key]["dk_proj"]:
-                        dff_data[p_key]["dk_salary"] = int(sal)
-                        dff_data[p_key]["dk_proj"] = round(proj, 1)
-                        dff_data[p_key]["dk_value"] = round(val, 2)
                     if injury: dff_data[p_key]["injury"] = injury
-                    if sid and sid not in dff_data[p_key]["dk_slates"]:
-                        dff_data[p_key]["dk_slates"].append(sid)
+                    
+                    if sid:
+                        dff_data[p_key]["dk_slates"][sid] = {
+                            "salary": int(sal),
+                            "proj": round(proj, 1),
+                            "value": round(val, 2)
+                        }
 
             print(f"Scraping initial rendered slate: {base_url}")
             if active_sid:
@@ -328,6 +330,50 @@ def scrape_dff_projections(target_date_str):
         except Exception as e:
             print(f"Error scraping DFF ({platform}): {e}")
             
+    print("Applying priority waterfall logic for default DFS stats...")
+    
+    def get_slate_priority(slate_name):
+        name_lower = slate_name.lower()
+        if "all day" in name_lower: return 1
+        elif "main" in name_lower: return 2
+        elif "@" in name_lower or "showdown" in name_lower or "single game" in name_lower or "captain" in name_lower: return 4
+        else: return 3
+        
+    for p_key, p_data in dff_data.items():
+        # Fanduel
+        best_fd_sid = None
+        best_fd_pri = 99
+        for sid, stats in p_data["fd_slates"].items():
+            s_name = GLOBAL_SLATES['fanduel'].get(sid, "")
+            pri = get_slate_priority(s_name)
+            if pri < best_fd_pri:
+                best_fd_pri = pri
+                best_fd_sid = sid
+            elif pri == best_fd_pri:
+                if stats["proj"] > p_data["fd_slates"][best_fd_sid]["proj"]:
+                    best_fd_sid = sid
+        if best_fd_sid:
+            p_data["salary"] = p_data["fd_slates"][best_fd_sid]["salary"]
+            p_data["proj"] = p_data["fd_slates"][best_fd_sid]["proj"]
+            p_data["value"] = p_data["fd_slates"][best_fd_sid]["value"]
+            
+        # DraftKings
+        best_dk_sid = None
+        best_dk_pri = 99
+        for sid, stats in p_data["dk_slates"].items():
+            s_name = GLOBAL_SLATES['draftkings'].get(sid, "")
+            pri = get_slate_priority(s_name)
+            if pri < best_dk_pri:
+                best_dk_pri = pri
+                best_dk_sid = sid
+            elif pri == best_dk_pri:
+                if stats["proj"] > p_data["dk_slates"][best_dk_sid]["proj"]:
+                    best_dk_sid = sid
+        if best_dk_sid:
+            p_data["dk_salary"] = p_data["dk_slates"][best_dk_sid]["salary"]
+            p_data["dk_proj"] = p_data["dk_slates"][best_dk_sid]["proj"]
+            p_data["dk_value"] = p_data["dk_slates"][best_dk_sid]["value"]
+
     driver.quit() 
     return dff_data
 
@@ -573,3 +619,4 @@ def build_json():
 
 if __name__ == "__main__":
     build_json()
+
