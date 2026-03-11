@@ -105,12 +105,30 @@ function populateSlates() {
     const currentVal = selector.value;
     selector.innerHTML = '<option value="all">All Slates</option>';
     
+    // 1. Get the currently viewed date from the date-picker UI
+    const datePicker = document.getElementById('date-picker');
+    const dateToFetch = datePicker ? datePicker.value : new Date().toLocaleDateString('en-CA');
+    
+    // 2. Safely parse the date string (YYYY-MM-DD) into a 3-letter day
+    const [y, m, d] = dateToFetch.split('-');
+    const dateObj = new Date(y, m - 1, d);
+    const dayOfWeek = dateObj.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
+
     if (ALL_SLATES[platKey] && Array.isArray(ALL_SLATES[platKey])) {
         ALL_SLATES[platKey].forEach(slate => {
-            const opt = document.createElement('option');
-            opt.value = slate.id;
-            opt.textContent = slate.name;
-            selector.appendChild(opt);
+            const upperName = slate.name.toUpperCase();
+            const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+            
+            // Check if the slate explicitly mentions ANY day of the week
+            const containsADay = days.some(day => upperName.includes(day));
+            
+            // 3. THE BOUNCER: Only add the slate if it contains OUR day, or if no day is specified.
+            if (upperName.includes(dayOfWeek) || !containsADay) {
+                const opt = document.createElement('option');
+                opt.value = slate.id;
+                opt.textContent = slate.name;
+                selector.appendChild(opt);
+            }
         });
     }
     
@@ -381,13 +399,28 @@ function createGameCard(data) {
             let sal = 0;
             
             if (a.dfs) {
-                sal = platform === 'dk' ? a.dfs.dk_salary : a.dfs.salary;
-                const proj = platform === 'dk' ? a.dfs.dk_proj : a.dfs.proj;
-                const val = platform === 'dk' ? a.dfs.dk_value : a.dfs.value;
-                const slates = platform === 'dk' ? (a.dfs.dk_slates || []) : (a.dfs.fd_slates || []);
+                // Determine which slate dictionary to look at based on the platform toggle
+                const slatesDict = platform === 'dk' ? (a.dfs.dk_slates || {}) : (a.dfs.fd_slates || {});
                 
-                if (sal > 0 || proj > 0) {
-                    if (selectedSlate === 'all' || slates.includes(selectedSlate)) {
+                // If a specific slate is selected and the player is in it, use the exact slate numbers
+                if (selectedSlate !== 'all' && slatesDict[selectedSlate]) {
+                    sal = slatesDict[selectedSlate].salary;
+                    let proj = slatesDict[selectedSlate].proj;
+                    let val = slatesDict[selectedSlate].value;
+                    
+                    showStats = true;
+                    salFmt = sal > 0 ? `$${sal}` : '-';
+                    projFmt = proj > 0 ? `${proj} FP` : '-';
+                    valFmt = val > 0 ? `${val}x` : '-';
+                    hasValidPlayersForList = true;
+                } 
+                // If "All Slates" is selected, fallback to the player's top-level default numbers
+                else if (selectedSlate === 'all') {
+                    sal = platform === 'dk' ? a.dfs.dk_salary : a.dfs.salary;
+                    let proj = platform === 'dk' ? a.dfs.dk_proj : a.dfs.proj;
+                    let val = platform === 'dk' ? a.dfs.dk_value : a.dfs.value;
+                    
+                    if (sal > 0 || proj > 0) {
                         showStats = true;
                         salFmt = sal > 0 ? `$${sal}` : '-';
                         projFmt = proj > 0 ? `${proj} FP` : '-';
