@@ -421,8 +421,10 @@ def build_json():
                 dff_projections[player_key] = stats
             else:
                 # Merge arrays and update highest projections if necessary
-                dff_projections[player_key]['fd_slates'].extend(x for x in stats['fd_slates'] if x not in dff_projections[player_key]['fd_slates'])
-                dff_projections[player_key]['dk_slates'].extend(x for x in stats['dk_slates'] if x not in dff_projections[player_key]['dk_slates'])
+                dff_projections[player_key]['fd_slates'].update(stats['fd_slates'])
+                dff_projections[player_key]['dk_slates'].update(stats['dk_slates'])
+                
+                # Leave these bottom if-statements untouched
                 if dff_projections[player_key]['salary'] == 0 and stats['salary'] > 0:
                     dff_projections[player_key].update({k: v for k, v in stats.items() if k in ['salary', 'proj', 'value', 'pos', 'injury'] and v})
                 if dff_projections[player_key]['dk_salary'] == 0 and stats['dk_salary'] > 0:
@@ -619,4 +621,5 @@ def build_json():
 
 if __name__ == "__main__":
     build_json()
+
 
