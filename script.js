@@ -339,7 +339,7 @@ function renderGames() {
 
 function createGameCard(data) {
     const gameCard = document.createElement('div');
-    gameCard.className = 'col-md-6 col-lg-6 col-xl-4 mb-3';
+    gameCard.className = 'col-12 col-md-6 col-lg-4 px-1 mb-2';
     
     const { away, home, gameRaw } = data;
     const gameState = gameRaw.status.type.state;
@@ -383,16 +383,8 @@ function createGameCard(data) {
         
         let generatedItemsCount = 0;
         
-        const items = players.map((p, index) => {
-            const a = p.athlete || p;
-            let statsHtml = '';
-            let arrowHtml = '';
-            
-            let rawPos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position ? a.position.abbreviation : 'Flex');
-            if (platform === 'dk' && a.dfs && a.dfs.dk_pos) {
-                rawPos = a.dfs.dk_pos;
-            }
-            const displayPos = isBench ? rawPos : (fixedPositions[index] || 'Flex');
+        const items = players.map((a, i) => {
+            const displayPos = isBench ? (a.dfs?.pos || a.position || '-') : (fixedPositions[i] || a.position || '-');
             
             let showStats = false;
             let salFmt = '-', projFmt = '-', valFmt = '-';
@@ -409,9 +401,9 @@ function createGameCard(data) {
                     let val = slatesDict[selectedSlate].value;
                     
                     showStats = true;
-                    salFmt = sal > 0 ? `$${sal}` : '-';
-                    projFmt = proj > 0 ? `${proj} FP` : '-';
-                    valFmt = val > 0 ? `${val}x` : '-';
+                    salFmt = sal > 0 ? (sal / 1000).toFixed(1) + 'k' : '-';
+                    projFmt = proj > 0 ? proj : '-';
+                    valFmt = val > 0 ? val : '-';
                     hasValidPlayersForList = true;
                 } 
                 // If "All Slates" is selected, fallback to the player's top-level default numbers
@@ -422,15 +414,20 @@ function createGameCard(data) {
                     
                     if (sal > 0 || proj > 0) {
                         showStats = true;
-                        salFmt = sal > 0 ? `$${sal}` : '-';
-                        projFmt = proj > 0 ? `${proj} FP` : '-';
-                        valFmt = val > 0 ? `${val}x` : '-';
+                        salFmt = sal > 0 ? (sal / 1000).toFixed(1) + 'k' : '-';
+                        projFmt = proj > 0 ? proj : '-';
+                        valFmt = val > 0 ? val : '-';
                         hasValidPlayersForList = true;
                     }
                 }
             }
             
-            const playerName = a.displayName || a.fullName || 'Unknown';
+            // Shorten the player's name (e.g., L. James)
+            let playerName = a.displayName || a.fullName || 'Unknown';
+            if (playerName !== 'Unknown' && playerName.includes(' ')) {
+                const parts = playerName.split(' ');
+                playerName = `${parts[0][0]}. ${parts.slice(1).join(' ')}`;
+            }
             
             if (isBench) {
                 if (selectedSlate !== 'all' && !showStats) return '';
@@ -439,25 +436,20 @@ function createGameCard(data) {
             
             generatedItemsCount++;
             
-            if (showStats) {
-                const displayState = ARE_ALL_EXPANDED ? 'd-flex' : 'd-none';
-                statsHtml = `
-                <div class="w-100 mt-1 dfs-stats player-stats-row ${displayState}" style="font-size: 0.65rem; color: #6c757d; border-top: 1px dashed rgba(0,0,0,0.05); padding-top: 2px;">
-                    <div class="text-start fw-bold" style="flex: 1;">${salFmt}</div>
-                    <div class="text-center fw-bold border-start border-end" style="flex: 1; border-color: rgba(0,0,0,0.05) !important;">${projFmt}</div>
-                    <div class="text-end fw-bold" style="flex: 1;">${valFmt}</div>
-                </div>`;
-                arrowHtml = `<span class="ms-auto stats-toggle-icon" style="font-size: 0.6rem; color: #adb5bd;">${ARE_ALL_EXPANDED ? '▼' : '▶'}</span>`;
-            }
-            
+            // Ultra-compact single-line layout for 3-column grids
             return `
-            <li class="px-1 py-1 border-bottom d-flex flex-column align-items-start" style="overflow: hidden;">
-                <div class="d-flex w-100 justify-content-start align-items-center" ${showStats ? 'onclick="togglePlayerStats(this)" style="cursor: pointer;"' : ''}>
-                    <span class="text-muted fw-bold me-1 text-center" style="font-size: 0.75rem; width: 18px; display: inline-block;">${displayPos}</span>
-                    <span class="fw-bold text-truncate" style="font-size: 0.85rem; max-width: 75%;">${playerName}</span>
-                    ${arrowHtml}
+            <li class="px-0 py-1 border-bottom d-flex align-items-center justify-content-between" style="overflow: hidden;">
+                <div class="d-flex align-items-center" style="width: 53%; overflow: hidden;">
+                    <span class="text-muted fw-bold me-1 text-center" style="font-size: 0.7rem; width: 16px; flex-shrink: 0;">${displayPos}</span>
+                    <span class="text-truncate" style="font-size: 0.75rem;" title="${a.displayName || a.fullName}">${playerName}</span>
                 </div>
-                ${statsHtml}
+                ${showStats ? `
+                <div class="d-flex align-items-center justify-content-end fw-bold text-muted" style="width: 47%; font-size: 0.7rem; letter-spacing: -0.4px;">
+                    <span style="width: 32%; text-align: right;">${salFmt}</span>
+                    <span style="width: 36%; text-align: center;">${projFmt}</span>
+                    <span style="width: 32%; text-align: left;">${valFmt}</span>
+                </div>
+                ` : `<div style="width: 47%;"></div>`}
             </li>`;
         }).join('');
         
