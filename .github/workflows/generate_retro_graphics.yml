@@ -13,10 +13,10 @@ jobs:
 
     steps:
       - name: Checkout Repository
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3 # <-- Removed the dash here
 
       - name: Set up Python 3.9
-      - uses: actions/setup-python@v4
+        uses: actions/setup-python@v4 # <-- Removed the dash here
         with:
           python-version: 3.9
 
@@ -26,7 +26,6 @@ jobs:
 
       - name: Run Retro Graphic Generator
         run: |
-          # === UPDATED EXECUTION PATH ===
           python scripts/generate_retro_nba_images.py
 
       - name: Upload Generated Images as Artifacts
@@ -34,5 +33,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: retro-lineup-graphics
-          path: retro_social_images/ # This folder is created at the repository root
+          path: retro_social_images/ 
           retention-days: 7
