@@ -1,10 +1,10 @@
 name: Generate Retro NBA Lineup Graphics (Manual)
 
 on:
-  workflow_dispatch: # Allows you to click 'Run workflow' manually
+  workflow_dispatch: 
 
 permissions:
-  contents: write # Grant write access so script can create JPGs and folders
+  contents: write 
   actions: read
 
 jobs:
@@ -13,10 +13,10 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4 # <-- Upgraded to v4
+        uses: actions/checkout@v4 
 
       - name: Set up Python 3.9
-        uses: actions/setup-python@v5 # <-- Upgraded to v5
+        uses: actions/setup-python@v5 
         with:
           python-version: 3.9
 
@@ -28,9 +28,21 @@ jobs:
         run: |
           python scripts/generate_retro_nba_images.py
 
+      - name: Commit and Push Images
+        run: |
+          # 1. Tell git who is making the commit (the GitHub Actions bot)
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # 2. Stage the newly created folder
+          git add retro_social_images/
+          
+          # 3. Check if there are actually changes to commit, then commit and push
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-generated retro NBA graphics" && git push)
+
       - name: Upload Generated Images as Artifacts
         if: success()
-        uses: actions/upload-artifact@v4 # <-- THE FIX: Upgraded to v4
+        uses: actions/upload-artifact@v4 
         with:
           name: retro-lineup-graphics
           path: retro_social_images/ 
