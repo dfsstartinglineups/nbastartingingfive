@@ -78,22 +78,46 @@ def main():
         return
 
     with open(DATA_FILE, 'r') as f:
-        games = json.load(f)
+        raw_data = json.load(f)
+
+    # --- THE FIX: Smart JSON Parsing ---
+    # Determine how the games are wrapped in the JSON file
+    if isinstance(raw_data, dict):
+        if "games" in raw_data:
+            games_list = raw_data["games"]
+        elif "response" in raw_data:
+            games_list = raw_data["response"]
+        elif "data" in raw_data:
+            games_list = raw_data["data"]
+        else:
+            # If it's a dictionary keyed by game ID (e.g., {"12345": {...}, "67890": {...}})
+            games_list = list(raw_data.values())
+    else:
+        # It's already a flat list
+        games_list = raw_data
 
     # Simplified default font for test
     font_small = ImageFont.load_default()
 
-    for game in games:
+    for game in games_list:
+        # Safety catch: skip anything that isn't a dictionary
+        if not isinstance(game, dict):
+            continue
+
         # Check if both teams have full lineups confirmed
         if (game.get("homeLineup") and len(game["homeLineup"]) >= 5 and
             game.get("awayLineup") and len(game["awayLineup"]) >= 5):
             
-            fixture_id = game['fixture']['id']
+            fixture_id = game.get('fixture', {}).get('id', 'Unknown')
             print(f"[{fixture_id}] Lineups confirmed. Generating graphics...")
 
             for is_home in [True, False]:
                 team_key = "homeLineup" if is_home else "awayLineup"
                 team_name_key = "homeTeam" if is_home else "awayTeam"
+                
+                # Check if the team structure matches what we expect
+                if team_key not in game or team_name_key not in game['teams']:
+                    continue
                 
                 # We assume your first 5 meet the exact ordering (PG, SG, SF, PF, C)
                 players = game[team_key][:5] 
@@ -110,6 +134,8 @@ def main():
                 filename = f"{fixture_id}_{'home' if is_home else 'away'}.jpg"
                 filepath = os.path.join(OUTPUT_DIR, filename)
                 court_img.save(filepath, "JPEG", quality=95)
+
+
 
 if __name__ == "__main__":
     main()
