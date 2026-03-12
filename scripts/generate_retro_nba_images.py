@@ -78,8 +78,10 @@ def get_circular_avatar(image_url):
         return get_silhouette_avatar()
 
 def draw_team_lineup(draw, court_img, team_name, players, font_small, espn_headshots):
+    # 1. Manually center the header
     header_text = f"{team_name.upper()} STARTING FIVE"
-    draw.text((540, 100), header_text, fill="white", anchor="mm")
+    h_length = draw.textlength(header_text, font=font_small)
+    draw.text((540 - (h_length / 2), 100), header_text, font=font_small, fill="white")
     
     for idx, pos_name in enumerate(ORDERED_POSITIONS):
         if idx >= len(players): break
@@ -101,10 +103,15 @@ def draw_team_lineup(draw, court_img, team_name, players, font_small, espn_heads
         paste_y = p_coords[1] - 110
         court_img.paste(avatar, (paste_x, paste_y), avatar)
             
+        # 2. Manually center the player labels
         label = f"{pos_name}: {last_name}"
-        draw.text((p_coords[0], p_coords[1] + 120), label, font=font_small, fill="white", anchor="mm")
+        l_length = draw.textlength(label, font=font_small)
+        draw.text((p_coords[0] - (l_length / 2), p_coords[1] + 120), label, font=font_small, fill="white")
         
-    draw.text((1050, 1050), "@nbastartingfive", font=font_small, fill="#888", anchor="se")
+    # 3. Manually right-align the watermark
+    wm_text = "@nbastartingfive"
+    wm_length = draw.textlength(wm_text, font=font_small)
+    draw.text((1050 - wm_length, 1030), wm_text, font=font_small, fill="#888")
 
 def main():
     print(f"--- STARTING GRAPHICS ENGINE ---")
