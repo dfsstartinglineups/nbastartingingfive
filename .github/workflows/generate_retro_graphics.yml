@@ -13,10 +13,10 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3 # <-- Removed the dash here
+        uses: actions/checkout@v4 # <-- Upgraded to v4
 
       - name: Set up Python 3.9
-        uses: actions/setup-python@v4 # <-- Removed the dash here
+        uses: actions/setup-python@v5 # <-- Upgraded to v5
         with:
           python-version: 3.9
 
@@ -30,7 +30,7 @@ jobs:
 
       - name: Upload Generated Images as Artifacts
         if: success()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4 # <-- THE FIX: Upgraded to v4
         with:
           name: retro-lineup-graphics
           path: retro_social_images/ 
