@@ -430,7 +430,12 @@ function createGameCard(data) {
                 }
             }
             
-            const playerName = a.displayName || a.fullName || 'Unknown';
+            let playerName = a.displayName || a.fullName || 'Unknown';
+            if (playerName !== 'Unknown' && playerName.includes(' ')) {
+                const parts = playerName.split(' ');
+    // Keep the first initial, add a period, and join the rest of the name
+                playerName = `${parts[0][0]}. ${parts.slice(1).join(' ')}`;
+            }
             
             if (isBench) {
                 if (selectedSlate !== 'all' && !showStats) return '';
