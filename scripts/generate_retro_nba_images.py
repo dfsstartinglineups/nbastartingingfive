@@ -1,8 +1,8 @@
 import json
 import os
 import urllib.request
-import urllib.error
 import io
+import re
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 # --- CONFIGURATION ---
@@ -20,13 +20,37 @@ COURT_POSITIONS = {
 }
 ORDERED_POSITIONS = ["PG", "SG", "SF", "PF", "C"]
 
-# ESPN uses slightly different abbreviations for a few teams
 ESPN_TEAM_MAP = {
     "GSW": "GS", "NOP": "NO", "NYK": "NY", "SAS": "SA", "UTA": "UTAH"
 }
 
+def normalize_name(name):
+    """Strips punctuation, spaces, and suffixes to perfectly match ESPN names to DFS names."""
+    name = name.lower()
+    name = name.replace("'", "").replace("-", "").replace(".", "").replace(" ", "")
+    if name.endswith("jr"): name = name[:-2]
+    if name.endswith("sr"): name = name[:-2]
+    if name.endswith("iii"): name = name[:-3]
+    elif name.endswith("ii"): name = name[:-2]
+    return name
+
 def load_court_background():
-    return Image.new('RGB', (1080, 1080), color='#1D428A') # Dark Blue Background
+    # Dark Blue Background
+    return Image.new('RGB', (1080, 1080), color='#1D428A') 
+
+def get_fonts():
+    """Downloads a professional bold font if it doesn't exist so text isn't microscopic."""
+    font_path = os.path.join(BASE_DIR, "Roboto-Bold.ttf")
+    if not os.path.exists(font_path):
+        print("  📥 Downloading Professional Font...")
+        url = "https://github.com/googlefonts/roboto/raw/main/src/hinted/Roboto-Bold.ttf"
+        try:
+            urllib.request.urlretrieve(url, font_path)
+        except Exception:
+            return ImageFont.load_default(), ImageFont.load_default()
+    
+    # Load fonts at massive, highly-readable sizes
+    return ImageFont.truetype(font_path, 72), ImageFont.truetype(font_path, 36)
 
 def get_silhouette_avatar():
     img = Image.new('RGBA', (220, 220), color='#444444')
@@ -38,7 +62,6 @@ def get_silhouette_avatar():
     return output
 
 def fetch_espn_headshots_for_team(team_abbr):
-    """Hits the ESPN Roster API and maps Player Names -> Headshot URLs"""
     espn_abbr = ESPN_TEAM_MAP.get(team_abbr, team_abbr).lower()
     url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/{espn_abbr}/roster"
     
@@ -47,16 +70,16 @@ def fetch_espn_headshots_for_team(team_abbr):
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
         with urllib.request.urlopen(req) as resp:
             data = json.loads(resp.read().decode())
-            # ESPN organizes basketball rosters into groups (usually just one group)
             for group in data.get('athletes', []):
                 for item in group.get('items', []):
                     name = item.get('fullName', '')
-                    # Grab the high-res href
                     headshot_url = item.get('headshot', {}).get('href', '')
                     if name and headshot_url:
-                        headshots[name.lower()] = headshot_url
+                        # Normalize the ESPN name so it matches the DFS name perfectly
+                        clean_name = normalize_name(name)
+                        headshots[clean_name] = headshot_url
     except Exception as e:
-        print(f"  ⚠️ Warning: Could not fetch ESPN roster for {team_abbr}")
+        pass
         
     return headshots
 
@@ -77,11 +100,11 @@ def get_circular_avatar(image_url):
     except Exception:
         return get_silhouette_avatar()
 
-def draw_team_lineup(draw, court_img, team_name, players, font_small, espn_headshots):
-    # 1. Manually center the header
+def draw_team_lineup(draw, court_img, team_name, players, font_large, font_small, espn_headshots):
+    # 1. Manually center the header (Using the LARGE font now)
     header_text = f"{team_name.upper()} STARTING FIVE"
-    h_length = draw.textlength(header_text, font=font_small)
-    draw.text((540 - (h_length / 2), 100), header_text, font=font_small, fill="white")
+    h_length = draw.textlength(header_text, font=font_large)
+    draw.text((540 - (h_length / 2), 60), header_text, font=font_large, fill="white")
     
     for idx, pos_name in enumerate(ORDERED_POSITIONS):
         if idx >= len(players): break
@@ -91,8 +114,9 @@ def draw_team_lineup(draw, court_img, team_name, players, font_small, espn_heads
         last_name = full_name.split(' ')[-1].upper()
         p_coords = COURT_POSITIONS[pos_name]
 
-        # Check our dictionary for the ESPN URL
-        headshot_url = espn_headshots.get(full_name.lower())
+        # Check our dictionary for the ESPN URL using the NORMALIZED name
+        clean_name = normalize_name(full_name)
+        headshot_url = espn_headshots.get(clean_name)
         
         if headshot_url:
             avatar = get_circular_avatar(headshot_url)
@@ -103,7 +127,7 @@ def draw_team_lineup(draw, court_img, team_name, players, font_small, espn_heads
         paste_y = p_coords[1] - 110
         court_img.paste(avatar, (paste_x, paste_y), avatar)
             
-        # 2. Manually center the player labels
+        # 2. Manually center the player labels (Using the SMALL font)
         label = f"{pos_name}: {last_name}"
         l_length = draw.textlength(label, font=font_small)
         draw.text((p_coords[0] - (l_length / 2), p_coords[1] + 120), label, font=font_small, fill="white")
@@ -125,7 +149,8 @@ def main():
     games_list = raw_data.get("games", raw_data) if isinstance(raw_data, dict) else raw_data
     print(f"✅ Successfully loaded {len(games_list)} games.")
 
-    font_small = ImageFont.load_default()
+    # Get our new TrueType fonts!
+    font_large, font_small = get_fonts()
     images_created = 0
 
     for idx, game in enumerate(games_list):
@@ -147,7 +172,6 @@ def main():
             verified_players = [p for p in all_players if p.get('verified') == True]
             
             if len(verified_players) < 5:
-                print(f"  ⏭️ Skipping {team_abbr}: Only found {len(verified_players)} verified players.")
                 continue
                 
             starting_five = verified_players[:5]
@@ -158,7 +182,7 @@ def main():
             
             court_img = load_court_background()
             draw = ImageDraw.Draw(court_img)
-            draw_team_lineup(draw, court_img, team_abbr, starting_five, font_small, espn_headshots)
+            draw_team_lineup(draw, court_img, team_abbr, starting_five, font_large, font_small, espn_headshots)
             
             filename = f"{fixture_id}_{team_abbr}.jpg"
             filepath = os.path.join(OUTPUT_DIR, filename)
