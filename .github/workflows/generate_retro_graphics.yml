@@ -1,0 +1,38 @@
+name: Generate Retro NBA Lineup Graphics (Manual)
+
+on:
+  workflow_dispatch: # Allows you to click 'Run workflow' manually
+
+permissions:
+  contents: write # Grant write access so script can create JPGs and folders
+  actions: read
+
+jobs:
+  generate-images:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+      - uses: actions/checkout@v3
+
+      - name: Set up Python 3.9
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      - name: Install Pillow
+        run: |
+          pip install Pillow
+
+      - name: Run Retro Graphic Generator
+        run: |
+          # === UPDATED EXECUTION PATH ===
+          python scripts/generate_retro_nba_images.py
+
+      - name: Upload Generated Images as Artifacts
+        if: success()
+        uses: actions/upload-artifact@v3
+        with:
+          name: retro-lineup-graphics
+          path: retro_social_images/ # This folder is created at the repository root
+          retention-days: 7
