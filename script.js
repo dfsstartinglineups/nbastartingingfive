@@ -603,27 +603,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    const globalToggleBtn = document.getElementById('global-toggle-btn');
-    if (globalToggleBtn) {
-        globalToggleBtn.addEventListener('click', (e) => {
-            ARE_ALL_EXPANDED = !ARE_ALL_EXPANDED;
-            e.target.innerHTML = ARE_ALL_EXPANDED ? '[-] Collapse All' : '[+] Expand All';
-            
-            document.querySelectorAll('.player-stats-row').forEach(row => {
-                if (ARE_ALL_EXPANDED) {
-                    row.classList.remove('d-none');
-                    row.classList.add('d-flex');
-                } else {
-                    row.classList.add('d-none');
-                    row.classList.remove('d-flex');
-                }
-            });
-            document.querySelectorAll('.stats-toggle-icon').forEach(icon => {
-                icon.innerHTML = ARE_ALL_EXPANDED ? '▼' : '▶';
-            });
-            document.querySelectorAll('.card-toggle-btn').forEach(btn => {
-                btn.innerHTML = ARE_ALL_EXPANDED ? '[-] Stats' : '[+] Stats';
-            });
-        });
-    }
+    
+    
 });
