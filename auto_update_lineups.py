@@ -41,7 +41,8 @@ NICKNAMES = {
     'kj': 'kenyon', 'x': 'xavier', 'herb': 'herbert', 'bub': 'carrinton',
     'greg': 'gregory', 'nick': 'nicholas', 'mitch': 'mitchell', 'kelly': 'kelly',
     'pj': 'pj', 'trey': 'trey', 'cj': 'cj', 'c.j.': 'cj', 'shai': 'shai',
-    'alexandre': 'alex'
+    'alexandre': 'alex', 
+    'gg': 'gregory' # <-- Added GG to the map
 }
 
 def normalize_team(team_name):
@@ -53,6 +54,10 @@ def clean_player_name(name):
     if not name or name == '-': return ""
     name = str(name).lower().strip()
     name = name.replace('.', '').replace("'", "")
+    
+    # NEW: Compress spaced initials at the start of a name (e.g. "g g jackson" -> "gg jackson")
+    name = re.sub(r'^([a-z])\s([a-z])\s', r'\1\2 ', name)
+    
     for suffix in [' jr', ' sr', ' ii', ' iii', ' iv']:
         if name.endswith(suffix):
             name = name[:-len(suffix)]
@@ -621,5 +626,6 @@ def build_json():
 
 if __name__ == "__main__":
     build_json()
+
 
 
