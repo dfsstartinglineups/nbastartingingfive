@@ -339,7 +339,7 @@ function renderGames() {
 
 function createGameCard(data) {
     const gameCard = document.createElement('div');
-    gameCard.className = 'col-md-6 col-lg-6 col-xl-4 mb-3';
+    gameCard.className = 'col-12 col-md-6 col-lg-4 px-1 mb-2';
     
     const { away, home, gameRaw } = data;
     const gameState = gameRaw.status.type.state;
