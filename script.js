@@ -12,7 +12,23 @@ let ARE_ALL_EXPANDED = false;
 
 function normalizeName(name) {
     if (!name) return "";
-    return name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z]/g, "").toLowerCase();
+    
+    // 1. Strip all spaces, punctuation, and accents
+    let normalized = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z]/g, "").toLowerCase();
+    
+    // 2. Explicitly map known API mismatches to a single master key
+    const nameMap = {
+        "ggjackson": "gregoryjackson",
+        "ggjacksonii": "gregoryjackson",
+        "gregoryjacksonii": "gregoryjackson",
+        "pjwashington": "pjwashingtonjr", // Example of another common NBA discrepancy 
+        "timhardaway": "timhardawayjr",
+        "xaviertillman": "xaviertillmansr",
+        "mohamedbamba": "mobamba"
+    };
+    
+    // 3. Return the mapped name if it exists, otherwise return the normalized name
+    return nameMap[normalized] || normalized;
 }
 
 function getStandardAbbr(abbr) {
