@@ -18,6 +18,7 @@ function normalizeName(name) {
     
     // 2. Explicitly map known API mismatches to a single master key
     const nameMap = {
+        "gregoryjackson": "ggjackson",
         "ggjackson": "gregoryjackson",
         "ggjacksonii": "gregoryjackson",
         "gregoryjacksonii": "gregoryjackson",
