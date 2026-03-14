@@ -467,11 +467,11 @@ function createGameCard(data) {
             return `
             <li class="px-0 py-1 border-bottom d-flex align-items-center justify-content-between" style="overflow: hidden;">
                 <div class="d-flex align-items-center" style="width: 53%; overflow: hidden;">
-                    <span class="text-muted fw-bold me-1 text-center" style="font-size: 0.7rem; width: 16px; flex-shrink: 0;">${displayPos}</span>
-                    <span class="text-truncate" style="font-size: 0.75rem;" title="${a.displayName || a.fullName}">${playerName}</span>
+                    <span class="text-muted me-1 text-center" style="font-size: 0.7rem; width: 16px; flex-shrink: 0;">${displayPos}</span>
+                    <span class="text-truncate fw-bold text-dark" style="font-size: 0.75rem;" title="${a.displayName || a.fullName}">${playerName}</span>
                 </div>
                 ${showStats ? `
-                <div class="d-flex align-items-center justify-content-end fw-bold text-muted" style="width: 47%; font-size: 0.7rem; letter-spacing: -0.4px;">
+                <div class="d-flex align-items-center justify-content-end text-muted" style="width: 47%; font-size: 0.7rem; letter-spacing: -0.4px;">
                     <span style="width: 32%; text-align: right;">${salFmt}</span>
                     <span style="width: 36%; text-align: center;">${projFmt}</span>
                     <span style="width: 32%; text-align: left;">${valFmt}</span>
