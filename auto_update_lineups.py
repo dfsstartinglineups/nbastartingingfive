@@ -41,7 +41,7 @@ NICKNAMES = {
     'kj': 'kenyon', 'x': 'xavier', 'herb': 'herbert', 'bub': 'carrinton',
     'greg': 'gregory', 'nick': 'nicholas', 'mitch': 'mitchell', 'kelly': 'kelly',
     'pj': 'pj', 'trey': 'trey', 'cj': 'cj', 'c.j.': 'cj', 'shai': 'shai',
-    'alexandre': 'alex', 
+    'alexandre': 'alex', 'elijah': 'ej',
     'gg': 'gregory' # <-- Added GG to the map
 }
 
