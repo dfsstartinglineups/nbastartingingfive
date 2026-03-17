@@ -122,11 +122,9 @@ function populateSlates() {
     const currentVal = selector.value;
     selector.innerHTML = '<option value="all">All Slates</option>';
     
-    // 1. Get the currently viewed date from the date-picker UI
     const datePicker = document.getElementById('date-picker');
     const dateToFetch = datePicker ? datePicker.value : new Date().toLocaleDateString('en-CA');
     
-    // 2. Safely parse the date string (YYYY-MM-DD) into a 3-letter day
     const [y, m, d] = dateToFetch.split('-');
     const dateObj = new Date(y, m - 1, d);
     const dayOfWeek = dateObj.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
@@ -135,11 +133,8 @@ function populateSlates() {
         ALL_SLATES[platKey].forEach(slate => {
             const upperName = slate.name.toUpperCase();
             const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-            
-            // Check if the slate explicitly mentions ANY day of the week
             const containsADay = days.some(day => upperName.includes(day));
             
-            // 3. THE BOUNCER: Only add the slate if it contains OUR day, or if no day is specified.
             if (upperName.includes(dayOfWeek) || !containsADay) {
                 const opt = document.createElement('option');
                 opt.value = slate.id;
@@ -402,9 +397,6 @@ function createGameCard(data) {
         
         const items = players.map((p, index) => {
             const a = p.athlete || p;
-            let statsHtml = '';
-            let arrowHtml = '';
-            
             let rawPos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position ? a.position.abbreviation : 'Flex');
             if (platform === 'dk' && a.dfs && a.dfs.dk_pos) {
                 rawPos = a.dfs.dk_pos;
@@ -416,23 +408,19 @@ function createGameCard(data) {
             let sal = 0;
             
             if (a.dfs) {
-                // Determine which slate dictionary to look at based on the platform toggle
                 const slatesDict = platform === 'dk' ? (a.dfs.dk_slates || {}) : (a.dfs.fd_slates || {});
                 
-                // If a specific slate is selected and the player is in it, use the exact slate numbers
                 if (selectedSlate !== 'all' && slatesDict[selectedSlate]) {
                     sal = slatesDict[selectedSlate].salary;
                     let proj = slatesDict[selectedSlate].proj;
                     let val = slatesDict[selectedSlate].value;
                     
                     showStats = true;
-                    // Format: 3900 -> 3.9k, remove FP, remove x
                     salFmt = sal > 0 ? (sal / 1000).toFixed(1) + 'k' : '-';
                     projFmt = proj > 0 ? proj : '-';
                     valFmt = val > 0 ? val : '-';
                     hasValidPlayersForList = true;
                 } 
-                // If "All Slates" is selected, fallback to the player's top-level default numbers
                 else if (selectedSlate === 'all') {
                     sal = platform === 'dk' ? a.dfs.dk_salary : a.dfs.salary;
                     let proj = platform === 'dk' ? a.dfs.dk_proj : a.dfs.proj;
@@ -440,7 +428,6 @@ function createGameCard(data) {
                     
                     if (sal > 0 || proj > 0) {
                         showStats = true;
-                        // Format: 3900 -> 3.9k, remove FP, remove x
                         salFmt = sal > 0 ? (sal / 1000).toFixed(1) + 'k' : '-';
                         projFmt = proj > 0 ? proj : '-';
                         valFmt = val > 0 ? val : '-';
@@ -449,7 +436,6 @@ function createGameCard(data) {
                 }
             }
             
-            // Shorten the player's name (e.g., L. James)
             let playerName = a.displayName || a.fullName || 'Unknown';
             if (playerName !== 'Unknown' && playerName.includes(' ')) {
                 const parts = playerName.split(' ');
@@ -457,13 +443,12 @@ function createGameCard(data) {
             }
             
             if (isBench) {
+                // FIXED: Removed the second line so the bench renders on "all slates" even if there is no DFS data
                 if (selectedSlate !== 'all' && !showStats) return '';
-                if (selectedSlate === 'all' && sal === 0) return '';
             }
             
             generatedItemsCount++;
             
-            // Ultra-compact single-line layout for 3-column grids
             return `
             <li class="px-0 py-1 border-bottom d-flex align-items-center justify-content-between" style="overflow: hidden;">
                 <div class="d-flex align-items-center" style="width: 53%; overflow: hidden;">
@@ -495,10 +480,31 @@ function createGameCard(data) {
     const slateSelector = document.getElementById('slate-selector');
     const selectedSlate = slateSelector ? slateSelector.value : 'all';
     
+    // Check if the game has ANY DFS players
+    const hasAnySlatePlayer = awayStartersInfo.hasValidPlayers || homeStartersInfo.hasValidPlayers || awayBenchInfo.hasValidPlayers || homeBenchInfo.hasValidPlayers;
+
     if (selectedSlate !== 'all') {
-        const hasAnySlatePlayer = awayStartersInfo.hasValidPlayers || homeStartersInfo.hasValidPlayers || awayBenchInfo.hasValidPlayers || homeBenchInfo.hasValidPlayers;
         if (!hasAnySlatePlayer) {
-            return null; // Prevents the card from being rendered
+            return null; // Prevents the card from being rendered if filtering by a specific slate
+        }
+    }
+
+    // --- BANNER LOGIC FOR "ALL SLATES" ---
+    const platformNode = document.querySelector('input[name="dfsPlatform"]:checked');
+    const platform = platformNode ? platformNode.value : 'fd';
+    const platKey = platform === 'dk' ? 'draftkings' : 'fanduel';
+    const platformName = platform === 'dk' ? 'DK' : 'FD';
+
+    const hasGlobalSlates = ALL_SLATES[platKey] && ALL_SLATES[platKey].length > 0;
+
+    let missingSlateHtml = '';
+    if (!hasAnySlatePlayer && selectedSlate === 'all') {
+        if (hasGlobalSlates) {
+            // The platform HAS posted slates today, but this game has no players in them
+            missingSlateHtml = `<div class="w-100 text-center py-1 fw-bold text-white bg-secondary border-top" style="font-size: 0.65rem; letter-spacing: 0.5px;">🚫 Game not included in ${platformName} slates</div>`;
+        } else {
+            // The platform HAS NOT posted slates yet today
+            missingSlateHtml = `<div class="w-100 text-center py-1 fw-bold text-dark border-top" style="font-size: 0.65rem; letter-spacing: 0.5px; background-color: #ffecb5;">⏳ ${platformName} salaries & slates pending...</div>`;
         }
     }
 
@@ -517,8 +523,6 @@ function createGameCard(data) {
         `;
     }
 
-    
-
     gameCard.innerHTML = `
         <div class="lineup-card shadow-sm border rounded bg-white overflow-hidden" id="game-${data.localId}">
             <div class="p-2 border-bottom d-flex justify-content-between align-items-center bg-light">
@@ -533,6 +537,7 @@ function createGameCard(data) {
                 <div style="width: 30%;">${scoreOrOddsHtml}</div>
                 <div style="width: 35%;"><img src="${home.team.logo}" style="width: 40px;"><div class="fw-bold small">${home.team.shortDisplayName}</div></div>
             </div>
+            ${missingSlateHtml}
             <div class="row g-0 border-top">
                 <div class="col-6 border-end">${awayStartersInfo.html}</div>
                 <div class="col-6">${homeStartersInfo.html}</div>
@@ -542,7 +547,6 @@ function createGameCard(data) {
         
     return gameCard;
 }
-
 window.generateTweet = function(team, opp, starters, odds, gameDate, gameId, isProjected) {
     if (isProjected) {
         alert("Cannot share unverified lineups. Wait for ✅ OFFICIAL status.");
