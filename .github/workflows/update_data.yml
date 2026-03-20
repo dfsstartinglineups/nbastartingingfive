@@ -2,8 +2,8 @@ name: Update NBA Data
 
 on:
   workflow_dispatch:        # For manual button clicks
-  repository_dispatch:      # For your outside pinger
-    types: [trigger-update]
+ # repository_dispatch:      # For your outside pinger
+ #   types: [trigger-update]
 
 permissions:
   contents: write           # IMPORTANT: Allows the script to save changes
