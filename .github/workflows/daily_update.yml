@@ -1,11 +1,11 @@
 name: Update NBA Lineups
 
 on:
-  schedule:
-    - cron: '*/5 * * * *'  # Keep this as a backup
+ # schedule:
+ #   - cron: '*/5 * * * *'  # Keep this as a backup
   workflow_dispatch:        # Keep this for manual button clicks
-  repository_dispatch:      # THIS IS NEW
-    types: [trigger-update]
+ # repository_dispatch:      # THIS IS NEW
+ #   types: [trigger-update]
 
 permissions:
   contents: write           # IMPORTANT: Allows the script to save changes
