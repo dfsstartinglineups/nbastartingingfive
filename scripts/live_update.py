@@ -182,6 +182,26 @@ def main():
             # Sort plays chronologically
             plays = sorted(plays, key=lambda x: float(x.get('sequenceNumber', 0)))
             
+            # =========================================================
+            # NEW: CAPTURE THE LAST 5 PLAYS FOR THE UI
+            # =========================================================
+            formatted_plays = []
+            for p in plays[-5:]:
+                # Using 'or {}' prevents script crashes if the API sends 'null' for the clock
+                clock_data = p.get('clock') or {}
+                clock = clock_data.get('displayValue', '') if isinstance(clock_data, dict) else ''
+                
+                period_data = p.get('period') or {}
+                period = period_data.get('number', '') if isinstance(period_data, dict) else ''
+                
+                text = p.get('text', '')
+                time_str = f"Q{period} {clock}".strip() if period else clock
+                
+                formatted_plays.append({"time": time_str, "text": text})
+            
+            game_live_obj["recent_plays"] = formatted_plays[::-1]
+            # =========================================================
+            
             for play in plays:
                 text = play.get('text', '')
                 if ' enters the game for ' in text:
