@@ -50,30 +50,35 @@ def calculate_fpts(stats):
 
     return round(fd_pts, 2), round(dk_pts, 2)
 
-def fuzzy_match_player(short_name, roster_names):
+def fuzzy_match_player(pbp_name, roster_names):
     """
-    Matches ESPN play-by-play names (e.g., 'J. Brunson') 
-    to full boxscore names (e.g., 'Jalen Brunson')
+    Matches ESPN play-by-play names to full boxscore names.
+    Since we now know ESPN uses full names in the PBP, we prioritize exact matches!
     """
-    clean_short = short_name.replace('.', '').strip().lower()
-    parts = clean_short.split(' ')
-    if not parts: return None
-    
-    last_name = parts[-1]
-    first_initial = parts[0][0] if len(parts) > 1 else ""
+    clean_pbp = pbp_name.replace('.', '').strip().lower()
 
+    # 1. Try an exact match first (This will hit 99% of the time based on the logs!)
+    for full_name in roster_names:
+        if clean_pbp == full_name.replace('.', '').strip().lower():
+            return full_name
+            
+    # 2. Fallback: Substring match (e.g., "Tim Hardaway" vs "Tim Hardaway Jr.")
     for full_name in roster_names:
         clean_full = full_name.replace('.', '').strip().lower()
-        full_parts = clean_full.split(' ')
-        
-        # Match last name and first initial
-        if full_parts[-1] == last_name and clean_full.startswith(first_initial):
+        if clean_pbp in clean_full or clean_full in clean_pbp:
             return full_name
             
-        # Fallback: exact substring match
-        if clean_short in clean_full:
-            return full_name
-            
+    # 3. Last Resort: Initial + Last Name match (just in case ESPN abbreviates suddenly)
+    parts = clean_pbp.split(' ')
+    if len(parts) > 1:
+        last_name = parts[-1]
+        first_initial = parts[0][0]
+        for full_name in roster_names:
+            clean_full = full_name.replace('.', '').strip().lower()
+            full_parts = clean_full.split(' ')
+            if full_parts[-1] == last_name and clean_full.startswith(first_initial):
+                return full_name
+                
     return None
 
 def main():
