@@ -266,45 +266,23 @@ function renderGames() {
     });
 }
 
-function getLiveTeamStatsHtml(away, home, liveData) {
-    if (!liveData || !liveData.team_stats) return '';
-    const aStats = liveData.team_stats[getStandardAbbr(away.team.abbreviation)] || {};
-    const hStats = liveData.team_stats[getStandardAbbr(home.team.abbreviation)] || {};
+function getRecentPlaysHtml(liveData) {
+    if (!liveData || !liveData.recent_plays || liveData.recent_plays.length === 0) return '';
 
-    const buildBar = (label, aVal, hVal) => {
-        const a = parseFloat(aVal) || 0;
-        const h = parseFloat(hVal) || 0;
-        const total = a + h;
-        let aPct = 50, hPct = 50;
-        if (total > 0) { aPct = (a / total) * 100; hPct = (h / total) * 100; }
-        
-        // Sleeker Dashboard Look: 4px height, inset shadow on the track, rounded outer corners on fills
+    let playsHtml = liveData.recent_plays.map((play, i) => {
+        const bgClass = i % 2 === 0 ? 'bg-light' : 'bg-white';
         return `
-        <div class="mb-2 w-100">
-            <div class="d-flex justify-content-between align-items-center mb-1" style="font-size: 0.6rem; font-weight: 800;">
-                <span class="text-muted">${aVal || '0'}</span>
-                <span class="text-dark" style="letter-spacing: 0.5px; opacity: 0.8;">${label}</span>
-                <span class="text-muted">${hVal || '0'}</span>
-            </div>
-            <div class="d-flex w-100" style="height: 4px; background: rgba(0,0,0,0.06); border-radius: 4px; box-shadow: inset 0 1px 2px rgba(0,0,0,0.08);">
-                <div style="width: ${aPct}%; background: #${away.team.color || '6c757d'}; border-radius: 4px 0 0 4px;"></div>
-                <div style="width: ${hPct}%; background: #${home.team.color || '198754'}; border-radius: 0 4px 4px 0;"></div>
-            </div>
+        <div class="d-flex align-items-center ${bgClass} px-2 py-1" style="font-size: 0.65rem; border-bottom: 1px solid #f1f3f5;">
+            <div class="fw-bold text-secondary me-2" style="white-space: nowrap; width: 42px; text-align: right;">${play.time}</div>
+            <div class="text-dark text-truncate" style="flex: 1;" title="${play.text}">${play.text}</div>
         </div>`;
-    };
+    }).join('');
 
-    // 2-Column Layout (3 stats on left, 3 stats on right)
     return `
-        <div class="row g-0 w-100 pb-2 pt-2 px-3 mx-0">
-            <div class="col-6 pe-3 border-end">
-                ${buildBar("FG%", aStats["FG%"], hStats["FG%"])}
-                ${buildBar("3P%", aStats["3P%"], hStats["3P%"])}
-                ${buildBar("REB", aStats["REB"], hStats["REB"])}
-            </div>
-            <div class="col-6 ps-3">
-                ${buildBar("AST", aStats["AST"], hStats["AST"])}
-                ${buildBar("STL", aStats["STL"], hStats["STL"])}
-                ${buildBar("TO", aStats["TO"], hStats["TO"])}
+        <div class="w-100 mt-2">
+            <div class="text-center py-1 fw-bold text-muted" style="font-size: 0.6rem; letter-spacing: 0.5px; background-color: #e9ecef; border-top: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6;">LAST 5 PLAYS</div>
+            <div class="d-flex flex-column">
+                ${playsHtml}
             </div>
         </div>
     `;
@@ -438,7 +416,7 @@ function createGameCard(data) {
     if (selectedSlate !== 'all' && !hasAnySlatePlayer) return null; 
 
     // ==========================================
-    // BUILDER 2: LIVE COURT GRID (Sticky Scroll)
+    // BUILDER 2: LIVE COURT GRID (Strict adherence to Python state)
     // ==========================================
     const buildLiveCourtGrid = (teamAbbr, baseStarters, baseBench, liveTeamData) => {
         if (!liveTeamData) return { onCourtHtml: '', benchHtml: '' };
@@ -465,18 +443,12 @@ function createGameCard(data) {
 
         const fpKey = platform === 'dk' ? 'dk_pts' : 'fd_pts';
 
-        // Sort by "on court" status first, then by FPTS descending to break ties
-        allPlayers.sort((a, b) => {
-            if (a.live.is_on_court && !b.live.is_on_court) return -1;
-            if (!a.live.is_on_court && b.live.is_on_court) return 1;
-            return (b.live[fpKey] || 0) - (a.live[fpKey] || 0);
-        });
+        // STRICTLY FILTER BY THE ON-COURT FLAG
+        let onCourt = allPlayers.filter(p => p.live && p.live.is_on_court === true);
+        let bench = allPlayers.filter(p => !p.live || p.live.is_on_court !== true);
 
-        // Force exactly 5 players onto the court to prevent UI breaking
-        let onCourt = allPlayers.slice(0, 5);
-        let bench = allPlayers.slice(5);
-
-        // Re-sort bench by FPTS descending
+        // Sort both grids internally by fantasy points descending
+        onCourt.sort((a, b) => (b.live[fpKey] || 0) - (a.live[fpKey] || 0));
         bench.sort((a, b) => (b.live[fpKey] || 0) - (a.live[fpKey] || 0));
 
         const renderRow = (p) => {
@@ -513,7 +485,7 @@ function createGameCard(data) {
 
         const benchHeaderHtml = headerHtml.replace("ON COURT", "BENCH");
 
-        let onCourtHtml = onCourt.map(renderRow).join('');
+        let onCourtHtml = onCourt.length > 0 ? onCourt.map(renderRow).join('') : `<div class="text-center text-muted py-2 small" style="min-width: 320px;">Scanning...</div>`;
         let benchHtml = bench.map(renderRow).join('');
 
         return {
@@ -547,17 +519,17 @@ function createGameCard(data) {
         }
     }
 
-    // Team Stats HTML (Dashboard Look - 2 Columns)
-    let teamStatsHtml = '';
+    // Recent Plays HTML
+    let recentPlaysHtml = '';
     if (isLiveDataAvailable) {
-        teamStatsHtml = getLiveTeamStatsHtml(away, home, liveMatch);
+        recentPlaysHtml = getRecentPlaysHtml(liveMatch);
     }
 
     // Tabs Header
     let tabsHtml = '';
     if (isLiveDataAvailable) {
         tabsHtml = `
-        <div class="d-flex border-top w-100" style="background-color: #f8f9fa;">
+        <div class="d-flex border-top w-100 mt-2" style="background-color: #f8f9fa;">
             <div class="py-2 flex-fill text-center fw-bold ${cardState.tab === 'starters' ? 'text-dark border-bottom border-dark border-2' : 'text-muted'}" 
                  style="font-size: 0.70rem; cursor: pointer; letter-spacing: 0.5px;" 
                  onclick="toggleGameTab('${localId}', 'starters')">
@@ -635,7 +607,7 @@ function createGameCard(data) {
                 <div style="width: 35%;"><img src="${home.team.logo}" style="width: 40px;"><div class="fw-bold small mt-1">${home.team.shortDisplayName}</div></div>
             </div>
             ${missingSlateHtml}
-            ${teamStatsHtml}
+            ${recentPlaysHtml}
             ${tabsHtml}
             ${viewStartersHtml}
             ${viewLiveHtml}
