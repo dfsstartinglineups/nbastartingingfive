@@ -62,7 +62,7 @@ def fuzzy_match_player(pbp_name, roster_names):
         if clean_pbp == full_name.replace('.', '').strip().lower():
             return full_name
             
-    # 2. Substring match (e.g., "Tim Hardaway" vs "Tim Hardaway Jr.")
+    # 2. Substring match
     for full_name in roster_names:
         clean_full = full_name.replace('.', '').strip().lower()
         if clean_pbp in clean_full or clean_full in clean_pbp:
@@ -86,7 +86,7 @@ def fuzzy_match_player(pbp_name, roster_names):
             if compare_last == last_name and clean_full.startswith(first_initial):
                 return full_name
                 
-        # 4. LAST RESORT: Just match the Last Name (Solves "Bub Carrington" -> "Carlton Carrington")
+        # 4. LAST RESORT: Just match the Last Name
         for full_name in roster_names:
             clean_full = full_name.replace('.', '').strip().lower()
             full_parts = clean_full.split(' ')
@@ -206,6 +206,8 @@ def main():
                 home_abbr: home_starters,
                 away_abbr: away_starters
             }
+            
+            unmatched_injections = {home_abbr: {}, away_abbr: {}}
 
             plays = box_data.get('plays', [])
             plays = sorted(plays, key=lambda x: float(x.get('sequenceNumber', 0)))
@@ -242,7 +244,6 @@ def main():
                         team_in, full_in = None, None
                         team_out, full_out = None, None
                         
-                        # Find the IN and OUT players explicitly
                         for t_abbr in [home_abbr, away_abbr]:
                             if not team_in:
                                 m_in = fuzzy_match_player(p_in_short, rosters[t_abbr])
@@ -253,14 +254,29 @@ def main():
                                 
                         target_team = team_in or team_out
                         if target_team:
-                            in_val = full_in if full_in else p_in_short
-                            out_val = full_out if full_out else p_out_short
-                            
-                            # PURE LOGIC: Only remove the player if they are actually in the tracker
+                            if not full_in:
+                                in_val = f"{p_in_short} (didn't match)"
+                                unmatched_injections[target_team][in_val] = True
+                            else:
+                                in_val = full_in
+
+                            if not full_out:
+                                out_val = f"{p_out_short} (didn't match)"
+                                unmatched_injections[target_team][out_val] = False
+                            else:
+                                out_val = full_out
+                                
+                            # Remove the OUT player
                             if out_val in on_court_tracker[target_team]:
                                 on_court_tracker[target_team].remove(out_val)
+                            elif not full_out:
+                                # Desperate fallback for unmatched names already in tracker without the suffix
+                                for p in list(on_court_tracker[target_team]):
+                                    if p_out_short.split()[-1].lower() in p.lower():
+                                        on_court_tracker[target_team].remove(p)
+                                        break
                                         
-                            # Always add the guy coming in
+                            # Always add the IN player
                             on_court_tracker[target_team].add(in_val)
 
             # =========================================================
@@ -311,7 +327,32 @@ def main():
                             "dk_pts": dk_pts,
                             "is_on_court": is_on_court
                         }
-                        
+            
+            # =========================================================
+            # INJECT MISSING/UNMATCHED PLAYERS INTO THE JSON FOR THE UI
+            # =========================================================
+            # 1. Make sure EVERY player currently tracked on court is in the JSON
+            for t_abbr, court_set in on_court_tracker.items():
+                for p_name in court_set:
+                    if p_name not in game_live_obj["players"][t_abbr]:
+                        game_live_obj["players"][t_abbr][p_name] = {
+                            "MIN": 0, "PTS": "0", "REB": "0", "AST": "0", "STL": "0", "BLK": "0", "TO": "0",
+                            "FG": "0-0", "3PT": "0-0", "FT": "0-0",
+                            "fd_pts": 0.0, "dk_pts": 0.0,
+                            "is_on_court": True
+                        }
+            
+            # 2. Inject any unmatched bench players so they show up as (OUT)
+            for t_abbr, un_dict in unmatched_injections.items():
+                for p_name, is_court in un_dict.items():
+                    if p_name not in game_live_obj["players"][t_abbr]:
+                        game_live_obj["players"][t_abbr][p_name] = {
+                            "MIN": 0, "PTS": "0", "REB": "0", "AST": "0", "STL": "0", "BLK": "0", "TO": "0",
+                            "FG": "0-0", "3PT": "0-0", "FT": "0-0",
+                            "fd_pts": 0.0, "dk_pts": 0.0,
+                            "is_on_court": is_court
+                        }
+
             # Grab Team Stats
             if 'boxscore' in box_data and 'teams' in box_data['boxscore']:
                 for team_box in box_data['boxscore']['teams']:
