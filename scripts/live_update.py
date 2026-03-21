@@ -53,11 +53,11 @@ def calculate_fpts(stats):
 def fuzzy_match_player(pbp_name, roster_names):
     """
     Matches ESPN play-by-play names to full boxscore names.
-    Since we now know ESPN uses full names in the PBP, we prioritize exact matches!
+    Prioritizes exact matches based on ESPN's full-name play-by-play logs!
     """
     clean_pbp = pbp_name.replace('.', '').strip().lower()
 
-    # 1. Try an exact match first (This will hit 99% of the time based on the logs!)
+    # 1. Try an exact match first
     for full_name in roster_names:
         if clean_pbp == full_name.replace('.', '').strip().lower():
             return full_name
@@ -68,7 +68,7 @@ def fuzzy_match_player(pbp_name, roster_names):
         if clean_pbp in clean_full or clean_full in clean_pbp:
             return full_name
             
-    # 3. Last Resort: Initial + Last Name match (just in case ESPN abbreviates suddenly)
+    # 3. Last Resort: Initial + Last Name match
     parts = clean_pbp.split(' ')
     if len(parts) > 1:
         last_name = parts[-1]
@@ -140,26 +140,18 @@ def main():
             print(f"Processing Live Game (Play-by-Play Engine): {away_abbr} {away_score} @ {home_score} {home_abbr} ({clock_text})")
             active_games_found += 1
             
-            # ... FETCH BOXSCORE ...
+            # --- FETCH BOXSCORE AND PLAY-BY-PLAY (FROM SUMMARY) ---
             summary_url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event={game_id}"
             try:
                 sum_res = requests.get(summary_url, timeout=10)
                 box_data = sum_res.json()
             except: continue
-            
-            # ... FETCH PLAY-BY-PLAY ...
-            pbp_url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/nba/playbyplay?event={game_id}"
-            try:
-                pbp_res = requests.get(pbp_url, timeout=10)
-                pbp_data = pbp_res.json()
-            except: 
-                pbp_data = {}
 
             game_live_obj = {
                 "status": status_state,
                 "clock": clock_text,
-                "away_score": away_score, # <--- NEW LIVE SCORE
-                "home_score": home_score, # <--- NEW LIVE SCORE
+                "away_score": away_score, 
+                "home_score": home_score, 
                 "team_stats": {},
                 "players": {home_abbr: {}, away_abbr: {}}
             }
@@ -184,7 +176,9 @@ def main():
                         for ath in team_box['statistics'][0].get('athletes', []):
                             rosters[t_abbr].append(ath['athlete']['displayName'])
 
-            plays = pbp_data.get('items', [])
+            # Grab the plays directly from the summary box_data!
+            plays = box_data.get('plays', [])
+            
             # Sort plays chronologically
             plays = sorted(plays, key=lambda x: float(x.get('sequenceNumber', 0)))
             
@@ -227,9 +221,6 @@ def main():
                         
                         # Apply the parsed text logic!
                         is_on_court = p_name in on_court_tracker[t_abbr]
-                        
-                        # Failsafe: If they are on the court tracker but have 0 boxscore minutes and aren't starters, 
-                        # they might be a ghost string. We leave them on court to let JS handle it.
                                 
                         fd_pts, dk_pts = calculate_fpts(mapped_stats)
                         
