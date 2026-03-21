@@ -53,7 +53,8 @@ def calculate_fpts(stats):
 def fuzzy_match_player(pbp_name, roster_names):
     """
     Matches ESPN play-by-play names to full boxscore names.
-    Highly robust cascade to handle abbreviations, typos, and suffix mismatches.
+    Highly robust cascade to handle abbreviations, typos, and suffix mismatches,
+    while strictly preventing ambiguous matches (like multiple "Williams").
     """
     clean_pbp = pbp_name.replace('.', '').strip().lower()
 
@@ -62,45 +63,49 @@ def fuzzy_match_player(pbp_name, roster_names):
         if clean_pbp == full_name.replace('.', '').strip().lower():
             return full_name
             
-    # 2. Substring match
+    # 2. Substring match (Must be unique!)
+    substring_matches = []
     for full_name in roster_names:
         clean_full = full_name.replace('.', '').strip().lower()
         if clean_pbp in clean_full or clean_full in clean_pbp:
-            return full_name
+            substring_matches.append(full_name)
+    if len(substring_matches) == 1:
+        return substring_matches[0]
             
     parts = clean_pbp.split(' ')
     if len(parts) > 1:
         pbp_first = parts[0]
         pbp_last = parts[-1]
         
-        # 3. First Name Substring + Exact Last Name (Solves Alex Sarr -> Alexandre Sarr)
+        # 3. Partial First Name + Exact Last Name (Must be unique!)
+        # Solves "Jal Williams" vs "Jay Williams", or "Alex Sarr" vs "Alexandre Sarr"
+        matching_initials = []
         for full_name in roster_names:
             clean_full = full_name.replace('.', '').strip().lower()
             full_parts = clean_full.split(' ')
+            
             compare_last = full_parts[-2] if full_parts[-1] in ['jr', 'sr', 'ii', 'iii', 'iv'] and len(full_parts) > 1 else full_parts[-1]
             
-            if compare_last == pbp_last:
-                if pbp_first in full_parts[0] or full_parts[0] in pbp_first:
-                    return full_name
-                    
-        # 4. Initial + Exact Last Name
-        first_initial = pbp_first[0]
-        for full_name in roster_names:
-            clean_full = full_name.replace('.', '').strip().lower()
-            full_parts = clean_full.split(' ')
-            compare_last = full_parts[-2] if full_parts[-1] in ['jr', 'sr', 'ii', 'iii', 'iv'] and len(full_parts) > 1 else full_parts[-1]
-            
-            if compare_last == pbp_last and clean_full.startswith(first_initial):
-                return full_name
+            if compare_last == pbp_last and clean_full.startswith(pbp_first):
+                matching_initials.append(full_name)
                 
-        # 5. Last Resort: Just match Last Name
+        if len(matching_initials) == 1:
+            return matching_initials[0]
+            
+        # 4. LAST RESORT: Just match Last Name (Must be unique!)
+        # Solves nickname mismatches like "Bub Carrington" -> "Carlton Carrington"
+        matching_last_names = []
         for full_name in roster_names:
             clean_full = full_name.replace('.', '').strip().lower()
             full_parts = clean_full.split(' ')
+            
             compare_last = full_parts[-2] if full_parts[-1] in ['jr', 'sr', 'ii', 'iii', 'iv'] and len(full_parts) > 1 else full_parts[-1]
             
             if compare_last == pbp_last:
-                return full_name
+                matching_last_names.append(full_name)
+                
+        if len(matching_last_names) == 1:
+            return matching_last_names[0]
 
     return None
 
