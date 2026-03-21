@@ -1,0 +1,51 @@
+name: Update Live NBA Data
+
+on:
+  workflow_dispatch:        # For manual button clicks
+  repository_dispatch:      # For your outside pinger
+    types: [live-update]    # UNIQUE TRIGGER FOR THE FAST SCRAPER
+
+permissions:
+  contents: write           # IMPORTANT: Allows the script to save changes
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install libraries
+        # STRIPPED DOWN: No Selenium, no bs4. Boots up instantly!
+        run: |
+          pip install requests
+
+      - name: Run Live Update Script
+        run: python scripts/live_update.py
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # Stage ONLY the LIVE data directory to prevent race conditions
+          git add data/LIVE/
+          
+          # Check if there are staged changes ready to be committed
+          if ! git diff --quiet --staged; then
+            git commit -m "⚡ Auto-updated LIVE NBA data [skip ci]"
+            
+            # Pull latest changes and rebase BEFORE pushing to handle race conditions
+            git pull --rebase origin main || echo "Nothing to pull"
+            
+            # Try pushing. If rejected, pull again and immediately push.
+            git push origin main || (git pull --rebase origin main && git push origin main)
+          else
+            echo "No new LIVE updates. Skipping commit."
+          fi
