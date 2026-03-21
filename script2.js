@@ -225,6 +225,9 @@ async function init(dateToFetch) {
                 localId: localId
             });
         });
+
+        // Render the base static cards FIRST to clear the loading spinner!
+        renderGames();
         
         // Initial Fetch for Live Data, then start 30s polling
         await pollLiveData(dateToFetch);
