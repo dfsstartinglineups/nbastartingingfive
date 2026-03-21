@@ -341,9 +341,13 @@ function createGameCard(data) {
         const pulseHtml = isActivelyPlaying ? `<span class="spinner-grow spinner-grow-sm text-success slow-pulse" style="width: 0.45rem; height: 0.45rem; margin-right: 4px;"></span>` : '';
         const badgeColor = isActivelyPlaying ? 'text-success border-success' : 'text-secondary border-secondary';
 
+        // Check if our Python script provided a live score, otherwise fall back to the initial page load score
+        const currentAwayScore = liveMatch.away_score !== undefined ? liveMatch.away_score : (away.score || 0);
+        const currentHomeScore = liveMatch.home_score !== undefined ? liveMatch.home_score : (home.score || 0);
+
         scoreOrOddsHtml = `
             <div class="fw-bold text-dark mb-1" style="font-size: 1.2rem; letter-spacing: -0.5px;">
-                ${away.score || 0} - ${home.score || 0}
+                ${currentAwayScore} - ${currentHomeScore}
             </div>
             <div class="badge bg-light ${badgeColor} border w-100" style="font-size: 0.7rem; border-radius: 12px;">
                 ${pulseHtml}${liveMatch.clock}
