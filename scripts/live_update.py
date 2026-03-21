@@ -220,9 +220,16 @@ def main():
                 for team_box in box_data['boxscore']['teams']:
                     t_abbr = normalize_team(team_box['team']['abbreviation'])
                     if not team_box.get('statistics'): continue
-                    stat_labels = team_box['statistics'][0]['names']
-                    team_totals = team_box['statistics'][0]['stats']
-                    game_live_obj["team_stats"][t_abbr] = dict(zip(stat_labels, team_totals))
+                    
+                    team_stats_dict = {}
+                    # Team stats are a flat list of dictionaries, not a matrix
+                    for stat_obj in team_box['statistics']:
+                        stat_key = stat_obj.get('abbreviation', stat_obj.get('name', ''))
+                        stat_val = stat_obj.get('displayValue', '')
+                        if stat_key:
+                            team_stats_dict[stat_key] = stat_val
+                            
+                    game_live_obj["team_stats"][t_abbr] = team_stats_dict
 
             new_live_data[local_game_id] = game_live_obj
 
