@@ -275,27 +275,34 @@ function getLiveTeamStatsHtml(away, home, liveData) {
         let aPct = 50, hPct = 50;
         if (total > 0) { aPct = (a / total) * 100; hPct = (h / total) * 100; }
         
+        // Sleeker Dashboard Look: 4px height, inset shadow on the track, rounded outer corners on fills
         return `
-        <div class="mb-1" style="max-width: 75%; margin: 0 auto;">
-            <div class="d-flex justify-content-between align-items-center" style="font-size: 0.65rem; font-weight: 700; margin-bottom: 2px;">
+        <div class="mb-2 w-100">
+            <div class="d-flex justify-content-between align-items-center mb-1" style="font-size: 0.6rem; font-weight: 800;">
                 <span class="text-muted">${aVal || '0'}</span>
-                <span class="text-dark" style="letter-spacing: 0.5px;">${label}</span>
+                <span class="text-dark" style="letter-spacing: 0.5px; opacity: 0.8;">${label}</span>
                 <span class="text-muted">${hVal || '0'}</span>
             </div>
-            <div class="d-flex w-100" style="height: 5px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                <div style="width: ${aPct}%; background: #${away.team.color || '6c757d'}; border-right: 1px solid #fff;"></div>
-                <div style="width: ${hPct}%; background: #${home.team.color || '198754'};"></div>
+            <div class="d-flex w-100" style="height: 4px; background: rgba(0,0,0,0.06); border-radius: 4px; box-shadow: inset 0 1px 2px rgba(0,0,0,0.08);">
+                <div style="width: ${aPct}%; background: #${away.team.color || '6c757d'}; border-radius: 4px 0 0 4px;"></div>
+                <div style="width: ${hPct}%; background: #${home.team.color || '198754'}; border-radius: 0 4px 4px 0;"></div>
             </div>
         </div>`;
     };
 
+    // 2-Column Layout (3 stats on left, 3 stats on right)
     return `
-        <div class="mt-2 w-100 pb-2">
-            ${buildBar("FG%", aStats["FG%"], hStats["FG%"])}
-            ${buildBar("3P%", aStats["3P%"], hStats["3P%"])}
-            ${buildBar("REB", aStats["REB"], hStats["REB"])}
-            ${buildBar("AST", aStats["AST"], hStats["AST"])}
-            ${buildBar("TO", aStats["TO"], hStats["TO"])}
+        <div class="row g-0 w-100 pb-2 pt-2 px-3 mx-0">
+            <div class="col-6 pe-3 border-end">
+                ${buildBar("FG%", aStats["FG%"], hStats["FG%"])}
+                ${buildBar("3P%", aStats["3P%"], hStats["3P%"])}
+                ${buildBar("REB", aStats["REB"], hStats["REB"])}
+            </div>
+            <div class="col-6 ps-3">
+                ${buildBar("AST", aStats["AST"], hStats["AST"])}
+                ${buildBar("STL", aStats["STL"], hStats["STL"])}
+                ${buildBar("TO", aStats["TO"], hStats["TO"])}
+            </div>
         </div>
     `;
 }
@@ -311,31 +318,35 @@ function createGameCard(data) {
 
     // Check Live Data Status
     const liveMatch = LIVE_GAMES_DATA[localId];
-    const isLive = liveMatch && (liveMatch.status === 'in' || liveMatch.status === 'post');
+    const isLiveDataAvailable = liveMatch && (liveMatch.status === 'in' || liveMatch.status === 'post');
+    const isActivelyPlaying = liveMatch && liveMatch.status === 'in'; // Only true while clock is ticking
     
     // Initialize State for this card if it doesn't exist
     if (!window.CARD_STATE[localId]) {
         window.CARD_STATE[localId] = { 
-            tab: isLive ? 'live' : 'starters', 
+            tab: isLiveDataAvailable ? 'live' : 'starters', 
             baseBenchOpen: false, 
             liveBenchOpen: false 
         };
     }
     const cardState = window.CARD_STATE[localId];
-    // If it's live but state was left on 'starters', respect the state. If it just turned live, jump to live.
-    if (isLive && !window.CARD_STATE[localId].everBeenLive) {
+    if (isLiveDataAvailable && !window.CARD_STATE[localId].everBeenLive) {
         cardState.tab = 'live';
         window.CARD_STATE[localId].everBeenLive = true;
     }
 
     let scoreOrOddsHtml = "";
-    if (isLive) {
+    if (isLiveDataAvailable) {
+        // Stop the blinking dot and mute the badge color if the game is 'post' (Final)
+        const pulseHtml = isActivelyPlaying ? `<span class="spinner-grow spinner-grow-sm text-success slow-pulse" style="width: 0.45rem; height: 0.45rem; margin-right: 4px;"></span>` : '';
+        const badgeColor = isActivelyPlaying ? 'text-success border-success' : 'text-secondary border-secondary';
+
         scoreOrOddsHtml = `
             <div class="fw-bold text-dark mb-1" style="font-size: 1.2rem; letter-spacing: -0.5px;">
                 ${away.score || 0} - ${home.score || 0}
             </div>
-            <div class="badge bg-light text-success border border-success w-100" style="font-size: 0.7rem; border-radius: 12px;">
-                <span class="spinner-grow spinner-grow-sm text-success slow-pulse" style="width: 0.45rem; height: 0.45rem; margin-right: 4px;"></span>${liveMatch.clock}
+            <div class="badge bg-light ${badgeColor} border w-100" style="font-size: 0.7rem; border-radius: 12px;">
+                ${pulseHtml}${liveMatch.clock}
             </div>`;
     } else {
         scoreOrOddsHtml = `
@@ -509,7 +520,7 @@ function createGameCard(data) {
     let awayLiveGrid = { onCourtHtml: '', benchHtml: '' };
     let homeLiveGrid = { onCourtHtml: '', benchHtml: '' };
     
-    if (isLive && liveMatch.players) {
+    if (isLiveDataAvailable && liveMatch.players) {
         awayLiveGrid = buildLiveCourtGrid(awayStd, data.awayStarters, data.awayBench, liveMatch.players[awayStd]);
         homeLiveGrid = buildLiveCourtGrid(homeStd, data.homeStarters, data.homeBench, liveMatch.players[homeStd]);
     }
@@ -529,15 +540,15 @@ function createGameCard(data) {
         }
     }
 
-    // Team Stats HTML (Moved above the tabs)
+    // Team Stats HTML (Dashboard Look - 2 Columns)
     let teamStatsHtml = '';
-    if (isLive) {
+    if (isLiveDataAvailable) {
         teamStatsHtml = getLiveTeamStatsHtml(away, home, liveMatch);
     }
 
     // Tabs Header
     let tabsHtml = '';
-    if (isLive) {
+    if (isLiveDataAvailable) {
         tabsHtml = `
         <div class="d-flex border-top w-100" style="background-color: #f8f9fa;">
             <div class="py-2 flex-fill text-center fw-bold ${cardState.tab === 'starters' ? 'text-dark border-bottom border-dark border-2' : 'text-muted'}" 
@@ -578,7 +589,7 @@ function createGameCard(data) {
 
     // LIVE VIEW (Live Stats Tab)
     let viewLiveHtml = '';
-    if (isLive) {
+    if (isLiveDataAvailable) {
         let liveBenchToggleHtml = '';
         if (awayLiveGrid.benchHtml || homeLiveGrid.benchHtml) {
             liveBenchToggleHtml = `
