@@ -128,17 +128,21 @@ def main():
             
             clock_text = event['status']['type']['shortDetail']
             
-            print(f"Processing Live Game (Play-by-Play Engine): {away_abbr} @ {home_abbr} ({clock_text})")
+            # Grabbing the live scores directly from the ESPN scoreboard event
+            away_score = comp['competitors'][1].get('score', '0')
+            home_score = comp['competitors'][0].get('score', '0')
+            
+            print(f"Processing Live Game (Play-by-Play Engine): {away_abbr} {away_score} @ {home_score} {home_abbr} ({clock_text})")
             active_games_found += 1
             
-            # --- FETCH BOXSCORE ---
+            # ... FETCH BOXSCORE ...
             summary_url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event={game_id}"
             try:
                 sum_res = requests.get(summary_url, timeout=10)
                 box_data = sum_res.json()
             except: continue
             
-            # --- FETCH PLAY-BY-PLAY ---
+            # ... FETCH PLAY-BY-PLAY ...
             pbp_url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/nba/playbyplay?event={game_id}"
             try:
                 pbp_res = requests.get(pbp_url, timeout=10)
@@ -149,6 +153,8 @@ def main():
             game_live_obj = {
                 "status": status_state,
                 "clock": clock_text,
+                "away_score": away_score, # <--- NEW LIVE SCORE
+                "home_score": home_score, # <--- NEW LIVE SCORE
                 "team_stats": {},
                 "players": {home_abbr: {}, away_abbr: {}}
             }
