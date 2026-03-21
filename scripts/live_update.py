@@ -57,18 +57,18 @@ def fuzzy_match_player(pbp_name, roster_names):
     """
     clean_pbp = pbp_name.replace('.', '').strip().lower()
 
-    # 1. Try an exact match first
+    # 1. Exact match
     for full_name in roster_names:
         if clean_pbp == full_name.replace('.', '').strip().lower():
             return full_name
             
-    # 2. Fallback: Substring match
+    # 2. Substring match (e.g., "Tim Hardaway" vs "Tim Hardaway Jr.")
     for full_name in roster_names:
         clean_full = full_name.replace('.', '').strip().lower()
         if clean_pbp in clean_full or clean_full in clean_pbp:
             return full_name
             
-    # 3. Last Resort: Initial + Last Name match
+    # 3. Initial + Last Name match
     parts = clean_pbp.split(' ')
     if len(parts) > 1:
         last_name = parts[-1]
@@ -77,15 +77,27 @@ def fuzzy_match_player(pbp_name, roster_names):
             clean_full = full_name.replace('.', '').strip().lower()
             full_parts = clean_full.split(' ')
             
-            # Handle suffixes like Jr. so they don't break the match
+            # Handle suffixes so they don't break the match
             if full_parts[-1] in ['jr', 'sr', 'ii', 'iii', 'iv'] and len(full_parts) > 1:
-                compare_last_name = full_parts[-2]
+                compare_last = full_parts[-2]
             else:
-                compare_last_name = full_parts[-1]
+                compare_last = full_parts[-1]
                 
-            if compare_last_name == last_name and clean_full.startswith(first_initial):
+            if compare_last == last_name and clean_full.startswith(first_initial):
                 return full_name
                 
+        # 4. LAST RESORT: Just match the Last Name (Solves "Bub Carrington" -> "Carlton Carrington")
+        for full_name in roster_names:
+            clean_full = full_name.replace('.', '').strip().lower()
+            full_parts = clean_full.split(' ')
+            if full_parts[-1] in ['jr', 'sr', 'ii', 'iii', 'iv'] and len(full_parts) > 1:
+                compare_last = full_parts[-2]
+            else:
+                compare_last = full_parts[-1]
+                
+            if compare_last == last_name:
+                return full_name
+
     return None
 
 def main():
@@ -140,11 +152,10 @@ def main():
             
             clock_text = event['status']['type']['shortDetail']
             
-            # Grabbing the live scores directly from the ESPN scoreboard event
             away_score = comp['competitors'][1].get('score', '0')
             home_score = comp['competitors'][0].get('score', '0')
             
-            print(f"Processing Live Game (Play-by-Play Engine): {away_abbr} {away_score} @ {home_score} {home_abbr} ({clock_text})")
+            print(f"Processing Live Game: {away_abbr} {away_score} @ {home_score} {home_abbr} ({clock_text})")
             active_games_found += 1
             
             # --- FETCH BOXSCORE AND PLAY-BY-PLAY (FROM SUMMARY) ---
@@ -196,10 +207,7 @@ def main():
                 away_abbr: away_starters
             }
 
-            # Grab the plays directly from the summary box_data!
             plays = box_data.get('plays', [])
-            
-            # Sort plays chronologically
             plays = sorted(plays, key=lambda x: float(x.get('sequenceNumber', 0)))
             
             # =========================================================
@@ -221,7 +229,7 @@ def main():
             game_live_obj["recent_plays"] = formatted_plays[::-1]
             
             # =========================================================
-            # PROCESS SUBSTITUTIONS
+            # PROCESS SUBSTITUTIONS (PURE STATE TRACKING)
             # =========================================================
             for play in plays:
                 text = play.get('text', '')
@@ -234,19 +242,26 @@ def main():
                         team_in, full_in = None, None
                         team_out, full_out = None, None
                         
-                        # Find the IN player explicitly
+                        # Find the IN and OUT players explicitly
                         for t_abbr in [home_abbr, away_abbr]:
                             if not team_in:
                                 m_in = fuzzy_match_player(p_in_short, rosters[t_abbr])
                                 if m_in: team_in, full_in = t_abbr, m_in
-                                
-                            # Find the OUT player explicitly
                             if not team_out:
                                 m_out = fuzzy_match_player(p_out_short, rosters[t_abbr])
                                 if m_out: team_out, full_out = t_abbr, m_out
                                 
-                        if team_in and full_in: on_court_tracker[team_in].add(full_in)
-                        if team_out and full_out: on_court_tracker[team_out].discard(full_out)
+                        target_team = team_in or team_out
+                        if target_team:
+                            in_val = full_in if full_in else p_in_short
+                            out_val = full_out if full_out else p_out_short
+                            
+                            # PURE LOGIC: Only remove the player if they are actually in the tracker
+                            if out_val in on_court_tracker[target_team]:
+                                on_court_tracker[target_team].remove(out_val)
+                                        
+                            # Always add the guy coming in
+                            on_court_tracker[target_team].add(in_val)
 
             # =========================================================
             # BUILD BOXSCORE JSON WITH NEW ON-COURT FLAGS
@@ -267,8 +282,17 @@ def main():
                         try: current_mins = int(mapped_stats.get('MIN', 0))
                         except: current_mins = 0
                         
-                        # Apply the parsed text logic!
-                        is_on_court = p_name in on_court_tracker[t_abbr]
+                        # Apply the parsed text logic with fuzzy-fallback check
+                        is_on_court = False
+                        if p_name in on_court_tracker[t_abbr]:
+                            is_on_court = True
+                        else:
+                            for tracked in list(on_court_tracker[t_abbr]):
+                                if fuzzy_match_player(tracked, [p_name]) == p_name:
+                                    is_on_court = True
+                                    on_court_tracker[t_abbr].remove(tracked)
+                                    on_court_tracker[t_abbr].add(p_name)
+                                    break
                                 
                         fd_pts, dk_pts = calculate_fpts(mapped_stats)
                         
