@@ -78,7 +78,6 @@ def fuzzy_match_player(pbp_name, roster_names):
         pbp_last = parts[-1]
         
         # 3. Partial First Name + Exact Last Name (Must be unique!)
-        # Solves "Jal Williams" vs "Jay Williams", or "Alex Sarr" vs "Alexandre Sarr"
         matching_initials = []
         for full_name in roster_names:
             clean_full = full_name.replace('.', '').strip().lower()
@@ -93,7 +92,6 @@ def fuzzy_match_player(pbp_name, roster_names):
             return matching_initials[0]
             
         # 4. LAST RESORT: Just match Last Name (Must be unique!)
-        # Solves nickname mismatches like "Bub Carrington" -> "Carlton Carrington"
         matching_last_names = []
         for full_name in roster_names:
             clean_full = full_name.replace('.', '').strip().lower()
@@ -128,7 +126,7 @@ def main():
         print(f"Failed to fetch ESPN scoreboard: {e}")
         return
 
-    # 2. Load Base JSON (for Tip-Off Starters Seed & Full Rosters)
+    # 2. Load Base JSON (for Fallback Rosters)
     base_json = {}
     if os.path.exists(base_file_path):
         try:
@@ -179,8 +177,15 @@ def main():
             # =========================================================
             master_rosters = {home_abbr: set(), away_abbr: set()}
             
-            # 1. Feed in DFS Base Roster
-            game_data = next((g for g in base_json.get('games', []) if g['id'] == local_game_id), None)
+            # 1. Feed in DFS Base Roster by matching team abbreviations (Bulletproof fallback)
+            game_data = None
+            for g in base_json.get('games', []):
+                if g.get('teams') and len(g['teams']) >= 2:
+                    t1, t2 = normalize_team(g['teams'][0]), normalize_team(g['teams'][1])
+                    if (t1 == home_abbr or t1 == away_abbr) and (t2 == home_abbr or t2 == away_abbr):
+                        game_data = g
+                        break
+            
             if game_data:
                 for s in game_data.get('homeStarters', []) + game_data.get('homeBench', []):
                     master_rosters[home_abbr].add(s.get('athlete', {}).get('displayName', ''))
@@ -198,14 +203,30 @@ def main():
             master_rosters[home_abbr] = list(master_rosters[home_abbr])
             master_rosters[away_abbr] = list(master_rosters[away_abbr])
             
-            # 3. Seed Starters
+            # =========================================================
+            # SEED STARTERS (ESPN Native Flags + DFS Fallback)
+            # =========================================================
             home_starters = set()
             away_starters = set()
-            if game_data:
+            
+            # Primary: Ask ESPN exactly who the starters are (100% accurate naming)
+            if 'boxscore' in box_data and 'players' in box_data['boxscore']:
+                for team_box in box_data['boxscore']['players']:
+                    t_abbr = normalize_team(team_box['team']['abbreviation'])
+                    if team_box.get('statistics'):
+                        for ath in team_box['statistics'][0].get('athletes', []):
+                            if ath.get('starter', False):
+                                p_name = ath['athlete']['displayName']
+                                if t_abbr == home_abbr: home_starters.add(p_name)
+                                elif t_abbr == away_abbr: away_starters.add(p_name)
+            
+            # Fallback: If ESPN hasn't populated starters yet, pull from DFS
+            if not home_starters and game_data:
                 for s in game_data.get('homeStarters', []):
                     p_name = s.get('athlete', {}).get('displayName', '')
                     matched = fuzzy_match_player(p_name, master_rosters[home_abbr])
                     home_starters.add(matched if matched else p_name)
+            if not away_starters and game_data:
                 for s in game_data.get('awayStarters', []):
                     p_name = s.get('athlete', {}).get('displayName', '')
                     matched = fuzzy_match_player(p_name, master_rosters[away_abbr])
@@ -352,21 +373,6 @@ def main():
                             "fd_pts": 0.0, "dk_pts": 0.0,
                             "is_on_court": is_court
                         }
-                        
-            # Grab Team Stats
-            if 'boxscore' in box_data and 'teams' in box_data['boxscore']:
-                for team_box in box_data['boxscore']['teams']:
-                    t_abbr = normalize_team(team_box['team']['abbreviation'])
-                    if not team_box.get('statistics'): continue
-                    
-                    team_stats_dict = {}
-                    for stat_obj in team_box['statistics']:
-                        stat_key = stat_obj.get('abbreviation', stat_obj.get('name', ''))
-                        stat_val = stat_obj.get('displayValue', '')
-                        if stat_key:
-                            team_stats_dict[stat_key] = stat_val
-                            
-                    game_live_obj["team_stats"][t_abbr] = team_stats_dict
 
             new_live_data[local_game_id] = game_live_obj
 
