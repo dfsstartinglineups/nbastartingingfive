@@ -3,8 +3,13 @@
 // ==========================================
 const DEFAULT_DATE = new Date().toLocaleDateString('en-CA');
 let ALL_GAMES_DATA = []; 
+let LIVE_GAMES_DATA = {}; 
 let ALL_SLATES = { fanduel: [], draftkings: [] };
 let ARE_ALL_EXPANDED = false;
+
+// State manager to prevent tabs/benches from closing when the 30-sec live poll updates the DOM
+window.CARD_STATE = {}; 
+let livePollInterval;
 
 // ==========================================
 // 1. MAIN APP LOGIC 
@@ -12,14 +17,9 @@ let ARE_ALL_EXPANDED = false;
 
 function normalizeName(name) {
     if (!name) return "";
-    
-    // 1. Strip all spaces, punctuation, and accents
     let normalized = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z]/g, "").toLowerCase();
-    
-    // 2. Explicitly map known API mismatches to a single master key
     const nameMap = {
         "gregoryjackson": "ggjackson",
-        "ggjackson": "gregoryjackson",
         "ggjacksonii": "gregoryjackson",
         "gregoryjacksonii": "gregoryjackson",
         "pjwashington": "pjwashingtonjr", 
@@ -27,7 +27,6 @@ function normalizeName(name) {
         "xaviertillman": "xaviertillmansr",
         "mohamedbamba": "mobamba"
     };
-    
     return nameMap[normalized] || normalized;
 }
 
@@ -40,71 +39,45 @@ function getStandardAbbr(abbr) {
     return map[cleanAbbr] || cleanAbbr;
 }
 
-// FETCH NEW BUNDLED JSON
+// FETCH BASE JSON
 async function fetchLocalProbables(dateToFetch) {
     try {
         const response = await fetch(`data/${dateToFetch}.json?v=` + new Date().getTime());
-        if (response.ok) {
-            return await response.json();
-        }
+        if (response.ok) return await response.json();
     } catch (e) {
-        console.log(`No daily JSON found for ${dateToFetch}. Proceeding with fallback.`);
+        console.log(`No daily JSON found for ${dateToFetch}.`);
     }
     return { games: [], slates: { fanduel: [], draftkings: [] }, espn_schedule: null };
 }
 
-// ==========================================
-// 2. TOGGLE LOGIC (Player, Card, Bench, Global)
-// ==========================================
-
-window.togglePlayerStats = function(element) {
-    const li = element.closest('li');
-    const statsRow = li.querySelector('.player-stats-row');
-    const icon = li.querySelector('.stats-toggle-icon');
-    
-    if (!statsRow) return; 
-    
-    if (statsRow.classList.contains('d-none')) {
-        statsRow.classList.remove('d-none');
-        statsRow.classList.add('d-flex');
-        if (icon) icon.innerHTML = '▼';
-    } else {
-        statsRow.classList.add('d-none');
-        statsRow.classList.remove('d-flex');
-        if (icon) icon.innerHTML = '▶';
-    }
-};
-
-window.toggleCardStats = function(btn) {
-    const card = btn.closest('.lineup-card');
-    const isExpanding = btn.innerHTML.includes('+');
-    btn.innerHTML = isExpanding ? '[-] Stats' : '[+] Stats';
-    
-    card.querySelectorAll('.player-stats-row').forEach(row => {
-        if (isExpanding) {
-            row.classList.remove('d-none');
-            row.classList.add('d-flex');
-        } else {
-            row.classList.add('d-none');
-            row.classList.remove('d-flex');
+// FETCH LIVE JSON (Polled every 30s)
+async function pollLiveData(dateToFetch) {
+    try {
+        const response = await fetch(`data/LIVE/live_${dateToFetch}.json?v=` + new Date().getTime(), { cache: 'no-store' });
+        if (response.ok) {
+            LIVE_GAMES_DATA = await response.json();
+            renderGames(); // Re-render gracefully
         }
-    });
-    
-    card.querySelectorAll('.stats-toggle-icon').forEach(icon => {
-        icon.innerHTML = isExpanding ? '▼' : '▶';
-    });
+    } catch (e) {
+        // Silently fail if live data isn't generated yet
+    }
+}
+
+// ==========================================
+// 2. TOGGLE LOGIC & STATE MANAGEMENT
+// ==========================================
+
+window.toggleGameTab = function(localId, tabName) {
+    if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
+    window.CARD_STATE[localId].tab = tabName;
+    renderGames();
 };
 
-window.toggleBench = function(el) {
-    const container = el.nextElementSibling;
-    const arrow = el.querySelector('.bench-arrow');
-    if (container.style.display === 'none') {
-        container.style.display = 'flex';
-        arrow.innerHTML = '▲';
-    } else {
-        container.style.display = 'none';
-        arrow.innerHTML = '▼';
-    }
+window.toggleBenchState = function(localId, viewType) {
+    if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
+    const key = viewType + 'BenchOpen';
+    window.CARD_STATE[localId][key] = !window.CARD_STATE[localId][key];
+    renderGames();
 };
 
 // ==========================================
@@ -151,50 +124,12 @@ function populateSlates() {
     }
 }
 
-function handleHashNavigation() {
-    if (window.location.hash) {
-        setTimeout(() => {
-            const targetId = window.location.hash.substring(1);
-            const targetCard = document.getElementById(targetId);
-            
-            if (targetCard) {
-                targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                const innerHeader = targetCard.querySelector('.bg-light'); 
-                
-                targetCard.style.transition = 'all 0.4s ease-out';
-                targetCard.style.transform = 'scale(1.02)';
-                targetCard.style.setProperty('border', '3px solid #dc3545', 'important');
-                targetCard.style.setProperty('box-shadow', '0 0 25px rgba(220, 53, 69, 0.8)', 'important');
-                targetCard.style.position = 'relative'; 
-                targetCard.style.zIndex = '10';
-                
-                if (innerHeader) {
-                    innerHeader.classList.remove('bg-light');
-                    innerHeader.style.transition = 'background-color 0.4s ease-out';
-                    innerHeader.style.backgroundColor = '#f8d7da'; 
-                }
-                
-                setTimeout(() => {
-                    targetCard.style.transform = 'scale(1)';
-                    targetCard.style.removeProperty('border'); 
-                    targetCard.style.setProperty('box-shadow', '0 2px 4px rgba(0,0,0,0.05)', 'important');
-                    targetCard.style.zIndex = '1';
-                    
-                    if (innerHeader) {
-                        innerHeader.style.backgroundColor = '';
-                        innerHeader.classList.add('bg-light');
-                    }
-                }, 4000); 
-            }
-        }, 600); 
-    }
-}
-
 async function init(dateToFetch) {
     if (window.updateSEO) window.updateSEO(dateToFetch);
     const container = document.getElementById('games-container');
     const datePicker = document.getElementById('date-picker');
     ALL_GAMES_DATA = [];
+    LIVE_GAMES_DATA = {};
     if (datePicker) datePicker.value = dateToFetch;
 
     if (container) {
@@ -209,17 +144,12 @@ async function init(dateToFetch) {
     const ESPN_API_URL = `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${espnDate}`;
     
     try {
-        // Fetch local data FIRST
         const localData = await fetchLocalProbables(dateToFetch);
-        
         let scheduleData;
         
-        // If the scraper bundled the ESPN data, use it immediately! Otherwise, fall back to the live API.
         if (localData.espn_schedule && localData.espn_schedule.events) {
             scheduleData = localData.espn_schedule;
-            console.log("Using Bundled ESPN Schedule Data.");
         } else {
-            console.log("Fetching live ESPN Schedule (Fallback)...");
             const scheduleResponse = await fetch(ESPN_API_URL);
             scheduleData = await scheduleResponse.json();
         }
@@ -234,16 +164,12 @@ async function init(dateToFetch) {
             return;
         }
 
-        // NOTE: Roster/True Position fetching has been completely removed to drastically improve load times.
-        // Positions are mapped to fixed slots for starters, and derived strictly from DFS data for bench players.
-
         scheduleData.events.forEach(game => {
             const comp = game.competitions[0];
             const homeTeamData = comp.competitors.find(c => c.homeAway === 'home');
             const awayTeamData = comp.competitors.find(c => c.homeAway === 'away');
             const homeStd = getStandardAbbr(homeTeamData.team.abbreviation);
             const awayStd = getStandardAbbr(awayTeamData.team.abbreviation);
-
             const espnGameDate = new Date(game.date).toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
 
             const localGameMatch = localProbables.find(g => {
@@ -264,49 +190,42 @@ async function init(dateToFetch) {
                 if (localGameMatch.meta.total && localGameMatch.meta.total !== "TBD") odds.overUnder = `O/U ${localGameMatch.meta.total}`;
             }
 
-            // Extract Away Starters and Bench
-            let awayStarters = [], awayIsProjected = true, awayBench = [];
-            let localAwayPlayers = (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[awayStd]) ? localGameMatch.rosters[awayStd].players : null;
-            let localAwayBench = (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[awayStd]) ? localGameMatch.rosters[awayStd].bench : [];
-            
-            if (localAwayPlayers && localAwayPlayers.every(p => p.verified)) {
-                awayStarters = localAwayPlayers.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
-                awayIsProjected = false;
-            } else if (awayTeamData.starters) {
-                awayStarters = awayTeamData.starters; awayIsProjected = false;
-            } else if (localAwayPlayers) {
-                awayStarters = localAwayPlayers.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
-            }
-            if (localAwayBench) awayBench = localAwayBench.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
+            const extractRoster = (teamData, abbr) => {
+                let starters = [], isProj = true, bench = [];
+                let localPlayers = (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[abbr]) ? localGameMatch.rosters[abbr].players : null;
+                let localBench = (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[abbr]) ? localGameMatch.rosters[abbr].bench : [];
+                
+                if (localPlayers && localPlayers.every(p => p.verified)) {
+                    starters = localPlayers.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
+                    isProj = false;
+                } else if (teamData.starters) {
+                    starters = teamData.starters; isProj = false;
+                } else if (localPlayers) {
+                    starters = localPlayers.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
+                }
+                if (localBench) bench = localBench.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
+                return { starters, bench, isProj };
+            };
 
-            // Extract Home Starters and Bench
-            let homeStarters = [], homeIsProjected = true, homeBench = [];
-            let localHomePlayers = (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[homeStd]) ? localGameMatch.rosters[homeStd].players : null;
-            let localHomeBench = (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[homeStd]) ? localGameMatch.rosters[homeStd].bench : [];
-            
-            if (localHomePlayers && localHomePlayers.every(p => p.verified)) {
-                homeStarters = localHomePlayers.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
-                homeIsProjected = false;
-            } else if (homeTeamData.starters) {
-                homeStarters = homeTeamData.starters; homeIsProjected = false;
-            } else if (localHomePlayers) {
-                homeStarters = localHomePlayers.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
-            }
-            if (localHomeBench) homeBench = localHomeBench.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
+            const awayRoster = extractRoster(awayTeamData, awayStd);
+            const homeRoster = extractRoster(homeTeamData, homeStd);
 
             ALL_GAMES_DATA.push({
                 gameRaw: game, home: homeTeamData, away: awayTeamData,
-                homeStarters, awayStarters, homeIsProjected, awayIsProjected,
-                homeBench, awayBench,
+                homeStarters: homeRoster.starters, awayStarters: awayRoster.starters,
+                homeIsProjected: homeRoster.isProj, awayIsProjected: awayRoster.isProj,
+                homeBench: homeRoster.bench, awayBench: awayRoster.bench,
                 odds, venue: comp.venue?.fullName || "TBD",
                 gameDate: new Date(game.date), status: game.status.type.detail,
                 localId: localId
             });
         });
         
-        renderGames();
-        handleHashNavigation();
-        
+        // Initial Fetch for Live Data, then start 30s polling
+        await pollLiveData(dateToFetch);
+        clearInterval(livePollInterval);
+        livePollInterval = setInterval(() => pollLiveData(dateToFetch), 30000);
+
     } catch (error) {
         console.error("Init error:", error);
         if (container) container.innerHTML = `<div class="col-12 text-center mt-5"><div class="alert alert-danger">Failed to load schedule.</div></div>`;
@@ -316,6 +235,13 @@ async function init(dateToFetch) {
 function renderGames() {
     const container = document.getElementById('games-container');
     if (!container) return;
+    
+    // Save Horizontal Scroll Positions before re-rendering so the UI doesn't snap back!
+    const scrollPositions = {};
+    document.querySelectorAll('.live-table-wrapper').forEach(el => {
+        scrollPositions[el.id] = el.scrollLeft;
+    });
+
     container.innerHTML = '';
     const searchText = document.getElementById('team-search')?.value.toLowerCase() || '';
     
@@ -325,40 +251,96 @@ function renderGames() {
             const card = createGameCard(item);
             if (card) container.appendChild(card);
         });
+
+    // Restore Horizontal Scroll Positions
+    document.querySelectorAll('.live-table-wrapper').forEach(el => {
+        if (scrollPositions[el.id]) el.scrollLeft = scrollPositions[el.id];
+    });
+}
+
+function getLiveTeamStatsHtml(away, home, liveData) {
+    if (!liveData || !liveData.team_stats) return '';
+    const aStats = liveData.team_stats[getStandardAbbr(away.team.abbreviation)] || {};
+    const hStats = liveData.team_stats[getStandardAbbr(home.team.abbreviation)] || {};
+
+    const buildBar = (label, aVal, hVal) => {
+        const a = parseFloat(aVal) || 0;
+        const h = parseFloat(hVal) || 0;
+        const total = a + h;
+        let aPct = 50, hPct = 50;
+        if (total > 0) { aPct = (a / total) * 100; hPct = (h / total) * 100; }
+        
+        return `
+        <div class="w-100 mb-1 px-2">
+            <div class="d-flex justify-content-between align-items-center" style="font-size: 0.65rem; font-weight: 700; margin-bottom: 2px;">
+                <span class="text-muted">${aVal || '0'}</span>
+                <span class="text-dark" style="letter-spacing: 0.5px;">${label}</span>
+                <span class="text-muted">${hVal || '0'}</span>
+            </div>
+            <div class="d-flex w-100" style="height: 5px; background: #e9ecef; border-radius: 3px; overflow: hidden;">
+                <div style="width: ${aPct}%; background: #${away.team.color || '6c757d'}; border-right: 1px solid #fff;"></div>
+                <div style="width: ${hPct}%; background: #${home.team.color || 'dc3545'};"></div>
+            </div>
+        </div>`;
+    };
+
+    return `
+        <div class="mt-2 w-100 pb-2 border-bottom">
+            ${buildBar("FG%", aStats["FG%"], hStats["FG%"])}
+            ${buildBar("3P%", aStats["3P%"], hStats["3P%"])}
+            ${buildBar("REB", aStats["REB"], hStats["REB"])}
+            ${buildBar("AST", aStats["AST"], hStats["AST"])}
+            ${buildBar("TO", aStats["TO"], hStats["TO"])}
+        </div>
+    `;
 }
 
 function createGameCard(data) {
     const gameCard = document.createElement('div');
-    gameCard.className = 'col-12 col-md-6 col-lg-4 px-1 mb-2';
+    gameCard.className = 'col-12 col-md-6 col-lg-4 px-1 mb-3';
     
-    const { away, home, gameRaw } = data;
-    const gameState = gameRaw.status.type.state;
-    const statusDetail = gameRaw.status.type.shortDetail;
+    const { away, home, gameRaw, localId } = data;
+    const platformNode = document.querySelector('input[name="dfsPlatform"]:checked');
+    const platform = platformNode ? platformNode.value : 'fd';
+    const selectedSlate = document.getElementById('slate-selector')?.value || 'all';
+
+    // Check Live Data Status
+    const liveMatch = LIVE_GAMES_DATA[localId];
+    const isLive = liveMatch && (liveMatch.status === 'in' || liveMatch.status === 'post');
+    
+    // Initialize State for this card if it doesn't exist
+    if (!window.CARD_STATE[localId]) {
+        window.CARD_STATE[localId] = { 
+            tab: isLive ? 'live' : 'starters', 
+            baseBenchOpen: false, 
+            liveBenchOpen: false 
+        };
+    }
+    const cardState = window.CARD_STATE[localId];
+    // If it's live but state was left on 'starters', respect the state. If it just turned live, jump to live.
+    if (isLive && !window.CARD_STATE[localId].everBeenLive) {
+        cardState.tab = 'live';
+        window.CARD_STATE[localId].everBeenLive = true;
+    }
 
     let scoreOrOddsHtml = "";
-    if (gameState === 'in' || gameState === 'post') {
-        const scoreColor = gameState === 'in' ? 'text-danger' : 'text-dark';
+    if (isLive) {
         scoreOrOddsHtml = `
-            <div class="fw-bold ${scoreColor} mb-1" style="font-size: 1.1rem; letter-spacing: -0.5px;">
+            <div class="fw-bold text-danger mb-1" style="font-size: 1.2rem; letter-spacing: -0.5px;">
                 ${away.score || 0} - ${home.score || 0}
             </div>
-            <div class="badge bg-light text-muted border w-100" style="font-size: 0.7rem;">${statusDetail}</div>`;
+            <div class="badge bg-light text-danger border border-danger w-100" style="font-size: 0.7rem;"><span class="spinner-grow spinner-grow-sm text-danger" style="width: 0.5rem; height: 0.5rem; margin-right: 4px;"></span>${liveMatch.clock}</div>`;
     } else {
         scoreOrOddsHtml = `
             <div class="badge bg-light text-dark border w-100 mb-1" style="font-size: 0.75rem;">${data.odds.spread}</div>
             <div class="badge bg-secondary text-white w-100" style="font-size: 0.70rem;">${data.odds.overUnder}</div>`;
     }
 
-    const buildLineupList = (players, isProjected, isBench = false) => {
-        if (!players || !players.length) {
-            if (isBench) return { html: '', hasValidPlayers: false };
-            return { html: `<div class="p-4 text-center text-muted small fw-bold">Lineup pending...</div>`, hasValidPlayers: false };
-        }
-        
-        const platformNode = document.querySelector('input[name="dfsPlatform"]:checked');
-        const platform = platformNode ? platformNode.value : 'fd';
-        const slateSelector = document.getElementById('slate-selector');
-        const selectedSlate = slateSelector ? slateSelector.value : 'all';
+    // ==========================================
+    // BUILDER 1: STATIC DFS STARTING 5
+    // ==========================================
+    const buildBaseLineupList = (players, isProjected, isBench = false) => {
+        if (!players || !players.length) return { html: isBench ? '' : `<div class="p-4 text-center text-muted small fw-bold">Lineup pending...</div>`, hasValidPlayers: false };
         
         const fixedPositions = ['PG', 'SG', 'SF', 'PF', 'C'];
         let hasValidPlayersForList = false;
@@ -372,60 +354,37 @@ function createGameCard(data) {
         }
         
         let generatedItemsCount = 0;
-        
         const items = players.map((p, index) => {
             const a = p.athlete || p;
             let rawPos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position ? a.position.abbreviation : 'Flex');
-            if (platform === 'dk' && a.dfs && a.dfs.dk_pos) {
-                rawPos = a.dfs.dk_pos;
-            }
+            if (platform === 'dk' && a.dfs && a.dfs.dk_pos) rawPos = a.dfs.dk_pos;
             const displayPos = isBench ? rawPos : (fixedPositions[index] || 'Flex');
             
-            let showStats = false;
-            let salFmt = '-', projFmt = '-', valFmt = '-';
-            let sal = 0;
+            let showStats = false, salFmt = '-', projFmt = '-', valFmt = '-';
             
             if (a.dfs) {
                 const slatesDict = platform === 'dk' ? (a.dfs.dk_slates || {}) : (a.dfs.fd_slates || {});
+                let sal = 0, proj = 0, val = 0;
                 
                 if (selectedSlate !== 'all' && slatesDict[selectedSlate]) {
-                    sal = slatesDict[selectedSlate].salary;
-                    let proj = slatesDict[selectedSlate].proj;
-                    let val = slatesDict[selectedSlate].value;
-                    
-                    showStats = true;
+                    sal = slatesDict[selectedSlate].salary; proj = slatesDict[selectedSlate].proj; val = slatesDict[selectedSlate].value;
+                    showStats = true; hasValidPlayersForList = true;
+                } else if (selectedSlate === 'all') {
+                    sal = platform === 'dk' ? a.dfs.dk_salary : a.dfs.salary; proj = platform === 'dk' ? a.dfs.dk_proj : a.dfs.proj; val = platform === 'dk' ? a.dfs.dk_value : a.dfs.value;
+                    if (sal > 0 || proj > 0) { showStats = true; hasValidPlayersForList = true; }
+                }
+                if (showStats) {
                     salFmt = sal > 0 ? (sal / 1000).toFixed(1) + 'k' : '-';
                     projFmt = proj > 0 ? proj : '-';
                     valFmt = val > 0 ? val : '-';
-                    hasValidPlayersForList = true;
-                } 
-                else if (selectedSlate === 'all') {
-                    sal = platform === 'dk' ? a.dfs.dk_salary : a.dfs.salary;
-                    let proj = platform === 'dk' ? a.dfs.dk_proj : a.dfs.proj;
-                    let val = platform === 'dk' ? a.dfs.dk_value : a.dfs.value;
-                    
-                    if (sal > 0 || proj > 0) {
-                        showStats = true;
-                        salFmt = sal > 0 ? (sal / 1000).toFixed(1) + 'k' : '-';
-                        projFmt = proj > 0 ? proj : '-';
-                        valFmt = val > 0 ? val : '-';
-                        hasValidPlayersForList = true;
-                    }
                 }
             }
             
             let playerName = a.displayName || a.fullName || 'Unknown';
-            if (playerName !== 'Unknown' && playerName.includes(' ')) {
-                const parts = playerName.split(' ');
-                playerName = `${parts[0][0]}. ${parts.slice(1).join(' ')}`;
-            }
-            
-            if (isBench) {
-                if (selectedSlate !== 'all' && !showStats) return '';
-            }
+            if (playerName !== 'Unknown' && playerName.includes(' ')) playerName = `${playerName.charAt(0)}. ${playerName.split(' ').slice(1).join(' ')}`;
+            if (isBench && selectedSlate !== 'all' && !showStats) return '';
             
             generatedItemsCount++;
-            
             return `
             <li class="px-0 py-1 border-bottom d-flex align-items-center justify-content-between" style="overflow: hidden;">
                 <div class="d-flex align-items-center" style="width: 53%; overflow: hidden;">
@@ -437,67 +396,199 @@ function createGameCard(data) {
                     <span style="width: 32%; text-align: right;">${salFmt}</span>
                     <span style="width: 36%; text-align: center;">${projFmt}</span>
                     <span style="width: 32%; text-align: left;">${valFmt}</span>
-                </div>
-                ` : `<div style="width: 47%;"></div>`}
+                </div>` : `<div style="width: 47%;"></div>`}
             </li>`;
         }).join('');
         
-        if (isBench && generatedItemsCount === 0) {
-            return { html: '', hasValidPlayers: false };
-        }
-        
+        if (isBench && generatedItemsCount === 0) return { html: '', hasValidPlayers: false };
         return { html: `${headerHtml}<ul class="list-unstyled m-0">${items}</ul>`, hasValidPlayers: hasValidPlayersForList };
     };
 
-    const awayStartersInfo = buildLineupList(data.awayStarters, data.awayIsProjected, false);
-    const homeStartersInfo = buildLineupList(data.homeStarters, data.homeIsProjected, false);
-    const awayBenchInfo = buildLineupList(data.awayBench, false, true);
-    const homeBenchInfo = buildLineupList(data.homeBench, false, true);
+    const awayBaseStarters = buildBaseLineupList(data.awayStarters, data.awayIsProjected, false);
+    const homeBaseStarters = buildBaseLineupList(data.homeStarters, data.homeIsProjected, false);
+    const awayBaseBench = buildBaseLineupList(data.awayBench, false, true);
+    const homeBaseBench = buildBaseLineupList(data.homeBench, false, true);
     
-    const slateSelector = document.getElementById('slate-selector');
-    const selectedSlate = slateSelector ? slateSelector.value : 'all';
-    
-    // Check if the game has ANY DFS players
-    const hasAnySlatePlayer = awayStartersInfo.hasValidPlayers || homeStartersInfo.hasValidPlayers || awayBenchInfo.hasValidPlayers || homeBenchInfo.hasValidPlayers;
+    const hasAnySlatePlayer = awayBaseStarters.hasValidPlayers || homeBaseStarters.hasValidPlayers || awayBaseBench.hasValidPlayers || homeBaseBench.hasValidPlayers;
+    if (selectedSlate !== 'all' && !hasAnySlatePlayer) return null; 
 
-    if (selectedSlate !== 'all') {
-        if (!hasAnySlatePlayer) {
-            return null; // Prevents the card from being rendered if filtering by a specific slate
+    // ==========================================
+    // BUILDER 2: LIVE COURT GRID (Sticky Scroll)
+    // ==========================================
+    const buildLiveCourtGrid = (teamAbbr, baseStarters, baseBench, liveTeamData) => {
+        if (!liveTeamData) return { onCourtHtml: '', benchHtml: '' };
+        
+        let allPlayers = [];
+        const addToAll = (arr) => {
+            (arr || []).forEach(p => {
+                let name = p.athlete.displayName || p.athlete.fullName;
+                allPlayers.push({ name: name, clean: normalizeName(name) });
+            });
+        };
+        addToAll(data.awayStarters === baseStarters ? data.awayStarters : data.homeStarters);
+        addToAll(data.awayBench === baseBench ? data.awayBench : data.homeBench);
+
+        let onCourt = [];
+        let bench = [];
+
+        // Map live stats and FPTS to players
+        allPlayers.forEach(p => {
+            let lData = liveTeamData[p.name];
+            if (!lData) {
+                const matchedKey = Object.keys(liveTeamData).find(k => normalizeName(k) === p.clean);
+                if (matchedKey) lData = liveTeamData[matchedKey];
+            }
+            p.live = lData || { MIN: 0, PTS: 0, REB: 0, AST: 0, STL: 0, BLK: 0, TO: 0, fd_pts: 0, dk_pts: 0, is_on_court: false };
+            
+            if (p.live.is_on_court) onCourt.push(p);
+            else bench.push(p);
+        });
+
+        // Fallback: If 0 guys on court (API glitch), put first 5 in
+        if (onCourt.length === 0) {
+            onCourt = allPlayers.slice(0, 5);
+            bench = allPlayers.slice(5);
         }
-    }
 
-    // --- BANNER LOGIC FOR "ALL SLATES" ---
-    const platformNode = document.querySelector('input[name="dfsPlatform"]:checked');
-    const platform = platformNode ? platformNode.value : 'fd';
-    const platKey = platform === 'dk' ? 'draftkings' : 'fanduel';
-    const platformName = platform === 'dk' ? 'DK' : 'FD';
+        // Sort bench by FPTS
+        const fpKey = platform === 'dk' ? 'dk_pts' : 'fd_pts';
+        bench.sort((a, b) => (b.live[fpKey] || 0) - (a.live[fpKey] || 0));
 
-    const hasGlobalSlates = ALL_SLATES[platKey] && ALL_SLATES[platKey].length > 0;
-
-    let missingSlateHtml = '';
-    if (!hasAnySlatePlayer && selectedSlate === 'all') {
-        if (hasGlobalSlates) {
-            // The platform HAS posted slates today, but this game has no players in them
-            missingSlateHtml = `<div class="w-100 text-center py-1 fw-bold text-white bg-secondary border-top" style="font-size: 0.65rem; letter-spacing: 0.5px;">🚫 Game not included in ${platformName} slates</div>`;
-        } else {
-            // The platform HAS NOT posted slates yet today
-            missingSlateHtml = `<div class="w-100 text-center py-1 fw-bold text-dark border-top" style="font-size: 0.65rem; letter-spacing: 0.5px; background-color: #ffecb5;">⏳ ${platformName} salaries & slates pending...</div>`;
-        }
-    }
-
-    let benchRibbonHtml = '';
-    if (awayBenchInfo.html || homeBenchInfo.html) {
-        benchRibbonHtml = `
-            <div class="border-top bg-light">
-                <div class="p-2 text-center border-bottom text-muted fw-bold bench-toggle" onclick="toggleBench(this)" style="font-size: 0.70rem; cursor: pointer; background-color: #f8f9fa; transition: background-color 0.2s;">
-                    <span>View Bench Options</span> <span class="bench-arrow ms-1">▼</span>
+        const renderRow = (p) => {
+            let fp = (p.live[fpKey] || 0).toFixed(1);
+            let shortName = p.name.includes(' ') ? `${p.name.charAt(0)}. ${p.name.split(' ').slice(1).join(' ')}` : p.name;
+            return `
+                <div class="d-flex border-bottom py-1 align-items-center" style="font-size: 0.75rem; min-width: 320px;">
+                    <div class="fw-bold text-truncate pe-1 ps-2 bg-white" style="width: 85px; position: sticky; left: 0; z-index: 2; border-right: 1px solid #dee2e6;" title="${p.name}">${shortName}</div>
+                    <div class="fw-bold text-success text-center" style="width: 35px;">${fp}</div>
+                    <div class="text-center text-muted" style="width: 35px; font-size: 0.65rem;">${p.live.MIN}</div>
+                    <div class="text-center fw-bold text-dark" style="width: 30px;">${p.live.PTS}</div>
+                    <div class="text-center fw-bold text-dark" style="width: 30px;">${p.live.REB}</div>
+                    <div class="text-center fw-bold text-dark" style="width: 30px;">${p.live.AST}</div>
+                    <div class="text-center text-muted" style="width: 30px;">${p.live.STL}</div>
+                    <div class="text-center text-muted" style="width: 30px;">${p.live.BLK}</div>
+                    <div class="text-center text-muted" style="width: 30px;">${p.live.TO}</div>
                 </div>
-                <div class="row g-0 bench-container" style="display: none;">
-                    <div class="col-6 border-end">${awayBenchInfo.html}</div>
-                    <div class="col-6">${homeBenchInfo.html}</div>
-                </div>
+            `;
+        };
+
+        const headerHtml = `
+            <div class="d-flex border-bottom py-1 align-items-center text-muted fw-bold" style="font-size: 0.65rem; min-width: 320px; background-color: #f1f3f5;">
+                <div style="width: 85px; position: sticky; left: 0; background: #f1f3f5; z-index: 2; border-right: 1px solid #dee2e6;" class="ps-2 text-dark">ON COURT</div>
+                <div class="text-center text-dark" style="width: 35px;">FP</div>
+                <div class="text-center" style="width: 35px;">MIN</div>
+                <div class="text-center" style="width: 30px;">PTS</div>
+                <div class="text-center" style="width: 30px;">REB</div>
+                <div class="text-center" style="width: 30px;">AST</div>
+                <div class="text-center" style="width: 30px;">STL</div>
+                <div class="text-center" style="width: 30px;">BLK</div>
+                <div class="text-center" style="width: 30px;">TO</div>
             </div>
         `;
+
+        const benchHeaderHtml = headerHtml.replace("ON COURT", "BENCH");
+
+        let onCourtHtml = onCourt.map(renderRow).join('');
+        let benchHtml = bench.map(renderRow).join('');
+
+        return {
+            onCourtHtml: `<div class="overflow-auto live-table-wrapper" id="live-oncourt-${teamAbbr}">${headerHtml}${onCourtHtml}</div>`,
+            benchHtml: `<div class="overflow-auto live-table-wrapper" id="live-bench-${teamAbbr}">${benchHeaderHtml}${benchHtml}</div>`
+        };
+    };
+
+    const awayStd = getStandardAbbr(away.team.abbreviation);
+    const homeStd = getStandardAbbr(home.team.abbreviation);
+    let awayLiveGrid = { onCourtHtml: '', benchHtml: '' };
+    let homeLiveGrid = { onCourtHtml: '', benchHtml: '' };
+    
+    if (isLive && liveMatch.players) {
+        awayLiveGrid = buildLiveCourtGrid(awayStd, data.awayStarters, data.awayBench, liveMatch.players[awayStd]);
+        homeLiveGrid = buildLiveCourtGrid(homeStd, data.homeStarters, data.homeBench, liveMatch.players[homeStd]);
+    }
+
+    // ==========================================
+    // HTML ASSEMBLY
+    // ==========================================
+    
+    // The missing slate banner
+    let missingSlateHtml = '';
+    const platKey = platform === 'dk' ? 'draftkings' : 'fanduel';
+    if (!hasAnySlatePlayer && selectedSlate === 'all') {
+        if (ALL_SLATES[platKey] && ALL_SLATES[platKey].length > 0) {
+            missingSlateHtml = `<div class="w-100 text-center py-1 fw-bold text-white bg-secondary border-top" style="font-size: 0.65rem;">🚫 Game not included in ${platform === 'dk' ? 'DK' : 'FD'} slates</div>`;
+        } else {
+            missingSlateHtml = `<div class="w-100 text-center py-1 fw-bold text-dark border-top" style="font-size: 0.65rem; background-color: #ffecb5;">⏳ ${platform === 'dk' ? 'DK' : 'FD'} salaries & slates pending...</div>`;
+        }
+    }
+
+    // The TABS Header (Only shows if game is live)
+    let tabsHtml = '';
+    if (isLive) {
+        tabsHtml = `
+        <div class="d-flex border-top w-100" style="background-color: #f8f9fa;">
+            <div class="py-1 flex-fill text-center fw-bold ${cardState.tab === 'starters' ? 'text-primary border-bottom border-primary border-2' : 'text-muted'}" 
+                 style="font-size: 0.70rem; cursor: pointer; letter-spacing: 0.5px;" 
+                 onclick="toggleGameTab('${localId}', 'starters')">
+                 STARTING 5
+            </div>
+            <div class="py-1 flex-fill text-center fw-bold ${cardState.tab === 'live' ? 'text-danger border-bottom border-danger border-2' : 'text-muted'}" 
+                 style="font-size: 0.70rem; cursor: pointer; letter-spacing: 0.5px;" 
+                 onclick="toggleGameTab('${localId}', 'live')">
+                 LIVE STATS
+            </div>
+        </div>`;
+    }
+
+    // BASE VIEW (Starters Tab)
+    let baseBenchHtml = '';
+    if (awayBaseBench.html || homeBaseBench.html) {
+        baseBenchHtml = `
+            <div class="border-top bg-light">
+                <div class="p-2 text-center border-bottom text-muted fw-bold bench-toggle" onclick="toggleBenchState('${localId}', 'base')" style="font-size: 0.70rem; cursor: pointer; background-color: #f8f9fa;">
+                    <span>View Bench Options</span> <span class="bench-arrow ms-1">${cardState.baseBenchOpen ? '▲' : '▼'}</span>
+                </div>
+                <div class="row g-0 bench-container" style="display: ${cardState.baseBenchOpen ? 'flex' : 'none'};">
+                    <div class="col-6 border-end">${awayBaseBench.html}</div>
+                    <div class="col-6">${homeBaseBench.html}</div>
+                </div>
+            </div>`;
+    }
+    const viewStartersHtml = `
+        <div id="view-starters-${localId}" class="${cardState.tab === 'live' ? 'd-none' : ''}">
+            <div class="row g-0 border-top">
+                <div class="col-6 border-end">${awayBaseStarters.html}</div>
+                <div class="col-6">${homeBaseStarters.html}</div>
+            </div>
+            ${baseBenchHtml}
+        </div>`;
+
+    // LIVE VIEW (Live Stats Tab)
+    let viewLiveHtml = '';
+    if (isLive) {
+        let liveBenchToggleHtml = '';
+        if (awayLiveGrid.benchHtml || homeLiveGrid.benchHtml) {
+            liveBenchToggleHtml = `
+                <div class="border-top bg-light">
+                    <div class="p-2 text-center border-bottom text-muted fw-bold bench-toggle" onclick="toggleBenchState('${localId}', 'live')" style="font-size: 0.70rem; cursor: pointer; background-color: #f8f9fa;">
+                        <span>View Live Bench</span> <span class="bench-arrow ms-1">${cardState.liveBenchOpen ? '▲' : '▼'}</span>
+                    </div>
+                    <div class="row g-0 bench-container" style="display: ${cardState.liveBenchOpen ? 'flex' : 'none'};">
+                        <div class="col-6 border-end w-50 overflow-hidden">${awayLiveGrid.benchHtml}</div>
+                        <div class="col-6 w-50 overflow-hidden">${homeLiveGrid.benchHtml}</div>
+                    </div>
+                </div>`;
+        }
+        
+        viewLiveHtml = `
+            <div id="view-live-${localId}" class="${cardState.tab === 'starters' ? 'd-none' : ''}">
+                ${getLiveTeamStatsHtml(away, home, liveMatch)}
+                <div class="row g-0 border-top bg-white">
+                    <div class="col-6 border-end w-50 overflow-hidden">${awayLiveGrid.onCourtHtml}</div>
+                    <div class="col-6 w-50 overflow-hidden">${homeLiveGrid.onCourtHtml}</div>
+                </div>
+                ${liveBenchToggleHtml}
+            </div>`;
     }
 
     gameCard.innerHTML = `
@@ -505,64 +596,26 @@ function createGameCard(data) {
             <div class="p-2 border-bottom d-flex justify-content-between align-items-center bg-light">
                 <div class="d-flex align-items-center">
                     <span class="badge bg-dark text-white" style="font-size: 0.7rem;">${data.gameDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
-                    
                 </div>
                 <span class="text-muted fw-bold text-uppercase" style="font-size: 0.6rem;">${data.venue}</span>
             </div>
             <div class="p-2 d-flex align-items-center justify-content-between text-center">
-                <div style="width: 35%;"><img src="${away.team.logo}" style="width: 40px;"><div class="fw-bold small">${away.team.shortDisplayName}</div></div>
+                <div style="width: 35%;"><img src="${away.team.logo}" style="width: 40px;"><div class="fw-bold small mt-1">${away.team.shortDisplayName}</div></div>
                 <div style="width: 30%;">${scoreOrOddsHtml}</div>
-                <div style="width: 35%;"><img src="${home.team.logo}" style="width: 40px;"><div class="fw-bold small">${home.team.shortDisplayName}</div></div>
+                <div style="width: 35%;"><img src="${home.team.logo}" style="width: 40px;"><div class="fw-bold small mt-1">${home.team.shortDisplayName}</div></div>
             </div>
             ${missingSlateHtml}
-            <div class="row g-0 border-top">
-                <div class="col-6 border-end">${awayStartersInfo.html}</div>
-                <div class="col-6">${homeStartersInfo.html}</div>
-            </div>
-            ${benchRibbonHtml}
+            ${tabsHtml}
+            ${viewStartersHtml}
+            ${viewLiveHtml}
         </div>`;
         
     return gameCard;
 }
-window.generateTweet = function(team, opp, starters, odds, gameDate, gameId, isProjected) {
-    if (isProjected) {
-        alert("Cannot share unverified lineups. Wait for ✅ OFFICIAL status.");
-        return;
-    }
-    
-    let oddsStr = odds.spread !== "TBD" ? `Odds: ${odds.spread} | ${odds.overUnder}` : "Odds: TBD";
-    let tweetText = `🏀 ${gameDate} ${team} Starting Lineup vs ${opp}\n${oddsStr}\n\n`;
-    
-    const fixedPositions = ['PG', 'SG', 'SF', 'PF', 'C'];
-    starters.forEach((p, i) => {
-        const a = p.athlete || p;
-        const name = a.displayName || a.fullName || 'Unknown';
-        tweetText += `${fixedPositions[i] || 'Flex'} ${name}\n`;
-    });
-    
-    const teamHash = team.replace(/\s+/g, '');
-    tweetText += `\n\nFull matchups & odds: https://nbastartingfive.com/#game-${gameId}\n\n#${teamHash} #${teamHash}Lineup #NBA #DFS #StartingFive`;
-    
-    document.getElementById('tweet-textarea').value = tweetText;
-    
-    const copyBtn = document.getElementById('copy-tweet-btn');
-    copyBtn.innerHTML = '📋 Copy to Clipboard';
-    copyBtn.classList.remove('btn-success');
-    copyBtn.classList.add('btn-dark');
-    
-    const modal = new bootstrap.Modal(document.getElementById('tweetModal'));
-    modal.show();
-};
 
-document.getElementById('copy-tweet-btn')?.addEventListener('click', function() {
-    const text = document.getElementById('tweet-textarea').value;
-    navigator.clipboard.writeText(text).then(() => {
-        this.innerHTML = '✅ Copied!';
-        this.classList.remove('btn-dark');
-        this.classList.add('btn-success');
-    });
-});
-
+// ==========================================
+// EVENT LISTENERS
+// ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     init(DEFAULT_DATE);
     
@@ -578,26 +631,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }));
     
     document.getElementById('slate-selector')?.addEventListener('change', renderGames);
-
-    // Mobile Search Toggle
-    const searchToggleBtn = document.getElementById('search-toggle-btn');
-    const teamSearchInput = document.getElementById('team-search');
-    
-    if (searchToggleBtn && teamSearchInput) {
-        searchToggleBtn.addEventListener('click', () => {
-            teamSearchInput.classList.toggle('expanded');
-            if (teamSearchInput.classList.contains('expanded')) {
-                teamSearchInput.focus();
-            }
-        });
-        
-        // Auto-collapse search when clicking somewhere else on the screen (Mobile only)
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth < 768 && teamSearchInput.classList.contains('expanded')) {
-                if (!teamSearchInput.contains(e.target) && !searchToggleBtn.contains(e.target)) {
-                    teamSearchInput.classList.remove('expanded');
-                }
-            }
-        });
-    }
 });
