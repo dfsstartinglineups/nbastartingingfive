@@ -53,7 +53,7 @@ def calculate_fpts(stats):
 def fuzzy_match_player(pbp_name, roster_names):
     """
     Matches ESPN play-by-play names to full boxscore names.
-    Prioritizes exact matches based on ESPN's full-name play-by-play logs.
+    Highly robust cascade to handle abbreviations, typos, and suffix mismatches.
     """
     clean_pbp = pbp_name.replace('.', '').strip().lower()
 
@@ -68,34 +68,38 @@ def fuzzy_match_player(pbp_name, roster_names):
         if clean_pbp in clean_full or clean_full in clean_pbp:
             return full_name
             
-    # 3. Initial + Last Name match
     parts = clean_pbp.split(' ')
     if len(parts) > 1:
-        last_name = parts[-1]
-        first_initial = parts[0][0]
+        pbp_first = parts[0]
+        pbp_last = parts[-1]
+        
+        # 3. First Name Substring + Exact Last Name (Solves Alex Sarr -> Alexandre Sarr)
         for full_name in roster_names:
             clean_full = full_name.replace('.', '').strip().lower()
             full_parts = clean_full.split(' ')
+            compare_last = full_parts[-2] if full_parts[-1] in ['jr', 'sr', 'ii', 'iii', 'iv'] and len(full_parts) > 1 else full_parts[-1]
             
-            # Handle suffixes so they don't break the match
-            if full_parts[-1] in ['jr', 'sr', 'ii', 'iii', 'iv'] and len(full_parts) > 1:
-                compare_last = full_parts[-2]
-            else:
-                compare_last = full_parts[-1]
-                
-            if compare_last == last_name and clean_full.startswith(first_initial):
+            if compare_last == pbp_last:
+                if pbp_first in full_parts[0] or full_parts[0] in pbp_first:
+                    return full_name
+                    
+        # 4. Initial + Exact Last Name
+        first_initial = pbp_first[0]
+        for full_name in roster_names:
+            clean_full = full_name.replace('.', '').strip().lower()
+            full_parts = clean_full.split(' ')
+            compare_last = full_parts[-2] if full_parts[-1] in ['jr', 'sr', 'ii', 'iii', 'iv'] and len(full_parts) > 1 else full_parts[-1]
+            
+            if compare_last == pbp_last and clean_full.startswith(first_initial):
                 return full_name
                 
-        # 4. LAST RESORT: Just match the Last Name
+        # 5. Last Resort: Just match Last Name
         for full_name in roster_names:
             clean_full = full_name.replace('.', '').strip().lower()
             full_parts = clean_full.split(' ')
-            if full_parts[-1] in ['jr', 'sr', 'ii', 'iii', 'iv'] and len(full_parts) > 1:
-                compare_last = full_parts[-2]
-            else:
-                compare_last = full_parts[-1]
-                
-            if compare_last == last_name:
+            compare_last = full_parts[-2] if full_parts[-1] in ['jr', 'sr', 'ii', 'iii', 'iv'] and len(full_parts) > 1 else full_parts[-1]
+            
+            if compare_last == pbp_last:
                 return full_name
 
     return None
@@ -119,22 +123,13 @@ def main():
         print(f"Failed to fetch ESPN scoreboard: {e}")
         return
 
-    # 2. Load Base JSON (for Tip-Off Starters Seed)
+    # 2. Load Base JSON (for Tip-Off Starters Seed & Full Rosters)
     base_json = {}
     if os.path.exists(base_file_path):
         try:
             with open(base_file_path, 'r') as f:
                 base_json = json.load(f)
         except: pass
-        
-    def get_base_starters(local_game_id, team_side):
-        starters = set()
-        game_data = next((g for g in base_json.get('games', []) if g['id'] == local_game_id), None)
-        if game_data:
-            key = 'homeStarters' if team_side == 'home' else 'awayStarters'
-            for s in game_data.get(key, []):
-                starters.add(s.get('athlete', {}).get('displayName', ''))
-        return list(starters)
 
     new_live_data = {}
     active_games_found = 0
@@ -175,39 +170,44 @@ def main():
             }
             
             # =========================================================
-            # THE PLAY-BY-PLAY STATE MACHINE
+            # BUILD MASTER ROSTERS (Combines Base DFS + ESPN Live Data)
             # =========================================================
+            master_rosters = {home_abbr: set(), away_abbr: set()}
             
-            # 1. Build full roster lists from ESPN boxscore FIRST
-            rosters = {home_abbr: [], away_abbr: []}
+            # 1. Feed in DFS Base Roster
+            game_data = next((g for g in base_json.get('games', []) if g['id'] == local_game_id), None)
+            if game_data:
+                for s in game_data.get('homeStarters', []) + game_data.get('homeBench', []):
+                    master_rosters[home_abbr].add(s.get('athlete', {}).get('displayName', ''))
+                for s in game_data.get('awayStarters', []) + game_data.get('awayBench', []):
+                    master_rosters[away_abbr].add(s.get('athlete', {}).get('displayName', ''))
+
+            # 2. Feed in ESPN Boxscore
             if 'boxscore' in box_data and 'players' in box_data['boxscore']:
                 for team_box in box_data['boxscore']['players']:
                     t_abbr = normalize_team(team_box['team']['abbreviation'])
-                    if t_abbr in rosters and team_box.get('statistics'):
+                    if t_abbr in master_rosters and team_box.get('statistics'):
                         for ath in team_box['statistics'][0].get('athletes', []):
-                            rosters[t_abbr].append(ath['athlete']['displayName'])
+                            master_rosters[t_abbr].add(ath['athlete']['displayName'])
+                            
+            master_rosters[home_abbr] = list(master_rosters[home_abbr])
+            master_rosters[away_abbr] = list(master_rosters[away_abbr])
             
-            # 2. Get base starters and STRICTLY map them to ESPN roster names
-            home_base = get_base_starters(local_game_id, 'home')
-            away_base = get_base_starters(local_game_id, 'away')
-            
+            # 3. Seed Starters
             home_starters = set()
-            for p in home_base:
-                matched = fuzzy_match_player(p, rosters[home_abbr])
-                home_starters.add(matched if matched else p)
-                
             away_starters = set()
-            for p in away_base:
-                matched = fuzzy_match_player(p, rosters[away_abbr])
-                away_starters.add(matched if matched else p)
+            if game_data:
+                for s in game_data.get('homeStarters', []):
+                    p_name = s.get('athlete', {}).get('displayName', '')
+                    matched = fuzzy_match_player(p_name, master_rosters[home_abbr])
+                    home_starters.add(matched if matched else p_name)
+                for s in game_data.get('awayStarters', []):
+                    p_name = s.get('athlete', {}).get('displayName', '')
+                    matched = fuzzy_match_player(p_name, master_rosters[away_abbr])
+                    away_starters.add(matched if matched else p_name)
             
-            # 3. Initialize the state machine
-            on_court_tracker = {
-                home_abbr: home_starters,
-                away_abbr: away_starters
-            }
-            
-            unmatched_injections = {home_abbr: {}, away_abbr: {}}
+            on_court_tracker = { home_abbr: home_starters, away_abbr: away_starters }
+            unmatched_injections = { home_abbr: {}, away_abbr: {} }
 
             plays = box_data.get('plays', [])
             plays = sorted(plays, key=lambda x: float(x.get('sequenceNumber', 0)))
@@ -219,13 +219,10 @@ def main():
             for p in plays[-5:]:
                 clock_data = p.get('clock') or {}
                 clock = clock_data.get('displayValue', '') if isinstance(clock_data, dict) else ''
-                
                 period_data = p.get('period') or {}
                 period = period_data.get('number', '') if isinstance(period_data, dict) else ''
-                
                 text = p.get('text', '')
                 time_str = f"Q{period} {clock}".strip() if period else clock
-                
                 formatted_plays.append({"time": time_str, "text": text})
             
             game_live_obj["recent_plays"] = formatted_plays[::-1]
@@ -246,10 +243,10 @@ def main():
                         
                         for t_abbr in [home_abbr, away_abbr]:
                             if not team_in:
-                                m_in = fuzzy_match_player(p_in_short, rosters[t_abbr])
+                                m_in = fuzzy_match_player(p_in_short, master_rosters[t_abbr])
                                 if m_in: team_in, full_in = t_abbr, m_in
                             if not team_out:
-                                m_out = fuzzy_match_player(p_out_short, rosters[t_abbr])
+                                m_out = fuzzy_match_player(p_out_short, master_rosters[t_abbr])
                                 if m_out: team_out, full_out = t_abbr, m_out
                                 
                         target_team = team_in or team_out
@@ -266,7 +263,7 @@ def main():
                             else:
                                 out_val = full_out
                                 
-                            # Remove the OUT player
+                            # Pure state tracking removal
                             if out_val in on_court_tracker[target_team]:
                                 on_court_tracker[target_team].remove(out_val)
                             elif not full_out:
@@ -327,11 +324,10 @@ def main():
                             "dk_pts": dk_pts,
                             "is_on_court": is_on_court
                         }
-            
+
             # =========================================================
-            # INJECT MISSING/UNMATCHED PLAYERS INTO THE JSON FOR THE UI
+            # INJECT MISSING/UNMATCHED PLAYERS FOR THE UI
             # =========================================================
-            # 1. Make sure EVERY player currently tracked on court is in the JSON
             for t_abbr, court_set in on_court_tracker.items():
                 for p_name in court_set:
                     if p_name not in game_live_obj["players"][t_abbr]:
@@ -342,7 +338,6 @@ def main():
                             "is_on_court": True
                         }
             
-            # 2. Inject any unmatched bench players so they show up as (OUT)
             for t_abbr, un_dict in unmatched_injections.items():
                 for p_name, is_court in un_dict.items():
                     if p_name not in game_live_obj["players"][t_abbr]:
@@ -352,7 +347,7 @@ def main():
                             "fd_pts": 0.0, "dk_pts": 0.0,
                             "is_on_court": is_court
                         }
-
+                        
             # Grab Team Stats
             if 'boxscore' in box_data and 'teams' in box_data['boxscore']:
                 for team_box in box_data['boxscore']['teams']:
