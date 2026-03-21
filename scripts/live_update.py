@@ -11,10 +11,8 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(SCRIPT_DIR, '..', 'data')
 LIVE_DIR = os.path.join(DATA_DIR, 'LIVE')
 
-# Ensure the LIVE directory exists
 os.makedirs(LIVE_DIR, exist_ok=True)
 
-# Standard Team Abbreviations
 TEAM_MAP = {
     'GS': 'GSW', 'NO': 'NOP', 'NY': 'NYK', 'SA': 'SAS', 
     'PHO': 'PHX', 'UT': 'UTA', 'WSH': 'WAS', 'BKO': 'BKN', 'CHO': 'CHA'
@@ -40,29 +38,43 @@ def calculate_fpts(stats):
     try: to = float(stats.get('TO', 0))
     except: to = 0.0
     
-    try: 
-        threepm = float(stats.get('3PT', '0-0').split('-')[0])
-    except: 
-        threepm = 0.0
+    try: threepm = float(stats.get('3PT', '0-0').split('-')[0])
+    except: threepm = 0.0
 
-    # FanDuel Math
     fd_pts = pts + (reb * 1.2) + (ast * 1.5) + (blk * 3) + (stl * 3) - to
-    
-    # DraftKings Math
     dk_pts = pts + (threepm * 0.5) + (reb * 1.25) + (ast * 1.5) + (blk * 2) + (stl * 2) - (to * 0.5)
     
-    # DK Bonuses (Double-Double / Triple-Double)
-    doubles = 0
-    for stat in [pts, reb, ast, blk, stl]:
-        if stat >= 10:
-            doubles += 1
-            
-    if doubles >= 3:
-        dk_pts += 3.0 # Triple-Double Bonus
-    elif doubles == 2:
-        dk_pts += 1.5 # Double-Double Bonus
+    doubles = sum(1 for stat in [pts, reb, ast, blk, stl] if stat >= 10)
+    if doubles >= 3: dk_pts += 3.0 
+    elif doubles == 2: dk_pts += 1.5 
 
     return round(fd_pts, 2), round(dk_pts, 2)
+
+def fuzzy_match_player(short_name, roster_names):
+    """
+    Matches ESPN play-by-play names (e.g., 'J. Brunson') 
+    to full boxscore names (e.g., 'Jalen Brunson')
+    """
+    clean_short = short_name.replace('.', '').strip().lower()
+    parts = clean_short.split(' ')
+    if not parts: return None
+    
+    last_name = parts[-1]
+    first_initial = parts[0][0] if len(parts) > 1 else ""
+
+    for full_name in roster_names:
+        clean_full = full_name.replace('.', '').strip().lower()
+        full_parts = clean_full.split(' ')
+        
+        # Match last name and first initial
+        if full_parts[-1] == last_name and clean_full.startswith(first_initial):
+            return full_name
+            
+        # Fallback: exact substring match
+        if clean_short in clean_full:
+            return full_name
+            
+    return None
 
 def main():
     ny_tz = zoneinfo.ZoneInfo("America/New_York")
@@ -83,15 +95,7 @@ def main():
         print(f"Failed to fetch ESPN scoreboard: {e}")
         return
 
-    # 2. Load previous Live State (for Minute-Delta)
-    live_state = {}
-    if os.path.exists(live_file_path):
-        try:
-            with open(live_file_path, 'r') as f:
-                live_state = json.load(f)
-        except: pass
-
-    # 3. Load Base JSON (for Tip-Off Starters Seed)
+    # 2. Load Base JSON (for Tip-Off Starters Seed)
     base_json = {}
     if os.path.exists(base_file_path):
         try:
@@ -99,16 +103,14 @@ def main():
                 base_json = json.load(f)
         except: pass
         
-    # Helper to grab starting lineups from the base JSON
-    def get_base_starters(local_game_id):
+    def get_base_starters(local_game_id, team_side):
         starters = set()
         game_data = next((g for g in base_json.get('games', []) if g['id'] == local_game_id), None)
         if game_data:
-            for s in game_data.get('homeStarters', []):
+            key = 'homeStarters' if team_side == 'home' else 'awayStarters'
+            for s in game_data.get(key, []):
                 starters.add(s.get('athlete', {}).get('displayName', ''))
-            for s in game_data.get('awayStarters', []):
-                starters.add(s.get('athlete', {}).get('displayName', ''))
-        return starters
+        return list(starters)
 
     new_live_data = {}
     active_games_found = 0
@@ -116,7 +118,6 @@ def main():
     for event in scoreboard_data.get('events', []):
         status_state = event['status']['type']['state']
         
-        # Process games that are Live ('in') or just finished ('post')
         if status_state in ['in', 'post']:
             game_id = event['id']
             comp = event['competitions'][0]
@@ -127,16 +128,24 @@ def main():
             
             clock_text = event['status']['type']['shortDetail']
             
-            print(f"Processing Live Game: {away_abbr} @ {home_abbr} ({clock_text})")
+            print(f"Processing Live Game (Play-by-Play Engine): {away_abbr} @ {home_abbr} ({clock_text})")
             active_games_found += 1
             
-            # Fetch Game Summary (Boxscore)
+            # --- FETCH BOXSCORE ---
             summary_url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event={game_id}"
             try:
                 sum_res = requests.get(summary_url, timeout=10)
                 box_data = sum_res.json()
             except: continue
             
+            # --- FETCH PLAY-BY-PLAY ---
+            pbp_url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/nba/playbyplay?event={game_id}"
+            try:
+                pbp_res = requests.get(pbp_url, timeout=10)
+                pbp_data = pbp_res.json()
+            except: 
+                pbp_data = {}
+
             game_live_obj = {
                 "status": status_state,
                 "clock": clock_text,
@@ -144,10 +153,51 @@ def main():
                 "players": {home_abbr: {}, away_abbr: {}}
             }
             
-            base_starters = get_base_starters(local_game_id)
-            prev_game_state = live_state.get(local_game_id, {})
+            # =========================================================
+            # THE PLAY-BY-PLAY STATE MACHINE
+            # =========================================================
+            home_starters = get_base_starters(local_game_id, 'home')
+            away_starters = get_base_starters(local_game_id, 'away')
             
-            # Process Boxscore
+            on_court_tracker = {
+                home_abbr: set(home_starters),
+                away_abbr: set(away_starters)
+            }
+            
+            # Build full roster lists for fuzzy matching
+            rosters = {home_abbr: [], away_abbr: []}
+            if 'boxscore' in box_data and 'players' in box_data['boxscore']:
+                for team_box in box_data['boxscore']['players']:
+                    t_abbr = normalize_team(team_box['team']['abbreviation'])
+                    if t_abbr in rosters and team_box.get('statistics'):
+                        for ath in team_box['statistics'][0].get('athletes', []):
+                            rosters[t_abbr].append(ath['athlete']['displayName'])
+
+            plays = pbp_data.get('items', [])
+            # Sort plays chronologically
+            plays = sorted(plays, key=lambda x: float(x.get('sequenceNumber', 0)))
+            
+            for play in plays:
+                text = play.get('text', '')
+                if ' enters the game for ' in text:
+                    parts = text.split(' enters the game for ')
+                    if len(parts) == 2:
+                        p_in_short = parts[0].strip()
+                        p_out_short = parts[1].strip()
+                        
+                        # Determine which team made the sub by checking the roster
+                        for t_abbr in [home_abbr, away_abbr]:
+                            p_in_full = fuzzy_match_player(p_in_short, rosters[t_abbr])
+                            p_out_full = fuzzy_match_player(p_out_short, rosters[t_abbr])
+                            
+                            if p_in_full or p_out_full:
+                                if p_in_full: on_court_tracker[t_abbr].add(p_in_full)
+                                if p_out_full: on_court_tracker[t_abbr].discard(p_out_full)
+                                break # Found the team, move to next play
+
+            # =========================================================
+            # BUILD BOXSCORE JSON WITH NEW ON-COURT FLAGS
+            # =========================================================
             if 'boxscore' in box_data and 'players' in box_data['boxscore']:
                 for team_box in box_data['boxscore']['players']:
                     t_abbr = normalize_team(team_box['team']['abbreviation'])
@@ -156,8 +206,6 @@ def main():
                     stat_labels = team_box['statistics'][0]['names']
                     team_athletes = team_box['statistics'][0]['athletes']
                     
-                    # Minute-Delta Check: Did anyone on this team gain minutes?
-                    team_minutes_increased = False
                     for ath in team_athletes:
                         if not ath.get('stats'): continue
                         p_name = ath['athlete']['displayName']
@@ -165,37 +213,12 @@ def main():
                         
                         try: current_mins = int(mapped_stats.get('MIN', 0))
                         except: current_mins = 0
-                            
-                        prev_mins = prev_game_state.get("players", {}).get(t_abbr, {}).get(p_name, {}).get("MIN", 0)
-                        if current_mins > prev_mins:
-                            team_minutes_increased = True
-                            break
-                            
-                    # Build Player Objects
-                    for ath in team_athletes:
-                        if not ath.get('stats'): continue
-                        p_name = ath['athlete']['displayName']
-                        mapped_stats = dict(zip(stat_labels, ath['stats']))
                         
-                        try: current_mins = int(mapped_stats.get('MIN', 0))
-                        except: current_mins = 0
-                            
-                        prev_player_data = prev_game_state.get("players", {}).get(t_abbr, {}).get(p_name, {})
-                        prev_mins = prev_player_data.get("MIN", 0)
-                        was_on_court = prev_player_data.get("is_on_court", False)
+                        # Apply the parsed text logic!
+                        is_on_court = p_name in on_court_tracker[t_abbr]
                         
-                        is_on_court = False
-                        
-                        # LOGIC 1: Minute Delta Check
-                        if current_mins > prev_mins:
-                            is_on_court = True
-                        # LOGIC 2: Timeout/Halftime Freeze (No one gained minutes)
-                        elif not team_minutes_increased and current_mins > 0:
-                            is_on_court = was_on_court
-                        # LOGIC 3: Tip-Off Seed (Game just started, mins are 0)
-                        elif current_mins == 0 and not team_minutes_increased:
-                            if p_name in base_starters:
-                                is_on_court = True
+                        # Failsafe: If they are on the court tracker but have 0 boxscore minutes and aren't starters, 
+                        # they might be a ghost string. We leave them on court to let JS handle it.
                                 
                         fd_pts, dk_pts = calculate_fpts(mapped_stats)
                         
@@ -215,14 +238,13 @@ def main():
                             "is_on_court": is_on_court
                         }
                         
-            # Grab Team Stats (Shooting splits, totals, etc.)
+            # Grab Team Stats
             if 'boxscore' in box_data and 'teams' in box_data['boxscore']:
                 for team_box in box_data['boxscore']['teams']:
                     t_abbr = normalize_team(team_box['team']['abbreviation'])
                     if not team_box.get('statistics'): continue
                     
                     team_stats_dict = {}
-                    # Team stats are a flat list of dictionaries, not a matrix
                     for stat_obj in team_box['statistics']:
                         stat_key = stat_obj.get('abbreviation', stat_obj.get('name', ''))
                         stat_val = stat_obj.get('displayValue', '')
@@ -234,7 +256,6 @@ def main():
             new_live_data[local_game_id] = game_live_obj
 
     if active_games_found > 0:
-        # Save it purely to the LIVE folder
         with open(live_file_path, 'w') as f:
             json.dump(new_live_data, f, indent=2)
         print(f"\n✅ Successfully updated {live_file_path} with {active_games_found} active games.")
