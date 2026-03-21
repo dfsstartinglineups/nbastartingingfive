@@ -53,7 +53,7 @@ def calculate_fpts(stats):
 def fuzzy_match_player(pbp_name, roster_names):
     """
     Matches ESPN play-by-play names to full boxscore names.
-    Prioritizes exact matches based on ESPN's full-name play-by-play logs!
+    Prioritizes exact matches based on ESPN's full-name play-by-play logs.
     """
     clean_pbp = pbp_name.replace('.', '').strip().lower()
 
@@ -62,7 +62,7 @@ def fuzzy_match_player(pbp_name, roster_names):
         if clean_pbp == full_name.replace('.', '').strip().lower():
             return full_name
             
-    # 2. Fallback: Substring match (e.g., "Tim Hardaway" vs "Tim Hardaway Jr.")
+    # 2. Fallback: Substring match
     for full_name in roster_names:
         clean_full = full_name.replace('.', '').strip().lower()
         if clean_pbp in clean_full or clean_full in clean_pbp:
@@ -76,7 +76,14 @@ def fuzzy_match_player(pbp_name, roster_names):
         for full_name in roster_names:
             clean_full = full_name.replace('.', '').strip().lower()
             full_parts = clean_full.split(' ')
-            if full_parts[-1] == last_name and clean_full.startswith(first_initial):
+            
+            # Handle suffixes like Jr. so they don't break the match
+            if full_parts[-1] in ['jr', 'sr', 'ii', 'iii', 'iv'] and len(full_parts) > 1:
+                compare_last_name = full_parts[-2]
+            else:
+                compare_last_name = full_parts[-1]
+                
+            if compare_last_name == last_name and clean_full.startswith(first_initial):
                 return full_name
                 
     return None
@@ -159,15 +166,8 @@ def main():
             # =========================================================
             # THE PLAY-BY-PLAY STATE MACHINE
             # =========================================================
-            home_starters = get_base_starters(local_game_id, 'home')
-            away_starters = get_base_starters(local_game_id, 'away')
             
-            on_court_tracker = {
-                home_abbr: set(home_starters),
-                away_abbr: set(away_starters)
-            }
-            
-            # Build full roster lists for fuzzy matching
+            # 1. Build full roster lists from ESPN boxscore FIRST
             rosters = {home_abbr: [], away_abbr: []}
             if 'boxscore' in box_data and 'players' in box_data['boxscore']:
                 for team_box in box_data['boxscore']['players']:
@@ -175,6 +175,26 @@ def main():
                     if t_abbr in rosters and team_box.get('statistics'):
                         for ath in team_box['statistics'][0].get('athletes', []):
                             rosters[t_abbr].append(ath['athlete']['displayName'])
+            
+            # 2. Get base starters and STRICTLY map them to ESPN roster names
+            home_base = get_base_starters(local_game_id, 'home')
+            away_base = get_base_starters(local_game_id, 'away')
+            
+            home_starters = set()
+            for p in home_base:
+                matched = fuzzy_match_player(p, rosters[home_abbr])
+                home_starters.add(matched if matched else p)
+                
+            away_starters = set()
+            for p in away_base:
+                matched = fuzzy_match_player(p, rosters[away_abbr])
+                away_starters.add(matched if matched else p)
+            
+            # 3. Initialize the state machine
+            on_court_tracker = {
+                home_abbr: home_starters,
+                away_abbr: away_starters
+            }
 
             # Grab the plays directly from the summary box_data!
             plays = box_data.get('plays', [])
@@ -183,11 +203,10 @@ def main():
             plays = sorted(plays, key=lambda x: float(x.get('sequenceNumber', 0)))
             
             # =========================================================
-            # NEW: CAPTURE THE LAST 5 PLAYS FOR THE UI
+            # CAPTURE THE LAST 5 PLAYS FOR THE UI
             # =========================================================
             formatted_plays = []
             for p in plays[-5:]:
-                # Using 'or {}' prevents script crashes if the API sends 'null' for the clock
                 clock_data = p.get('clock') or {}
                 clock = clock_data.get('displayValue', '') if isinstance(clock_data, dict) else ''
                 
@@ -200,8 +219,10 @@ def main():
                 formatted_plays.append({"time": time_str, "text": text})
             
             game_live_obj["recent_plays"] = formatted_plays[::-1]
-            # =========================================================
             
+            # =========================================================
+            # PROCESS SUBSTITUTIONS
+            # =========================================================
             for play in plays:
                 text = play.get('text', '')
                 if ' enters the game for ' in text:
@@ -210,15 +231,22 @@ def main():
                         p_in_short = parts[0].strip()
                         p_out_short = parts[1].strip()
                         
-                        # Determine which team made the sub by checking the roster
+                        team_in, full_in = None, None
+                        team_out, full_out = None, None
+                        
+                        # Find the IN player explicitly
                         for t_abbr in [home_abbr, away_abbr]:
-                            p_in_full = fuzzy_match_player(p_in_short, rosters[t_abbr])
-                            p_out_full = fuzzy_match_player(p_out_short, rosters[t_abbr])
-                            
-                            if p_in_full or p_out_full:
-                                if p_in_full: on_court_tracker[t_abbr].add(p_in_full)
-                                if p_out_full: on_court_tracker[t_abbr].discard(p_out_full)
-                                break # Found the team, move to next play
+                            if not team_in:
+                                m_in = fuzzy_match_player(p_in_short, rosters[t_abbr])
+                                if m_in: team_in, full_in = t_abbr, m_in
+                                
+                            # Find the OUT player explicitly
+                            if not team_out:
+                                m_out = fuzzy_match_player(p_out_short, rosters[t_abbr])
+                                if m_out: team_out, full_out = t_abbr, m_out
+                                
+                        if team_in and full_in: on_court_tracker[team_in].add(full_in)
+                        if team_out and full_out: on_court_tracker[team_out].discard(full_out)
 
             # =========================================================
             # BUILD BOXSCORE JSON WITH NEW ON-COURT FLAGS
