@@ -40,7 +40,7 @@ function processQueue() {
             if (!window.RENDERED_PBP[localId]) window.RENDERED_PBP[localId] = [];
             window.RENDERED_PBP[localId].unshift(playToInject);
 
-            // --- NEW: AUTO-SWITCH QUARTER LOGIC ---
+            // --- AUTO-SWITCH QUARTER LOGIC ---
             if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
             let state = window.CARD_STATE[localId];
             let playPeriod = Number(playToInject.period);
@@ -74,7 +74,8 @@ function processQueue() {
         }
     }
 
-    const randomSeconds = Math.floor(Math.random() * 10) + 1;
+    // NEW: Sped up the random injection delay to 1-5 seconds
+    const randomSeconds = Math.floor(Math.random() * 5) + 1;
     setTimeout(processQueue, randomSeconds * 1000);
 }
 processQueue();
