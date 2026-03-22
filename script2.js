@@ -325,9 +325,13 @@ function injectPlayIntoDOM(localId, play) {
         el.style.fontSize = '0.65rem';
         el.style.borderBottom = '1px solid #f1f3f5';
         
+        // Bold the text if it's a scoring play (" makes ")
+        const isMake = play.text.includes(' makes ');
+        const textWeight = isMake ? 'fw-bold' : '';
+        
         el.innerHTML = `
             <div class="fw-bold text-secondary me-2" style="white-space: nowrap; width: 42px; text-align: right; padding-top: 1px;">${play.time}</div>
-            <div class="text-dark" style="flex: 1; line-height: 1.3;" title="${play.text}">${play.text}</div>
+            <div class="text-dark ${textWeight}" style="flex: 1; line-height: 1.3;" title="${play.text}">${play.text}</div>
         `;
 
         listContainer.prepend(el);
@@ -384,10 +388,14 @@ function getRecentPlaysHtml(localId) {
 
     let playsHtml = filteredPlays.map((play, i) => {
         const bgClass = i % 2 === 0 ? 'bg-light' : 'bg-white';
+        // Bold the text if it's a scoring play (" makes ")
+        const isMake = play.text.includes(' makes ');
+        const textWeight = isMake ? 'fw-bold' : '';
+        
         return `
         <div class="d-flex align-items-start ${bgClass} px-2 py-1" style="font-size: 0.65rem; border-bottom: 1px solid #f1f3f5;">
             <div class="fw-bold text-secondary me-2" style="white-space: nowrap; width: 42px; text-align: right; padding-top: 1px;">${play.time}</div>
-            <div class="text-dark" style="flex: 1; line-height: 1.3;" title="${play.text}">${play.text}</div>
+            <div class="text-dark ${textWeight}" style="flex: 1; line-height: 1.3;" title="${play.text}">${play.text}</div>
         </div>`;
     }).join('');
 
@@ -463,8 +471,8 @@ function createGameCard(data) {
     const awayColor = away.team.color ? '#' + away.team.color : '#cccccc';
     const homeColor = home.team.color ? '#' + home.team.color : '#cccccc';
 
-    let awayStatsHtml = `<div style="width: 16%;"></div>`;
-    let homeStatsHtml = `<div style="width: 16%;"></div>`;
+    let awayStatsHtml = `<div style="width: 14%;"></div>`;
+    let homeStatsHtml = `<div style="width: 14%;"></div>`;
 
     if (isLiveDataAvailable && liveMatch.team_stats) {
         const aStats = liveMatch.team_stats[awayStd] || {};
@@ -483,7 +491,7 @@ function createGameCard(data) {
             </div>`;
 
         awayStatsHtml = `
-            <div style="width: 16%; font-size: 0.65rem; line-height: 1.1;" class="fw-bold ms-1">
+            <div style="width: 14%; font-size: 0.65rem; line-height: 1.1;" class="fw-bold ms-1">
                 ${formatStatLeft('FG%', aStats['FG%'])}
                 ${formatStatLeft('3P%', aStats['3P%'])}
                 ${formatStatLeft('REB', aStats['REB'])}
@@ -492,7 +500,7 @@ function createGameCard(data) {
             </div>`;
             
         homeStatsHtml = `
-            <div style="width: 16%; font-size: 0.65rem; line-height: 1.1;" class="fw-bold me-1">
+            <div style="width: 14%; font-size: 0.65rem; line-height: 1.1;" class="fw-bold me-1">
                 ${formatStatRight('FG%', hStats['FG%'])}
                 ${formatStatRight('3P%', hStats['3P%'])}
                 ${formatStatRight('REB', hStats['REB'])}
@@ -504,14 +512,14 @@ function createGameCard(data) {
     const scoreboardHeaderHtml = `
         <div class="p-2 d-flex align-items-center justify-content-between text-center" style="background: linear-gradient(90deg, ${awayColor}26 0%, ${awayColor}26 50%, ${homeColor}26 50%, ${homeColor}26 100%); border-bottom: 1px solid #dee2e6;">
             ${awayStatsHtml}
-            <div style="width: 18%;">
+            <div style="width: 20%;">
                 <img src="${away.team.logo}" style="width: 45px;">
                 <div class="fw-bold mt-1 text-truncate text-dark" style="font-size: 0.7rem;">${away.team.shortDisplayName}</div>
             </div>
             <div style="width: 32%;">
                 ${scoreOrOddsHtml}
             </div>
-            <div style="width: 18%;">
+            <div style="width: 20%;">
                 <img src="${home.team.logo}" style="width: 45px;">
                 <div class="fw-bold mt-1 text-truncate text-dark" style="font-size: 0.7rem;">${home.team.shortDisplayName}</div>
             </div>
