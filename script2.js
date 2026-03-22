@@ -12,6 +12,7 @@ window.CARD_STATE = {};
 window.RENDERED_PBP = {}; // The active, currently visible play-by-play log
 window.PBP_QUEUE = {};    // The queue of "new" plays waiting to be animated in
 window.LAST_SEQ_SEEN = {}; // Tracks the highest sequence number the UI has processed
+window.PENDING_LIVE_DATA = {}; // Delayed holding pen for live scores/stats to sync with animations
 let livePollInterval;
 
 // Global CSS injection for pulse and the new sliding animation
@@ -24,7 +25,7 @@ style.innerHTML = `
         10% { transform: translateY(0); opacity: 1; }
         100% { background-color: transparent; }
     }
-    .new-play-anim { animation: slideInHighlight 3s ease-out; }
+    .new-play-anim { animation: slideInHighlight 3.5s ease-out; }
 `;
 document.head.appendChild(style);
 
@@ -40,6 +41,17 @@ function processQueue() {
             window.RENDERED_PBP[localId].unshift(playToInject);
 
             injectPlayIntoDOM(localId, playToInject);
+
+            // NEW: If the queue is now empty, wait for the animation to finish, then update the score/stats!
+            if (window.PBP_QUEUE[localId].length === 0 && window.PENDING_LIVE_DATA[localId]) {
+                setTimeout(() => {
+                    if (window.PENDING_LIVE_DATA[localId]) {
+                        LIVE_GAMES_DATA[localId] = window.PENDING_LIVE_DATA[localId];
+                        delete window.PENDING_LIVE_DATA[localId];
+                        renderGames(); // Update the scoreboard!
+                    }
+                }, 3500); // 3.5 seconds allows the slideInHighlight animation to finish gracefully
+            }
         }
     }
 
@@ -76,11 +88,15 @@ async function pollLiveData(dateToFetch) {
     try {
         // 1. Fetch the LIVE file for PBP, scores, and live stats
         const liveResponse = await fetch(`data/LIVE/live_${dateToFetch}.json?v=` + new Date().getTime(), { cache: 'no-store' });
+        let needsGlobalRender = false;
+        
         if (liveResponse.ok) {
             const incomingData = await liveResponse.json();
             
             for (let localId in incomingData) {
                 let game = incomingData[localId];
+                let hasNewPlays = false;
+
                 if (game.play_by_play) {
                     let fullLog = game.play_by_play.full_log || [];
                     
@@ -91,14 +107,24 @@ async function pollLiveData(dateToFetch) {
                         let unseenPlays = fullLog.filter(p => p.seq > window.LAST_SEQ_SEEN[localId]);
                         
                         if (unseenPlays.length > 0) {
+                            hasNewPlays = true;
                             if (!window.PBP_QUEUE[localId]) window.PBP_QUEUE[localId] = [];
                             window.PBP_QUEUE[localId].push(...[...unseenPlays].reverse());
                             window.LAST_SEQ_SEEN[localId] = Math.max(...unseenPlays.map(p => p.seq));
                         }
                     }
                 }
+
+                // NEW: Decide whether to update the scoreboard instantly, or hold it back
+                if (hasNewPlays || (window.PBP_QUEUE[localId] && window.PBP_QUEUE[localId].length > 0)) {
+                    // We have plays animating. Hold the score/stats hostage in the pending object.
+                    window.PENDING_LIVE_DATA[localId] = game;
+                } else {
+                    // No new plays in the queue. Update instantly.
+                    LIVE_GAMES_DATA[localId] = game;
+                    needsGlobalRender = true;
+                }
             }
-            LIVE_GAMES_DATA = incomingData;
         }
 
         // 2. Fetch the DAILY file to check for lineup confirmations & late scratches
@@ -113,7 +139,10 @@ async function pollLiveData(dateToFetch) {
                     // Check Away Team Lineup Status
                     if (localGameMatch.rosters[awayStd] && localGameMatch.rosters[awayStd].players) {
                         const isVerified = localGameMatch.rosters[awayStd].players.every(p => p.verified === true);
-                        gameObj.awayIsProjected = !isVerified;
+                        if (gameObj.awayIsProjected !== !isVerified) {
+                            gameObj.awayIsProjected = !isVerified;
+                            needsGlobalRender = true;
+                        }
                         // Overwrite the players so late scratches instantly update on the UI
                         gameObj.awayStarters = localGameMatch.rosters[awayStd].players.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
                     }
@@ -121,7 +150,10 @@ async function pollLiveData(dateToFetch) {
                     // Check Home Team Lineup Status
                     if (localGameMatch.rosters[homeStd] && localGameMatch.rosters[homeStd].players) {
                         const isVerified = localGameMatch.rosters[homeStd].players.every(p => p.verified === true);
-                        gameObj.homeIsProjected = !isVerified;
+                        if (gameObj.homeIsProjected !== !isVerified) {
+                            gameObj.homeIsProjected = !isVerified;
+                            needsGlobalRender = true;
+                        }
                         // Overwrite the players so late scratches instantly update on the UI
                         gameObj.homeStarters = localGameMatch.rosters[homeStd].players.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
                     }
@@ -129,7 +161,9 @@ async function pollLiveData(dateToFetch) {
             });
         }
 
-        renderGames(); 
+        if (needsGlobalRender) {
+            renderGames(); 
+        }
     } catch (e) { 
         console.error("Polling error:", e);
     }
@@ -158,7 +192,7 @@ window.switchPbpTab = function(localId, tab) {
     renderGames(); 
 };
 
-// NEW: Toggle for the Play-By-Play section
+// Toggle for the Play-By-Play section
 window.togglePbpState = function(localId) {
     if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
     window.CARD_STATE[localId].pbpOpen = !window.CARD_STATE[localId].pbpOpen;
@@ -359,7 +393,8 @@ function injectPlayIntoDOM(localId, play) {
 
     if (activeTab === 'All' || activeTab === play.period.toString()) {
         const el = document.createElement('div');
-        el.className = `d-flex align-items-start px-2 py-1`;
+        // Added the animation class here so it slides in with a green highlight!
+        el.className = `d-flex align-items-start px-2 py-1 new-play-anim`;
         el.style.fontSize = '0.65rem';
         el.style.borderBottom = '1px solid #f1f3f5';
         
@@ -367,6 +402,7 @@ function injectPlayIntoDOM(localId, play) {
         const isMake = play.text.includes(' makes ');
         const textWeight = isMake ? 'fw-bold' : '';
         
+        // Use 50px width for play spacing
         el.innerHTML = `
             <div class="fw-bold text-secondary me-2" style="white-space: nowrap; width: 50px; text-align: right; padding-top: 1px;">${play.time}</div>
             <div class="text-dark ${textWeight}" style="flex: 1; line-height: 1.3;" title="${play.text}">${play.text}</div>
@@ -431,6 +467,7 @@ function getRecentPlaysHtml(localId) {
         const isMake = play.text.includes(' makes ');
         const textWeight = isMake ? 'fw-bold' : '';
         
+        // Used 50px width here for play spacing
         return `
         <div class="d-flex align-items-start ${bgClass} px-2 py-1" style="font-size: 0.65rem; border-bottom: 1px solid #f1f3f5;">
             <div class="fw-bold text-secondary me-2" style="white-space: nowrap; width: 50px; text-align: right; padding-top: 1px;">${play.time}</div>
