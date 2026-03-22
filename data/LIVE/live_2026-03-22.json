@@ -3,7 +3,7 @@
     "status": "in",
     "clock": "5:08 - 1st",
     "away_score": "31",
-    "home_score": "31",
+    "home_score": "33",
     "team_stats": {
       "POR": {
         "fieldGoalsMade-fieldGoalsAttempted": "12-17",
@@ -41,7 +41,7 @@
         "REB": "4",
         "OR": "1",
         "DR": "3",
-        "AST": "7",
+        "AST": "6",
         "STL": "0",
         "BLK": "1",
         "TO": "1",
@@ -124,16 +124,46 @@
           "MIN": 7,
           "PTS": "2",
           "REB": "0",
-          "AST": "1",
+          "AST": "0",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
           "FG": "1-1",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 3.5,
-          "dk_pts": 3.5,
+          "fd_pts": 2.0,
+          "dk_pts": 2.0,
+          "is_on_court": false
+        },
+        "Tim Hardaway Jr.": {
+          "MIN": 0,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
           "is_on_court": true
+        },
+        "Peyton Watson": {
+          "MIN": 0,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
+          "is_on_court": false
         }
       },
       "POR": {
@@ -262,6 +292,18 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 91.0,
+          "period": 1,
+          "time": "Q1 5:08",
+          "text": "enters the game for Aaron Gordon"
+        },
+        {
+          "seq": 90.0,
+          "period": 1,
+          "time": "Q1 5:08",
+          "text": "Tim Hardaway Jr. enters the game for Christian Braun"
+        },
+        {
           "seq": 89.0,
           "period": 1,
           "time": "Q1 5:08",
@@ -313,7 +355,7 @@
           "seq": 77.0,
           "period": 1,
           "time": "Q1 5:55",
-          "text": "Deni Avdija makes 12-foot jumper"
+          "text": "Deni Avdija makes 12-foot pullup jump shot"
         },
         {
           "seq": 75.0,
@@ -433,7 +475,7 @@
           "seq": 46.0,
           "period": 1,
           "time": "Q1 8:32",
-          "text": "Cameron Johnson makes 30-foot three point jumper (Christian Braun assists)"
+          "text": "Cameron Johnson makes 30-foot three point jumper"
         },
         {
           "seq": 44.0,
@@ -592,8 +634,21 @@
           "text": "Donovan Clingan vs. Nikola Jokic (Christian Braun gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 89.0
+      "new_plays": [
+        {
+          "seq": 91.0,
+          "period": 1,
+          "time": "Q1 5:08",
+          "text": "enters the game for Aaron Gordon"
+        },
+        {
+          "seq": 90.0,
+          "period": 1,
+          "time": "Q1 5:08",
+          "text": "Tim Hardaway Jr. enters the game for Christian Braun"
+        }
+      ],
+      "last_seq": 91.0
     }
   }
 }
