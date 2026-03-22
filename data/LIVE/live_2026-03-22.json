@@ -1,13 +1,13 @@
 {
   "POR-DEN-2026-03-22": {
     "status": "in",
-    "clock": "5:49 - 3rd",
+    "clock": "5:22 - 3rd",
     "away_score": "80",
-    "home_score": "92",
+    "home_score": "94",
     "team_stats": {
       "POR": {
-        "fieldGoalsMade-fieldGoalsAttempted": "32-68",
-        "FG%": "47",
+        "fieldGoalsMade-fieldGoalsAttempted": "32-69",
+        "FG%": "46",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "12-34",
         "3P%": "35",
         "freeThrowsMade-freeThrowsAttempted": "4-8",
@@ -17,7 +17,7 @@
         "DR": "17",
         "AST": "23",
         "STL": "4",
-        "BLK": "1",
+        "BLK": "0",
         "TO": "5",
         "TTO": "1",
         "ToTO": "6",
@@ -38,9 +38,9 @@
         "3P%": "45",
         "freeThrowsMade-freeThrowsAttempted": "10-11",
         "FT%": "91",
-        "REB": "25",
+        "REB": "26",
         "OR": "4",
-        "DR": "21",
+        "DR": "22",
         "AST": "23",
         "STL": "3",
         "BLK": "1",
@@ -123,7 +123,7 @@
         "Christian Braun": {
           "MIN": 21,
           "PTS": "9",
-          "REB": "4",
+          "REB": "5",
           "AST": "1",
           "STL": "0",
           "BLK": "0",
@@ -131,8 +131,8 @@
           "FG": "3-5",
           "3PT": "1-3",
           "FT": "2-2",
-          "fd_pts": 15.3,
-          "dk_pts": 16.0,
+          "fd_pts": 16.5,
+          "dk_pts": 17.25,
           "is_on_court": true
         },
         "Spencer Jones": {
@@ -240,7 +240,7 @@
           "FT": "0-0",
           "fd_pts": 31.3,
           "dk_pts": 33.75,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Jrue Holiday": {
           "MIN": 21,
@@ -255,7 +255,7 @@
           "FT": "1-1",
           "fd_pts": 11.7,
           "dk_pts": 12.25,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Sidy Cissoko": {
           "MIN": 13,
@@ -300,7 +300,7 @@
           "FT": "0-1",
           "fd_pts": 15.6,
           "dk_pts": 15.75,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Matisse Thybulle": {
           "MIN": 15,
@@ -325,12 +325,12 @@
           "STL": "0",
           "BLK": "0",
           "TO": "1",
-          "FG": "4-8",
+          "FG": "4-9",
           "3PT": "1-4",
           "FT": "0-0",
           "fd_pts": 11.9,
           "dk_pts": 13.0,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Blake Wesley": {
           "MIN": 4,
@@ -351,6 +351,30 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 429.0,
+          "period": 3,
+          "time": "Q3 5:27",
+          "text": "Christian Braun defensive rebound"
+        },
+        {
+          "seq": 428.0,
+          "period": 3,
+          "time": "Q3 5:32",
+          "text": "Scoot Henderson misses 13-foot jumper"
+        },
+        {
+          "seq": 425.0,
+          "period": 3,
+          "time": "Q3 5:49",
+          "text": "Scoot Henderson enters the game for Donovan Clingan"
+        },
+        {
+          "seq": 424.0,
+          "period": 3,
+          "time": "Q3 5:49",
+          "text": "Robert Williams III enters the game for Jrue Holiday"
+        },
         {
           "seq": 423.0,
           "period": 3,
@@ -433,7 +457,7 @@
           "seq": 405.0,
           "period": 3,
           "time": "Q3 7:00",
-          "text": "Jrue Holiday misses 22-foot jumper"
+          "text": "Jrue Holiday misses 22-foot pullup jump shot"
         },
         {
           "seq": 404.0,
@@ -445,7 +469,7 @@
           "seq": 402.0,
           "period": 3,
           "time": "Q3 7:14",
-          "text": "Toumani Camara blocks Jamal Murray 's 4-foot layup"
+          "text": "Jamal Murray misses layup"
         },
         {
           "seq": 401.0,
@@ -529,7 +553,7 @@
           "seq": 385.0,
           "period": 3,
           "time": "Q3 8:03",
-          "text": "Deni Avdija offensive rebound"
+          "text": "Toumani Camara offensive rebound"
         },
         {
           "seq": 384.0,
@@ -2104,29 +2128,54 @@
           "text": "Donovan Clingan vs. Nikola Jokic (Christian Braun gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 423.0
+      "new_plays": [
+        {
+          "seq": 429.0,
+          "period": 3,
+          "time": "Q3 5:27",
+          "text": "Christian Braun defensive rebound"
+        },
+        {
+          "seq": 428.0,
+          "period": 3,
+          "time": "Q3 5:32",
+          "text": "Scoot Henderson misses 13-foot jumper"
+        },
+        {
+          "seq": 425.0,
+          "period": 3,
+          "time": "Q3 5:49",
+          "text": "Scoot Henderson enters the game for Donovan Clingan"
+        },
+        {
+          "seq": 424.0,
+          "period": 3,
+          "time": "Q3 5:49",
+          "text": "Robert Williams III enters the game for Jrue Holiday"
+        }
+      ],
+      "last_seq": 429.0
     }
   },
   "BKN-SAC-2026-03-22": {
     "status": "in",
-    "clock": "31.8 - 1st",
-    "away_score": "32",
-    "home_score": "27",
+    "clock": "0.0 - 1st",
+    "away_score": "34",
+    "home_score": "30",
     "team_stats": {
       "BKN": {
-        "fieldGoalsMade-fieldGoalsAttempted": "10-20",
-        "FG%": "50",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "5-9",
-        "3P%": "56",
+        "fieldGoalsMade-fieldGoalsAttempted": "12-22",
+        "FG%": "55",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "6-10",
+        "3P%": "60",
         "freeThrowsMade-freeThrowsAttempted": "4-4",
         "FT%": "100",
         "REB": "6",
         "OR": "1",
         "DR": "5",
-        "AST": "8",
+        "AST": "9",
         "STL": "3",
-        "BLK": "1",
+        "BLK": "2",
         "TO": "0",
         "TTO": "0",
         "ToTO": "0",
@@ -2134,23 +2183,23 @@
         "FLAG": "0",
         "Points Conceded Off Turnovers": "0",
         "FBPs": "6",
-        "PIP": "10",
+        "PIP": "12",
         "PF": "3",
         "LL": "6",
         "LC": "7",
-        "LPCT": "39"
+        "LPCT": "42"
       },
       "SAC": {
-        "fieldGoalsMade-fieldGoalsAttempted": "10-19",
-        "FG%": "53",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "4-7",
-        "3P%": "57",
+        "fieldGoalsMade-fieldGoalsAttempted": "11-21",
+        "FG%": "52",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "5-8",
+        "3P%": "63",
         "freeThrowsMade-freeThrowsAttempted": "3-4",
         "FT%": "75",
-        "REB": "13",
-        "OR": "4",
+        "REB": "14",
+        "OR": "5",
         "DR": "9",
-        "AST": "9",
+        "AST": "10",
         "STL": "0",
         "BLK": "0",
         "TO": "5",
@@ -2164,7 +2213,7 @@
         "PF": "2",
         "LL": "4",
         "LC": "7",
-        "LPCT": "41"
+        "LPCT": "39"
       }
     },
     "players": {
@@ -2276,32 +2325,32 @@
         },
         "Malik Monk": {
           "MIN": 4,
-          "PTS": "9",
+          "PTS": "12",
           "REB": "0",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "3-5",
-          "3PT": "3-4",
+          "FG": "4-6",
+          "3PT": "4-5",
           "FT": "0-0",
-          "fd_pts": 9.0,
-          "dk_pts": 10.5,
+          "fd_pts": 12.0,
+          "dk_pts": 14.0,
           "is_on_court": true
         },
         "Devin Carter": {
           "MIN": 4,
           "PTS": "2",
-          "REB": "2",
-          "AST": "0",
+          "REB": "3",
+          "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "1",
           "FG": "0-2",
           "3PT": "0-1",
           "FT": "2-2",
-          "fd_pts": 3.4,
-          "dk_pts": 4.0,
+          "fd_pts": 6.1,
+          "dk_pts": 6.75,
           "is_on_court": true
         },
         "Patrick Baldwin Jr.": {
@@ -2312,7 +2361,7 @@
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "0-0",
+          "FG": "0-1",
           "3PT": "0-0",
           "FT": "0-0",
           "fd_pts": 1.5,
@@ -2400,15 +2449,15 @@
           "MIN": 4,
           "PTS": "0",
           "REB": "1",
-          "AST": "0",
+          "AST": "1",
           "STL": "0",
           "BLK": "1",
           "TO": "0",
           "FG": "0-0",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 4.2,
-          "dk_pts": 3.25,
+          "fd_pts": 5.7,
+          "dk_pts": 4.75,
           "is_on_court": true
         },
         "Chaney Johnson": {
@@ -2417,32 +2466,32 @@
           "REB": "1",
           "AST": "0",
           "STL": "1",
-          "BLK": "0",
+          "BLK": "1",
           "TO": "0",
           "FG": "0-0",
           "3PT": "0-0",
           "FT": "2-2",
-          "fd_pts": 6.2,
-          "dk_pts": 5.25,
+          "fd_pts": 9.2,
+          "dk_pts": 7.25,
           "is_on_court": true
         },
         "Malachi Smith": {
-          "MIN": 5,
-          "PTS": "3",
+          "MIN": 6,
+          "PTS": "6",
           "REB": "0",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "1-1",
-          "3PT": "1-1",
+          "FG": "2-2",
+          "3PT": "2-2",
           "FT": "0-0",
-          "fd_pts": 3.0,
-          "dk_pts": 3.5,
+          "fd_pts": 6.0,
+          "dk_pts": 7.0,
           "is_on_court": true
         },
         "Tyson Etienne": {
-          "MIN": 5,
+          "MIN": 6,
           "PTS": "6",
           "REB": "0",
           "AST": "0",
@@ -2458,23 +2507,53 @@
         },
         "Ben Saraf": {
           "MIN": 6,
-          "PTS": "4",
+          "PTS": "6",
           "REB": "1",
           "AST": "3",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "1-4",
+          "FG": "2-5",
           "3PT": "0-2",
           "FT": "2-2",
-          "fd_pts": 9.7,
-          "dk_pts": 9.75,
+          "fd_pts": 11.7,
+          "dk_pts": 11.75,
           "is_on_court": true
         }
       }
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 143.0,
+          "period": 1,
+          "time": "Q1 0.0",
+          "text": "Ben Saraf makes 6-foot shot"
+        },
+        {
+          "seq": 141.0,
+          "period": 1,
+          "time": "Q1 3.0",
+          "text": "Malik Monk makes 25-foot three point jumper (Devin Carter assists)"
+        },
+        {
+          "seq": 140.0,
+          "period": 1,
+          "time": "Q1 3.6",
+          "text": "Devin Carter offensive rebound"
+        },
+        {
+          "seq": 138.0,
+          "period": 1,
+          "time": "Q1 10.3",
+          "text": "Chaney Johnson blocks Patrick Baldwin Jr. 's 7-foot layup"
+        },
+        {
+          "seq": 136.0,
+          "period": 1,
+          "time": "Q1 31.8",
+          "text": "Malachi Smith makes 24-foot three point jumper (E.J. Liddell assists)"
+        },
         {
           "seq": 135.0,
           "period": 1,
@@ -3018,61 +3097,37 @@
       ],
       "new_plays": [
         {
-          "seq": 135.0,
+          "seq": 143.0,
           "period": 1,
-          "time": "Q1 35.8",
-          "text": "Ben Saraf defensive rebound"
+          "time": "Q1 0.0",
+          "text": "Ben Saraf makes 6-foot shot"
         },
         {
-          "seq": 134.0,
+          "seq": 141.0,
           "period": 1,
-          "time": "Q1 38.4",
-          "text": "Devin Carter misses three point shot"
+          "time": "Q1 3.0",
+          "text": "Malik Monk makes 25-foot three point jumper (Devin Carter assists)"
         },
         {
-          "seq": 133.0,
+          "seq": 140.0,
           "period": 1,
-          "time": "Q1 47.7",
-          "text": "Dylan Cardwell offensive rebound"
+          "time": "Q1 3.6",
+          "text": "Devin Carter offensive rebound"
         },
         {
-          "seq": 132.0,
+          "seq": 138.0,
           "period": 1,
-          "time": "Q1 49.8",
-          "text": "Malik Monk misses 26-foot three point jumper"
+          "time": "Q1 10.3",
+          "text": "Chaney Johnson blocks Patrick Baldwin Jr. 's 7-foot layup"
         },
         {
-          "seq": 131.0,
+          "seq": 136.0,
           "period": 1,
-          "time": "Q1 55.4",
-          "text": "Devin Carter defensive rebound"
-        },
-        {
-          "seq": 129.0,
-          "period": 1,
-          "time": "Q1 55.4",
-          "text": "Ben Saraf misses 28-foot three point jumper"
-        },
-        {
-          "seq": 127.0,
-          "period": 1,
-          "time": "Q1 1:05",
-          "text": "Malik Monk makes 24-foot three point jumper (Doug McDermott assists)"
-        },
-        {
-          "seq": 126.0,
-          "period": 1,
-          "time": "Q1 1:09",
-          "text": "Doug McDermott offensive rebound"
-        },
-        {
-          "seq": 125.0,
-          "period": 1,
-          "time": "Q1 1:11",
-          "text": "E.J. Liddell blocks Dylan Cardwell 's 6-foot dunk"
+          "time": "Q1 31.8",
+          "text": "Malachi Smith makes 24-foot three point jumper (E.J. Liddell assists)"
         }
       ],
-      "last_seq": 135.0
+      "last_seq": 143.0
     }
   }
 }
