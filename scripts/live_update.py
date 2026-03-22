@@ -65,7 +65,8 @@ def resolve_espn_name(pbp_name, roster_names):
     parts = clean_pbp.split(' ')
     if len(parts) > 1:
         pbp_first = parts[0]
-        pbp_last = parts[-1]
+        # Safely ignore suffixes in the PBP name so it doesn't think the last name is "III"
+        pbp_last = parts[-2] if parts[-1] in ['jr', 'sr', 'ii', 'iii', 'iv'] and len(parts) > 2 else parts[-1]
         
         # 2. Match First Initial + Exact Last Name (Must be unique!)
         matching_initials = []
