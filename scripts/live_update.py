@@ -50,45 +50,49 @@ def calculate_fpts(stats):
 
     return round(fd_pts, 2), round(dk_pts, 2)
 
-def match_player_name(pbp_name, roster_names):
+def resolve_espn_name(pbp_name, roster_names):
     """
-    Matches full ESPN play-by-play names to boxscore names.
-    Uses strict rules to prevent mixing up same-last-name players.
+    Strictly maps ESPN's Play-by-Play short names (e.g., 'I. Joe') 
+    to ESPN's Boxscore full names (e.g., 'Isaiah Joe').
     """
     clean_pbp = pbp_name.replace('.', '').strip().lower()
 
-    # 1. Exact match (Catches Jalen vs Jaylin perfectly)
+    # 1. Exact match fallback
     for full_name in roster_names:
         if clean_pbp == full_name.replace('.', '').strip().lower():
             return full_name
             
-    # 2. Substring match (Must be unique - catches missing Jr./Sr.)
-    substring_matches = []
-    for full_name in roster_names:
-        clean_full = full_name.replace('.', '').strip().lower()
-        if clean_pbp in clean_full or clean_full in clean_pbp:
-            substring_matches.append(full_name)
-    if len(substring_matches) == 1:
-        return substring_matches[0]
-            
-    # 3. Unique Last Name Match (Catches nicknames like "Bub Carrington" -> "Carlton Carrington")
-    pbp_parts = clean_pbp.split(' ')
-    if len(pbp_parts) > 1:
-        # Ignore suffixes in PBP name
-        pbp_last = pbp_parts[-2] if pbp_parts[-1] in ['jr', 'sr', 'ii', 'iii', 'iv'] and len(pbp_parts) > 2 else pbp_parts[-1]
+    parts = clean_pbp.split(' ')
+    if len(parts) > 1:
+        pbp_first = parts[0]
+        pbp_last = parts[-1]
         
+        # 2. Match First Initial + Exact Last Name (Must be unique!)
+        matching_initials = []
+        for full_name in roster_names:
+            clean_full = full_name.replace('.', '').strip().lower()
+            full_parts = clean_full.split(' ')
+            
+            # Ignore suffixes for comparison
+            compare_last = full_parts[-2] if full_parts[-1] in ['jr', 'sr', 'ii', 'iii', 'iv'] and len(full_parts) > 1 else full_parts[-1]
+            
+            if compare_last == pbp_last and clean_full.startswith(pbp_first[0]):
+                matching_initials.append(full_name)
+                
+        if len(matching_initials) == 1:
+            return matching_initials[0]
+            
+        # 3. Match Exact Last Name Only (Must be unique!)
         matching_last_names = []
         for full_name in roster_names:
             clean_full = full_name.replace('.', '').strip().lower()
             full_parts = clean_full.split(' ')
             
-            # Ignore suffixes in Roster name
             compare_last = full_parts[-2] if full_parts[-1] in ['jr', 'sr', 'ii', 'iii', 'iv'] and len(full_parts) > 1 else full_parts[-1]
             
             if compare_last == pbp_last:
                 matching_last_names.append(full_name)
                 
-        # ONLY return if there is exactly 1 player with this last name
         if len(matching_last_names) == 1:
             return matching_last_names[0]
 
@@ -226,10 +230,10 @@ def main():
                         
                         for t_abbr in [home_abbr, away_abbr]:
                             if not team_in:
-                                m_in = match_player_name(p_in_raw, rosters[t_abbr])
+                                m_in = resolve_espn_name(p_in_raw, rosters[t_abbr])
                                 if m_in: team_in, full_in = t_abbr, m_in
                             if not team_out:
-                                m_out = match_player_name(p_out_raw, rosters[t_abbr])
+                                m_out = resolve_espn_name(p_out_raw, rosters[t_abbr])
                                 if m_out: team_out, full_out = t_abbr, m_out
                                 
                         target_team = team_in or team_out
@@ -260,6 +264,47 @@ def main():
                                         
                             # Always add the IN player
                             on_court_tracker[target_team].add(in_val)
+
+            # =========================================================
+            # 🩹 THE BAND-AID PATCH: INJECT RECENTLY ACTIVE PLAYERS
+            # =========================================================
+            for t_abbr in [home_abbr, away_abbr]:
+                if len(on_court_tracker[t_abbr]) < 5:
+                    for play in reversed(plays):
+                        text = play.get('text', '')
+                        # Stop if we hit a sub event (we only care about the clean period AFTER the last sub)
+                        if ' enters the game for ' in text:
+                            break 
+                        
+                        text_lower = text.lower()
+                        for roster_player in rosters[t_abbr]:
+                            if roster_player in on_court_tracker[t_abbr]:
+                                continue # Already tracked
+                                
+                            rp_lower = roster_player.lower()
+                            is_match = False
+                            
+                            # 1. Exact full name match in the play text
+                            if rp_lower in text_lower:
+                                is_match = True
+                            else:
+                                # 2. Unique last name match in the play text
+                                parts = rp_lower.split()
+                                last_name = parts[-2] if parts[-1] in ['jr.', 'sr.', 'ii', 'iii', 'iv', 'jr', 'sr'] and len(parts) > 1 else parts[-1]
+                                if last_name in text_lower:
+                                    # Ensure uniqueness before guessing by last name
+                                    same_last = sum(1 for p in rosters[t_abbr] if (p.lower().split()[-2] if p.lower().split()[-1] in ['jr.', 'sr.', 'ii', 'iii', 'iv', 'jr', 'sr'] and len(p.split())>1 else p.lower().split()[-1]) == last_name)
+                                    if same_last == 1:
+                                        is_match = True
+                            
+                            # Inject them if found!
+                            if is_match:
+                                on_court_tracker[t_abbr].add(roster_player)
+                                print(f"🩹 PATCH APPLIED: Found {roster_player} active in recent play, injected to {t_abbr} court.")
+                                if len(on_court_tracker[t_abbr]) == 5:
+                                    break
+                        if len(on_court_tracker[t_abbr]) == 5:
+                            break
 
             # =========================================================
             # BUILD BOXSCORE JSON WITH NEW ON-COURT FLAGS
