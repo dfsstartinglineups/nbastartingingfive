@@ -294,14 +294,12 @@ function renderGames() {
     
     ALL_GAMES_DATA.filter(item => (item.away.team.displayName + " " + item.home.team.displayName).toLowerCase().includes(searchText))
         .sort((a, b) => {
-            // Sort FT games to the bottom
             const statusA = LIVE_GAMES_DATA[a.localId] ? LIVE_GAMES_DATA[a.localId].status : 'pre';
             const statusB = LIVE_GAMES_DATA[b.localId] ? LIVE_GAMES_DATA[b.localId].status : 'pre';
             
             if (statusA === 'post' && statusB !== 'post') return 1;
             if (statusB === 'post' && statusA !== 'post') return -1;
             
-            // Otherwise, sort by scheduled time
             return a.gameDate - b.gameDate;
         })
         .forEach(item => {
@@ -430,7 +428,6 @@ function createGameCard(data) {
         window.CARD_STATE[localId].everBeenLive = true;
     }
 
-    // Dynamic Time Badge
     let timeBadgeHtml = `<span class="badge bg-dark text-white" style="font-size: 0.7rem;">${data.gameDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>`;
     if (isLiveDataAvailable) {
         if (liveMatch.status === 'in') {
@@ -461,28 +458,28 @@ function createGameCard(data) {
             <div class="badge bg-secondary text-white w-100" style="font-size: 0.70rem;">${data.odds.overUnder}</div>`;
     }
 
-    // Dynamic Team Stats for Header
-    let awayStatsHtml = `<div style="width: 20%;"></div>`;
-    let homeStatsHtml = `<div style="width: 20%;"></div>`;
+    // Dynamic Team Stats for Header - Reel them in and give logos more space!
+    let awayStatsHtml = `<div style="width: 14%;"></div>`;
+    let homeStatsHtml = `<div style="width: 14%;"></div>`;
 
     if (isLiveDataAvailable && liveMatch.team_stats) {
         const aStats = liveMatch.team_stats[awayStd] || {};
         const hStats = liveMatch.team_stats[homeStd] || {};
         
         const formatStatLeft = (label, val) => `
-            <div class="d-flex justify-content-between mb-1">
-                <span class="text-secondary" style="font-size: 0.55rem;">${label}</span>
-                <span class="text-dark">${val || '-'}</span>
+            <div class="d-flex mb-1" style="gap: 4px;">
+                <span class="text-secondary text-start" style="font-size: 0.55rem; width: 22px;">${label}</span>
+                <span class="text-dark text-start">${val || '-'}</span>
             </div>`;
             
         const formatStatRight = (label, val) => `
-            <div class="d-flex justify-content-between mb-1">
-                <span class="text-dark">${val || '-'}</span>
-                <span class="text-secondary" style="font-size: 0.55rem;">${label}</span>
+            <div class="d-flex justify-content-end mb-1" style="gap: 4px;">
+                <span class="text-dark text-end">${val || '-'}</span>
+                <span class="text-secondary text-end" style="font-size: 0.55rem; width: 22px;">${label}</span>
             </div>`;
 
         awayStatsHtml = `
-            <div style="width: 20%; font-size: 0.60rem; line-height: 1.1;" class="fw-bold">
+            <div style="width: 14%; font-size: 0.65rem; line-height: 1.1;" class="fw-bold ms-1">
                 ${formatStatLeft('FG%', aStats['FG%'])}
                 ${formatStatLeft('3P%', aStats['3P%'])}
                 ${formatStatLeft('REB', aStats['REB'])}
@@ -491,7 +488,7 @@ function createGameCard(data) {
             </div>`;
             
         homeStatsHtml = `
-            <div style="width: 20%; font-size: 0.60rem; line-height: 1.1;" class="fw-bold">
+            <div style="width: 14%; font-size: 0.65rem; line-height: 1.1;" class="fw-bold me-1">
                 ${formatStatRight('FG%', hStats['FG%'])}
                 ${formatStatRight('3P%', hStats['3P%'])}
                 ${formatStatRight('REB', hStats['REB'])}
@@ -744,16 +741,16 @@ function createGameCard(data) {
             </div>
             <div class="p-2 d-flex align-items-center justify-content-between text-center">
                 ${awayStatsHtml}
-                <div style="width: 16%;">
-                    <img src="${away.team.logo}" style="width: 35px;">
-                    <div class="fw-bold mt-1" style="font-size: 0.65rem;">${away.team.shortDisplayName}</div>
+                <div style="width: 20%;">
+                    <img src="${away.team.logo}" style="width: 45px;">
+                    <div class="fw-bold mt-1 text-truncate" style="font-size: 0.7rem;">${away.team.shortDisplayName}</div>
                 </div>
-                <div style="width: 28%;">
+                <div style="width: 32%;">
                     ${scoreOrOddsHtml}
                 </div>
-                <div style="width: 16%;">
-                    <img src="${home.team.logo}" style="width: 35px;">
-                    <div class="fw-bold mt-1" style="font-size: 0.65rem;">${home.team.shortDisplayName}</div>
+                <div style="width: 20%;">
+                    <img src="${home.team.logo}" style="width: 45px;">
+                    <div class="fw-bold mt-1 text-truncate" style="font-size: 0.7rem;">${home.team.shortDisplayName}</div>
                 </div>
                 ${homeStatsHtml}
             </div>
