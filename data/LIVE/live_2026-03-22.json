@@ -1,7 +1,7 @@
 {
   "POR-DEN-2026-03-22": {
-    "status": "in",
-    "clock": "15.4 - 4th",
+    "status": "post",
+    "clock": "Final",
     "away_score": "112",
     "home_score": "128",
     "team_stats": {
@@ -21,7 +21,7 @@
         "TO": "10",
         "TTO": "1",
         "ToTO": "11",
-        "TECH": "0",
+        "TECH": "1",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "14",
         "FBPs": "9",
@@ -47,7 +47,7 @@
         "TO": "11",
         "TTO": "0",
         "ToTO": "11",
-        "TECH": "0",
+        "TECH": "1",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "13",
         "FBPs": "27",
@@ -91,7 +91,7 @@
           "is_on_court": false
         },
         "Nikola Jokic": {
-          "MIN": 36,
+          "MIN": 35,
           "PTS": "22",
           "REB": "14",
           "AST": "14",
@@ -121,7 +121,7 @@
           "is_on_court": false
         },
         "Christian Braun": {
-          "MIN": 30,
+          "MIN": 29,
           "PTS": "15",
           "REB": "6",
           "AST": "2",
@@ -136,7 +136,7 @@
           "is_on_court": false
         },
         "Zeke Nnaji": {
-          "MIN": 0,
+          "MIN": 2,
           "PTS": "0",
           "REB": "0",
           "AST": "0",
@@ -196,7 +196,7 @@
           "is_on_court": false
         },
         "Tyus Jones": {
-          "MIN": 1,
+          "MIN": 2,
           "PTS": "0",
           "REB": "1",
           "AST": "0",
@@ -211,7 +211,7 @@
           "is_on_court": true
         },
         "Bruce Brown": {
-          "MIN": 27,
+          "MIN": 26,
           "PTS": "13",
           "REB": "3",
           "AST": "3",
@@ -226,7 +226,7 @@
           "is_on_court": false
         },
         "Jalen Pickett": {
-          "MIN": 0,
+          "MIN": 2,
           "PTS": "0",
           "REB": "0",
           "AST": "0",
@@ -241,7 +241,7 @@
           "is_on_court": true
         },
         "Julian Strawther": {
-          "MIN": 1,
+          "MIN": 2,
           "PTS": "0",
           "REB": "0",
           "AST": "0",
@@ -348,7 +348,7 @@
           "is_on_court": true
         },
         "Kris Murray": {
-          "MIN": 15,
+          "MIN": 18,
           "PTS": "2",
           "REB": "2",
           "AST": "4",
@@ -378,7 +378,7 @@
           "is_on_court": false
         },
         "Matisse Thybulle": {
-          "MIN": 23,
+          "MIN": 25,
           "PTS": "3",
           "REB": "3",
           "AST": "1",
@@ -408,39 +408,58 @@
           "is_on_court": false
         },
         "Blake Wesley": {
-          "MIN": 8,
+          "MIN": 11,
           "PTS": "2",
           "REB": "2",
           "AST": "2",
           "STL": "0",
           "BLK": "0",
-          "TO": "0",
+          "TO": "1",
           "FG": "1-3",
           "3PT": "0-2",
           "FT": "0-0",
-          "fd_pts": 7.4,
-          "dk_pts": 7.5,
+          "fd_pts": 6.4,
+          "dk_pts": 7.0,
           "is_on_court": true
         },
         "Jayson Kent": {
-          "MIN": 3,
+          "MIN": 4,
           "PTS": "3",
           "REB": "1",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
-          "TO": "1",
+          "TO": "0",
           "FG": "1-2",
           "3PT": "1-2",
           "FT": "0-0",
-          "fd_pts": 3.2,
-          "dk_pts": 4.25,
+          "fd_pts": 4.2,
+          "dk_pts": 4.75,
           "is_on_court": true
         }
       }
     },
+    "game_ended_time": "2026-03-22T19:12:19.539663-04:00",
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 674.0,
+          "period": 4,
+          "time": "Q4 0.0",
+          "text": "End of Game"
+        },
+        {
+          "seq": 673.0,
+          "period": 4,
+          "time": "Q4 0.0",
+          "text": "End of the 4th Quarter"
+        },
+        {
+          "seq": 671.0,
+          "period": 4,
+          "time": "Q4 15.4",
+          "text": "Double technical foul: DaRon Holmes II and Sidy Cissoko"
+        },
         {
           "seq": 670.0,
           "period": 4,
@@ -475,7 +494,7 @@
           "seq": 664.0,
           "period": 4,
           "time": "Q4 1:05",
-          "text": "Jayson Kent out of bounds lost ball turnover"
+          "text": "Blake Wesley out of bounds bad pass turnover"
         },
         {
           "seq": 658.0,
@@ -3192,43 +3211,25 @@
       ],
       "new_plays": [
         {
-          "seq": 670.0,
+          "seq": 674.0,
+          "period": 4,
+          "time": "Q4 0.0",
+          "text": "End of Game"
+        },
+        {
+          "seq": 673.0,
+          "period": 4,
+          "time": "Q4 0.0",
+          "text": "End of the 4th Quarter"
+        },
+        {
+          "seq": 671.0,
           "period": 4,
           "time": "Q4 15.4",
-          "text": "DaRon Holmes II offensive foul turnover"
-        },
-        {
-          "seq": 668.0,
-          "period": 4,
-          "time": "Q4 15.4",
-          "text": "DaRon Holmes II offensive charge"
-        },
-        {
-          "seq": 667.0,
-          "period": 4,
-          "time": "Q4 38.2",
-          "text": "Tyus Jones defensive rebound"
-        },
-        {
-          "seq": 666.0,
-          "period": 4,
-          "time": "Q4 41.9",
-          "text": "Sidy Cissoko misses 26-foot three point jumper"
-        },
-        {
-          "seq": 665.0,
-          "period": 4,
-          "time": "Q4 48.3",
-          "text": "DaRon Holmes II out of bounds lost ball turnover"
-        },
-        {
-          "seq": 664.0,
-          "period": 4,
-          "time": "Q4 1:05",
-          "text": "Jayson Kent out of bounds lost ball turnover"
+          "text": "Double technical foul: DaRon Holmes II and Sidy Cissoko"
         }
       ],
-      "last_seq": 670.0
+      "last_seq": 674.0
     }
   },
   "BKN-SAC-2026-03-22": {
