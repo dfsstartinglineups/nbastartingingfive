@@ -371,7 +371,10 @@ function getRecentPlaysHtml(localId) {
              onclick="switchPbpTab('${localId}', 'All')">All Plays</div>`;
 
     availableQs.forEach(q => {
-        let label = Number(q) > 4 ? `OT${Number(q)-4}` : `${q}Q`;
+        let periodNum = Number(q);
+        // Correctly format Tabs for OT, 2OT, etc.
+        let label = periodNum > 4 ? (periodNum === 5 ? 'OT' : `${periodNum - 4}OT`) : `${q}Q`;
+        
         tabsHtml += `<div class="px-3 py-1 fw-bold ${activeTab === q ? 'text-dark border-bottom border-dark border-2' : 'text-muted'}" 
                           style="font-size: 0.65rem; cursor: pointer; white-space: nowrap;" 
                           onclick="switchPbpTab('${localId}', '${q}')">${label}</div>`;
@@ -458,7 +461,6 @@ function createGameCard(data) {
             <div class="badge bg-secondary text-white w-100" style="font-size: 0.70rem;">${data.odds.overUnder}</div>`;
     }
 
-    // Dynamic Team Stats for Header - Reel them in and give logos more space!
     let awayStatsHtml = `<div style="width: 14%;"></div>`;
     let homeStatsHtml = `<div style="width: 14%;"></div>`;
 
