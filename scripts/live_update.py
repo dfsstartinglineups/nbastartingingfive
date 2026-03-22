@@ -13,9 +13,11 @@ LIVE_DIR = os.path.join(DATA_DIR, 'LIVE')
 
 os.makedirs(LIVE_DIR, exist_ok=True)
 
+# FIXED: Added 'UTAH': 'UTA' so Python matches the Javascript UI exactly!
 TEAM_MAP = {
     'GS': 'GSW', 'NO': 'NOP', 'NY': 'NYK', 'SA': 'SAS', 
-    'PHO': 'PHX', 'UT': 'UTA', 'WSH': 'WAS', 'BKO': 'BKN', 'CHO': 'CHA'
+    'PHO': 'PHX', 'UT': 'UTA', 'WSH': 'WAS', 'BKO': 'BKN', 'CHO': 'CHA',
+    'UTAH': 'UTA'
 }
 
 def normalize_team(abbr):
@@ -57,19 +59,24 @@ def resolve_espn_name(pbp_name, roster_names):
     """
     clean_pbp = pbp_name.replace('.', '').strip().lower()
 
+    # 1. Exact match fallback
     for full_name in roster_names:
         if clean_pbp == full_name.replace('.', '').strip().lower():
             return full_name
             
-    parts = clean_pbp.split(' ')
+    # Use .split() to safely handle double-spaces from dirty API feeds
+    parts = clean_pbp.split()
     if len(parts) > 1:
         pbp_first = parts[0]
         pbp_last = parts[-1]
         
+        # 2. Match First Initial + Exact Last Name (Must be unique!)
         matching_initials = []
         for full_name in roster_names:
             clean_full = full_name.replace('.', '').strip().lower()
-            full_parts = clean_full.split(' ')
+            full_parts = clean_full.split()
+            
+            # Ignore suffixes for comparison
             compare_last = full_parts[-2] if full_parts[-1] in ['jr', 'sr', 'ii', 'iii', 'iv'] and len(full_parts) > 1 else full_parts[-1]
             
             if compare_last == pbp_last and clean_full.startswith(pbp_first[0]):
@@ -78,10 +85,12 @@ def resolve_espn_name(pbp_name, roster_names):
         if len(matching_initials) == 1:
             return matching_initials[0]
             
+        # 3. Match Exact Last Name Only (Must be unique!)
         matching_last_names = []
         for full_name in roster_names:
             clean_full = full_name.replace('.', '').strip().lower()
-            full_parts = clean_full.split(' ')
+            full_parts = clean_full.split()
+            
             compare_last = full_parts[-2] if full_parts[-1] in ['jr', 'sr', 'ii', 'iii', 'iv'] and len(full_parts) > 1 else full_parts[-1]
             
             if compare_last == pbp_last:
@@ -388,6 +397,21 @@ def main():
                             "fd_pts": 0.0, "dk_pts": 0.0,
                             "is_on_court": is_court
                         }
+
+            # Grab Team Stats
+            if 'boxscore' in box_data and 'teams' in box_data['boxscore']:
+                for team_box in box_data['boxscore']['teams']:
+                    t_abbr = normalize_team(team_box['team']['abbreviation'])
+                    if not team_box.get('statistics'): continue
+                    
+                    team_stats_dict = {}
+                    for stat_obj in team_box['statistics']:
+                        stat_key = stat_obj.get('abbreviation', stat_obj.get('name', ''))
+                        stat_val = stat_obj.get('displayValue', '')
+                        if stat_key:
+                            team_stats_dict[stat_key] = stat_val
+                            
+                    game_live_obj["team_stats"][t_abbr] = team_stats_dict
 
             new_live_data[local_game_id] = game_live_obj
 
