@@ -100,7 +100,6 @@ async function pollLiveData(dateToFetch) {
             }
 
             // We must update whether a lineup is projected or official
-            // The JSON live data can have .starters object with an is_projected flag for the teams
             ALL_GAMES_DATA.forEach(gameObj => {
                 const liveData = incomingData[gameObj.localId];
                 if (liveData && liveData.starters) {
@@ -144,6 +143,13 @@ window.switchPbpTab = function(localId, tab) {
     if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
     window.CARD_STATE[localId].pbpTab = tab;
     renderGames(); 
+};
+
+// NEW: Toggle for the Play-By-Play section
+window.togglePbpState = function(localId) {
+    if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
+    window.CARD_STATE[localId].pbpOpen = !window.CARD_STATE[localId].pbpOpen;
+    renderGames();
 };
 
 // ==========================================
@@ -348,7 +354,6 @@ function injectPlayIntoDOM(localId, play) {
         const isMake = play.text.includes(' makes ');
         const textWeight = isMake ? 'fw-bold' : '';
         
-        // Use 50px width for play spacing
         el.innerHTML = `
             <div class="fw-bold text-secondary me-2" style="white-space: nowrap; width: 50px; text-align: right; padding-top: 1px;">${play.time}</div>
             <div class="text-dark ${textWeight}" style="flex: 1; line-height: 1.3;" title="${play.text}">${play.text}</div>
@@ -388,6 +393,7 @@ function getRecentPlaysHtml(localId) {
     }
 
     let activeTab = state.pbpTab;
+    let isPbpOpen = state.pbpOpen === true; // State for collapsible container
 
     let tabsHtml = `<div class="d-flex bg-light border-bottom border-top" style="overflow-x: auto; scrollbar-width: none;">
         <div class="px-3 py-1 fw-bold ${activeTab === 'All' ? 'text-dark border-bottom border-dark border-2' : 'text-muted'}" 
@@ -412,7 +418,6 @@ function getRecentPlaysHtml(localId) {
         const isMake = play.text.includes(' makes ');
         const textWeight = isMake ? 'fw-bold' : '';
         
-        // Used 50px width here for play spacing
         return `
         <div class="d-flex align-items-start ${bgClass} px-2 py-1" style="font-size: 0.65rem; border-bottom: 1px solid #f1f3f5;">
             <div class="fw-bold text-secondary me-2" style="white-space: nowrap; width: 50px; text-align: right; padding-top: 1px;">${play.time}</div>
@@ -421,10 +426,15 @@ function getRecentPlaysHtml(localId) {
     }).join('');
 
     return `
-        <div class="w-100 mt-2">
-            ${tabsHtml}
-            <div class="d-flex flex-column overflow-auto" id="pbp-list-${localId}" style="max-height: 130px; scrollbar-width: thin;">
-                ${playsHtml}
+        <div class="w-100">
+            <div class="p-2 text-center border-bottom border-top text-muted fw-bold" onclick="togglePbpState('${localId}')" style="font-size: 0.70rem; cursor: pointer; background-color: #f8f9fa;">
+                <span>${isPbpOpen ? 'Hide Recent Plays' : 'View Recent Plays'}</span> <span class="ms-1">${isPbpOpen ? '▲' : '▼'}</span>
+            </div>
+            <div style="display: ${isPbpOpen ? 'block' : 'none'};">
+                ${tabsHtml}
+                <div class="d-flex flex-column overflow-auto" id="pbp-list-${localId}" style="max-height: 130px; scrollbar-width: thin;">
+                    ${playsHtml}
+                </div>
             </div>
         </div>
     `;
@@ -450,7 +460,8 @@ function createGameCard(data) {
         window.CARD_STATE[localId] = { 
             tab: isLiveDataAvailable ? 'live' : 'starters', 
             baseBenchOpen: false, 
-            liveBenchOpen: false 
+            liveBenchOpen: false,
+            pbpOpen: false // Collapsed by default when first created/goes live
         };
     }
     const cardState = window.CARD_STATE[localId];
@@ -720,7 +731,7 @@ function createGameCard(data) {
     let tabsHtml = '';
     if (isLiveDataAvailable) {
         tabsHtml = `
-        <div class="d-flex border-top w-100 mt-2" style="background-color: #f8f9fa;">
+        <div class="d-flex w-100 mt-2" style="background-color: #f8f9fa;">
             <div class="py-2 flex-fill text-center fw-bold ${cardState.tab === 'starters' ? 'text-dark border-bottom border-dark border-2' : 'text-muted'}" 
                  style="font-size: 0.70rem; cursor: pointer; letter-spacing: 0.5px;" 
                  onclick="toggleGameTab('${localId}', 'starters')">
