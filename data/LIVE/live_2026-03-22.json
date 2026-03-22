@@ -3229,7 +3229,7 @@
         "REB": "20",
         "OR": "4",
         "DR": "16",
-        "AST": "21",
+        "AST": "22",
         "STL": "5",
         "BLK": "4",
         "TO": "6",
@@ -3565,15 +3565,15 @@
           "MIN": 10,
           "PTS": "11",
           "REB": "0",
-          "AST": "0",
+          "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
           "FG": "4-5",
           "3PT": "3-3",
           "FT": "0-0",
-          "fd_pts": 11.0,
-          "dk_pts": 12.5,
+          "fd_pts": 12.5,
+          "dk_pts": 14.0,
           "is_on_court": true
         },
         "Ben Saraf": {
@@ -3689,7 +3689,7 @@
           "seq": 468.0,
           "period": 3,
           "time": "Q3 1:32",
-          "text": "Malachi Smith makes driving layup"
+          "text": "Malachi Smith makes driving layup (Tyson Etienne assists)"
         },
         {
           "seq": 465.0,
@@ -5606,32 +5606,7 @@
           "text": "Danny Wolf vs. Maxime Raynaud (Precious Achiuwa gains possession)"
         }
       ],
-      "new_plays": [
-        {
-          "seq": 487.0,
-          "period": 3,
-          "time": "Q3 0.0",
-          "text": "End of the 3rd Quarter"
-        },
-        {
-          "seq": 486.0,
-          "period": 3,
-          "time": "Q3 0.1",
-          "text": "Nets offensive team rebound"
-        },
-        {
-          "seq": 485.0,
-          "period": 3,
-          "time": "Q3 0.1",
-          "text": "Ben Saraf misses heave jump shot"
-        },
-        {
-          "seq": 483.0,
-          "period": 3,
-          "time": "Q3 1.5",
-          "text": "Devin Carter makes 12-foot fade away jump shot (Doug McDermott assists)"
-        }
-      ],
+      "new_plays": [],
       "last_seq": 487.0
     }
   },
@@ -5853,10 +5828,16 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 60.0,
+          "period": 1,
+          "time": "Q1 6:41",
+          "text": "(06:41) [Wizards] COACH'S CHALLENGE (REPLAY SUPPORTS CALL) [Wizards] charged with a timeout"
+        },
+        {
           "seq": 59.0,
           "period": 1,
           "time": "Q1 6:41",
-          "text": "Knicks Full timeout"
+          "text": "Wizards Full timeout"
         },
         {
           "seq": 57.0,
@@ -6111,8 +6092,15 @@
           "text": "Tristan Vukcevic vs. Karl-Anthony Towns (Josh Hart gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 59.0
+      "new_plays": [
+        {
+          "seq": 60.0,
+          "period": 1,
+          "time": "Q1 6:41",
+          "text": "(06:41) [Wizards] COACH'S CHALLENGE (REPLAY SUPPORTS CALL) [Wizards] charged with a timeout"
+        }
+      ],
+      "last_seq": 60.0
     }
   }
 }
