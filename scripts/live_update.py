@@ -2,7 +2,7 @@ import json
 import os
 import requests
 import zoneinfo
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # ==========================================================
 # --- FOLDER SETUP ---
@@ -58,24 +58,19 @@ def resolve_espn_name(pbp_name, roster_names):
     """
     clean_pbp = pbp_name.replace('.', '').strip().lower()
 
-    # 1. Exact match fallback
     for full_name in roster_names:
         if clean_pbp == full_name.replace('.', '').strip().lower():
             return full_name
             
-    # Use .split() to safely handle double-spaces from dirty API feeds
     parts = clean_pbp.split()
     if len(parts) > 1:
         pbp_first = parts[0]
         pbp_last = parts[-1]
         
-        # 2. Match First Initial + Exact Last Name (Must be unique!)
         matching_initials = []
         for full_name in roster_names:
             clean_full = full_name.replace('.', '').strip().lower()
             full_parts = clean_full.split()
-            
-            # Ignore suffixes for comparison
             compare_last = full_parts[-2] if full_parts[-1] in ['jr', 'sr', 'ii', 'iii', 'iv'] and len(full_parts) > 1 else full_parts[-1]
             
             if compare_last == pbp_last and clean_full.startswith(pbp_first[0]):
@@ -84,12 +79,10 @@ def resolve_espn_name(pbp_name, roster_names):
         if len(matching_initials) == 1:
             return matching_initials[0]
             
-        # 3. Match Exact Last Name Only (Must be unique!)
         matching_last_names = []
         for full_name in roster_names:
             clean_full = full_name.replace('.', '').strip().lower()
             full_parts = clean_full.split()
-            
             compare_last = full_parts[-2] if full_parts[-1] in ['jr', 'sr', 'ii', 'iii', 'iv'] and len(full_parts) > 1 else full_parts[-1]
             
             if compare_last == pbp_last:
@@ -104,8 +97,11 @@ def main():
     ny_tz = zoneinfo.ZoneInfo("America/New_York")
     now_est = datetime.now(ny_tz)
     
-    current_date_str = now_est.strftime("%Y-%m-%d")
-    espn_date_str = now_est.strftime("%Y%m%d")
+    # 🌙 MIDNIGHT ROLLOVER FIX: Offset the time by 4 hours to keep late games on the same "NBA Day"
+    nba_day = now_est - timedelta(hours=4)
+    
+    current_date_str = nba_day.strftime("%Y-%m-%d")
+    espn_date_str = nba_day.strftime("%Y%m%d")
     
     base_file_path = os.path.join(DATA_DIR, f"{current_date_str}.json")
     live_file_path = os.path.join(LIVE_DIR, f"live_{current_date_str}.json")
