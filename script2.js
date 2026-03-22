@@ -11,6 +11,7 @@ let ARE_ALL_EXPANDED = false;
 window.CARD_STATE = {}; 
 window.RENDERED_PBP = {}; // The active, currently visible play-by-play log
 window.PBP_QUEUE = {};    // The queue of "new" plays waiting to be animated in
+window.LAST_SEQ_SEEN = {}; // NEW: Tracks the highest sequence number the UI has processed
 let livePollInterval;
 
 // Global CSS injection for pulse and the new sliding animation
@@ -92,16 +93,23 @@ async function pollLiveData(dateToFetch) {
             for (let localId in incomingData) {
                 let game = incomingData[localId];
                 if (game.play_by_play) {
-                    if (!window.RENDERED_PBP[localId]) {
+                    let fullLog = game.play_by_play.full_log || [];
+                    
+                    if (!window.LAST_SEQ_SEEN[localId]) {
                         // First load: instantly take the full log
-                        window.RENDERED_PBP[localId] = [...(game.play_by_play.full_log || [])];
+                        window.RENDERED_PBP[localId] = [...fullLog];
+                        window.LAST_SEQ_SEEN[localId] = game.play_by_play.last_seq || 0;
                     } else {
-                        // Subsequent load: push new plays to the queue
-                        let newPlays = game.play_by_play.new_plays || [];
-                        if (newPlays.length > 0) {
+                        // Subsequent load: strictly filter for sequence numbers higher than we've already seen!
+                        let unseenPlays = fullLog.filter(p => p.seq > window.LAST_SEQ_SEEN[localId]);
+                        
+                        if (unseenPlays.length > 0) {
                             if (!window.PBP_QUEUE[localId]) window.PBP_QUEUE[localId] = [];
                             // Reversing so we queue them oldest-first for chronological animation
-                            window.PBP_QUEUE[localId].push(...[...newPlays].reverse());
+                            window.PBP_QUEUE[localId].push(...[...unseenPlays].reverse());
+                            
+                            // Update our tracker to the highest sequence number in this batch
+                            window.LAST_SEQ_SEEN[localId] = Math.max(...unseenPlays.map(p => p.seq));
                         }
                     }
                 }
