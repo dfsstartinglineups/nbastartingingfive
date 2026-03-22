@@ -334,14 +334,15 @@ function injectPlayIntoDOM(localId, play) {
     // Only inject if they are looking at "All" or the matching Quarter tab
     if (activeTab === 'All' || activeTab === play.period.toString()) {
         const el = document.createElement('div');
-        el.className = `d-flex align-items-center px-2 py-1`;
+        // Changed to align-items-start so time stays at the top of wrapped text
+        el.className = `d-flex align-items-start px-2 py-1`;
         el.style.fontSize = '0.65rem';
         el.style.borderBottom = '1px solid #f1f3f5';
         
-        // Standard text colors (no green highlight)
+        // Removed text-truncate and added line-height for clean wrapping
         el.innerHTML = `
-            <div class="fw-bold text-secondary me-2" style="white-space: nowrap; width: 42px; text-align: right;">${play.time}</div>
-            <div class="text-dark text-truncate" style="flex: 1;" title="${play.text}">${play.text}</div>
+            <div class="fw-bold text-secondary me-2" style="white-space: nowrap; width: 42px; text-align: right; padding-top: 1px;">${play.time}</div>
+            <div class="text-dark" style="flex: 1; line-height: 1.3;" title="${play.text}">${play.text}</div>
         `;
 
         listContainer.prepend(el);
@@ -402,10 +403,11 @@ function getRecentPlaysHtml(localId) {
     // Render Plays
     let playsHtml = filteredPlays.map((play, i) => {
         const bgClass = i % 2 === 0 ? 'bg-light' : 'bg-white';
+        // Removed text-truncate, switched to align-items-start
         return `
-        <div class="d-flex align-items-center ${bgClass} px-2 py-1" style="font-size: 0.65rem; border-bottom: 1px solid #f1f3f5;">
-            <div class="fw-bold text-secondary me-2" style="white-space: nowrap; width: 42px; text-align: right;">${play.time}</div>
-            <div class="text-dark text-truncate" style="flex: 1;" title="${play.text}">${play.text}</div>
+        <div class="d-flex align-items-start ${bgClass} px-2 py-1" style="font-size: 0.65rem; border-bottom: 1px solid #f1f3f5;">
+            <div class="fw-bold text-secondary me-2" style="white-space: nowrap; width: 42px; text-align: right; padding-top: 1px;">${play.time}</div>
+            <div class="text-dark" style="flex: 1; line-height: 1.3;" title="${play.text}">${play.text}</div>
         </div>`;
     }).join('');
 
