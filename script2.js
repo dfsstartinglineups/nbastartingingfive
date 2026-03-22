@@ -40,9 +40,28 @@ function processQueue() {
             if (!window.RENDERED_PBP[localId]) window.RENDERED_PBP[localId] = [];
             window.RENDERED_PBP[localId].unshift(playToInject);
 
-            injectPlayIntoDOM(localId, playToInject);
+            // --- NEW: AUTO-SWITCH QUARTER LOGIC ---
+            if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
+            let state = window.CARD_STATE[localId];
+            let playPeriod = Number(playToInject.period);
+            let switchedQuarter = false;
 
-            // NEW: If the queue is now empty, wait for the animation to finish, then update the score/stats!
+            // If this play is from a newer quarter than we've seen, auto-switch to it!
+            if (!state.highestPeriodSeen || playPeriod > state.highestPeriodSeen) {
+                state.highestPeriodSeen = playPeriod;
+                state.pbpTab = playPeriod.toString();
+                switchedQuarter = true;
+            }
+
+            if (switchedQuarter) {
+                // A new quarter started! We must re-render to build the new tab button
+                renderGames();
+            } else {
+                // Just inject the new play smoothly
+                injectPlayIntoDOM(localId, playToInject);
+            }
+
+            // If the queue is now empty, wait for the animation to finish, then update the score/stats!
             if (window.PBP_QUEUE[localId].length === 0 && window.PENDING_LIVE_DATA[localId]) {
                 setTimeout(() => {
                     if (window.PENDING_LIVE_DATA[localId]) {
@@ -103,6 +122,12 @@ async function pollLiveData(dateToFetch) {
                     if (!window.LAST_SEQ_SEEN[localId]) {
                         window.RENDERED_PBP[localId] = [...fullLog];
                         window.LAST_SEQ_SEEN[localId] = game.play_by_play.last_seq || 0;
+                        
+                        // Initialize the highest period seen
+                        if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
+                        if (fullLog.length > 0) {
+                            window.CARD_STATE[localId].highestPeriodSeen = Math.max(...fullLog.map(p => Number(p.period)));
+                        }
                     } else {
                         let unseenPlays = fullLog.filter(p => p.seq > window.LAST_SEQ_SEEN[localId]);
                         
@@ -115,7 +140,7 @@ async function pollLiveData(dateToFetch) {
                     }
                 }
 
-                // NEW: Decide whether to update the scoreboard instantly, or hold it back
+                // Decide whether to update the scoreboard instantly, or hold it back
                 if (hasNewPlays || (window.PBP_QUEUE[localId] && window.PBP_QUEUE[localId].length > 0)) {
                     // We have plays animating. Hold the score/stats hostage in the pending object.
                     window.PENDING_LIVE_DATA[localId] = game;
