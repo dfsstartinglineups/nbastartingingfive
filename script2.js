@@ -74,10 +74,10 @@ async function fetchLocalProbables(dateToFetch) {
 
 async function pollLiveData(dateToFetch) {
     try {
-        // We fetch the live data file
-        const response = await fetch(`data/LIVE/live_${dateToFetch}.json?v=` + new Date().getTime(), { cache: 'no-store' });
-        if (response.ok) {
-            const incomingData = await response.json();
+        // 1. Fetch the LIVE file for PBP, scores, and live stats
+        const liveResponse = await fetch(`data/LIVE/live_${dateToFetch}.json?v=` + new Date().getTime(), { cache: 'no-store' });
+        if (liveResponse.ok) {
+            const incomingData = await liveResponse.json();
             
             for (let localId in incomingData) {
                 let game = incomingData[localId];
@@ -98,28 +98,41 @@ async function pollLiveData(dateToFetch) {
                     }
                 }
             }
+            LIVE_GAMES_DATA = incomingData;
+        }
 
-            // We must update whether a lineup is projected or official
+        // 2. Fetch the DAILY file to check for lineup confirmations & late scratches
+        const dailyData = await fetchLocalProbables(dateToFetch);
+        if (dailyData && dailyData.games) {
             ALL_GAMES_DATA.forEach(gameObj => {
-                const liveData = incomingData[gameObj.localId];
-                if (liveData && liveData.starters) {
-                    const awayStd = getStandardAbbr(gameObj.away.team.abbreviation);
-                    const homeStd = getStandardAbbr(gameObj.home.team.abbreviation);
-                    
-                    if (liveData.starters[awayStd] && typeof liveData.starters[awayStd].is_projected !== 'undefined') {
-                        gameObj.awayIsProjected = liveData.starters[awayStd].is_projected;
+                const awayStd = getStandardAbbr(gameObj.away.team.abbreviation);
+                const homeStd = getStandardAbbr(gameObj.home.team.abbreviation);
+                const localGameMatch = dailyData.games.find(g => g.id === gameObj.localId);
+                
+                if (localGameMatch && localGameMatch.rosters) {
+                    // Check Away Team Lineup Status
+                    if (localGameMatch.rosters[awayStd] && localGameMatch.rosters[awayStd].players) {
+                        const isVerified = localGameMatch.rosters[awayStd].players.every(p => p.verified === true);
+                        gameObj.awayIsProjected = !isVerified;
+                        // Overwrite the players so late scratches instantly update on the UI
+                        gameObj.awayStarters = localGameMatch.rosters[awayStd].players.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
                     }
                     
-                    if (liveData.starters[homeStd] && typeof liveData.starters[homeStd].is_projected !== 'undefined') {
-                        gameObj.homeIsProjected = liveData.starters[homeStd].is_projected;
+                    // Check Home Team Lineup Status
+                    if (localGameMatch.rosters[homeStd] && localGameMatch.rosters[homeStd].players) {
+                        const isVerified = localGameMatch.rosters[homeStd].players.every(p => p.verified === true);
+                        gameObj.homeIsProjected = !isVerified;
+                        // Overwrite the players so late scratches instantly update on the UI
+                        gameObj.homeStarters = localGameMatch.rosters[homeStd].players.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
                     }
                 }
             });
-            
-            LIVE_GAMES_DATA = incomingData;
-            renderGames(); 
         }
-    } catch (e) { }
+
+        renderGames(); 
+    } catch (e) { 
+        console.error("Polling error:", e);
+    }
 }
 
 // ==========================================
