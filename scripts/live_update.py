@@ -13,7 +13,6 @@ LIVE_DIR = os.path.join(DATA_DIR, 'LIVE')
 
 os.makedirs(LIVE_DIR, exist_ok=True)
 
-# FIXED: Added 'UTAH': 'UTA' so Python matches the Javascript UI exactly!
 TEAM_MAP = {
     'GS': 'GSW', 'NO': 'NOP', 'NY': 'NYK', 'SA': 'SAS', 
     'PHO': 'PHX', 'UT': 'UTA', 'WSH': 'WAS', 'BKO': 'BKN', 'CHO': 'CHA',
@@ -238,7 +237,18 @@ def main():
                 period_data = p.get('period') or {}
                 period = period_data.get('number', '') if isinstance(period_data, dict) else ''
                 text = p.get('text', '')
-                time_str = f"Q{period} {clock}".strip() if period else clock
+                
+                # Format OT nicely based on Period number!
+                if str(period).isdigit():
+                    period_num = int(period)
+                    if period_num == 5:
+                        time_str = f"OT {clock}".strip()
+                    elif period_num > 5:
+                        time_str = f"{period_num - 4}OT {clock}".strip()
+                    else:
+                        time_str = f"Q{period_num} {clock}".strip()
+                else:
+                    time_str = clock
                 
                 play_obj = {
                     "seq": seq,
