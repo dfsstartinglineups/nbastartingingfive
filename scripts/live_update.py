@@ -57,7 +57,6 @@ def resolve_espn_name(pbp_name, roster_names):
     """
     clean_pbp = pbp_name.replace('.', '').strip().lower()
 
-    # 1. Exact match fallback
     for full_name in roster_names:
         if clean_pbp == full_name.replace('.', '').strip().lower():
             return full_name
@@ -65,16 +64,12 @@ def resolve_espn_name(pbp_name, roster_names):
     parts = clean_pbp.split(' ')
     if len(parts) > 1:
         pbp_first = parts[0]
-        # Safely ignore suffixes in the PBP name so it doesn't think the last name is "III"
-        pbp_last = parts[-2] if parts[-1] in ['jr', 'sr', 'ii', 'iii', 'iv'] and len(parts) > 2 else parts[-1]
+        pbp_last = parts[-1]
         
-        # 2. Match First Initial + Exact Last Name (Must be unique!)
         matching_initials = []
         for full_name in roster_names:
             clean_full = full_name.replace('.', '').strip().lower()
             full_parts = clean_full.split(' ')
-            
-            # Ignore suffixes for comparison
             compare_last = full_parts[-2] if full_parts[-1] in ['jr', 'sr', 'ii', 'iii', 'iv'] and len(full_parts) > 1 else full_parts[-1]
             
             if compare_last == pbp_last and clean_full.startswith(pbp_first[0]):
@@ -83,12 +78,10 @@ def resolve_espn_name(pbp_name, roster_names):
         if len(matching_initials) == 1:
             return matching_initials[0]
             
-        # 3. Match Exact Last Name Only (Must be unique!)
         matching_last_names = []
         for full_name in roster_names:
             clean_full = full_name.replace('.', '').strip().lower()
             full_parts = clean_full.split(' ')
-            
             compare_last = full_parts[-2] if full_parts[-1] in ['jr', 'sr', 'ii', 'iii', 'iv'] and len(full_parts) > 1 else full_parts[-1]
             
             if compare_last == pbp_last:
@@ -124,6 +117,14 @@ def main():
         try:
             with open(base_file_path, 'r') as f:
                 base_json = json.load(f)
+        except: pass
+
+    # 3. Load Previous Live JSON (To find where the Play-by-Play left off)
+    old_live_data = {}
+    if os.path.exists(live_file_path):
+        try:
+            with open(live_file_path, 'r') as f:
+                old_live_data = json.load(f)
         except: pass
 
     new_live_data = {}
@@ -171,24 +172,38 @@ def main():
             home_starters = set()
             away_starters = set()
             
+            # DFS Fallback
+            game_data = None
+            for g in base_json.get('games', []):
+                if g.get('teams') and len(g['teams']) >= 2:
+                    t1, t2 = normalize_team(g['teams'][0]), normalize_team(g['teams'][1])
+                    if (t1 == home_abbr or t1 == away_abbr) and (t2 == home_abbr or t2 == away_abbr):
+                        game_data = g
+                        break
+            
+            if game_data:
+                for s in game_data.get('homeStarters', []) + game_data.get('homeBench', []):
+                    rosters[home_abbr].append(s.get('athlete', {}).get('displayName', ''))
+                for s in game_data.get('awayStarters', []) + game_data.get('awayBench', []):
+                    rosters[away_abbr].append(s.get('athlete', {}).get('displayName', ''))
+
+            # ESPN Native Boxscore
             if 'boxscore' in box_data and 'players' in box_data['boxscore']:
                 for team_box in box_data['boxscore']['players']:
                     t_abbr = normalize_team(team_box['team']['abbreviation'])
-                    if t_abbr in rosters and team_box.get('statistics'):
+                    if team_box.get('statistics'):
                         for ath in team_box['statistics'][0].get('athletes', []):
                             p_name = ath['athlete']['displayName']
-                            rosters[t_abbr].append(p_name)
+                            if p_name not in rosters.get(t_abbr, []):
+                                rosters[t_abbr].append(p_name)
                             
-                            # Grab Starters directly from ESPN's flag
                             if ath.get('starter', False):
                                 if t_abbr == home_abbr: home_starters.add(p_name)
                                 elif t_abbr == away_abbr: away_starters.add(p_name)
             
-            # Fallback: If ESPN hasn't flagged starters yet, take the first 5 players from the boxscore
-            if not home_starters and len(rosters[home_abbr]) >= 5:
-                home_starters = set(rosters[home_abbr][:5])
-            if not away_starters and len(rosters[away_abbr]) >= 5:
-                away_starters = set(rosters[away_abbr][:5])
+            # Fallback Seed
+            if not home_starters and len(rosters[home_abbr]) >= 5: home_starters = set(rosters[home_abbr][:5])
+            if not away_starters and len(rosters[away_abbr]) >= 5: away_starters = set(rosters[away_abbr][:5])
             
             on_court_tracker = { home_abbr: home_starters, away_abbr: away_starters }
             unmatched_injections = { home_abbr: {}, away_abbr: {} }
@@ -197,22 +212,48 @@ def main():
             plays = sorted(plays, key=lambda x: float(x.get('sequenceNumber', 0)))
             
             # =========================================================
-            # CAPTURE THE LAST 5 PLAYS FOR THE UI
+            # SMART PLAY-BY-PLAY DIFFING ENGINE
             # =========================================================
-            formatted_plays = []
-            for p in plays[-5:]:
+            old_game_data = old_live_data.get(local_game_id, {})
+            old_pbp = old_game_data.get("play_by_play", {})
+            last_seq = float(old_pbp.get("last_seq", 0))
+
+            formatted_full = []
+            formatted_new = []
+            max_seq = last_seq
+
+            for p in plays:
+                seq = float(p.get('sequenceNumber', 0))
                 clock_data = p.get('clock') or {}
                 clock = clock_data.get('displayValue', '') if isinstance(clock_data, dict) else ''
                 period_data = p.get('period') or {}
                 period = period_data.get('number', '') if isinstance(period_data, dict) else ''
                 text = p.get('text', '')
                 time_str = f"Q{period} {clock}".strip() if period else clock
-                formatted_plays.append({"time": time_str, "text": text})
-            
-            game_live_obj["recent_plays"] = formatted_plays[::-1]
+                
+                play_obj = {
+                    "seq": seq,
+                    "period": period,
+                    "time": time_str,
+                    "text": text
+                }
+                
+                formatted_full.append(play_obj)
+                
+                # Check if this play happened AFTER our last scrape!
+                if seq > last_seq:
+                    formatted_new.append(play_obj)
+                    if seq > max_seq:
+                        max_seq = seq
+
+            game_live_obj["play_by_play"] = {
+                "full_log": formatted_full[::-1], # Reversed so index 0 is the newest play
+                "new_plays": formatted_new[::-1],
+                "last_seq": max_seq
+            }
             
             # =========================================================
-            # PROCESS SUBSTITUTIONS (PURE STATE TRACKING)
+            # PROCESS SUBSTITUTIONS
             # =========================================================
             for play in plays:
                 text = play.get('text', '')
@@ -222,9 +263,7 @@ def main():
                         p_in_raw = parts[0].strip()
                         p_out_raw = parts[1].strip()
                         
-                        # SAFETY CHECK: Ignore malformed plays where ESPN drops a player name
-                        if not p_in_raw or not p_out_raw:
-                            continue
+                        if not p_in_raw or not p_out_raw: continue
                         
                         team_in, full_in = None, None
                         team_out, full_out = None, None
@@ -251,11 +290,9 @@ def main():
                             else:
                                 out_val = full_out
                                 
-                            # Pure state tracking removal
                             if out_val in on_court_tracker[target_team]:
                                 on_court_tracker[target_team].remove(out_val)
                             elif not full_out:
-                                # Desperate fallback: Safely check if the last word exists in the tracker
                                 out_parts = p_out_raw.split()
                                 if out_parts:
                                     for p in list(on_court_tracker[target_team]):
@@ -263,49 +300,35 @@ def main():
                                             on_court_tracker[target_team].remove(p)
                                             break
                                         
-                            # Always add the IN player
                             on_court_tracker[target_team].add(in_val)
 
-            # =========================================================
-            # 🩹 THE BAND-AID PATCH: INJECT RECENTLY ACTIVE PLAYERS
-            # =========================================================
+            # THE BAND-AID PATCH
             for t_abbr in [home_abbr, away_abbr]:
                 if len(on_court_tracker[t_abbr]) < 5:
                     for play in reversed(plays):
                         text = play.get('text', '')
-                        # Stop if we hit a sub event (we only care about the clean period AFTER the last sub)
-                        if ' enters the game for ' in text:
-                            break 
+                        if ' enters the game for ' in text: break 
                         
                         text_lower = text.lower()
                         for roster_player in rosters[t_abbr]:
-                            if roster_player in on_court_tracker[t_abbr]:
-                                continue # Already tracked
+                            if roster_player in on_court_tracker[t_abbr]: continue
                                 
                             rp_lower = roster_player.lower()
                             is_match = False
-                            
-                            # 1. Exact full name match in the play text
                             if rp_lower in text_lower:
                                 is_match = True
                             else:
-                                # 2. Unique last name match in the play text
                                 parts = rp_lower.split()
                                 last_name = parts[-2] if parts[-1] in ['jr.', 'sr.', 'ii', 'iii', 'iv', 'jr', 'sr'] and len(parts) > 1 else parts[-1]
                                 if last_name in text_lower:
-                                    # Ensure uniqueness before guessing by last name
                                     same_last = sum(1 for p in rosters[t_abbr] if (p.lower().split()[-2] if p.lower().split()[-1] in ['jr.', 'sr.', 'ii', 'iii', 'iv', 'jr', 'sr'] and len(p.split())>1 else p.lower().split()[-1]) == last_name)
-                                    if same_last == 1:
-                                        is_match = True
+                                    if same_last == 1: is_match = True
                             
-                            # Inject them if found!
                             if is_match:
                                 on_court_tracker[t_abbr].add(roster_player)
-                                print(f"🩹 PATCH APPLIED: Found {roster_player} active in recent play, injected to {t_abbr} court.")
-                                if len(on_court_tracker[t_abbr]) == 5:
-                                    break
-                        if len(on_court_tracker[t_abbr]) == 5:
-                            break
+                                print(f"🩹 PATCH APPLIED: Found {roster_player} active, injected to {t_abbr} court.")
+                                if len(on_court_tracker[t_abbr]) == 5: break
+                        if len(on_court_tracker[t_abbr]) == 5: break
 
             # =========================================================
             # BUILD BOXSCORE JSON WITH NEW ON-COURT FLAGS
@@ -345,9 +368,7 @@ def main():
                             "is_on_court": is_on_court
                         }
 
-            # =========================================================
             # INJECT MISSING/UNMATCHED PLAYERS FOR THE UI
-            # =========================================================
             for t_abbr, court_set in on_court_tracker.items():
                 for p_name in court_set:
                     if p_name not in game_live_obj["players"][t_abbr]:
@@ -367,21 +388,6 @@ def main():
                             "fd_pts": 0.0, "dk_pts": 0.0,
                             "is_on_court": is_court
                         }
-
-            # Grab Team Stats
-            if 'boxscore' in box_data and 'teams' in box_data['boxscore']:
-                for team_box in box_data['boxscore']['teams']:
-                    t_abbr = normalize_team(team_box['team']['abbreviation'])
-                    if not team_box.get('statistics'): continue
-                    
-                    team_stats_dict = {}
-                    for stat_obj in team_box['statistics']:
-                        stat_key = stat_obj.get('abbreviation', stat_obj.get('name', ''))
-                        stat_val = stat_obj.get('displayValue', '')
-                        if stat_key:
-                            team_stats_dict[stat_key] = stat_val
-                            
-                    game_live_obj["team_stats"][t_abbr] = team_stats_dict
 
             new_live_data[local_game_id] = game_live_obj
 
