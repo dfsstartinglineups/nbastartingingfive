@@ -97,7 +97,7 @@ def main():
     ny_tz = zoneinfo.ZoneInfo("America/New_York")
     now_est = datetime.now(ny_tz)
     
-    # 🌙 MIDNIGHT ROLLOVER FIX: Offset the time by 4 hours to keep late games on the same "NBA Day"
+    # 🌙 MIDNIGHT ROLLOVER FIX
     nba_day = now_est - timedelta(hours=4)
     
     current_date_str = nba_day.strftime("%Y-%m-%d")
@@ -317,7 +317,7 @@ def main():
                                         
                             on_court_tracker[target_team].add(in_val)
 
-            # THE BAND-AID PATCH
+            # THE BAND-AID PATCH (Fills the court if < 5)
             for t_abbr in [home_abbr, away_abbr]:
                 if len(on_court_tracker[t_abbr]) < 5:
                     for play in reversed(plays):
@@ -344,6 +344,60 @@ def main():
                                 print(f"🩹 PATCH APPLIED: Found {roster_player} active, injected to {t_abbr} court.")
                                 if len(on_court_tracker[t_abbr]) == 5: break
                         if len(on_court_tracker[t_abbr]) == 5: break
+
+            # =========================================================
+            # 👻 THE 6-MAN FIX: EVICT GHOST PLAYERS
+            # =========================================================
+            for t_abbr in [home_abbr, away_abbr]:
+                while len(on_court_tracker[t_abbr]) > 5:
+                    evicted = False
+                    
+                    # Pass 1: Quick Search Backwards (Did we miss a sub-out due to a typo?)
+                    for play in reversed(plays):
+                        text = play.get('text', '')
+                        if ' enters the game for ' in text:
+                            p_out_raw = text.split(' enters the game for ')[1].strip().lower()
+                            
+                            # Does this raw text loosely match any of the 6 guys on our floor?
+                            for p in list(on_court_tracker[t_abbr]):
+                                p_last = p.split()[-2].lower() if p.split()[-1].lower() in ['jr.', 'sr.', 'ii', 'iii', 'iv', 'jr', 'sr'] and len(p.split()) > 1 else p.split()[-1].lower()
+                                if p_last in p_out_raw or p.lower() in p_out_raw:
+                                    on_court_tracker[t_abbr].remove(p)
+                                    print(f"👻 GHOST EVICTED (Missed Sub): Removed {p} from {t_abbr} court.")
+                                    evicted = True
+                                    break
+                        if evicted: break
+                        
+                    if len(on_court_tracker[t_abbr]) <= 5: continue
+                    
+                    # Pass 2: The Elimination Game (Boot the Coldest Player)
+                    if not evicted:
+                        candidates = list(on_court_tracker[t_abbr])
+                        for play in reversed(plays):
+                            text = play.get('text', '').lower()
+                            if ' enters the game for ' in text: continue # Skip sub logs for this check
+                            
+                            active_in_play = []
+                            for p in candidates:
+                                p_last = p.split()[-2].lower() if p.split()[-1].lower() in ['jr.', 'sr.', 'ii', 'iii', 'iv', 'jr', 'sr'] and len(p.split()) > 1 else p.split()[-1].lower()
+                                if p.lower() in text or p_last in text:
+                                    active_in_play.append(p)
+                                    
+                            # If crossing these guys off the list leaves us with too few to evict, stop!
+                            if len(candidates) - len(active_in_play) < (len(on_court_tracker[t_abbr]) - 5):
+                                break 
+                                
+                            for p in active_in_play:
+                                candidates.remove(p)
+                                
+                            if len(candidates) == (len(on_court_tracker[t_abbr]) - 5):
+                                break
+                                
+                        # Evict whoever is left standing on the chopping block
+                        evict_count = len(on_court_tracker[t_abbr]) - 5
+                        for p in candidates[:evict_count]:
+                            on_court_tracker[t_abbr].remove(p)
+                            print(f"🥶 GHOST EVICTED (Coldest Player): Removed {p} from {t_abbr} court.")
 
             # =========================================================
             # BUILD BOXSCORE JSON WITH NEW ON-COURT FLAGS
