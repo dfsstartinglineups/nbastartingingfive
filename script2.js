@@ -7,33 +7,39 @@ let LIVE_GAMES_DATA = {};
 let ALL_SLATES = { fanduel: [], draftkings: [] };
 let ARE_ALL_EXPANDED = false;
 
-// State manager to prevent tabs/benches from closing when the 30-sec live poll updates the DOM
+// State managers
 window.CARD_STATE = {}; 
+window.RENDERED_PBP = {}; // The active, currently visible play-by-play log
+window.PBP_QUEUE = {};    // The queue of "new" plays waiting to be animated in
 let livePollInterval;
 
-// Global CSS injection for the slower pulse animation
+// Global CSS injection for pulse animation
 const style = document.createElement('style');
-style.innerHTML = `.slow-pulse { animation: spinner-grow 2s linear infinite !important; }`;
+style.innerHTML = `
+    .slow-pulse { animation: spinner-grow 2s linear infinite !important; }
+`;
 document.head.appendChild(style);
+
+// The 1-second interval that feeds new plays into the UI
+setInterval(() => {
+    for (let localId in window.PBP_QUEUE) {
+        if (window.PBP_QUEUE[localId].length > 0) {
+            // Grab the oldest 'new' play from the queue
+            let playToInject = window.PBP_QUEUE[localId].shift();
+            
+            // Add it to our source of truth
+            if (!window.RENDERED_PBP[localId]) window.RENDERED_PBP[localId] = [];
+            window.RENDERED_PBP[localId].unshift(playToInject);
+
+            // Surgically inject it into the DOM if the user is looking at the correct tab
+            injectPlayIntoDOM(localId, playToInject);
+        }
+    }
+}, 1000);
 
 // ==========================================
 // 1. MAIN APP LOGIC 
 // ==========================================
-
-function normalizeName(name) {
-    if (!name) return "";
-    let normalized = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z]/g, "").toLowerCase();
-    const nameMap = {
-        "gregoryjackson": "ggjackson",
-        "ggjacksonii": "gregoryjackson",
-        "gregoryjacksonii": "gregoryjackson",
-        "pjwashington": "pjwashingtonjr", 
-        "timhardaway": "timhardawayjr",
-        "xaviertillman": "xaviertillmansr",
-        "mohamedbamba": "mobamba"
-    };
-    return nameMap[normalized] || normalized;
-}
 
 function getStandardAbbr(abbr) {
     if (!abbr) return "";
@@ -60,12 +66,31 @@ async function pollLiveData(dateToFetch) {
     try {
         const response = await fetch(`data/LIVE/live_${dateToFetch}.json?v=` + new Date().getTime(), { cache: 'no-store' });
         if (response.ok) {
-            LIVE_GAMES_DATA = await response.json();
-            renderGames(); // Re-render gracefully
+            const incomingData = await response.json();
+            
+            // Diff incoming data into the queue before replacing the global object
+            for (let localId in incomingData) {
+                let game = incomingData[localId];
+                if (game.play_by_play) {
+                    if (!window.RENDERED_PBP[localId]) {
+                        // First load: instantly take the full log
+                        window.RENDERED_PBP[localId] = [...(game.play_by_play.full_log || [])];
+                    } else {
+                        // Subsequent load: push new plays to the queue
+                        let newPlays = game.play_by_play.new_plays || [];
+                        if (newPlays.length > 0) {
+                            if (!window.PBP_QUEUE[localId]) window.PBP_QUEUE[localId] = [];
+                            // Reversing so we queue them oldest-first for chronological animation
+                            window.PBP_QUEUE[localId].push(...[...newPlays].reverse());
+                        }
+                    }
+                }
+            }
+            
+            LIVE_GAMES_DATA = incomingData;
+            renderGames(); 
         }
-    } catch (e) {
-        // Silently fail if live data isn't generated yet
-    }
+    } catch (e) { }
 }
 
 // ==========================================
@@ -83,6 +108,12 @@ window.toggleBenchState = function(localId, viewType) {
     const key = viewType + 'BenchOpen';
     window.CARD_STATE[localId][key] = !window.CARD_STATE[localId][key];
     renderGames();
+};
+
+window.switchPbpTab = function(localId, tab) {
+    if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
+    window.CARD_STATE[localId].pbpTab = tab;
+    renderGames(); 
 };
 
 // ==========================================
@@ -226,10 +257,8 @@ async function init(dateToFetch) {
             });
         });
 
-        // Render the base static cards FIRST to clear the loading spinner!
         renderGames();
         
-        // Initial Fetch for Live Data, then start 30s polling
         await pollLiveData(dateToFetch);
         clearInterval(livePollInterval);
         livePollInterval = setInterval(() => pollLiveData(dateToFetch), 30000);
@@ -244,7 +273,7 @@ function renderGames() {
     const container = document.getElementById('games-container');
     if (!container) return;
     
-    // Save Horizontal Scroll Positions before re-rendering so the UI doesn't snap back
+    // Save Horizontal Scroll Positions before re-rendering
     const scrollPositions = {};
     document.querySelectorAll('.live-table-wrapper').forEach(el => {
         scrollPositions[el.id] = el.scrollLeft;
@@ -266,10 +295,84 @@ function renderGames() {
     });
 }
 
-function getRecentPlaysHtml(liveData) {
-    if (!liveData || !liveData.recent_plays || liveData.recent_plays.length === 0) return '';
+// SURGICAL INJECTOR: Slides in the new play without rebuilding the whole card!
+function injectPlayIntoDOM(localId, play) {
+    const listContainer = document.getElementById(`pbp-list-${localId}`);
+    if (!listContainer) return; 
 
-    let playsHtml = liveData.recent_plays.map((play, i) => {
+    const state = window.CARD_STATE[localId] || {};
+    const activeTab = state.pbpTab || 'All';
+
+    // Only inject if they are looking at "All" or the matching Quarter tab
+    if (activeTab === 'All' || activeTab === play.period.toString()) {
+        const el = document.createElement('div');
+        el.className = `d-flex align-items-center px-2 py-1`;
+        el.style.fontSize = '0.65rem';
+        el.style.borderBottom = '1px solid #f1f3f5';
+        
+        // Standard text colors (no green highlight)
+        el.innerHTML = `
+            <div class="fw-bold text-secondary me-2" style="white-space: nowrap; width: 42px; text-align: right;">${play.time}</div>
+            <div class="text-dark text-truncate" style="flex: 1;" title="${play.text}">${play.text}</div>
+        `;
+
+        listContainer.prepend(el);
+
+        // Instantly recalculate the zebra striping backgrounds for the list
+        Array.from(listContainer.children).forEach((child, index) => {
+            if (index % 2 === 0) {
+                child.classList.remove('bg-white');
+                child.classList.add('bg-light');
+            } else {
+                child.classList.remove('bg-light');
+                child.classList.add('bg-white');
+            }
+        });
+    }
+}
+
+function getRecentPlaysHtml(localId) {
+    let plays = window.RENDERED_PBP[localId] || [];
+    if (plays.length === 0) return '';
+
+    // Calculate available quarters
+    let qs = new Set();
+    plays.forEach(p => { if (p.period) qs.add(p.period.toString()); });
+    let availableQs = Array.from(qs).map(Number).sort((a,b) => a-b).map(String);
+
+    if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
+    let state = window.CARD_STATE[localId];
+
+    // Default to the current (highest) quarter
+    if (!state.pbpTab) {
+        state.pbpTab = availableQs.length > 0 ? availableQs[availableQs.length - 1] : 'All';
+    }
+    
+    // Safety check in case they are looking at a tab that doesn't exist anymore
+    if (state.pbpTab !== 'All' && !availableQs.includes(state.pbpTab)) {
+        state.pbpTab = availableQs.length > 0 ? availableQs[availableQs.length - 1] : 'All';
+    }
+
+    let activeTab = state.pbpTab;
+
+    // Generate Tabs
+    let tabsHtml = `<div class="d-flex bg-light border-bottom border-top" style="overflow-x: auto; scrollbar-width: none;">
+        <div class="px-3 py-1 fw-bold ${activeTab === 'All' ? 'text-dark border-bottom border-dark border-2' : 'text-muted'}" 
+             style="font-size: 0.65rem; cursor: pointer; white-space: nowrap;" 
+             onclick="switchPbpTab('${localId}', 'All')">All Plays</div>`;
+
+    availableQs.forEach(q => {
+        let label = Number(q) > 4 ? `OT${Number(q)-4}` : `${q}Q`;
+        tabsHtml += `<div class="px-3 py-1 fw-bold ${activeTab === q ? 'text-dark border-bottom border-dark border-2' : 'text-muted'}" 
+                          style="font-size: 0.65rem; cursor: pointer; white-space: nowrap;" 
+                          onclick="switchPbpTab('${localId}', '${q}')">${label}</div>`;
+    });
+    tabsHtml += `</div>`;
+
+    let filteredPlays = activeTab === 'All' ? plays : plays.filter(p => p.period.toString() === activeTab);
+
+    // Render Plays
+    let playsHtml = filteredPlays.map((play, i) => {
         const bgClass = i % 2 === 0 ? 'bg-light' : 'bg-white';
         return `
         <div class="d-flex align-items-center ${bgClass} px-2 py-1" style="font-size: 0.65rem; border-bottom: 1px solid #f1f3f5;">
@@ -278,10 +381,11 @@ function getRecentPlaysHtml(liveData) {
         </div>`;
     }).join('');
 
+    // Set max-height to 130px (roughly 5 items) and allow scrolling
     return `
         <div class="w-100 mt-2">
-            <div class="text-center py-1 fw-bold text-muted" style="font-size: 0.6rem; letter-spacing: 0.5px; background-color: #e9ecef; border-top: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6;">LAST 5 PLAYS</div>
-            <div class="d-flex flex-column">
+            ${tabsHtml}
+            <div class="d-flex flex-column overflow-auto" id="pbp-list-${localId}" style="max-height: 130px; scrollbar-width: thin;">
                 ${playsHtml}
             </div>
         </div>
@@ -297,12 +401,10 @@ function createGameCard(data) {
     const platform = platformNode ? platformNode.value : 'fd';
     const selectedSlate = document.getElementById('slate-selector')?.value || 'all';
 
-    // Check Live Data Status
     const liveMatch = LIVE_GAMES_DATA[localId];
     const isLiveDataAvailable = liveMatch && (liveMatch.status === 'in' || liveMatch.status === 'post');
-    const isActivelyPlaying = liveMatch && liveMatch.status === 'in'; // Only true while clock is ticking
+    const isActivelyPlaying = liveMatch && liveMatch.status === 'in'; 
     
-    // Initialize State for this card if it doesn't exist
     if (!window.CARD_STATE[localId]) {
         window.CARD_STATE[localId] = { 
             tab: isLiveDataAvailable ? 'live' : 'starters', 
@@ -318,11 +420,9 @@ function createGameCard(data) {
 
     let scoreOrOddsHtml = "";
     if (isLiveDataAvailable) {
-        // Stop the blinking dot and mute the badge color if the game is 'post' (Final)
         const pulseHtml = isActivelyPlaying ? `<span class="spinner-grow spinner-grow-sm text-success slow-pulse" style="width: 0.45rem; height: 0.45rem; margin-right: 4px;"></span>` : '';
         const badgeColor = isActivelyPlaying ? 'text-success border-success' : 'text-secondary border-secondary';
 
-        // Check if our Python script provided a live score, otherwise fall back to the initial page load score
         const currentAwayScore = liveMatch.away_score !== undefined ? liveMatch.away_score : (away.score || 0);
         const currentHomeScore = liveMatch.home_score !== undefined ? liveMatch.home_score : (home.score || 0);
 
@@ -416,15 +516,13 @@ function createGameCard(data) {
     if (selectedSlate !== 'all' && !hasAnySlatePlayer) return null; 
 
     // ==========================================
-    // BUILDER 2: LIVE COURT GRID (Strict adherence to Python state)
+    // BUILDER 2: LIVE COURT GRID
     // ==========================================
     const buildLiveCourtGrid = (teamAbbr, liveTeamData) => {
         if (!liveTeamData) return { onCourtHtml: '', benchHtml: '' };
         
         let allPlayers = [];
         
-        // PURE ESPN DATA: Ignore the DFS base roster completely. 
-        // Just loop through exactly who ESPN says is on the team.
         for (const [playerName, stats] of Object.entries(liveTeamData)) {
             allPlayers.push({
                 name: playerName,
@@ -434,11 +532,9 @@ function createGameCard(data) {
 
         const fpKey = platform === 'dk' ? 'dk_pts' : 'fd_pts';
 
-        // STRICTLY FILTER BY THE ON-COURT FLAG
         let onCourt = allPlayers.filter(p => p.live && p.live.is_on_court === true);
         let bench = allPlayers.filter(p => !p.live || p.live.is_on_court !== true);
 
-        // Sort both grids internally by fantasy points descending
         onCourt.sort((a, b) => (b.live[fpKey] || 0) - (a.live[fpKey] || 0));
         bench.sort((a, b) => (b.live[fpKey] || 0) - (a.live[fpKey] || 0));
 
@@ -499,7 +595,6 @@ function createGameCard(data) {
     // HTML ASSEMBLY
     // ==========================================
     
-    // Missing slate banner
     let missingSlateHtml = '';
     const platKey = platform === 'dk' ? 'draftkings' : 'fanduel';
     if (!hasAnySlatePlayer && selectedSlate === 'all') {
@@ -510,13 +605,11 @@ function createGameCard(data) {
         }
     }
 
-    // Recent Plays HTML
     let recentPlaysHtml = '';
     if (isLiveDataAvailable) {
-        recentPlaysHtml = getRecentPlaysHtml(liveMatch);
+        recentPlaysHtml = getRecentPlaysHtml(localId);
     }
 
-    // Tabs Header
     let tabsHtml = '';
     if (isLiveDataAvailable) {
         tabsHtml = `
@@ -534,7 +627,6 @@ function createGameCard(data) {
         </div>`;
     }
 
-    // BASE VIEW (Starters Tab)
     let baseBenchHtml = '';
     if (awayBaseBench.html || homeBaseBench.html) {
         baseBenchHtml = `
@@ -557,7 +649,6 @@ function createGameCard(data) {
             ${baseBenchHtml}
         </div>`;
 
-    // LIVE VIEW (Live Stats Tab)
     let viewLiveHtml = '';
     if (isLiveDataAvailable) {
         let liveBenchToggleHtml = '';
