@@ -9,9 +9,9 @@ let ARE_ALL_EXPANDED = false;
 
 // State managers
 window.CARD_STATE = {}; 
-window.RENDERED_PBP = {}; // The active, currently visible play-by-play log
-window.PBP_QUEUE = {};    // The queue of "new" plays waiting to be animated in
-window.LAST_SEQ_SEEN = {}; // Tracks the highest sequence number the UI has processed
+window.RENDERED_PBP = {}; 
+window.PBP_QUEUE = {};    
+window.LAST_SEQ_SEEN = {}; 
 let livePollInterval;
 
 // Global CSS injection for pulse and the new sliding animation
@@ -302,8 +302,8 @@ function renderGames() {
             
             return a.gameDate - b.gameDate;
         })
-        .forEach(item => {
-            const card = createGameCard(item);
+        .forEach((item, index) => { // Added index to rotate through the 3 style options
+            const card = createGameCard(item, index);
             if (card) container.appendChild(card);
         });
 
@@ -372,7 +372,6 @@ function getRecentPlaysHtml(localId) {
 
     availableQs.forEach(q => {
         let periodNum = Number(q);
-        // Correctly format Tabs for OT, 2OT, etc.
         let label = periodNum > 4 ? (periodNum === 5 ? 'OT' : `${periodNum - 4}OT`) : `${q}Q`;
         
         tabsHtml += `<div class="px-3 py-1 fw-bold ${activeTab === q ? 'text-dark border-bottom border-dark border-2' : 'text-muted'}" 
@@ -402,7 +401,7 @@ function getRecentPlaysHtml(localId) {
     `;
 }
 
-function createGameCard(data) {
+function createGameCard(data, cardIndex) {
     const gameCard = document.createElement('div');
     gameCard.className = 'col-12 col-md-6 col-lg-4 px-1 mb-3';
     
@@ -431,6 +430,10 @@ function createGameCard(data) {
         window.CARD_STATE[localId].everBeenLive = true;
     }
 
+    // Dynamic Time Badge & Testing Style Badge
+    const styleOptions = ["Option 1: Subtle Wash", "Option 2: Racing Stripes", "Option 3: Full Send"];
+    const currentStyleIndex = cardIndex % 3;
+    
     let timeBadgeHtml = `<span class="badge bg-dark text-white" style="font-size: 0.7rem;">${data.gameDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>`;
     if (isLiveDataAvailable) {
         if (liveMatch.status === 'in') {
@@ -461,8 +464,17 @@ function createGameCard(data) {
             <div class="badge bg-secondary text-white w-100" style="font-size: 0.70rem;">${data.odds.overUnder}</div>`;
     }
 
-    let awayStatsHtml = `<div style="width: 14%;"></div>`;
-    let homeStatsHtml = `<div style="width: 14%;"></div>`;
+    // ==========================================
+    // TEAM COLORS & DYNAMIC SCOREBOARD HEADER
+    // ==========================================
+    const awayColor = away.team.color ? '#' + away.team.color : '#cccccc';
+    const homeColor = home.team.color ? '#' + home.team.color : '#cccccc';
+
+    const isFullSend = currentStyleIndex === 2;
+    const pillStyle = isFullSend ? "background: rgba(255, 255, 255, 0.85); border-radius: 6px; padding: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);" : "";
+
+    let awayStatsHtml = `<div style="width: 16%; ${pillStyle}"></div>`;
+    let homeStatsHtml = `<div style="width: 16%; ${pillStyle}"></div>`;
 
     if (isLiveDataAvailable && liveMatch.team_stats) {
         const aStats = liveMatch.team_stats[awayStd] || {};
@@ -481,7 +493,7 @@ function createGameCard(data) {
             </div>`;
 
         awayStatsHtml = `
-            <div style="width: 14%; font-size: 0.65rem; line-height: 1.1;" class="fw-bold ms-1">
+            <div style="width: 16%; font-size: 0.65rem; line-height: 1.1; ${pillStyle}" class="fw-bold ms-1">
                 ${formatStatLeft('FG%', aStats['FG%'])}
                 ${formatStatLeft('3P%', aStats['3P%'])}
                 ${formatStatLeft('REB', aStats['REB'])}
@@ -490,7 +502,7 @@ function createGameCard(data) {
             </div>`;
             
         homeStatsHtml = `
-            <div style="width: 14%; font-size: 0.65rem; line-height: 1.1;" class="fw-bold me-1">
+            <div style="width: 16%; font-size: 0.65rem; line-height: 1.1; ${pillStyle}" class="fw-bold me-1">
                 ${formatStatRight('FG%', hStats['FG%'])}
                 ${formatStatRight('3P%', hStats['3P%'])}
                 ${formatStatRight('REB', hStats['REB'])}
@@ -498,6 +510,69 @@ function createGameCard(data) {
                 ${formatStatRight('TO', hStats['TO'])}
             </div>`;
     }
+
+    let scoreboardHeaderHtml = '';
+
+    if (currentStyleIndex === 0) {
+        // Option 1: Subtle Wash (15% Opacity via '26' hex suffix)
+        scoreboardHeaderHtml = `
+            <div class="p-2 d-flex align-items-center justify-content-between text-center" style="background: linear-gradient(90deg, ${awayColor}26 0%, ${awayColor}26 50%, ${homeColor}26 50%, ${homeColor}26 100%); border-bottom: 1px solid #dee2e6;">
+                ${awayStatsHtml}
+                <div style="width: 18%;">
+                    <img src="${away.team.logo}" style="width: 45px;">
+                    <div class="fw-bold mt-1 text-truncate text-dark" style="font-size: 0.7rem;">${away.team.shortDisplayName}</div>
+                </div>
+                <div style="width: 32%;">
+                    ${scoreOrOddsHtml}
+                </div>
+                <div style="width: 18%;">
+                    <img src="${home.team.logo}" style="width: 45px;">
+                    <div class="fw-bold mt-1 text-truncate text-dark" style="font-size: 0.7rem;">${home.team.shortDisplayName}</div>
+                </div>
+                ${homeStatsHtml}
+            </div>
+        `;
+    } else if (currentStyleIndex === 1) {
+        // Option 2: Racing Stripes
+        scoreboardHeaderHtml = `
+            <div style="height: 4px; width: 100%; background: linear-gradient(90deg, ${awayColor} 50%, ${homeColor} 50%);"></div>
+            <div class="p-2 d-flex align-items-center justify-content-between text-center bg-white border-bottom">
+                ${awayStatsHtml}
+                <div style="width: 18%;">
+                    <img src="${away.team.logo}" style="width: 45px;">
+                    <div class="fw-bold mt-1 text-truncate text-dark" style="font-size: 0.7rem;">${away.team.shortDisplayName}</div>
+                </div>
+                <div style="width: 32%;">
+                    ${scoreOrOddsHtml}
+                </div>
+                <div style="width: 18%;">
+                    <img src="${home.team.logo}" style="width: 45px;">
+                    <div class="fw-bold mt-1 text-truncate text-dark" style="font-size: 0.7rem;">${home.team.shortDisplayName}</div>
+                </div>
+                ${homeStatsHtml}
+            </div>
+        `;
+    } else {
+        // Option 3: Full Send Glassmorphism
+        scoreboardHeaderHtml = `
+            <div class="p-2 d-flex align-items-center justify-content-between text-center" style="background: linear-gradient(90deg, ${awayColor} 50%, ${homeColor} 50%); border-bottom: 1px solid #dee2e6;">
+                ${awayStatsHtml}
+                <div style="width: 18%; ${pillStyle}">
+                    <img src="${away.team.logo}" style="width: 45px;">
+                    <div class="fw-bold mt-1 text-truncate text-dark" style="font-size: 0.7rem;">${away.team.shortDisplayName}</div>
+                </div>
+                <div style="width: 32%; ${pillStyle}">
+                    ${scoreOrOddsHtml}
+                </div>
+                <div style="width: 18%; ${pillStyle}">
+                    <img src="${home.team.logo}" style="width: 45px;">
+                    <div class="fw-bold mt-1 text-truncate text-dark" style="font-size: 0.7rem;">${home.team.shortDisplayName}</div>
+                </div>
+                ${homeStatsHtml}
+            </div>
+        `;
+    }
+
 
     // ==========================================
     // BUILDER 1: STATIC DFS STARTING 5
@@ -738,24 +813,11 @@ function createGameCard(data) {
             <div class="p-2 border-bottom d-flex justify-content-between align-items-center bg-light">
                 <div class="d-flex align-items-center">
                     ${timeBadgeHtml}
+                    <span class="badge ms-2 bg-info text-dark" style="font-size: 0.6rem;">${styleOptions[currentStyleIndex]}</span>
                 </div>
                 <span class="text-muted fw-bold text-uppercase" style="font-size: 0.6rem;">${data.venue}</span>
             </div>
-            <div class="p-2 d-flex align-items-center justify-content-between text-center">
-                ${awayStatsHtml}
-                <div style="width: 20%;">
-                    <img src="${away.team.logo}" style="width: 45px;">
-                    <div class="fw-bold mt-1 text-truncate" style="font-size: 0.7rem;">${away.team.shortDisplayName}</div>
-                </div>
-                <div style="width: 32%;">
-                    ${scoreOrOddsHtml}
-                </div>
-                <div style="width: 20%;">
-                    <img src="${home.team.logo}" style="width: 45px;">
-                    <div class="fw-bold mt-1 text-truncate" style="font-size: 0.7rem;">${home.team.shortDisplayName}</div>
-                </div>
-                ${homeStatsHtml}
-            </div>
+            ${scoreboardHeaderHtml}
             ${missingSlateHtml}
             ${recentPlaysHtml}
             ${tabsHtml}
