@@ -217,6 +217,10 @@ def main():
                         p_in_raw = parts[0].strip()
                         p_out_raw = parts[1].strip()
                         
+                        # SAFETY CHECK: Ignore malformed plays where ESPN drops a player name
+                        if not p_in_raw or not p_out_raw:
+                            continue
+                        
                         team_in, full_in = None, None
                         team_out, full_out = None, None
                         
@@ -246,11 +250,13 @@ def main():
                             if out_val in on_court_tracker[target_team]:
                                 on_court_tracker[target_team].remove(out_val)
                             elif not full_out:
-                                # Desperate fallback for unmatched names already in tracker without the suffix
-                                for p in list(on_court_tracker[target_team]):
-                                    if p_out_raw.split()[-1].lower() in p.lower():
-                                        on_court_tracker[target_team].remove(p)
-                                        break
+                                # Desperate fallback: Safely check if the last word exists in the tracker
+                                out_parts = p_out_raw.split()
+                                if out_parts:
+                                    for p in list(on_court_tracker[target_team]):
+                                        if out_parts[-1].lower() in p.lower():
+                                            on_court_tracker[target_team].remove(p)
+                                            break
                                         
                             # Always add the IN player
                             on_court_tracker[target_team].add(in_val)
@@ -315,6 +321,21 @@ def main():
                             "fd_pts": 0.0, "dk_pts": 0.0,
                             "is_on_court": is_court
                         }
+
+            # Grab Team Stats
+            if 'boxscore' in box_data and 'teams' in box_data['boxscore']:
+                for team_box in box_data['boxscore']['teams']:
+                    t_abbr = normalize_team(team_box['team']['abbreviation'])
+                    if not team_box.get('statistics'): continue
+                    
+                    team_stats_dict = {}
+                    for stat_obj in team_box['statistics']:
+                        stat_key = stat_obj.get('abbreviation', stat_obj.get('name', ''))
+                        stat_val = stat_obj.get('displayValue', '')
+                        if stat_key:
+                            team_stats_dict[stat_key] = stat_val
+                            
+                    game_live_obj["team_stats"][t_abbr] = team_stats_dict
 
             new_live_data[local_game_id] = game_live_obj
 
