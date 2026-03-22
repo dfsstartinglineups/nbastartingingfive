@@ -418,28 +418,19 @@ function createGameCard(data) {
     // ==========================================
     // BUILDER 2: LIVE COURT GRID (Strict adherence to Python state)
     // ==========================================
-    const buildLiveCourtGrid = (teamAbbr, baseStarters, baseBench, liveTeamData) => {
+    const buildLiveCourtGrid = (teamAbbr, liveTeamData) => {
         if (!liveTeamData) return { onCourtHtml: '', benchHtml: '' };
         
         let allPlayers = [];
-        const addToAll = (arr) => {
-            (arr || []).forEach(p => {
-                let name = p.athlete.displayName || p.athlete.fullName;
-                allPlayers.push({ name: name, clean: normalizeName(name) });
+        
+        // PURE ESPN DATA: Ignore the DFS base roster completely. 
+        // Just loop through exactly who ESPN says is on the team.
+        for (const [playerName, stats] of Object.entries(liveTeamData)) {
+            allPlayers.push({
+                name: playerName,
+                live: stats
             });
-        };
-        addToAll(data.awayStarters === baseStarters ? data.awayStarters : data.homeStarters);
-        addToAll(data.awayBench === baseBench ? data.awayBench : data.homeBench);
-
-        // Map live stats and FPTS to players
-        allPlayers.forEach(p => {
-            let lData = liveTeamData[p.name];
-            if (!lData) {
-                const matchedKey = Object.keys(liveTeamData).find(k => normalizeName(k) === p.clean);
-                if (matchedKey) lData = liveTeamData[matchedKey];
-            }
-            p.live = lData || { MIN: 0, PTS: 0, REB: 0, AST: 0, STL: 0, BLK: 0, TO: 0, fd_pts: 0, dk_pts: 0, is_on_court: false };
-        });
+        }
 
         const fpKey = platform === 'dk' ? 'dk_pts' : 'fd_pts';
 
@@ -500,8 +491,8 @@ function createGameCard(data) {
     let homeLiveGrid = { onCourtHtml: '', benchHtml: '' };
     
     if (isLiveDataAvailable && liveMatch.players) {
-        awayLiveGrid = buildLiveCourtGrid(awayStd, data.awayStarters, data.awayBench, liveMatch.players[awayStd]);
-        homeLiveGrid = buildLiveCourtGrid(homeStd, data.homeStarters, data.homeBench, liveMatch.players[homeStd]);
+        awayLiveGrid = buildLiveCourtGrid(awayStd, liveMatch.players[awayStd]);
+        homeLiveGrid = buildLiveCourtGrid(homeStd, liveMatch.players[homeStd]);
     }
 
     // ==========================================
