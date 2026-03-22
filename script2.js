@@ -13,15 +13,25 @@ window.RENDERED_PBP = {}; // The active, currently visible play-by-play log
 window.PBP_QUEUE = {};    // The queue of "new" plays waiting to be animated in
 let livePollInterval;
 
-// Global CSS injection for pulse animation
+// Global CSS injection for pulse and the new sliding animation
 const style = document.createElement('style');
 style.innerHTML = `
     .slow-pulse { animation: spinner-grow 2s linear infinite !important; }
+    
+    @keyframes slideInHighlight {
+        0% { background-color: #d1e7dd; transform: translateY(-5px); opacity: 0; }
+        10% { transform: translateY(0); opacity: 1; }
+        100% { background-color: transparent; }
+    }
+    .new-play-anim { animation: slideInHighlight 3s ease-out; }
 `;
 document.head.appendChild(style);
 
-// The 1-second interval that feeds new plays into the UI
-setInterval(() => {
+// ==========================================
+// DYNAMIC QUEUE PROCESSOR
+// ==========================================
+// This function feeds new plays into the UI with a random 1-10 second pause between each post
+function processQueue() {
     for (let localId in window.PBP_QUEUE) {
         if (window.PBP_QUEUE[localId].length > 0) {
             // Grab the oldest 'new' play from the queue
@@ -35,7 +45,17 @@ setInterval(() => {
             injectPlayIntoDOM(localId, playToInject);
         }
     }
-}, 1000);
+
+    // Pick a random number between 1 and 10
+    const randomSeconds = Math.floor(Math.random() * 10) + 1;
+    
+    // Call this function again after the random delay
+    setTimeout(processQueue, randomSeconds * 1000);
+}
+
+// Start the continuous queue processor
+processQueue();
+
 
 // ==========================================
 // 1. MAIN APP LOGIC 
