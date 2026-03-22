@@ -13,6 +13,7 @@ window.RENDERED_PBP = {}; // The active, currently visible play-by-play log
 window.PBP_QUEUE = {};    // The queue of "new" plays waiting to be animated in
 window.LAST_SEQ_SEEN = {}; // Tracks the highest sequence number the UI has processed
 window.PENDING_LIVE_DATA = {}; // Delayed holding pen for live scores/stats to sync with animations
+window.GAME_QUEUE_TIMERS = {}; // Tracks which games currently have active injection loops
 let livePollInterval;
 
 // Global CSS injection for pulse and the new sliding animation
@@ -29,56 +30,67 @@ style.innerHTML = `
 `;
 document.head.appendChild(style);
 
+
 // ==========================================
-// DYNAMIC QUEUE PROCESSOR
+// INDEPENDENT GAME QUEUE PROCESSOR
 // ==========================================
-function processQueue() {
-    for (let localId in window.PBP_QUEUE) {
-        if (window.PBP_QUEUE[localId].length > 0) {
-            let playToInject = window.PBP_QUEUE[localId].shift();
+// This replaces the old synchronized global loop. Each game now ticks at its own random pace!
+function processGameQueue(localId) {
+    // If this game is already actively processing its queue, let it keep going
+    if (window.GAME_QUEUE_TIMERS[localId]) return;
+
+    function runNextPlay() {
+        // If the queue for this game is empty, stop the loop and sync the scoreboard
+        if (!window.PBP_QUEUE[localId] || window.PBP_QUEUE[localId].length === 0) {
+            window.GAME_QUEUE_TIMERS[localId] = false;
             
-            if (!window.RENDERED_PBP[localId]) window.RENDERED_PBP[localId] = [];
-            window.RENDERED_PBP[localId].unshift(playToInject);
-
-            // --- AUTO-SWITCH QUARTER LOGIC ---
-            if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
-            let state = window.CARD_STATE[localId];
-            let playPeriod = Number(playToInject.period);
-            let switchedQuarter = false;
-
-            // If this play is from a newer quarter than we've seen, auto-switch to it!
-            if (!state.highestPeriodSeen || playPeriod > state.highestPeriodSeen) {
-                state.highestPeriodSeen = playPeriod;
-                state.pbpTab = playPeriod.toString();
-                switchedQuarter = true;
-            }
-
-            if (switchedQuarter) {
-                // A new quarter started! We must re-render to build the new tab button
-                renderGames();
-            } else {
-                // Just inject the new play smoothly
-                injectPlayIntoDOM(localId, playToInject);
-            }
-
-            // If the queue is now empty, wait for the animation to finish, then update the score/stats!
-            if (window.PBP_QUEUE[localId].length === 0 && window.PENDING_LIVE_DATA[localId]) {
+            if (window.PENDING_LIVE_DATA[localId]) {
                 setTimeout(() => {
-                    if (window.PENDING_LIVE_DATA[localId]) {
+                    // Double check that the queue didn't get refilled while we were waiting
+                    if (window.PENDING_LIVE_DATA[localId] && (!window.PBP_QUEUE[localId] || window.PBP_QUEUE[localId].length === 0)) {
                         LIVE_GAMES_DATA[localId] = window.PENDING_LIVE_DATA[localId];
                         delete window.PENDING_LIVE_DATA[localId];
                         renderGames(); // Update the scoreboard!
                     }
                 }, 3500); // 3.5 seconds allows the slideInHighlight animation to finish gracefully
             }
+            return;
         }
+
+        // Mark this game's loop as active
+        window.GAME_QUEUE_TIMERS[localId] = true;
+
+        let playToInject = window.PBP_QUEUE[localId].shift();
+        
+        if (!window.RENDERED_PBP[localId]) window.RENDERED_PBP[localId] = [];
+        window.RENDERED_PBP[localId].unshift(playToInject);
+
+        // --- AUTO-SWITCH QUARTER LOGIC ---
+        if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
+        let state = window.CARD_STATE[localId];
+        let playPeriod = Number(playToInject.period);
+        let switchedQuarter = false;
+
+        if (!state.highestPeriodSeen || playPeriod > state.highestPeriodSeen) {
+            state.highestPeriodSeen = playPeriod;
+            state.pbpTab = playPeriod.toString();
+            switchedQuarter = true;
+        }
+
+        if (switchedQuarter) {
+            renderGames();
+        } else {
+            injectPlayIntoDOM(localId, playToInject);
+        }
+
+        // Schedule the next play for THIS specific game at its own random 1-5 sec interval
+        const randomSeconds = Math.floor(Math.random() * 5) + 1;
+        setTimeout(runNextPlay, randomSeconds * 1000);
     }
 
-    // Sped up the random injection delay to 1-5 seconds
-    const randomSeconds = Math.floor(Math.random() * 5) + 1;
-    setTimeout(processQueue, randomSeconds * 1000);
+    // Kickstart the loop for this game
+    runNextPlay();
 }
-processQueue();
 
 
 // ==========================================
@@ -137,6 +149,9 @@ async function pollLiveData(dateToFetch) {
                             if (!window.PBP_QUEUE[localId]) window.PBP_QUEUE[localId] = [];
                             window.PBP_QUEUE[localId].push(...[...unseenPlays].reverse());
                             window.LAST_SEQ_SEEN[localId] = Math.max(...unseenPlays.map(p => p.seq));
+                            
+                            // Spin up the independent processor for this specific game
+                            processGameQueue(localId);
                         }
                     }
                 }
