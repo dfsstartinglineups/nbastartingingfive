@@ -153,6 +153,18 @@ def main():
             print(f"Processing Live Game: {away_abbr} {away_score} @ {home_score} {home_abbr} ({clock_text})")
             active_games_found += 1
             
+            # 🛑 THE 10-MINUTE COOLDOWN: Catch late stat corrections, then go to sleep!
+            if status_state == 'post':
+                if local_game_id in old_live_data and 'game_ended_time' in old_live_data[local_game_id]:
+                    ended_time_str = old_live_data[local_game_id]['game_ended_time']
+                    try:
+                        ended_time = datetime.fromisoformat(ended_time_str)
+                        if now_est > ended_time + timedelta(minutes=10):
+                            new_live_data[local_game_id] = old_live_data[local_game_id]
+                            print(f"   -> Game Final for 10+ mins. Carried over saved stats.")
+                            continue
+                    except: pass
+
             # --- FETCH BOXSCORE AND PLAY-BY-PLAY (FROM SUMMARY) ---
             summary_url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event={game_id}"
             try:
@@ -168,6 +180,13 @@ def main():
                 "team_stats": {},
                 "players": {home_abbr: {}, away_abbr: {}}
             }
+            
+            # Stamp the time the game ended so our 10-minute timer can start
+            if status_state == 'post':
+                if local_game_id in old_live_data and 'game_ended_time' in old_live_data[local_game_id]:
+                    game_live_obj['game_ended_time'] = old_live_data[local_game_id]['game_ended_time']
+                else:
+                    game_live_obj['game_ended_time'] = now_est.isoformat()
             
             # =========================================================
             # BUILD NATIVE ESPN ROSTERS & STARTERS
@@ -317,7 +336,7 @@ def main():
                                         
                             on_court_tracker[target_team].add(in_val)
 
-            # THE BAND-AID PATCH (Fills the court if < 5)
+            # THE BAND-AID PATCH
             for t_abbr in [home_abbr, away_abbr]:
                 if len(on_court_tracker[t_abbr]) < 5:
                     for play in reversed(plays):
@@ -358,7 +377,6 @@ def main():
                         if ' enters the game for ' in text:
                             p_out_raw = text.split(' enters the game for ')[1].strip().lower()
                             
-                            # Does this raw text loosely match any of the 6 guys on our floor?
                             for p in list(on_court_tracker[t_abbr]):
                                 p_last = p.split()[-2].lower() if p.split()[-1].lower() in ['jr.', 'sr.', 'ii', 'iii', 'iv', 'jr', 'sr'] and len(p.split()) > 1 else p.split()[-1].lower()
                                 if p_last in p_out_raw or p.lower() in p_out_raw:
@@ -383,7 +401,6 @@ def main():
                                 if p.lower() in text or p_last in text:
                                     active_in_play.append(p)
                                     
-                            # If crossing these guys off the list leaves us with too few to evict, stop!
                             if len(candidates) - len(active_in_play) < (len(on_court_tracker[t_abbr]) - 5):
                                 break 
                                 
@@ -393,7 +410,6 @@ def main():
                             if len(candidates) == (len(on_court_tracker[t_abbr]) - 5):
                                 break
                                 
-                        # Evict whoever is left standing on the chopping block
                         evict_count = len(on_court_tracker[t_abbr]) - 5
                         for p in candidates[:evict_count]:
                             on_court_tracker[t_abbr].remove(p)
