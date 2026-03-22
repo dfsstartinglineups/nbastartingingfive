@@ -74,7 +74,7 @@ function processQueue() {
         }
     }
 
-    // NEW: Sped up the random injection delay to 1-5 seconds
+    // Sped up the random injection delay to 1-5 seconds
     const randomSeconds = Math.floor(Math.random() * 5) + 1;
     setTimeout(processQueue, randomSeconds * 1000);
 }
@@ -563,12 +563,13 @@ function createGameCard(data) {
         const currentAwayScore = liveMatch.away_score !== undefined ? liveMatch.away_score : (away.score || 0);
         const currentHomeScore = liveMatch.home_score !== undefined ? liveMatch.home_score : (home.score || 0);
 
+        // --- FIX: Added Flexbox centering to the badge to perfectly align the dot and text ---
         scoreOrOddsHtml = `
             <div class="fw-bold text-dark mb-1" style="font-size: 1.2rem; letter-spacing: -0.5px;">
                 ${currentAwayScore} - ${currentHomeScore}
             </div>
-            <div class="badge bg-light ${badgeColor} border w-100" style="font-size: 0.7rem; border-radius: 12px;">
-                ${pulseHtml}${liveMatch.clock}
+            <div class="badge bg-light ${badgeColor} border w-100 d-inline-flex align-items-center justify-content-center" style="font-size: 0.7rem; border-radius: 12px; padding-top: 4px; padding-bottom: 4px;">
+                ${pulseHtml}<span>${liveMatch.clock}</span>
             </div>`;
     } else {
         scoreOrOddsHtml = `
