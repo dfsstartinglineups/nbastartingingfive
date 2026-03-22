@@ -74,6 +74,7 @@ async function fetchLocalProbables(dateToFetch) {
 
 async function pollLiveData(dateToFetch) {
     try {
+        // We fetch the live data file
         const response = await fetch(`data/LIVE/live_${dateToFetch}.json?v=` + new Date().getTime(), { cache: 'no-store' });
         if (response.ok) {
             const incomingData = await response.json();
@@ -97,6 +98,24 @@ async function pollLiveData(dateToFetch) {
                     }
                 }
             }
+
+            // We must update whether a lineup is projected or official
+            // The JSON live data can have .starters object with an is_projected flag for the teams
+            ALL_GAMES_DATA.forEach(gameObj => {
+                const liveData = incomingData[gameObj.localId];
+                if (liveData && liveData.starters) {
+                    const awayStd = getStandardAbbr(gameObj.away.team.abbreviation);
+                    const homeStd = getStandardAbbr(gameObj.home.team.abbreviation);
+                    
+                    if (liveData.starters[awayStd] && typeof liveData.starters[awayStd].is_projected !== 'undefined') {
+                        gameObj.awayIsProjected = liveData.starters[awayStd].is_projected;
+                    }
+                    
+                    if (liveData.starters[homeStd] && typeof liveData.starters[homeStd].is_projected !== 'undefined') {
+                        gameObj.homeIsProjected = liveData.starters[homeStd].is_projected;
+                    }
+                }
+            });
             
             LIVE_GAMES_DATA = incomingData;
             renderGames(); 
@@ -329,8 +348,9 @@ function injectPlayIntoDOM(localId, play) {
         const isMake = play.text.includes(' makes ');
         const textWeight = isMake ? 'fw-bold' : '';
         
+        // Use 50px width for play spacing
         el.innerHTML = `
-            <div class="fw-bold text-secondary me-2" style="white-space: nowrap; width: 42px; text-align: right; padding-top: 1px;">${play.time}</div>
+            <div class="fw-bold text-secondary me-2" style="white-space: nowrap; width: 50px; text-align: right; padding-top: 1px;">${play.time}</div>
             <div class="text-dark ${textWeight}" style="flex: 1; line-height: 1.3;" title="${play.text}">${play.text}</div>
         `;
 
@@ -392,9 +412,10 @@ function getRecentPlaysHtml(localId) {
         const isMake = play.text.includes(' makes ');
         const textWeight = isMake ? 'fw-bold' : '';
         
+        // Used 50px width here for play spacing
         return `
         <div class="d-flex align-items-start ${bgClass} px-2 py-1" style="font-size: 0.65rem; border-bottom: 1px solid #f1f3f5;">
-            <div class="fw-bold text-secondary me-2" style="white-space: nowrap; width: 42px; text-align: right; padding-top: 1px;">${play.time}</div>
+            <div class="fw-bold text-secondary me-2" style="white-space: nowrap; width: 50px; text-align: right; padding-top: 1px;">${play.time}</div>
             <div class="text-dark ${textWeight}" style="flex: 1; line-height: 1.3;" title="${play.text}">${play.text}</div>
         </div>`;
     }).join('');
