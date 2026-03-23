@@ -594,7 +594,7 @@ function createLineupCard(data) {
     const platform = platformNode ? platformNode.value : 'fd';
     const selectedSlate = document.getElementById('slate-selector')?.value || 'all';
 
-    if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = { baseBenchOpen: false, liveBenchOpen: false, pbpOpen: false };
+    if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = { baseBenchOpen: false, liveBenchOpen: false, pbpOpen: true };
     const cardState = window.CARD_STATE[localId];
 
     const liveMatch = LIVE_GAMES_DATA[localId];
