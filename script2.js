@@ -212,7 +212,7 @@ function setupMasterTabs() {
     const slateSelector = document.getElementById('slate-selector');
     if (!slateSelector || document.getElementById('master-tab-container')) return;
 
-    // Inject the Master Tabs dynamically next to the slate selector!
+    // Inject the Master Tabs dynamically next to the slate selector
     const tabContainer = document.createElement('div');
     tabContainer.id = 'master-tab-container';
     tabContainer.className = 'd-inline-block ms-3 align-middle';
@@ -222,7 +222,7 @@ function setupMasterTabs() {
             <label class="btn btn-outline-dark btn-sm fw-bold shadow-sm" for="tab-lineups">Lineups 📋</label>
 
             <input type="radio" class="btn-check" name="masterTab" id="tab-live" value="live">
-            <label class="btn btn-outline-danger btn-sm fw-bold shadow-sm" for="tab-live">LIVE GAMES 🔴</label>
+            <label class="btn btn-outline-success btn-sm fw-bold shadow-sm" for="tab-live">Live Games 🟢</label>
         </div>
     `;
     
@@ -234,6 +234,36 @@ function setupMasterTabs() {
             renderGames(); // Immediately swap the view
         });
     });
+}
+
+// Helper to determine if a game has any players in the currently selected DFS slate
+function hasSlatePlayers(game, platform, slateId) {
+    if (slateId === 'all') return true; // If 'all', we don't filter the game out entirely.
+    
+    const checkRoster = (players) => {
+        if (!players) return false;
+        return players.some(p => {
+            const a = p.athlete || p;
+            if (!a.dfs) return false;
+            const slatesDict = platform === 'dk' ? (a.dfs.dk_slates || {}) : (a.dfs.fd_slates || {});
+            return !!slatesDict[slateId];
+        });
+    };
+    
+    return checkRoster(game.awayStarters) || checkRoster(game.homeStarters) || checkRoster(game.awayBench) || checkRoster(game.homeBench);
+}
+
+// Helper to determine if a game has ANY dfs players at all (for the missing slate warning)
+function hasAnyDfsSalaries(game, platform) {
+    const checkRoster = (players) => {
+        if (!players) return false;
+        return players.some(p => {
+            const a = p.athlete || p;
+            if (!a.dfs) return false;
+            return (platform === 'dk' ? (a.dfs.dk_salary || 0) : (a.dfs.salary || 0)) > 0;
+        });
+    };
+    return checkRoster(game.awayStarters) || checkRoster(game.homeStarters) || checkRoster(game.awayBench) || checkRoster(game.homeBench);
 }
 
 // ==========================================
@@ -395,6 +425,10 @@ function renderGames() {
     const container = document.getElementById('games-container');
     if (!container) return;
     
+    const platformNode = document.querySelector('input[name="dfsPlatform"]:checked');
+    const platform = platformNode ? platformNode.value : 'fd';
+    const selectedSlate = document.getElementById('slate-selector')?.value || 'all';
+
     // Save scroll state for live grid tables
     const scrollPositions = {};
     document.querySelectorAll('.live-table-wrapper').forEach(el => {
@@ -409,6 +443,11 @@ function renderGames() {
         (item.away.team.displayName + " " + item.home.team.displayName).toLowerCase().includes(searchText)
     );
 
+    // Filter by DFS Slate Selection!
+    if (selectedSlate !== 'all') {
+        filteredData = filteredData.filter(item => hasSlatePlayers(item, platform, selectedSlate));
+    }
+
     // Master Tab Filter: If "Live", hide games that haven't tipped off
     if (window.MASTER_TAB === 'live') {
         filteredData = filteredData.filter(item => {
@@ -418,7 +457,7 @@ function renderGames() {
     }
 
     if (filteredData.length === 0) {
-        let msg = window.MASTER_TAB === 'live' ? "No games are currently live or completed." : "No games match your search.";
+        let msg = window.MASTER_TAB === 'live' ? "No games are currently live or completed." : "No games match your filters.";
         container.innerHTML = `<div class="col-12 text-center py-5 text-muted fw-bold">${msg}</div>`;
         return;
     }
@@ -436,7 +475,7 @@ function renderGames() {
             return a.gameDate - b.gameDate;
         }
     }).forEach((item) => {
-        // Route to the appropriate card builder based on the Master Tab!
+        // Route to the appropriate card builder based on the Master Tab
         const card = window.MASTER_TAB === 'lineups' ? createLineupCard(item) : createLiveCard(item);
         if (card) container.appendChild(card);
     });
@@ -565,14 +604,13 @@ function createLineupCard(data) {
     let timeBadgeHtml = `<span class="badge bg-dark text-white" style="font-size: 0.7rem;">${data.gameDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>`;
     if (isLiveDataAvailable) {
         if (liveMatch.status === 'in') {
-            timeBadgeHtml = `<span class="badge bg-danger text-white" style="font-size: 0.7rem;">LIVE</span>`;
+            timeBadgeHtml = `<span class="badge bg-success text-white" style="font-size: 0.7rem;">LIVE</span>`;
         } else if (liveMatch.status === 'post') {
             timeBadgeHtml = `<span class="badge bg-secondary text-white" style="font-size: 0.7rem;">FINAL</span>`;
         }
     }
 
     // Center Display Logic: We want to ALWAYS show the Odds on the Lineups tab. 
-    // Even if the game is live, the odds are still safely stored in data.odds!
     const centerHtml = `
         <div class="badge bg-light text-dark border w-100 mb-1" style="font-size: 0.75rem;">${data.odds.spread}</div>
         <div class="badge bg-secondary text-white w-100" style="font-size: 0.70rem;">${data.odds.overUnder}</div>
@@ -648,8 +686,7 @@ function createLineupCard(data) {
     const awayBaseBench = buildBaseLineupList(data.awayBench, false, true);
     const homeBaseBench = buildBaseLineupList(data.homeBench, false, true);
     
-    const hasAnySlatePlayer = awayBaseStarters.hasValidPlayers || homeBaseStarters.hasValidPlayers || awayBaseBench.hasValidPlayers || homeBaseBench.hasValidPlayers;
-    if (selectedSlate !== 'all' && !hasAnySlatePlayer) return null; 
+    const hasAnySlatePlayer = hasAnyDfsSalaries(data, platform);
 
     let missingSlateHtml = '';
     const platKey = platform === 'dk' ? 'draftkings' : 'fanduel';
@@ -733,7 +770,7 @@ function createLiveCard(data) {
 
     let timeBadgeHtml = "";
     if (liveMatch.status === 'in') {
-        timeBadgeHtml = `<span class="badge bg-danger text-white" style="font-size: 0.7rem;">LIVE</span>`;
+        timeBadgeHtml = `<span class="badge bg-success text-white" style="font-size: 0.7rem;">LIVE</span>`;
     } else if (liveMatch.status === 'post') {
         timeBadgeHtml = `<span class="badge bg-secondary text-white" style="font-size: 0.7rem;">FINAL</span>`;
     }
