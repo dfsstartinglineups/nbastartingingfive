@@ -599,12 +599,14 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                 if (fp > 0) {
                     let photo = '', pos = '-';
                     
+                    // Check our database by name first for the pristine headshot
                     let dbPlayer = getPlayerFromDB(null, playerName);
                     if (dbPlayer) {
                         photo = dbPlayer.photo;
                         pos = dbPlayer.pos;
                     }
 
+                    // Look through the game roster to figure out DFS position if needed
                     let matchedPlayer = (roster || []).find(p => {
                         const a = p.athlete || p;
                         return (a.displayName || a.fullName || '') === playerName;
@@ -625,31 +627,38 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
     });
 
     if (livePlayers.length === 0) return '';
+    
+    // Sort descending by live fantasy points
     livePlayers.sort((a, b) => b.live_fp - a.live_fp);
 
     const listHtml = livePlayers.map((p, index) => {
+        // Increased photo size to 48px
         const photoHtml = (p.photo && p.photo.includes("http")) 
-            ? `<img src="${p.photo}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #dee2e6; background: #fff;">`
-            : `<div style="width: 32px; height: 32px; border-radius: 50%; background-color: #f8f9fa; color: #495057; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 800; border: 1px solid #dee2e6;">${p.name.charAt(0)}</div>`;
+            ? `<img src="${p.photo}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 1px solid #dee2e6; background: #fff;">`
+            : `<div style="width: 48px; height: 48px; border-radius: 50%; background-color: #f8f9fa; color: #495057; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; border: 1px solid #dee2e6;">${p.name.charAt(0)}</div>`;
         
-        const teamBadge = p.teamLogo ? `<img src="${p.teamLogo}" style="width: 14px; height: 14px; position: absolute; bottom: -2px; right: -2px; border-radius: 50%; background: #fff; border: 1px solid #dee2e6; object-fit: contain;">` : '';
-        const subLine = `${p.pos} • ${p.teamAbbrev} • ${p.live_stats.PTS}p ${p.live_stats.REB}r ${p.live_stats.AST}a`;
+        // Increased team badge size to 20px and added a 1px padding for a clean cutout effect
+        const teamBadge = p.teamLogo ? `<img src="${p.teamLogo}" style="width: 20px; height: 20px; position: absolute; bottom: -2px; right: -4px; border-radius: 50%; background: #fff; border: 1px solid #dee2e6; object-fit: contain; padding: 1px;">` : '';
+        
+        // Expanded stats string to cover all DFS relevant categories
+        const stats = p.live_stats;
+        const subLine = `${p.pos} • ${p.teamAbbrev} <span class="fw-bold text-dark ms-1 border-start ps-1 border-secondary border-opacity-50">${stats.PTS}p ${stats.REB}r ${stats.AST}a ${stats.STL}s ${stats.BLK}b ${stats.TO}to</span>`;
 
         return `
         <div class="d-flex align-items-center justify-content-between py-2 border-bottom user-select-none" style="cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='transparent'" onclick="openPlayerModal(this)" data-player="${encodeURIComponent(JSON.stringify(p))}">
             <div class="d-flex align-items-center overflow-hidden">
-                <div class="fw-bold text-muted me-2 text-end" style="font-size: 0.75rem; width: 16px;">${index + 1}.</div>
-                <div class="me-2 position-relative flex-shrink-0">
+                <div class="fw-bold text-muted me-2 text-end" style="font-size: 0.85rem; width: 22px;">${index + 1}.</div>
+                <div class="me-3 position-relative flex-shrink-0">
                     ${photoHtml}
                     ${teamBadge}
                 </div>
-                <div class="d-flex flex-column justify-content-center overflow-hidden">
-                    <span class="fw-bold text-dark text-truncate" style="font-size: 0.8rem; max-width: 150px;" title="${p.name}">${shortenPlayerName(p.name)}</span>
-                    <span class="text-muted text-truncate" style="font-size: 0.65rem; max-width: 160px;">${subLine}</span>
+                <div class="d-flex flex-column justify-content-center overflow-hidden pe-1">
+                    <span class="fw-bold text-dark text-truncate" style="font-size: 0.95rem; max-width: 220px;" title="${p.name}">${shortenPlayerName(p.name)}</span>
+                    <span class="text-muted text-truncate" style="font-size: 0.72rem; max-width: 240px;">${subLine}</span>
                 </div>
             </div>
-            <div class="text-end ms-2 flex-shrink-0">
-                <div class="fw-bold text-success" style="font-size: 1rem;">
+            <div class="text-end ms-1 flex-shrink-0">
+                <div class="fw-bold text-success" style="font-size: 1.2rem;">
                     ${p.live_fp.toFixed(1)}
                 </div>
             </div>
@@ -663,7 +672,7 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                 <h6 class="mb-0 fw-bold" style="font-size: 0.85rem;">🔥 Live Fantasy Leaders</h6>
                 <span class="badge bg-secondary" style="font-size: 0.6rem;">${platform === 'dk' ? 'DraftKings' : 'FanDuel'}</span>
             </div>
-            <div class="card-body p-0 px-2" style="max-height: 235px; overflow-y: auto;">
+            <div class="card-body p-0 px-3" style="max-height: 520px; overflow-y: auto;">
                 ${listHtml}
             </div>
         </div>
