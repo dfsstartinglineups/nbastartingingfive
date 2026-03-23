@@ -321,8 +321,14 @@ function populateSlates() {
     const datePicker = document.getElementById('date-picker');
     const dateToFetch = datePicker ? datePicker.value : DEFAULT_DATE;
     
-    let dateObj = new Date(dateToFetch);
-    if (isNaN(dateObj)) dateObj = new Date(); 
+    // FIX: Split the date manually so JavaScript doesn't apply a UTC timezone offset
+    // that accidentally shifts the day of the week backwards!
+    let dateObj = new Date();
+    if (dateToFetch && dateToFetch.includes('-')) {
+        const [y, m, d] = dateToFetch.split('-');
+        dateObj = new Date(y, m - 1, d);
+    }
+    
     const dayOfWeek = dateObj.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
 
     if (ALL_SLATES[platKey] && Array.isArray(ALL_SLATES[platKey])) {
@@ -330,6 +336,8 @@ function populateSlates() {
             const upperName = slate.name.toUpperCase();
             const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
             const containsADay = days.some(day => upperName.includes(day));
+            
+            // If the slate name contains today's day of the week (e.g. "MON"), keep it!
             if (upperName.includes(dayOfWeek) || !containsADay) {
                 const opt = document.createElement('option');
                 opt.value = slate.id;
