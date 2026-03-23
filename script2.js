@@ -8,7 +8,7 @@ let ALL_SLATES = { fanduel: [], draftkings: [] };
 let ARE_ALL_EXPANDED = false;
 
 // State managers
-window.MASTER_TAB = 'lineups'; // Default master tab
+window.MASTER_TAB = 'lineups'; 
 window.CARD_STATE = {}; 
 window.RENDERED_PBP = {}; 
 window.PBP_QUEUE = {};    
@@ -17,18 +17,16 @@ window.PENDING_LIVE_DATA = {};
 window.GAME_QUEUE_TIMERS = {}; 
 let livePollInterval;
 
-// Global CSS injection for pulse and the new sliding animation
+// Global CSS injection
 const style = document.createElement('style');
 style.innerHTML = `
     .slow-pulse { animation: spinner-grow 2s linear infinite !important; }
-    
     @keyframes slideInHighlight {
         0% { background-color: #d1e7dd; transform: translateY(-5px); opacity: 0; }
         10% { transform: translateY(0); opacity: 1; }
         100% { background-color: transparent; }
     }
     .new-play-anim { animation: slideInHighlight 3.5s ease-out; }
-    
     .leaderboard-tab {
         font-size: 0.7rem; font-weight: 700; color: #adb5bd; cursor: pointer;
         padding: 8px 0; text-align: center; text-transform: uppercase; letter-spacing: 0.5px;
@@ -48,13 +46,11 @@ function processGameQueue(localId) {
     function runNextPlay() {
         if (!window.PBP_QUEUE[localId] || window.PBP_QUEUE[localId].length === 0) {
             window.GAME_QUEUE_TIMERS[localId] = false;
-            
             if (window.PENDING_LIVE_DATA[localId]) {
                 setTimeout(() => {
                     if (window.PENDING_LIVE_DATA[localId] && (!window.PBP_QUEUE[localId] || window.PBP_QUEUE[localId].length === 0)) {
                         LIVE_GAMES_DATA[localId] = window.PENDING_LIVE_DATA[localId];
                         delete window.PENDING_LIVE_DATA[localId];
-                        // Only render if the user is actually looking at the LIVE tab!
                         if (window.MASTER_TAB === 'live') renderGames(); 
                     }
                 }, 3500); 
@@ -75,8 +71,6 @@ function processGameQueue(localId) {
         
         let isFinal = LIVE_GAMES_DATA[localId] && LIVE_GAMES_DATA[localId].status === 'post';
 
-        // SMARTER AUTO-SWITCH: Don't rip the user to a new quarter if the game is over, 
-        // or if they explicitly clicked back to an older quarter to read it.
         if (!isFinal && (!state.highestPeriodSeen || playPeriod > state.highestPeriodSeen)) {
             if (!state.pbpTab || state.pbpTab === 'All' || state.pbpTab === (state.highestPeriodSeen || 1).toString()) {
                 state.pbpTab = playPeriod.toString();
@@ -85,26 +79,20 @@ function processGameQueue(localId) {
             state.highestPeriodSeen = playPeriod;
         }
 
-        // Only manipulate the DOM if we are actively on the Live tab
         if (window.MASTER_TAB === 'live') {
-            if (switchedQuarter) {
-                renderGames();
-            } else {
-                injectPlayIntoDOM(localId, playToInject);
-            }
+            if (switchedQuarter) renderGames();
+            else injectPlayIntoDOM(localId, playToInject);
         }
 
         const randomSeconds = Math.floor(Math.random() * 5) + 1;
         setTimeout(runNextPlay, randomSeconds * 1000);
     }
-
     runNextPlay();
 }
 
 // ==========================================
 // 1. MAIN APP LOGIC 
 // ==========================================
-
 function getStandardAbbr(abbr) {
     if (!abbr) return "";
     let cleanAbbr = abbr.replace(/[^A-Za-z]/g, '').toUpperCase();
@@ -144,7 +132,6 @@ async function pollLiveData(dateToFetch) {
                         let state = window.CARD_STATE[localId];
                         if (fullLog.length > 0) state.highestPeriodSeen = Math.max(...fullLog.map(p => Number(p.period)));
 
-                        // IF GAME IS ALREADY FINAL ON FIRST LOAD, FLIP IMMEDIATELY
                         if (game.status === 'post') {
                             state.hasFlippedPbp = true;
                             state.pbpTab = 'All';
@@ -152,13 +139,11 @@ async function pollLiveData(dateToFetch) {
                         }
                     } else {
                         let unseenPlays = fullLog.filter(p => p.seq > window.LAST_SEQ_SEEN[localId]);
-                        
                         if (unseenPlays.length > 0) {
                             hasNewPlays = true;
                             if (!window.PBP_QUEUE[localId]) window.PBP_QUEUE[localId] = [];
                             window.PBP_QUEUE[localId].push(...[...unseenPlays].reverse());
                             window.LAST_SEQ_SEEN[localId] = Math.max(...unseenPlays.map(p => p.seq));
-                            
                             processGameQueue(localId);
                         }
                     }
@@ -169,18 +154,12 @@ async function pollLiveData(dateToFetch) {
                 } else {
                     let isAlreadyPost = LIVE_GAMES_DATA[localId] && LIVE_GAMES_DATA[localId].status === 'post';
                     LIVE_GAMES_DATA[localId] = game;
-                    
-                    // Optimization: Do not force a global re-render if a game is totally finalized
-                    if (!isAlreadyPost || game.status !== 'post') {
-                        needsGlobalRender = true;
-                    }
+                    if (!isAlreadyPost || game.status !== 'post') needsGlobalRender = true;
                 }
 
-                // 5 MINUTE FLIP TIMER
                 if (game.status === 'post') {
                     if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
                     let state = window.CARD_STATE[localId];
-                    
                     if (!state.hasFlippedPbp && !state.finalTimerStarted) {
                         state.finalTimerStarted = true;
                         setTimeout(() => {
@@ -196,7 +175,7 @@ async function pollLiveData(dateToFetch) {
                                     }, 100);
                                 }
                             }
-                        }, 300000); // Wait exactly 5 mins
+                        }, 300000); 
                     }
                 }
             }
@@ -239,7 +218,6 @@ async function pollLiveData(dateToFetch) {
 // ==========================================
 // 2. TOGGLE LOGIC & STATE MANAGEMENT
 // ==========================================
-
 window.toggleBenchState = function(localId, viewType) {
     if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
     const key = viewType + 'BenchOpen';
@@ -263,7 +241,6 @@ function setupMasterTabs() {
     const slateSelector = document.getElementById('slate-selector');
     if (!slateSelector || document.getElementById('master-tab-container')) return;
 
-    // Inject the Master Tabs dynamically next to the slate selector
     const tabContainer = document.createElement('div');
     tabContainer.id = 'master-tab-container';
     tabContainer.className = 'd-inline-block ms-3 align-middle';
@@ -271,7 +248,6 @@ function setupMasterTabs() {
         <div class="btn-group" role="group">
             <input type="radio" class="btn-check" name="masterTab" id="tab-lineups" value="lineups" checked>
             <label class="btn btn-outline-dark btn-sm fw-bold shadow-sm" for="tab-lineups">Lineups 📋</label>
-
             <input type="radio" class="btn-check" name="masterTab" id="tab-live" value="live">
             <label class="btn btn-outline-success btn-sm fw-bold shadow-sm position-relative" for="tab-live">
                 Live Games 🟢
@@ -280,22 +256,19 @@ function setupMasterTabs() {
                     BETA
                 </span>
             </label>
-        </div>
-    `;
-    
+        </div>`;
     slateSelector.parentNode.insertBefore(tabContainer, slateSelector.nextSibling);
 
     document.querySelectorAll('input[name="masterTab"]').forEach(radio => {
         radio.addEventListener('change', (e) => {
             window.MASTER_TAB = e.target.value;
-            renderGames(); // Immediately swap the view
+            renderGames(); 
         });
     });
 }
 
 function hasSlatePlayers(game, platform, slateId) {
     if (slateId === 'all') return true; 
-    
     const checkRoster = (players) => {
         if (!players) return false;
         return players.some(p => {
@@ -305,7 +278,6 @@ function hasSlatePlayers(game, platform, slateId) {
             return !!slatesDict[slateId];
         });
     };
-    
     return checkRoster(game.awayStarters) || checkRoster(game.homeStarters) || checkRoster(game.awayBench) || checkRoster(game.homeBench);
 }
 
@@ -324,7 +296,6 @@ function hasAnyDfsSalaries(game, platform) {
 // ==========================================
 // 3. UI RENDERING & BUILDERS
 // ==========================================
-
 function populateSlates() {
     const platformNode = document.querySelector('input[name="dfsPlatform"]:checked');
     const platform = platformNode ? platformNode.value : 'fd';
@@ -337,10 +308,11 @@ function populateSlates() {
     selector.innerHTML = '<option value="all">All Slates</option>';
     
     const datePicker = document.getElementById('date-picker');
-    const dateToFetch = datePicker ? datePicker.value : new Date().toLocaleDateString('en-CA');
+    const dateToFetch = datePicker ? datePicker.value : DEFAULT_DATE;
     
-    const [y, m, d] = dateToFetch.split('-');
-    const dateObj = new Date(y, m - 1, d);
+    // SAFE DATE PARSING FIX
+    let dateObj = new Date(dateToFetch);
+    if (isNaN(dateObj)) dateObj = new Date(); 
     const dayOfWeek = dateObj.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
 
     if (ALL_SLATES[platKey] && Array.isArray(ALL_SLATES[platKey])) {
@@ -348,7 +320,6 @@ function populateSlates() {
             const upperName = slate.name.toUpperCase();
             const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
             const containsADay = days.some(day => upperName.includes(day));
-            
             if (upperName.includes(dayOfWeek) || !containsADay) {
                 const opt = document.createElement('option');
                 opt.value = slate.id;
@@ -358,11 +329,8 @@ function populateSlates() {
         });
     }
     
-    if(Array.from(selector.options).some(opt => opt.value === currentVal)) {
-        selector.value = currentVal;
-    } else {
-        selector.value = 'all';
-    }
+    if(Array.from(selector.options).some(opt => opt.value === currentVal)) selector.value = currentVal;
+    else selector.value = 'all';
 
     setupMasterTabs();
 }
@@ -383,8 +351,13 @@ async function init(dateToFetch) {
             </div>`;
     }
     
-    const espnDate = dateToFetch.replace(/-/g, '');
-    const ESPN_API_URL = `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${espnDate}`;
+    // SAFE ESPN URL FIX
+    let espnDateStr = dateToFetch.replace(/-/g, '');
+    const dObj = new Date(dateToFetch);
+    if (!isNaN(dObj)) {
+        espnDateStr = dObj.getFullYear() + String(dObj.getMonth() + 1).padStart(2, '0') + String(dObj.getDate()).padStart(2, '0');
+    }
+    const ESPN_API_URL = `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${espnDateStr}`;
     
     try {
         const localData = await fetchLocalProbables(dateToFetch);
@@ -411,6 +384,8 @@ async function init(dateToFetch) {
             const comp = game.competitions[0];
             const homeTeamData = comp.competitors.find(c => c.homeAway === 'home');
             const awayTeamData = comp.competitors.find(c => c.homeAway === 'away');
+            if(!homeTeamData || !awayTeamData) return; // Safety check
+
             const homeStd = getStandardAbbr(homeTeamData.team.abbreviation);
             const awayStd = getStandardAbbr(awayTeamData.team.abbreviation);
             const espnGameDate = new Date(game.date).toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
@@ -459,29 +434,41 @@ async function init(dateToFetch) {
                 homeIsProjected: homeRoster.isProj, awayIsProjected: awayRoster.isProj,
                 homeBench: homeRoster.bench, awayBench: awayRoster.bench,
                 odds, venue: comp.venue?.fullName || "TBD",
-                gameDate: new Date(game.date), status: game.status.type.detail,
+                gameDate: new Date(game.date), status: game.status?.type?.detail || 'Scheduled',
                 localId: localId
             });
         });
 
         renderGames();
-        
         await pollLiveData(dateToFetch);
         clearInterval(livePollInterval);
         livePollInterval = setInterval(() => pollLiveData(dateToFetch), 30000);
 
     } catch (error) {
         console.error("Init error:", error);
-        if (container) container.innerHTML = `<div class="col-12 text-center mt-5"><div class="alert alert-danger">Failed to load schedule.</div></div>`;
+        if (container) container.innerHTML = `<div class="col-12 text-center mt-5"><div class="alert alert-danger shadow-sm border py-4 fw-bold">Failed to load schedule.</div></div>`;
     }
 }
 
 // ==========================================
-// LEADERBOARD & TOP PLAYS BUILDERS (NEW)
+// LEADERBOARD BUILDERS
 // ==========================================
+function shortenPlayerName(fullName) {
+    if (!fullName) return "Unknown";
+    const parts = fullName.split(' ');
+    if (parts.length === 1) return fullName;
+    const initial = parts[0].charAt(0).toUpperCase() + '.';
+    const lastName = parts.slice(1).join(' ');
+    return `${initial} ${lastName}`;
+}
+
+window.openPlayerModal = function(el) {
+    // Basic modal opener (can be expanded later)
+    console.log("Player clicked", JSON.parse(decodeURIComponent(el.getAttribute('data-player'))));
+};
+
 function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
     let allPlayers = [];
-    
     filteredGames.forEach(game => {
         const extract = (roster, teamAbbr) => {
             if (!roster) return;
@@ -504,7 +491,7 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
                 
                 if (sal > 0 || proj > 0) {
                     let name = a.displayName || a.fullName || 'Unknown';
-                    let pos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position ? a.position.abbreviation : 'Flex');
+                    let pos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position?.abbreviation || 'Flex');
                     if (platform === 'dk' && a.dfs && a.dfs.dk_pos) pos = a.dfs.dk_pos;
                     let photo = a.headshot?.href || a.dfs?.photo || '';
                     
@@ -521,8 +508,8 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
     if (allPlayers.length === 0) return '';
     allPlayers = Array.from(new Map(allPlayers.map(p => [p.id, p])).values());
 
-    const topValue = [...allPlayers].sort((a, b) => b.value - a.value).slice(0, 15);
-    const topProj = [...allPlayers].sort((a, b) => parseFloat(b.proj) - parseFloat(a.proj)).slice(0, 15);
+    const topValue = [...allPlayers].sort((a, b) => (b.value || 0) - (a.value || 0)).slice(0, 15);
+    const topProj = [...allPlayers].sort((a, b) => parseFloat(b.proj || 0) - parseFloat(a.proj || 0)).slice(0, 15);
 
     const buildList = (players, isValue) => {
         return players.map((p, index) => {
@@ -530,8 +517,8 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
                 ? `<img src="${p.photo}" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 1px solid #dee2e6; background: #fff;">`
                 : `<div style="width: 36px; height: 36px; border-radius: 50%; background-color: #f1f3f5; color: #adb5bd; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; border: 1px solid #dee2e6;">${p.name.charAt(0)}</div>`;
             
-            const highlightMetric = isValue ? `${parseFloat(p.value).toFixed(2)}x` : `${p.proj} pts`;
-            const subMetric = isValue ? `$${p.salary} | ${p.proj} pts` : `$${p.salary}`;
+            const highlightMetric = isValue ? `${parseFloat(p.value || 0).toFixed(2)}x` : `${p.proj || 0} pts`;
+            const subMetric = isValue ? `$${p.salary || 0} | ${p.proj || 0} pts` : `$${p.salary || 0}`;
 
             return `
             <div class="d-flex align-items-center justify-content-between py-2 border-bottom user-select-none" style="cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='transparent'" onclick="openPlayerModal(this)" data-player="${encodeURIComponent(JSON.stringify(p))}">
@@ -596,15 +583,13 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                     if (matchedPlayer) {
                         const a = matchedPlayer.athlete || matchedPlayer;
                         photo = a.headshot?.href || a.dfs?.photo || '';
-                        pos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position ? a.position.abbreviation : 'Flex');
+                        pos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position?.abbreviation || 'Flex');
                         if (platform === 'dk' && a.dfs && a.dfs.dk_pos) pos = a.dfs.dk_pos;
                     }
-                    
                     livePlayers.push({ name: playerName, teamAbbrev: teamAbbr, photo, pos, live_fp: fp });
                 }
             }
         };
-        
         extractLive(getStandardAbbr(game.away.team.abbreviation), [...(game.awayStarters||[]), ...(game.awayBench||[])]);
         extractLive(getStandardAbbr(game.home.team.abbreviation), [...(game.homeStarters||[]), ...(game.homeBench||[])]);
     });
@@ -655,7 +640,6 @@ function renderGames() {
     const platform = platformNode ? platformNode.value : 'fd';
     const selectedSlate = document.getElementById('slate-selector')?.value || 'all';
 
-    // SCROLL LOCK 1: Save scroll state for both live grids AND play-by-play logs!
     const scrollPositions = {};
     document.querySelectorAll('.live-table-wrapper, [id^="pbp-list-"]').forEach(el => {
         scrollPositions[el.id] = { left: el.scrollLeft, top: el.scrollTop };
@@ -680,11 +664,8 @@ function renderGames() {
     }
 
     if (filteredData.length === 0) {
-        // --- ANTI-SOFT 404 EMPTY STATE ---
-        const params = getUrlParams();
         const datePicker = document.getElementById('date-picker');
-        const dateToFetch = datePicker ? datePicker.value : params.date;
-        
+        const dateToFetch = datePicker ? datePicker.value : DEFAULT_DATE;
         let titleMsg = window.MASTER_TAB === 'live' ? `Live NBA Dashboard` : `NBA Lineups Hub`;
         let bodyMsg = window.MASTER_TAB === 'live' 
             ? `No games are currently live or completed for this slate.` 
@@ -705,13 +686,11 @@ function renderGames() {
                         <div class="col-sm-6 mb-3">📊 <strong>Live Team Stats:</strong> Box scores and fantasy performance.</div>
                         <div class="col-sm-6 mb-3">📈 <strong>Live Odds:</strong> Up-to-the-minute moneyline and totals.</div>
                     </div>
-                    <div class="text-center pt-3"><a href="/" class="btn btn-dark mt-2 fw-bold shadow-sm px-4 py-2" style="border-radius: 20px;">View Active Matches</a></div>
                 </div>
             </div>`;
         return;
     }
 
-    // --- INJECT LEADERBOARDS AT THE TOP ---
     if (!searchText) {
         if (window.MASTER_TAB === 'lineups') {
             const topPlaysHtml = buildTopPlaysCard(filteredData, platform, selectedSlate);
@@ -726,10 +705,8 @@ function renderGames() {
         if (window.MASTER_TAB === 'live') {
             const statusA = LIVE_GAMES_DATA[a.localId] ? LIVE_GAMES_DATA[a.localId].status : 'pre';
             const statusB = LIVE_GAMES_DATA[b.localId] ? LIVE_GAMES_DATA[b.localId].status : 'pre';
-            
             if (statusA === 'post' && statusB !== 'post') return 1;
             if (statusB === 'post' && statusA !== 'post') return -1;
-            
             return a.gameDate - b.gameDate;
         } else {
             return a.gameDate - b.gameDate;
@@ -739,7 +716,6 @@ function renderGames() {
         if (card) container.appendChild(card);
     });
 
-    // SCROLL LOCK 2: Restore scroll state perfectly so the user doesn't lose their place
     document.querySelectorAll('.live-table-wrapper, [id^="pbp-list-"]').forEach(el => {
         if (scrollPositions[el.id]) {
             el.scrollLeft = scrollPositions[el.id].left;
@@ -769,14 +745,10 @@ function injectPlayIntoDOM(localId, play) {
             <div class="text-dark ${textWeight}" style="flex: 1; line-height: 1.3;" title="${play.text}">${play.text}</div>
         `;
 
-        // SCROLL LOCK 3: Active Live Injection Protection
         const isScrolled = listContainer.scrollTop > 5;
         const oldScrollHeight = listContainer.scrollHeight;
-
         listContainer.prepend(el);
 
-        // If the user is actively reading an old play, bump the scroll window down 
-        // to mathematically hide the new play and preserve their reading spot
         if (isScrolled) {
             const newScrollHeight = listContainer.scrollHeight;
             listContainer.scrollTop += (newScrollHeight - oldScrollHeight);
@@ -828,10 +800,7 @@ function getRecentPlaysHtml(localId) {
 
     let filteredPlays = activeTab === 'All' ? plays : plays.filter(p => p.period.toString() === activeTab);
 
-    // --- 5 MINUTE CHRONOLOGICAL FLIP ---
-    if (state.hasFlippedPbp) {
-        filteredPlays = [...filteredPlays].reverse();
-    }
+    if (state.hasFlippedPbp) filteredPlays = [...filteredPlays].reverse();
 
     let playsHtml = filteredPlays.map((play, i) => {
         const bgClass = i % 2 === 0 ? 'bg-light' : 'bg-white';
@@ -861,7 +830,7 @@ function getRecentPlaysHtml(localId) {
 }
 
 // ==========================================
-// CARD BUILDER 1: LINEUPS (DFS Research View)
+// CARD BUILDERS
 // ==========================================
 function createLineupCard(data) {
     const gameCard = document.createElement('div');
@@ -909,7 +878,7 @@ function createLineupCard(data) {
         let generatedItemsCount = 0;
         const items = players.map((p, index) => {
             const a = p.athlete || p;
-            let rawPos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position ? a.position.abbreviation : 'Flex');
+            let rawPos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position?.abbreviation || 'Flex');
             if (platform === 'dk' && a.dfs && a.dfs.dk_pos) rawPos = a.dfs.dk_pos;
             const displayPos = isBench ? rawPos : (fixedPositions[index] || 'Flex');
             
@@ -1024,9 +993,6 @@ function createLineupCard(data) {
     return gameCard;
 }
 
-// ==========================================
-// CARD BUILDER 2: LIVE (Sweat View)
-// ==========================================
 function createLiveCard(data) {
     const gameCard = document.createElement('div');
     gameCard.className = 'col-12 col-md-6 col-lg-4 px-1 mb-3';
@@ -1045,24 +1011,25 @@ function createLiveCard(data) {
     const cardState = window.CARD_STATE[localId];
 
     let timeBadgeHtml = "";
-    if (liveMatch.status === 'in') {
+    if (liveMatch && liveMatch.status === 'in') {
         timeBadgeHtml = `<span class="badge bg-success text-white" style="font-size: 0.7rem;">LIVE</span>`;
-    } else if (liveMatch.status === 'post') {
+    } else if (liveMatch && liveMatch.status === 'post') {
         timeBadgeHtml = `<span class="badge bg-secondary text-white" style="font-size: 0.7rem;">FINAL</span>`;
     }
 
     const pulseHtml = isActivelyPlaying ? `<span class="spinner-grow spinner-grow-sm text-success slow-pulse" style="width: 0.45rem; height: 0.45rem; margin-right: 4px;"></span>` : '';
     const badgeColor = isActivelyPlaying ? 'text-success border-success' : 'text-secondary border-secondary';
 
-    const currentAwayScore = liveMatch.away_score !== undefined ? liveMatch.away_score : (away.score || 0);
-    const currentHomeScore = liveMatch.home_score !== undefined ? liveMatch.home_score : (home.score || 0);
+    const currentAwayScore = liveMatch && liveMatch.away_score !== undefined ? liveMatch.away_score : (away.score || 0);
+    const currentHomeScore = liveMatch && liveMatch.home_score !== undefined ? liveMatch.home_score : (home.score || 0);
 
+    const clockDisplay = liveMatch ? liveMatch.clock : "0.0";
     const scoreHtml = `
         <div class="fw-bold text-dark mb-1" style="font-size: 1.2rem; letter-spacing: -0.5px;">
             ${currentAwayScore} - ${currentHomeScore}
         </div>
         <div class="badge bg-light ${badgeColor} border w-100 d-inline-flex align-items-center justify-content-center" style="font-size: 0.7rem; border-radius: 12px; padding-top: 4px; padding-bottom: 4px;">
-            ${pulseHtml}<span>${liveMatch.clock}</span>
+            ${pulseHtml}<span>${clockDisplay}</span>
         </div>`;
 
     const awayColor = away.team.color ? '#' + away.team.color : '#cccccc';
@@ -1071,7 +1038,7 @@ function createLiveCard(data) {
     let awayStatsHtml = `<div style="width: 14%;"></div>`;
     let homeStatsHtml = `<div style="width: 14%;"></div>`;
 
-    if (liveMatch.team_stats) {
+    if (liveMatch && liveMatch.team_stats) {
         const aStats = liveMatch.team_stats[awayStd] || {};
         const hStats = liveMatch.team_stats[homeStd] || {};
         
@@ -1168,7 +1135,7 @@ function createLiveCard(data) {
     let awayLiveGrid = { onCourtHtml: '', benchHtml: '' };
     let homeLiveGrid = { onCourtHtml: '', benchHtml: '' };
     
-    if (liveMatch.players) {
+    if (liveMatch && liveMatch.players) {
         awayLiveGrid = buildLiveCourtGrid(awayStd, liveMatch.players[awayStd]);
         homeLiveGrid = buildLiveCourtGrid(homeStd, liveMatch.players[homeStd]);
     }
@@ -1223,7 +1190,6 @@ function createLiveCard(data) {
         
     return gameCard;
 }
-
 
 // ==========================================
 // EVENT LISTENERS
