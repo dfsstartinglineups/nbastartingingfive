@@ -1,17 +1,17 @@
 {
   "LAL-DET-2026-03-23": {
     "status": "in",
-    "clock": "6:18 - 2nd",
-    "away_score": "37",
-    "home_score": "42",
+    "clock": "6:04 - 2nd",
+    "away_score": "38",
+    "home_score": "44",
     "team_stats": {
       "LAL": {
         "fieldGoalsMade-fieldGoalsAttempted": "13-35",
         "FG%": "37",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "3-14",
         "3P%": "21",
-        "freeThrowsMade-freeThrowsAttempted": "8-10",
-        "FT%": "80",
+        "freeThrowsMade-freeThrowsAttempted": "9-11",
+        "FT%": "82",
         "REB": "17",
         "OR": "4",
         "DR": "13",
@@ -148,7 +148,7 @@
           "FT": "0-0",
           "fd_pts": 3.2,
           "dk_pts": 3.25,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Ronald Holland II": {
           "MIN": 2,
@@ -193,7 +193,7 @@
           "FT": "2-2",
           "fd_pts": 9.2,
           "dk_pts": 9.75,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Kevin Huerter": {
           "MIN": 9,
@@ -274,7 +274,7 @@
         },
         "Austin Reaves": {
           "MIN": 16,
-          "PTS": "6",
+          "PTS": "7",
           "REB": "0",
           "AST": "3",
           "STL": "0",
@@ -282,9 +282,9 @@
           "TO": "0",
           "FG": "2-8",
           "3PT": "0-3",
-          "FT": "2-2",
-          "fd_pts": 13.5,
-          "dk_pts": 12.5,
+          "FT": "3-3",
+          "fd_pts": 14.5,
+          "dk_pts": 13.5,
           "is_on_court": true
         },
         "Jarred Vanderbilt": {
@@ -337,10 +337,16 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 275.0,
+          "period": 2,
+          "time": "Q2 6:18",
+          "text": "Austin Reaves makes free throw 1 of 1"
+        },
+        {
           "seq": 272.0,
           "period": 2,
           "time": "Q2 6:18",
-          "text": "enters the game for Caris LeVert"
+          "text": "Paul Reed enters the game for Caris LeVert"
         },
         {
           "seq": 271.0,
@@ -1431,19 +1437,13 @@
       ],
       "new_plays": [
         {
-          "seq": 272.0,
+          "seq": 275.0,
           "period": 2,
           "time": "Q2 6:18",
-          "text": "enters the game for Caris LeVert"
-        },
-        {
-          "seq": 271.0,
-          "period": 2,
-          "time": "Q2 6:18",
-          "text": "Daniss Jenkins enters the game for Jalen Duren"
+          "text": "Austin Reaves makes free throw 1 of 1"
         }
       ],
-      "last_seq": 272.0
+      "last_seq": 275.0
     }
   },
   "IND-ORL-2026-03-23": {
@@ -2939,34 +2939,21 @@
           "text": "Jay Huff vs. Paolo Banchero (Wendell Carter Jr. gains possession)"
         }
       ],
-      "new_plays": [
-        {
-          "seq": 274.0,
-          "period": 2,
-          "time": "Q2 4:35",
-          "text": "Pacers Full timeout"
-        },
-        {
-          "seq": 273.0,
-          "period": 2,
-          "time": "Q2 4:43",
-          "text": "Paolo Banchero makes running layup"
-        }
-      ],
+      "new_plays": [],
       "last_seq": 274.0
     }
   },
   "OKC-PHI-2026-03-23": {
     "status": "in",
-    "clock": "5:24 - 2nd",
+    "clock": "4:54 - 2nd",
     "away_score": "51",
     "home_score": "36",
     "team_stats": {
       "OKC": {
-        "fieldGoalsMade-fieldGoalsAttempted": "20-33",
-        "FG%": "61",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "8-14",
-        "3P%": "57",
+        "fieldGoalsMade-fieldGoalsAttempted": "20-34",
+        "FG%": "59",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "8-15",
+        "3P%": "53",
         "freeThrowsMade-freeThrowsAttempted": "3-4",
         "FT%": "75",
         "REB": "15",
@@ -2986,7 +2973,7 @@
         "PF": "4",
         "LL": "15",
         "LC": "4",
-        "LPCT": "89"
+        "LPCT": "90"
       },
       "PHI": {
         "fieldGoalsMade-fieldGoalsAttempted": "14-33",
@@ -2995,9 +2982,9 @@
         "3P%": "38",
         "freeThrowsMade-freeThrowsAttempted": "3-4",
         "FT%": "75",
-        "REB": "14",
+        "REB": "15",
         "OR": "4",
-        "DR": "10",
+        "DR": "11",
         "AST": "11",
         "STL": "4",
         "BLK": "2",
@@ -3048,9 +3035,9 @@
           "is_on_court": true
         },
         "Dominick Barlow": {
-          "MIN": 8,
+          "MIN": 9,
           "PTS": "0",
-          "REB": "2",
+          "REB": "3",
           "AST": "1",
           "STL": "0",
           "BLK": "1",
@@ -3058,8 +3045,8 @@
           "FG": "0-1",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 6.9,
-          "dk_pts": 6.0,
+          "fd_pts": 8.1,
+          "dk_pts": 7.25,
           "is_on_court": true
         },
         "Adem Bona": {
@@ -3197,7 +3184,7 @@
           "FT": "0-0",
           "fd_pts": 12.7,
           "dk_pts": 12.75,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Luguentz Dort": {
           "MIN": 9,
@@ -3275,7 +3262,7 @@
           "is_on_court": true
         },
         "Aaron Wiggins": {
-          "MIN": 6,
+          "MIN": 7,
           "PTS": "5",
           "REB": "0",
           "AST": "0",
@@ -3287,7 +3274,7 @@
           "FT": "0-0",
           "fd_pts": 5.0,
           "dk_pts": 5.5,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Cason Wallace": {
           "MIN": 9,
@@ -3312,8 +3299,8 @@
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "2-4",
-          "3PT": "2-3",
+          "FG": "2-5",
+          "3PT": "2-4",
           "FT": "0-0",
           "fd_pts": 8.7,
           "dk_pts": 9.75,
@@ -3324,16 +3311,40 @@
     "play_by_play": {
       "full_log": [
         {
-          "seq": 247.0,
+          "seq": 257.0,
           "period": 2,
-          "time": "Q2 5:24",
-          "text": "enters the game for Isaiah Joe"
+          "time": "Q2 5:03",
+          "text": "Shai Gilgeous-Alexander enters the game for Luguentz Dort"
         },
         {
-          "seq": 246.0,
+          "seq": 256.0,
+          "period": 2,
+          "time": "Q2 5:03",
+          "text": "Isaiah Joe enters the game for Aaron Wiggins"
+        },
+        {
+          "seq": 255.0,
+          "period": 2,
+          "time": "Q2 5:03",
+          "text": "MarJon Beauchamp enters the game for Dalen Terry"
+        },
+        {
+          "seq": 253.0,
           "period": 2,
           "time": "Q2 5:24",
-          "text": "MarJon Beauchamp enters the game for Dalen Terry"
+          "text": "Luguentz Dort enters the game for Isaiah Joe"
+        },
+        {
+          "seq": 252.0,
+          "period": 2,
+          "time": "Q2 5:04",
+          "text": "Dominick Barlow defensive rebound"
+        },
+        {
+          "seq": 251.0,
+          "period": 2,
+          "time": "Q2 5:07",
+          "text": "Jared McCain misses shot"
         },
         {
           "seq": 245.0,
@@ -4304,61 +4315,49 @@
       ],
       "new_plays": [
         {
-          "seq": 247.0,
+          "seq": 257.0,
           "period": 2,
-          "time": "Q2 5:24",
-          "text": "enters the game for Isaiah Joe"
+          "time": "Q2 5:03",
+          "text": "Shai Gilgeous-Alexander enters the game for Luguentz Dort"
         },
         {
-          "seq": 246.0,
+          "seq": 256.0,
           "period": 2,
-          "time": "Q2 5:24",
+          "time": "Q2 5:03",
+          "text": "Isaiah Joe enters the game for Aaron Wiggins"
+        },
+        {
+          "seq": 255.0,
+          "period": 2,
+          "time": "Q2 5:03",
           "text": "MarJon Beauchamp enters the game for Dalen Terry"
         },
         {
-          "seq": 245.0,
+          "seq": 253.0,
           "period": 2,
           "time": "Q2 5:24",
-          "text": "Dalen Terry out of bounds bad pass turnover"
+          "text": "Luguentz Dort enters the game for Isaiah Joe"
         },
         {
-          "seq": 244.0,
+          "seq": 252.0,
           "period": 2,
-          "time": "Q2 5:31",
+          "time": "Q2 5:04",
           "text": "Dominick Barlow defensive rebound"
         },
         {
-          "seq": 243.0,
+          "seq": 251.0,
           "period": 2,
-          "time": "Q2 5:33",
-          "text": "Isaiah Joe misses 17-foot step back jumpshot"
-        },
-        {
-          "seq": 242.0,
-          "period": 2,
-          "time": "Q2 5:39",
-          "text": "Cason Wallace offensive rebound"
-        },
-        {
-          "seq": 240.0,
-          "period": 2,
-          "time": "Q2 5:42",
-          "text": "Dominick Barlow blocks Jared McCain 's 2-foot driving layup"
-        },
-        {
-          "seq": 239.0,
-          "period": 2,
-          "time": "Q2 5:50",
-          "text": "Jared McCain defensive rebound"
+          "time": "Q2 5:07",
+          "text": "Jared McCain misses shot"
         }
       ],
-      "last_seq": 247.0
+      "last_seq": 257.0
     }
   },
   "SAS-MIA-2026-03-23": {
     "status": "in",
-    "clock": "7:00 - 2nd",
-    "away_score": "54",
+    "clock": "6:41 - 2nd",
+    "away_score": "56",
     "home_score": "41",
     "team_stats": {
       "SAS": {
@@ -4372,7 +4371,7 @@
         "OR": "4",
         "DR": "14",
         "AST": "13",
-        "STL": "1",
+        "STL": "2",
         "BLK": "4",
         "TO": "3",
         "TTO": "0",
@@ -4400,15 +4399,15 @@
         "AST": "13",
         "STL": "3",
         "BLK": "3",
-        "TO": "4",
+        "TO": "5",
         "TTO": "0",
-        "ToTO": "4",
+        "ToTO": "5",
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "5",
         "FBPs": "12",
         "PIP": "14",
-        "PF": "7",
+        "PF": "8",
         "LL": "1",
         "LC": "2",
         "LPCT": "2"
@@ -4477,18 +4476,18 @@
           "is_on_court": false
         },
         "Pelle Larsson": {
-          "MIN": 9,
+          "MIN": 10,
           "PTS": "0",
           "REB": "0",
           "AST": "2",
           "STL": "0",
           "BLK": "0",
-          "TO": "0",
+          "TO": "1",
           "FG": "0-0",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 3.0,
-          "dk_pts": 3.0,
+          "fd_pts": 2.0,
+          "dk_pts": 2.5,
           "is_on_court": true
         },
         "Jaime Jaquez Jr.": {
@@ -4618,14 +4617,14 @@
           "PTS": "3",
           "REB": "1",
           "AST": "2",
-          "STL": "0",
+          "STL": "1",
           "BLK": "0",
           "TO": "0",
           "FG": "1-2",
           "3PT": "1-2",
           "FT": "0-0",
-          "fd_pts": 7.2,
-          "dk_pts": 7.75,
+          "fd_pts": 10.2,
+          "dk_pts": 9.75,
           "is_on_court": true
         },
         "Stephon Castle": {
@@ -4723,6 +4722,18 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 258.0,
+          "period": 2,
+          "time": "Q2 6:53",
+          "text": "Andrew Wiggins personal foul"
+        },
+        {
+          "seq": 256.0,
+          "period": 2,
+          "time": "Q2 6:54",
+          "text": "Pelle Larsson lost ball turnover (Devin Vassell steals)"
+        },
+        {
           "seq": 253.0,
           "period": 2,
           "time": "Q2 7:02",
@@ -4738,7 +4749,7 @@
           "seq": 251.0,
           "period": 2,
           "time": "Q2 7:16",
-          "text": "Stephon Castle makes 6-foot two point shot"
+          "text": "Stephon Castle makes 6-foot fade away jump shot"
         },
         {
           "seq": 248.0,
@@ -5721,31 +5732,19 @@
       ],
       "new_plays": [
         {
-          "seq": 253.0,
+          "seq": 258.0,
           "period": 2,
-          "time": "Q2 7:02",
-          "text": "Heat offensive team rebound"
+          "time": "Q2 6:53",
+          "text": "Andrew Wiggins personal foul"
         },
         {
-          "seq": 252.0,
+          "seq": 256.0,
           "period": 2,
-          "time": "Q2 7:05",
-          "text": "Norman Powell misses 24-foot three point pullup jump shot"
-        },
-        {
-          "seq": 251.0,
-          "period": 2,
-          "time": "Q2 7:16",
-          "text": "Stephon Castle makes 6-foot two point shot"
-        },
-        {
-          "seq": 248.0,
-          "period": 2,
-          "time": "Q2 7:30",
-          "text": "Kel'el Ware enters the game for Bam Adebayo"
+          "time": "Q2 6:54",
+          "text": "Pelle Larsson lost ball turnover (Devin Vassell steals)"
         }
       ],
-      "last_seq": 253.0
+      "last_seq": 258.0
     }
   },
   "MEM-ATL-2026-03-23": {
@@ -6548,26 +6547,7 @@
           "text": "Olivier-Maxence Prosper vs. Onyeka Okongwu (Nickeil Alexander-Walker gains possession)"
         }
       ],
-      "new_plays": [
-        {
-          "seq": 111.0,
-          "period": 1,
-          "time": "Q1 4:30",
-          "text": "Grizzlies Full timeout"
-        },
-        {
-          "seq": 109.0,
-          "period": 1,
-          "time": "Q1 4:30",
-          "text": "Jonathan Kuminga enters the game for Mouhamed Gueye"
-        },
-        {
-          "seq": 106.0,
-          "period": 1,
-          "time": "Q1 4:38",
-          "text": "DeJon Jarreau lost ball turnover (Dyson Daniels steals)"
-        }
-      ],
+      "new_plays": [],
       "last_seq": 111.0
     }
   }
