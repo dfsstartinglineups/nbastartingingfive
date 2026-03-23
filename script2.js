@@ -541,29 +541,29 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
     const buildList = (players, isValue) => {
         return players.map((p, index) => {
             const photoHtml = (p.photo && p.photo.includes("http")) 
-                ? `<img src="${p.photo}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #dee2e6; background: #fff;">`
-                : `<div style="width: 32px; height: 32px; border-radius: 50%; background-color: #f8f9fa; color: #495057; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 800; border: 1px solid #dee2e6;">${p.name.charAt(0)}</div>`;
+                ? `<img src="${p.photo}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 1px solid #dee2e6; background: #fff;">`
+                : `<div style="width: 48px; height: 48px; border-radius: 50%; background-color: #f8f9fa; color: #495057; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; border: 1px solid #dee2e6;">${p.name.charAt(0)}</div>`;
             
-            const teamBadge = p.teamLogo ? `<img src="${p.teamLogo}" style="width: 14px; height: 14px; position: absolute; bottom: -2px; right: -2px; border-radius: 50%; background: #fff; border: 1px solid #dee2e6; object-fit: contain;">` : '';
+            const teamBadge = p.teamLogo ? `<img src="${p.teamLogo}" style="width: 20px; height: 20px; position: absolute; bottom: -2px; right: -4px; border-radius: 50%; background: #fff; border: 1px solid #dee2e6; object-fit: contain; padding: 1px;">` : '';
             const highlightMetric = isValue ? `<span class="text-success">${parseFloat(p.value || 0).toFixed(2)}x</span>` : `<span class="text-primary">${p.proj || 0}</span> <span class="text-muted" style="font-size:0.6rem;">pts</span>`;
             
             return `
             <div class="d-flex align-items-center justify-content-between py-2 border-bottom user-select-none" style="cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='transparent'" onclick="openPlayerModal(this)" data-player="${encodeURIComponent(JSON.stringify(p))}">
                 <div class="d-flex align-items-center overflow-hidden">
-                    <div class="fw-bold text-muted me-2 text-end" style="font-size: 0.75rem; width: 16px;">${index + 1}.</div>
-                    <div class="me-2 position-relative flex-shrink-0">
+                    <div class="fw-bold text-muted me-2 text-end" style="font-size: 0.85rem; width: 22px;">${index + 1}.</div>
+                    <div class="me-3 position-relative flex-shrink-0">
                         ${photoHtml}
                         ${teamBadge}
                     </div>
-                    <div class="d-flex flex-column justify-content-center overflow-hidden">
-                        <span class="fw-bold text-dark text-truncate" style="font-size: 0.8rem; max-width: 150px;" title="${p.name}">${shortenPlayerName(p.name)}</span>
-                        <span class="text-muted text-truncate" style="font-size: 0.65rem; max-width: 160px;">
+                    <div class="d-flex flex-column justify-content-center overflow-hidden pe-1">
+                        <span class="fw-bold text-dark text-truncate" style="font-size: 0.95rem; max-width: 220px;" title="${p.name}">${shortenPlayerName(p.name)}</span>
+                        <span class="text-muted text-truncate" style="font-size: 0.72rem; max-width: 240px;">
                             ${p.pos} • ${p.teamAbbrev} • $${p.salary} • ${p.proj} pts
                         </span>
                     </div>
                 </div>
-                <div class="text-end ms-2 flex-shrink-0">
-                    <div class="fw-bold" style="font-size: 0.9rem;">${highlightMetric}</div>
+                <div class="text-end ms-1 flex-shrink-0">
+                    <div class="fw-bold" style="font-size: 1.2rem;">${highlightMetric}</div>
                 </div>
             </div>`;
         }).join('');
@@ -583,8 +583,8 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
                 </div>
             </div>
             <div class="card-body p-0">
-                <div id="view-top-value" class="px-2" style="max-height: 235px; overflow-y: auto;">${buildList(topValue, true)}</div>
-                <div id="view-top-proj" class="px-2 d-none" style="max-height: 235px; overflow-y: auto;">${buildList(topProj, false)}</div>
+                <div id="view-top-value" class="px-2" style="max-height: 365px; overflow-y: auto;">${buildList(topValue, true)}</div>
+                <div id="view-top-proj" class="px-2 d-none" style="max-height: 365px; overflow-y: auto;">${buildList(topProj, false)}</div>
             </div>
         </div>
     </div>`;
