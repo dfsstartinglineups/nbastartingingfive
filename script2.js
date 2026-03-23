@@ -508,8 +508,9 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
     if (allPlayers.length === 0) return '';
     allPlayers = Array.from(new Map(allPlayers.map(p => [p.id, p])).values());
 
-    const topValue = [...allPlayers].sort((a, b) => (b.value || 0) - (a.value || 0)).slice(0, 15);
-    const topProj = [...allPlayers].sort((a, b) => parseFloat(b.proj || 0) - parseFloat(a.proj || 0)).slice(0, 15);
+    // INCREASED TO SHOW TOP 20
+    const topValue = [...allPlayers].sort((a, b) => (b.value || 0) - (a.value || 0)).slice(0, 20);
+    const topProj = [...allPlayers].sort((a, b) => parseFloat(b.proj || 0) - parseFloat(a.proj || 0)).slice(0, 20);
 
     const buildList = (players, isValue) => {
         return players.map((p, index) => {
@@ -517,7 +518,6 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
                 ? `<img src="${p.photo}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #dee2e6; background: #fff;">`
                 : `<div style="width: 32px; height: 32px; border-radius: 50%; background-color: #f8f9fa; color: #495057; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 800; border: 1px solid #dee2e6;">${p.name.charAt(0)}</div>`;
             
-            // Render the Team Logo as a badge over the photo/initials
             const teamBadge = p.teamLogo ? `<img src="${p.teamLogo}" style="width: 14px; height: 14px; position: absolute; bottom: -2px; right: -2px; border-radius: 50%; background: #fff; border: 1px solid #dee2e6; object-fit: contain;">` : '';
 
             const highlightMetric = isValue ? `<span class="text-success">${parseFloat(p.value || 0).toFixed(2)}x</span>` : `<span class="text-primary">${p.proj || 0}</span> <span class="text-muted" style="font-size:0.6rem;">pts</span>`;
@@ -558,8 +558,8 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
                 </div>
             </div>
             <div class="card-body p-0">
-                <div id="view-top-value" class="px-2" style="max-height: 285px; overflow-y: auto;">${buildList(topValue, true)}</div>
-                <div id="view-top-proj" class="px-2 d-none" style="max-height: 285px; overflow-y: auto;">${buildList(topProj, false)}</div>
+                <div id="view-top-value" class="px-2" style="max-height: 235px; overflow-y: auto;">${buildList(topValue, true)}</div>
+                <div id="view-top-proj" class="px-2 d-none" style="max-height: 235px; overflow-y: auto;">${buildList(topProj, false)}</div>
             </div>
         </div>
     </div>`;
