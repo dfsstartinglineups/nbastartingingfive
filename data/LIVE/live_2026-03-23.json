@@ -3,7 +3,7 @@
     "status": "in",
     "clock": "8:11 - 2nd",
     "away_score": "35",
-    "home_score": "33",
+    "home_score": "35",
     "team_stats": {
       "LAL": {
         "fieldGoalsMade-fieldGoalsAttempted": "12-31",
@@ -22,7 +22,7 @@
         "TTO": "0",
         "ToTO": "2",
         "TECH": "0",
-        "FLAG": "0",
+        "FLAG": "1",
         "Points Conceded Off Turnovers": "4",
         "FBPs": "4",
         "PIP": "18",
@@ -36,8 +36,8 @@
         "FG%": "44",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "2-7",
         "3P%": "29",
-        "freeThrowsMade-freeThrowsAttempted": "7-9",
-        "FT%": "78",
+        "freeThrowsMade-freeThrowsAttempted": "9-11",
+        "FT%": "82",
         "REB": "14",
         "OR": "2",
         "DR": "12",
@@ -181,8 +181,8 @@
           "is_on_court": true
         },
         "Caris LeVert": {
-          "MIN": 6,
-          "PTS": "4",
+          "MIN": 7,
+          "PTS": "5",
           "REB": "0",
           "AST": "1",
           "STL": "0",
@@ -190,9 +190,9 @@
           "TO": "1",
           "FG": "2-2",
           "3PT": "0-0",
-          "FT": "0-0",
-          "fd_pts": 4.5,
-          "dk_pts": 5.0,
+          "FT": "1-1",
+          "fd_pts": 5.5,
+          "dk_pts": 6.0,
           "is_on_court": true
         },
         "Kevin Huerter": {
@@ -337,10 +337,22 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 247.0,
+          "period": 2,
+          "time": "Q2 8:11",
+          "text": "Caris LeVert makes free throw 1 of 1"
+        },
+        {
+          "seq": 246.0,
+          "period": 2,
+          "time": "Q2 8:11",
+          "text": "(08:11) [Lakers] REF-INITIATED REVIEW (CALL OVERTURNED)"
+        },
+        {
           "seq": 244.0,
           "period": 2,
           "time": "Q2 8:11",
-          "text": "Deandre Ayton shooting foul"
+          "text": "Deandre Ayton flagrant foul type 1"
         },
         {
           "seq": 243.0,
@@ -1297,13 +1309,26 @@
           "text": "Deandre Ayton vs. Jalen Duren (Austin Reaves gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 244.0
+      "new_plays": [
+        {
+          "seq": 247.0,
+          "period": 2,
+          "time": "Q2 8:11",
+          "text": "Caris LeVert makes free throw 1 of 1"
+        },
+        {
+          "seq": 246.0,
+          "period": 2,
+          "time": "Q2 8:11",
+          "text": "(08:11) [Lakers] REF-INITIATED REVIEW (CALL OVERTURNED)"
+        }
+      ],
+      "last_seq": 247.0
     }
   },
   "IND-ORL-2026-03-23": {
     "status": "in",
-    "clock": "8:22 - 2nd",
+    "clock": "7:41 - 2nd",
     "away_score": "36",
     "home_score": "35",
     "team_stats": {
@@ -1328,20 +1353,20 @@
         "Points Conceded Off Turnovers": "5",
         "FBPs": "16",
         "PIP": "14",
-        "PF": "6",
+        "PF": "7",
         "LL": "10",
         "LC": "3",
-        "LPCT": "80"
+        "LPCT": "81"
       },
       "ORL": {
-        "fieldGoalsMade-fieldGoalsAttempted": "13-36",
-        "FG%": "36",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "5-18",
-        "3P%": "28",
+        "fieldGoalsMade-fieldGoalsAttempted": "13-38",
+        "FG%": "34",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "5-20",
+        "3P%": "25",
         "freeThrowsMade-freeThrowsAttempted": "4-4",
         "FT%": "100",
-        "REB": "13",
-        "OR": "4",
+        "REB": "14",
+        "OR": "5",
         "DR": "9",
         "AST": "8",
         "STL": "3",
@@ -1357,7 +1382,7 @@
         "PF": "8",
         "LL": "3",
         "LC": "3",
-        "LPCT": "15"
+        "LPCT": "14"
       }
     },
     "players": {
@@ -1378,15 +1403,15 @@
           "is_on_court": true
         },
         "Tristan da Silva": {
-          "MIN": 11,
+          "MIN": 12,
           "PTS": "7",
           "REB": "2",
           "AST": "2",
           "STL": "1",
           "BLK": "0",
           "TO": "0",
-          "FG": "3-5",
-          "3PT": "1-3",
+          "FG": "3-6",
+          "3PT": "1-4",
           "FT": "0-0",
           "fd_pts": 15.4,
           "dk_pts": 15.0,
@@ -1438,18 +1463,18 @@
           "is_on_court": false
         },
         "Jamal Cain": {
-          "MIN": 5,
+          "MIN": 6,
           "PTS": "0",
-          "REB": "1",
+          "REB": "2",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "0-2",
-          "3PT": "0-1",
+          "FG": "0-3",
+          "3PT": "0-2",
           "FT": "0-0",
-          "fd_pts": 1.2,
-          "dk_pts": 1.25,
+          "fd_pts": 2.4,
+          "dk_pts": 2.5,
           "is_on_court": true
         },
         "Noah Penda": {
@@ -1654,15 +1679,45 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 242.0,
+          "period": 2,
+          "time": "Q2 7:50",
+          "text": "Jamal Cain offensive rebound"
+        },
+        {
+          "seq": 241.0,
+          "period": 2,
+          "time": "Q2 7:55",
+          "text": "Tristan da Silva misses 27-foot three point jumper"
+        },
+        {
+          "seq": 239.0,
+          "period": 2,
+          "time": "Q2 8:04",
+          "text": "Jay Huff loose ball foul"
+        },
+        {
+          "seq": 238.0,
+          "period": 2,
+          "time": "Q2 8:04",
+          "text": "Magic offensive team rebound"
+        },
+        {
+          "seq": 237.0,
+          "period": 2,
+          "time": "Q2 8:08",
+          "text": "Jamal Cain misses 26-foot three point jumper"
+        },
+        {
           "seq": 236.0,
           "period": 2,
-          "time": "Q2 8:22",
+          "time": "Q2 8:25",
           "text": "Tristan da Silva defensive rebound"
         },
         {
           "seq": 235.0,
           "period": 2,
-          "time": "Q2 8:26",
+          "time": "Q2 8:27",
           "text": "Jay Huff misses 25-foot three point jumper"
         },
         {
@@ -2628,49 +2683,37 @@
       ],
       "new_plays": [
         {
-          "seq": 236.0,
+          "seq": 242.0,
           "period": 2,
-          "time": "Q2 8:22",
-          "text": "Tristan da Silva defensive rebound"
+          "time": "Q2 7:50",
+          "text": "Jamal Cain offensive rebound"
         },
         {
-          "seq": 235.0,
+          "seq": 241.0,
           "period": 2,
-          "time": "Q2 8:26",
-          "text": "Jay Huff misses 25-foot three point jumper"
+          "time": "Q2 7:55",
+          "text": "Tristan da Silva misses 27-foot three point jumper"
         },
         {
-          "seq": 234.0,
+          "seq": 239.0,
           "period": 2,
-          "time": "Q2 8:35",
-          "text": "Paolo Banchero makes free throw 2 of 2"
+          "time": "Q2 8:04",
+          "text": "Jay Huff loose ball foul"
         },
         {
-          "seq": 231.0,
+          "seq": 238.0,
           "period": 2,
-          "time": "Q2 8:35",
-          "text": "Obi Toppin enters the game for Pascal Siakam"
+          "time": "Q2 8:04",
+          "text": "Magic offensive team rebound"
         },
         {
-          "seq": 230.0,
+          "seq": 237.0,
           "period": 2,
-          "time": "Q2 8:35",
-          "text": "Aaron Nesmith enters the game for Ben Sheppard"
-        },
-        {
-          "seq": 229.0,
-          "period": 2,
-          "time": "Q2 8:35",
-          "text": "Paolo Banchero makes free throw 1 of 2"
-        },
-        {
-          "seq": 227.0,
-          "period": 2,
-          "time": "Q2 8:35",
-          "text": "Jay Huff shooting foul"
+          "time": "Q2 8:08",
+          "text": "Jamal Cain misses 26-foot three point jumper"
         }
       ],
-      "last_seq": 236.0
+      "last_seq": 242.0
     }
   },
   "OKC-PHI-2026-03-23": {
@@ -5072,9 +5115,9 @@
   },
   "MEM-ATL-2026-03-23": {
     "status": "in",
-    "clock": "6:51 - 1st",
+    "clock": "6:09 - 1st",
     "away_score": "8",
-    "home_score": "12",
+    "home_score": "18",
     "team_stats": {
       "MEM": {
         "fieldGoalsMade-fieldGoalsAttempted": "2-8",
@@ -5089,31 +5132,31 @@
         "AST": "0",
         "STL": "2",
         "BLK": "0",
-        "TO": "2",
+        "TO": "3",
         "TTO": "0",
-        "ToTO": "2",
+        "ToTO": "3",
         "TECH": "0",
         "FLAG": "0",
-        "Points Conceded Off Turnovers": "5",
+        "Points Conceded Off Turnovers": "8",
         "FBPs": "2",
         "PIP": "2",
         "PF": "4",
         "LL": "5",
         "LC": "3",
-        "LPCT": "49"
+        "LPCT": "42"
       },
       "ATL": {
-        "fieldGoalsMade-fieldGoalsAttempted": "3-9",
-        "FG%": "33",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "2-7",
-        "3P%": "29",
+        "fieldGoalsMade-fieldGoalsAttempted": "5-11",
+        "FG%": "45",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "4-9",
+        "3P%": "44",
         "freeThrowsMade-freeThrowsAttempted": "4-5",
         "FT%": "80",
-        "REB": "8",
+        "REB": "9",
         "OR": "4",
-        "DR": "4",
-        "AST": "2",
-        "STL": "0",
+        "DR": "5",
+        "AST": "4",
+        "STL": "1",
         "BLK": "0",
         "TO": "3",
         "TTO": "0",
@@ -5124,75 +5167,75 @@
         "FBPs": "0",
         "PIP": "2",
         "PF": "3",
-        "LL": "4",
+        "LL": "10",
         "LC": "3",
-        "LPCT": "25"
+        "LPCT": "33"
       }
     },
     "players": {
       "ATL": {
         "Onyeka Okongwu": {
-          "MIN": 5,
+          "MIN": 6,
           "PTS": "1",
           "REB": "3",
           "AST": "1",
-          "STL": "0",
+          "STL": "1",
           "BLK": "0",
           "TO": "1",
           "FG": "0-2",
           "3PT": "0-2",
           "FT": "1-2",
-          "fd_pts": 5.1,
-          "dk_pts": 5.75,
+          "fd_pts": 8.1,
+          "dk_pts": 7.75,
           "is_on_court": true
         },
         "Mouhamed Gueye": {
-          "MIN": 5,
-          "PTS": "0",
+          "MIN": 6,
+          "PTS": "3",
           "REB": "2",
-          "AST": "0",
+          "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "1",
-          "FG": "0-1",
-          "3PT": "0-1",
+          "FG": "1-2",
+          "3PT": "1-2",
           "FT": "0-0",
-          "fd_pts": 1.4,
-          "dk_pts": 2.0,
+          "fd_pts": 5.9,
+          "dk_pts": 7.0,
           "is_on_court": true
         },
         "CJ McCollum": {
-          "MIN": 5,
-          "PTS": "0",
+          "MIN": 6,
+          "PTS": "3",
           "REB": "0",
           "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "0-2",
-          "3PT": "0-1",
+          "FG": "1-3",
+          "3PT": "1-2",
           "FT": "0-0",
-          "fd_pts": 1.5,
-          "dk_pts": 1.5,
+          "fd_pts": 4.5,
+          "dk_pts": 5.0,
           "is_on_court": true
         },
         "Nickeil Alexander-Walker": {
-          "MIN": 5,
+          "MIN": 6,
           "PTS": "8",
           "REB": "1",
-          "AST": "0",
+          "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
           "FG": "2-3",
           "3PT": "1-2",
           "FT": "3-3",
-          "fd_pts": 9.2,
-          "dk_pts": 9.75,
+          "fd_pts": 10.7,
+          "dk_pts": 11.25,
           "is_on_court": true
         },
         "Dyson Daniels": {
-          "MIN": 5,
+          "MIN": 6,
           "PTS": "3",
           "REB": "3",
           "AST": "0",
@@ -5239,7 +5282,7 @@
           "is_on_court": false
         },
         "Jaylen Wells": {
-          "MIN": 5,
+          "MIN": 6,
           "PTS": "0",
           "REB": "0",
           "AST": "0",
@@ -5254,7 +5297,7 @@
           "is_on_court": true
         },
         "Ty Jerome": {
-          "MIN": 5,
+          "MIN": 6,
           "PTS": "3",
           "REB": "0",
           "AST": "0",
@@ -5269,22 +5312,22 @@
           "is_on_court": true
         },
         "Rayan Rupert": {
-          "MIN": 5,
+          "MIN": 6,
           "PTS": "0",
           "REB": "1",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
-          "TO": "1",
+          "TO": "2",
           "FG": "0-0",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 0.2,
-          "dk_pts": 0.75,
+          "fd_pts": -0.8,
+          "dk_pts": 0.25,
           "is_on_court": true
         },
         "Taylor Hendricks": {
-          "MIN": 1,
+          "MIN": 2,
           "PTS": "0",
           "REB": "1",
           "AST": "0",
@@ -5299,7 +5342,7 @@
           "is_on_court": true
         },
         "Walter Clayton Jr.": {
-          "MIN": 0,
+          "MIN": 1,
           "PTS": "0",
           "REB": "0",
           "AST": "0",
@@ -5318,10 +5361,40 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 81.0,
+          "period": 1,
+          "time": "Q1 6:09",
+          "text": "Grizzlies Full timeout"
+        },
+        {
+          "seq": 79.0,
+          "period": 1,
+          "time": "Q1 6:11",
+          "text": "CJ McCollum makes 26-foot three point jumper (Mouhamed Gueye assists)"
+        },
+        {
+          "seq": 77.0,
+          "period": 1,
+          "time": "Q1 6:23",
+          "text": "Rayan Rupert bad pass\nturnover (Onyeka Okongwu steals)"
+        },
+        {
+          "seq": 75.0,
+          "period": 1,
+          "time": "Q1 6:37",
+          "text": "Mouhamed Gueye makes 23-foot three point jumper (Nickeil Alexander-Walker assists)"
+        },
+        {
+          "seq": 74.0,
+          "period": 1,
+          "time": "Q1 6:48",
+          "text": "Onyeka Okongwu defensive rebound"
+        },
+        {
           "seq": 73.0,
           "period": 1,
           "time": "Q1 6:51",
-          "text": "Walter Clayton Jr. misses shot"
+          "text": "Walter Clayton Jr. misses 10-foot fade away jump shot"
         },
         {
           "seq": 72.0,
@@ -5644,43 +5717,37 @@
       ],
       "new_plays": [
         {
-          "seq": 73.0,
+          "seq": 81.0,
           "period": 1,
-          "time": "Q1 6:51",
-          "text": "Walter Clayton Jr. misses shot"
+          "time": "Q1 6:09",
+          "text": "Grizzlies Full timeout"
         },
         {
-          "seq": 72.0,
+          "seq": 79.0,
           "period": 1,
-          "time": "Q1 7:07",
-          "text": "Nickeil Alexander-Walker makes free throw 1 of 1"
+          "time": "Q1 6:11",
+          "text": "CJ McCollum makes 26-foot three point jumper (Mouhamed Gueye assists)"
         },
         {
-          "seq": 70.0,
+          "seq": 77.0,
           "period": 1,
-          "time": "Q1 7:07",
-          "text": "Walter Clayton Jr. enters the game for GG Jackson"
+          "time": "Q1 6:23",
+          "text": "Rayan Rupert bad pass\nturnover (Onyeka Okongwu steals)"
         },
         {
-          "seq": 68.0,
+          "seq": 75.0,
           "period": 1,
-          "time": "Q1 7:07",
-          "text": "GG Jackson shooting foul"
+          "time": "Q1 6:37",
+          "text": "Mouhamed Gueye makes 23-foot three point jumper (Nickeil Alexander-Walker assists)"
         },
         {
-          "seq": 67.0,
+          "seq": 74.0,
           "period": 1,
-          "time": "Q1 7:07",
-          "text": "Nickeil Alexander-Walker makes 5-foot driving floating jump shot"
-        },
-        {
-          "seq": 66.0,
-          "period": 1,
-          "time": "Q1 7:14",
-          "text": "Ty Jerome traveling turnover"
+          "time": "Q1 6:48",
+          "text": "Onyeka Okongwu defensive rebound"
         }
       ],
-      "last_seq": 73.0
+      "last_seq": 81.0
     }
   }
 }
