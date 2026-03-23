@@ -64,11 +64,17 @@ function processGameQueue(localId) {
         let state = window.CARD_STATE[localId];
         let playPeriod = Number(playToInject.period);
         let switchedQuarter = false;
+        
+        let isFinal = LIVE_GAMES_DATA[localId] && LIVE_GAMES_DATA[localId].status === 'post';
 
-        if (!state.highestPeriodSeen || playPeriod > state.highestPeriodSeen) {
+        // SMARTER AUTO-SWITCH: Don't rip the user to a new quarter if the game is over, 
+        // or if they explicitly clicked back to an older quarter to read it.
+        if (!isFinal && (!state.highestPeriodSeen || playPeriod > state.highestPeriodSeen)) {
+            if (!state.pbpTab || state.pbpTab === 'All' || state.pbpTab === (state.highestPeriodSeen || 1).toString()) {
+                state.pbpTab = playPeriod.toString();
+                switchedQuarter = true;
+            }
             state.highestPeriodSeen = playPeriod;
-            state.pbpTab = playPeriod.toString();
-            switchedQuarter = true;
         }
 
         // Only manipulate the DOM if we are actively on the Live tab
@@ -244,7 +250,7 @@ function setupMasterTabs() {
 
 // Helper to determine if a game has any players in the currently selected DFS slate
 function hasSlatePlayers(game, platform, slateId) {
-    if (slateId === 'all') return true; // If 'all', we don't filter the game out entirely.
+    if (slateId === 'all') return true; 
     
     const checkRoster = (players) => {
         if (!players) return false;
@@ -259,7 +265,6 @@ function hasSlatePlayers(game, platform, slateId) {
     return checkRoster(game.awayStarters) || checkRoster(game.homeStarters) || checkRoster(game.awayBench) || checkRoster(game.homeBench);
 }
 
-// Helper to determine if a game has ANY dfs players at all (for the missing slate warning)
 function hasAnyDfsSalaries(game, platform) {
     const checkRoster = (players) => {
         if (!players) return false;
@@ -435,10 +440,10 @@ function renderGames() {
     const platform = platformNode ? platformNode.value : 'fd';
     const selectedSlate = document.getElementById('slate-selector')?.value || 'all';
 
-    // Save scroll state for live grid tables
+    // SCROLL LOCK 1: Save scroll state for both live grids AND play-by-play logs!
     const scrollPositions = {};
-    document.querySelectorAll('.live-table-wrapper').forEach(el => {
-        scrollPositions[el.id] = el.scrollLeft;
+    document.querySelectorAll('.live-table-wrapper, [id^="pbp-list-"]').forEach(el => {
+        scrollPositions[el.id] = { left: el.scrollLeft, top: el.scrollTop };
     });
 
     container.innerHTML = '';
@@ -486,9 +491,12 @@ function renderGames() {
         if (card) container.appendChild(card);
     });
 
-    // Restore scroll state
-    document.querySelectorAll('.live-table-wrapper').forEach(el => {
-        if (scrollPositions[el.id]) el.scrollLeft = scrollPositions[el.id];
+    // SCROLL LOCK 2: Restore scroll state perfectly so the user doesn't lose their place
+    document.querySelectorAll('.live-table-wrapper, [id^="pbp-list-"]').forEach(el => {
+        if (scrollPositions[el.id]) {
+            el.scrollLeft = scrollPositions[el.id].left;
+            el.scrollTop = scrollPositions[el.id].top;
+        }
     });
 }
 
@@ -513,7 +521,18 @@ function injectPlayIntoDOM(localId, play) {
             <div class="text-dark ${textWeight}" style="flex: 1; line-height: 1.3;" title="${play.text}">${play.text}</div>
         `;
 
+        // SCROLL LOCK 3: Check if the user is actively scrolled down the list
+        const isScrolled = listContainer.scrollTop > 5;
+        const oldScrollHeight = listContainer.scrollHeight;
+
         listContainer.prepend(el);
+
+        // If they are scrolled down, push the scroll position down by the exact height of the new play
+        // so their screen doesn't jump!
+        if (isScrolled) {
+            const newScrollHeight = listContainer.scrollHeight;
+            listContainer.scrollTop += (newScrollHeight - oldScrollHeight);
+        }
 
         Array.from(listContainer.children).forEach((child, index) => {
             if (index % 2 === 0) {
@@ -771,7 +790,7 @@ function createLiveCard(data) {
     const liveMatch = LIVE_GAMES_DATA[localId];
     const isActivelyPlaying = liveMatch && liveMatch.status === 'in'; 
 
-    if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = { liveBenchOpen: false, pbpOpen: false };
+    if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = { baseBenchOpen: false, liveBenchOpen: false, pbpOpen: true };
     const cardState = window.CARD_STATE[localId];
 
     let timeBadgeHtml = "";
