@@ -3215,7 +3215,7 @@
   },
   "BKN-SAC-2026-03-22": {
     "status": "in",
-    "clock": "9.5 - 4th",
+    "clock": "6.6 - 4th",
     "away_score": "122",
     "home_score": "123",
     "team_stats": {
@@ -3287,7 +3287,7 @@
           "FT": "2-4",
           "fd_pts": 33.0,
           "dk_pts": 35.25,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Maxime Raynaud": {
           "MIN": 36,
@@ -3362,7 +3362,7 @@
           "FT": "0-0",
           "fd_pts": 13.4,
           "dk_pts": 15.5,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Dylan Cardwell": {
           "MIN": 15,
@@ -3595,6 +3595,12 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 640.0,
+          "period": 4,
+          "time": "Q4 9.5",
+          "text": "Doug McDermott enters the game for Precious Achiuwa"
+        },
         {
           "seq": 639.0,
           "period": 4,
@@ -6236,13 +6242,20 @@
           "text": "Danny Wolf vs. Maxime Raynaud (Precious Achiuwa gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 639.0
+      "new_plays": [
+        {
+          "seq": 640.0,
+          "period": 4,
+          "time": "Q4 9.5",
+          "text": "Doug McDermott enters the game for Precious Achiuwa"
+        }
+      ],
+      "last_seq": 640.0
     }
   },
   "WAS-NYK-2026-03-22": {
     "status": "in",
-    "clock": "3:56 - 2nd",
+    "clock": "3:42 - 2nd",
     "away_score": "45",
     "home_score": "56",
     "team_stats": {
@@ -6314,7 +6327,7 @@
           "FT": "0-0",
           "fd_pts": 4.2,
           "dk_pts": 5.75,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Karl-Anthony Towns": {
           "MIN": 14,
@@ -6329,7 +6342,7 @@
           "FT": "5-5",
           "fd_pts": 24.4,
           "dk_pts": 24.75,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Josh Hart": {
           "MIN": 15,
@@ -6389,7 +6402,7 @@
           "FT": "0-0",
           "fd_pts": 2.0,
           "dk_pts": 2.0,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Mitchell Robinson": {
           "MIN": 11,
@@ -6404,7 +6417,7 @@
           "FT": "0-0",
           "fd_pts": 16.0,
           "dk_pts": 14.25,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Jordan Clarkson": {
           "MIN": 9,
@@ -6578,6 +6591,18 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 284.0,
+          "period": 2,
+          "time": "Q2 3:56",
+          "text": "OG Anunoby enters the game for Mitchell Robinson"
+        },
+        {
+          "seq": 283.0,
+          "period": 2,
+          "time": "Q2 3:56",
+          "text": "Mohamed Diawara enters the game for Karl-Anthony Towns"
+        },
+        {
           "seq": 282.0,
           "period": 2,
           "time": "Q2 3:56",
@@ -6641,7 +6666,7 @@
           "seq": 268.0,
           "period": 2,
           "time": "Q2 4:47",
-          "text": "Jamir Watkins misses 25-foot three point step back jumpshot"
+          "text": "Jamir Watkins misses 25-foot three point pullup jump shot"
         },
         {
           "seq": 266.0,
@@ -7738,25 +7763,19 @@
       ],
       "new_plays": [
         {
-          "seq": 282.0,
+          "seq": 284.0,
           "period": 2,
           "time": "Q2 3:56",
-          "text": "Knicks Full timeout"
+          "text": "OG Anunoby enters the game for Mitchell Robinson"
         },
         {
-          "seq": 280.0,
+          "seq": 283.0,
           "period": 2,
-          "time": "Q2 3:57",
-          "text": "Leaky Black makes 23-foot three point jumper (Bub Carrington assists)"
-        },
-        {
-          "seq": 278.0,
-          "period": 2,
-          "time": "Q2 4:09",
-          "text": "Jalen Brunson lost ball turnover (Jamir Watkins steals)"
+          "time": "Q2 3:56",
+          "text": "Mohamed Diawara enters the game for Karl-Anthony Towns"
         }
       ],
-      "last_seq": 282.0
+      "last_seq": 284.0
     }
   },
   "MIN-BOS-2026-03-22": {
@@ -7768,8 +7787,8 @@
       "MIN": {
         "fieldGoalsMade-fieldGoalsAttempted": "4-18",
         "FG%": "22",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "1-6",
-        "3P%": "17",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "1-7",
+        "3P%": "14",
         "freeThrowsMade-freeThrowsAttempted": "1-2",
         "FT%": "50",
         "REB": "12",
@@ -8056,7 +8075,7 @@
           "BLK": "0",
           "TO": "0",
           "FG": "0-1",
-          "3PT": "0-0",
+          "3PT": "0-1",
           "FT": "0-0",
           "fd_pts": 0.0,
           "dk_pts": 0.0,
@@ -8127,7 +8146,7 @@
           "seq": 108.0,
           "period": 1,
           "time": "Q1 3:13",
-          "text": "Naz Reid misses 18-foot running jump shot"
+          "text": "Naz Reid misses 22-foot three point jumper"
         },
         {
           "seq": 106.0,
