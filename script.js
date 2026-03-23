@@ -133,7 +133,15 @@ async function pollLiveData(dateToFetch) {
                         window.RENDERED_PBP[localId] = [...fullLog];
                         window.LAST_SEQ_SEEN[localId] = game.play_by_play.last_seq || 0;
                         if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
-                        if (fullLog.length > 0) window.CARD_STATE[localId].highestPeriodSeen = Math.max(...fullLog.map(p => Number(p.period)));
+                        let state = window.CARD_STATE[localId];
+                        if (fullLog.length > 0) state.highestPeriodSeen = Math.max(...fullLog.map(p => Number(p.period)));
+
+                        // IF GAME IS ALREADY FINAL ON FIRST LOAD, FLIP IMMEDIATELY
+                        if (game.status === 'post') {
+                            state.hasFlippedPbp = true;
+                            state.pbpTab = 'All';
+                            state.finalTimerStarted = true;
+                        }
                     } else {
                         let unseenPlays = fullLog.filter(p => p.seq > window.LAST_SEQ_SEEN[localId]);
                         
@@ -151,8 +159,39 @@ async function pollLiveData(dateToFetch) {
                 if (hasNewPlays || (window.PBP_QUEUE[localId] && window.PBP_QUEUE[localId].length > 0)) {
                     window.PENDING_LIVE_DATA[localId] = game;
                 } else {
+                    let isAlreadyPost = LIVE_GAMES_DATA[localId] && LIVE_GAMES_DATA[localId].status === 'post';
                     LIVE_GAMES_DATA[localId] = game;
-                    needsGlobalRender = true;
+                    
+                    // Optimization: Do not force a global re-render if a game is totally finalized
+                    // This prevents completed games from jittering while you read them!
+                    if (!isAlreadyPost || game.status !== 'post') {
+                        needsGlobalRender = true;
+                    }
+                }
+
+                // 5 MINUTE FLIP TIMER
+                if (game.status === 'post') {
+                    if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
+                    let state = window.CARD_STATE[localId];
+                    
+                    if (!state.hasFlippedPbp && !state.finalTimerStarted) {
+                        state.finalTimerStarted = true;
+                        setTimeout(() => {
+                            let currentState = window.CARD_STATE[localId];
+                            if (currentState && !currentState.hasFlippedPbp) {
+                                currentState.hasFlippedPbp = true;
+                                currentState.pbpTab = 'All';
+                                if (window.MASTER_TAB === 'live') {
+                                    renderGames();
+                                    // Reset scroll to top to see beginning of the game
+                                    setTimeout(() => {
+                                        const listContainer = document.getElementById(`pbp-list-${localId}`);
+                                        if (listContainer) listContainer.scrollTop = 0;
+                                    }, 100);
+                                }
+                            }
+                        }, 300000); // Wait exactly 5 mins
+                    }
                 }
             }
         }
@@ -449,17 +488,14 @@ function renderGames() {
     container.innerHTML = '';
     const searchText = document.getElementById('team-search')?.value.toLowerCase() || '';
     
-    // Base Filter: Text Search
     let filteredData = ALL_GAMES_DATA.filter(item => 
         (item.away.team.displayName + " " + item.home.team.displayName).toLowerCase().includes(searchText)
     );
 
-    // Filter by DFS Slate Selection!
     if (selectedSlate !== 'all') {
         filteredData = filteredData.filter(item => hasSlatePlayers(item, platform, selectedSlate));
     }
 
-    // Master Tab Filter: If "Live", hide games that haven't tipped off
     if (window.MASTER_TAB === 'live') {
         filteredData = filteredData.filter(item => {
             const liveMatch = LIVE_GAMES_DATA[item.localId];
@@ -486,7 +522,6 @@ function renderGames() {
             return a.gameDate - b.gameDate;
         }
     }).forEach((item) => {
-        // Route to the appropriate card builder based on the Master Tab
         const card = window.MASTER_TAB === 'lineups' ? createLineupCard(item) : createLiveCard(item);
         if (card) container.appendChild(card);
     });
@@ -521,14 +556,14 @@ function injectPlayIntoDOM(localId, play) {
             <div class="text-dark ${textWeight}" style="flex: 1; line-height: 1.3;" title="${play.text}">${play.text}</div>
         `;
 
-        // SCROLL LOCK 3: Check if the user is actively scrolled down the list
+        // SCROLL LOCK 3: Active Live Injection Protection
         const isScrolled = listContainer.scrollTop > 5;
         const oldScrollHeight = listContainer.scrollHeight;
 
         listContainer.prepend(el);
 
-        // If they are scrolled down, push the scroll position down by the exact height of the new play
-        // so their screen doesn't jump!
+        // If the user is actively reading an old play, bump the scroll window down 
+        // to mathematically hide the new play and preserve their reading spot
         if (isScrolled) {
             const newScrollHeight = listContainer.scrollHeight;
             listContainer.scrollTop += (newScrollHeight - oldScrollHeight);
@@ -580,6 +615,11 @@ function getRecentPlaysHtml(localId) {
 
     let filteredPlays = activeTab === 'All' ? plays : plays.filter(p => p.period.toString() === activeTab);
 
+    // --- 5 MINUTE CHRONOLOGICAL FLIP ---
+    if (state.hasFlippedPbp) {
+        filteredPlays = [...filteredPlays].reverse();
+    }
+
     let playsHtml = filteredPlays.map((play, i) => {
         const bgClass = i % 2 === 0 ? 'bg-light' : 'bg-white';
         const isMake = play.text.includes(' makes ');
@@ -625,7 +665,6 @@ function createLineupCard(data) {
     const liveMatch = LIVE_GAMES_DATA[localId];
     const isLiveDataAvailable = liveMatch && (liveMatch.status === 'in' || liveMatch.status === 'post');
 
-    // Time Badge Logic (Changes to LIVE or FINAL)
     let timeBadgeHtml = `<span class="badge bg-dark text-white" style="font-size: 0.7rem;">${data.gameDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>`;
     if (isLiveDataAvailable) {
         if (liveMatch.status === 'in') {
@@ -635,7 +674,6 @@ function createLineupCard(data) {
         }
     }
 
-    // Center Display Logic: We want to ALWAYS show the Odds on the Lineups tab. 
     const centerHtml = `
         <div class="badge bg-light text-dark border w-100 mb-1" style="font-size: 0.75rem;">${data.odds.spread}</div>
         <div class="badge bg-secondary text-white w-100" style="font-size: 0.70rem;">${data.odds.overUnder}</div>
