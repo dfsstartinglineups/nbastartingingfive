@@ -523,14 +523,7 @@
           "text": "Deandre Ayton vs. Jalen Duren (Austin Reaves gains possession)"
         }
       ],
-      "new_plays": [
-        {
-          "seq": 77.0,
-          "period": 1,
-          "time": "Q1 10:04",
-          "text": "Duncan Robinson bad pass\nturnover (Deandre Ayton steals)"
-        }
-      ],
+      "new_plays": [],
       "last_seq": 77.0
     }
   },
@@ -720,7 +713,7 @@
         "Jay Huff": {
           "MIN": 5,
           "PTS": "0",
-          "REB": "0",
+          "REB": "1",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
@@ -728,8 +721,8 @@
           "FG": "0-0",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 0.0,
-          "dk_pts": 0.0,
+          "fd_pts": 1.2,
+          "dk_pts": 1.25,
           "is_on_court": true
         },
         "Andrew Nembhard": {
@@ -781,8 +774,8 @@
         {
           "seq": 63.0,
           "period": 1,
-          "time": "Q1 7:11",
-          "text": "Pascal Siakam defensive rebound"
+          "time": "Q1 7:14",
+          "text": "Jay Huff defensive rebound"
         },
         {
           "seq": 62.0,
@@ -1176,6 +1169,21 @@
           "fd_pts": 9.7,
           "dk_pts": 9.75,
           "is_on_court": true
+        },
+        "Andre Drummond": {
+          "MIN": 0,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
+          "is_on_court": false
         }
       },
       "OKC": {
@@ -1192,7 +1200,7 @@
           "FT": "0-0",
           "fd_pts": 10.9,
           "dk_pts": 10.0,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Chet Holmgren": {
           "MIN": 6,
@@ -1268,11 +1276,32 @@
           "fd_pts": 0.0,
           "dk_pts": 0.0,
           "is_on_court": true
+        },
+        "Jared McCain": {
+          "MIN": 0,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
+          "is_on_court": true
         }
       }
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 72.0,
+          "period": 1,
+          "time": "Q1 5:56",
+          "text": "Jared McCain enters the game for Isaiah Hartenstein"
+        },
         {
           "seq": 70.0,
           "period": 1,
@@ -1373,7 +1402,7 @@
           "seq": 47.0,
           "period": 1,
           "time": "Q1 7:49",
-          "text": "VJ Edgecombe misses 18-foot step back jumpshot"
+          "text": "VJ Edgecombe misses 18-foot pullup jump shot"
         },
         {
           "seq": 46.0,
@@ -1550,27 +1579,34 @@
           "text": "Chet Holmgren vs. Adem Bona (Shai Gilgeous-Alexander gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 70.0
+      "new_plays": [
+        {
+          "seq": 72.0,
+          "period": 1,
+          "time": "Q1 5:56",
+          "text": "Jared McCain enters the game for Isaiah Hartenstein"
+        }
+      ],
+      "last_seq": 72.0
     }
   },
   "SAS-MIA-2026-03-23": {
     "status": "in",
-    "clock": "7:37 - 1st",
-    "away_score": "16",
-    "home_score": "13",
+    "clock": "6:56 - 1st",
+    "away_score": "19",
+    "home_score": "15",
     "team_stats": {
       "SAS": {
-        "fieldGoalsMade-fieldGoalsAttempted": "5-7",
-        "FG%": "71",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "1-3",
-        "3P%": "33",
-        "freeThrowsMade-freeThrowsAttempted": "4-4",
+        "fieldGoalsMade-fieldGoalsAttempted": "6-9",
+        "FG%": "67",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "2-5",
+        "3P%": "40",
+        "freeThrowsMade-freeThrowsAttempted": "5-5",
         "FT%": "100",
-        "REB": "4",
-        "OR": "0",
+        "REB": "5",
+        "OR": "1",
         "DR": "4",
-        "AST": "3",
+        "AST": "4",
         "STL": "0",
         "BLK": "0",
         "TO": "2",
@@ -1584,11 +1620,11 @@
         "PF": "1",
         "LL": "5",
         "LC": "2",
-        "LPCT": "66"
+        "LPCT": "69"
       },
       "MIA": {
-        "fieldGoalsMade-fieldGoalsAttempted": "5-10",
-        "FG%": "50",
+        "fieldGoalsMade-fieldGoalsAttempted": "6-11",
+        "FG%": "55",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "1-5",
         "3P%": "20",
         "freeThrowsMade-freeThrowsAttempted": "2-2",
@@ -1596,7 +1632,7 @@
         "REB": "3",
         "OR": "1",
         "DR": "2",
-        "AST": "3",
+        "AST": "5",
         "STL": "2",
         "BLK": "0",
         "TO": "0",
@@ -1606,17 +1642,17 @@
         "FLAG": "0",
         "Points Conceded Off Turnovers": "0",
         "FBPs": "6",
-        "PIP": "6",
+        "PIP": "8",
         "PF": "3",
         "LL": "1",
         "LC": "2",
-        "LPCT": "6"
+        "LPCT": "5"
       }
     },
     "players": {
       "MIA": {
         "Andrew Wiggins": {
-          "MIN": 4,
+          "MIN": 5,
           "PTS": "2",
           "REB": "1",
           "AST": "1",
@@ -1631,69 +1667,69 @@
           "is_on_court": true
         },
         "Bam Adebayo": {
-          "MIN": 4,
+          "MIN": 5,
           "PTS": "3",
           "REB": "0",
-          "AST": "0",
+          "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
           "FG": "1-4",
           "3PT": "1-3",
           "FT": "0-0",
-          "fd_pts": 3.0,
-          "dk_pts": 3.5,
+          "fd_pts": 4.5,
+          "dk_pts": 5.0,
           "is_on_court": true
         },
         "Davion Mitchell": {
-          "MIN": 4,
-          "PTS": "0",
+          "MIN": 5,
+          "PTS": "2",
           "REB": "1",
           "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "0-1",
+          "FG": "1-2",
           "3PT": "0-1",
           "FT": "0-0",
-          "fd_pts": 2.7,
-          "dk_pts": 2.75,
+          "fd_pts": 4.7,
+          "dk_pts": 4.75,
           "is_on_court": true
         },
         "Tyler Herro": {
-          "MIN": 4,
-          "PTS": "6",
+          "MIN": 5,
+          "PTS": "8",
           "REB": "1",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "2-2",
+          "FG": "3-3",
           "3PT": "0-0",
           "FT": "2-2",
-          "fd_pts": 7.2,
-          "dk_pts": 7.25,
+          "fd_pts": 9.2,
+          "dk_pts": 9.25,
           "is_on_court": true
         },
         "Pelle Larsson": {
-          "MIN": 4,
-          "PTS": "2",
+          "MIN": 5,
+          "PTS": "0",
           "REB": "0",
-          "AST": "1",
+          "AST": "2",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "1-1",
+          "FG": "0-0",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 3.5,
-          "dk_pts": 3.5,
+          "fd_pts": 3.0,
+          "dk_pts": 3.0,
           "is_on_court": true
         }
       },
       "SAS": {
         "Julian Champagnie": {
-          "MIN": 4,
+          "MIN": 5,
           "PTS": "2",
           "REB": "0",
           "AST": "0",
@@ -1708,22 +1744,22 @@
           "is_on_court": true
         },
         "Victor Wembanyama": {
-          "MIN": 4,
+          "MIN": 5,
           "PTS": "2",
           "REB": "2",
           "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "1-1",
-          "3PT": "0-0",
+          "FG": "1-2",
+          "3PT": "0-1",
           "FT": "0-0",
           "fd_pts": 5.9,
           "dk_pts": 6.0,
           "is_on_court": true
         },
         "De'Aaron Fox": {
-          "MIN": 4,
+          "MIN": 5,
           "PTS": "8",
           "REB": "1",
           "AST": "0",
@@ -1738,39 +1774,81 @@
           "is_on_court": true
         },
         "Devin Vassell": {
-          "MIN": 4,
-          "PTS": "0",
+          "MIN": 5,
+          "PTS": "3",
           "REB": "1",
           "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "0-1",
-          "3PT": "0-1",
+          "FG": "1-2",
+          "3PT": "1-2",
           "FT": "0-0",
-          "fd_pts": 2.7,
-          "dk_pts": 2.75,
+          "fd_pts": 5.7,
+          "dk_pts": 6.25,
           "is_on_court": true
         },
         "Stephon Castle": {
-          "MIN": 4,
-          "PTS": "3",
-          "REB": "0",
-          "AST": "1",
+          "MIN": 5,
+          "PTS": "4",
+          "REB": "1",
+          "AST": "2",
           "STL": "0",
           "BLK": "0",
           "TO": "2",
           "FG": "0-0",
           "3PT": "0-0",
-          "FT": "3-3",
-          "fd_pts": 2.5,
-          "dk_pts": 3.5,
+          "FT": "4-4",
+          "fd_pts": 6.2,
+          "dk_pts": 7.25,
           "is_on_court": true
         }
       }
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 64.0,
+          "period": 1,
+          "time": "Q1 6:56",
+          "text": "foul"
+        },
+        {
+          "seq": 62.0,
+          "period": 1,
+          "time": "Q1 7:04",
+          "text": "Devin Vassell makes 23-foot three point jumper (Stephon Castle assists)"
+        },
+        {
+          "seq": 61.0,
+          "period": 1,
+          "time": "Q1 7:12",
+          "text": "Stephon Castle offensive rebound"
+        },
+        {
+          "seq": 60.0,
+          "period": 1,
+          "time": "Q1 7:16",
+          "text": "Victor Wembanyama misses 25-foot three point pullup jump shot"
+        },
+        {
+          "seq": 58.0,
+          "period": 1,
+          "time": "Q1 7:24",
+          "text": "Davion Mitchell makes 2-foot two point shot (Bam Adebayo assists)"
+        },
+        {
+          "seq": 57.0,
+          "period": 1,
+          "time": "Q1 7:37",
+          "text": "Stephon Castle makes free throw 2 of 2"
+        },
+        {
+          "seq": 56.0,
+          "period": 1,
+          "time": "Q1 7:37",
+          "text": "Stephon Castle makes free throw 1 of 2"
+        },
         {
           "seq": 54.0,
           "period": 1,
@@ -1811,7 +1889,7 @@
           "seq": 46.0,
           "period": 1,
           "time": "Q1 8:00",
-          "text": "Pelle Larsson makes two point shot"
+          "text": "Tyler Herro makes two point shot (Pelle Larsson assists)"
         },
         {
           "seq": 45.0,
@@ -1990,13 +2068,49 @@
       ],
       "new_plays": [
         {
-          "seq": 54.0,
+          "seq": 64.0,
+          "period": 1,
+          "time": "Q1 6:56",
+          "text": "foul"
+        },
+        {
+          "seq": 62.0,
+          "period": 1,
+          "time": "Q1 7:04",
+          "text": "Devin Vassell makes 23-foot three point jumper (Stephon Castle assists)"
+        },
+        {
+          "seq": 61.0,
+          "period": 1,
+          "time": "Q1 7:12",
+          "text": "Stephon Castle offensive rebound"
+        },
+        {
+          "seq": 60.0,
+          "period": 1,
+          "time": "Q1 7:16",
+          "text": "Victor Wembanyama misses 25-foot three point pullup jump shot"
+        },
+        {
+          "seq": 58.0,
+          "period": 1,
+          "time": "Q1 7:24",
+          "text": "Davion Mitchell makes 2-foot two point shot (Bam Adebayo assists)"
+        },
+        {
+          "seq": 57.0,
           "period": 1,
           "time": "Q1 7:37",
-          "text": "Pelle Larsson shooting foul"
+          "text": "Stephon Castle makes free throw 2 of 2"
+        },
+        {
+          "seq": 56.0,
+          "period": 1,
+          "time": "Q1 7:37",
+          "text": "Stephon Castle makes free throw 1 of 2"
         }
       ],
-      "last_seq": 54.0
+      "last_seq": 64.0
     }
   }
 }
