@@ -558,10 +558,25 @@ function createLineupCard(data) {
     if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = { baseBenchOpen: false, liveBenchOpen: false, pbpOpen: false };
     const cardState = window.CARD_STATE[localId];
 
-    const timeBadgeHtml = `<span class="badge bg-dark text-white" style="font-size: 0.7rem;">${data.gameDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>`;
-    const oddsHtml = `
+    const liveMatch = LIVE_GAMES_DATA[localId];
+    const isLiveDataAvailable = liveMatch && (liveMatch.status === 'in' || liveMatch.status === 'post');
+
+    // Time Badge Logic (Changes to LIVE or FINAL)
+    let timeBadgeHtml = `<span class="badge bg-dark text-white" style="font-size: 0.7rem;">${data.gameDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>`;
+    if (isLiveDataAvailable) {
+        if (liveMatch.status === 'in') {
+            timeBadgeHtml = `<span class="badge bg-danger text-white" style="font-size: 0.7rem;">LIVE</span>`;
+        } else if (liveMatch.status === 'post') {
+            timeBadgeHtml = `<span class="badge bg-secondary text-white" style="font-size: 0.7rem;">FINAL</span>`;
+        }
+    }
+
+    // Center Display Logic: We want to ALWAYS show the Odds on the Lineups tab. 
+    // Even if the game is live, the odds are still safely stored in data.odds!
+    const centerHtml = `
         <div class="badge bg-light text-dark border w-100 mb-1" style="font-size: 0.75rem;">${data.odds.spread}</div>
-        <div class="badge bg-secondary text-white w-100" style="font-size: 0.70rem;">${data.odds.overUnder}</div>`;
+        <div class="badge bg-secondary text-white w-100" style="font-size: 0.70rem;">${data.odds.overUnder}</div>
+    `;
 
     const buildBaseLineupList = (players, isProjected, isBench = false) => {
         if (!players || !players.length) return { html: isBench ? '' : `<div class="p-4 text-center text-muted small fw-bold">Lineup pending...</div>`, hasValidPlayers: false };
@@ -675,7 +690,7 @@ function createLineupCard(data) {
                     <div class="fw-bold mt-1 text-truncate text-dark" style="font-size: 0.7rem;">${away.team.shortDisplayName}</div>
                 </div>
                 <div style="width: 40%; padding: 0 10px;">
-                    ${oddsHtml}
+                    ${centerHtml}
                 </div>
                 <div style="width: 30%;">
                     <img src="${home.team.logo}" style="width: 45px;">
