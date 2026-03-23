@@ -478,14 +478,42 @@ def build_json():
         game_time = schedule_info.get("time", "TBD")
         game_id = f"{team_a}-{team_b}-{game_date}"
         
+        # --- START ODDS SHIELD LOGIC ---
+        # 1. Fetch fresh event data from ESPN to check for current odds
+        fresh_spread = "TBD"
+        fresh_total = "TBD"
+        espn_url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates={game_date.replace('-', '')}"
+        try:
+            res = requests.get(espn_url, timeout=10)
+            if res.status_code == 200:
+                espn_data = res.json()
+                for ev in espn_data.get('events', []):
+                    match = False
+                    for comp in ev['competitions'][0]['competitors']:
+                        if normalize_team(comp['team']['abbreviation']) in [team_a, team_b]:
+                            match = True
+                            break
+                    if match and ev['competitions'][0].get('odds'):
+                        odds_data = ev['competitions'][0]['odds'][0]
+                        fresh_spread = str(odds_data.get('details', "TBD"))
+                        fresh_total = str(odds_data.get('overUnder', "TBD"))
+                        break
+        except Exception:
+            pass
+
+        # 2. Get old odds from cache
         old_game = old_memory.get(game_id, {})
         old_meta = old_game.get("meta", {})
+        old_spread = str(old_meta.get("spread", "TBD"))
+        old_total = str(old_meta.get("total", "TBD"))
         
-        spread_str = str(old_meta.get("spread", "TBD"))
-        total_str = str(old_meta.get("total", "TBD"))
+        # 3. MAGIC SHIELD: Keep old odds if ESPN dropped them (fresh is TBD but old is real)
+        spread_str = old_spread if (fresh_spread == "TBD" and old_spread != "TBD") else fresh_spread
+        total_str = old_total if (fresh_total == "TBD" and old_total != "TBD") else fresh_total
         
         if spread_str in ["nan", "+nan", "None"]: spread_str = "TBD"
         if total_str in ["nan", "+nan", "None"]: total_str = "TBD"
+        # --- END ODDS SHIELD LOGIC ---
 
         game_obj = {
             "id": game_id,
