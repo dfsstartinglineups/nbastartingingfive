@@ -9517,7 +9517,7 @@
           "FT": "0-0",
           "fd_pts": 23.5,
           "dk_pts": 22.0,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Derrick White": {
           "MIN": 30,
@@ -9547,7 +9547,7 @@
           "FT": "7-9",
           "fd_pts": 34.8,
           "dk_pts": 37.5,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Luka Garza": {
           "MIN": 14,
@@ -9562,7 +9562,7 @@
           "FT": "0-0",
           "fd_pts": 8.1,
           "dk_pts": 9.75,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Payton Pritchard": {
           "MIN": 22,
@@ -9607,7 +9607,7 @@
           "FT": "0-0",
           "fd_pts": 7.1,
           "dk_pts": 6.75,
-          "is_on_court": true
+          "is_on_court": false
         }
       },
       "MIN": {
@@ -9750,6 +9750,24 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 517.0,
+          "period": 4,
+          "time": "Q4 7:30",
+          "text": "enters the game for Kyle Anderson"
+        },
+        {
+          "seq": 516.0,
+          "period": 4,
+          "time": "Q4 7:30",
+          "text": "Jaylen Brown enters the game for Neemias Queta"
+        },
+        {
+          "seq": 515.0,
+          "period": 4,
+          "time": "Q4 7:30",
+          "text": "Luka Garza enters the game for Hugo Gonzalez"
+        },
         {
           "seq": 514.0,
           "period": 4,
@@ -11989,8 +12007,27 @@
           "text": "Rudy Gobert vs. Neemias Queta (Ayo Dosunmu gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 514.0
+      "new_plays": [
+        {
+          "seq": 517.0,
+          "period": 4,
+          "time": "Q4 7:30",
+          "text": "enters the game for Kyle Anderson"
+        },
+        {
+          "seq": 516.0,
+          "period": 4,
+          "time": "Q4 7:30",
+          "text": "Jaylen Brown enters the game for Neemias Queta"
+        },
+        {
+          "seq": 515.0,
+          "period": 4,
+          "time": "Q4 7:30",
+          "text": "Luka Garza enters the game for Hugo Gonzalez"
+        }
+      ],
+      "last_seq": 517.0
     }
   },
   "TOR-PHX-2026-03-22": {
@@ -12006,8 +12043,8 @@
         "3P%": "38",
         "freeThrowsMade-freeThrowsAttempted": "5-8",
         "FT%": "63",
-        "REB": "14",
-        "OR": "4",
+        "REB": "15",
+        "OR": "5",
         "DR": "10",
         "AST": "10",
         "STL": "2",
@@ -12032,12 +12069,12 @@
         "3P%": "59",
         "freeThrowsMade-freeThrowsAttempted": "3-3",
         "FT%": "100",
-        "REB": "19",
+        "REB": "18",
         "OR": "5",
-        "DR": "14",
+        "DR": "13",
         "AST": "9",
         "STL": "3",
-        "BLK": "3",
+        "BLK": "2",
         "TO": "6",
         "TTO": "0",
         "ToTO": "6",
@@ -12329,7 +12366,7 @@
         "Ja'Kobe Walter": {
           "MIN": 11,
           "PTS": "11",
-          "REB": "1",
+          "REB": "2",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
@@ -12337,8 +12374,8 @@
           "FG": "4-4",
           "3PT": "3-3",
           "FT": "0-0",
-          "fd_pts": 12.2,
-          "dk_pts": 13.75,
+          "fd_pts": 13.4,
+          "dk_pts": 15.0,
           "is_on_court": true
         }
       }
@@ -12361,13 +12398,13 @@
           "seq": 309.0,
           "period": 2,
           "time": "Q2 4:16",
-          "text": "Oso Ighodaro defensive rebound"
+          "text": "Ja'Kobe Walter offensive rebound"
         },
         {
           "seq": 307.0,
           "period": 2,
           "time": "Q2 4:21",
-          "text": "Oso Ighodaro blocks Sandro Mamukelashvili 's 1-foot driving layup"
+          "text": "Sandro Mamukelashvili misses driving layup"
         },
         {
           "seq": 305.0,
@@ -13486,38 +13523,7 @@
           "text": "Jakob Poeltl vs. Oso Ighodaro (Collin Gillespie gains possession)"
         }
       ],
-      "new_plays": [
-        {
-          "seq": 311.0,
-          "period": 2,
-          "time": "Q2 4:15",
-          "text": "Raptors Full timeout"
-        },
-        {
-          "seq": 310.0,
-          "period": 2,
-          "time": "Q2 4:15",
-          "text": "Ryan Dunn makes 1-foot running dunk"
-        },
-        {
-          "seq": 309.0,
-          "period": 2,
-          "time": "Q2 4:16",
-          "text": "Oso Ighodaro defensive rebound"
-        },
-        {
-          "seq": 307.0,
-          "period": 2,
-          "time": "Q2 4:21",
-          "text": "Oso Ighodaro blocks Sandro Mamukelashvili 's 1-foot driving layup"
-        },
-        {
-          "seq": 305.0,
-          "period": 2,
-          "time": "Q2 4:31",
-          "text": "Jamaree Bouyea personal foul"
-        }
-      ],
+      "new_plays": [],
       "last_seq": 311.0
     }
   }
