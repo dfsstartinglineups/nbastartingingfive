@@ -6,6 +6,7 @@ let ALL_GAMES_DATA = [];
 let LIVE_GAMES_DATA = {}; 
 let ALL_SLATES = { fanduel: [], draftkings: [] };
 let ARE_ALL_EXPANDED = false;
+let PLAYERS_DB = {}; // Holds our player database
 
 // State managers
 window.MASTER_TAB = 'lineups'; 
@@ -36,6 +37,16 @@ style.innerHTML = `
     .leaderboard-tab:hover:not(.active) { color: #495057; }
 `;
 document.head.appendChild(style);
+
+// --- PLAYER DATABASE HELPER ---
+function getPlayerFromDB(id, fullName) {
+    if (id && PLAYERS_DB[id]) return PLAYERS_DB[id];
+    // Fallback: If we don't have the ID, search by exact name
+    for (let key in PLAYERS_DB) {
+        if (PLAYERS_DB[key].name === fullName) return PLAYERS_DB[key];
+    }
+    return null;
+}
 
 // ==========================================
 // DYNAMIC QUEUE PROCESSOR
@@ -310,7 +321,6 @@ function populateSlates() {
     const datePicker = document.getElementById('date-picker');
     const dateToFetch = datePicker ? datePicker.value : DEFAULT_DATE;
     
-    // SAFE DATE PARSING FIX
     let dateObj = new Date(dateToFetch);
     if (isNaN(dateObj)) dateObj = new Date(); 
     const dayOfWeek = dateObj.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
@@ -351,7 +361,6 @@ async function init(dateToFetch) {
             </div>`;
     }
     
-    // SAFE ESPN URL FIX
     let espnDateStr = dateToFetch.replace(/-/g, '');
     const dObj = new Date(dateToFetch);
     if (!isNaN(dObj)) {
@@ -360,6 +369,14 @@ async function init(dateToFetch) {
     const ESPN_API_URL = `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${espnDateStr}`;
     
     try {
+        // --- FETCH THE PLAYER DATABASE ---
+        try {
+            const playersRes = await fetch('data/players.json?v=' + new Date().getTime());
+            if (playersRes.ok) PLAYERS_DB = await playersRes.json();
+        } catch(e) {
+            console.log("No players.json found, falling back to basic data.");
+        }
+
         const localData = await fetchLocalProbables(dateToFetch);
         let scheduleData;
         
@@ -384,7 +401,7 @@ async function init(dateToFetch) {
             const comp = game.competitions[0];
             const homeTeamData = comp.competitors.find(c => c.homeAway === 'home');
             const awayTeamData = comp.competitors.find(c => c.homeAway === 'away');
-            if(!homeTeamData || !awayTeamData) return; // Safety check
+            if(!homeTeamData || !awayTeamData) return;
 
             const homeStd = getStandardAbbr(homeTeamData.team.abbreviation);
             const awayStd = getStandardAbbr(awayTeamData.team.abbreviation);
@@ -463,7 +480,6 @@ function shortenPlayerName(fullName) {
 }
 
 window.openPlayerModal = function(el) {
-    // Basic modal opener (can be expanded later)
     console.log("Player clicked", JSON.parse(decodeURIComponent(el.getAttribute('data-player'))));
 };
 
@@ -491,9 +507,12 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
                 
                 if (sal > 0 || proj > 0) {
                     let name = a.displayName || a.fullName || 'Unknown';
+                    
+                    let dbPlayer = getPlayerFromDB(a.id, name);
+                    let photo = dbPlayer ? dbPlayer.photo : (a.headshot?.href || a.dfs?.photo || '');
+                    
                     let pos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position?.abbreviation || 'Flex');
                     if (platform === 'dk' && a.dfs && a.dfs.dk_pos) pos = a.dfs.dk_pos;
-                    let photo = a.headshot?.href || a.dfs?.photo || '';
                     
                     allPlayers.push({ id: a.id || name, name, pos, teamAbbrev: teamAbbr, teamLogo, photo, salary: sal, proj, value: val });
                 }
@@ -508,7 +527,6 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
     if (allPlayers.length === 0) return '';
     allPlayers = Array.from(new Map(allPlayers.map(p => [p.id, p])).values());
 
-    // INCREASED TO SHOW TOP 20
     const topValue = [...allPlayers].sort((a, b) => (b.value || 0) - (a.value || 0)).slice(0, 20);
     const topProj = [...allPlayers].sort((a, b) => parseFloat(b.proj || 0) - parseFloat(a.proj || 0)).slice(0, 20);
 
@@ -519,7 +537,6 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
                 : `<div style="width: 32px; height: 32px; border-radius: 50%; background-color: #f8f9fa; color: #495057; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 800; border: 1px solid #dee2e6;">${p.name.charAt(0)}</div>`;
             
             const teamBadge = p.teamLogo ? `<img src="${p.teamLogo}" style="width: 14px; height: 14px; position: absolute; bottom: -2px; right: -2px; border-radius: 50%; background: #fff; border: 1px solid #dee2e6; object-fit: contain;">` : '';
-
             const highlightMetric = isValue ? `<span class="text-success">${parseFloat(p.value || 0).toFixed(2)}x</span>` : `<span class="text-primary">${p.proj || 0}</span> <span class="text-muted" style="font-size:0.6rem;">pts</span>`;
             
             return `
@@ -581,6 +598,13 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                 let fp = stats[fpKey] || 0;
                 if (fp > 0) {
                     let photo = '', pos = '-';
+                    
+                    let dbPlayer = getPlayerFromDB(null, playerName);
+                    if (dbPlayer) {
+                        photo = dbPlayer.photo;
+                        pos = dbPlayer.pos;
+                    }
+
                     let matchedPlayer = (roster || []).find(p => {
                         const a = p.athlete || p;
                         return (a.displayName || a.fullName || '') === playerName;
@@ -588,8 +612,8 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                     
                     if (matchedPlayer) {
                         const a = matchedPlayer.athlete || matchedPlayer;
-                        photo = a.headshot?.href || a.dfs?.photo || '';
-                        pos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position?.abbreviation || 'Flex');
+                        if (!photo) photo = a.headshot?.href || a.dfs?.photo || '';
+                        pos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position?.abbreviation || pos || 'Flex');
                         if (platform === 'dk' && a.dfs && a.dfs.dk_pos) pos = a.dfs.dk_pos;
                     }
                     livePlayers.push({ name: playerName, teamAbbrev: teamAbbr, teamLogo, photo, pos, live_fp: fp, live_stats: stats });
@@ -608,9 +632,7 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
             ? `<img src="${p.photo}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #dee2e6; background: #fff;">`
             : `<div style="width: 32px; height: 32px; border-radius: 50%; background-color: #f8f9fa; color: #495057; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 800; border: 1px solid #dee2e6;">${p.name.charAt(0)}</div>`;
         
-        // Render the Team Logo as a badge over the photo/initials
         const teamBadge = p.teamLogo ? `<img src="${p.teamLogo}" style="width: 14px; height: 14px; position: absolute; bottom: -2px; right: -2px; border-radius: 50%; background: #fff; border: 1px solid #dee2e6; object-fit: contain;">` : '';
-
         const subLine = `${p.pos} • ${p.teamAbbrev} • ${p.live_stats.PTS}p ${p.live_stats.REB}r ${p.live_stats.AST}a`;
 
         return `
@@ -641,7 +663,7 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                 <h6 class="mb-0 fw-bold" style="font-size: 0.85rem;">🔥 Live Fantasy Leaders</h6>
                 <span class="badge bg-secondary" style="font-size: 0.6rem;">${platform === 'dk' ? 'DraftKings' : 'FanDuel'}</span>
             </div>
-            <div class="card-body p-0 px-2" style="max-height: 318px; overflow-y: auto;">
+            <div class="card-body p-0 px-2" style="max-height: 235px; overflow-y: auto;">
                 ${listHtml}
             </div>
         </div>
