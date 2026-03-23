@@ -222,7 +222,13 @@ function setupMasterTabs() {
             <label class="btn btn-outline-dark btn-sm fw-bold shadow-sm" for="tab-lineups">Lineups 📋</label>
 
             <input type="radio" class="btn-check" name="masterTab" id="tab-live" value="live">
-            <label class="btn btn-outline-success btn-sm fw-bold shadow-sm" for="tab-live">Live Games 🟢</label>
+            <label class="btn btn-outline-success btn-sm fw-bold shadow-sm position-relative" for="tab-live">
+                Live Games 🟢
+                <span class="position-absolute badge rounded-pill bg-warning text-dark border border-light" 
+                      style="font-size: 0.45rem; top: -6px; right: -12px; padding: 2px 5px; z-index: 10; letter-spacing: 0.5px;">
+                    BETA
+                </span>
+            </label>
         </div>
     `;
     
