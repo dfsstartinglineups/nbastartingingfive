@@ -470,7 +470,7 @@ window.openPlayerModal = function(el) {
 function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
     let allPlayers = [];
     filteredGames.forEach(game => {
-        const extract = (roster, teamAbbr) => {
+        const extract = (roster, teamAbbr, teamLogo) => {
             if (!roster) return;
             roster.forEach(p => {
                 const a = p.athlete || p;
@@ -495,14 +495,14 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
                     if (platform === 'dk' && a.dfs && a.dfs.dk_pos) pos = a.dfs.dk_pos;
                     let photo = a.headshot?.href || a.dfs?.photo || '';
                     
-                    allPlayers.push({ id: a.id || name, name, pos, teamAbbrev: teamAbbr, photo, salary: sal, proj, value: val });
+                    allPlayers.push({ id: a.id || name, name, pos, teamAbbrev: teamAbbr, teamLogo, photo, salary: sal, proj, value: val });
                 }
             });
         };
-        extract(game.awayStarters, getStandardAbbr(game.away.team.abbreviation));
-        extract(game.awayBench, getStandardAbbr(game.away.team.abbreviation));
-        extract(game.homeStarters, getStandardAbbr(game.home.team.abbreviation));
-        extract(game.homeBench, getStandardAbbr(game.home.team.abbreviation));
+        extract(game.awayStarters, getStandardAbbr(game.away.team.abbreviation), game.away.team.logo);
+        extract(game.awayBench, getStandardAbbr(game.away.team.abbreviation), game.away.team.logo);
+        extract(game.homeStarters, getStandardAbbr(game.home.team.abbreviation), game.home.team.logo);
+        extract(game.homeBench, getStandardAbbr(game.home.team.abbreviation), game.home.team.logo);
     });
 
     if (allPlayers.length === 0) return '';
@@ -514,36 +514,42 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
     const buildList = (players, isValue) => {
         return players.map((p, index) => {
             const photoHtml = (p.photo && p.photo.includes("http")) 
-                ? `<img src="${p.photo}" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 1px solid #dee2e6; background: #fff;">`
-                : `<div style="width: 36px; height: 36px; border-radius: 50%; background-color: #f1f3f5; color: #adb5bd; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; border: 1px solid #dee2e6;">${p.name.charAt(0)}</div>`;
+                ? `<img src="${p.photo}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #dee2e6; background: #fff;">`
+                : `<div style="width: 32px; height: 32px; border-radius: 50%; background-color: #f8f9fa; color: #495057; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 800; border: 1px solid #dee2e6;">${p.name.charAt(0)}</div>`;
             
-            const highlightMetric = isValue ? `${parseFloat(p.value || 0).toFixed(2)}x` : `${p.proj || 0} pts`;
-            const subMetric = isValue ? `$${p.salary || 0} | ${p.proj || 0} pts` : `$${p.salary || 0}`;
+            // Render the Team Logo as a badge over the photo/initials
+            const teamBadge = p.teamLogo ? `<img src="${p.teamLogo}" style="width: 14px; height: 14px; position: absolute; bottom: -2px; right: -2px; border-radius: 50%; background: #fff; border: 1px solid #dee2e6; object-fit: contain;">` : '';
 
+            const highlightMetric = isValue ? `<span class="text-success">${parseFloat(p.value || 0).toFixed(2)}x</span>` : `<span class="text-primary">${p.proj || 0}</span> <span class="text-muted" style="font-size:0.6rem;">pts</span>`;
+            
             return `
             <div class="d-flex align-items-center justify-content-between py-2 border-bottom user-select-none" style="cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='transparent'" onclick="openPlayerModal(this)" data-player="${encodeURIComponent(JSON.stringify(p))}">
-                <div class="d-flex align-items-center">
-                    <div class="fw-bold text-muted me-2 text-end" style="font-size: 0.75rem; width: 20px;">${index + 1}.</div>
-                    <div class="me-2">${photoHtml}</div>
-                    <div class="d-flex flex-column justify-content-center">
-                        <span class="fw-bold text-dark text-truncate" style="font-size: 0.9rem; max-width: 150px;">${shortenPlayerName(p.name)}</span>
-                        <span class="text-muted" style="font-size: 0.7rem;">${p.pos || '-'} • ${p.teamAbbrev}</span>
+                <div class="d-flex align-items-center overflow-hidden">
+                    <div class="fw-bold text-muted me-2 text-end" style="font-size: 0.75rem; width: 16px;">${index + 1}.</div>
+                    <div class="me-2 position-relative flex-shrink-0">
+                        ${photoHtml}
+                        ${teamBadge}
+                    </div>
+                    <div class="d-flex flex-column justify-content-center overflow-hidden">
+                        <span class="fw-bold text-dark text-truncate" style="font-size: 0.8rem; max-width: 150px;" title="${p.name}">${shortenPlayerName(p.name)}</span>
+                        <span class="text-muted text-truncate" style="font-size: 0.65rem; max-width: 160px;">
+                            ${p.pos} • ${p.teamAbbrev} • $${p.salary} • ${p.proj} pts
+                        </span>
                     </div>
                 </div>
-                <div class="text-end">
-                    <div class="fw-bold text-success" style="font-size: 0.95rem;">${highlightMetric}</div>
-                    <div class="text-muted" style="font-size: 0.7rem;">${subMetric}</div>
+                <div class="text-end ms-2 flex-shrink-0">
+                    <div class="fw-bold" style="font-size: 0.9rem;">${highlightMetric}</div>
                 </div>
             </div>`;
         }).join('');
     };
 
     return `
-    <div class="col-12 col-md-8 col-lg-6 mx-auto mb-4">
+    <div class="col-12 col-md-6 col-lg-4 px-1 mb-3">
         <div class="card shadow-sm border overflow-hidden" style="background-color: #fff; border-radius: 12px; border-color: #dee2e6 !important;">
             <div class="card-header bg-dark text-white py-2 d-flex justify-content-between align-items-center">
-                <h6 class="mb-0 fw-bold" style="font-size: 0.9rem;">⭐ Slate Top Plays</h6>
-                <span class="badge bg-secondary">${platform === 'dk' ? 'DraftKings' : 'FanDuel'}</span>
+                <h6 class="mb-0 fw-bold" style="font-size: 0.85rem;">⭐ Slate Top Plays</h6>
+                <span class="badge bg-secondary" style="font-size: 0.6rem;">${platform === 'dk' ? 'DraftKings' : 'FanDuel'}</span>
             </div>
             <div class="bg-light border-bottom d-flex justify-content-center align-items-center px-2 py-0">
                 <div class="d-flex w-100">
@@ -552,8 +558,8 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
                 </div>
             </div>
             <div class="card-body p-0">
-                <div id="view-top-value" class="px-3" style="max-height: 350px; overflow-y: auto;">${buildList(topValue, true)}</div>
-                <div id="view-top-proj" class="px-3 d-none" style="max-height: 350px; overflow-y: auto;">${buildList(topProj, false)}</div>
+                <div id="view-top-value" class="px-2" style="max-height: 285px; overflow-y: auto;">${buildList(topValue, true)}</div>
+                <div id="view-top-proj" class="px-2 d-none" style="max-height: 285px; overflow-y: auto;">${buildList(topProj, false)}</div>
             </div>
         </div>
     </div>`;
@@ -567,7 +573,7 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
         const liveMatch = LIVE_GAMES_DATA[game.localId];
         if (!liveMatch || !liveMatch.players) return;
         
-        const extractLive = (teamAbbr, roster) => {
+        const extractLive = (teamAbbr, teamLogo, roster) => {
             const liveTeamData = liveMatch.players[teamAbbr];
             if (!liveTeamData) return;
             
@@ -586,12 +592,12 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                         pos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position?.abbreviation || 'Flex');
                         if (platform === 'dk' && a.dfs && a.dfs.dk_pos) pos = a.dfs.dk_pos;
                     }
-                    livePlayers.push({ name: playerName, teamAbbrev: teamAbbr, photo, pos, live_fp: fp });
+                    livePlayers.push({ name: playerName, teamAbbrev: teamAbbr, teamLogo, photo, pos, live_fp: fp, live_stats: stats });
                 }
             }
         };
-        extractLive(getStandardAbbr(game.away.team.abbreviation), [...(game.awayStarters||[]), ...(game.awayBench||[])]);
-        extractLive(getStandardAbbr(game.home.team.abbreviation), [...(game.homeStarters||[]), ...(game.homeBench||[])]);
+        extractLive(getStandardAbbr(game.away.team.abbreviation), game.away.team.logo, [...(game.awayStarters||[]), ...(game.awayBench||[])]);
+        extractLive(getStandardAbbr(game.home.team.abbreviation), game.home.team.logo, [...(game.homeStarters||[]), ...(game.homeBench||[])]);
     });
 
     if (livePlayers.length === 0) return '';
@@ -599,33 +605,43 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
 
     const listHtml = livePlayers.map((p, index) => {
         const photoHtml = (p.photo && p.photo.includes("http")) 
-            ? `<img src="${p.photo}" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 1px solid #dee2e6; background: #fff;">`
-            : `<div style="width: 36px; height: 36px; border-radius: 50%; background-color: #f1f3f5; color: #adb5bd; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; border: 1px solid #dee2e6;">${p.name.charAt(0)}</div>`;
+            ? `<img src="${p.photo}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #dee2e6; background: #fff;">`
+            : `<div style="width: 32px; height: 32px; border-radius: 50%; background-color: #f8f9fa; color: #495057; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 800; border: 1px solid #dee2e6;">${p.name.charAt(0)}</div>`;
         
+        // Render the Team Logo as a badge over the photo/initials
+        const teamBadge = p.teamLogo ? `<img src="${p.teamLogo}" style="width: 14px; height: 14px; position: absolute; bottom: -2px; right: -2px; border-radius: 50%; background: #fff; border: 1px solid #dee2e6; object-fit: contain;">` : '';
+
+        const subLine = `${p.pos} • ${p.teamAbbrev} • ${p.live_stats.PTS}p ${p.live_stats.REB}r ${p.live_stats.AST}a`;
+
         return `
         <div class="d-flex align-items-center justify-content-between py-2 border-bottom user-select-none" style="cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='transparent'" onclick="openPlayerModal(this)" data-player="${encodeURIComponent(JSON.stringify(p))}">
-            <div class="d-flex align-items-center">
-                <div class="fw-bold text-muted me-2 text-end" style="font-size: 0.75rem; width: 25px;">${index + 1}.</div>
-                <div class="me-2">${photoHtml}</div>
-                <div class="d-flex flex-column justify-content-center">
-                    <span class="fw-bold text-dark text-truncate" style="font-size: 0.9rem; max-width: 150px;">${shortenPlayerName(p.name)}</span>
-                    <span class="text-muted" style="font-size: 0.7rem;">${p.pos || '-'} • ${p.teamAbbrev}</span>
+            <div class="d-flex align-items-center overflow-hidden">
+                <div class="fw-bold text-muted me-2 text-end" style="font-size: 0.75rem; width: 16px;">${index + 1}.</div>
+                <div class="me-2 position-relative flex-shrink-0">
+                    ${photoHtml}
+                    ${teamBadge}
+                </div>
+                <div class="d-flex flex-column justify-content-center overflow-hidden">
+                    <span class="fw-bold text-dark text-truncate" style="font-size: 0.8rem; max-width: 150px;" title="${p.name}">${shortenPlayerName(p.name)}</span>
+                    <span class="text-muted text-truncate" style="font-size: 0.65rem; max-width: 160px;">${subLine}</span>
                 </div>
             </div>
-            <div class="text-end fw-bold text-success" style="font-size: 1.1rem;">
-                ${p.live_fp.toFixed(1)}
+            <div class="text-end ms-2 flex-shrink-0">
+                <div class="fw-bold text-success" style="font-size: 1rem;">
+                    ${p.live_fp.toFixed(1)}
+                </div>
             </div>
         </div>`;
     }).join('');
 
     return `
-    <div class="col-12 col-md-8 col-lg-6 mx-auto mb-4" id="live-leaderboard-container">
+    <div class="col-12 col-md-6 col-lg-4 px-1 mb-3" id="live-leaderboard-container">
         <div class="card shadow-sm border overflow-hidden" style="background-color: #fff; border-radius: 12px; border-color: #dee2e6 !important;">
             <div class="card-header bg-dark text-white py-2 d-flex justify-content-between align-items-center">
-                <h6 class="mb-0 fw-bold" style="font-size: 0.9rem;">🔥 Live Fantasy Leaderboard</h6>
-                <span class="badge bg-secondary">${platform === 'dk' ? 'DraftKings' : 'FanDuel'}</span>
+                <h6 class="mb-0 fw-bold" style="font-size: 0.85rem;">🔥 Live Fantasy Leaders</h6>
+                <span class="badge bg-secondary" style="font-size: 0.6rem;">${platform === 'dk' ? 'DraftKings' : 'FanDuel'}</span>
             </div>
-            <div class="card-body p-0 px-3" style="max-height: 400px; overflow-y: auto;">
+            <div class="card-body p-0 px-2" style="max-height: 318px; overflow-y: auto;">
                 ${listHtml}
             </div>
         </div>
