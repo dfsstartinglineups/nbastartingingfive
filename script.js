@@ -615,7 +615,6 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
         const liveMatch = LIVE_GAMES_DATA[game.localId];
         if (!liveMatch || !liveMatch.players) return;
 
-        // --- DETERMINE CURRENT QUARTER AND CLOCK ---
         let currentPeriod = 0;
         if (liveMatch.play_by_play && liveMatch.play_by_play.full_log && liveMatch.play_by_play.full_log.length > 0) {
             currentPeriod = liveMatch.play_by_play.full_log[0].period;
@@ -639,13 +638,8 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
             periodText = "PRE";
         }
         
-        // Remove the duplicated quarter string from the clock (e.g. "11:24 - 4th" becomes "11:24")
         timeText = timeText.split(' - ')[0].trim();
-        
-        // Catch ESPN's "End of 1st", "End of 3rd", etc. strings and force to "0:00"
-        if (timeText.toLowerCase().includes('end')) {
-            timeText = "0:00";
-        }
+        if (timeText.toLowerCase().includes('end')) timeText = "0:00";
         
         const extractLive = (teamAbbr, teamLogo, roster) => {
             const liveTeamData = liveMatch.players[teamAbbr];
@@ -656,19 +650,15 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                 if (fp > 0) {
                     let photo = '', pos = '-';
                     
-                    // Find the player in the ESPN roster first using normalized name
                     let matchedPlayer = (roster || []).find(p => {
                         const a = p.athlete || p;
                         return normalizeName(a.displayName || a.fullName) === normalizeName(playerName);
                     });
                     
-                    // Use the ESPN ID from the roster to grab the pristine DB data
                     let espnId = stats.athlete?.id || stats.id;
                     if (matchedPlayer) {
                         const a = matchedPlayer.athlete || matchedPlayer;
-                        if (!espnId && a.id) {
-                            espnId = a.id;
-                        }
+                        if (!espnId && a.id) espnId = a.id;
                         let dbPlayer = getPlayerFromDB(espnId, playerName);
                         if (dbPlayer) {
                             photo = dbPlayer.photo;
@@ -688,6 +678,10 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                         }
                     }
 
+                    // --- NEW: LOGIC TO DETECT IF PLAYER IS ON COURT ---
+                    // Only pulse if they are on court AND the game isn't over
+                    const isOnCourt = stats.is_on_court === true && liveMatch.status !== 'post';
+
                     livePlayers.push({ 
                         name: playerName, 
                         teamAbbrev: teamAbbr, 
@@ -697,7 +691,8 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                         live_fp: fp, 
                         live_stats: stats, 
                         periodText: periodText, 
-                        timeText: timeText 
+                        timeText: timeText,
+                        isOnCourt: isOnCourt 
                     });
                 }
             }
@@ -709,7 +704,6 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
 
     if (livePlayers.length === 0) return '';
     
-    // Filter by search text
     if (window.LEADERBOARD_SEARCH_TEXT) {
         const term = window.LEADERBOARD_SEARCH_TEXT.toLowerCase();
         livePlayers = livePlayers.filter(p => 
@@ -729,7 +723,6 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
         
         const stats = p.live_stats;
         
-        // --- CRISP BLACK AND WHITE CLOCK ON FAR LEFT ---
         let clockBadgeHtml = '';
         if (p.periodText === 'FINAL' || p.periodText === 'HT' || p.periodText === 'PRE') {
             clockBadgeHtml = `<div class="badge bg-secondary text-white shadow-sm d-flex align-items-center justify-content-center" style="font-size: 0.55rem; padding: 0; width: 36px; height: 36px;">${p.periodText}</div>`;
@@ -749,6 +742,11 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
         
         const subLine = `${p.pos} • ${p.teamAbbrev} <span class="fw-bold text-dark ms-1 border-start ps-1 border-secondary border-opacity-50">${stats.PTS}p ${stats.REB}r ${stats.AST}a ${stats.STL}s ${stats.BLK}b ${stats.TO}to</span>`;
 
+        // --- NEW: ON-COURT FLASHING DOT ---
+        const onCourtDot = p.isOnCourt 
+            ? `<span class="spinner-grow spinner-grow-sm text-success slow-pulse me-1" style="width: 0.5rem; height: 0.5rem;" role="status"></span>` 
+            : '';
+
         return `
         <div class="d-flex align-items-center justify-content-between py-2 border-bottom user-select-none" style="cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='transparent'" onclick="openPlayerModal(this)" data-player="${encodeURIComponent(JSON.stringify(p))}">
             <div class="d-flex align-items-center overflow-hidden">
@@ -759,6 +757,7 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                 </div>
                 <div class="d-flex flex-column justify-content-center overflow-hidden pe-1">
                     <div class="d-flex align-items-center">
+                        ${onCourtDot}
                         <span class="fw-bold text-dark text-truncate" style="font-size: 0.95rem; max-width: 170px;" title="${p.name}">${shortenPlayerName(p.name)}</span>
                     </div>
                     <span class="text-muted text-truncate" style="font-size: 0.72rem; max-width: 250px;">${subLine}</span>
@@ -777,6 +776,7 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
         <div class="card shadow-sm border overflow-hidden" style="background-color: #fff; border-radius: 12px; border-color: #dee2e6 !important;">
             <div class="card-header bg-dark text-white py-2 d-flex justify-content-between align-items-center">
                 <h6 class="mb-0 fw-bold text-nowrap" style="font-size: 0.85rem;">🔥 Live Leaders</h6>
+                
                 <div class="position-relative mx-2 w-100" style="max-width: 140px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="#adb5bd" viewBox="0 0 16 16" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
@@ -790,7 +790,7 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                        
                 <span class="badge bg-secondary text-nowrap" style="font-size: 0.6rem;">${platform === 'dk' ? 'DraftKings' : 'FanDuel'}</span>
             </div>
-            <div class="card-body p-0 px-3" id="live-leaderboard-scroll" style="max-height: 502px; overflow-y: auto;">
+            <div class="card-body p-0 px-3" id="live-leaderboard-scroll" style="max-height: 520px; overflow-y: auto;">
                 ${listHtml}
             </div>
         </div>
