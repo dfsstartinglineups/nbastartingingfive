@@ -1,16 +1,16 @@
 {
   "SAC-CHA-2026-03-24": {
     "status": "in",
-    "clock": "5:56 - 1st",
-    "away_score": "14",
-    "home_score": "20",
+    "clock": "5:10 - 1st",
+    "away_score": "15",
+    "home_score": "22",
     "team_stats": {
       "SAC": {
         "fieldGoalsMade-fieldGoalsAttempted": "6-13",
         "FG%": "46",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "0-0",
         "3P%": "0",
-        "freeThrowsMade-freeThrowsAttempted": "2-2",
+        "freeThrowsMade-freeThrowsAttempted": "3-3",
         "FT%": "100",
         "REB": "5",
         "OR": "2",
@@ -52,7 +52,7 @@
         "Points Conceded Off Turnovers": "0",
         "FBPs": "3",
         "PIP": "8",
-        "PF": "2",
+        "PF": "3",
         "LL": "10",
         "LC": "1",
         "LPCT": "75"
@@ -103,7 +103,7 @@
           "FT": "0-0",
           "fd_pts": 3.0,
           "dk_pts": 3.0,
-          "is_on_court": true
+          "is_on_court": false
         },
         "LaMelo Ball": {
           "MIN": 6,
@@ -133,21 +133,21 @@
           "FT": "0-0",
           "fd_pts": 7.2,
           "dk_pts": 6.75,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Josh Green": {
           "MIN": 1,
           "PTS": "3",
           "REB": "0",
-          "AST": "0",
+          "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
           "FG": "1-1",
           "3PT": "1-1",
           "FT": "0-0",
-          "fd_pts": 3.0,
-          "dk_pts": 3.5,
+          "fd_pts": 4.5,
+          "dk_pts": 5.0,
           "is_on_court": true
         }
       },
@@ -228,15 +228,15 @@
           "is_on_court": false
         },
         "Doug McDermott": {
-          "MIN": 1,
+          "MIN": 2,
           "PTS": "0",
           "REB": "1",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "0-0",
-          "3PT": "0-0",
+          "FG": "0-1",
+          "3PT": "0-1",
           "FT": "0-0",
           "fd_pts": 1.2,
           "dk_pts": 1.25,
@@ -259,7 +259,7 @@
         },
         "Daeqwon Plowden": {
           "MIN": 1,
-          "PTS": "2",
+          "PTS": "3",
           "REB": "0",
           "AST": "0",
           "STL": "0",
@@ -267,9 +267,9 @@
           "TO": "0",
           "FG": "1-1",
           "3PT": "0-0",
-          "FT": "0-0",
-          "fd_pts": 2.0,
-          "dk_pts": 2.0,
+          "FT": "1-1",
+          "fd_pts": 3.0,
+          "dk_pts": 3.0,
           "is_on_court": true
         }
       }
@@ -277,10 +277,28 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 95.0,
+          "period": 1,
+          "time": "Q1 5:56",
+          "text": "Daeqwon Plowden makes free throw 1 of 1"
+        },
+        {
+          "seq": 93.0,
+          "period": 1,
+          "time": "Q1 5:56",
+          "text": "Kon Knueppel enters the game for Brandon Miller"
+        },
+        {
+          "seq": 91.0,
+          "period": 1,
+          "time": "Q1 5:56",
+          "text": "Brandon Miller shooting foul"
+        },
+        {
           "seq": 89.0,
           "period": 1,
           "time": "Q1 5:56",
-          "text": "Daeqwon Plowden makes 2-foot shot (Malik Monk assists)"
+          "text": "Daeqwon Plowden makes driving layup (Malik Monk assists)"
         },
         {
           "seq": 88.0,
@@ -639,37 +657,25 @@
       ],
       "new_plays": [
         {
-          "seq": 89.0,
+          "seq": 95.0,
           "period": 1,
           "time": "Q1 5:56",
-          "text": "Daeqwon Plowden makes 2-foot shot (Malik Monk assists)"
+          "text": "Daeqwon Plowden makes free throw 1 of 1"
         },
         {
-          "seq": 88.0,
+          "seq": 93.0,
           "period": 1,
-          "time": "Q1 6:00",
-          "text": "Doug McDermott defensive rebound"
+          "time": "Q1 5:56",
+          "text": "Kon Knueppel enters the game for Brandon Miller"
         },
         {
-          "seq": 87.0,
+          "seq": 91.0,
           "period": 1,
-          "time": "Q1 6:05",
-          "text": "Miles Bridges misses 30-foot three point jumper"
-        },
-        {
-          "seq": 85.0,
-          "period": 1,
-          "time": "Q1 6:19",
-          "text": "Dylan Cardwell makes layup (Malik Monk assists)"
-        },
-        {
-          "seq": 83.0,
-          "period": 1,
-          "time": "Q1 6:36",
-          "text": "Josh Green makes 23-foot running jump shot (Brandon Miller assists)"
+          "time": "Q1 5:56",
+          "text": "Brandon Miller shooting foul"
         }
       ],
-      "last_seq": 89.0
+      "last_seq": 95.0
     }
   }
 }
