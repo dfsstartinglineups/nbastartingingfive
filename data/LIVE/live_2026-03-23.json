@@ -23086,8 +23086,8 @@
     }
   },
   "GSW-DAL-2026-03-23": {
-    "status": "in",
-    "clock": "7.1 - OT",
+    "status": "post",
+    "clock": "Final/OT",
     "away_score": "137",
     "home_score": "131",
     "team_stats": {
@@ -23102,7 +23102,7 @@
         "OR": "17",
         "DR": "32",
         "AST": "39",
-        "STL": "15",
+        "STL": "16",
         "BLK": "4",
         "TO": "24",
         "TTO": "0",
@@ -23130,9 +23130,9 @@
         "AST": "37",
         "STL": "13",
         "BLK": "3",
-        "TO": "20",
+        "TO": "21",
         "TTO": "2",
-        "ToTO": "22",
+        "ToTO": "23",
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "29",
@@ -23162,7 +23162,7 @@
           "is_on_court": false
         },
         "P.J. Washington": {
-          "MIN": 32,
+          "MIN": 34,
           "PTS": "9",
           "REB": "3",
           "AST": "2",
@@ -23183,16 +23183,16 @@
           "AST": "7",
           "STL": "1",
           "BLK": "0",
-          "TO": "7",
+          "TO": "8",
           "FG": "7-15",
           "3PT": "2-6",
           "FT": "0-0",
-          "fd_pts": 29.7,
-          "dk_pts": 33.5,
+          "fd_pts": 28.7,
+          "dk_pts": 33.0,
           "is_on_court": true
         },
         "Cooper Flagg": {
-          "MIN": 40,
+          "MIN": 42,
           "PTS": "32",
           "REB": "4",
           "AST": "9",
@@ -23267,7 +23267,7 @@
           "is_on_court": false
         },
         "Klay Thompson": {
-          "MIN": 27,
+          "MIN": 28,
           "PTS": "15",
           "REB": "1",
           "AST": "1",
@@ -23408,14 +23408,14 @@
           "PTS": "17",
           "REB": "4",
           "AST": "3",
-          "STL": "1",
+          "STL": "2",
           "BLK": "0",
           "TO": "0",
           "FG": "8-8",
           "3PT": "1-1",
           "FT": "0-1",
-          "fd_pts": 29.3,
-          "dk_pts": 29.0,
+          "fd_pts": 32.3,
+          "dk_pts": 31.0,
           "is_on_court": true
         },
         "LJ Cryer": {
@@ -23465,8 +23465,27 @@
         }
       }
     },
+    "game_ended_time": "2026-03-24T00:34:16.862028-04:00",
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 848.0,
+          "period": 5,
+          "time": "OT 0.0",
+          "text": "End of Game"
+        },
+        {
+          "seq": 847.0,
+          "period": 5,
+          "time": "OT 0.0",
+          "text": "End of the 1st  Overtime"
+        },
+        {
+          "seq": 845.0,
+          "period": 5,
+          "time": "OT 4.2",
+          "text": "Naji Marshall bad pass\nturnover (Gary Payton II steals)"
+        },
         {
           "seq": 844.0,
           "period": 5,
@@ -26750,8 +26769,27 @@
           "text": "Kristaps Porzingis vs. Daniel Gafford (Draymond Green gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 844.0
+      "new_plays": [
+        {
+          "seq": 848.0,
+          "period": 5,
+          "time": "OT 0.0",
+          "text": "End of Game"
+        },
+        {
+          "seq": 847.0,
+          "period": 5,
+          "time": "OT 0.0",
+          "text": "End of the 1st  Overtime"
+        },
+        {
+          "seq": 845.0,
+          "period": 5,
+          "time": "OT 4.2",
+          "text": "Naji Marshall bad pass\nturnover (Gary Payton II steals)"
+        }
+      ],
+      "last_seq": 848.0
     }
   },
   "BKN-POR-2026-03-23": {
@@ -30264,32 +30302,7 @@
           "text": "Nic Claxton vs. Donovan Clingan (Ziaire Williams gains possession)"
         }
       ],
-      "new_plays": [
-        {
-          "seq": 762.0,
-          "period": 4,
-          "time": "Q4 0.0",
-          "text": "End of Game"
-        },
-        {
-          "seq": 761.0,
-          "period": 4,
-          "time": "Q4 0.0",
-          "text": "End of the 4th Quarter"
-        },
-        {
-          "seq": 760.0,
-          "period": 4,
-          "time": "Q4 15.4",
-          "text": "shot clock turnover "
-        },
-        {
-          "seq": 758.0,
-          "period": 4,
-          "time": "Q4 40.0",
-          "text": "Tyson Etienne makes 26-foot three point step back jumpshot (Chaney Johnson assists)"
-        }
-      ],
+      "new_plays": [],
       "last_seq": 762.0
     }
   },
