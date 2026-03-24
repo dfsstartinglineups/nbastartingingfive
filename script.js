@@ -6,9 +6,11 @@ let ALL_GAMES_DATA = [];
 let LIVE_GAMES_DATA = {}; 
 let ALL_SLATES = { fanduel: [], draftkings: [] };
 let ARE_ALL_EXPANDED = false;
+let PLAYERS_DB = {}; // Holds our player database
+window.LEADERBOARD_SEARCH_TEXT = ''; // Holds the live leaderboard search state
 
 // State managers
-window.MASTER_TAB = 'lineups'; // Default master tab
+window.MASTER_TAB = 'lineups'; 
 window.CARD_STATE = {}; 
 window.RENDERED_PBP = {}; 
 window.PBP_QUEUE = {};    
@@ -17,19 +19,53 @@ window.PENDING_LIVE_DATA = {};
 window.GAME_QUEUE_TIMERS = {}; 
 let livePollInterval;
 
-// Global CSS injection for pulse and the new sliding animation
+// Global CSS injection
 const style = document.createElement('style');
 style.innerHTML = `
     .slow-pulse { animation: spinner-grow 2s linear infinite !important; }
-    
     @keyframes slideInHighlight {
         0% { background-color: #d1e7dd; transform: translateY(-5px); opacity: 0; }
         10% { transform: translateY(0); opacity: 1; }
         100% { background-color: transparent; }
     }
     .new-play-anim { animation: slideInHighlight 3.5s ease-out; }
+    .leaderboard-tab {
+        font-size: 0.7rem; font-weight: 700; color: #adb5bd; cursor: pointer;
+        padding: 8px 0; text-align: center; text-transform: uppercase; letter-spacing: 0.5px;
+        border-bottom: 2px solid transparent; transition: all 0.2s ease;
+    }
+    .leaderboard-tab.active { color: #20c997; border-bottom: 2px solid #20c997; }
+    .leaderboard-tab:hover:not(.active) { color: #495057; }
+    
+    /* Search Bar Styling */
+    #leaderboard-search::placeholder { color: #868e96; opacity: 1; }
+    #leaderboard-search:focus { box-shadow: none; border-color: #20c997; outline: none; }
 `;
 document.head.appendChild(style);
+
+// --- PLAYER DATABASE HELPERS ---
+function normalizeName(name) {
+    if (!name) return "";
+    return name.toLowerCase()
+               .replace(/[.,']/g, '') 
+               .replace(/-/g, ' ') 
+               .replace(/\s+(jr|sr|ii|iii|iv)$/g, '') 
+               .replace(/\s+/g, ' ') 
+               .trim();
+}
+
+function getPlayerFromDB(id, fullName) {
+    if (id && PLAYERS_DB[id]) return PLAYERS_DB[id];
+    
+    // Fallback: Fuzzy search by normalized name
+    const searchName = normalizeName(fullName);
+    for (let key in PLAYERS_DB) {
+        if (normalizeName(PLAYERS_DB[key].name) === searchName) {
+            return PLAYERS_DB[key];
+        }
+    }
+    return null;
+}
 
 // ==========================================
 // DYNAMIC QUEUE PROCESSOR
@@ -40,13 +76,11 @@ function processGameQueue(localId) {
     function runNextPlay() {
         if (!window.PBP_QUEUE[localId] || window.PBP_QUEUE[localId].length === 0) {
             window.GAME_QUEUE_TIMERS[localId] = false;
-            
             if (window.PENDING_LIVE_DATA[localId]) {
                 setTimeout(() => {
                     if (window.PENDING_LIVE_DATA[localId] && (!window.PBP_QUEUE[localId] || window.PBP_QUEUE[localId].length === 0)) {
                         LIVE_GAMES_DATA[localId] = window.PENDING_LIVE_DATA[localId];
                         delete window.PENDING_LIVE_DATA[localId];
-                        // Only render if the user is actually looking at the LIVE tab!
                         if (window.MASTER_TAB === 'live') renderGames(); 
                     }
                 }, 3500); 
@@ -67,8 +101,6 @@ function processGameQueue(localId) {
         
         let isFinal = LIVE_GAMES_DATA[localId] && LIVE_GAMES_DATA[localId].status === 'post';
 
-        // SMARTER AUTO-SWITCH: Don't rip the user to a new quarter if the game is over, 
-        // or if they explicitly clicked back to an older quarter to read it.
         if (!isFinal && (!state.highestPeriodSeen || playPeriod > state.highestPeriodSeen)) {
             if (!state.pbpTab || state.pbpTab === 'All' || state.pbpTab === (state.highestPeriodSeen || 1).toString()) {
                 state.pbpTab = playPeriod.toString();
@@ -77,26 +109,20 @@ function processGameQueue(localId) {
             state.highestPeriodSeen = playPeriod;
         }
 
-        // Only manipulate the DOM if we are actively on the Live tab
         if (window.MASTER_TAB === 'live') {
-            if (switchedQuarter) {
-                renderGames();
-            } else {
-                injectPlayIntoDOM(localId, playToInject);
-            }
+            if (switchedQuarter) renderGames();
+            else injectPlayIntoDOM(localId, playToInject);
         }
 
         const randomSeconds = Math.floor(Math.random() * 5) + 1;
         setTimeout(runNextPlay, randomSeconds * 1000);
     }
-
     runNextPlay();
 }
 
 // ==========================================
 // 1. MAIN APP LOGIC 
 // ==========================================
-
 function getStandardAbbr(abbr) {
     if (!abbr) return "";
     let cleanAbbr = abbr.replace(/[^A-Za-z]/g, '').toUpperCase();
@@ -136,7 +162,6 @@ async function pollLiveData(dateToFetch) {
                         let state = window.CARD_STATE[localId];
                         if (fullLog.length > 0) state.highestPeriodSeen = Math.max(...fullLog.map(p => Number(p.period)));
 
-                        // IF GAME IS ALREADY FINAL ON FIRST LOAD, FLIP IMMEDIATELY
                         if (game.status === 'post') {
                             state.hasFlippedPbp = true;
                             state.pbpTab = 'All';
@@ -144,13 +169,11 @@ async function pollLiveData(dateToFetch) {
                         }
                     } else {
                         let unseenPlays = fullLog.filter(p => p.seq > window.LAST_SEQ_SEEN[localId]);
-                        
                         if (unseenPlays.length > 0) {
                             hasNewPlays = true;
                             if (!window.PBP_QUEUE[localId]) window.PBP_QUEUE[localId] = [];
                             window.PBP_QUEUE[localId].push(...[...unseenPlays].reverse());
                             window.LAST_SEQ_SEEN[localId] = Math.max(...unseenPlays.map(p => p.seq));
-                            
                             processGameQueue(localId);
                         }
                     }
@@ -161,19 +184,12 @@ async function pollLiveData(dateToFetch) {
                 } else {
                     let isAlreadyPost = LIVE_GAMES_DATA[localId] && LIVE_GAMES_DATA[localId].status === 'post';
                     LIVE_GAMES_DATA[localId] = game;
-                    
-                    // Optimization: Do not force a global re-render if a game is totally finalized
-                    // This prevents completed games from jittering while you read them!
-                    if (!isAlreadyPost || game.status !== 'post') {
-                        needsGlobalRender = true;
-                    }
+                    if (!isAlreadyPost || game.status !== 'post') needsGlobalRender = true;
                 }
 
-                // 5 MINUTE FLIP TIMER
                 if (game.status === 'post') {
                     if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
                     let state = window.CARD_STATE[localId];
-                    
                     if (!state.hasFlippedPbp && !state.finalTimerStarted) {
                         state.finalTimerStarted = true;
                         setTimeout(() => {
@@ -183,14 +199,13 @@ async function pollLiveData(dateToFetch) {
                                 currentState.pbpTab = 'All';
                                 if (window.MASTER_TAB === 'live') {
                                     renderGames();
-                                    // Reset scroll to top to see beginning of the game
                                     setTimeout(() => {
                                         const listContainer = document.getElementById(`pbp-list-${localId}`);
                                         if (listContainer) listContainer.scrollTop = 0;
                                     }, 100);
                                 }
                             }
-                        }, 300000); // Wait exactly 5 mins
+                        }, 300000); 
                     }
                 }
             }
@@ -210,7 +225,7 @@ async function pollLiveData(dateToFetch) {
                             gameObj.awayIsProjected = !isVerified;
                             needsGlobalRender = true;
                         }
-                        gameObj.awayStarters = localGameMatch.rosters[awayStd].players.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
+                        gameObj.awayStarters = localGameMatch.rosters[awayStd].players.map(p => ({ athlete: { id: p.id || p.espn_id, displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
                     }
                     if (localGameMatch.rosters[homeStd] && localGameMatch.rosters[homeStd].players) {
                         const isVerified = localGameMatch.rosters[homeStd].players.every(p => p.verified === true);
@@ -218,7 +233,7 @@ async function pollLiveData(dateToFetch) {
                             gameObj.homeIsProjected = !isVerified;
                             needsGlobalRender = true;
                         }
-                        gameObj.homeStarters = localGameMatch.rosters[homeStd].players.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
+                        gameObj.homeStarters = localGameMatch.rosters[homeStd].players.map(p => ({ athlete: { id: p.id || p.espn_id, displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
                     }
                 }
             });
@@ -233,7 +248,6 @@ async function pollLiveData(dateToFetch) {
 // ==========================================
 // 2. TOGGLE LOGIC & STATE MANAGEMENT
 // ==========================================
-
 window.toggleBenchState = function(localId, viewType) {
     if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
     const key = viewType + 'BenchOpen';
@@ -257,7 +271,6 @@ function setupMasterTabs() {
     const slateSelector = document.getElementById('slate-selector');
     if (!slateSelector || document.getElementById('master-tab-container')) return;
 
-    // Inject the Master Tabs dynamically next to the slate selector
     const tabContainer = document.createElement('div');
     tabContainer.id = 'master-tab-container';
     tabContainer.className = 'd-inline-block ms-3 align-middle';
@@ -265,7 +278,6 @@ function setupMasterTabs() {
         <div class="btn-group" role="group">
             <input type="radio" class="btn-check" name="masterTab" id="tab-lineups" value="lineups" checked>
             <label class="btn btn-outline-dark btn-sm fw-bold shadow-sm" for="tab-lineups">Lineups 📋</label>
-
             <input type="radio" class="btn-check" name="masterTab" id="tab-live" value="live">
             <label class="btn btn-outline-success btn-sm fw-bold shadow-sm position-relative" for="tab-live">
                 Live Games 🟢
@@ -274,23 +286,19 @@ function setupMasterTabs() {
                     BETA
                 </span>
             </label>
-        </div>
-    `;
-    
+        </div>`;
     slateSelector.parentNode.insertBefore(tabContainer, slateSelector.nextSibling);
 
     document.querySelectorAll('input[name="masterTab"]').forEach(radio => {
         radio.addEventListener('change', (e) => {
             window.MASTER_TAB = e.target.value;
-            renderGames(); // Immediately swap the view
+            renderGames(); 
         });
     });
 }
 
-// Helper to determine if a game has any players in the currently selected DFS slate
 function hasSlatePlayers(game, platform, slateId) {
     if (slateId === 'all') return true; 
-    
     const checkRoster = (players) => {
         if (!players) return false;
         return players.some(p => {
@@ -300,7 +308,6 @@ function hasSlatePlayers(game, platform, slateId) {
             return !!slatesDict[slateId];
         });
     };
-    
     return checkRoster(game.awayStarters) || checkRoster(game.homeStarters) || checkRoster(game.awayBench) || checkRoster(game.homeBench);
 }
 
@@ -319,7 +326,6 @@ function hasAnyDfsSalaries(game, platform) {
 // ==========================================
 // 3. UI RENDERING & BUILDERS
 // ==========================================
-
 function populateSlates() {
     const platformNode = document.querySelector('input[name="dfsPlatform"]:checked');
     const platform = platformNode ? platformNode.value : 'fd';
@@ -332,10 +338,14 @@ function populateSlates() {
     selector.innerHTML = '<option value="all">All Slates</option>';
     
     const datePicker = document.getElementById('date-picker');
-    const dateToFetch = datePicker ? datePicker.value : new Date().toLocaleDateString('en-CA');
+    const dateToFetch = datePicker ? datePicker.value : DEFAULT_DATE;
     
-    const [y, m, d] = dateToFetch.split('-');
-    const dateObj = new Date(y, m - 1, d);
+    let dateObj = new Date();
+    if (dateToFetch && dateToFetch.includes('-')) {
+        const [y, m, d] = dateToFetch.split('-');
+        dateObj = new Date(y, m - 1, d);
+    }
+    
     const dayOfWeek = dateObj.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
 
     if (ALL_SLATES[platKey] && Array.isArray(ALL_SLATES[platKey])) {
@@ -353,11 +363,8 @@ function populateSlates() {
         });
     }
     
-    if(Array.from(selector.options).some(opt => opt.value === currentVal)) {
-        selector.value = currentVal;
-    } else {
-        selector.value = 'all';
-    }
+    if(Array.from(selector.options).some(opt => opt.value === currentVal)) selector.value = currentVal;
+    else selector.value = 'all';
 
     setupMasterTabs();
 }
@@ -378,10 +385,21 @@ async function init(dateToFetch) {
             </div>`;
     }
     
-    const espnDate = dateToFetch.replace(/-/g, '');
-    const ESPN_API_URL = `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${espnDate}`;
+    let espnDateStr = dateToFetch.replace(/-/g, '');
+    const dObj = new Date(dateToFetch);
+    if (!isNaN(dObj)) {
+        espnDateStr = dObj.getFullYear() + String(dObj.getMonth() + 1).padStart(2, '0') + String(dObj.getDate()).padStart(2, '0');
+    }
+    const ESPN_API_URL = `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${espnDateStr}`;
     
     try {
+        try {
+            const playersRes = await fetch('data/players.json?v=' + new Date().getTime());
+            if (playersRes.ok) PLAYERS_DB = await playersRes.json();
+        } catch(e) {
+            console.log("No players.json found, falling back to basic data.");
+        }
+
         const localData = await fetchLocalProbables(dateToFetch);
         let scheduleData;
         
@@ -406,6 +424,8 @@ async function init(dateToFetch) {
             const comp = game.competitions[0];
             const homeTeamData = comp.competitors.find(c => c.homeAway === 'home');
             const awayTeamData = comp.competitors.find(c => c.homeAway === 'away');
+            if(!homeTeamData || !awayTeamData) return;
+
             const homeStd = getStandardAbbr(homeTeamData.team.abbreviation);
             const awayStd = getStandardAbbr(awayTeamData.team.abbreviation);
             const espnGameDate = new Date(game.date).toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
@@ -433,15 +453,17 @@ async function init(dateToFetch) {
                 let localPlayers = (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[abbr]) ? localGameMatch.rosters[abbr].players : null;
                 let localBench = (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[abbr]) ? localGameMatch.rosters[abbr].bench : [];
                 
+                const mapPlayer = p => ({ athlete: { id: p.id || p.espn_id, displayName: p.name, position: { abbreviation: p.pos }, dfs: p } });
+
                 if (localPlayers && localPlayers.every(p => p.verified)) {
-                    starters = localPlayers.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
+                    starters = localPlayers.map(mapPlayer);
                     isProj = false;
                 } else if (teamData.starters) {
                     starters = teamData.starters; isProj = false;
                 } else if (localPlayers) {
-                    starters = localPlayers.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
+                    starters = localPlayers.map(mapPlayer);
                 }
-                if (localBench) bench = localBench.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
+                if (localBench) bench = localBench.map(mapPlayer);
                 return { starters, bench, isProj };
             };
 
@@ -454,21 +476,325 @@ async function init(dateToFetch) {
                 homeIsProjected: homeRoster.isProj, awayIsProjected: awayRoster.isProj,
                 homeBench: homeRoster.bench, awayBench: awayRoster.bench,
                 odds, venue: comp.venue?.fullName || "TBD",
-                gameDate: new Date(game.date), status: game.status.type.detail,
+                gameDate: new Date(game.date), status: game.status?.type?.detail || 'Scheduled',
                 localId: localId
             });
         });
 
         renderGames();
-        
         await pollLiveData(dateToFetch);
         clearInterval(livePollInterval);
         livePollInterval = setInterval(() => pollLiveData(dateToFetch), 30000);
 
     } catch (error) {
         console.error("Init error:", error);
-        if (container) container.innerHTML = `<div class="col-12 text-center mt-5"><div class="alert alert-danger">Failed to load schedule.</div></div>`;
+        if (container) container.innerHTML = `<div class="col-12 text-center mt-5"><div class="alert alert-danger shadow-sm border py-4 fw-bold">Failed to load schedule.</div></div>`;
     }
+}
+
+// ==========================================
+// LEADERBOARD BUILDERS
+// ==========================================
+function shortenPlayerName(fullName) {
+    if (!fullName) return "Unknown";
+    const parts = fullName.split(' ');
+    if (parts.length === 1) return fullName;
+    const initial = parts[0].charAt(0).toUpperCase() + '.';
+    const lastName = parts.slice(1).join(' ');
+    return `${initial} ${lastName}`;
+}
+
+window.openPlayerModal = function(el) {
+    console.log("Player clicked", JSON.parse(decodeURIComponent(el.getAttribute('data-player'))));
+};
+
+function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
+    let allPlayers = [];
+    filteredGames.forEach(game => {
+        const extract = (roster, teamAbbr, teamLogo) => {
+            if (!roster) return;
+            roster.forEach(p => {
+                const a = p.athlete || p;
+                if (!a.dfs) return;
+                
+                let sal = 0, proj = 0, val = 0;
+                const slatesDict = platform === 'dk' ? (a.dfs.dk_slates || {}) : (a.dfs.fd_slates || {});
+                
+                if (selectedSlate !== 'all' && slatesDict[selectedSlate]) {
+                    sal = slatesDict[selectedSlate].salary;
+                    proj = slatesDict[selectedSlate].proj;
+                    val = slatesDict[selectedSlate].value;
+                } else if (selectedSlate === 'all') {
+                    sal = platform === 'dk' ? a.dfs.dk_salary : a.dfs.salary;
+                    proj = platform === 'dk' ? a.dfs.dk_proj : a.dfs.proj;
+                    val = platform === 'dk' ? a.dfs.dk_value : a.dfs.value;
+                }
+                
+                if (sal > 0 || proj > 0) {
+                    let name = a.displayName || a.fullName || 'Unknown';
+                    
+                    let dbPlayer = getPlayerFromDB(a.id, name);
+                    let photo = dbPlayer ? dbPlayer.photo : (a.headshot?.href || a.dfs?.photo || '');
+                    
+                    let pos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position?.abbreviation || 'Flex');
+                    if (platform === 'dk' && a.dfs && a.dfs.dk_pos) pos = a.dfs.dk_pos;
+                    
+                    allPlayers.push({ id: a.id || name, name, pos, teamAbbrev: teamAbbr, teamLogo, photo, salary: sal, proj, value: val });
+                }
+            });
+        };
+        extract(game.awayStarters, getStandardAbbr(game.away.team.abbreviation), game.away.team.logo);
+        extract(game.awayBench, getStandardAbbr(game.away.team.abbreviation), game.away.team.logo);
+        extract(game.homeStarters, getStandardAbbr(game.home.team.abbreviation), game.home.team.logo);
+        extract(game.homeBench, getStandardAbbr(game.home.team.abbreviation), game.home.team.logo);
+    });
+
+    if (allPlayers.length === 0) return '';
+    allPlayers = Array.from(new Map(allPlayers.map(p => [p.id, p])).values());
+
+    const topValue = [...allPlayers].sort((a, b) => (b.value || 0) - (a.value || 0)).slice(0, 20);
+    const topProj = [...allPlayers].sort((a, b) => parseFloat(b.proj || 0) - parseFloat(a.proj || 0)).slice(0, 20);
+
+    const buildList = (players, isValue) => {
+        return players.map((p, index) => {
+            const photoHtml = (p.photo && p.photo.includes("http")) 
+                ? `<img src="${p.photo}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 1px solid #dee2e6; background: #fff;">`
+                : `<div style="width: 48px; height: 48px; border-radius: 50%; background-color: #f8f9fa; color: #495057; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; border: 1px solid #dee2e6;">${p.name.charAt(0)}</div>`;
+            
+            const teamBadge = p.teamLogo ? `<img src="${p.teamLogo}" style="width: 20px; height: 20px; position: absolute; bottom: -2px; right: -4px; border-radius: 50%; background: #fff; border: 1px solid #dee2e6; object-fit: contain; padding: 1px;">` : '';
+            const highlightMetric = isValue ? `<span class="text-success">${parseFloat(p.value || 0).toFixed(2)}x</span>` : `<span class="text-primary">${p.proj || 0}</span> <span class="text-muted" style="font-size:0.6rem;">pts</span>`;
+            
+            return `
+            <div class="d-flex align-items-center justify-content-between py-2 border-bottom user-select-none" style="cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='transparent'" onclick="openPlayerModal(this)" data-player="${encodeURIComponent(JSON.stringify(p))}">
+                <div class="d-flex align-items-center overflow-hidden">
+                    <div class="fw-bold text-muted me-2 text-end" style="font-size: 0.85rem; width: 22px;">${index + 1}.</div>
+                    <div class="me-3 position-relative flex-shrink-0">
+                        ${photoHtml}
+                        ${teamBadge}
+                    </div>
+                    <div class="d-flex flex-column justify-content-center overflow-hidden pe-1">
+                        <span class="fw-bold text-dark text-truncate" style="font-size: 0.95rem; max-width: 220px;" title="${p.name}">${shortenPlayerName(p.name)}</span>
+                        <span class="text-muted text-truncate" style="font-size: 0.72rem; max-width: 240px;">
+                            ${p.pos} • ${p.teamAbbrev} • $${p.salary} • ${p.proj} pts
+                        </span>
+                    </div>
+                </div>
+                <div class="text-end ms-1 flex-shrink-0">
+                    <div class="fw-bold" style="font-size: 1.2rem;">${highlightMetric}</div>
+                </div>
+            </div>`;
+        }).join('');
+    };
+
+    return `
+    <div class="col-12 col-md-6 col-lg-4 px-1 mb-3">
+        <div class="card shadow-sm border overflow-hidden" style="background-color: #fff; border-radius: 12px; border-color: #dee2e6 !important;">
+            <div class="card-header bg-dark text-white py-2 d-flex justify-content-between align-items-center">
+                <h6 class="mb-0 fw-bold" style="font-size: 0.85rem;">⭐ Slate Top Plays</h6>
+                <span class="badge bg-secondary" style="font-size: 0.6rem;">${platform === 'dk' ? 'DraftKings' : 'FanDuel'}</span>
+            </div>
+            <div class="bg-light border-bottom d-flex justify-content-center align-items-center px-2 py-0">
+                <div class="d-flex w-100">
+                    <div class="leaderboard-tab active w-50" id="tab-top-value" onclick="document.getElementById('view-top-value').classList.remove('d-none'); document.getElementById('view-top-proj').classList.add('d-none'); this.classList.add('active'); document.getElementById('tab-top-proj').classList.remove('active');">TOP VALUE</div>
+                    <div class="leaderboard-tab w-50" id="tab-top-proj" onclick="document.getElementById('view-top-proj').classList.remove('d-none'); document.getElementById('view-top-value').classList.add('d-none'); this.classList.add('active'); document.getElementById('tab-top-value').classList.remove('active');">TOP PROJECTIONS</div>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div id="view-top-value" class="px-2" style="max-height: 245px; overflow-y: auto;">${buildList(topValue, true)}</div>
+                <div id="view-top-proj" class="px-2 d-none" style="max-height: 245px; overflow-y: auto;">${buildList(topProj, false)}</div>
+            </div>
+        </div>
+    </div>`;
+}
+
+function buildLiveLeaderboardCard(filteredGames, platform) {
+    let livePlayers = [];
+    const fpKey = platform === 'dk' ? 'dk_pts' : 'fd_pts';
+    
+    filteredGames.forEach(game => {
+        const liveMatch = LIVE_GAMES_DATA[game.localId];
+        if (!liveMatch || !liveMatch.players) return;
+
+        // --- DETERMINE CURRENT QUARTER AND CLOCK ---
+        let currentPeriod = 0;
+        if (liveMatch.play_by_play && liveMatch.play_by_play.full_log && liveMatch.play_by_play.full_log.length > 0) {
+            currentPeriod = liveMatch.play_by_play.full_log[0].period;
+        } else if (game.gameRaw && game.gameRaw.status) {
+            currentPeriod = game.gameRaw.status.period;
+        }
+
+        let periodText = "";
+        let timeText = liveMatch.clock || "";
+        
+        if (liveMatch.status === 'post' || timeText.toLowerCase().includes('final')) {
+            periodText = "FINAL";
+            timeText = "";
+        } else if (timeText.toLowerCase().includes('half')) {
+            periodText = "HT";
+            timeText = "";
+        } else if (currentPeriod > 0) {
+            if (currentPeriod <= 4) periodText = currentPeriod + "Q";
+            else periodText = "OT" + (currentPeriod - 4);
+        } else {
+            periodText = "PRE";
+        }
+        
+        // Remove the duplicated quarter string from the clock (e.g. "11:24 - 4th" becomes "11:24")
+        timeText = timeText.split(' - ')[0].trim();
+        
+        // Catch ESPN's "End of 1st", "End of 3rd", etc. strings and force to "0:00"
+        if (timeText.toLowerCase().includes('end')) {
+            timeText = "0:00";
+        }
+        
+        const extractLive = (teamAbbr, teamLogo, roster) => {
+            const liveTeamData = liveMatch.players[teamAbbr];
+            if (!liveTeamData) return;
+            
+            for (const [playerName, stats] of Object.entries(liveTeamData)) {
+                let fp = stats[fpKey] || 0;
+                if (fp > 0) {
+                    let photo = '', pos = '-';
+                    
+                    // Find the player in the ESPN roster first using normalized name
+                    let matchedPlayer = (roster || []).find(p => {
+                        const a = p.athlete || p;
+                        return normalizeName(a.displayName || a.fullName) === normalizeName(playerName);
+                    });
+                    
+                    // Use the ESPN ID from the roster to grab the pristine DB data
+                    let espnId = stats.athlete?.id || stats.id;
+                    if (matchedPlayer) {
+                        const a = matchedPlayer.athlete || matchedPlayer;
+                        if (!espnId && a.id) {
+                            espnId = a.id;
+                        }
+                        let dbPlayer = getPlayerFromDB(espnId, playerName);
+                        if (dbPlayer) {
+                            photo = dbPlayer.photo;
+                            pos = dbPlayer.pos;
+                        } else {
+                            photo = a.headshot?.href || a.dfs?.photo || '';
+                        }
+                        if (pos === '-' || !pos) {
+                            pos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position?.abbreviation || 'Flex');
+                            if (platform === 'dk' && a.dfs && a.dfs.dk_pos) pos = a.dfs.dk_pos;
+                        }
+                    } else {
+                        let dbPlayer = getPlayerFromDB(espnId, playerName);
+                        if (dbPlayer) {
+                            photo = dbPlayer.photo;
+                            pos = dbPlayer.pos;
+                        }
+                    }
+
+                    livePlayers.push({ 
+                        name: playerName, 
+                        teamAbbrev: teamAbbr, 
+                        teamLogo, 
+                        photo, 
+                        pos, 
+                        live_fp: fp, 
+                        live_stats: stats, 
+                        periodText: periodText, 
+                        timeText: timeText 
+                    });
+                }
+            }
+        };
+        
+        extractLive(getStandardAbbr(game.away.team.abbreviation), game.away.team.logo, [...(game.awayStarters||[]), ...(game.awayBench||[])]);
+        extractLive(getStandardAbbr(game.home.team.abbreviation), game.home.team.logo, [...(game.homeStarters||[]), ...(game.homeBench||[])]);
+    });
+
+    if (livePlayers.length === 0) return '';
+    
+    // Filter by search text
+    if (window.LEADERBOARD_SEARCH_TEXT) {
+        const term = window.LEADERBOARD_SEARCH_TEXT.toLowerCase();
+        livePlayers = livePlayers.filter(p => 
+            p.name.toLowerCase().includes(term) || 
+            p.teamAbbrev.toLowerCase().includes(term)
+        );
+    }
+    
+    livePlayers.sort((a, b) => b.live_fp - a.live_fp);
+
+    const listHtml = livePlayers.map((p, index) => {
+        const photoHtml = (p.photo && p.photo.includes("http")) 
+            ? `<img src="${p.photo}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 1px solid #dee2e6; background: #fff;">`
+            : `<div style="width: 48px; height: 48px; border-radius: 50%; background-color: #f8f9fa; color: #495057; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; border: 1px solid #dee2e6;">${p.name.charAt(0)}</div>`;
+        
+        const teamBadge = p.teamLogo ? `<img src="${p.teamLogo}" style="width: 20px; height: 20px; position: absolute; bottom: -2px; right: -4px; border-radius: 50%; background: #fff; border: 1px solid #dee2e6; object-fit: contain; padding: 1px;">` : '';
+        
+        const stats = p.live_stats;
+        
+        // --- CRISP BLACK AND WHITE CLOCK ON FAR LEFT ---
+        let clockBadgeHtml = '';
+        if (p.periodText === 'FINAL' || p.periodText === 'HT' || p.periodText === 'PRE') {
+            clockBadgeHtml = `<div class="badge bg-secondary text-white shadow-sm d-flex align-items-center justify-content-center" style="font-size: 0.55rem; padding: 0; width: 36px; height: 36px;">${p.periodText}</div>`;
+        } else {
+            clockBadgeHtml = `
+                <div class="badge bg-white text-dark border border-dark shadow-sm d-flex flex-column align-items-center justify-content-center" style="width: 36px; height: 36px; padding: 0;">
+                    <span style="font-size: 0.65rem; line-height: 1.1;">${p.periodText}</span>
+                    <span style="font-size: 0.55rem; line-height: 1; font-weight: normal;">${p.timeText}</span>
+                </div>`;
+        }
+
+        const timeDisplayHtml = `
+            <div class="me-2 flex-shrink-0 d-flex justify-content-center" style="width: 36px;">
+                ${clockBadgeHtml}
+            </div>
+        `;
+        
+        const subLine = `${p.pos} • ${p.teamAbbrev} <span class="fw-bold text-dark ms-1 border-start ps-1 border-secondary border-opacity-50">${stats.PTS}p ${stats.REB}r ${stats.AST}a ${stats.STL}s ${stats.BLK}b ${stats.TO}to</span>`;
+
+        return `
+        <div class="d-flex align-items-center justify-content-between py-2 border-bottom user-select-none" style="cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='transparent'" onclick="openPlayerModal(this)" data-player="${encodeURIComponent(JSON.stringify(p))}">
+            <div class="d-flex align-items-center overflow-hidden">
+                ${timeDisplayHtml}
+                <div class="me-2 position-relative flex-shrink-0">
+                    ${photoHtml}
+                    ${teamBadge}
+                </div>
+                <div class="d-flex flex-column justify-content-center overflow-hidden pe-1">
+                    <div class="d-flex align-items-center">
+                        <span class="fw-bold text-dark text-truncate" style="font-size: 0.95rem; max-width: 170px;" title="${p.name}">${shortenPlayerName(p.name)}</span>
+                    </div>
+                    <span class="text-muted text-truncate" style="font-size: 0.72rem; max-width: 250px;">${subLine}</span>
+                </div>
+            </div>
+            <div class="text-end ms-1 flex-shrink-0">
+                <div class="fw-bold text-success" style="font-size: 1.2rem;">
+                    ${p.live_fp.toFixed(1)}
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+
+    return `
+    <div class="col-12 col-md-6 col-lg-4 px-1 mb-3" id="live-leaderboard-container">
+        <div class="card shadow-sm border overflow-hidden" style="background-color: #fff; border-radius: 12px; border-color: #dee2e6 !important;">
+            <div class="card-header bg-dark text-white py-2 d-flex justify-content-between align-items-center">
+                <h6 class="mb-0 fw-bold text-nowrap" style="font-size: 0.85rem;">🔥 Live Leaders</h6>
+                <div class="position-relative mx-2 w-100" style="max-width: 140px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="#adb5bd" viewBox="0 0 16 16" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                    <input type="text" id="leaderboard-search" class="form-control form-control-sm pe-2" 
+                           style="background-color: #212529; color: #fff; border-color: #495057; font-size: 0.75rem; border-radius: 15px; padding-left: 26px;" 
+                           placeholder="Search..." 
+                           value="${window.LEADERBOARD_SEARCH_TEXT}" 
+                           oninput="window.LEADERBOARD_SEARCH_TEXT = this.value; renderGames();">
+                </div>
+                       
+                <span class="badge bg-secondary text-nowrap" style="font-size: 0.6rem;">${platform === 'dk' ? 'DraftKings' : 'FanDuel'}</span>
+            </div>
+            <div class="card-body p-0 px-3" id="live-leaderboard-scroll" style="max-height: 502px; overflow-y: auto;">
+                ${listHtml}
+            </div>
+        </div>
+    </div>`;
 }
 
 function renderGames() {
@@ -479,11 +805,21 @@ function renderGames() {
     const platform = platformNode ? platformNode.value : 'fd';
     const selectedSlate = document.getElementById('slate-selector')?.value || 'all';
 
-    // SCROLL LOCK 1: Save scroll state for both live grids AND play-by-play logs!
+    // SCROLL AND FOCUS LOCK
     const scrollPositions = {};
-    document.querySelectorAll('.live-table-wrapper, [id^="pbp-list-"]').forEach(el => {
+    document.querySelectorAll('.live-table-wrapper, [id^="pbp-list-"], #view-top-value, #view-top-proj, #live-leaderboard-scroll').forEach(el => {
         scrollPositions[el.id] = { left: el.scrollLeft, top: el.scrollTop };
     });
+
+    const activeElement = document.activeElement;
+    const activeId = activeElement ? activeElement.id : null;
+    let cursorStart = null, cursorEnd = null;
+    if (activeId && (activeId === 'leaderboard-search' || activeId === 'team-search')) {
+        try {
+            cursorStart = activeElement.selectionStart;
+            cursorEnd = activeElement.selectionEnd;
+        } catch(e) {}
+    }
 
     container.innerHTML = '';
     const searchText = document.getElementById('team-search')?.value.toLowerCase() || '';
@@ -504,19 +840,49 @@ function renderGames() {
     }
 
     if (filteredData.length === 0) {
-        let msg = window.MASTER_TAB === 'live' ? "No games are currently live or completed." : "No games match your filters.";
-        container.innerHTML = `<div class="col-12 text-center py-5 text-muted fw-bold">${msg}</div>`;
+        const datePicker = document.getElementById('date-picker');
+        const dateToFetch = datePicker ? datePicker.value : DEFAULT_DATE;
+        let titleMsg = window.MASTER_TAB === 'live' ? `Live NBA Dashboard` : `NBA Lineups Hub`;
+        let bodyMsg = window.MASTER_TAB === 'live' 
+            ? `No games are currently live or completed for this slate.` 
+            : `The fixture list is currently clear for <strong>${dateToFetch}</strong> on this slate. When clubs are in action, this dashboard automatically updates in real-time.`;
+
+        container.innerHTML = `
+            <div class="col-12 col-md-8 mx-auto mt-4 mb-5">
+                <div class="card shadow-sm border text-start py-4 px-4" style="background-color: #fff; border-radius: 12px; border-color: #dee2e6 !important;">
+                    <div class="d-flex align-items-center border-bottom pb-3 mb-3">
+                        <div style="font-size: 2.5rem; margin-right: 15px;">🏀</div>
+                        <h2 class="h4 fw-bold text-dark mb-0">${titleMsg}</h2>
+                    </div>
+                    <p class="text-dark mb-4" style="font-size: 0.95rem; line-height: 1.5;">${bodyMsg}</p>
+                    <h3 class="h6 fw-bold text-dark mb-3">What to expect on game day:</h3>
+                    <div class="row text-muted mb-3" style="font-size: 0.9rem;">
+                        <div class="col-sm-6 mb-3">📋 <strong>Confirmed Starting 5:</strong> Lineups updated right before tip-off.</div>
+                        <div class="col-sm-6 mb-3">⚡ <strong>Live Match Events:</strong> Real-time tracking of play-by-play.</div>
+                        <div class="col-sm-6 mb-3">📊 <strong>Live Team Stats:</strong> Box scores and fantasy performance.</div>
+                        <div class="col-sm-6 mb-3">📈 <strong>Live Odds:</strong> Up-to-the-minute moneyline and totals.</div>
+                    </div>
+                </div>
+            </div>`;
         return;
+    }
+
+    if (!searchText) {
+        if (window.MASTER_TAB === 'lineups') {
+            const topPlaysHtml = buildTopPlaysCard(filteredData, platform, selectedSlate);
+            if (topPlaysHtml) container.insertAdjacentHTML('beforeend', topPlaysHtml);
+        } else if (window.MASTER_TAB === 'live') {
+            const liveLeaderboardHtml = buildLiveLeaderboardCard(filteredData, platform);
+            if (liveLeaderboardHtml) container.insertAdjacentHTML('beforeend', liveLeaderboardHtml);
+        }
     }
 
     filteredData.sort((a, b) => {
         if (window.MASTER_TAB === 'live') {
             const statusA = LIVE_GAMES_DATA[a.localId] ? LIVE_GAMES_DATA[a.localId].status : 'pre';
             const statusB = LIVE_GAMES_DATA[b.localId] ? LIVE_GAMES_DATA[b.localId].status : 'pre';
-            
             if (statusA === 'post' && statusB !== 'post') return 1;
             if (statusB === 'post' && statusA !== 'post') return -1;
-            
             return a.gameDate - b.gameDate;
         } else {
             return a.gameDate - b.gameDate;
@@ -526,13 +892,23 @@ function renderGames() {
         if (card) container.appendChild(card);
     });
 
-    // SCROLL LOCK 2: Restore scroll state perfectly so the user doesn't lose their place
-    document.querySelectorAll('.live-table-wrapper, [id^="pbp-list-"]').forEach(el => {
+    // RESTORE SCROLL AND FOCUS
+    document.querySelectorAll('.live-table-wrapper, [id^="pbp-list-"], #view-top-value, #view-top-proj, #live-leaderboard-scroll').forEach(el => {
         if (scrollPositions[el.id]) {
             el.scrollLeft = scrollPositions[el.id].left;
             el.scrollTop = scrollPositions[el.id].top;
         }
     });
+
+    if (activeId) {
+        const elToFocus = document.getElementById(activeId);
+        if (elToFocus) {
+            elToFocus.focus();
+            if (cursorStart !== null && cursorEnd !== null) {
+                try { elToFocus.setSelectionRange(cursorStart, cursorEnd); } catch(e) {}
+            }
+        }
+    }
 }
 
 function injectPlayIntoDOM(localId, play) {
@@ -556,14 +932,10 @@ function injectPlayIntoDOM(localId, play) {
             <div class="text-dark ${textWeight}" style="flex: 1; line-height: 1.3;" title="${play.text}">${play.text}</div>
         `;
 
-        // SCROLL LOCK 3: Active Live Injection Protection
         const isScrolled = listContainer.scrollTop > 5;
         const oldScrollHeight = listContainer.scrollHeight;
-
         listContainer.prepend(el);
 
-        // If the user is actively reading an old play, bump the scroll window down 
-        // to mathematically hide the new play and preserve their reading spot
         if (isScrolled) {
             const newScrollHeight = listContainer.scrollHeight;
             listContainer.scrollTop += (newScrollHeight - oldScrollHeight);
@@ -615,10 +987,7 @@ function getRecentPlaysHtml(localId) {
 
     let filteredPlays = activeTab === 'All' ? plays : plays.filter(p => p.period.toString() === activeTab);
 
-    // --- 5 MINUTE CHRONOLOGICAL FLIP ---
-    if (state.hasFlippedPbp) {
-        filteredPlays = [...filteredPlays].reverse();
-    }
+    if (state.hasFlippedPbp) filteredPlays = [...filteredPlays].reverse();
 
     let playsHtml = filteredPlays.map((play, i) => {
         const bgClass = i % 2 === 0 ? 'bg-light' : 'bg-white';
@@ -648,7 +1017,7 @@ function getRecentPlaysHtml(localId) {
 }
 
 // ==========================================
-// CARD BUILDER 1: LINEUPS (DFS Research View)
+// CARD BUILDERS
 // ==========================================
 function createLineupCard(data) {
     const gameCard = document.createElement('div');
@@ -696,7 +1065,7 @@ function createLineupCard(data) {
         let generatedItemsCount = 0;
         const items = players.map((p, index) => {
             const a = p.athlete || p;
-            let rawPos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position ? a.position.abbreviation : 'Flex');
+            let rawPos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position?.abbreviation || 'Flex');
             if (platform === 'dk' && a.dfs && a.dfs.dk_pos) rawPos = a.dfs.dk_pos;
             const displayPos = isBench ? rawPos : (fixedPositions[index] || 'Flex');
             
@@ -811,9 +1180,6 @@ function createLineupCard(data) {
     return gameCard;
 }
 
-// ==========================================
-// CARD BUILDER 2: LIVE (Sweat View)
-// ==========================================
 function createLiveCard(data) {
     const gameCard = document.createElement('div');
     gameCard.className = 'col-12 col-md-6 col-lg-4 px-1 mb-3';
@@ -832,24 +1198,25 @@ function createLiveCard(data) {
     const cardState = window.CARD_STATE[localId];
 
     let timeBadgeHtml = "";
-    if (liveMatch.status === 'in') {
+    if (liveMatch && liveMatch.status === 'in') {
         timeBadgeHtml = `<span class="badge bg-success text-white" style="font-size: 0.7rem;">LIVE</span>`;
-    } else if (liveMatch.status === 'post') {
+    } else if (liveMatch && liveMatch.status === 'post') {
         timeBadgeHtml = `<span class="badge bg-secondary text-white" style="font-size: 0.7rem;">FINAL</span>`;
     }
 
     const pulseHtml = isActivelyPlaying ? `<span class="spinner-grow spinner-grow-sm text-success slow-pulse" style="width: 0.45rem; height: 0.45rem; margin-right: 4px;"></span>` : '';
     const badgeColor = isActivelyPlaying ? 'text-success border-success' : 'text-secondary border-secondary';
 
-    const currentAwayScore = liveMatch.away_score !== undefined ? liveMatch.away_score : (away.score || 0);
-    const currentHomeScore = liveMatch.home_score !== undefined ? liveMatch.home_score : (home.score || 0);
+    const currentAwayScore = liveMatch && liveMatch.away_score !== undefined ? liveMatch.away_score : (away.score || 0);
+    const currentHomeScore = liveMatch && liveMatch.home_score !== undefined ? liveMatch.home_score : (home.score || 0);
 
+    const clockDisplay = liveMatch ? liveMatch.clock : "0.0";
     const scoreHtml = `
         <div class="fw-bold text-dark mb-1" style="font-size: 1.2rem; letter-spacing: -0.5px;">
             ${currentAwayScore} - ${currentHomeScore}
         </div>
         <div class="badge bg-light ${badgeColor} border w-100 d-inline-flex align-items-center justify-content-center" style="font-size: 0.7rem; border-radius: 12px; padding-top: 4px; padding-bottom: 4px;">
-            ${pulseHtml}<span>${liveMatch.clock}</span>
+            ${pulseHtml}<span>${clockDisplay}</span>
         </div>`;
 
     const awayColor = away.team.color ? '#' + away.team.color : '#cccccc';
@@ -858,7 +1225,7 @@ function createLiveCard(data) {
     let awayStatsHtml = `<div style="width: 14%;"></div>`;
     let homeStatsHtml = `<div style="width: 14%;"></div>`;
 
-    if (liveMatch.team_stats) {
+    if (liveMatch && liveMatch.team_stats) {
         const aStats = liveMatch.team_stats[awayStd] || {};
         const hStats = liveMatch.team_stats[homeStd] || {};
         
@@ -955,7 +1322,7 @@ function createLiveCard(data) {
     let awayLiveGrid = { onCourtHtml: '', benchHtml: '' };
     let homeLiveGrid = { onCourtHtml: '', benchHtml: '' };
     
-    if (liveMatch.players) {
+    if (liveMatch && liveMatch.players) {
         awayLiveGrid = buildLiveCourtGrid(awayStd, liveMatch.players[awayStd]);
         homeLiveGrid = buildLiveCourtGrid(homeStd, liveMatch.players[homeStd]);
     }
@@ -1010,7 +1377,6 @@ function createLiveCard(data) {
         
     return gameCard;
 }
-
 
 // ==========================================
 // EVENT LISTENERS
