@@ -780,7 +780,7 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                        
                 <span class="badge bg-secondary text-nowrap" style="font-size: 0.6rem;">${platform === 'dk' ? 'DraftKings' : 'FanDuel'}</span>
             </div>
-            <div class="card-body p-0 px-3" id="live-leaderboard-scroll" style="max-height: 510px; overflow-y: auto;">
+            <div class="card-body p-0 px-3" id="live-leaderboard-scroll" style="max-height: 490px; overflow-y: auto;">
                 ${listHtml}
             </div>
         </div>
