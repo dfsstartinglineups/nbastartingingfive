@@ -16295,9 +16295,9 @@
         "AST": "24",
         "STL": "8",
         "BLK": "7",
-        "TO": "15",
+        "TO": "16",
         "TTO": "0",
-        "ToTO": "15",
+        "ToTO": "16",
         "TECH": "0",
         "FLAG": "1",
         "Points Conceded Off Turnovers": "14",
@@ -16319,11 +16319,11 @@
         "OR": "6",
         "DR": "35",
         "AST": "26",
-        "STL": "7",
+        "STL": "8",
         "BLK": "4",
-        "TO": "13",
+        "TO": "14",
         "TTO": "2",
-        "ToTO": "15",
+        "ToTO": "16",
         "TECH": "1",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "15",
@@ -16395,7 +16395,7 @@
           "FT": "1-2",
           "fd_pts": 30.3,
           "dk_pts": 29.0,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Josh Giddey": {
           "MIN": 35,
@@ -16440,7 +16440,7 @@
           "FT": "1-2",
           "fd_pts": 29.3,
           "dk_pts": 31.25,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Collin Sexton": {
           "MIN": 26,
@@ -16449,12 +16449,12 @@
           "AST": "2",
           "STL": "3",
           "BLK": "0",
-          "TO": "1",
+          "TO": "2",
           "FG": "6-14",
           "3PT": "4-7",
           "FT": "7-8",
-          "fd_pts": 38.8,
-          "dk_pts": 38.5,
+          "fd_pts": 37.8,
+          "dk_pts": 38.0,
           "is_on_court": true
         },
         "Rob Dillingham": {
@@ -16643,6 +16643,30 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 673.0,
+          "period": 4,
+          "time": "Q4 3:12",
+          "text": "Rockets Full timeout"
+        },
+        {
+          "seq": 671.0,
+          "period": 4,
+          "time": "Q4 3:12",
+          "text": "Tre Jones enters the game for Leonard Miller"
+        },
+        {
+          "seq": 670.0,
+          "period": 4,
+          "time": "Q4 3:12",
+          "text": "Collin Sexton out of bounds lost ball turnover"
+        },
+        {
+          "seq": 668.0,
+          "period": 4,
+          "time": "Q4 3:19",
+          "text": "Alperen Sengun bad pass\nturnover (Collin Sexton steals)"
+        },
         {
           "seq": 667.0,
           "period": 4,
@@ -19418,44 +19442,44 @@
       ],
       "new_plays": [
         {
-          "seq": 667.0,
+          "seq": 673.0,
           "period": 4,
-          "time": "Q4 3:37",
-          "text": "Leonard Miller makes free throw 2 of 2"
+          "time": "Q4 3:12",
+          "text": "Rockets Full timeout"
         },
         {
-          "seq": 666.0,
+          "seq": 671.0,
           "period": 4,
-          "time": "Q4 3:37",
-          "text": "Bulls offensive team rebound"
+          "time": "Q4 3:12",
+          "text": "Tre Jones enters the game for Leonard Miller"
         },
         {
-          "seq": 665.0,
+          "seq": 670.0,
           "period": 4,
-          "time": "Q4 3:37",
-          "text": "Leonard Miller misses free throw 1 of 2"
+          "time": "Q4 3:12",
+          "text": "Collin Sexton out of bounds lost ball turnover"
         },
         {
-          "seq": 663.0,
+          "seq": 668.0,
           "period": 4,
-          "time": "Q4 3:37",
-          "text": "Amen Thompson personal foul"
+          "time": "Q4 3:19",
+          "text": "Alperen Sengun bad pass\nturnover (Collin Sexton steals)"
         }
       ],
-      "last_seq": 667.0
+      "last_seq": 673.0
     }
   },
   "TOR-UTA-2026-03-23": {
     "status": "in",
-    "clock": "29.3 - 2nd",
-    "away_score": "65",
-    "home_score": "56",
+    "clock": "Halftime",
+    "away_score": "68",
+    "home_score": "58",
     "team_stats": {
       "TOR": {
-        "fieldGoalsMade-fieldGoalsAttempted": "25-41",
-        "FG%": "61",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "7-17",
-        "3P%": "41",
+        "fieldGoalsMade-fieldGoalsAttempted": "26-42",
+        "FG%": "62",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "8-18",
+        "3P%": "44",
         "freeThrowsMade-freeThrowsAttempted": "8-12",
         "FT%": "67",
         "REB": "17",
@@ -19469,17 +19493,17 @@
         "ToTO": "11",
         "TECH": "0",
         "FLAG": "0",
-        "Points Conceded Off Turnovers": "9",
+        "Points Conceded Off Turnovers": "11",
         "FBPs": "12",
         "PIP": "30",
         "PF": "16",
         "LL": "13",
         "LC": "4",
-        "LPCT": "73"
+        "LPCT": "74"
       },
       "UTA": {
-        "fieldGoalsMade-fieldGoalsAttempted": "15-38",
-        "FG%": "39",
+        "fieldGoalsMade-fieldGoalsAttempted": "16-39",
+        "FG%": "41",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "4-16",
         "3P%": "25",
         "freeThrowsMade-freeThrowsAttempted": "22-26",
@@ -19497,7 +19521,7 @@
         "FLAG": "0",
         "Points Conceded Off Turnovers": "10",
         "FBPs": "9",
-        "PIP": "18",
+        "PIP": "20",
         "PF": "8",
         "LL": "5",
         "LC": "4",
@@ -19582,18 +19606,18 @@
           "is_on_court": true
         },
         "Brice Sensabaugh": {
-          "MIN": 12,
-          "PTS": "8",
+          "MIN": 13,
+          "PTS": "10",
           "REB": "2",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
           "TO": "3",
-          "FG": "4-11",
+          "FG": "5-12",
           "3PT": "0-6",
           "FT": "0-0",
-          "fd_pts": 7.4,
-          "dk_pts": 9.0,
+          "fd_pts": 9.4,
+          "dk_pts": 11.0,
           "is_on_court": true
         },
         "Oscar Tshiebwe": {
@@ -19612,7 +19636,7 @@
           "is_on_court": false
         },
         "Kennedy Chandler": {
-          "MIN": 17,
+          "MIN": 18,
           "PTS": "6",
           "REB": "2",
           "AST": "4",
@@ -19629,7 +19653,7 @@
       },
       "TOR": {
         "Sandro Mamukelashvili": {
-          "MIN": 18,
+          "MIN": 19,
           "PTS": "15",
           "REB": "2",
           "AST": "1",
@@ -19660,17 +19684,17 @@
         },
         "Scottie Barnes": {
           "MIN": 18,
-          "PTS": "13",
+          "PTS": "16",
           "REB": "4",
           "AST": "6",
           "STL": "1",
           "BLK": "1",
           "TO": "3",
-          "FG": "6-7",
-          "3PT": "0-1",
+          "FG": "7-8",
+          "3PT": "1-2",
           "FT": "1-1",
-          "fd_pts": 29.8,
-          "dk_pts": 29.5,
+          "fd_pts": 32.8,
+          "dk_pts": 33.0,
           "is_on_court": true
         },
         "Jamal Shead": {
@@ -19768,6 +19792,24 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 367.0,
+          "period": 2,
+          "time": "Q2 0.0",
+          "text": "End of the 2nd Quarter"
+        },
+        {
+          "seq": 366.0,
+          "period": 2,
+          "time": "Q2 0.7",
+          "text": "Scottie Barnes makes 25-foot three point step back jumpshot"
+        },
+        {
+          "seq": 365.0,
+          "period": 2,
+          "time": "Q2 15.4",
+          "text": "Brice Sensabaugh makes two point shot"
+        },
+        {
           "seq": 363.0,
           "period": 2,
           "time": "Q2 29.3",
@@ -19801,7 +19843,7 @@
           "seq": 356.0,
           "period": 2,
           "time": "Q2 52.3",
-          "text": "RJ Barrett makes layup (Scottie Barnes assists)"
+          "text": "RJ Barrett makes driving layup (Scottie Barnes assists)"
         },
         {
           "seq": 355.0,
@@ -21234,63 +21276,45 @@
       ],
       "new_plays": [
         {
-          "seq": 363.0,
+          "seq": 367.0,
           "period": 2,
-          "time": "Q2 29.3",
-          "text": "Jamal Shead bad pass\nturnover (Bez Mbeng steals)"
+          "time": "Q2 0.0",
+          "text": "End of the 2nd Quarter"
         },
         {
-          "seq": 362.0,
+          "seq": 366.0,
           "period": 2,
-          "time": "Q2 38.9",
-          "text": "Ace Bailey makes 25-foot three pointer"
+          "time": "Q2 0.7",
+          "text": "Scottie Barnes makes 25-foot three point step back jumpshot"
         },
         {
-          "seq": 361.0,
+          "seq": 365.0,
           "period": 2,
-          "time": "Q2 51.2",
-          "text": "Brice Sensabaugh defensive rebound"
-        },
-        {
-          "seq": 360.0,
-          "period": 2,
-          "time": "Q2 52.3",
-          "text": "RJ Barrett misses free throw 1 of 1"
-        },
-        {
-          "seq": 358.0,
-          "period": 2,
-          "time": "Q2 52.3",
-          "text": "Brice Sensabaugh shooting foul"
-        },
-        {
-          "seq": 356.0,
-          "period": 2,
-          "time": "Q2 52.3",
-          "text": "RJ Barrett makes layup (Scottie Barnes assists)"
+          "time": "Q2 15.4",
+          "text": "Brice Sensabaugh makes two point shot"
         }
       ],
-      "last_seq": 363.0
+      "last_seq": 367.0
     }
   },
   "GSW-DAL-2026-03-23": {
     "status": "in",
-    "clock": "8:16 - 2nd",
-    "away_score": "42",
+    "clock": "7:57 - 2nd",
+    "away_score": "44",
     "home_score": "45",
     "team_stats": {
       "GSW": {
-        "fieldGoalsMade-fieldGoalsAttempted": "15-27",
-        "FG%": "56",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "9-16",
-        "3P%": "56",
+        "fieldGoalsMade-fieldGoalsAttempted": "17-30",
+        "FG%": "57",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "10-17",
+        "3P%": "59",
         "freeThrowsMade-freeThrowsAttempted": "0-0",
         "FT%": "0",
-        "REB": "13",
-        "OR": "2",
+        "REB": "14",
+        "OR": "3",
         "DR": "11",
-        "AST": "11",
-        "STL": "2",
+        "AST": "13",
+        "STL": "3",
         "BLK": "1",
         "TO": "7",
         "TTO": "0",
@@ -21298,12 +21322,12 @@
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "11",
-        "FBPs": "5",
-        "PIP": "10",
+        "FBPs": "7",
+        "PIP": "12",
         "PF": "7",
         "LL": "7",
         "LC": "6",
-        "LPCT": "28"
+        "LPCT": "27"
       },
       "DAL": {
         "fieldGoalsMade-fieldGoalsAttempted": "17-29",
@@ -21318,18 +21342,18 @@
         "AST": "12",
         "STL": "4",
         "BLK": "1",
-        "TO": "3",
+        "TO": "4",
         "TTO": "0",
-        "ToTO": "3",
+        "ToTO": "4",
         "TECH": "0",
         "FLAG": "0",
-        "Points Conceded Off Turnovers": "3",
+        "Points Conceded Off Turnovers": "5",
         "FBPs": "11",
         "PIP": "20",
         "PF": "4",
         "LL": "9",
         "LC": "6",
-        "LPCT": "52"
+        "LPCT": "53"
       }
     },
     "players": {
@@ -21380,7 +21404,7 @@
           "is_on_court": false
         },
         "Cooper Flagg": {
-          "MIN": 11,
+          "MIN": 12,
           "PTS": "10",
           "REB": "1",
           "AST": "2",
@@ -21425,7 +21449,7 @@
           "is_on_court": false
         },
         "Marvin Bagley III": {
-          "MIN": 4,
+          "MIN": 5,
           "PTS": "1",
           "REB": "0",
           "AST": "1",
@@ -21470,18 +21494,18 @@
           "is_on_court": true
         },
         "Ryan Nembhard": {
-          "MIN": 4,
+          "MIN": 5,
           "PTS": "2",
           "REB": "0",
           "AST": "1",
           "STL": "2",
           "BLK": "0",
-          "TO": "0",
+          "TO": "1",
           "FG": "1-2",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 9.5,
-          "dk_pts": 7.5,
+          "fd_pts": 8.5,
+          "dk_pts": 7.0,
           "is_on_court": true
         },
         "John Poulakidas": {
@@ -21502,7 +21526,7 @@
       },
       "GSW": {
         "Draymond Green": {
-          "MIN": 11,
+          "MIN": 12,
           "PTS": "4",
           "REB": "1",
           "AST": "2",
@@ -21532,48 +21556,48 @@
           "is_on_court": false
         },
         "De'Anthony Melton": {
-          "MIN": 8,
+          "MIN": 9,
           "PTS": "0",
           "REB": "2",
-          "AST": "1",
+          "AST": "2",
           "STL": "1",
           "BLK": "0",
           "TO": "3",
           "FG": "0-3",
           "3PT": "0-1",
           "FT": "0-0",
-          "fd_pts": 3.9,
-          "dk_pts": 4.5,
+          "fd_pts": 5.4,
+          "dk_pts": 6.0,
           "is_on_court": true
         },
         "Moses Moody": {
           "MIN": 7,
-          "PTS": "3",
+          "PTS": "5",
           "REB": "2",
           "AST": "1",
           "STL": "0",
           "BLK": "1",
           "TO": "0",
-          "FG": "1-1",
+          "FG": "2-2",
           "3PT": "1-1",
           "FT": "0-0",
-          "fd_pts": 9.9,
-          "dk_pts": 9.5,
+          "fd_pts": 11.9,
+          "dk_pts": 11.5,
           "is_on_court": true
         },
         "Brandin Podziemski": {
-          "MIN": 11,
+          "MIN": 12,
           "PTS": "5",
-          "REB": "2",
-          "AST": "0",
+          "REB": "3",
+          "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "2",
           "FG": "2-3",
           "3PT": "1-2",
           "FT": "0-0",
-          "fd_pts": 5.4,
-          "dk_pts": 7.0,
+          "fd_pts": 8.1,
+          "dk_pts": 9.75,
           "is_on_court": true
         },
         "Gui Santos": {
@@ -21637,24 +21661,60 @@
           "is_on_court": false
         },
         "Will Richard": {
-          "MIN": 7,
-          "PTS": "6",
+          "MIN": 8,
+          "PTS": "9",
           "REB": "0",
           "AST": "1",
-          "STL": "1",
+          "STL": "2",
           "BLK": "0",
           "TO": "0",
-          "FG": "2-2",
-          "3PT": "2-2",
+          "FG": "3-4",
+          "3PT": "3-3",
           "FT": "0-0",
-          "fd_pts": 10.5,
-          "dk_pts": 10.5,
+          "fd_pts": 16.5,
+          "dk_pts": 16.0,
           "is_on_court": true
         }
       }
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 228.0,
+          "period": 2,
+          "time": "Q2 7:58",
+          "text": "Mavericks Full timeout"
+        },
+        {
+          "seq": 226.0,
+          "period": 2,
+          "time": "Q2 7:57",
+          "text": "Moses Moody makes 1-foot shot (Brandin Podziemski assists)"
+        },
+        {
+          "seq": 225.0,
+          "period": 2,
+          "time": "Q2 8:01",
+          "text": "Brandin Podziemski offensive rebound"
+        },
+        {
+          "seq": 224.0,
+          "period": 2,
+          "time": "Q2 8:02",
+          "text": "Will Richard misses running layup"
+        },
+        {
+          "seq": 222.0,
+          "period": 2,
+          "time": "Q2 8:07",
+          "text": "Ryan Nembhard lost ball turnover (Will Richard steals)"
+        },
+        {
+          "seq": 220.0,
+          "period": 2,
+          "time": "Q2 8:17",
+          "text": "Will Richard makes 23-foot three point jumper (De'Anthony Melton assists)"
+        },
         {
           "seq": 219.0,
           "period": 2,
@@ -21665,7 +21725,7 @@
           "seq": 218.0,
           "period": 2,
           "time": "Q2 8:32",
-          "text": "John Poulakidas misses 25-foot three point jumper"
+          "text": "John Poulakidas misses 25-foot three point pullup jump shot"
         },
         {
           "seq": 213.0,
@@ -22498,62 +22558,50 @@
       ],
       "new_plays": [
         {
-          "seq": 219.0,
+          "seq": 228.0,
           "period": 2,
-          "time": "Q2 8:27",
-          "text": "Moses Moody defensive rebound"
+          "time": "Q2 7:58",
+          "text": "Mavericks Full timeout"
         },
         {
-          "seq": 218.0,
+          "seq": 226.0,
           "period": 2,
-          "time": "Q2 8:32",
-          "text": "John Poulakidas misses 25-foot three point jumper"
+          "time": "Q2 7:57",
+          "text": "Moses Moody makes 1-foot shot (Brandin Podziemski assists)"
         },
         {
-          "seq": 213.0,
+          "seq": 225.0,
           "period": 2,
-          "time": "Q2 8:39",
-          "text": "De'Anthony Melton enters the game for Gui Santos"
+          "time": "Q2 8:01",
+          "text": "Brandin Podziemski offensive rebound"
         },
         {
-          "seq": 212.0,
+          "seq": 224.0,
           "period": 2,
-          "time": "Q2 8:39",
-          "text": "Moses Moody enters the game for LJ Cryer"
+          "time": "Q2 8:02",
+          "text": "Will Richard misses running layup"
         },
         {
-          "seq": 211.0,
+          "seq": 222.0,
           "period": 2,
-          "time": "Q2 8:39",
-          "text": "Marvin Bagley III enters the game for Daniel Gafford"
+          "time": "Q2 8:07",
+          "text": "Ryan Nembhard lost ball turnover (Will Richard steals)"
         },
         {
-          "seq": 210.0,
+          "seq": 220.0,
           "period": 2,
-          "time": "Q2 8:39",
-          "text": "Ryan Nembhard enters the game for Khris Middleton"
-        },
-        {
-          "seq": 208.0,
-          "period": 2,
-          "time": "Q2 8:39",
-          "text": "Brandin Podziemski personal foul"
-        },
-        {
-          "seq": 206.0,
-          "period": 2,
-          "time": "Q2 8:53",
-          "text": "LJ Cryer makes 23-foot three point jumper (Will Richard assists)"
+          "time": "Q2 8:17",
+          "text": "Will Richard makes 23-foot three point jumper (De'Anthony Melton assists)"
         }
       ],
-      "last_seq": 219.0
+      "last_seq": 228.0
     }
   },
   "BKN-POR-2026-03-23": {
     "status": "in",
-    "clock": "10:19 - 1st",
-    "away_score": "4",
-    "home_score": "3",
+    "clock": "9:33 - 1st",
+    "away_score": "6",
+    "home_score": "5",
     "team_stats": {
       "BKN": {
         "fieldGoalsMade-fieldGoalsAttempted": "1-3",
@@ -22562,12 +22610,12 @@
         "3P%": "0",
         "freeThrowsMade-freeThrowsAttempted": "2-2",
         "FT%": "100",
-        "REB": "1",
+        "REB": "2",
         "OR": "1",
-        "DR": "0",
+        "DR": "1",
         "AST": "0",
         "STL": "1",
-        "BLK": "1",
+        "BLK": "2",
         "TO": "1",
         "TTO": "0",
         "ToTO": "1",
@@ -22579,11 +22627,11 @@
         "PF": "2",
         "LL": "4",
         "LC": "0",
-        "LPCT": "80"
+        "LPCT": "88"
       },
       "POR": {
-        "fieldGoalsMade-fieldGoalsAttempted": "1-2",
-        "FG%": "50",
+        "fieldGoalsMade-fieldGoalsAttempted": "1-4",
+        "FG%": "25",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "0-0",
         "3P%": "0",
         "freeThrowsMade-freeThrowsAttempted": "1-2",
@@ -22633,7 +22681,7 @@
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "1-2",
+          "FG": "1-3",
           "3PT": "0-0",
           "FT": "0-0",
           "fd_pts": 2.0,
@@ -22648,7 +22696,7 @@
           "STL": "0",
           "BLK": "1",
           "TO": "0",
-          "FG": "0-0",
+          "FG": "0-1",
           "3PT": "0-0",
           "FT": "0-0",
           "fd_pts": 3.0,
@@ -22656,33 +22704,33 @@
           "is_on_court": true
         },
         "Jrue Holiday": {
-          "MIN": 1,
+          "MIN": 2,
           "PTS": "0",
           "REB": "0",
-          "AST": "0",
+          "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "2",
           "FG": "0-0",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": -2.0,
-          "dk_pts": -1.0,
+          "fd_pts": -0.5,
+          "dk_pts": 0.5,
           "is_on_court": true
         },
         "Sidy Cissoko": {
-          "MIN": 1,
+          "MIN": 2,
           "PTS": "0",
           "REB": "1",
-          "AST": "1",
+          "AST": "0",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
           "FG": "0-0",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 2.7,
-          "dk_pts": 2.75,
+          "fd_pts": 1.2,
+          "dk_pts": 1.25,
           "is_on_court": true
         }
       },
@@ -22703,7 +22751,7 @@
           "is_on_court": true
         },
         "Ziaire Williams": {
-          "MIN": 1,
+          "MIN": 2,
           "PTS": "0",
           "REB": "0",
           "AST": "0",
@@ -22718,7 +22766,7 @@
           "is_on_court": true
         },
         "Josh Minott": {
-          "MIN": 1,
+          "MIN": 2,
           "PTS": "0",
           "REB": "0",
           "AST": "0",
@@ -22750,22 +22798,46 @@
         "Nolan Traore": {
           "MIN": 2,
           "PTS": "0",
-          "REB": "0",
+          "REB": "1",
           "AST": "0",
           "STL": "1",
-          "BLK": "0",
+          "BLK": "1",
           "TO": "1",
           "FG": "0-0",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 2.0,
-          "dk_pts": 1.5,
+          "fd_pts": 6.2,
+          "dk_pts": 4.75,
           "is_on_court": true
         }
       }
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 43.0,
+          "period": 1,
+          "time": "Q1 10:01",
+          "text": "Nolan Traore defensive rebound"
+        },
+        {
+          "seq": 42.0,
+          "period": 1,
+          "time": "Q1 10:06",
+          "text": "Deni Avdija misses 14-foot pullup jump shot"
+        },
+        {
+          "seq": 40.0,
+          "period": 1,
+          "time": "Q1 10:09",
+          "text": "Trail Blazers offensive team rebound"
+        },
+        {
+          "seq": 38.0,
+          "period": 1,
+          "time": "Q1 10:09",
+          "text": "Nolan Traore blocks Donovan Clingan 's 2-foot driving dunk"
+        },
         {
           "seq": 36.0,
           "period": 1,
@@ -22824,7 +22896,7 @@
           "seq": 20.0,
           "period": 1,
           "time": "Q1 10:48",
-          "text": "Deni Avdija makes running layup (Sidy Cissoko assists)"
+          "text": "Deni Avdija makes running layup (Jrue Holiday assists)"
         },
         {
           "seq": 19.0,
@@ -22895,37 +22967,31 @@
       ],
       "new_plays": [
         {
-          "seq": 36.0,
+          "seq": 43.0,
           "period": 1,
-          "time": "Q1 10:19",
-          "text": "Nic Claxton loose ball foul"
+          "time": "Q1 10:01",
+          "text": "Nolan Traore defensive rebound"
         },
         {
-          "seq": 35.0,
+          "seq": 42.0,
           "period": 1,
-          "time": "Q1 10:19",
+          "time": "Q1 10:06",
+          "text": "Deni Avdija misses 14-foot pullup jump shot"
+        },
+        {
+          "seq": 40.0,
+          "period": 1,
+          "time": "Q1 10:09",
           "text": "Trail Blazers offensive team rebound"
         },
         {
-          "seq": 34.0,
+          "seq": 38.0,
           "period": 1,
-          "time": "Q1 10:19",
-          "text": "Toumani Camara misses free throw 2 of 2"
-        },
-        {
-          "seq": 33.0,
-          "period": 1,
-          "time": "Q1 10:19",
-          "text": "Toumani Camara makes free throw 1 of 2"
-        },
-        {
-          "seq": 31.0,
-          "period": 1,
-          "time": "Q1 10:19",
-          "text": "Jalen Wilson shooting foul"
+          "time": "Q1 10:09",
+          "text": "Nolan Traore blocks Donovan Clingan 's 2-foot driving dunk"
         }
       ],
-      "last_seq": 36.0
+      "last_seq": 43.0
     }
   }
 }
