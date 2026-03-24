@@ -637,6 +637,9 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
             periodText = "PRE";
         }
         
+        // Remove the duplicated quarter string from the clock (e.g. "11:24 - 4th" becomes "11:24")
+        timeText = timeText.split(' - ')[0].trim();
+        
         const extractLive = (teamAbbr, teamLogo, roster) => {
             const liveTeamData = liveMatch.players[teamAbbr];
             if (!liveTeamData) return;
@@ -710,12 +713,21 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
         
         const stats = p.live_stats;
         
-        // --- NEW: CLOCK RENDERED ON THE FAR LEFT ---
-        const clockColor = p.periodText === 'FINAL' ? 'text-secondary' : 'text-danger';
+        // --- NEW: CLOCK RENDERED AS B&W BADGE ON FAR LEFT WITH TIGHT SPACING ---
+        let clockBadgeHtml = '';
+        if (p.periodText === 'FINAL' || p.periodText === 'HT' || p.periodText === 'PRE') {
+            clockBadgeHtml = `<div class="badge bg-secondary text-white shadow-sm d-flex align-items-center justify-content-center" style="font-size: 0.55rem; padding: 0; width: 36px; height: 36px;">${p.periodText}</div>`;
+        } else {
+            clockBadgeHtml = `
+                <div class="badge bg-white text-dark border border-dark shadow-sm d-flex flex-column align-items-center justify-content-center" style="width: 36px; height: 36px; padding: 0;">
+                    <span style="font-size: 0.65rem; line-height: 1.1;">${p.periodText}</span>
+                    <span style="font-size: 0.55rem; line-height: 1; font-weight: normal;">${p.timeText}</span>
+                </div>`;
+        }
+
         const timeDisplayHtml = `
-            <div class="d-flex flex-column align-items-center justify-content-center me-2 ${clockColor}" style="width: 42px; flex-shrink: 0;">
-                <span class="fw-bold" style="font-size: 0.85rem; line-height: 1;">${p.periodText}</span>
-                ${p.timeText ? `<span class="fw-bold mt-1" style="font-size: 0.65rem; line-height: 1;">${p.timeText}</span>` : ''}
+            <div class="me-2 flex-shrink-0 d-flex justify-content-center" style="width: 36px;">
+                ${clockBadgeHtml}
             </div>
         `;
         
@@ -725,7 +737,7 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
         <div class="d-flex align-items-center justify-content-between py-2 border-bottom user-select-none" style="cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='transparent'" onclick="openPlayerModal(this)" data-player="${encodeURIComponent(JSON.stringify(p))}">
             <div class="d-flex align-items-center overflow-hidden">
                 ${timeDisplayHtml}
-                <div class="me-3 position-relative flex-shrink-0">
+                <div class="me-2 position-relative flex-shrink-0">
                     ${photoHtml}
                     ${teamBadge}
                 </div>
