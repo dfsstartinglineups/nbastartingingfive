@@ -8,6 +8,16 @@ let ALL_SLATES = { fanduel: [], draftkings: [] };
 let ARE_ALL_EXPANDED = false;
 let PLAYERS_DB = {}; // Holds our player database
 window.LEADERBOARD_SEARCH_TEXT = ''; // Holds the live leaderboard search state
+window.HAS_SCROLLED_TO_HASH = false;
+window.ACTIVE_GLOW_ID = null;
+
+function getDateFromHash() {
+    if (window.location.hash) {
+        const match = window.location.hash.match(/(\d{4}-\d{2}-\d{2})/);
+        if (match) return match[1];
+    }
+    return null;
+}
 
 // State managers
 window.MASTER_TAB = 'lineups'; 
@@ -40,6 +50,14 @@ style.innerHTML = `
     /* Search Bar Styling */
     #leaderboard-search::placeholder { color: #868e96; opacity: 1; }
     #leaderboard-search:focus { box-shadow: none; border-color: #20c997; outline: none; }
+
+    @keyframes targetGlowAnim {
+        0% { box-shadow: 0 0 0px rgba(32, 201, 151, 0); border-color: #dee2e6 !important; }
+        15% { box-shadow: 0 0 25px rgba(32, 201, 151, 0.9); border-color: #20c997 !important; }
+        85% { box-shadow: 0 0 25px rgba(32, 201, 151, 0.9); border-color: #20c997 !important; }
+        100% { box-shadow: 0 0 0px rgba(32, 201, 151, 0); border-color: #dee2e6 !important; }
+    }
+    .link-target-glow { animation: targetGlowAnim 2.5s ease-out !important; }
 `;
 document.head.appendChild(style);
 
@@ -505,7 +523,34 @@ function shortenPlayerName(fullName) {
 }
 
 window.openPlayerModal = function(el) {
-    console.log("Player clicked", JSON.parse(decodeURIComponent(el.getAttribute('data-player'))));
+    try {
+        const p = JSON.parse(decodeURIComponent(el.getAttribute('data-player')));
+        const targetGame = ALL_GAMES_DATA.find(g => 
+            getStandardAbbr(g.away.team.abbreviation) === p.teamAbbrev || 
+            getStandardAbbr(g.home.team.abbreviation) === p.teamAbbrev
+        );
+
+        if (targetGame) {
+            const gameCard = document.getElementById(`game-${targetGame.localId}`);
+            if (gameCard) {
+                gameCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                const originalBoxShadow = gameCard.style.boxShadow;
+                const originalBorderColor = gameCard.style.borderColor;
+                const originalTransition = gameCard.style.transition;
+
+                gameCard.style.transition = 'all 0.4s ease-out';
+                gameCard.style.boxShadow = '0 0 20px rgba(32, 201, 151, 0.8)';
+                gameCard.style.borderColor = '#20c997';
+
+                setTimeout(() => {
+                    gameCard.style.boxShadow = originalBoxShadow;
+                    gameCard.style.borderColor = originalBorderColor;
+                    setTimeout(() => { gameCard.style.transition = originalTransition; }, 400);
+                }, 2000);
+            }
+        }
+    } catch(e) { console.error("Error highlighting game card:", e); }
 };
 
 function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
@@ -910,7 +955,6 @@ function renderGames() {
         }
     });
 
-    // ... existing focus restore code ...
     if (activeId) {
         const elToFocus = document.getElementById(activeId);
         if (elToFocus) {
@@ -921,30 +965,30 @@ function renderGames() {
         }
     }
 
-    // --- NEW: URL HASH "LINK MAGIC" ---
-    // If there is a hash in the URL, scroll to it and highlight it (only do this once per page load)
+    // --- NEW: URL HASH "LINK MAGIC" (BULLETPROOF VERSION) ---
     if (!window.HAS_SCROLLED_TO_HASH && window.location.hash) {
-        const targetId = window.location.hash.substring(1); // Remove the '#'
-        const targetCard = document.getElementById(targetId);
-        
-        if (targetCard) {
-            setTimeout(() => {
-                targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                
-                // Apply the green glow
-                targetCard.style.transition = 'all 0.4s ease-out';
-                targetCard.style.boxShadow = '0 0 20px rgba(32, 201, 151, 0.8)';
-                targetCard.style.borderColor = '#20c997';
+        window.HAS_SCROLLED_TO_HASH = true;
+        const targetId = window.location.hash.substring(1); 
+        window.ACTIVE_GLOW_ID = targetId; 
 
-                // Fade it out after 2 seconds
+        let attempts = 0;
+        const scrollInterval = setInterval(() => {
+            const targetCard = document.getElementById(targetId);
+            if (targetCard) {
+                clearInterval(scrollInterval);
+                targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                targetCard.classList.add('link-target-glow'); 
+                
                 setTimeout(() => {
-                    targetCard.style.boxShadow = '';
-                    targetCard.style.borderColor = '';
-                }, 2000);
-            }, 300); // Slight delay to ensure the DOM is fully painted before jumping
+                    window.ACTIVE_GLOW_ID = null;
+                    const cardNow = document.getElementById(targetId);
+                    if (cardNow) cardNow.classList.remove('link-target-glow');
+                }, 2500);
+            }
             
-            window.HAS_SCROLLED_TO_HASH = true; // Mark as done so it doesn't jump every 30 seconds
-        }
+            attempts++;
+            if (attempts > 50) clearInterval(scrollInterval); // 5-second hunt limit
+        }, 100);
     }
 } 
 
@@ -1181,8 +1225,10 @@ function createLineupCard(data) {
             </div>`;
     }
 
+    const glowClass = (window.ACTIVE_GLOW_ID === `game-${data.localId}`) ? ' link-target-glow' : '';
+
     gameCard.innerHTML = `
-        <div class="lineup-card shadow-sm border rounded bg-white overflow-hidden" id="game-${data.localId}">
+        <div class="lineup-card shadow-sm border rounded bg-white overflow-hidden${glowClass}" id="game-${data.localId}">
             <div class="p-2 border-bottom d-flex justify-content-between align-items-center bg-light">
                 <div class="d-flex align-items-center">
                     ${timeBadgeHtml}
@@ -1378,8 +1424,10 @@ function createLiveCard(data) {
             </div>`;
     }
 
+    const glowClass = (window.ACTIVE_GLOW_ID === `game-${data.localId}`) ? ' link-target-glow' : '';
+
     gameCard.innerHTML = `
-        <div class="lineup-card shadow-sm border rounded bg-white overflow-hidden" id="game-${data.localId}">
+        <div class="lineup-card shadow-sm border rounded bg-white overflow-hidden${glowClass}" id="game-${data.localId}">
             <div class="p-2 border-bottom d-flex justify-content-between align-items-center bg-light">
                 <div class="d-flex align-items-center">
                     ${timeBadgeHtml}
@@ -1419,7 +1467,11 @@ function createLiveCard(data) {
 // EVENT LISTENERS
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
-    init(DEFAULT_DATE);
+    // Check if the URL hash contains a specific date to load
+    const hashDate = getDateFromHash();
+    const initialDate = hashDate ? hashDate : DEFAULT_DATE;
+    
+    init(initialDate);
     
     document.getElementById('team-search')?.addEventListener('input', renderGames);
     document.getElementById('date-picker')?.addEventListener('change', (e) => {
@@ -1434,9 +1486,18 @@ document.addEventListener('DOMContentLoaded', () => {
     
     document.getElementById('slate-selector')?.addEventListener('change', renderGames);
 
-    // --- NEW: Reset the scroll lock if the URL hash changes manually ---
+    // Reset the scroll lock and handle manual URL changes
     window.addEventListener('hashchange', () => {
         window.HAS_SCROLLED_TO_HASH = false;
-        renderGames();
+        window.ACTIVE_GLOW_ID = null; 
+        
+        const newHashDate = getDateFromHash();
+        const currentPickerDate = document.getElementById('date-picker')?.value;
+        
+        if (newHashDate && newHashDate !== currentPickerDate) {
+            init(newHashDate);
+        } else {
+            renderGames(); 
+        }
     });
 });
