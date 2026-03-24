@@ -583,8 +583,8 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
                 </div>
             </div>
             <div class="card-body p-0">
-                <div id="view-top-value" class="px-2" style="max-height: 275px; overflow-y: auto;">${buildList(topValue, true)}</div>
-                <div id="view-top-proj" class="px-2 d-none" style="max-height: 275px; overflow-y: auto;">${buildList(topProj, false)}</div>
+                <div id="view-top-value" class="px-2" style="max-height: 255px; overflow-y: auto;">${buildList(topValue, true)}</div>
+                <div id="view-top-proj" class="px-2 d-none" style="max-height: 255px; overflow-y: auto;">${buildList(topProj, false)}</div>
             </div>
         </div>
     </div>`;
