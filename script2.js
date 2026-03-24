@@ -776,9 +776,7 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
     <div class="col-12 col-md-6 col-lg-4 px-1 mb-3" id="live-leaderboard-container">
         <div class="card shadow-sm border overflow-hidden" style="background-color: #fff; border-radius: 12px; border-color: #dee2e6 !important;">
             <div class="card-header bg-dark text-white py-2 d-flex justify-content-between align-items-center">
-                <h6 class="mb-0 fw-bold d-none d-sm-block text-nowrap" style="font-size: 0.85rem;">🔥 Live Leaders</h6>
-                <h6 class="mb-0 fw-bold d-block d-sm-none text-nowrap" style="font-size: 0.85rem;">🔥</h6>
-                
+                <h6 class="mb-0 fw-bold text-nowrap" style="font-size: 0.85rem;">🔥 Live Leaders</h6>
                 <div class="position-relative mx-2 w-100" style="max-width: 140px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="#adb5bd" viewBox="0 0 16 16" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
