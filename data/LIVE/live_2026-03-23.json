@@ -19705,7 +19705,7 @@
   },
   "TOR-UTA-2026-03-23": {
     "status": "in",
-    "clock": "1:47 - 4th",
+    "clock": "1:33 - 4th",
     "away_score": "137",
     "home_score": "125",
     "team_stats": {
@@ -19944,7 +19944,7 @@
           "FT": "2-2",
           "fd_pts": 25.7,
           "dk_pts": 26.75,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Ja'Kobe Walter": {
           "MIN": 28,
@@ -20034,7 +20034,7 @@
           "FT": "0-0",
           "fd_pts": 12.5,
           "dk_pts": 12.0,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Gradey Dick": {
           "MIN": 26,
@@ -20055,6 +20055,12 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 733.0,
+          "period": 4,
+          "time": "Q4 1:47",
+          "text": "Jamal Shead enters the game for Markelle Fultz"
+        },
         {
           "seq": 732.0,
           "period": 4,
@@ -22966,47 +22972,54 @@
           "text": "Sandro Mamukelashvili vs. Kyle Filipowski (Elijah Harkless gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 732.0
+      "new_plays": [
+        {
+          "seq": 733.0,
+          "period": 4,
+          "time": "Q4 1:47",
+          "text": "Jamal Shead enters the game for Markelle Fultz"
+        }
+      ],
+      "last_seq": 733.0
     }
   },
   "GSW-DAL-2026-03-23": {
     "status": "in",
-    "clock": "11:24 - 4th",
-    "away_score": "104",
+    "clock": "11:03 - 4th",
+    "away_score": "106",
     "home_score": "98",
     "team_stats": {
       "GSW": {
-        "fieldGoalsMade-fieldGoalsAttempted": "40-70",
+        "fieldGoalsMade-fieldGoalsAttempted": "41-72",
         "FG%": "57",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "15-35",
         "3P%": "43",
         "freeThrowsMade-freeThrowsAttempted": "9-10",
         "FT%": "90",
-        "REB": "29",
+        "REB": "30",
         "OR": "8",
-        "DR": "21",
-        "AST": "30",
-        "STL": "10",
+        "DR": "22",
+        "AST": "31",
+        "STL": "11",
         "BLK": "3",
-        "TO": "16",
+        "TO": "17",
         "TTO": "0",
-        "ToTO": "16",
+        "ToTO": "17",
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "24",
         "FBPs": "11",
-        "PIP": "44",
+        "PIP": "46",
         "PF": "19",
-        "LL": "7",
+        "LL": "8",
         "LC": "7",
-        "LPCT": "12"
+        "LPCT": "14"
       },
       "DAL": {
-        "fieldGoalsMade-fieldGoalsAttempted": "38-62",
-        "FG%": "61",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "11-24",
-        "3P%": "46",
+        "fieldGoalsMade-fieldGoalsAttempted": "38-63",
+        "FG%": "60",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "11-25",
+        "3P%": "44",
         "freeThrowsMade-freeThrowsAttempted": "11-16",
         "FT%": "69",
         "REB": "19",
@@ -23026,13 +23039,13 @@
         "PF": "13",
         "LL": "15",
         "LC": "7",
-        "LPCT": "75"
+        "LPCT": "74"
       }
     },
     "players": {
       "DAL": {
         "Daniel Gafford": {
-          "MIN": 24,
+          "MIN": 25,
           "PTS": "18",
           "REB": "6",
           "AST": "3",
@@ -23077,7 +23090,7 @@
           "is_on_court": false
         },
         "Cooper Flagg": {
-          "MIN": 26,
+          "MIN": 27,
           "PTS": "23",
           "REB": "2",
           "AST": "6",
@@ -23114,8 +23127,8 @@
           "STL": "0",
           "BLK": "0",
           "TO": "1",
-          "FG": "1-2",
-          "3PT": "0-1",
+          "FG": "1-3",
+          "3PT": "0-2",
           "FT": "0-0",
           "fd_pts": 7.9,
           "dk_pts": 8.5,
@@ -23275,17 +23288,17 @@
         },
         "Gui Santos": {
           "MIN": 22,
-          "PTS": "8",
+          "PTS": "10",
           "REB": "3",
           "AST": "2",
           "STL": "2",
           "BLK": "0",
           "TO": "3",
-          "FG": "3-6",
+          "FG": "4-7",
           "3PT": "0-3",
           "FT": "2-3",
-          "fd_pts": 17.6,
-          "dk_pts": 17.25,
+          "fd_pts": 19.6,
+          "dk_pts": 19.25,
           "is_on_court": true
         },
         "Gary Payton II": {
@@ -23304,7 +23317,7 @@
           "is_on_court": false
         },
         "LJ Cryer": {
-          "MIN": 13,
+          "MIN": 14,
           "PTS": "12",
           "REB": "2",
           "AST": "1",
@@ -23319,18 +23332,18 @@
           "is_on_court": true
         },
         "Pat Spencer": {
-          "MIN": 9,
+          "MIN": 10,
           "PTS": "2",
-          "REB": "1",
-          "AST": "3",
+          "REB": "2",
+          "AST": "4",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "1-1",
+          "FG": "1-2",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 7.7,
-          "dk_pts": 7.75,
+          "fd_pts": 10.4,
+          "dk_pts": 10.5,
           "is_on_court": true
         },
         "Will Richard": {
@@ -23352,6 +23365,42 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 573.0,
+          "period": 4,
+          "time": "Q4 11:04",
+          "text": "Warriors offensive team rebound"
+        },
+        {
+          "seq": 572.0,
+          "period": 4,
+          "time": "Q4 11:03",
+          "text": "Pat Spencer misses layup"
+        },
+        {
+          "seq": 571.0,
+          "period": 4,
+          "time": "Q4 11:11",
+          "text": "Pat Spencer defensive rebound"
+        },
+        {
+          "seq": 570.0,
+          "period": 4,
+          "time": "Q4 11:13",
+          "text": "Khris Middleton misses 25-foot three point jumper"
+        },
+        {
+          "seq": 569.0,
+          "period": 4,
+          "time": "Q4 11:24",
+          "text": "Moses Moody back court turnover"
+        },
+        {
+          "seq": 567.0,
+          "period": 4,
+          "time": "Q4 11:25",
+          "text": "Cooper Flagg lost ball turnover (Moses Moody steals)"
+        },
         {
           "seq": 565.0,
           "period": 4,
@@ -25539,25 +25588,43 @@
       ],
       "new_plays": [
         {
-          "seq": 565.0,
+          "seq": 573.0,
           "period": 4,
-          "time": "Q4 11:34",
-          "text": "LJ Cryer makes 24-foot three point jumper (Pat Spencer assists)"
+          "time": "Q4 11:04",
+          "text": "Warriors offensive team rebound"
         },
         {
-          "seq": 564.0,
+          "seq": 572.0,
           "period": 4,
-          "time": "Q4 11:41",
-          "text": "Cooper Flagg out of bounds lost ball turnover"
+          "time": "Q4 11:03",
+          "text": "Pat Spencer misses layup"
         },
         {
-          "seq": 563.0,
+          "seq": 571.0,
           "period": 4,
-          "time": "Q4 11:48",
-          "text": "Gui Santos makes free throw 1 of 1"
+          "time": "Q4 11:11",
+          "text": "Pat Spencer defensive rebound"
+        },
+        {
+          "seq": 570.0,
+          "period": 4,
+          "time": "Q4 11:13",
+          "text": "Khris Middleton misses 25-foot three point jumper"
+        },
+        {
+          "seq": 569.0,
+          "period": 4,
+          "time": "Q4 11:24",
+          "text": "Moses Moody back court turnover"
+        },
+        {
+          "seq": 567.0,
+          "period": 4,
+          "time": "Q4 11:25",
+          "text": "Cooper Flagg lost ball turnover (Moses Moody steals)"
         }
       ],
-      "last_seq": 565.0
+      "last_seq": 573.0
     }
   },
   "BKN-POR-2026-03-23": {
