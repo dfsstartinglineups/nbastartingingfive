@@ -640,6 +640,11 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
         // Remove the duplicated quarter string from the clock (e.g. "11:24 - 4th" becomes "11:24")
         timeText = timeText.split(' - ')[0].trim();
         
+        // Catch ESPN's "End of 1st", "End of 3rd", etc. strings and force to "0:00"
+        if (timeText.toLowerCase().includes('end')) {
+            timeText = "0:00";
+        }
+        
         const extractLive = (teamAbbr, teamLogo, roster) => {
             const liveTeamData = liveMatch.players[teamAbbr];
             if (!liveTeamData) return;
@@ -713,7 +718,7 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
         
         const stats = p.live_stats;
         
-        // --- NEW: CLOCK RENDERED AS B&W BADGE ON FAR LEFT WITH TIGHT SPACING ---
+        // --- CRISP BLACK AND WHITE CLOCK ON FAR LEFT ---
         let clockBadgeHtml = '';
         if (p.periodText === 'FINAL' || p.periodText === 'HT' || p.periodText === 'PRE') {
             clockBadgeHtml = `<div class="badge bg-secondary text-white shadow-sm d-flex align-items-center justify-content-center" style="font-size: 0.55rem; padding: 0; width: 36px; height: 36px;">${p.periodText}</div>`;
@@ -763,7 +768,7 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                 <h6 class="mb-0 fw-bold" style="font-size: 0.85rem;">🔥 Live Fantasy Leaders</h6>
                 <span class="badge bg-secondary" style="font-size: 0.6rem;">${platform === 'dk' ? 'DraftKings' : 'FanDuel'}</span>
             </div>
-            <div class="card-body p-0 px-3" style="max-height: 515px; overflow-y: auto;">
+            <div class="card-body p-0 px-3" style="max-height: 520px; overflow-y: auto;">
                 ${listHtml}
             </div>
         </div>
