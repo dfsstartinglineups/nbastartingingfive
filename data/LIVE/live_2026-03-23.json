@@ -19247,15 +19247,15 @@
         "AST": "18",
         "STL": "6",
         "BLK": "5",
-        "TO": "6",
+        "TO": "7",
         "TTO": "2",
-        "ToTO": "8",
+        "ToTO": "9",
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "5",
         "FBPs": "12",
         "PIP": "26",
-        "PF": "13",
+        "PF": "14",
         "LL": "11",
         "LC": "4",
         "LPCT": "68"
@@ -19281,7 +19281,7 @@
         "Points Conceded Off Turnovers": "8",
         "FBPs": "7",
         "PIP": "12",
-        "PF": "8",
+        "PF": "7",
         "LL": "5",
         "LC": "4",
         "LPCT": "22"
@@ -19493,12 +19493,12 @@
           "AST": "0",
           "STL": "0",
           "BLK": "0",
-          "TO": "0",
+          "TO": "1",
           "FG": "0-0",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 1.2,
-          "dk_pts": 1.25,
+          "fd_pts": 0.2,
+          "dk_pts": 0.75,
           "is_on_court": true
         },
         "Collin Murray-Boyles": {
@@ -19551,6 +19551,18 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 322.0,
+          "period": 2,
+          "time": "Q2 3:56",
+          "text": "Jamison Battle offensive foul turnover"
+        },
+        {
+          "seq": 321.0,
+          "period": 2,
+          "time": "Q2 3:56",
+          "text": "(03:56) [Jazz] COACH'S CHALLENGE (CALL REPLAYCENTER)"
+        },
+        {
           "seq": 320.0,
           "period": 2,
           "time": "Q2 3:56",
@@ -19566,7 +19578,7 @@
           "seq": 317.0,
           "period": 2,
           "time": "Q2 3:56",
-          "text": "Elijah Harkless shooting foul"
+          "text": "Jamison Battle offensive foul"
         },
         {
           "seq": 315.0,
@@ -20841,15 +20853,28 @@
           "text": "Sandro Mamukelashvili vs. Kyle Filipowski (Elijah Harkless gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 320.0
+      "new_plays": [
+        {
+          "seq": 322.0,
+          "period": 2,
+          "time": "Q2 3:56",
+          "text": "Jamison Battle offensive foul turnover"
+        },
+        {
+          "seq": 321.0,
+          "period": 2,
+          "time": "Q2 3:56",
+          "text": "(03:56) [Jazz] COACH'S CHALLENGE (CALL REPLAYCENTER)"
+        }
+      ],
+      "last_seq": 322.0
     }
   },
   "GSW-DAL-2026-03-23": {
     "status": "in",
-    "clock": "End of 1st",
+    "clock": "11:27 - 2nd",
     "away_score": "34",
-    "home_score": "31",
+    "home_score": "33",
     "team_stats": {
       "GSW": {
         "fieldGoalsMade-fieldGoalsAttempted": "13-23",
@@ -20919,7 +20944,7 @@
           "FT": "1-2",
           "fd_pts": 11.3,
           "dk_pts": 11.5,
-          "is_on_court": false
+          "is_on_court": true
         },
         "P.J. Washington": {
           "MIN": 8,
@@ -20964,7 +20989,7 @@
           "FT": "0-0",
           "fd_pts": 9.0,
           "dk_pts": 9.0,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Max Christie": {
           "MIN": 8,
@@ -20979,7 +21004,7 @@
           "FT": "0-0",
           "fd_pts": 11.7,
           "dk_pts": 10.25,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Khris Middleton": {
           "MIN": 4,
@@ -21009,10 +21034,10 @@
           "FT": "1-2",
           "fd_pts": 2.5,
           "dk_pts": 2.5,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Tyler Smith": {
-          "MIN": 2,
+          "MIN": 3,
           "PTS": "0",
           "REB": "0",
           "AST": "0",
@@ -21024,7 +21049,7 @@
           "FT": "0-0",
           "fd_pts": 0.0,
           "dk_pts": 0.0,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Klay Thompson": {
           "MIN": 4,
@@ -21055,6 +21080,21 @@
           "fd_pts": 9.5,
           "dk_pts": 7.5,
           "is_on_court": false
+        },
+        "John Poulakidas": {
+          "MIN": 0,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
+          "is_on_court": true
         }
       },
       "GSW": {
@@ -21071,7 +21111,7 @@
           "FT": "0-0",
           "fd_pts": 6.2,
           "dk_pts": 6.25,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Kristaps Porzingis": {
           "MIN": 8,
@@ -21086,7 +21126,7 @@
           "FT": "0-0",
           "fd_pts": 11.1,
           "dk_pts": 12.25,
-          "is_on_court": true
+          "is_on_court": false
         },
         "De'Anthony Melton": {
           "MIN": 8,
@@ -21101,10 +21141,10 @@
           "FT": "0-0",
           "fd_pts": 3.9,
           "dk_pts": 4.5,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Moses Moody": {
-          "MIN": 6,
+          "MIN": 7,
           "PTS": "3",
           "REB": "1",
           "AST": "1",
@@ -21116,7 +21156,7 @@
           "FT": "0-0",
           "fd_pts": 8.7,
           "dk_pts": 8.25,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Brandin Podziemski": {
           "MIN": 8,
@@ -21146,7 +21186,7 @@
           "FT": "0-0",
           "fd_pts": 2.0,
           "dk_pts": 2.5,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Gary Payton II": {
           "MIN": 4,
@@ -21206,12 +21246,48 @@
           "FT": "0-0",
           "fd_pts": 9.0,
           "dk_pts": 9.0,
-          "is_on_court": false
+          "is_on_court": true
         }
       }
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 171.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Gui Santos enters the game for De'Anthony Melton"
+        },
+        {
+          "seq": 170.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Will Richard enters the game for Kristaps Porzingis"
+        },
+        {
+          "seq": 169.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Draymond Green enters the game for Moses Moody"
+        },
+        {
+          "seq": 168.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Daniel Gafford enters the game for Max Christie"
+        },
+        {
+          "seq": 167.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Cooper Flagg enters the game for Marvin Bagley III"
+        },
+        {
+          "seq": 166.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "John Poulakidas enters the game for Tyler Smith"
+        },
         {
           "seq": 165.0,
           "period": 1,
@@ -21228,7 +21304,7 @@
           "seq": 163.0,
           "period": 1,
           "time": "Q1 0.3",
-          "text": "Kristaps Porzingis misses 16-foot turnaround jump shot"
+          "text": "Kristaps Porzingis misses 16-foot fade away jump shot"
         },
         {
           "seq": 160.0,
@@ -21861,8 +21937,45 @@
           "text": "Kristaps Porzingis vs. Daniel Gafford (Draymond Green gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 165.0
+      "new_plays": [
+        {
+          "seq": 171.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Gui Santos enters the game for De'Anthony Melton"
+        },
+        {
+          "seq": 170.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Will Richard enters the game for Kristaps Porzingis"
+        },
+        {
+          "seq": 169.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Draymond Green enters the game for Moses Moody"
+        },
+        {
+          "seq": 168.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Daniel Gafford enters the game for Max Christie"
+        },
+        {
+          "seq": 167.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Cooper Flagg enters the game for Marvin Bagley III"
+        },
+        {
+          "seq": 166.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "John Poulakidas enters the game for Tyler Smith"
+        }
+      ],
+      "last_seq": 171.0
     }
   }
 }
