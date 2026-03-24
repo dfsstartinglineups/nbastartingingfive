@@ -615,6 +615,7 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
         const liveMatch = LIVE_GAMES_DATA[game.localId];
         if (!liveMatch || !liveMatch.players) return;
 
+        // --- DETERMINE CURRENT QUARTER AND CLOCK ---
         let currentPeriod = 0;
         if (liveMatch.play_by_play && liveMatch.play_by_play.full_log && liveMatch.play_by_play.full_log.length > 0) {
             currentPeriod = liveMatch.play_by_play.full_log[0].period;
@@ -638,10 +639,13 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
             periodText = "PRE";
         }
         
-        // Strip duplicate quarters out of the time string
+        // Remove the duplicated quarter string from the clock (e.g. "11:24 - 4th" becomes "11:24")
         timeText = timeText.split(' - ')[0].trim();
-        // Catch "End of 1st" / "End of 3rd" quarter breaks
-        if (timeText.toLowerCase().includes('end')) timeText = "0:00";
+        
+        // Catch ESPN's "End of 1st", "End of 3rd", etc. strings and force to "0:00"
+        if (timeText.toLowerCase().includes('end')) {
+            timeText = "0:00";
+        }
         
         const extractLive = (teamAbbr, teamLogo, roster) => {
             const liveTeamData = liveMatch.players[teamAbbr];
@@ -652,11 +656,13 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                 if (fp > 0) {
                     let photo = '', pos = '-';
                     
+                    // Find the player in the ESPN roster first using normalized name
                     let matchedPlayer = (roster || []).find(p => {
                         const a = p.athlete || p;
                         return normalizeName(a.displayName || a.fullName) === normalizeName(playerName);
                     });
                     
+                    // Use the ESPN ID from the roster to grab the pristine DB data
                     let espnId = stats.athlete?.id || stats.id;
                     if (matchedPlayer) {
                         const a = matchedPlayer.athlete || matchedPlayer;
@@ -723,6 +729,7 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
         
         const stats = p.live_stats;
         
+        // --- CRISP BLACK AND WHITE CLOCK ON FAR LEFT ---
         let clockBadgeHtml = '';
         if (p.periodText === 'FINAL' || p.periodText === 'HT' || p.periodText === 'PRE') {
             clockBadgeHtml = `<div class="badge bg-secondary text-white shadow-sm d-flex align-items-center justify-content-center" style="font-size: 0.55rem; padding: 0; width: 36px; height: 36px;">${p.periodText}</div>`;
@@ -772,15 +779,20 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                 <h6 class="mb-0 fw-bold d-none d-sm-block text-nowrap" style="font-size: 0.85rem;">🔥 Live Leaders</h6>
                 <h6 class="mb-0 fw-bold d-block d-sm-none text-nowrap" style="font-size: 0.85rem;">🔥</h6>
                 
-                <input type="text" id="leaderboard-search" class="form-control form-control-sm mx-2 px-2" 
-                       style="max-width: 140px; background-color: #212529; color: #fff; border-color: #495057; font-size: 0.75rem; border-radius: 15px;" 
-                       placeholder="Search..." 
-                       value="${window.LEADERBOARD_SEARCH_TEXT}" 
-                       oninput="window.LEADERBOARD_SEARCH_TEXT = this.value; renderGames();">
+                <div class="position-relative mx-2 w-100" style="max-width: 140px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="#adb5bd" viewBox="0 0 16 16" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                    <input type="text" id="leaderboard-search" class="form-control form-control-sm pe-2" 
+                           style="background-color: #212529; color: #fff; border-color: #495057; font-size: 0.75rem; border-radius: 15px; padding-left: 26px;" 
+                           placeholder="Search..." 
+                           value="${window.LEADERBOARD_SEARCH_TEXT}" 
+                           oninput="window.LEADERBOARD_SEARCH_TEXT = this.value; renderGames();">
+                </div>
                        
                 <span class="badge bg-secondary text-nowrap" style="font-size: 0.6rem;">${platform === 'dk' ? 'DraftKings' : 'FanDuel'}</span>
             </div>
-            <div class="card-body p-0 px-3" id="live-leaderboard-scroll" style="max-height: 500px; overflow-y: auto;">
+            <div class="card-body p-0 px-3" id="live-leaderboard-scroll" style="max-height: 502px; overflow-y: auto;">
                 ${listHtml}
             </div>
         </div>
