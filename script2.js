@@ -38,12 +38,27 @@ style.innerHTML = `
 `;
 document.head.appendChild(style);
 
-// --- PLAYER DATABASE HELPER ---
+// --- PLAYER DATABASE HELPERS ---
+function normalizeName(name) {
+    if (!name) return "";
+    return name.toLowerCase()
+               .replace(/[.,']/g, '') 
+               .replace(/-/g, ' ') 
+               .replace(/\s+(jr|sr|ii|iii|iv)$/g, '') 
+               .replace(/\s+/g, ' ') 
+               .trim();
+}
+
 function getPlayerFromDB(id, fullName) {
+    // 1. Try Exact ESPN ID match (Fastest and 100% reliable)
     if (id && PLAYERS_DB[id]) return PLAYERS_DB[id];
-    // Fallback: If we don't have the ID, search by exact name
+    
+    // 2. Fallback: Fuzzy search by normalized name
+    const searchName = normalizeName(fullName);
     for (let key in PLAYERS_DB) {
-        if (PLAYERS_DB[key].name === fullName) return PLAYERS_DB[key];
+        if (normalizeName(PLAYERS_DB[key].name) === searchName) {
+            return PLAYERS_DB[key];
+        }
     }
     return null;
 }
@@ -206,7 +221,7 @@ async function pollLiveData(dateToFetch) {
                             gameObj.awayIsProjected = !isVerified;
                             needsGlobalRender = true;
                         }
-                        gameObj.awayStarters = localGameMatch.rosters[awayStd].players.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
+                        gameObj.awayStarters = localGameMatch.rosters[awayStd].players.map(p => ({ athlete: { id: p.id || p.espn_id, displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
                     }
                     if (localGameMatch.rosters[homeStd] && localGameMatch.rosters[homeStd].players) {
                         const isVerified = localGameMatch.rosters[homeStd].players.every(p => p.verified === true);
@@ -214,7 +229,7 @@ async function pollLiveData(dateToFetch) {
                             gameObj.homeIsProjected = !isVerified;
                             needsGlobalRender = true;
                         }
-                        gameObj.homeStarters = localGameMatch.rosters[homeStd].players.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
+                        gameObj.homeStarters = localGameMatch.rosters[homeStd].players.map(p => ({ athlete: { id: p.id || p.espn_id, displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
                     }
                 }
             });
@@ -321,8 +336,6 @@ function populateSlates() {
     const datePicker = document.getElementById('date-picker');
     const dateToFetch = datePicker ? datePicker.value : DEFAULT_DATE;
     
-    // FIX: Split the date manually so JavaScript doesn't apply a UTC timezone offset
-    // that accidentally shifts the day of the week backwards!
     let dateObj = new Date();
     if (dateToFetch && dateToFetch.includes('-')) {
         const [y, m, d] = dateToFetch.split('-');
@@ -337,7 +350,6 @@ function populateSlates() {
             const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
             const containsADay = days.some(day => upperName.includes(day));
             
-            // If the slate name contains today's day of the week (e.g. "MON"), keep it!
             if (upperName.includes(dayOfWeek) || !containsADay) {
                 const opt = document.createElement('option');
                 opt.value = slate.id;
@@ -433,20 +445,23 @@ async function init(dateToFetch) {
                 if (localGameMatch.meta.total && localGameMatch.meta.total !== "TBD") odds.overUnder = `O/U ${localGameMatch.meta.total}`;
             }
 
+            // --- BIND ID TO ATHLETE OBJECT IF AVAILABLE ---
             const extractRoster = (teamData, abbr) => {
                 let starters = [], isProj = true, bench = [];
                 let localPlayers = (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[abbr]) ? localGameMatch.rosters[abbr].players : null;
                 let localBench = (localGameMatch && localGameMatch.rosters && localGameMatch.rosters[abbr]) ? localGameMatch.rosters[abbr].bench : [];
                 
+                const mapPlayer = p => ({ athlete: { id: p.id || p.espn_id, displayName: p.name, position: { abbreviation: p.pos }, dfs: p } });
+
                 if (localPlayers && localPlayers.every(p => p.verified)) {
-                    starters = localPlayers.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
+                    starters = localPlayers.map(mapPlayer);
                     isProj = false;
                 } else if (teamData.starters) {
                     starters = teamData.starters; isProj = false;
                 } else if (localPlayers) {
-                    starters = localPlayers.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
+                    starters = localPlayers.map(mapPlayer);
                 }
-                if (localBench) bench = localBench.map(p => ({ athlete: { displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
+                if (localBench) bench = localBench.map(mapPlayer);
                 return { starters, bench, isProj };
             };
 
@@ -583,8 +598,8 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
                 </div>
             </div>
             <div class="card-body p-0">
-                <div id="view-top-value" class="px-2" style="max-height: 245px; overflow-y: auto;">${buildList(topValue, true)}</div>
-                <div id="view-top-proj" class="px-2 d-none" style="max-height: 245px; overflow-y: auto;">${buildList(topProj, false)}</div>
+                <div id="view-top-value" class="px-2" style="max-height: 365px; overflow-y: auto;">${buildList(topValue, true)}</div>
+                <div id="view-top-proj" class="px-2 d-none" style="max-height: 365px; overflow-y: auto;">${buildList(topProj, false)}</div>
             </div>
         </div>
     </div>`;
@@ -607,19 +622,34 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                 if (fp > 0) {
                     let photo = '', pos = '-';
                     
-                    let dbPlayer = getPlayerFromDB(null, playerName);
+                    // --- EXTRACT ESPN ID DIRECTLY FROM LIVE FEED IF AVAILABLE ---
+                    let espnId = stats.athlete?.id || stats.id;
+                    
+                    let dbPlayer = getPlayerFromDB(espnId, playerName);
                     if (dbPlayer) {
                         photo = dbPlayer.photo;
                         pos = dbPlayer.pos;
                     }
 
+                    // Match to roster to get DFS salaries/positions
                     let matchedPlayer = (roster || []).find(p => {
                         const a = p.athlete || p;
-                        return (a.displayName || a.fullName || '') === playerName;
+                        if (espnId && a.id && String(a.id) === String(espnId)) return true;
+                        return normalizeName(a.displayName || a.fullName) === normalizeName(playerName);
                     });
                     
                     if (matchedPlayer) {
                         const a = matchedPlayer.athlete || matchedPlayer;
+                        if (!espnId && a.id) {
+                            espnId = a.id;
+                            if (!dbPlayer) {
+                                dbPlayer = getPlayerFromDB(espnId, playerName);
+                                if (dbPlayer) {
+                                    photo = dbPlayer.photo;
+                                    if (pos === '-') pos = dbPlayer.pos;
+                                }
+                            }
+                        }
                         if (!photo) photo = a.headshot?.href || a.dfs?.photo || '';
                         pos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position?.abbreviation || pos || 'Flex');
                         if (platform === 'dk' && a.dfs && a.dfs.dk_pos) pos = a.dfs.dk_pos;
@@ -648,12 +678,10 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
         
         const stats = p.live_stats;
         
-        // --- NEW: CLOCK BADGE MOVED TO THE TOP LINE ---
         const clockBadge = p.clock === 'FINAL' 
-            ? `<span class="badge bg-secondary ms-2" style="font-size: 0.55rem; padding: 0.3em 0.5em;">FINAL</span>`
-            : `<span class="badge bg-danger ms-2" style="font-size: 0.55rem; padding: 0.3em 0.5em;">${p.clock}</span>`;
+            ? `<span class="badge bg-secondary ms-2 shadow-sm" style="font-size: 0.55rem; padding: 0.3em 0.5em;">FINAL</span>`
+            : `<span class="badge bg-white text-dark border border-dark ms-2 shadow-sm" style="font-size: 0.55rem; padding: 0.3em 0.5em;">⏱ ${p.clock}</span>`;
         
-        // --- NEW: SUBLINE FREED UP FOR STATS ---
         const subLine = `${p.pos} • ${p.teamAbbrev} <span class="fw-bold text-dark ms-1 border-start ps-1 border-secondary border-opacity-50">${stats.PTS}p ${stats.REB}r ${stats.AST}a ${stats.STL}s ${stats.BLK}b ${stats.TO}to</span>`;
 
         return `
