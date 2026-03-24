@@ -910,6 +910,7 @@ function renderGames() {
         }
     });
 
+    // ... existing focus restore code ...
     if (activeId) {
         const elToFocus = document.getElementById(activeId);
         if (elToFocus) {
@@ -919,7 +920,33 @@ function renderGames() {
             }
         }
     }
-}
+
+    // --- NEW: URL HASH "LINK MAGIC" ---
+    // If there is a hash in the URL, scroll to it and highlight it (only do this once per page load)
+    if (!window.HAS_SCROLLED_TO_HASH && window.location.hash) {
+        const targetId = window.location.hash.substring(1); // Remove the '#'
+        const targetCard = document.getElementById(targetId);
+        
+        if (targetCard) {
+            setTimeout(() => {
+                targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                // Apply the green glow
+                targetCard.style.transition = 'all 0.4s ease-out';
+                targetCard.style.boxShadow = '0 0 20px rgba(32, 201, 151, 0.8)';
+                targetCard.style.borderColor = '#20c997';
+
+                // Fade it out after 2 seconds
+                setTimeout(() => {
+                    targetCard.style.boxShadow = '';
+                    targetCard.style.borderColor = '';
+                }, 2000);
+            }, 300); // Slight delay to ensure the DOM is fully painted before jumping
+            
+            window.HAS_SCROLLED_TO_HASH = true; // Mark as done so it doesn't jump every 30 seconds
+        }
+    }
+} 
 
 function injectPlayIntoDOM(localId, play) {
     const listContainer = document.getElementById(`pbp-list-${localId}`);
@@ -1406,4 +1433,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }));
     
     document.getElementById('slate-selector')?.addEventListener('change', renderGames);
+
+    // --- NEW: Reset the scroll lock if the URL hash changes manually ---
+    window.addEventListener('hashchange', () => {
+        window.HAS_SCROLLED_TO_HASH = false;
+        renderGames();
+    });
 });
