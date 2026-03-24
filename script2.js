@@ -583,8 +583,8 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
                 </div>
             </div>
             <div class="card-body p-0">
-                <div id="view-top-value" class="px-2" style="max-height: 255px; overflow-y: auto;">${buildList(topValue, true)}</div>
-                <div id="view-top-proj" class="px-2 d-none" style="max-height: 255px; overflow-y: auto;">${buildList(topProj, false)}</div>
+                <div id="view-top-value" class="px-2" style="max-height: 245px; overflow-y: auto;">${buildList(topValue, true)}</div>
+                <div id="view-top-proj" class="px-2 d-none" style="max-height: 245px; overflow-y: auto;">${buildList(topProj, false)}</div>
             </div>
         </div>
     </div>`;
@@ -625,7 +625,6 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                         if (platform === 'dk' && a.dfs && a.dfs.dk_pos) pos = a.dfs.dk_pos;
                     }
                     
-                    // Grab the active game clock or set to FINAL
                     let gameClock = liveMatch.status === 'post' ? 'FINAL' : (liveMatch.clock || 'Pre');
 
                     livePlayers.push({ name: playerName, teamAbbrev: teamAbbr, teamLogo, photo, pos, live_fp: fp, live_stats: stats, clock: gameClock });
@@ -649,11 +648,13 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
         
         const stats = p.live_stats;
         
-        // Style the clock red if it's active, grey if the game is over
-        const clockColor = p.clock === 'FINAL' ? 'text-secondary' : 'text-danger';
+        // --- NEW: CLOCK BADGE MOVED TO THE TOP LINE ---
+        const clockBadge = p.clock === 'FINAL' 
+            ? `<span class="badge bg-secondary ms-2" style="font-size: 0.55rem; padding: 0.3em 0.5em;">FINAL</span>`
+            : `<span class="badge bg-danger ms-2" style="font-size: 0.55rem; padding: 0.3em 0.5em;">${p.clock}</span>`;
         
-        // Inject the clock right into the subline alongside the stats
-        const subLine = `${p.pos} • ${p.teamAbbrev} • <span class="fw-bold ${clockColor}">${p.clock}</span> <span class="fw-bold text-dark ms-1 border-start ps-1 border-secondary border-opacity-50">${stats.PTS}p ${stats.REB}r ${stats.AST}a ${stats.STL}s ${stats.BLK}b ${stats.TO}to</span>`;
+        // --- NEW: SUBLINE FREED UP FOR STATS ---
+        const subLine = `${p.pos} • ${p.teamAbbrev} <span class="fw-bold text-dark ms-1 border-start ps-1 border-secondary border-opacity-50">${stats.PTS}p ${stats.REB}r ${stats.AST}a ${stats.STL}s ${stats.BLK}b ${stats.TO}to</span>`;
 
         return `
         <div class="d-flex align-items-center justify-content-between py-2 border-bottom user-select-none" style="cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='transparent'" onclick="openPlayerModal(this)" data-player="${encodeURIComponent(JSON.stringify(p))}">
@@ -664,8 +665,11 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                     ${teamBadge}
                 </div>
                 <div class="d-flex flex-column justify-content-center overflow-hidden pe-1">
-                    <span class="fw-bold text-dark text-truncate" style="font-size: 0.95rem; max-width: 220px;" title="${p.name}">${shortenPlayerName(p.name)}</span>
-                    <span class="text-muted text-truncate" style="font-size: 0.72rem; max-width: 260px;">${subLine}</span>
+                    <div class="d-flex align-items-center">
+                        <span class="fw-bold text-dark text-truncate" style="font-size: 0.95rem; max-width: 140px;" title="${p.name}">${shortenPlayerName(p.name)}</span>
+                        ${clockBadge}
+                    </div>
+                    <span class="text-muted text-truncate" style="font-size: 0.72rem; max-width: 250px;">${subLine}</span>
                 </div>
             </div>
             <div class="text-end ms-1 flex-shrink-0">
