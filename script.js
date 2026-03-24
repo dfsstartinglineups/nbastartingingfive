@@ -877,12 +877,22 @@ function renderGames() {
         }
     }
 
+    // --- FIXED SORTING LOGIC ---
     filteredData.sort((a, b) => {
         if (window.MASTER_TAB === 'live') {
-            const statusA = LIVE_GAMES_DATA[a.localId] ? LIVE_GAMES_DATA[a.localId].status : 'pre';
-            const statusB = LIVE_GAMES_DATA[b.localId] ? LIVE_GAMES_DATA[b.localId].status : 'pre';
-            if (statusA === 'post' && statusB !== 'post') return 1;
-            if (statusB === 'post' && statusA !== 'post') return -1;
+            const liveA = LIVE_GAMES_DATA[a.localId];
+            const liveB = LIVE_GAMES_DATA[b.localId];
+            const stateA = window.CARD_STATE[a.localId] || {};
+            const stateB = window.CARD_STATE[b.localId] || {};
+
+            // A game is only considered "bottom of the list" if it is FINAL AND the flip timer has finished
+            const isFinishedA = (liveA?.status === 'post' && stateA.hasFlippedPbp);
+            const isFinishedB = (liveB?.status === 'post' && stateB.hasFlippedPbp);
+
+            if (isFinishedA && !isFinishedB) return 1;
+            if (isFinishedB && !isFinishedA) return -1;
+            
+            // Otherwise, sort by game date
             return a.gameDate - b.gameDate;
         } else {
             return a.gameDate - b.gameDate;
