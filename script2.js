@@ -598,8 +598,8 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
                 </div>
             </div>
             <div class="card-body p-0">
-                <div id="view-top-value" class="px-2" style="max-height: 365px; overflow-y: auto;">${buildList(topValue, true)}</div>
-                <div id="view-top-proj" class="px-2 d-none" style="max-height: 365px; overflow-y: auto;">${buildList(topProj, false)}</div>
+                <div id="view-top-value" class="px-2" style="max-height: 245px; overflow-y: auto;">${buildList(topValue, true)}</div>
+                <div id="view-top-proj" class="px-2 d-none" style="max-height: 245px; overflow-y: auto;">${buildList(topProj, false)}</div>
             </div>
         </div>
     </div>`;
@@ -612,6 +612,30 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
     filteredGames.forEach(game => {
         const liveMatch = LIVE_GAMES_DATA[game.localId];
         if (!liveMatch || !liveMatch.players) return;
+
+        // --- DETERMINE CURRENT QUARTER AND CLOCK ---
+        let currentPeriod = 0;
+        if (liveMatch.play_by_play && liveMatch.play_by_play.full_log && liveMatch.play_by_play.full_log.length > 0) {
+            currentPeriod = liveMatch.play_by_play.full_log[0].period;
+        } else if (game.gameRaw && game.gameRaw.status) {
+            currentPeriod = game.gameRaw.status.period;
+        }
+
+        let periodText = "";
+        let timeText = liveMatch.clock || "";
+        
+        if (liveMatch.status === 'post' || timeText.toLowerCase().includes('final')) {
+            periodText = "FINAL";
+            timeText = "";
+        } else if (timeText.toLowerCase().includes('half')) {
+            periodText = "HT";
+            timeText = "";
+        } else if (currentPeriod > 0) {
+            if (currentPeriod <= 4) periodText = currentPeriod + "Q";
+            else periodText = "OT" + (currentPeriod - 4);
+        } else {
+            periodText = "PRE";
+        }
         
         const extractLive = (teamAbbr, teamLogo, roster) => {
             const liveTeamData = liveMatch.players[teamAbbr];
@@ -622,45 +646,53 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                 if (fp > 0) {
                     let photo = '', pos = '-';
                     
-                    // --- EXTRACT ESPN ID DIRECTLY FROM LIVE FEED IF AVAILABLE ---
-                    let espnId = stats.athlete?.id || stats.id;
-                    
-                    let dbPlayer = getPlayerFromDB(espnId, playerName);
-                    if (dbPlayer) {
-                        photo = dbPlayer.photo;
-                        pos = dbPlayer.pos;
-                    }
-
-                    // Match to roster to get DFS salaries/positions
+                    // Find the player in the ESPN roster first using normalized name
                     let matchedPlayer = (roster || []).find(p => {
                         const a = p.athlete || p;
-                        if (espnId && a.id && String(a.id) === String(espnId)) return true;
                         return normalizeName(a.displayName || a.fullName) === normalizeName(playerName);
                     });
                     
+                    // Use the ESPN ID from the roster to grab the pristine DB data
+                    let espnId = stats.athlete?.id || stats.id;
                     if (matchedPlayer) {
                         const a = matchedPlayer.athlete || matchedPlayer;
                         if (!espnId && a.id) {
                             espnId = a.id;
-                            if (!dbPlayer) {
-                                dbPlayer = getPlayerFromDB(espnId, playerName);
-                                if (dbPlayer) {
-                                    photo = dbPlayer.photo;
-                                    if (pos === '-') pos = dbPlayer.pos;
-                                }
-                            }
                         }
-                        if (!photo) photo = a.headshot?.href || a.dfs?.photo || '';
-                        pos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position?.abbreviation || pos || 'Flex');
-                        if (platform === 'dk' && a.dfs && a.dfs.dk_pos) pos = a.dfs.dk_pos;
+                        let dbPlayer = getPlayerFromDB(espnId, playerName);
+                        if (dbPlayer) {
+                            photo = dbPlayer.photo;
+                            pos = dbPlayer.pos;
+                        } else {
+                            photo = a.headshot?.href || a.dfs?.photo || '';
+                        }
+                        if (pos === '-' || !pos) {
+                            pos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position?.abbreviation || 'Flex');
+                            if (platform === 'dk' && a.dfs && a.dfs.dk_pos) pos = a.dfs.dk_pos;
+                        }
+                    } else {
+                        let dbPlayer = getPlayerFromDB(espnId, playerName);
+                        if (dbPlayer) {
+                            photo = dbPlayer.photo;
+                            pos = dbPlayer.pos;
+                        }
                     }
-                    
-                    let gameClock = liveMatch.status === 'post' ? 'FINAL' : (liveMatch.clock || 'Pre');
 
-                    livePlayers.push({ name: playerName, teamAbbrev: teamAbbr, teamLogo, photo, pos, live_fp: fp, live_stats: stats, clock: gameClock });
+                    livePlayers.push({ 
+                        name: playerName, 
+                        teamAbbrev: teamAbbr, 
+                        teamLogo, 
+                        photo, 
+                        pos, 
+                        live_fp: fp, 
+                        live_stats: stats, 
+                        periodText: periodText, 
+                        timeText: timeText 
+                    });
                 }
             }
         };
+        
         extractLive(getStandardAbbr(game.away.team.abbreviation), game.away.team.logo, [...(game.awayStarters||[]), ...(game.awayBench||[])]);
         extractLive(getStandardAbbr(game.home.team.abbreviation), game.home.team.logo, [...(game.homeStarters||[]), ...(game.homeBench||[])]);
     });
@@ -678,24 +710,28 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
         
         const stats = p.live_stats;
         
-        const clockBadge = p.clock === 'FINAL' 
-            ? `<span class="badge bg-secondary ms-2 shadow-sm" style="font-size: 0.55rem; padding: 0.3em 0.5em;">FINAL</span>`
-            : `<span class="badge bg-white text-dark border border-dark ms-2 shadow-sm" style="font-size: 0.55rem; padding: 0.3em 0.5em;">⏱ ${p.clock}</span>`;
+        // --- NEW: CLOCK RENDERED ON THE FAR LEFT ---
+        const clockColor = p.periodText === 'FINAL' ? 'text-secondary' : 'text-danger';
+        const timeDisplayHtml = `
+            <div class="d-flex flex-column align-items-center justify-content-center me-2 ${clockColor}" style="width: 42px; flex-shrink: 0;">
+                <span class="fw-bold" style="font-size: 0.85rem; line-height: 1;">${p.periodText}</span>
+                ${p.timeText ? `<span class="fw-bold mt-1" style="font-size: 0.65rem; line-height: 1;">${p.timeText}</span>` : ''}
+            </div>
+        `;
         
         const subLine = `${p.pos} • ${p.teamAbbrev} <span class="fw-bold text-dark ms-1 border-start ps-1 border-secondary border-opacity-50">${stats.PTS}p ${stats.REB}r ${stats.AST}a ${stats.STL}s ${stats.BLK}b ${stats.TO}to</span>`;
 
         return `
         <div class="d-flex align-items-center justify-content-between py-2 border-bottom user-select-none" style="cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='transparent'" onclick="openPlayerModal(this)" data-player="${encodeURIComponent(JSON.stringify(p))}">
             <div class="d-flex align-items-center overflow-hidden">
-                <div class="fw-bold text-muted me-2 text-end" style="font-size: 0.85rem; width: 22px;">${index + 1}.</div>
+                ${timeDisplayHtml}
                 <div class="me-3 position-relative flex-shrink-0">
                     ${photoHtml}
                     ${teamBadge}
                 </div>
                 <div class="d-flex flex-column justify-content-center overflow-hidden pe-1">
                     <div class="d-flex align-items-center">
-                        <span class="fw-bold text-dark text-truncate" style="font-size: 0.95rem; max-width: 140px;" title="${p.name}">${shortenPlayerName(p.name)}</span>
-                        ${clockBadge}
+                        <span class="fw-bold text-dark text-truncate" style="font-size: 0.95rem; max-width: 170px;" title="${p.name}">${shortenPlayerName(p.name)}</span>
                     </div>
                     <span class="text-muted text-truncate" style="font-size: 0.72rem; max-width: 250px;">${subLine}</span>
                 </div>
@@ -715,7 +751,7 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                 <h6 class="mb-0 fw-bold" style="font-size: 0.85rem;">🔥 Live Fantasy Leaders</h6>
                 <span class="badge bg-secondary" style="font-size: 0.6rem;">${platform === 'dk' ? 'DraftKings' : 'FanDuel'}</span>
             </div>
-            <div class="card-body p-0 px-3" style="max-height: 520px; overflow-y: auto;">
+            <div class="card-body p-0 px-3" style="max-height: 515px; overflow-y: auto;">
                 ${listHtml}
             </div>
         </div>
