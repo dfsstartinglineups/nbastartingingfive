@@ -51,13 +51,11 @@ style.innerHTML = `
     #leaderboard-search::placeholder { color: #868e96; opacity: 1; }
     #leaderboard-search:focus { box-shadow: none; border-color: #20c997; outline: none; }
 
-    @keyframes targetGlowAnim {
-        0% { box-shadow: 0 0 0px rgba(32, 201, 151, 0); border-color: #dee2e6 !important; }
-        15% { box-shadow: 0 0 25px rgba(32, 201, 151, 0.9); border-color: #20c997 !important; }
-        85% { box-shadow: 0 0 25px rgba(32, 201, 151, 0.9); border-color: #20c997 !important; }
-        100% { box-shadow: 0 0 0px rgba(32, 201, 151, 0); border-color: #dee2e6 !important; }
+    .link-target-glow { 
+        box-shadow: 0 0 20px rgba(220, 53, 69, 0.8) !important; 
+        border-color: #dc3545 !important; 
+        transition: all 0.4s ease-out !important; 
     }
-    .link-target-glow { animation: targetGlowAnim 2.5s ease-out !important; }
 `;
 document.head.appendChild(style);
 
