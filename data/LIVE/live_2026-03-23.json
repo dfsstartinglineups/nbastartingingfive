@@ -23087,13 +23087,13 @@
   },
   "GSW-DAL-2026-03-23": {
     "status": "in",
-    "clock": "58.5 - OT",
+    "clock": "32.4 - OT",
     "away_score": "136",
     "home_score": "131",
     "team_stats": {
       "GSW": {
-        "fieldGoalsMade-fieldGoalsAttempted": "51-100",
-        "FG%": "51",
+        "fieldGoalsMade-fieldGoalsAttempted": "51-101",
+        "FG%": "50",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "17-47",
         "3P%": "36",
         "freeThrowsMade-freeThrowsAttempted": "17-22",
@@ -23103,7 +23103,7 @@
         "DR": "31",
         "AST": "39",
         "STL": "15",
-        "BLK": "3",
+        "BLK": "4",
         "TO": "24",
         "TTO": "0",
         "ToTO": "24",
@@ -23124,9 +23124,9 @@
         "3P%": "46",
         "freeThrowsMade-freeThrowsAttempted": "13-20",
         "FT%": "65",
-        "REB": "25",
+        "REB": "26",
         "OR": "5",
-        "DR": "20",
+        "DR": "21",
         "AST": "37",
         "STL": "13",
         "BLK": "3",
@@ -23141,7 +23141,7 @@
         "PF": "22",
         "LL": "15",
         "LC": "7",
-        "LPCT": "53"
+        "LPCT": "52"
       }
     },
     "players": {
@@ -23177,9 +23177,9 @@
           "is_on_court": true
         },
         "Naji Marshall": {
-          "MIN": 34,
+          "MIN": 35,
           "PTS": "16",
-          "REB": "5",
+          "REB": "6",
           "AST": "7",
           "STL": "1",
           "BLK": "0",
@@ -23187,8 +23187,8 @@
           "FG": "7-15",
           "3PT": "2-6",
           "FT": "0-0",
-          "fd_pts": 28.5,
-          "dk_pts": 32.25,
+          "fd_pts": 29.7,
+          "dk_pts": 33.5,
           "is_on_court": true
         },
         "Cooper Flagg": {
@@ -23329,14 +23329,14 @@
           "is_on_court": true
         },
         "Kristaps Porzingis": {
-          "MIN": 27,
+          "MIN": 29,
           "PTS": "22",
           "REB": "7",
           "AST": "5",
           "STL": "1",
           "BLK": "0",
           "TO": "2",
-          "FG": "7-16",
+          "FG": "7-17",
           "3PT": "2-6",
           "FT": "6-7",
           "fd_pts": 38.9,
@@ -23371,7 +23371,7 @@
           "FT": "3-4",
           "fd_pts": 44.1,
           "dk_pts": 42.25,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Brandin Podziemski": {
           "MIN": 39,
@@ -23389,18 +23389,18 @@
           "is_on_court": true
         },
         "Gui Santos": {
-          "MIN": 34,
+          "MIN": 35,
           "PTS": "16",
           "REB": "6",
           "AST": "5",
           "STL": "2",
-          "BLK": "0",
+          "BLK": "1",
           "TO": "3",
           "FG": "5-10",
           "3PT": "0-5",
           "FT": "6-8",
-          "fd_pts": 33.7,
-          "dk_pts": 33.5,
+          "fd_pts": 36.7,
+          "dk_pts": 35.5,
           "is_on_court": true
         },
         "Gary Payton II": {
@@ -23431,7 +23431,7 @@
           "FT": "0-0",
           "fd_pts": 20.3,
           "dk_pts": 22.5,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Pat Spencer": {
           "MIN": 12,
@@ -23467,6 +23467,30 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 834.0,
+          "period": 5,
+          "time": "OT 32.4",
+          "text": "Mavericks Full timeout"
+        },
+        {
+          "seq": 833.0,
+          "period": 5,
+          "time": "OT 32.4",
+          "text": "Naji Marshall defensive rebound"
+        },
+        {
+          "seq": 832.0,
+          "period": 5,
+          "time": "OT 33.4",
+          "text": "Kristaps Porzingis misses 14-foot jumper"
+        },
+        {
+          "seq": 828.0,
+          "period": 5,
+          "time": "OT 58.5",
+          "text": "LJ Cryer enters the game for Moses Moody"
+        },
         {
           "seq": 827.0,
           "period": 5,
@@ -23561,7 +23585,7 @@
           "seq": 804.0,
           "period": 5,
           "time": "OT 2:20",
-          "text": "Naji Marshall misses 7-foot hook shot"
+          "text": "Gui Santos blocks Naji Marshall 's 8-foot hook shot"
         },
         {
           "seq": 802.0,
@@ -26678,21 +26702,46 @@
           "text": "Kristaps Porzingis vs. Daniel Gafford (Draymond Green gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 827.0
+      "new_plays": [
+        {
+          "seq": 834.0,
+          "period": 5,
+          "time": "OT 32.4",
+          "text": "Mavericks Full timeout"
+        },
+        {
+          "seq": 833.0,
+          "period": 5,
+          "time": "OT 32.4",
+          "text": "Naji Marshall defensive rebound"
+        },
+        {
+          "seq": 832.0,
+          "period": 5,
+          "time": "OT 33.4",
+          "text": "Kristaps Porzingis misses 14-foot jumper"
+        },
+        {
+          "seq": 828.0,
+          "period": 5,
+          "time": "OT 58.5",
+          "text": "LJ Cryer enters the game for Moses Moody"
+        }
+      ],
+      "last_seq": 834.0
     }
   },
   "BKN-POR-2026-03-23": {
     "status": "in",
-    "clock": "2:56 - 4th",
+    "clock": "2:19 - 4th",
     "away_score": "94",
-    "home_score": "125",
+    "home_score": "127",
     "team_stats": {
       "BKN": {
-        "fieldGoalsMade-fieldGoalsAttempted": "30-75",
+        "fieldGoalsMade-fieldGoalsAttempted": "31-77",
         "FG%": "40",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "7-27",
-        "3P%": "26",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "7-28",
+        "3P%": "25",
         "freeThrowsMade-freeThrowsAttempted": "25-29",
         "FT%": "86",
         "REB": "31",
@@ -26708,22 +26757,22 @@
         "FLAG": "0",
         "Points Conceded Off Turnovers": "22",
         "FBPs": "9",
-        "PIP": "36",
-        "PF": "30",
+        "PIP": "38",
+        "PF": "31",
         "LL": "4",
         "LC": "3",
         "LPCT": "9"
       },
       "POR": {
-        "fieldGoalsMade-fieldGoalsAttempted": "40-75",
-        "FG%": "53",
+        "fieldGoalsMade-fieldGoalsAttempted": "41-76",
+        "FG%": "54",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "18-38",
         "3P%": "47",
         "freeThrowsMade-freeThrowsAttempted": "27-39",
         "FT%": "69",
-        "REB": "43",
+        "REB": "44",
         "OR": "8",
-        "DR": "35",
+        "DR": "36",
         "AST": "26",
         "STL": "9",
         "BLK": "8",
@@ -26734,8 +26783,8 @@
         "FLAG": "0",
         "Points Conceded Off Turnovers": "24",
         "FBPs": "11",
-        "PIP": "44",
-        "PF": "23",
+        "PIP": "46",
+        "PF": "24",
         "LL": "33",
         "LC": "3",
         "LPCT": "86"
@@ -26819,18 +26868,18 @@
           "is_on_court": false
         },
         "Kris Murray": {
-          "MIN": 27,
-          "PTS": "12",
-          "REB": "4",
+          "MIN": 28,
+          "PTS": "14",
+          "REB": "5",
           "AST": "5",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "4-6",
+          "FG": "5-7",
           "3PT": "2-4",
           "FT": "2-2",
-          "fd_pts": 24.3,
-          "dk_pts": 25.5,
+          "fd_pts": 27.5,
+          "dk_pts": 28.75,
           "is_on_court": true
         },
         "Yang Hansen": {
@@ -26879,7 +26928,7 @@
           "is_on_court": false
         },
         "Blake Wesley": {
-          "MIN": 17,
+          "MIN": 18,
           "PTS": "4",
           "REB": "2",
           "AST": "4",
@@ -26926,7 +26975,7 @@
       },
       "BKN": {
         "Jalen Wilson": {
-          "MIN": 28,
+          "MIN": 29,
           "PTS": "11",
           "REB": "4",
           "AST": "1",
@@ -26956,7 +27005,7 @@
           "is_on_court": false
         },
         "Josh Minott": {
-          "MIN": 29,
+          "MIN": 30,
           "PTS": "15",
           "REB": "4",
           "AST": "1",
@@ -27016,18 +27065,18 @@
           "is_on_court": false
         },
         "Chaney Johnson": {
-          "MIN": 23,
-          "PTS": "10",
+          "MIN": 24,
+          "PTS": "12",
           "REB": "5",
           "AST": "2",
           "STL": "0",
           "BLK": "0",
           "TO": "5",
-          "FG": "4-7",
+          "FG": "5-8",
           "3PT": "0-1",
           "FT": "2-2",
-          "fd_pts": 14.0,
-          "dk_pts": 16.75,
+          "fd_pts": 16.0,
+          "dk_pts": 18.75,
           "is_on_court": true
         },
         "Ochai Agbaji": {
@@ -27046,15 +27095,15 @@
           "is_on_court": false
         },
         "Malachi Smith": {
-          "MIN": 21,
+          "MIN": 22,
           "PTS": "5",
           "REB": "2",
           "AST": "3",
           "STL": "1",
           "BLK": "1",
           "TO": "2",
-          "FG": "2-4",
-          "3PT": "1-2",
+          "FG": "2-5",
+          "3PT": "1-3",
           "FT": "0-0",
           "fd_pts": 15.9,
           "dk_pts": 15.5,
@@ -27094,6 +27143,42 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 739.0,
+          "period": 4,
+          "time": "Q4 2:19",
+          "text": "Kris Murray defensive rebound"
+        },
+        {
+          "seq": 738.0,
+          "period": 4,
+          "time": "Q4 2:23",
+          "text": "Malachi Smith misses 25-foot three point step back jumpshot"
+        },
+        {
+          "seq": 737.0,
+          "period": 4,
+          "time": "Q4 2:39",
+          "text": "Kris Murray makes driving layup"
+        },
+        {
+          "seq": 733.0,
+          "period": 4,
+          "time": "Q4 2:56",
+          "text": "Chris Youngblood double personal foul (Josh Minott draws the foul)"
+        },
+        {
+          "seq": 732.0,
+          "period": 4,
+          "time": "Q4 2:56",
+          "text": "Chaney Johnson makes two point shot"
+        },
+        {
+          "seq": 730.0,
+          "period": 4,
+          "time": "Q4 3:18",
+          "text": "Kris Murray makes 23-foot three point jumper (Blake Wesley assists)"
+        },
         {
           "seq": 729.0,
           "period": 4,
@@ -27373,7 +27458,7 @@
         {
           "seq": 662.0,
           "period": 4,
-          "time": "Q4 7:56",
+          "time": "Q4 7:59",
           "text": "Deni Avdija offensive foul"
         },
         {
@@ -30055,31 +30140,43 @@
       ],
       "new_plays": [
         {
-          "seq": 729.0,
+          "seq": 739.0,
           "period": 4,
-          "time": "Q4 3:32",
-          "text": "Josh Minott makes free throw 1 of 1"
+          "time": "Q4 2:19",
+          "text": "Kris Murray defensive rebound"
         },
         {
-          "seq": 727.0,
+          "seq": 738.0,
           "period": 4,
-          "time": "Q4 3:32",
-          "text": "Matisse Thybulle enters the game for Sidy Cissoko"
+          "time": "Q4 2:23",
+          "text": "Malachi Smith misses 25-foot three point step back jumpshot"
         },
         {
-          "seq": 725.0,
+          "seq": 737.0,
           "period": 4,
-          "time": "Q4 3:32",
-          "text": "Sidy Cissoko shooting foul"
+          "time": "Q4 2:39",
+          "text": "Kris Murray makes driving layup"
         },
         {
-          "seq": 723.0,
+          "seq": 733.0,
           "period": 4,
-          "time": "Q4 3:32",
-          "text": "Josh Minott makes 2-foot layup (Chaney Johnson assists)"
+          "time": "Q4 2:56",
+          "text": "Chris Youngblood double personal foul (Josh Minott draws the foul)"
+        },
+        {
+          "seq": 732.0,
+          "period": 4,
+          "time": "Q4 2:56",
+          "text": "Chaney Johnson makes two point shot"
+        },
+        {
+          "seq": 730.0,
+          "period": 4,
+          "time": "Q4 3:18",
+          "text": "Kris Murray makes 23-foot three point jumper (Blake Wesley assists)"
         }
       ],
-      "last_seq": 729.0
+      "last_seq": 739.0
     }
   },
   "MIL-LAC-2026-03-23": {
@@ -30557,7 +30654,7 @@
         {
           "seq": 489.0,
           "period": 4,
-          "time": "Q4 11:00",
+          "time": "Q4 11:03",
           "text": "Andre Jackson Jr. out of bounds bad pass turnover"
         },
         {
