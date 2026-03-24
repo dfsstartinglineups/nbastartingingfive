@@ -1,8 +1,8 @@
 {
   "SAC-CHA-2026-03-24": {
     "status": "in",
-    "clock": "10:58 - 1st",
-    "away_score": "4",
+    "clock": "10:47 - 1st",
+    "away_score": "6",
     "home_score": "4",
     "team_stats": {
       "SAC": {
@@ -10,8 +10,8 @@
         "FG%": "100",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "0-0",
         "3P%": "0",
-        "freeThrowsMade-freeThrowsAttempted": "0-0",
-        "FT%": "0",
+        "freeThrowsMade-freeThrowsAttempted": "1-1",
+        "FT%": "100",
         "REB": "0",
         "OR": "0",
         "DR": "0",
@@ -29,7 +29,7 @@
         "PF": "0",
         "LL": "2",
         "LC": "0",
-        "LPCT": "42"
+        "LPCT": "35"
       },
       "CHA": {
         "fieldGoalsMade-fieldGoalsAttempted": "2-2",
@@ -52,7 +52,7 @@
         "Points Conceded Off Turnovers": "0",
         "FBPs": "0",
         "PIP": "4",
-        "PF": "0",
+        "PF": "1",
         "LL": "0",
         "LC": "0",
         "LPCT": "0"
@@ -139,7 +139,7 @@
       "SAC": {
         "Maxime Raynaud": {
           "MIN": 1,
-          "PTS": "4",
+          "PTS": "5",
           "REB": "0",
           "AST": "0",
           "STL": "0",
@@ -147,9 +147,9 @@
           "TO": "0",
           "FG": "2-2",
           "3PT": "0-0",
-          "FT": "0-0",
-          "fd_pts": 4.0,
-          "dk_pts": 4.0,
+          "FT": "1-1",
+          "fd_pts": 5.0,
+          "dk_pts": 5.0,
           "is_on_court": true
         },
         "DeMar DeRozan": {
@@ -217,10 +217,28 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 17.0,
+          "period": 1,
+          "time": "Q1 10:47",
+          "text": "Maxime Raynaud makes free throw 1 of 2"
+        },
+        {
+          "seq": 15.0,
+          "period": 1,
+          "time": "Q1 10:47",
+          "text": "Brandon Miller shooting foul"
+        },
+        {
+          "seq": 13.0,
+          "period": 1,
+          "time": "Q1 10:59",
+          "text": "Moussa Diabate makes 2-foot alley oop dunk (Brandon Miller assists)"
+        },
+        {
           "seq": 11.0,
           "period": 1,
           "time": "Q1 11:07",
-          "text": "Maxime Raynaud makes alley oop layup (Malik Monk assists)"
+          "text": "Maxime Raynaud makes two point shot (Malik Monk assists)"
         },
         {
           "seq": 9.0,
@@ -243,31 +261,25 @@
       ],
       "new_plays": [
         {
-          "seq": 11.0,
+          "seq": 17.0,
           "period": 1,
-          "time": "Q1 11:07",
-          "text": "Maxime Raynaud makes alley oop layup (Malik Monk assists)"
+          "time": "Q1 10:47",
+          "text": "Maxime Raynaud makes free throw 1 of 2"
         },
         {
-          "seq": 9.0,
+          "seq": 15.0,
           "period": 1,
-          "time": "Q1 11:27",
-          "text": "Moussa Diabate makes layup (Miles Bridges assists)"
+          "time": "Q1 10:47",
+          "text": "Brandon Miller shooting foul"
         },
         {
-          "seq": 7.0,
+          "seq": 13.0,
           "period": 1,
-          "time": "Q1 11:44",
-          "text": "Maxime Raynaud makes 10-foot floating jump shot (Malik Monk assists)"
-        },
-        {
-          "seq": 4.0,
-          "period": 1,
-          "time": "Q1 12:00",
-          "text": "Maxime Raynaud vs. Moussa Diabate (Malik Monk gains possession)"
+          "time": "Q1 10:59",
+          "text": "Moussa Diabate makes 2-foot alley oop dunk (Brandon Miller assists)"
         }
       ],
-      "last_seq": 11.0
+      "last_seq": 17.0
     }
   }
 }
