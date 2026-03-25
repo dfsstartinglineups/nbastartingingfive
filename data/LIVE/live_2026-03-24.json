@@ -5976,15 +5976,15 @@
   },
   "ORL-CLE-2026-03-24": {
     "status": "in",
-    "clock": "13.7 - 4th",
+    "clock": "4.5 - 4th",
     "away_score": "128",
     "home_score": "133",
     "team_stats": {
       "ORL": {
-        "fieldGoalsMade-fieldGoalsAttempted": "40-82",
-        "FG%": "49",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "13-37",
-        "3P%": "35",
+        "fieldGoalsMade-fieldGoalsAttempted": "40-83",
+        "FG%": "48",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "13-38",
+        "3P%": "34",
         "freeThrowsMade-freeThrowsAttempted": "35-38",
         "FT%": "92",
         "REB": "38",
@@ -6013,12 +6013,12 @@
         "3P%": "40",
         "freeThrowsMade-freeThrowsAttempted": "23-25",
         "FT%": "92",
-        "REB": "32",
+        "REB": "33",
         "OR": "6",
-        "DR": "26",
+        "DR": "27",
         "AST": "24",
         "STL": "6",
-        "BLK": "5",
+        "BLK": "4",
         "TO": "8",
         "TTO": "0",
         "ToTO": "8",
@@ -6098,7 +6098,7 @@
         "Sam Merrill": {
           "MIN": 33,
           "PTS": "18",
-          "REB": "3",
+          "REB": "4",
           "AST": "1",
           "STL": "2",
           "BLK": "0",
@@ -6106,8 +6106,8 @@
           "FG": "6-11",
           "3PT": "2-6",
           "FT": "4-4",
-          "fd_pts": 29.1,
-          "dk_pts": 28.25,
+          "fd_pts": 30.3,
+          "dk_pts": 29.5,
           "is_on_court": true
         },
         "Nae'Qwan Tomlin": {
@@ -6200,7 +6200,7 @@
           "FT": "6-6",
           "fd_pts": 28.7,
           "dk_pts": 29.5,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Paolo Banchero": {
           "MIN": 40,
@@ -6225,8 +6225,8 @@
           "STL": "0",
           "BLK": "0",
           "TO": "1",
-          "FG": "5-10",
-          "3PT": "3-6",
+          "FG": "5-11",
+          "3PT": "3-7",
           "FT": "5-5",
           "fd_pts": 27.5,
           "dk_pts": 29.75,
@@ -6320,7 +6320,7 @@
           "FT": "0-0",
           "fd_pts": 27.3,
           "dk_pts": 28.0,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Jett Howard": {
           "MIN": 16,
@@ -6341,6 +6341,18 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 648.0,
+          "period": 4,
+          "time": "Q4 7.5",
+          "text": "Tristan da Silva misses shot"
+        },
+        {
+          "seq": 646.0,
+          "period": 4,
+          "time": "Q4 13.7",
+          "text": "Jevon Carter enters the game for Jamal Cain"
+        },
         {
           "seq": 645.0,
           "period": 4,
@@ -6495,7 +6507,7 @@
           "seq": 614.0,
           "period": 4,
           "time": "Q4 2:07",
-          "text": "Donovan Mitchell blocks Jamal Cain's running layup"
+          "text": "Jamal Cain misses running layup"
         },
         {
           "seq": 613.0,
@@ -9006,8 +9018,21 @@
           "text": "Wendell Carter Jr. vs. Evan Mobley (Tristan da Silva gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 645.0
+      "new_plays": [
+        {
+          "seq": 648.0,
+          "period": 4,
+          "time": "Q4 7.5",
+          "text": "Tristan da Silva misses shot"
+        },
+        {
+          "seq": 646.0,
+          "period": 4,
+          "time": "Q4 13.7",
+          "text": "Jevon Carter enters the game for Jamal Cain"
+        }
+      ],
+      "last_seq": 648.0
     }
   }
 }
