@@ -1,8 +1,8 @@
 {
   "LAL-IND-2026-03-25": {
     "status": "in",
-    "clock": "11:35 - 1st",
-    "away_score": "2",
+    "clock": "11:04 - 1st",
+    "away_score": "3",
     "home_score": "0",
     "team_stats": {
       "LAL": {
@@ -16,7 +16,7 @@
         "OR": "0",
         "DR": "0",
         "AST": "1",
-        "STL": "1",
+        "STL": "2",
         "BLK": "0",
         "TO": "0",
         "TTO": "0",
@@ -29,7 +29,7 @@
         "PF": "0",
         "LL": "2",
         "LC": "0",
-        "LPCT": "0"
+        "LPCT": "67"
       },
       "IND": {
         "fieldGoalsMade-fieldGoalsAttempted": "0-0",
@@ -44,10 +44,10 @@
         "AST": "0",
         "STL": "0",
         "BLK": "0",
-        "TO": "1",
+        "TO": "2",
         "TTO": "0",
-        "ToTO": "1",
-        "TECH": "0",
+        "ToTO": "2",
+        "TECH": "1",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "2",
         "FBPs": "0",
@@ -61,7 +61,7 @@
     "players": {
       "IND": {
         "Pascal Siakam": {
-          "MIN": 0,
+          "MIN": 1,
           "PTS": "0",
           "REB": "0",
           "AST": "0",
@@ -76,7 +76,7 @@
           "is_on_court": true
         },
         "Jarace Walker": {
-          "MIN": 0,
+          "MIN": 1,
           "PTS": "0",
           "REB": "0",
           "AST": "0",
@@ -91,7 +91,7 @@
           "is_on_court": true
         },
         "Jay Huff": {
-          "MIN": 0,
+          "MIN": 1,
           "PTS": "0",
           "REB": "0",
           "AST": "0",
@@ -106,18 +106,18 @@
           "is_on_court": true
         },
         "Andrew Nembhard": {
-          "MIN": 0,
+          "MIN": 1,
           "PTS": "0",
           "REB": "0",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
-          "TO": "0",
+          "TO": "1",
           "FG": "0-0",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 0.0,
-          "dk_pts": 0.0,
+          "fd_pts": -1.0,
+          "dk_pts": -0.5,
           "is_on_court": true
         },
         "Aaron Nesmith": {
@@ -153,7 +153,7 @@
           "is_on_court": true
         },
         "Jake LaRavia": {
-          "MIN": 0,
+          "MIN": 1,
           "PTS": "0",
           "REB": "0",
           "AST": "0",
@@ -198,24 +198,36 @@
           "is_on_court": true
         },
         "Austin Reaves": {
-          "MIN": 0,
+          "MIN": 1,
           "PTS": "0",
           "REB": "0",
           "AST": "0",
-          "STL": "0",
+          "STL": "1",
           "BLK": "0",
           "TO": "0",
           "FG": "0-0",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 0.0,
-          "dk_pts": 0.0,
+          "fd_pts": 3.0,
+          "dk_pts": 2.0,
           "is_on_court": true
         }
       }
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 14.0,
+          "period": 1,
+          "time": "Q1 11:13",
+          "text": "Andrew Nembhard bad pass\nturnover (Austin Reaves steals)"
+        },
+        {
+          "seq": 11.0,
+          "period": 1,
+          "time": "Q1 11:23",
+          "text": "Jake LaRavia vs. Pascal Siakam (Jarace Walker gains possession)"
+        },
         {
           "seq": 9.0,
           "period": 1,
@@ -237,52 +249,46 @@
       ],
       "new_plays": [
         {
-          "seq": 9.0,
+          "seq": 14.0,
           "period": 1,
-          "time": "Q1 11:36",
-          "text": "Jaxson Hayes makes 1-foot dunk (LeBron James assists)"
+          "time": "Q1 11:13",
+          "text": "Andrew Nembhard bad pass\nturnover (Austin Reaves steals)"
         },
         {
-          "seq": 7.0,
+          "seq": 11.0,
           "period": 1,
-          "time": "Q1 11:40",
-          "text": "Jarace Walker lost ball turnover (Jake LaRavia steals)"
-        },
-        {
-          "seq": 4.0,
-          "period": 1,
-          "time": "Q1 12:00",
-          "text": "Jaxson Hayes vs. Jay Huff (Pascal Siakam gains possession)"
+          "time": "Q1 11:23",
+          "text": "Jake LaRavia vs. Pascal Siakam (Jarace Walker gains possession)"
         }
       ],
-      "last_seq": 9.0
+      "last_seq": 14.0
     }
   },
   "CHI-PHI-2026-03-25": {
     "status": "in",
-    "clock": "11:10 - 1st",
+    "clock": "10:38 - 1st",
     "away_score": "0",
     "home_score": "5",
     "team_stats": {
       "CHI": {
-        "fieldGoalsMade-fieldGoalsAttempted": "0-1",
+        "fieldGoalsMade-fieldGoalsAttempted": "0-2",
         "FG%": "0",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "0-0",
         "3P%": "0",
         "freeThrowsMade-freeThrowsAttempted": "0-0",
         "FT%": "0",
-        "REB": "1",
+        "REB": "3",
         "OR": "1",
-        "DR": "0",
+        "DR": "2",
         "AST": "0",
         "STL": "0",
-        "BLK": "0",
-        "TO": "2",
+        "BLK": "1",
+        "TO": "3",
         "TTO": "0",
-        "ToTO": "2",
+        "ToTO": "3",
         "TECH": "0",
         "FLAG": "0",
-        "Points Conceded Off Turnovers": "2",
+        "Points Conceded Off Turnovers": "5",
         "FBPs": "0",
         "PIP": "0",
         "PF": "0",
@@ -291,18 +297,18 @@
         "LPCT": "0"
       },
       "PHI": {
-        "fieldGoalsMade-fieldGoalsAttempted": "1-1",
-        "FG%": "100",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "0-0",
-        "3P%": "0",
+        "fieldGoalsMade-fieldGoalsAttempted": "2-4",
+        "FG%": "50",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "1-2",
+        "3P%": "50",
         "freeThrowsMade-freeThrowsAttempted": "0-0",
         "FT%": "0",
-        "REB": "0",
+        "REB": "1",
         "OR": "0",
-        "DR": "0",
-        "AST": "1",
-        "STL": "1",
-        "BLK": "0",
+        "DR": "1",
+        "AST": "2",
+        "STL": "2",
+        "BLK": "1",
         "TO": "0",
         "TTO": "0",
         "ToTO": "0",
@@ -312,9 +318,9 @@
         "FBPs": "2",
         "PIP": "2",
         "PF": "0",
-        "LL": "2",
+        "LL": "5",
         "LC": "0",
-        "LPCT": "17"
+        "LPCT": "69"
       }
     },
     "players": {
@@ -322,16 +328,16 @@
         "Paul George": {
           "MIN": 1,
           "PTS": "0",
-          "REB": "0",
+          "REB": "1",
           "AST": "1",
-          "STL": "0",
+          "STL": "1",
           "BLK": "0",
           "TO": "0",
-          "FG": "0-0",
-          "3PT": "0-0",
+          "FG": "0-1",
+          "3PT": "0-1",
           "FT": "0-0",
-          "fd_pts": 1.5,
-          "dk_pts": 1.5,
+          "fd_pts": 5.7,
+          "dk_pts": 4.75,
           "is_on_court": true
         },
         "Dominick Barlow": {
@@ -340,43 +346,43 @@
           "REB": "0",
           "AST": "0",
           "STL": "0",
-          "BLK": "0",
-          "TO": "0",
-          "FG": "0-0",
-          "3PT": "0-0",
-          "FT": "0-0",
-          "fd_pts": 0.0,
-          "dk_pts": 0.0,
-          "is_on_court": true
-        },
-        "Joel Embiid": {
-          "MIN": 1,
-          "PTS": "0",
-          "REB": "0",
-          "AST": "0",
-          "STL": "0",
-          "BLK": "0",
-          "TO": "0",
-          "FG": "0-0",
-          "3PT": "0-0",
-          "FT": "0-0",
-          "fd_pts": 0.0,
-          "dk_pts": 0.0,
-          "is_on_court": true
-        },
-        "Quentin Grimes": {
-          "MIN": 1,
-          "PTS": "0",
-          "REB": "0",
-          "AST": "0",
-          "STL": "1",
-          "BLK": "0",
+          "BLK": "1",
           "TO": "0",
           "FG": "0-0",
           "3PT": "0-0",
           "FT": "0-0",
           "fd_pts": 3.0,
           "dk_pts": 2.0,
+          "is_on_court": true
+        },
+        "Joel Embiid": {
+          "MIN": 1,
+          "PTS": "3",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "1-1",
+          "3PT": "1-1",
+          "FT": "0-0",
+          "fd_pts": 3.0,
+          "dk_pts": 3.5,
+          "is_on_court": true
+        },
+        "Quentin Grimes": {
+          "MIN": 1,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "1",
+          "STL": "1",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-1",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 4.5,
+          "dk_pts": 3.5,
           "is_on_court": true
         },
         "VJ Edgecombe": {
@@ -417,28 +423,28 @@
           "REB": "1",
           "AST": "0",
           "STL": "0",
-          "BLK": "0",
+          "BLK": "1",
           "TO": "2",
           "FG": "0-0",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": -0.8,
-          "dk_pts": 0.25,
+          "fd_pts": 2.2,
+          "dk_pts": 2.25,
           "is_on_court": true
         },
         "Nick Richards": {
           "MIN": 1,
           "PTS": "0",
-          "REB": "0",
+          "REB": "2",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
-          "TO": "0",
-          "FG": "0-1",
+          "TO": "1",
+          "FG": "0-2",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 0.0,
-          "dk_pts": 0.0,
+          "fd_pts": 1.4,
+          "dk_pts": 2.0,
           "is_on_court": true
         },
         "Tre Jones": {
@@ -476,21 +482,75 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 25.0,
+          "period": 1,
+          "time": "Q1 10:38",
+          "text": "Nick Richards defensive rebound"
+        },
+        {
+          "seq": 24.0,
+          "period": 1,
+          "time": "Q1 10:38",
+          "text": "Paul George misses 26-foot three point pullup jump shot"
+        },
+        {
+          "seq": 22.0,
+          "period": 1,
+          "time": "Q1 10:39",
+          "text": "Nick Richards bad pass\nturnover (Paul George steals)"
+        },
+        {
+          "seq": 21.0,
+          "period": 1,
+          "time": "Q1 10:41",
+          "text": "Nick Richards defensive rebound"
+        },
+        {
+          "seq": 19.0,
+          "period": 1,
+          "time": "Q1 10:43",
+          "text": "Matas Buzelis blocks Quentin Grimes 's 3-foot two point shot"
+        },
+        {
+          "seq": 18.0,
+          "period": 1,
+          "time": "Q1 10:46",
+          "text": "Paul George defensive rebound"
+        },
+        {
+          "seq": 16.0,
+          "period": 1,
+          "time": "Q1 10:49",
+          "text": "Dominick Barlow blocks Nick Richards 's 2-foot driving layup"
+        },
+        {
+          "seq": 14.0,
+          "period": 1,
+          "time": "Q1 11:11",
+          "text": "Joel Embiid makes 26-foot three point jumper (Quentin Grimes assists)"
+        },
+        {
+          "seq": 13.0,
+          "period": 1,
+          "time": "Q1 11:22",
+          "text": "Matas Buzelis traveling turnover"
+        },
+        {
           "seq": 11.0,
           "period": 1,
           "time": "Q1 11:28",
-          "text": "VJ Edgecombe makes running layup (Paul George assists)"
+          "text": "VJ Edgecombe makes driving layup (Paul George assists)"
         },
         {
           "seq": 9.0,
           "period": 1,
-          "time": "Q1 11:33",
+          "time": "Q1 11:35",
           "text": "Matas Buzelis bad pass\nturnover (Quentin Grimes steals)"
         },
         {
           "seq": 8.0,
           "period": 1,
-          "time": "Q1 11:34",
+          "time": "Q1 11:37",
           "text": "Matas Buzelis offensive rebound"
         },
         {
@@ -508,37 +568,61 @@
       ],
       "new_plays": [
         {
-          "seq": 11.0,
+          "seq": 25.0,
           "period": 1,
-          "time": "Q1 11:28",
-          "text": "VJ Edgecombe makes running layup (Paul George assists)"
+          "time": "Q1 10:38",
+          "text": "Nick Richards defensive rebound"
         },
         {
-          "seq": 9.0,
+          "seq": 24.0,
           "period": 1,
-          "time": "Q1 11:33",
-          "text": "Matas Buzelis bad pass\nturnover (Quentin Grimes steals)"
+          "time": "Q1 10:38",
+          "text": "Paul George misses 26-foot three point pullup jump shot"
         },
         {
-          "seq": 8.0,
+          "seq": 22.0,
           "period": 1,
-          "time": "Q1 11:34",
-          "text": "Matas Buzelis offensive rebound"
+          "time": "Q1 10:39",
+          "text": "Nick Richards bad pass\nturnover (Paul George steals)"
         },
         {
-          "seq": 7.0,
+          "seq": 21.0,
           "period": 1,
-          "time": "Q1 11:38",
-          "text": "Nick Richards misses 11-foot fade away jump shot"
+          "time": "Q1 10:41",
+          "text": "Nick Richards defensive rebound"
         },
         {
-          "seq": 4.0,
+          "seq": 19.0,
           "period": 1,
-          "time": "Q1 12:00",
-          "text": "Nick Richards vs. Dominick Barlow (Jalen Smith gains possession)"
+          "time": "Q1 10:43",
+          "text": "Matas Buzelis blocks Quentin Grimes 's 3-foot two point shot"
+        },
+        {
+          "seq": 18.0,
+          "period": 1,
+          "time": "Q1 10:46",
+          "text": "Paul George defensive rebound"
+        },
+        {
+          "seq": 16.0,
+          "period": 1,
+          "time": "Q1 10:49",
+          "text": "Dominick Barlow blocks Nick Richards 's 2-foot driving layup"
+        },
+        {
+          "seq": 14.0,
+          "period": 1,
+          "time": "Q1 11:11",
+          "text": "Joel Embiid makes 26-foot three point jumper (Quentin Grimes assists)"
+        },
+        {
+          "seq": 13.0,
+          "period": 1,
+          "time": "Q1 11:22",
+          "text": "Matas Buzelis traveling turnover"
         }
       ],
-      "last_seq": 11.0
+      "last_seq": 25.0
     }
   }
 }
