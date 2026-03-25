@@ -1,21 +1,21 @@
 {
   "ATL-DET-2026-03-25": {
     "status": "in",
-    "clock": "5:15 - 1st",
-    "away_score": "23",
+    "clock": "4:51 - 1st",
+    "away_score": "26",
     "home_score": "22",
     "team_stats": {
       "ATL": {
-        "fieldGoalsMade-fieldGoalsAttempted": "9-11",
-        "FG%": "82",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "5-6",
-        "3P%": "83",
+        "fieldGoalsMade-fieldGoalsAttempted": "10-12",
+        "FG%": "83",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "6-7",
+        "3P%": "86",
         "freeThrowsMade-freeThrowsAttempted": "0-0",
         "FT%": "0",
         "REB": "2",
         "OR": "0",
         "DR": "2",
-        "AST": "5",
+        "AST": "6",
         "STL": "2",
         "BLK": "0",
         "TO": "3",
@@ -27,9 +27,9 @@
         "FBPs": "5",
         "PIP": "8",
         "PF": "0",
-        "LL": "1",
+        "LL": "4",
         "LC": "3",
-        "LPCT": "13"
+        "LPCT": "18"
       },
       "DET": {
         "fieldGoalsMade-fieldGoalsAttempted": "10-13",
@@ -49,13 +49,13 @@
         "ToTO": "2",
         "TECH": "0",
         "FLAG": "0",
-        "Points Conceded Off Turnovers": "2",
+        "Points Conceded Off Turnovers": "5",
         "FBPs": "2",
         "PIP": "12",
         "PF": "2",
         "LL": "5",
         "LC": "3",
-        "LPCT": "73"
+        "LPCT": "69"
       }
     },
     "players": {
@@ -118,7 +118,7 @@
           "FT": "0-0",
           "fd_pts": 8.0,
           "dk_pts": 7.0,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Daniss Jenkins": {
           "MIN": 7,
@@ -134,37 +134,52 @@
           "fd_pts": 5.0,
           "dk_pts": 6.0,
           "is_on_court": true
+        },
+        "Caris LeVert": {
+          "MIN": 0,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
+          "is_on_court": true
         }
       },
       "ATL": {
         "Onyeka Okongwu": {
           "MIN": 7,
-          "PTS": "3",
+          "PTS": "6",
           "REB": "0",
           "AST": "0",
           "STL": "1",
           "BLK": "0",
           "TO": "0",
-          "FG": "1-1",
-          "3PT": "1-1",
+          "FG": "2-2",
+          "3PT": "2-2",
           "FT": "0-0",
-          "fd_pts": 6.0,
-          "dk_pts": 5.5,
+          "fd_pts": 9.0,
+          "dk_pts": 9.0,
           "is_on_court": true
         },
         "Jalen Johnson": {
           "MIN": 7,
           "PTS": "2",
           "REB": "0",
-          "AST": "1",
+          "AST": "2",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
           "FG": "1-2",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 3.5,
-          "dk_pts": 3.5,
+          "fd_pts": 5.0,
+          "dk_pts": 5.0,
           "is_on_court": true
         },
         "CJ McCollum": {
@@ -213,7 +228,7 @@
           "is_on_court": true
         },
         "Zaccharie Risacher": {
-          "MIN": 1,
+          "MIN": 2,
           "PTS": "0",
           "REB": "0",
           "AST": "0",
@@ -228,7 +243,7 @@
           "is_on_court": true
         },
         "Gabe Vincent": {
-          "MIN": 1,
+          "MIN": 2,
           "PTS": "0",
           "REB": "1",
           "AST": "0",
@@ -246,6 +261,30 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 70.0,
+          "period": 1,
+          "time": "Q1 4:51",
+          "text": "foul"
+        },
+        {
+          "seq": 68.0,
+          "period": 1,
+          "time": "Q1 5:05",
+          "text": "Onyeka Okongwu makes 26-foot three point jumper (Jalen Johnson assists)"
+        },
+        {
+          "seq": 66.0,
+          "period": 1,
+          "time": "Q1 5:15",
+          "text": "Caris LeVert enters the game for Ausar Thompson"
+        },
+        {
+          "seq": 64.0,
+          "period": 1,
+          "time": "Q1 5:15",
+          "text": "Daniss Jenkins loose ball foul"
+        },
         {
           "seq": 62.0,
           "period": 1,
@@ -328,7 +367,7 @@
           "seq": 44.0,
           "period": 1,
           "time": "Q1 6:55",
-          "text": "Tobias Harris makes 16-foot jumper"
+          "text": "Tobias Harris makes 16-foot pullup jump shot"
         },
         {
           "seq": 42.0,
@@ -346,7 +385,7 @@
           "seq": 39.0,
           "period": 1,
           "time": "Q1 7:40",
-          "text": "CJ McCollum makes 26-foot three point jumper"
+          "text": "CJ McCollum makes 26-foot three pointer"
         },
         {
           "seq": 37.0,
@@ -489,36 +528,42 @@
       ],
       "new_plays": [
         {
-          "seq": 62.0,
+          "seq": 70.0,
           "period": 1,
-          "time": "Q1 5:16",
-          "text": "Jalen Duren bad pass\nturnover (Gabe Vincent steals)"
+          "time": "Q1 4:51",
+          "text": "foul"
         },
         {
-          "seq": 61.0,
+          "seq": 68.0,
           "period": 1,
-          "time": "Q1 5:25",
-          "text": "Dyson Daniels makes 4-foot two point shot"
+          "time": "Q1 5:05",
+          "text": "Onyeka Okongwu makes 26-foot three point jumper (Jalen Johnson assists)"
         },
         {
-          "seq": 59.0,
+          "seq": 66.0,
           "period": 1,
-          "time": "Q1 5:48",
-          "text": "Jalen Duren makes 2-foot reverse layup (Ausar Thompson assists)"
+          "time": "Q1 5:15",
+          "text": "Caris LeVert enters the game for Ausar Thompson"
+        },
+        {
+          "seq": 64.0,
+          "period": 1,
+          "time": "Q1 5:15",
+          "text": "Daniss Jenkins loose ball foul"
         }
       ],
-      "last_seq": 62.0
+      "last_seq": 70.0
     }
   },
   "LAL-IND-2026-03-25": {
     "status": "in",
-    "clock": "5:25 - 1st",
-    "away_score": "21",
+    "clock": "4:51 - 1st",
+    "away_score": "23",
     "home_score": "15",
     "team_stats": {
       "LAL": {
-        "fieldGoalsMade-fieldGoalsAttempted": "8-15",
-        "FG%": "53",
+        "fieldGoalsMade-fieldGoalsAttempted": "9-16",
+        "FG%": "56",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "2-5",
         "3P%": "40",
         "freeThrowsMade-freeThrowsAttempted": "3-3",
@@ -526,7 +571,7 @@
         "REB": "5",
         "OR": "2",
         "DR": "3",
-        "AST": "5",
+        "AST": "6",
         "STL": "4",
         "BLK": "0",
         "TO": "0",
@@ -536,11 +581,11 @@
         "FLAG": "0",
         "Points Conceded Off Turnovers": "0",
         "FBPs": "4",
-        "PIP": "12",
+        "PIP": "14",
         "PF": "1",
         "LL": "10",
         "LC": "0",
-        "LPCT": "97"
+        "LPCT": "96"
       },
       "IND": {
         "fieldGoalsMade-fieldGoalsAttempted": "5-8",
@@ -665,17 +710,17 @@
       "LAL": {
         "LeBron James": {
           "MIN": 7,
-          "PTS": "2",
+          "PTS": "4",
           "REB": "2",
           "AST": "2",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "1-4",
+          "FG": "2-5",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 7.4,
-          "dk_pts": 7.5,
+          "fd_pts": 9.4,
+          "dk_pts": 9.5,
           "is_on_court": true
         },
         "Jake LaRavia": {
@@ -712,15 +757,15 @@
           "MIN": 7,
           "PTS": "12",
           "REB": "0",
-          "AST": "0",
+          "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
           "FG": "4-7",
           "3PT": "2-4",
           "FT": "2-2",
-          "fd_pts": 12.0,
-          "dk_pts": 13.0,
+          "fd_pts": 13.5,
+          "dk_pts": 14.5,
           "is_on_court": true
         },
         "Austin Reaves": {
@@ -757,6 +802,24 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 81.0,
+          "period": 1,
+          "time": "Q1 5:05",
+          "text": "LeBron James makes 1-foot dunk (Luka Doncic assists)"
+        },
+        {
+          "seq": 80.0,
+          "period": 1,
+          "time": "Q1 5:13",
+          "text": "LeBron James defensive rebound"
+        },
+        {
+          "seq": 79.0,
+          "period": 1,
+          "time": "Q1 5:15",
+          "text": "Aaron Nesmith misses 28-foot three point step back jumpshot"
+        },
         {
           "seq": 78.0,
           "period": 1,
@@ -1066,43 +1129,25 @@
       ],
       "new_plays": [
         {
-          "seq": 78.0,
+          "seq": 81.0,
           "period": 1,
-          "time": "Q1 5:27",
-          "text": "Luka Doncic makes layup"
+          "time": "Q1 5:05",
+          "text": "LeBron James makes 1-foot dunk (Luka Doncic assists)"
         },
         {
-          "seq": 77.0,
+          "seq": 80.0,
           "period": 1,
-          "time": "Q1 5:45",
-          "text": "Jaxson Hayes defensive rebound"
+          "time": "Q1 5:13",
+          "text": "LeBron James defensive rebound"
         },
         {
-          "seq": 76.0,
+          "seq": 79.0,
           "period": 1,
-          "time": "Q1 5:49",
-          "text": "Andrew Nembhard misses 22-foot running jump shot"
-        },
-        {
-          "seq": 75.0,
-          "period": 1,
-          "time": "Q1 5:55",
-          "text": "Obi Toppin defensive rebound"
-        },
-        {
-          "seq": 74.0,
-          "period": 1,
-          "time": "Q1 5:57",
-          "text": "LeBron James misses layup"
-        },
-        {
-          "seq": 72.0,
-          "period": 1,
-          "time": "Q1 6:12",
-          "text": "Jarace Walker makes free throw 2 of 2"
+          "time": "Q1 5:15",
+          "text": "Aaron Nesmith misses 28-foot three point step back jumpshot"
         }
       ],
-      "last_seq": 78.0
+      "last_seq": 81.0
     }
   },
   "CHI-PHI-2026-03-25": {
@@ -1536,7 +1581,7 @@
           "seq": 43.0,
           "period": 1,
           "time": "Q1 8:50",
-          "text": "Joel Embiid makes layup"
+          "text": "Joel Embiid makes driving layup"
         },
         {
           "seq": 42.0,
