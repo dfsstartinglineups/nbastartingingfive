@@ -949,9 +949,9 @@
   },
   "LAL-IND-2026-03-25": {
     "status": "in",
-    "clock": "48.3 - 1st",
+    "clock": "34.8 - 1st",
     "away_score": "43",
-    "home_score": "27",
+    "home_score": "28",
     "team_stats": {
       "LAL": {
         "fieldGoalsMade-fieldGoalsAttempted": "15-24",
@@ -960,9 +960,9 @@
         "3P%": "67",
         "freeThrowsMade-freeThrowsAttempted": "7-9",
         "FT%": "78",
-        "REB": "8",
+        "REB": "9",
         "OR": "3",
-        "DR": "5",
+        "DR": "6",
         "AST": "9",
         "STL": "6",
         "BLK": "0",
@@ -974,18 +974,18 @@
         "Points Conceded Off Turnovers": "0",
         "FBPs": "7",
         "PIP": "16",
-        "PF": "5",
+        "PF": "6",
         "LL": "20",
         "LC": "0",
-        "LPCT": "98"
+        "LPCT": "97"
       },
       "IND": {
         "fieldGoalsMade-fieldGoalsAttempted": "9-14",
         "FG%": "64",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "4-9",
         "3P%": "44",
-        "freeThrowsMade-freeThrowsAttempted": "5-7",
-        "FT%": "71",
+        "freeThrowsMade-freeThrowsAttempted": "6-9",
+        "FT%": "67",
         "REB": "6",
         "OR": "0",
         "DR": "6",
@@ -1010,7 +1010,7 @@
       "IND": {
         "Pascal Siakam": {
           "MIN": 9,
-          "PTS": "0",
+          "PTS": "1",
           "REB": "1",
           "AST": "0",
           "STL": "0",
@@ -1018,9 +1018,9 @@
           "TO": "2",
           "FG": "0-0",
           "3PT": "0-0",
-          "FT": "0-0",
-          "fd_pts": -0.8,
-          "dk_pts": 0.25,
+          "FT": "1-2",
+          "fd_pts": 0.2,
+          "dk_pts": 1.25,
           "is_on_court": true
         },
         "Jarace Walker": {
@@ -1161,9 +1161,9 @@
       },
       "LAL": {
         "LeBron James": {
-          "MIN": 7,
+          "MIN": 8,
           "PTS": "4",
-          "REB": "2",
+          "REB": "3",
           "AST": "2",
           "STL": "0",
           "BLK": "0",
@@ -1171,8 +1171,8 @@
           "FG": "2-5",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 9.4,
-          "dk_pts": 9.5,
+          "fd_pts": 10.6,
+          "dk_pts": 10.75,
           "is_on_court": true
         },
         "Jake LaRavia": {
@@ -1281,7 +1281,7 @@
           "is_on_court": true
         },
         "Bronny James": {
-          "MIN": 1,
+          "MIN": 2,
           "PTS": "0",
           "REB": "0",
           "AST": "0",
@@ -1299,6 +1299,30 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 170.0,
+          "period": 1,
+          "time": "Q1 34.8",
+          "text": "LeBron James defensive rebound"
+        },
+        {
+          "seq": 169.0,
+          "period": 1,
+          "time": "Q1 36.5",
+          "text": "Pascal Siakam misses free throw 2 of 2"
+        },
+        {
+          "seq": 168.0,
+          "period": 1,
+          "time": "Q1 36.5",
+          "text": "Pascal Siakam makes free throw 1 of 2"
+        },
+        {
+          "seq": 166.0,
+          "period": 1,
+          "time": "Q1 36.5",
+          "text": "Bronny James shooting foul"
+        },
         {
           "seq": 165.0,
           "period": 1,
@@ -1950,62 +1974,44 @@
       ],
       "new_plays": [
         {
-          "seq": 165.0,
+          "seq": 170.0,
           "period": 1,
-          "time": "Q1 48.3",
-          "text": "Pascal Siakam defensive rebound"
+          "time": "Q1 34.8",
+          "text": "LeBron James defensive rebound"
         },
         {
-          "seq": 164.0,
+          "seq": 169.0,
           "period": 1,
-          "time": "Q1 49.9",
-          "text": "Maxi Kleber misses free throw 2 of 2"
+          "time": "Q1 36.5",
+          "text": "Pascal Siakam misses free throw 2 of 2"
         },
         {
-          "seq": 162.0,
+          "seq": 168.0,
           "period": 1,
-          "time": "Q1 49.9",
-          "text": "Jarace Walker enters the game for Aaron Nesmith"
+          "time": "Q1 36.5",
+          "text": "Pascal Siakam makes free throw 1 of 2"
         },
         {
-          "seq": 161.0,
+          "seq": 166.0,
           "period": 1,
-          "time": "Q1 49.9",
-          "text": "Lakers offensive team rebound"
-        },
-        {
-          "seq": 160.0,
-          "period": 1,
-          "time": "Q1 49.9",
-          "text": "Maxi Kleber misses free throw 1 of 2"
-        },
-        {
-          "seq": 158.0,
-          "period": 1,
-          "time": "Q1 49.9",
-          "text": "Aaron Nesmith personal foul"
-        },
-        {
-          "seq": 157.0,
-          "period": 1,
-          "time": "Q1 1:03",
-          "text": "Micah Potter makes free throw 2 of 2"
+          "time": "Q1 36.5",
+          "text": "Bronny James shooting foul"
         }
       ],
-      "last_seq": 165.0
+      "last_seq": 170.0
     }
   },
   "CHI-PHI-2026-03-25": {
     "status": "in",
-    "clock": "End of 1st",
+    "clock": "11:40 - 2nd",
     "away_score": "26",
-    "home_score": "38",
+    "home_score": "40",
     "team_stats": {
       "CHI": {
-        "fieldGoalsMade-fieldGoalsAttempted": "10-27",
-        "FG%": "37",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "2-13",
-        "3P%": "15",
+        "fieldGoalsMade-fieldGoalsAttempted": "10-26",
+        "FG%": "38",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "2-12",
+        "3P%": "17",
         "freeThrowsMade-freeThrowsAttempted": "4-4",
         "FT%": "100",
         "REB": "12",
@@ -2013,7 +2019,7 @@
         "DR": "9",
         "AST": "6",
         "STL": "1",
-        "BLK": "2",
+        "BLK": "3",
         "TO": "3",
         "TTO": "0",
         "ToTO": "3",
@@ -2028,14 +2034,14 @@
         "LPCT": "0"
       },
       "PHI": {
-        "fieldGoalsMade-fieldGoalsAttempted": "13-26",
-        "FG%": "50",
+        "fieldGoalsMade-fieldGoalsAttempted": "13-27",
+        "FG%": "48",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "6-11",
         "3P%": "55",
         "freeThrowsMade-freeThrowsAttempted": "6-7",
         "FT%": "86",
-        "REB": "17",
-        "OR": "4",
+        "REB": "18",
+        "OR": "5",
         "DR": "13",
         "AST": "8",
         "STL": "2",
@@ -2051,7 +2057,7 @@
         "PF": "4",
         "LL": "12",
         "LC": "0",
-        "LPCT": "91"
+        "LPCT": "92"
       }
     },
     "players": {
@@ -2059,17 +2065,17 @@
         "Paul George": {
           "MIN": 6,
           "PTS": "0",
-          "REB": "3",
+          "REB": "4",
           "AST": "1",
           "STL": "1",
           "BLK": "0",
           "TO": "0",
-          "FG": "0-2",
+          "FG": "0-3",
           "3PT": "0-2",
           "FT": "0-0",
-          "fd_pts": 8.1,
-          "dk_pts": 7.25,
-          "is_on_court": false
+          "fd_pts": 9.3,
+          "dk_pts": 8.5,
+          "is_on_court": true
         },
         "Dominick Barlow": {
           "MIN": 9,
@@ -2114,7 +2120,7 @@
           "FT": "0-0",
           "fd_pts": 4.7,
           "dk_pts": 4.25,
-          "is_on_court": false
+          "is_on_court": true
         },
         "VJ Edgecombe": {
           "MIN": 12,
@@ -2129,7 +2135,7 @@
           "FT": "4-5",
           "fd_pts": 14.6,
           "dk_pts": 15.25,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Trendon Watford": {
           "MIN": 3,
@@ -2147,7 +2153,7 @@
           "is_on_court": true
         },
         "Justin Edwards": {
-          "MIN": 5,
+          "MIN": 6,
           "PTS": "5",
           "REB": "0",
           "AST": "0",
@@ -2159,10 +2165,10 @@
           "FT": "0-0",
           "fd_pts": 5.0,
           "dk_pts": 5.5,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Adem Bona": {
-          "MIN": 2,
+          "MIN": 3,
           "PTS": "2",
           "REB": "2",
           "AST": "0",
@@ -2177,7 +2183,7 @@
           "is_on_court": true
         },
         "Cameron Payne": {
-          "MIN": 5,
+          "MIN": 6,
           "PTS": "3",
           "REB": "2",
           "AST": "0",
@@ -2236,7 +2242,7 @@
           "FT": "0-0",
           "fd_pts": 3.4,
           "dk_pts": 4.0,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Tre Jones": {
           "MIN": 8,
@@ -2251,7 +2257,7 @@
           "FT": "1-1",
           "fd_pts": 7.7,
           "dk_pts": 7.75,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Josh Giddey": {
           "MIN": 8,
@@ -2259,14 +2265,14 @@
           "REB": "1",
           "AST": "2",
           "STL": "0",
-          "BLK": "0",
+          "BLK": "1",
           "TO": "0",
           "FG": "3-5",
           "3PT": "0-2",
           "FT": "0-0",
-          "fd_pts": 10.2,
-          "dk_pts": 10.25,
-          "is_on_court": false
+          "fd_pts": 13.2,
+          "dk_pts": 12.25,
+          "is_on_court": true
         },
         "Guerschon Yabusele": {
           "MIN": 6,
@@ -2276,15 +2282,30 @@
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "0-2",
-          "3PT": "0-2",
+          "FG": "0-1",
+          "3PT": "0-1",
           "FT": "0-0",
           "fd_pts": 2.4,
           "dk_pts": 2.5,
+          "is_on_court": false
+        },
+        "Patrick Williams": {
+          "MIN": 0,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
           "is_on_court": true
         },
         "Isaac Okoro": {
-          "MIN": 7,
+          "MIN": 8,
           "PTS": "5",
           "REB": "1",
           "AST": "0",
@@ -2311,7 +2332,7 @@
           "FT": "0-0",
           "fd_pts": 1.2,
           "dk_pts": 1.25,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Collin Sexton": {
           "MIN": 7,
@@ -2329,7 +2350,7 @@
           "is_on_court": false
         },
         "Rob Dillingham": {
-          "MIN": 0,
+          "MIN": 1,
           "PTS": "0",
           "REB": "0",
           "AST": "0",
@@ -2348,6 +2369,48 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 189.0,
+          "period": 2,
+          "time": "Q2 11:41",
+          "text": "Paul George offensive rebound"
+        },
+        {
+          "seq": 187.0,
+          "period": 2,
+          "time": "Q2 11:46",
+          "text": "Josh Giddey blocks Paul George 's 15-foot jumper"
+        },
+        {
+          "seq": 180.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Patrick Williams enters the game for Tre Jones"
+        },
+        {
+          "seq": 179.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Nick Richards enters the game for Guerschon Yabusele"
+        },
+        {
+          "seq": 178.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Josh Giddey enters the game for Leonard Miller"
+        },
+        {
+          "seq": 177.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Paul George enters the game for VJ Edgecombe"
+        },
+        {
+          "seq": 176.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Quentin Grimes enters the game for Justin Edwards"
+        },
+        {
           "seq": 175.0,
           "period": 1,
           "time": "Q1 0.0",
@@ -2363,7 +2426,7 @@
           "seq": 173.0,
           "period": 1,
           "time": "Q1 0.3",
-          "text": "Guerschon Yabusele misses 47-foot three point jumper"
+          "text": "Guerschon Yabusele misses heave jump shot"
         },
         {
           "seq": 172.0,
@@ -3098,8 +3161,51 @@
           "text": "Nick Richards vs. Dominick Barlow (Jalen Smith gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 175.0
+      "new_plays": [
+        {
+          "seq": 189.0,
+          "period": 2,
+          "time": "Q2 11:41",
+          "text": "Paul George offensive rebound"
+        },
+        {
+          "seq": 187.0,
+          "period": 2,
+          "time": "Q2 11:46",
+          "text": "Josh Giddey blocks Paul George 's 15-foot jumper"
+        },
+        {
+          "seq": 180.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Patrick Williams enters the game for Tre Jones"
+        },
+        {
+          "seq": 179.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Nick Richards enters the game for Guerschon Yabusele"
+        },
+        {
+          "seq": 178.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Josh Giddey enters the game for Leonard Miller"
+        },
+        {
+          "seq": 177.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Paul George enters the game for VJ Edgecombe"
+        },
+        {
+          "seq": 176.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Quentin Grimes enters the game for Justin Edwards"
+        }
+      ],
+      "last_seq": 189.0
     }
   }
 }
