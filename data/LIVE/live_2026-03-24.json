@@ -9109,9 +9109,9 @@
   },
   "DEN-PHX-2026-03-24": {
     "status": "in",
-    "clock": "45.7 - 3rd",
+    "clock": "32.0 - 3rd",
     "away_score": "94",
-    "home_score": "93",
+    "home_score": "94",
     "team_stats": {
       "DEN": {
         "fieldGoalsMade-fieldGoalsAttempted": "34-67",
@@ -9126,15 +9126,15 @@
         "AST": "27",
         "STL": "2",
         "BLK": "1",
-        "TO": "6",
+        "TO": "7",
         "TTO": "1",
-        "ToTO": "7",
+        "ToTO": "8",
         "TECH": "2",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "9",
         "FBPs": "11",
         "PIP": "44",
-        "PF": "14",
+        "PF": "15",
         "LL": "12",
         "LC": "3",
         "LPCT": "44"
@@ -9378,7 +9378,7 @@
           "FT": "2-2",
           "fd_pts": 16.5,
           "dk_pts": 17.0,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Christian Braun": {
           "MIN": 27,
@@ -9402,12 +9402,12 @@
           "AST": "0",
           "STL": "0",
           "BLK": "0",
-          "TO": "0",
+          "TO": "1",
           "FG": "1-3",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 8.0,
-          "dk_pts": 8.25,
+          "fd_pts": 7.0,
+          "dk_pts": 7.75,
           "is_on_court": true
         },
         "Tim Hardaway Jr.": {
@@ -9438,7 +9438,7 @@
           "FT": "0-0",
           "fd_pts": 17.4,
           "dk_pts": 18.25,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Julian Strawther": {
           "MIN": 8,
@@ -9460,6 +9460,24 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 508.0,
+          "period": 3,
+          "time": "Q3 36.3",
+          "text": "Spencer Jones offensive foul turnover"
+        },
+        {
+          "seq": 506.0,
+          "period": 3,
+          "time": "Q3 36.3",
+          "text": "Spencer Jones offensive foul"
+        },
+        {
+          "seq": 504.0,
+          "period": 3,
+          "time": "Q3 45.7",
+          "text": "Jamal Murray enters the game for Bruce Brown"
+        },
+        {
           "seq": 503.0,
           "period": 3,
           "time": "Q3 45.7",
@@ -9469,7 +9487,7 @@
           "seq": 502.0,
           "period": 3,
           "time": "Q3 47.0",
-          "text": "Grayson Allen makes 25-foot three point jumper"
+          "text": "Grayson Allen makes 25-foot running pullup jump shot"
         },
         {
           "seq": 500.0,
@@ -11560,8 +11578,27 @@
           "text": "Nikola Jokic jump ball violation"
         }
       ],
-      "new_plays": [],
-      "last_seq": 503.0
+      "new_plays": [
+        {
+          "seq": 508.0,
+          "period": 3,
+          "time": "Q3 36.3",
+          "text": "Spencer Jones offensive foul turnover"
+        },
+        {
+          "seq": 506.0,
+          "period": 3,
+          "time": "Q3 36.3",
+          "text": "Spencer Jones offensive foul"
+        },
+        {
+          "seq": 504.0,
+          "period": 3,
+          "time": "Q3 45.7",
+          "text": "Jamal Murray enters the game for Bruce Brown"
+        }
+      ],
+      "last_seq": 508.0
     }
   }
 }
