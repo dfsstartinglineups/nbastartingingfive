@@ -103,7 +103,7 @@
           "FT": "0-0",
           "fd_pts": 10.9,
           "dk_pts": 11.5,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Ausar Thompson": {
           "MIN": 7,
@@ -118,7 +118,7 @@
           "FT": "0-0",
           "fd_pts": 8.0,
           "dk_pts": 7.0,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Daniss Jenkins": {
           "MIN": 9,
@@ -133,7 +133,7 @@
           "FT": "1-2",
           "fd_pts": 4.0,
           "dk_pts": 6.0,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Paul Reed": {
           "MIN": 2,
@@ -148,7 +148,7 @@
           "FT": "0-0",
           "fd_pts": 5.0,
           "dk_pts": 4.0,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Ronald Holland II": {
           "MIN": 1,
@@ -272,6 +272,21 @@
           "dk_pts": 10.25,
           "is_on_court": false
         },
+        "Jonathan Kuminga": {
+          "MIN": 0,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
+          "is_on_court": false
+        },
         "Zaccharie Risacher": {
           "MIN": 4,
           "PTS": "2",
@@ -321,6 +336,24 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 123.0,
+          "period": 1,
+          "time": "Q1 2:38",
+          "text": "enters the game for Jalen Johnson"
+        },
+        {
+          "seq": 122.0,
+          "period": 1,
+          "time": "Q1 2:38",
+          "text": "Jalen Duren enters the game for Daniss Jenkins"
+        },
+        {
+          "seq": 121.0,
+          "period": 1,
+          "time": "Q1 2:38",
+          "text": "Ausar Thompson enters the game for Paul Reed"
+        },
         {
           "seq": 119.0,
           "period": 1,
@@ -433,7 +466,7 @@
           "seq": 92.0,
           "period": 1,
           "time": "Q1 4:07",
-          "text": "Jalen Johnson misses 26-foot three point jumper"
+          "text": "Jalen Johnson misses 26-foot three point pullup jump shot"
         },
         {
           "seq": 89.0,
@@ -790,8 +823,27 @@
           "text": "Onyeka Okongwu vs. Jalen Duren (Dyson Daniels gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 119.0
+      "new_plays": [
+        {
+          "seq": 123.0,
+          "period": 1,
+          "time": "Q1 2:38",
+          "text": "enters the game for Jalen Johnson"
+        },
+        {
+          "seq": 122.0,
+          "period": 1,
+          "time": "Q1 2:38",
+          "text": "Jalen Duren enters the game for Daniss Jenkins"
+        },
+        {
+          "seq": 121.0,
+          "period": 1,
+          "time": "Q1 2:38",
+          "text": "Ausar Thompson enters the game for Paul Reed"
+        }
+      ],
+      "last_seq": 123.0
     }
   },
   "LAL-IND-2026-03-25": {
@@ -1648,9 +1700,9 @@
   },
   "CHI-PHI-2026-03-25": {
     "status": "in",
-    "clock": "1:56 - 1st",
-    "away_score": "21",
-    "home_score": "31",
+    "clock": "1:15 - 1st",
+    "away_score": "26",
+    "home_score": "33",
     "team_stats": {
       "CHI": {
         "fieldGoalsMade-fieldGoalsAttempted": "9-21",
@@ -1659,9 +1711,9 @@
         "3P%": "11",
         "freeThrowsMade-freeThrowsAttempted": "4-4",
         "FT%": "100",
-        "REB": "9",
+        "REB": "10",
         "OR": "2",
-        "DR": "7",
+        "DR": "8",
         "AST": "5",
         "STL": "1",
         "BLK": "2",
@@ -1671,7 +1723,7 @@
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "5",
-        "FBPs": "3",
+        "FBPs": "5",
         "PIP": "16",
         "PF": "4",
         "LL": "0",
@@ -1679,10 +1731,10 @@
         "LPCT": "0"
       },
       "PHI": {
-        "fieldGoalsMade-fieldGoalsAttempted": "11-20",
-        "FG%": "55",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "5-8",
-        "3P%": "63",
+        "fieldGoalsMade-fieldGoalsAttempted": "11-21",
+        "FG%": "52",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "5-9",
+        "3P%": "56",
         "freeThrowsMade-freeThrowsAttempted": "4-5",
         "FT%": "80",
         "REB": "13",
@@ -1702,7 +1754,7 @@
         "PF": "4",
         "LL": "10",
         "LC": "0",
-        "LPCT": "90"
+        "LPCT": "91"
       }
     },
     "players": {
@@ -1805,8 +1857,8 @@
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "2-3",
-          "3PT": "1-2",
+          "FG": "2-4",
+          "3PT": "1-3",
           "FT": "0-0",
           "fd_pts": 5.0,
           "dk_pts": 5.5,
@@ -1936,23 +1988,23 @@
         },
         "Isaac Okoro": {
           "MIN": 6,
-          "PTS": "2",
+          "PTS": "5",
           "REB": "1",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "1-3",
-          "3PT": "0-1",
+          "FG": "2-4",
+          "3PT": "1-2",
           "FT": "0-0",
-          "fd_pts": 3.2,
-          "dk_pts": 3.25,
+          "fd_pts": 6.2,
+          "dk_pts": 6.75,
           "is_on_court": true
         },
         "Leonard Miller": {
-          "MIN": 2,
+          "MIN": 3,
           "PTS": "0",
-          "REB": "0",
+          "REB": "1",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
@@ -1960,8 +2012,8 @@
           "FG": "0-1",
           "3PT": "0-1",
           "FT": "0-0",
-          "fd_pts": 0.0,
-          "dk_pts": 0.0,
+          "fd_pts": 1.2,
+          "dk_pts": 1.25,
           "is_on_court": true
         },
         "Collin Sexton": {
@@ -1984,15 +2036,39 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 145.0,
+          "period": 1,
+          "time": "Q1 1:39",
+          "text": "Leonard Miller defensive rebound"
+        },
+        {
+          "seq": 144.0,
+          "period": 1,
+          "time": "Q1 1:43",
+          "text": "Justin Edwards misses 29-foot three point jumper"
+        },
+        {
+          "seq": 143.0,
+          "period": 1,
+          "time": "Q1 1:56",
+          "text": "VJ Edgecombe defensive goaltending violation"
+        },
+        {
+          "seq": 142.0,
+          "period": 1,
+          "time": "Q1 1:56",
+          "text": "Isaac Okoro makes two point shot"
+        },
+        {
           "seq": 140.0,
           "period": 1,
-          "time": "Q1 1:57",
-          "text": "Adem Bona turnover Collin Sexton"
+          "time": "Q1 2:01",
+          "text": "Adem Bona lost ball turnover (Collin Sexton steals)"
         },
         {
           "seq": 139.0,
           "period": 1,
-          "time": "Q1 1:59",
+          "time": "Q1 2:02",
           "text": "Adem Bona offensive rebound"
         },
         {
@@ -2568,55 +2644,31 @@
       ],
       "new_plays": [
         {
-          "seq": 140.0,
+          "seq": 145.0,
           "period": 1,
-          "time": "Q1 1:57",
-          "text": "Adem Bona turnover Collin Sexton"
+          "time": "Q1 1:39",
+          "text": "Leonard Miller defensive rebound"
         },
         {
-          "seq": 139.0,
+          "seq": 144.0,
           "period": 1,
-          "time": "Q1 1:59",
-          "text": "Adem Bona offensive rebound"
+          "time": "Q1 1:43",
+          "text": "Justin Edwards misses 29-foot three point jumper"
         },
         {
-          "seq": 138.0,
+          "seq": 143.0,
           "period": 1,
-          "time": "Q1 2:03",
-          "text": "VJ Edgecombe misses running layup"
+          "time": "Q1 1:56",
+          "text": "VJ Edgecombe defensive goaltending violation"
         },
         {
-          "seq": 137.0,
+          "seq": 142.0,
           "period": 1,
-          "time": "Q1 2:08",
-          "text": "Adem Bona defensive rebound"
-        },
-        {
-          "seq": 136.0,
-          "period": 1,
-          "time": "Q1 2:10",
-          "text": "Leonard Miller misses 25-foot three point jumper"
-        },
-        {
-          "seq": 135.0,
-          "period": 1,
-          "time": "Q1 2:23",
-          "text": "VJ Edgecombe makes 27-foot three point step back jumpshot"
-        },
-        {
-          "seq": 133.0,
-          "period": 1,
-          "time": "Q1 2:41",
-          "text": "Tre Jones makes 1-foot two point shot"
-        },
-        {
-          "seq": 131.0,
-          "period": 1,
-          "time": "Q1 2:48",
-          "text": "Cameron Payne personal foul"
+          "time": "Q1 1:56",
+          "text": "Isaac Okoro makes two point shot"
         }
       ],
-      "last_seq": 140.0
+      "last_seq": 145.0
     }
   }
 }
