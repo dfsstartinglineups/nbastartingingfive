@@ -5975,8 +5975,8 @@
     }
   },
   "ORL-CLE-2026-03-24": {
-    "status": "in",
-    "clock": "0.0 - 4th",
+    "status": "post",
+    "clock": "Final",
     "away_score": "131",
     "home_score": "136",
     "team_stats": {
@@ -6017,7 +6017,7 @@
         "OR": "6",
         "DR": "27",
         "AST": "24",
-        "STL": "6",
+        "STL": "7",
         "BLK": "4",
         "TO": "8",
         "TTO": "0",
@@ -6051,7 +6051,7 @@
           "is_on_court": false
         },
         "Evan Mobley": {
-          "MIN": 32,
+          "MIN": 33,
           "PTS": "19",
           "REB": "9",
           "AST": "6",
@@ -6070,14 +6070,14 @@
           "PTS": "26",
           "REB": "3",
           "AST": "7",
-          "STL": "0",
+          "STL": "1",
           "BLK": "1",
           "TO": "2",
           "FG": "8-16",
           "3PT": "4-6",
           "FT": "6-7",
-          "fd_pts": 41.1,
-          "dk_pts": 43.25,
+          "fd_pts": 44.1,
+          "dk_pts": 45.25,
           "is_on_court": true
         },
         "Donovan Mitchell": {
@@ -6339,18 +6339,31 @@
         }
       }
     },
+    "game_ended_time": "2026-03-24T22:43:17.432515-04:00",
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 667.0,
+          "period": 4,
+          "time": "Q4 0.0",
+          "text": "End of Game"
+        },
+        {
+          "seq": 666.0,
+          "period": 4,
+          "time": "Q4 0.0",
+          "text": "End of the 4th Quarter"
+        },
         {
           "seq": 664.0,
           "period": 4,
           "time": "Q4 0.0",
-          "text": "Paolo Banchero turnover"
+          "text": "Paolo Banchero bad pass\nturnover (James Harden steals)"
         },
         {
           "seq": 663.0,
           "period": 4,
-          "time": "Q4 0.2",
+          "time": "Q4 0.8",
           "text": "Donovan Mitchell makes free throw 2 of 2"
         },
         {
@@ -9092,37 +9105,19 @@
       ],
       "new_plays": [
         {
-          "seq": 664.0,
+          "seq": 667.0,
           "period": 4,
           "time": "Q4 0.0",
-          "text": "Paolo Banchero turnover"
+          "text": "End of Game"
         },
         {
-          "seq": 663.0,
+          "seq": 666.0,
           "period": 4,
-          "time": "Q4 0.2",
-          "text": "Donovan Mitchell makes free throw 2 of 2"
-        },
-        {
-          "seq": 662.0,
-          "period": 4,
-          "time": "Q4 0.8",
-          "text": "Donovan Mitchell makes free throw 1 of 2"
-        },
-        {
-          "seq": 660.0,
-          "period": 4,
-          "time": "Q4 0.8",
-          "text": "Jamal Cain enters the game for Wendell Carter Jr."
-        },
-        {
-          "seq": 658.0,
-          "period": 4,
-          "time": "Q4 0.8",
-          "text": "Wendell Carter Jr. personal foul"
+          "time": "Q4 0.0",
+          "text": "End of the 4th Quarter"
         }
       ],
-      "last_seq": 664.0
+      "last_seq": 667.0
     }
   }
 }
