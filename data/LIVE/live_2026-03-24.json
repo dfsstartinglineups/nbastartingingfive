@@ -9109,12 +9109,12 @@
   },
   "DEN-PHX-2026-03-24": {
     "status": "in",
-    "clock": "29.1 - 4th",
-    "away_score": "123",
+    "clock": "11.5 - 4th",
+    "away_score": "125",
     "home_score": "123",
     "team_stats": {
       "DEN": {
-        "fieldGoalsMade-fieldGoalsAttempted": "44-87",
+        "fieldGoalsMade-fieldGoalsAttempted": "45-88",
         "FG%": "51",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "13-32",
         "3P%": "41",
@@ -9123,7 +9123,7 @@
         "REB": "50",
         "OR": "14",
         "DR": "36",
-        "AST": "34",
+        "AST": "35",
         "STL": "2",
         "BLK": "2",
         "TO": "9",
@@ -9133,11 +9133,11 @@
         "FLAG": "0",
         "Points Conceded Off Turnovers": "13",
         "FBPs": "11",
-        "PIP": "56",
+        "PIP": "58",
         "PF": "27",
         "LL": "12",
         "LC": "9",
-        "LPCT": "50"
+        "LPCT": "49"
       },
       "PHX": {
         "fieldGoalsMade-fieldGoalsAttempted": "39-88",
@@ -9163,7 +9163,7 @@
         "PF": "20",
         "LL": "11",
         "LC": "9",
-        "LPCT": "43"
+        "LPCT": "42"
       }
     },
     "players": {
@@ -9184,7 +9184,7 @@
           "is_on_court": true
         },
         "Oso Ighodaro": {
-          "MIN": 33,
+          "MIN": 34,
           "PTS": "15",
           "REB": "6",
           "AST": "1",
@@ -9336,7 +9336,7 @@
           "is_on_court": true
         },
         "Cameron Johnson": {
-          "MIN": 32,
+          "MIN": 33,
           "PTS": "14",
           "REB": "3",
           "AST": "2",
@@ -9352,32 +9352,32 @@
         },
         "Nikola Jokic": {
           "MIN": 35,
-          "PTS": "21",
+          "PTS": "23",
           "REB": "17",
           "AST": "17",
           "STL": "0",
           "BLK": "0",
           "TO": "2",
-          "FG": "8-15",
+          "FG": "9-16",
           "3PT": "0-1",
           "FT": "5-7",
-          "fd_pts": 64.9,
-          "dk_pts": 69.75,
+          "fd_pts": 66.9,
+          "dk_pts": 71.75,
           "is_on_court": true
         },
         "Jamal Murray": {
           "MIN": 38,
           "PTS": "21",
           "REB": "1",
-          "AST": "5",
+          "AST": "6",
           "STL": "0",
           "BLK": "1",
           "TO": "2",
           "FG": "7-18",
           "3PT": "3-9",
           "FT": "4-4",
-          "fd_pts": 30.7,
-          "dk_pts": 32.25,
+          "fd_pts": 32.2,
+          "dk_pts": 33.75,
           "is_on_court": true
         },
         "Christian Braun": {
@@ -9393,7 +9393,7 @@
           "FT": "0-0",
           "fd_pts": 18.1,
           "dk_pts": 18.75,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Spencer Jones": {
           "MIN": 22,
@@ -9411,7 +9411,7 @@
           "is_on_court": false
         },
         "Tim Hardaway Jr.": {
-          "MIN": 22,
+          "MIN": 23,
           "PTS": "18",
           "REB": "3",
           "AST": "2",
@@ -9423,7 +9423,7 @@
           "FT": "2-3",
           "fd_pts": 24.6,
           "dk_pts": 26.75,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Bruce Brown": {
           "MIN": 22,
@@ -9459,6 +9459,24 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 688.0,
+          "period": 4,
+          "time": "Q4 11.5",
+          "text": "Suns Full timeout"
+        },
+        {
+          "seq": 686.0,
+          "period": 4,
+          "time": "Q4 11.8",
+          "text": "Nikola Jokic makes 11-foot shot (Jamal Murray assists)"
+        },
+        {
+          "seq": 684.0,
+          "period": 4,
+          "time": "Q4 29.1",
+          "text": "Tim Hardaway Jr. enters the game for Christian Braun"
+        },
         {
           "seq": 683.0,
           "period": 4,
@@ -12364,8 +12382,27 @@
           "text": "Nikola Jokic jump ball violation"
         }
       ],
-      "new_plays": [],
-      "last_seq": 683.0
+      "new_plays": [
+        {
+          "seq": 688.0,
+          "period": 4,
+          "time": "Q4 11.5",
+          "text": "Suns Full timeout"
+        },
+        {
+          "seq": 686.0,
+          "period": 4,
+          "time": "Q4 11.8",
+          "text": "Nikola Jokic makes 11-foot shot (Jamal Murray assists)"
+        },
+        {
+          "seq": 684.0,
+          "period": 4,
+          "time": "Q4 29.1",
+          "text": "Tim Hardaway Jr. enters the game for Christian Braun"
+        }
+      ],
+      "last_seq": 688.0
     }
   }
 }
