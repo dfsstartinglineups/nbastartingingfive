@@ -9109,9 +9109,9 @@
   },
   "DEN-PHX-2026-03-24": {
     "status": "in",
-    "clock": "7:09 - 1st",
+    "clock": "7:02 - 1st",
     "away_score": "13",
-    "home_score": "15",
+    "home_score": "18",
     "team_stats": {
       "DEN": {
         "fieldGoalsMade-fieldGoalsAttempted": "6-12",
@@ -9129,12 +9129,12 @@
         "TO": "0",
         "TTO": "0",
         "ToTO": "0",
-        "TECH": "0",
+        "TECH": "1",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "0",
         "FBPs": "2",
         "PIP": "10",
-        "PF": "0",
+        "PF": "1",
         "LL": "1",
         "LC": "2",
         "LPCT": "9"
@@ -9144,12 +9144,12 @@
         "FG%": "60",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "3-6",
         "3P%": "50",
-        "freeThrowsMade-freeThrowsAttempted": "0-0",
-        "FT%": "0",
+        "freeThrowsMade-freeThrowsAttempted": "1-1",
+        "FT%": "100",
         "REB": "3",
         "OR": "0",
         "DR": "3",
-        "AST": "4",
+        "AST": "5",
         "STL": "0",
         "BLK": "1",
         "TO": "0",
@@ -9163,7 +9163,7 @@
         "PF": "1",
         "LL": "5",
         "LC": "2",
-        "LPCT": "90"
+        "LPCT": "88"
       }
     },
     "players": {
@@ -9200,7 +9200,7 @@
         },
         "Devin Booker": {
           "MIN": 5,
-          "PTS": "2",
+          "PTS": "3",
           "REB": "0",
           "AST": "1",
           "STL": "0",
@@ -9208,9 +9208,9 @@
           "TO": "0",
           "FG": "1-1",
           "3PT": "0-0",
-          "FT": "0-0",
-          "fd_pts": 3.5,
-          "dk_pts": 3.5,
+          "FT": "1-1",
+          "fd_pts": 4.5,
+          "dk_pts": 4.5,
           "is_on_court": true
         },
         "Collin Gillespie": {
@@ -9232,15 +9232,15 @@
           "MIN": 5,
           "PTS": "0",
           "REB": "1",
-          "AST": "2",
+          "AST": "3",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
           "FG": "0-1",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 4.2,
-          "dk_pts": 4.25,
+          "fd_pts": 5.7,
+          "dk_pts": 5.75,
           "is_on_court": true
         }
       },
@@ -9325,6 +9325,24 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 57.0,
+          "period": 1,
+          "time": "Q1 7:09",
+          "text": "Devin Booker makes technical free throw"
+        },
+        {
+          "seq": 56.0,
+          "period": 1,
+          "time": "Q1 7:09",
+          "text": "Nikola Jokic technical foul"
+        },
+        {
+          "seq": 54.0,
+          "period": 1,
+          "time": "Q1 7:09",
+          "text": "Christian Braun personal foul"
+        },
+        {
           "seq": 53.0,
           "period": 1,
           "time": "Q1 7:13",
@@ -9370,7 +9388,7 @@
           "seq": 43.0,
           "period": 1,
           "time": "Q1 8:00",
-          "text": "Devin Booker makes running layup"
+          "text": "Devin Booker makes running layup (Jalen Green assists)"
         },
         {
           "seq": 42.0,
@@ -9555,55 +9573,25 @@
       ],
       "new_plays": [
         {
-          "seq": 53.0,
+          "seq": 57.0,
           "period": 1,
-          "time": "Q1 7:13",
-          "text": "Nikola Jokic makes two point shot"
+          "time": "Q1 7:09",
+          "text": "Devin Booker makes technical free throw"
         },
         {
-          "seq": 52.0,
+          "seq": 56.0,
           "period": 1,
-          "time": "Q1 7:13",
-          "text": "Nikola Jokic offensive rebound"
+          "time": "Q1 7:09",
+          "text": "Nikola Jokic technical foul"
         },
         {
-          "seq": 51.0,
+          "seq": 54.0,
           "period": 1,
-          "time": "Q1 7:17",
-          "text": "Nikola Jokic misses layup"
-        },
-        {
-          "seq": 50.0,
-          "period": 1,
-          "time": "Q1 7:28",
-          "text": "Nikola Jokic defensive rebound"
-        },
-        {
-          "seq": 49.0,
-          "period": 1,
-          "time": "Q1 7:31",
-          "text": "Collin Gillespie misses 22-foot three point step back jumpshot"
-        },
-        {
-          "seq": 47.0,
-          "period": 1,
-          "time": "Q1 7:44",
-          "text": "Suns defensive team rebound"
-        },
-        {
-          "seq": 45.0,
-          "period": 1,
-          "time": "Q1 7:44",
-          "text": "Royce O'Neale blocks Nikola Jokic 's 8-foot driving layup"
-        },
-        {
-          "seq": 43.0,
-          "period": 1,
-          "time": "Q1 8:00",
-          "text": "Devin Booker makes running layup"
+          "time": "Q1 7:09",
+          "text": "Christian Braun personal foul"
         }
       ],
-      "last_seq": 53.0
+      "last_seq": 57.0
     }
   }
 }
