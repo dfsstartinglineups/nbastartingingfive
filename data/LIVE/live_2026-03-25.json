@@ -1,13 +1,13 @@
 {
-  "CHI-PHI-2026-03-25": {
+  "LAL-IND-2026-03-25": {
     "status": "in",
-    "clock": "11:58 - 1st",
-    "away_score": "0",
+    "clock": "11:35 - 1st",
+    "away_score": "2",
     "home_score": "0",
     "team_stats": {
-      "CHI": {
-        "fieldGoalsMade-fieldGoalsAttempted": "0-0",
-        "FG%": "0",
+      "LAL": {
+        "fieldGoalsMade-fieldGoalsAttempted": "1-1",
+        "FG%": "100",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "0-0",
         "3P%": "0",
         "freeThrowsMade-freeThrowsAttempted": "0-0",
@@ -15,8 +15,8 @@
         "REB": "0",
         "OR": "0",
         "DR": "0",
-        "AST": "0",
-        "STL": "0",
+        "AST": "1",
+        "STL": "1",
         "BLK": "0",
         "TO": "0",
         "TTO": "0",
@@ -24,13 +24,14 @@
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "0",
-        "FBPs": "0",
-        "PIP": "0",
+        "FBPs": "2",
+        "PIP": "2",
         "PF": "0",
+        "LL": "2",
         "LC": "0",
         "LPCT": "0"
       },
-      "PHI": {
+      "IND": {
         "fieldGoalsMade-fieldGoalsAttempted": "0-0",
         "FG%": "0",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "0-0",
@@ -43,22 +44,23 @@
         "AST": "0",
         "STL": "0",
         "BLK": "0",
-        "TO": "0",
+        "TO": "1",
         "TTO": "0",
-        "ToTO": "0",
+        "ToTO": "1",
         "TECH": "0",
         "FLAG": "0",
-        "Points Conceded Off Turnovers": "0",
+        "Points Conceded Off Turnovers": "2",
         "FBPs": "0",
         "PIP": "0",
         "PF": "0",
+        "LL": "0",
         "LC": "0",
         "LPCT": "0"
       }
     },
     "players": {
-      "PHI": {
-        "Paul George": {
+      "IND": {
+        "Pascal Siakam": {
           "MIN": 0,
           "PTS": "0",
           "REB": "0",
@@ -73,7 +75,22 @@
           "dk_pts": 0.0,
           "is_on_court": true
         },
-        "Dominick Barlow": {
+        "Jarace Walker": {
+          "MIN": 0,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "1",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": -1.0,
+          "dk_pts": -0.5,
+          "is_on_court": true
+        },
+        "Jay Huff": {
           "MIN": 0,
           "PTS": "0",
           "REB": "0",
@@ -88,7 +105,7 @@
           "dk_pts": 0.0,
           "is_on_court": true
         },
-        "Joel Embiid": {
+        "Andrew Nembhard": {
           "MIN": 0,
           "PTS": "0",
           "REB": "0",
@@ -103,22 +120,7 @@
           "dk_pts": 0.0,
           "is_on_court": true
         },
-        "Quentin Grimes": {
-          "MIN": 0,
-          "PTS": "0",
-          "REB": "0",
-          "AST": "0",
-          "STL": "0",
-          "BLK": "0",
-          "TO": "0",
-          "FG": "0-0",
-          "3PT": "0-0",
-          "FT": "0-0",
-          "fd_pts": 0.0,
-          "dk_pts": 0.0,
-          "is_on_court": true
-        },
-        "VJ Edgecombe": {
+        "Aaron Nesmith": {
           "MIN": 0,
           "PTS": "0",
           "REB": "0",
@@ -134,8 +136,53 @@
           "is_on_court": true
         }
       },
-      "CHI": {
-        "Jalen Smith": {
+      "LAL": {
+        "LeBron James": {
+          "MIN": 0,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "1",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 1.5,
+          "dk_pts": 1.5,
+          "is_on_court": true
+        },
+        "Jake LaRavia": {
+          "MIN": 0,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "1",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 3.0,
+          "dk_pts": 2.0,
+          "is_on_court": true
+        },
+        "Jaxson Hayes": {
+          "MIN": 0,
+          "PTS": "2",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "1-1",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 2.0,
+          "dk_pts": 2.0,
+          "is_on_court": true
+        },
+        "Luka Doncic": {
           "MIN": 0,
           "PTS": "0",
           "REB": "0",
@@ -150,52 +197,7 @@
           "dk_pts": 0.0,
           "is_on_court": true
         },
-        "Matas Buzelis": {
-          "MIN": 0,
-          "PTS": "0",
-          "REB": "0",
-          "AST": "0",
-          "STL": "0",
-          "BLK": "0",
-          "TO": "0",
-          "FG": "0-0",
-          "3PT": "0-0",
-          "FT": "0-0",
-          "fd_pts": 0.0,
-          "dk_pts": 0.0,
-          "is_on_court": true
-        },
-        "Nick Richards": {
-          "MIN": 0,
-          "PTS": "0",
-          "REB": "0",
-          "AST": "0",
-          "STL": "0",
-          "BLK": "0",
-          "TO": "0",
-          "FG": "0-0",
-          "3PT": "0-0",
-          "FT": "0-0",
-          "fd_pts": 0.0,
-          "dk_pts": 0.0,
-          "is_on_court": true
-        },
-        "Tre Jones": {
-          "MIN": 0,
-          "PTS": "0",
-          "REB": "0",
-          "AST": "0",
-          "STL": "0",
-          "BLK": "0",
-          "TO": "0",
-          "FG": "0-0",
-          "3PT": "0-0",
-          "FT": "0-0",
-          "fd_pts": 0.0,
-          "dk_pts": 0.0,
-          "is_on_court": true
-        },
-        "Josh Giddey": {
+        "Austin Reaves": {
           "MIN": 0,
           "PTS": "0",
           "REB": "0",
@@ -213,9 +215,330 @@
       }
     },
     "play_by_play": {
-      "full_log": [],
-      "new_plays": [],
-      "last_seq": 0.0
+      "full_log": [
+        {
+          "seq": 9.0,
+          "period": 1,
+          "time": "Q1 11:36",
+          "text": "Jaxson Hayes makes 1-foot dunk (LeBron James assists)"
+        },
+        {
+          "seq": 7.0,
+          "period": 1,
+          "time": "Q1 11:40",
+          "text": "Jarace Walker lost ball turnover (Jake LaRavia steals)"
+        },
+        {
+          "seq": 4.0,
+          "period": 1,
+          "time": "Q1 12:00",
+          "text": "Jaxson Hayes vs. Jay Huff (Pascal Siakam gains possession)"
+        }
+      ],
+      "new_plays": [
+        {
+          "seq": 9.0,
+          "period": 1,
+          "time": "Q1 11:36",
+          "text": "Jaxson Hayes makes 1-foot dunk (LeBron James assists)"
+        },
+        {
+          "seq": 7.0,
+          "period": 1,
+          "time": "Q1 11:40",
+          "text": "Jarace Walker lost ball turnover (Jake LaRavia steals)"
+        },
+        {
+          "seq": 4.0,
+          "period": 1,
+          "time": "Q1 12:00",
+          "text": "Jaxson Hayes vs. Jay Huff (Pascal Siakam gains possession)"
+        }
+      ],
+      "last_seq": 9.0
+    }
+  },
+  "CHI-PHI-2026-03-25": {
+    "status": "in",
+    "clock": "11:10 - 1st",
+    "away_score": "0",
+    "home_score": "5",
+    "team_stats": {
+      "CHI": {
+        "fieldGoalsMade-fieldGoalsAttempted": "0-1",
+        "FG%": "0",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "0-0",
+        "3P%": "0",
+        "freeThrowsMade-freeThrowsAttempted": "0-0",
+        "FT%": "0",
+        "REB": "1",
+        "OR": "1",
+        "DR": "0",
+        "AST": "0",
+        "STL": "0",
+        "BLK": "0",
+        "TO": "2",
+        "TTO": "0",
+        "ToTO": "2",
+        "TECH": "0",
+        "FLAG": "0",
+        "Points Conceded Off Turnovers": "2",
+        "FBPs": "0",
+        "PIP": "0",
+        "PF": "0",
+        "LL": "0",
+        "LC": "0",
+        "LPCT": "0"
+      },
+      "PHI": {
+        "fieldGoalsMade-fieldGoalsAttempted": "1-1",
+        "FG%": "100",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "0-0",
+        "3P%": "0",
+        "freeThrowsMade-freeThrowsAttempted": "0-0",
+        "FT%": "0",
+        "REB": "0",
+        "OR": "0",
+        "DR": "0",
+        "AST": "1",
+        "STL": "1",
+        "BLK": "0",
+        "TO": "0",
+        "TTO": "0",
+        "ToTO": "0",
+        "TECH": "0",
+        "FLAG": "0",
+        "Points Conceded Off Turnovers": "0",
+        "FBPs": "2",
+        "PIP": "2",
+        "PF": "0",
+        "LL": "2",
+        "LC": "0",
+        "LPCT": "17"
+      }
+    },
+    "players": {
+      "PHI": {
+        "Paul George": {
+          "MIN": 1,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "1",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 1.5,
+          "dk_pts": 1.5,
+          "is_on_court": true
+        },
+        "Dominick Barlow": {
+          "MIN": 1,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
+          "is_on_court": true
+        },
+        "Joel Embiid": {
+          "MIN": 1,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
+          "is_on_court": true
+        },
+        "Quentin Grimes": {
+          "MIN": 1,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "1",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 3.0,
+          "dk_pts": 2.0,
+          "is_on_court": true
+        },
+        "VJ Edgecombe": {
+          "MIN": 1,
+          "PTS": "2",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "1-1",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 2.0,
+          "dk_pts": 2.0,
+          "is_on_court": true
+        }
+      },
+      "CHI": {
+        "Jalen Smith": {
+          "MIN": 1,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
+          "is_on_court": true
+        },
+        "Matas Buzelis": {
+          "MIN": 1,
+          "PTS": "0",
+          "REB": "1",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "2",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": -0.8,
+          "dk_pts": 0.25,
+          "is_on_court": true
+        },
+        "Nick Richards": {
+          "MIN": 1,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-1",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
+          "is_on_court": true
+        },
+        "Tre Jones": {
+          "MIN": 1,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
+          "is_on_court": true
+        },
+        "Josh Giddey": {
+          "MIN": 1,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
+          "is_on_court": true
+        }
+      }
+    },
+    "play_by_play": {
+      "full_log": [
+        {
+          "seq": 11.0,
+          "period": 1,
+          "time": "Q1 11:28",
+          "text": "VJ Edgecombe makes running layup (Paul George assists)"
+        },
+        {
+          "seq": 9.0,
+          "period": 1,
+          "time": "Q1 11:33",
+          "text": "Matas Buzelis bad pass\nturnover (Quentin Grimes steals)"
+        },
+        {
+          "seq": 8.0,
+          "period": 1,
+          "time": "Q1 11:34",
+          "text": "Matas Buzelis offensive rebound"
+        },
+        {
+          "seq": 7.0,
+          "period": 1,
+          "time": "Q1 11:38",
+          "text": "Nick Richards misses 11-foot fade away jump shot"
+        },
+        {
+          "seq": 4.0,
+          "period": 1,
+          "time": "Q1 12:00",
+          "text": "Nick Richards vs. Dominick Barlow (Jalen Smith gains possession)"
+        }
+      ],
+      "new_plays": [
+        {
+          "seq": 11.0,
+          "period": 1,
+          "time": "Q1 11:28",
+          "text": "VJ Edgecombe makes running layup (Paul George assists)"
+        },
+        {
+          "seq": 9.0,
+          "period": 1,
+          "time": "Q1 11:33",
+          "text": "Matas Buzelis bad pass\nturnover (Quentin Grimes steals)"
+        },
+        {
+          "seq": 8.0,
+          "period": 1,
+          "time": "Q1 11:34",
+          "text": "Matas Buzelis offensive rebound"
+        },
+        {
+          "seq": 7.0,
+          "period": 1,
+          "time": "Q1 11:38",
+          "text": "Nick Richards misses 11-foot fade away jump shot"
+        },
+        {
+          "seq": 4.0,
+          "period": 1,
+          "time": "Q1 12:00",
+          "text": "Nick Richards vs. Dominick Barlow (Jalen Smith gains possession)"
+        }
+      ],
+      "last_seq": 11.0
     }
   }
 }
