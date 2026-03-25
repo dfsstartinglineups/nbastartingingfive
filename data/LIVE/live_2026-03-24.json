@@ -1,9 +1,9 @@
 {
   "SAC-CHA-2026-03-24": {
     "status": "in",
-    "clock": "Halftime",
+    "clock": "11:35 - 3rd",
     "away_score": "47",
-    "home_score": "72",
+    "home_score": "75",
     "team_stats": {
       "SAC": {
         "fieldGoalsMade-fieldGoalsAttempted": "20-46",
@@ -41,7 +41,7 @@
         "REB": "29",
         "OR": "7",
         "DR": "22",
-        "AST": "18",
+        "AST": "17",
         "STL": "3",
         "BLK": "2",
         "TO": "4",
@@ -53,7 +53,7 @@
         "FBPs": "11",
         "PIP": "26",
         "PF": "7",
-        "LL": "25",
+        "LL": "28",
         "LC": "1",
         "LPCT": "93"
       }
@@ -133,7 +133,7 @@
           "FT": "0-0",
           "fd_pts": 10.1,
           "dk_pts": 10.75,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Grant Williams": {
           "MIN": 7,
@@ -169,16 +169,16 @@
           "MIN": 13,
           "PTS": "17",
           "REB": "3",
-          "AST": "1",
+          "AST": "0",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
           "FG": "6-9",
           "3PT": "4-6",
           "FT": "1-1",
-          "fd_pts": 22.1,
-          "dk_pts": 24.25,
-          "is_on_court": true
+          "fd_pts": 20.6,
+          "dk_pts": 22.75,
+          "is_on_court": false
         },
         "Josh Green": {
           "MIN": 5,
@@ -285,7 +285,7 @@
           "FT": "0-0",
           "fd_pts": 10.6,
           "dk_pts": 10.25,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Doug McDermott": {
           "MIN": 10,
@@ -330,12 +330,24 @@
           "FT": "1-1",
           "fd_pts": 12.2,
           "dk_pts": 12.25,
-          "is_on_court": true
+          "is_on_court": false
         }
       }
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 348.0,
+          "period": 3,
+          "time": "Q3 12:00",
+          "text": "Patrick Baldwin Jr. enters the game for Daeqwon Plowden"
+        },
+        {
+          "seq": 347.0,
+          "period": 3,
+          "time": "Q3 12:00",
+          "text": "Kon Knueppel enters the game for Coby White"
+        },
         {
           "seq": 346.0,
           "period": 2,
@@ -442,7 +454,7 @@
           "seq": 325.0,
           "period": 2,
           "time": "Q2 1:45",
-          "text": "Brandon Miller makes 22-foot three point jumper (Coby White assists)"
+          "text": "Brandon Miller makes 22-foot three point jumper"
         },
         {
           "seq": 324.0,
@@ -1747,8 +1759,21 @@
           "text": "Maxime Raynaud vs. Moussa Diabate (Malik Monk gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 346.0
+      "new_plays": [
+        {
+          "seq": 348.0,
+          "period": 3,
+          "time": "Q3 12:00",
+          "text": "Patrick Baldwin Jr. enters the game for Daeqwon Plowden"
+        },
+        {
+          "seq": 347.0,
+          "period": 3,
+          "time": "Q3 12:00",
+          "text": "Kon Knueppel enters the game for Coby White"
+        }
+      ],
+      "last_seq": 348.0
     }
   },
   "NOP-NYK-2026-03-24": {
@@ -2893,45 +2918,14 @@
           "text": "Zion Williamson vs. Karl-Anthony Towns (Saddiq Bey gains possession)"
         }
       ],
-      "new_plays": [
-        {
-          "seq": 197.0,
-          "period": 2,
-          "time": "Q2 8:56",
-          "text": "Knicks Full timeout"
-        },
-        {
-          "seq": 195.0,
-          "period": 2,
-          "time": "Q2 8:56",
-          "text": "Jeremiah Fears makes 1-foot running dunk (Herbert Jones assists)"
-        },
-        {
-          "seq": 193.0,
-          "period": 2,
-          "time": "Q2 8:58",
-          "text": "Jose Alvarado lost ball turnover (Herbert Jones steals)"
-        },
-        {
-          "seq": 191.0,
-          "period": 2,
-          "time": "Q2 9:13",
-          "text": "Jeremiah Fears makes 27-foot three point jumper (Zion Williamson assists)"
-        },
-        {
-          "seq": 190.0,
-          "period": 2,
-          "time": "Q2 9:24",
-          "text": "Jordan Clarkson makes free throw 2 of 2"
-        }
-      ],
+      "new_plays": [],
       "last_seq": 197.0
     }
   },
   "ORL-CLE-2026-03-24": {
     "status": "in",
-    "clock": "9:04 - 1st",
-    "away_score": "10",
+    "clock": "8:30 - 1st",
+    "away_score": "12",
     "home_score": "9",
     "team_stats": {
       "ORL": {
@@ -2939,11 +2933,11 @@
         "FG%": "75",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "2-3",
         "3P%": "67",
-        "freeThrowsMade-freeThrowsAttempted": "2-2",
+        "freeThrowsMade-freeThrowsAttempted": "4-4",
         "FT%": "100",
-        "REB": "1",
+        "REB": "2",
         "OR": "0",
-        "DR": "1",
+        "DR": "2",
         "AST": "2",
         "STL": "0",
         "BLK": "0",
@@ -2958,13 +2952,13 @@
         "PF": "1",
         "LL": "6",
         "LC": "0",
-        "LPCT": "97"
+        "LPCT": "94"
       },
       "CLE": {
-        "fieldGoalsMade-fieldGoalsAttempted": "4-6",
-        "FG%": "67",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "1-2",
-        "3P%": "50",
+        "fieldGoalsMade-fieldGoalsAttempted": "4-7",
+        "FG%": "57",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "1-3",
+        "3P%": "33",
         "freeThrowsMade-freeThrowsAttempted": "0-0",
         "FT%": "0",
         "REB": "1",
@@ -2981,7 +2975,7 @@
         "Points Conceded Off Turnovers": "0",
         "FBPs": "0",
         "PIP": "4",
-        "PF": "1",
+        "PF": "2",
         "LL": "0",
         "LC": "0",
         "LPCT": "0"
@@ -3027,8 +3021,8 @@
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "0-0",
-          "3PT": "0-0",
+          "FG": "0-1",
+          "3PT": "0-1",
           "FT": "0-0",
           "fd_pts": 0.0,
           "dk_pts": 0.0,
@@ -3070,30 +3064,30 @@
           "MIN": 3,
           "PTS": "3",
           "REB": "0",
-          "AST": "0",
+          "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
           "FG": "1-1",
           "3PT": "1-1",
           "FT": "0-0",
-          "fd_pts": 3.0,
-          "dk_pts": 3.5,
+          "fd_pts": 4.5,
+          "dk_pts": 5.0,
           "is_on_court": true
         },
         "Paolo Banchero": {
           "MIN": 3,
-          "PTS": "7",
+          "PTS": "4",
           "REB": "0",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "2-3",
-          "3PT": "1-2",
+          "FG": "1-2",
+          "3PT": "0-1",
           "FT": "2-2",
-          "fd_pts": 7.0,
-          "dk_pts": 7.5,
+          "fd_pts": 4.0,
+          "dk_pts": 4.0,
           "is_on_court": true
         },
         "Tristan da Silva": {
@@ -3113,7 +3107,7 @@
         },
         "Wendell Carter Jr.": {
           "MIN": 3,
-          "PTS": "0",
+          "PTS": "2",
           "REB": "1",
           "AST": "1",
           "STL": "0",
@@ -3121,30 +3115,54 @@
           "TO": "0",
           "FG": "0-0",
           "3PT": "0-0",
-          "FT": "0-0",
-          "fd_pts": 2.7,
-          "dk_pts": 2.75,
+          "FT": "2-2",
+          "fd_pts": 4.7,
+          "dk_pts": 4.75,
           "is_on_court": true
         },
         "Desmond Bane": {
           "MIN": 3,
-          "PTS": "0",
-          "REB": "0",
-          "AST": "1",
+          "PTS": "3",
+          "REB": "1",
+          "AST": "0",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "0-0",
-          "3PT": "0-0",
+          "FG": "1-1",
+          "3PT": "1-1",
           "FT": "0-0",
-          "fd_pts": 1.5,
-          "dk_pts": 1.5,
+          "fd_pts": 4.2,
+          "dk_pts": 4.75,
           "is_on_court": true
         }
       }
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 36.0,
+          "period": 1,
+          "time": "Q1 8:50",
+          "text": "James Harden misses shot"
+        },
+        {
+          "seq": 34.0,
+          "period": 1,
+          "time": "Q1 9:04",
+          "text": "Wendell Carter Jr. makes free throw 2 of 2"
+        },
+        {
+          "seq": 33.0,
+          "period": 1,
+          "time": "Q1 9:04",
+          "text": "Wendell Carter Jr. makes free throw 1 of 2"
+        },
+        {
+          "seq": 31.0,
+          "period": 1,
+          "time": "Q1 9:04",
+          "text": "Evan Mobley shooting foul"
+        },
         {
           "seq": 29.0,
           "period": 1,
@@ -3245,7 +3263,7 @@
           "seq": 7.0,
           "period": 1,
           "time": "Q1 11:46",
-          "text": "Paolo Banchero makes 26-foot three point step back jumpshot (Desmond Bane assists)"
+          "text": "Desmond Bane makes 26-foot three point step back jumpshot (Jamal Cain assists)"
         },
         {
           "seq": 4.0,
@@ -3256,25 +3274,31 @@
       ],
       "new_plays": [
         {
-          "seq": 29.0,
+          "seq": 36.0,
           "period": 1,
-          "time": "Q1 9:14",
-          "text": "Donovan Mitchell makes 11-foot step back jumpshot (Dean Wade assists)"
+          "time": "Q1 8:50",
+          "text": "James Harden misses shot"
         },
         {
-          "seq": 28.0,
+          "seq": 34.0,
           "period": 1,
-          "time": "Q1 9:29",
-          "text": "Paolo Banchero makes free throw 2 of 2"
+          "time": "Q1 9:04",
+          "text": "Wendell Carter Jr. makes free throw 2 of 2"
         },
         {
-          "seq": 26.0,
+          "seq": 33.0,
           "period": 1,
-          "time": "Q1 9:29",
-          "text": "Paolo Banchero makes free throw 1 of 2"
+          "time": "Q1 9:04",
+          "text": "Wendell Carter Jr. makes free throw 1 of 2"
+        },
+        {
+          "seq": 31.0,
+          "period": 1,
+          "time": "Q1 9:04",
+          "text": "Evan Mobley shooting foul"
         }
       ],
-      "last_seq": 29.0
+      "last_seq": 36.0
     }
   }
 }
