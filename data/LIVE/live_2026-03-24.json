@@ -9109,13 +9109,13 @@
   },
   "DEN-PHX-2026-03-24": {
     "status": "in",
-    "clock": "Halftime",
-    "away_score": "67",
+    "clock": "11:49 - 3rd",
+    "away_score": "69",
     "home_score": "57",
     "team_stats": {
       "DEN": {
-        "fieldGoalsMade-fieldGoalsAttempted": "24-48",
-        "FG%": "50",
+        "fieldGoalsMade-fieldGoalsAttempted": "25-49",
+        "FG%": "51",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "7-15",
         "3P%": "47",
         "freeThrowsMade-freeThrowsAttempted": "12-16",
@@ -9123,7 +9123,7 @@
         "REB": "30",
         "OR": "11",
         "DR": "19",
-        "AST": "19",
+        "AST": "20",
         "STL": "1",
         "BLK": "0",
         "TO": "2",
@@ -9133,11 +9133,11 @@
         "FLAG": "0",
         "Points Conceded Off Turnovers": "0",
         "FBPs": "7",
-        "PIP": "32",
+        "PIP": "34",
         "PF": "9",
-        "LL": "11",
+        "LL": "12",
         "LC": "3",
-        "LPCT": "17"
+        "LPCT": "18"
       },
       "PHX": {
         "fieldGoalsMade-fieldGoalsAttempted": "20-47",
@@ -9214,7 +9214,7 @@
           "is_on_court": true
         },
         "Collin Gillespie": {
-          "MIN": 15,
+          "MIN": 16,
           "PTS": "11",
           "REB": "3",
           "AST": "0",
@@ -9241,7 +9241,7 @@
           "FT": "4-6",
           "fd_pts": 21.3,
           "dk_pts": 23.5,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Rasheer Fleming": {
           "MIN": 13,
@@ -9286,7 +9286,7 @@
           "FT": "0-0",
           "fd_pts": 16.4,
           "dk_pts": 18.0,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Jordan Goodwin": {
           "MIN": 10,
@@ -9348,10 +9348,10 @@
           "FT": "0-0",
           "fd_pts": 5.4,
           "dk_pts": 5.5,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Nikola Jokic": {
-          "MIN": 17,
+          "MIN": 18,
           "PTS": "15",
           "REB": "11",
           "AST": "9",
@@ -9366,7 +9366,7 @@
           "is_on_court": true
         },
         "Jamal Murray": {
-          "MIN": 17,
+          "MIN": 18,
           "PTS": "10",
           "REB": "0",
           "AST": "3",
@@ -9453,12 +9453,30 @@
           "FT": "2-2",
           "fd_pts": 9.7,
           "dk_pts": 10.25,
-          "is_on_court": true
+          "is_on_court": false
         }
       }
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 345.0,
+          "period": 2,
+          "time": "Q2 35.9",
+          "text": "Royce O'Neale enters the game for Rasheer Fleming"
+        },
+        {
+          "seq": 341.0,
+          "period": 3,
+          "time": "Q3 12:00",
+          "text": "Cameron Johnson enters the game for Julian Strawther"
+        },
+        {
+          "seq": 340.0,
+          "period": 3,
+          "time": "Q3 12:00",
+          "text": "Jalen Green enters the game for Grayson Allen"
+        },
         {
           "seq": 339.0,
           "period": 2,
@@ -9492,25 +9510,19 @@
         {
           "seq": 332.0,
           "period": 2,
-          "time": "Q2 36.1",
+          "time": "Q2 35.9",
           "text": "Aaron Gordon makes free throw 2 of 2"
-        },
-        {
-          "seq": 330.0,
-          "period": 2,
-          "time": "Q2 36.1",
-          "text": "Royce O'Neale enters the game for Rasheer Fleming"
         },
         {
           "seq": 329.0,
           "period": 2,
-          "time": "Q2 36.1",
+          "time": "Q2 35.9",
           "text": "Aaron Gordon makes free throw 1 of 2"
         },
         {
           "seq": 327.0,
           "period": 2,
-          "time": "Q2 36.1",
+          "time": "Q2 35.9",
           "text": "Rasheer Fleming shooting foul"
         },
         {
@@ -10900,8 +10912,27 @@
           "text": "Nikola Jokic jump ball violation"
         }
       ],
-      "new_plays": [],
-      "last_seq": 339.0
+      "new_plays": [
+        {
+          "seq": 345.0,
+          "period": 2,
+          "time": "Q2 35.9",
+          "text": "Royce O'Neale enters the game for Rasheer Fleming"
+        },
+        {
+          "seq": 341.0,
+          "period": 3,
+          "time": "Q3 12:00",
+          "text": "Cameron Johnson enters the game for Julian Strawther"
+        },
+        {
+          "seq": 340.0,
+          "period": 3,
+          "time": "Q3 12:00",
+          "text": "Jalen Green enters the game for Grayson Allen"
+        }
+      ],
+      "last_seq": 345.0
     }
   }
 }
