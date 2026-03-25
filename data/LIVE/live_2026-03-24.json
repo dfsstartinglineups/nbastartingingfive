@@ -5976,9 +5976,9 @@
   },
   "ORL-CLE-2026-03-24": {
     "status": "in",
-    "clock": "0.2 - 4th",
+    "clock": "0.0 - 4th",
     "away_score": "131",
-    "home_score": "135",
+    "home_score": "136",
     "team_stats": {
       "ORL": {
         "fieldGoalsMade-fieldGoalsAttempted": "41-84",
@@ -5993,9 +5993,9 @@
         "AST": "27",
         "STL": "6",
         "BLK": "2",
-        "TO": "8",
+        "TO": "9",
         "TTO": "1",
-        "ToTO": "9",
+        "ToTO": "10",
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "17",
@@ -6011,8 +6011,8 @@
         "FG%": "60",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "12-30",
         "3P%": "40",
-        "freeThrowsMade-freeThrowsAttempted": "24-27",
-        "FT%": "89",
+        "freeThrowsMade-freeThrowsAttempted": "26-29",
+        "FT%": "90",
         "REB": "33",
         "OR": "6",
         "DR": "27",
@@ -6030,7 +6030,7 @@
         "PF": "22",
         "LL": "11",
         "LC": "3",
-        "LPCT": "66"
+        "LPCT": "65"
       }
     },
     "players": {
@@ -6082,7 +6082,7 @@
         },
         "Donovan Mitchell": {
           "MIN": 35,
-          "PTS": "40",
+          "PTS": "42",
           "REB": "2",
           "AST": "3",
           "STL": "0",
@@ -6090,9 +6090,9 @@
           "TO": "2",
           "FG": "14-22",
           "3PT": "3-7",
-          "FT": "9-9",
-          "fd_pts": 44.9,
-          "dk_pts": 47.5,
+          "FT": "11-11",
+          "fd_pts": 46.9,
+          "dk_pts": 49.5,
           "is_on_court": true
         },
         "Sam Merrill": {
@@ -6200,7 +6200,7 @@
           "FT": "6-6",
           "fd_pts": 28.7,
           "dk_pts": 29.5,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Paolo Banchero": {
           "MIN": 40,
@@ -6209,12 +6209,12 @@
           "AST": "5",
           "STL": "1",
           "BLK": "1",
-          "TO": "4",
+          "TO": "5",
           "FG": "10-19",
           "3PT": "3-7",
           "FT": "13-15",
-          "fd_pts": 52.7,
-          "dk_pts": 54.5,
+          "fd_pts": 51.7,
+          "dk_pts": 54.0,
           "is_on_court": true
         },
         "Tristan da Silva": {
@@ -6245,7 +6245,7 @@
           "FT": "5-6",
           "fd_pts": 30.0,
           "dk_pts": 29.25,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Desmond Bane": {
           "MIN": 36,
@@ -6341,6 +6341,36 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 664.0,
+          "period": 4,
+          "time": "Q4 0.0",
+          "text": "Paolo Banchero turnover"
+        },
+        {
+          "seq": 663.0,
+          "period": 4,
+          "time": "Q4 0.2",
+          "text": "Donovan Mitchell makes free throw 2 of 2"
+        },
+        {
+          "seq": 662.0,
+          "period": 4,
+          "time": "Q4 0.8",
+          "text": "Donovan Mitchell makes free throw 1 of 2"
+        },
+        {
+          "seq": 660.0,
+          "period": 4,
+          "time": "Q4 0.8",
+          "text": "Jamal Cain enters the game for Wendell Carter Jr."
+        },
+        {
+          "seq": 658.0,
+          "period": 4,
+          "time": "Q4 0.8",
+          "text": "Wendell Carter Jr. personal foul"
+        },
         {
           "seq": 656.0,
           "period": 4,
@@ -9062,13 +9092,37 @@
       ],
       "new_plays": [
         {
-          "seq": 656.0,
+          "seq": 664.0,
           "period": 4,
-          "time": "Q4 1.1",
-          "text": "Paolo Banchero makes 25-foot three pointer (Jevon Carter assists)"
+          "time": "Q4 0.0",
+          "text": "Paolo Banchero turnover"
+        },
+        {
+          "seq": 663.0,
+          "period": 4,
+          "time": "Q4 0.2",
+          "text": "Donovan Mitchell makes free throw 2 of 2"
+        },
+        {
+          "seq": 662.0,
+          "period": 4,
+          "time": "Q4 0.8",
+          "text": "Donovan Mitchell makes free throw 1 of 2"
+        },
+        {
+          "seq": 660.0,
+          "period": 4,
+          "time": "Q4 0.8",
+          "text": "Jamal Cain enters the game for Wendell Carter Jr."
+        },
+        {
+          "seq": 658.0,
+          "period": 4,
+          "time": "Q4 0.8",
+          "text": "Wendell Carter Jr. personal foul"
         }
       ],
-      "last_seq": 656.0
+      "last_seq": 664.0
     }
   }
 }
