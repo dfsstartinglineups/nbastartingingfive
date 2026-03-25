@@ -370,13 +370,13 @@
           "seq": 368.0,
           "period": 3,
           "time": "Q3 10:03",
-          "text": "LaMelo Ball misses 28-foot three point jumper"
+          "text": "LaMelo Ball misses 28-foot three point pullup jump shot"
         },
         {
           "seq": 366.0,
           "period": 3,
           "time": "Q3 10:16",
-          "text": "Devin Carter makes 26-foot three point jumper"
+          "text": "Devin Carter makes 26-foot three pointer"
         },
         {
           "seq": 365.0,
@@ -1873,7 +1873,7 @@
   },
   "NOP-NYK-2026-03-24": {
     "status": "in",
-    "clock": "7:49 - 2nd",
+    "clock": "7:34 - 2nd",
     "away_score": "43",
     "home_score": "44",
     "team_stats": {
@@ -1889,7 +1889,7 @@
         "DR": "9",
         "AST": "14",
         "STL": "3",
-        "BLK": "0",
+        "BLK": "1",
         "TO": "2",
         "TTO": "0",
         "ToTO": "2",
@@ -1898,27 +1898,27 @@
         "Points Conceded Off Turnovers": "5",
         "FBPs": "6",
         "PIP": "24",
-        "PF": "7",
+        "PF": "8",
         "LL": "6",
         "LC": "9",
-        "LPCT": "46"
+        "LPCT": "45"
       },
       "NYK": {
-        "fieldGoalsMade-fieldGoalsAttempted": "15-27",
-        "FG%": "56",
+        "fieldGoalsMade-fieldGoalsAttempted": "15-28",
+        "FG%": "54",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "7-14",
         "3P%": "50",
         "freeThrowsMade-freeThrowsAttempted": "7-7",
         "FT%": "100",
-        "REB": "14",
-        "OR": "2",
+        "REB": "15",
+        "OR": "3",
         "DR": "12",
         "AST": "10",
         "STL": "2",
         "BLK": "2",
         "TO": "4",
-        "TTO": "0",
-        "ToTO": "4",
+        "TTO": "1",
+        "ToTO": "5",
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "7",
@@ -1927,7 +1927,7 @@
         "PF": "6",
         "LL": "14",
         "LC": "9",
-        "LPCT": "49"
+        "LPCT": "51"
       }
     },
     "players": {
@@ -1948,14 +1948,14 @@
           "is_on_court": false
         },
         "Karl-Anthony Towns": {
-          "MIN": 10,
+          "MIN": 11,
           "PTS": "7",
           "REB": "4",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
           "TO": "2",
-          "FG": "2-6",
+          "FG": "2-7",
           "3PT": "1-3",
           "FT": "2-2",
           "fd_pts": 9.8,
@@ -2055,7 +2055,7 @@
         "Jose Alvarado": {
           "MIN": 4,
           "PTS": "0",
-          "REB": "0",
+          "REB": "1",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
@@ -2063,25 +2063,25 @@
           "FG": "0-0",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 0.0,
-          "dk_pts": 0.0,
+          "fd_pts": 1.2,
+          "dk_pts": 1.25,
           "is_on_court": true
         }
       },
       "NOP": {
         "Herbert Jones": {
-          "MIN": 14,
+          "MIN": 15,
           "PTS": "9",
           "REB": "1",
           "AST": "5",
           "STL": "1",
-          "BLK": "0",
+          "BLK": "1",
           "TO": "0",
           "FG": "4-5",
           "3PT": "1-2",
           "FT": "0-0",
-          "fd_pts": 20.7,
-          "dk_pts": 20.25,
+          "fd_pts": 23.7,
+          "dk_pts": 22.25,
           "is_on_court": true
         },
         "Zion Williamson": {
@@ -2208,6 +2208,36 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 220.0,
+          "period": 2,
+          "time": "Q2 7:34",
+          "text": "turnover"
+        },
+        {
+          "seq": 219.0,
+          "period": 2,
+          "time": "Q2 7:34",
+          "text": "Jose Alvarado offensive rebound"
+        },
+        {
+          "seq": 217.0,
+          "period": 2,
+          "time": "Q2 7:35",
+          "text": "Herbert Jones blocks Karl-Anthony Towns 's 3-foot hook shot"
+        },
+        {
+          "seq": 215.0,
+          "period": 2,
+          "time": "Q2 7:49",
+          "text": "Zion Williamson personal foul"
+        },
+        {
+          "seq": 214.0,
+          "period": 2,
+          "time": "Q2 8:00",
+          "text": "Zion Williamson makes free throw 2 of 2"
+        },
         {
           "seq": 213.0,
           "period": 2,
@@ -3063,19 +3093,37 @@
       ],
       "new_plays": [
         {
-          "seq": 213.0,
+          "seq": 220.0,
           "period": 2,
-          "time": "Q2 8:00",
-          "text": "Zion Williamson makes free throw 1 of 2"
+          "time": "Q2 7:34",
+          "text": "turnover"
         },
         {
-          "seq": 211.0,
+          "seq": 219.0,
+          "period": 2,
+          "time": "Q2 7:34",
+          "text": "Jose Alvarado offensive rebound"
+        },
+        {
+          "seq": 217.0,
+          "period": 2,
+          "time": "Q2 7:35",
+          "text": "Herbert Jones blocks Karl-Anthony Towns 's 3-foot hook shot"
+        },
+        {
+          "seq": 215.0,
+          "period": 2,
+          "time": "Q2 7:49",
+          "text": "Zion Williamson personal foul"
+        },
+        {
+          "seq": 214.0,
           "period": 2,
           "time": "Q2 8:00",
-          "text": "Karl-Anthony Towns shooting foul"
+          "text": "Zion Williamson makes free throw 2 of 2"
         }
       ],
-      "last_seq": 213.0
+      "last_seq": 220.0
     }
   },
   "ORL-CLE-2026-03-24": {
