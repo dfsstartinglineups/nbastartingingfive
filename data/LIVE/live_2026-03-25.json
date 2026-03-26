@@ -88,7 +88,7 @@
           "FT": "0-0",
           "fd_pts": 24.0,
           "dk_pts": 26.75,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Jalen Duren": {
           "MIN": 37,
@@ -178,7 +178,7 @@
           "FT": "0-0",
           "fd_pts": 15.4,
           "dk_pts": 15.0,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Caris LeVert": {
           "MIN": 15,
@@ -382,6 +382,12 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 679.0,
+          "period": 5,
+          "time": "OT 5:00",
+          "text": "Duncan Robinson enters the game for Javonte Green"
+        },
+        {
           "seq": 677.0,
           "period": 4,
           "time": "Q4 4:51",
@@ -529,7 +535,7 @@
           "seq": 648.0,
           "period": 4,
           "time": "Q4 1:35",
-          "text": "CJ McCollum makes 19-foot jumper"
+          "text": "CJ McCollum makes 19-foot step back jumpshot"
         },
         {
           "seq": 646.0,
@@ -726,7 +732,7 @@
         {
           "seq": 600.0,
           "period": 4,
-          "time": "Q4 4:50",
+          "time": "Q4 4:52",
           "text": "Jonathan Kuminga defensive rebound"
         },
         {
@@ -3204,13 +3210,13 @@
       ],
       "new_plays": [
         {
-          "seq": 677.0,
-          "period": 4,
-          "time": "Q4 4:51",
-          "text": "Jonathan Kuminga lost ball turnover (Javonte Green steals)"
+          "seq": 679.0,
+          "period": 5,
+          "time": "OT 5:00",
+          "text": "Duncan Robinson enters the game for Javonte Green"
         }
       ],
-      "last_seq": 677.0
+      "last_seq": 679.0
     }
   },
   "LAL-IND-2026-03-25": {
@@ -12877,40 +12883,27 @@
           "text": "Isaiah Hartenstein vs. Neemias Queta (Jalen Williams gains possession)"
         }
       ],
-      "new_plays": [
-        {
-          "seq": 584.0,
-          "period": 4,
-          "time": "Q4 6:09",
-          "text": "Thunder Full timeout"
-        },
-        {
-          "seq": 583.0,
-          "period": 4,
-          "time": "Q4 6:09",
-          "text": "Jaylen Brown makes free throw 1 of 2"
-        }
-      ],
+      "new_plays": [],
       "last_seq": 584.0
     }
   },
   "MIA-CLE-2026-03-25": {
     "status": "in",
-    "clock": "6:42 - 4th",
+    "clock": "6:19 - 4th",
     "away_score": "100",
     "home_score": "95",
     "team_stats": {
       "MIA": {
-        "fieldGoalsMade-fieldGoalsAttempted": "34-72",
-        "FG%": "47",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "16-42",
-        "3P%": "38",
+        "fieldGoalsMade-fieldGoalsAttempted": "35-73",
+        "FG%": "48",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "17-43",
+        "3P%": "40",
         "freeThrowsMade-freeThrowsAttempted": "13-16",
         "FT%": "81",
         "REB": "34",
         "OR": "4",
         "DR": "30",
-        "AST": "26",
+        "AST": "27",
         "STL": "9",
         "BLK": "2",
         "TO": "10",
@@ -12921,16 +12914,16 @@
         "Points Conceded Off Turnovers": "9",
         "FBPs": "14",
         "PIP": "28",
-        "PF": "14",
+        "PF": "15",
         "LL": "21",
         "LC": "4",
         "LPCT": "93"
       },
       "CLE": {
-        "fieldGoalsMade-fieldGoalsAttempted": "33-68",
-        "FG%": "49",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "11-28",
-        "3P%": "39",
+        "fieldGoalsMade-fieldGoalsAttempted": "33-70",
+        "FG%": "47",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "11-30",
+        "3P%": "37",
         "freeThrowsMade-freeThrowsAttempted": "18-20",
         "FT%": "90",
         "REB": "35",
@@ -12968,10 +12961,10 @@
           "FT": "1-3",
           "fd_pts": 16.5,
           "dk_pts": 17.25,
-          "is_on_court": false
+          "is_on_court": true
         },
         "James Harden": {
-          "MIN": 35,
+          "MIN": 36,
           "PTS": "15",
           "REB": "8",
           "AST": "7",
@@ -13023,8 +13016,8 @@
           "STL": "2",
           "BLK": "0",
           "TO": "0",
-          "FG": "5-9",
-          "3PT": "1-4",
+          "FG": "5-10",
+          "3PT": "1-5",
           "FT": "6-6",
           "fd_pts": 25.7,
           "dk_pts": 24.25,
@@ -13046,18 +13039,18 @@
           "is_on_court": false
         },
         "Thomas Bryant": {
-          "MIN": 15,
+          "MIN": 16,
           "PTS": "4",
-          "REB": "4",
+          "REB": "5",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
           "TO": "1",
-          "FG": "2-6",
+          "FG": "2-7",
           "3PT": "0-1",
           "FT": "0-0",
-          "fd_pts": 7.8,
-          "dk_pts": 8.5,
+          "fd_pts": 9.0,
+          "dk_pts": 9.75,
           "is_on_court": true
         },
         "Dennis Schroder": {
@@ -13068,12 +13061,12 @@
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "1-4",
-          "3PT": "0-0",
+          "FG": "1-5",
+          "3PT": "0-1",
           "FT": "0-0",
           "fd_pts": 18.2,
           "dk_pts": 18.5,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Tyrese Proctor": {
           "MIN": 6,
@@ -13120,7 +13113,7 @@
           "FT": "3-4",
           "fd_pts": 35.5,
           "dk_pts": 37.5,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Norman Powell": {
           "MIN": 28,
@@ -13153,7 +13146,7 @@
           "is_on_court": true
         },
         "Tyler Herro": {
-          "MIN": 29,
+          "MIN": 30,
           "PTS": "18",
           "REB": "2",
           "AST": "4",
@@ -13171,36 +13164,36 @@
           "MIN": 19,
           "PTS": "14",
           "REB": "2",
-          "AST": "4",
+          "AST": "5",
           "STL": "0",
           "BLK": "0",
           "TO": "1",
           "FG": "6-12",
           "3PT": "2-5",
           "FT": "0-1",
-          "fd_pts": 21.4,
-          "dk_pts": 23.0,
-          "is_on_court": true
+          "fd_pts": 22.9,
+          "dk_pts": 24.5,
+          "is_on_court": false
         },
         "Kel'el Ware": {
           "MIN": 13,
-          "PTS": "6",
+          "PTS": "9",
           "REB": "9",
           "AST": "3",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "2-2",
-          "3PT": "2-2",
+          "FG": "3-3",
+          "3PT": "3-3",
           "FT": "0-0",
-          "fd_pts": 21.3,
-          "dk_pts": 22.75,
+          "fd_pts": 24.3,
+          "dk_pts": 26.25,
           "is_on_court": true
         },
         "Pelle Larsson": {
-          "MIN": 27,
+          "MIN": 28,
           "PTS": "7",
-          "REB": "1",
+          "REB": "2",
           "AST": "2",
           "STL": "1",
           "BLK": "1",
@@ -13208,8 +13201,8 @@
           "FG": "2-4",
           "3PT": "0-1",
           "FT": "3-3",
-          "fd_pts": 13.2,
-          "dk_pts": 13.25,
+          "fd_pts": 14.4,
+          "dk_pts": 14.5,
           "is_on_court": true
         },
         "Kasparas Jakucionis": {
@@ -13231,6 +13224,48 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 556.0,
+          "period": 4,
+          "time": "Q4 6:28",
+          "text": "Keon Ellis misses shot"
+        },
+        {
+          "seq": 553.0,
+          "period": 4,
+          "time": "Q4 6:42",
+          "text": "Bam Adebayo enters the game for Jaime Jaquez Jr."
+        },
+        {
+          "seq": 552.0,
+          "period": 4,
+          "time": "Q4 6:42",
+          "text": "Evan Mobley enters the game for Dennis Schroder"
+        },
+        {
+          "seq": 550.0,
+          "period": 4,
+          "time": "Q4 6:42",
+          "text": "Kel'el Ware loose ball foul"
+        },
+        {
+          "seq": 549.0,
+          "period": 4,
+          "time": "Q4 6:42",
+          "text": "Cavaliers offensive team rebound"
+        },
+        {
+          "seq": 548.0,
+          "period": 4,
+          "time": "Q4 6:42",
+          "text": "Dennis Schroder misses 25-foot three point jumper"
+        },
+        {
+          "seq": 546.0,
+          "period": 4,
+          "time": "Q4 6:58",
+          "text": "Kel'el Ware makes 28-foot three point jumper (Jaime Jaquez Jr. assists)"
+        },
         {
           "seq": 544.0,
           "period": 4,
@@ -15466,44 +15501,62 @@
       ],
       "new_plays": [
         {
-          "seq": 544.0,
+          "seq": 556.0,
           "period": 4,
-          "time": "Q4 7:09",
-          "text": "Thomas Bryant makes 10-foot jumper (Sam Merrill assists)"
+          "time": "Q4 6:28",
+          "text": "Keon Ellis misses shot"
         },
         {
-          "seq": 542.0,
+          "seq": 553.0,
           "period": 4,
-          "time": "Q4 7:30",
-          "text": "Jaime Jaquez Jr. makes dunk (Kel'el Ware assists)"
+          "time": "Q4 6:42",
+          "text": "Bam Adebayo enters the game for Jaime Jaquez Jr."
         },
         {
-          "seq": 541.0,
+          "seq": 552.0,
           "period": 4,
-          "time": "Q4 7:32",
-          "text": "Pelle Larsson offensive rebound"
+          "time": "Q4 6:42",
+          "text": "Evan Mobley enters the game for Dennis Schroder"
         },
         {
-          "seq": 540.0,
+          "seq": 550.0,
           "period": 4,
-          "time": "Q4 7:38",
-          "text": "Jaime Jaquez Jr. misses 26-foot three point jumper"
+          "time": "Q4 6:42",
+          "text": "Kel'el Ware loose ball foul"
+        },
+        {
+          "seq": 549.0,
+          "period": 4,
+          "time": "Q4 6:42",
+          "text": "Cavaliers offensive team rebound"
+        },
+        {
+          "seq": 548.0,
+          "period": 4,
+          "time": "Q4 6:42",
+          "text": "Dennis Schroder misses 25-foot three point jumper"
+        },
+        {
+          "seq": 546.0,
+          "period": 4,
+          "time": "Q4 6:58",
+          "text": "Kel'el Ware makes 28-foot three point jumper (Jaime Jaquez Jr. assists)"
         }
       ],
-      "last_seq": 544.0
+      "last_seq": 556.0
     }
   },
   "SAS-MEM-2026-03-25": {
     "status": "in",
-    "clock": "5:42 - 3rd",
+    "clock": "5:27 - 3rd",
     "away_score": "79",
     "home_score": "56",
     "team_stats": {
       "SAS": {
-        "fieldGoalsMade-fieldGoalsAttempted": "29-57",
-        "FG%": "51",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "11-31",
-        "3P%": "35",
+        "fieldGoalsMade-fieldGoalsAttempted": "29-58",
+        "FG%": "50",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "11-32",
+        "3P%": "34",
         "freeThrowsMade-freeThrowsAttempted": "10-16",
         "FT%": "63",
         "REB": "40",
@@ -15523,7 +15576,7 @@
         "PF": "7",
         "LL": "26",
         "LC": "0",
-        "LPCT": "99"
+        "LPCT": "98"
       },
       "MEM": {
         "fieldGoalsMade-fieldGoalsAttempted": "19-50",
@@ -15532,9 +15585,9 @@
         "3P%": "35",
         "freeThrowsMade-freeThrowsAttempted": "7-10",
         "FT%": "70",
-        "REB": "18",
+        "REB": "19",
         "OR": "0",
-        "DR": "18",
+        "DR": "19",
         "AST": "16",
         "STL": "7",
         "BLK": "1",
@@ -15627,7 +15680,7 @@
           "FT": "2-2",
           "fd_pts": 8.5,
           "dk_pts": 9.0,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Taj Gibson": {
           "MIN": 6,
@@ -15662,7 +15715,7 @@
         "DeJon Jarreau": {
           "MIN": 10,
           "PTS": "7",
-          "REB": "1",
+          "REB": "2",
           "AST": "1",
           "STL": "3",
           "BLK": "0",
@@ -15670,8 +15723,8 @@
           "FG": "2-10",
           "3PT": "1-8",
           "FT": "2-2",
-          "fd_pts": 16.7,
-          "dk_pts": 15.25,
+          "fd_pts": 17.9,
+          "dk_pts": 16.5,
           "is_on_court": true
         },
         "Cam Spencer": {
@@ -15702,7 +15755,7 @@
           "FT": "2-4",
           "fd_pts": 15.2,
           "dk_pts": 17.25,
-          "is_on_court": false
+          "is_on_court": true
         }
       },
       "SAS": {
@@ -15719,7 +15772,7 @@
           "FT": "2-2",
           "fd_pts": 28.2,
           "dk_pts": 28.5,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Victor Wembanyama": {
           "MIN": 24,
@@ -15734,7 +15787,7 @@
           "FT": "2-3",
           "fd_pts": 60.3,
           "dk_pts": 55.0,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Devin Vassell": {
           "MIN": 24,
@@ -15744,8 +15797,8 @@
           "STL": "1",
           "BLK": "0",
           "TO": "0",
-          "FG": "6-8",
-          "3PT": "4-5",
+          "FG": "6-9",
+          "3PT": "4-6",
           "FT": "1-2",
           "fd_pts": 34.4,
           "dk_pts": 35.75,
@@ -15794,7 +15847,7 @@
           "FT": "0-0",
           "fd_pts": 6.5,
           "dk_pts": 7.0,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Keldon Johnson": {
           "MIN": 14,
@@ -15839,7 +15892,7 @@
           "FT": "0-0",
           "fd_pts": 3.0,
           "dk_pts": 2.0,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Jordan McLaughlin": {
           "MIN": 3,
@@ -15860,6 +15913,36 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 437.0,
+          "period": 3,
+          "time": "Q3 5:27",
+          "text": "DeJon Jarreau defensive rebound"
+        },
+        {
+          "seq": 436.0,
+          "period": 3,
+          "time": "Q3 5:31",
+          "text": "Devin Vassell misses 25-foot three point jumper"
+        },
+        {
+          "seq": 432.0,
+          "period": 3,
+          "time": "Q3 5:42",
+          "text": "Harrison Barnes enters the game for Julian Champagnie"
+        },
+        {
+          "seq": 431.0,
+          "period": 3,
+          "time": "Q3 5:42",
+          "text": "Mason Plumlee enters the game for Victor Wembanyama"
+        },
+        {
+          "seq": 430.0,
+          "period": 3,
+          "time": "Q3 5:42",
+          "text": "Walter Clayton Jr. enters the game for Javon Small"
+        },
         {
           "seq": 429.0,
           "period": 3,
@@ -17607,41 +17690,72 @@
           "text": "Victor Wembanyama vs. Olivier-Maxence Prosper (Dylan Harper gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 429.0
+      "new_plays": [
+        {
+          "seq": 437.0,
+          "period": 3,
+          "time": "Q3 5:27",
+          "text": "DeJon Jarreau defensive rebound"
+        },
+        {
+          "seq": 436.0,
+          "period": 3,
+          "time": "Q3 5:31",
+          "text": "Devin Vassell misses 25-foot three point jumper"
+        },
+        {
+          "seq": 432.0,
+          "period": 3,
+          "time": "Q3 5:42",
+          "text": "Harrison Barnes enters the game for Julian Champagnie"
+        },
+        {
+          "seq": 431.0,
+          "period": 3,
+          "time": "Q3 5:42",
+          "text": "Mason Plumlee enters the game for Victor Wembanyama"
+        },
+        {
+          "seq": 430.0,
+          "period": 3,
+          "time": "Q3 5:42",
+          "text": "Walter Clayton Jr. enters the game for Javon Small"
+        }
+      ],
+      "last_seq": 437.0
     }
   },
   "WAS-UTA-2026-03-25": {
     "status": "in",
-    "clock": "1:02 - 1st",
+    "clock": "43.8 - 1st",
     "away_score": "33",
     "home_score": "20",
     "team_stats": {
       "WAS": {
-        "fieldGoalsMade-fieldGoalsAttempted": "12-20",
-        "FG%": "60",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "2-6",
-        "3P%": "33",
+        "fieldGoalsMade-fieldGoalsAttempted": "12-21",
+        "FG%": "57",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "2-7",
+        "3P%": "29",
         "freeThrowsMade-freeThrowsAttempted": "7-11",
         "FT%": "64",
-        "REB": "15",
-        "OR": "5",
+        "REB": "16",
+        "OR": "6",
         "DR": "10",
         "AST": "5",
         "STL": "4",
         "BLK": "1",
-        "TO": "3",
+        "TO": "4",
         "TTO": "0",
-        "ToTO": "3",
+        "ToTO": "4",
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "2",
         "FBPs": "5",
         "PIP": "18",
-        "PF": "5",
+        "PF": "6",
         "LL": "14",
         "LC": "0",
-        "LPCT": "94"
+        "LPCT": "95"
       },
       "UTA": {
         "fieldGoalsMade-fieldGoalsAttempted": "9-22",
@@ -17656,9 +17770,9 @@
         "AST": "8",
         "STL": "2",
         "BLK": "2",
-        "TO": "4",
+        "TO": "5",
         "TTO": "0",
-        "ToTO": "4",
+        "ToTO": "5",
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "3",
@@ -17784,12 +17898,12 @@
           "AST": "2",
           "STL": "0",
           "BLK": "0",
-          "TO": "0",
+          "TO": "1",
           "FG": "0-0",
           "3PT": "0-0",
           "FT": "0-2",
-          "fd_pts": 3.0,
-          "dk_pts": 3.0,
+          "fd_pts": 2.0,
+          "dk_pts": 2.5,
           "is_on_court": true
         }
       },
@@ -17810,18 +17924,18 @@
           "is_on_court": false
         },
         "Julian Reese": {
-          "MIN": 7,
+          "MIN": 8,
           "PTS": "8",
           "REB": "5",
           "AST": "0",
           "STL": "1",
           "BLK": "1",
-          "TO": "1",
+          "TO": "2",
           "FG": "3-3",
           "3PT": "0-0",
           "FT": "2-4",
-          "fd_pts": 19.0,
-          "dk_pts": 17.75,
+          "fd_pts": 18.0,
+          "dk_pts": 17.25,
           "is_on_court": true
         },
         "Bub Carrington": {
@@ -17870,9 +17984,9 @@
           "is_on_court": false
         },
         "Anthony Gill": {
-          "MIN": 5,
+          "MIN": 6,
           "PTS": "2",
-          "REB": "1",
+          "REB": "2",
           "AST": "1",
           "STL": "0",
           "BLK": "0",
@@ -17880,8 +17994,8 @@
           "FG": "1-2",
           "3PT": "0-1",
           "FT": "0-0",
-          "fd_pts": 4.7,
-          "dk_pts": 4.75,
+          "fd_pts": 5.9,
+          "dk_pts": 6.0,
           "is_on_court": true
         },
         "Sharife Cooper": {
@@ -17922,8 +18036,8 @@
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "2-3",
-          "3PT": "1-2",
+          "FG": "2-4",
+          "3PT": "1-3",
           "FT": "0-0",
           "fd_pts": 6.2,
           "dk_pts": 6.75,
@@ -17933,6 +18047,42 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 183.0,
+          "period": 1,
+          "time": "Q1 43.8",
+          "text": "Julian Reese offensive foul turnover"
+        },
+        {
+          "seq": 181.0,
+          "period": 1,
+          "time": "Q1 43.8",
+          "text": "Julian Reese offensive foul"
+        },
+        {
+          "seq": 180.0,
+          "period": 1,
+          "time": "Q1 46.3",
+          "text": "Anthony Gill offensive rebound"
+        },
+        {
+          "seq": 179.0,
+          "period": 1,
+          "time": "Q1 49.6",
+          "text": "Jaden Hardy misses 26-foot three point jumper"
+        },
+        {
+          "seq": 178.0,
+          "period": 1,
+          "time": "Q1 1:02",
+          "text": "Kennedy Chandler out of bounds bad pass turnover"
+        },
+        {
+          "seq": 177.0,
+          "period": 1,
+          "time": "Q1 1:12",
+          "text": "Sharife Cooper makes free throw 2 of 2"
+        },
         {
           "seq": 175.0,
           "period": 1,
@@ -18632,31 +18782,43 @@
       ],
       "new_plays": [
         {
-          "seq": 175.0,
+          "seq": 183.0,
           "period": 1,
-          "time": "Q1 1:12",
-          "text": "John Konchar enters the game for Oscar Tshiebwe"
+          "time": "Q1 43.8",
+          "text": "Julian Reese offensive foul turnover"
         },
         {
-          "seq": 173.0,
+          "seq": 181.0,
           "period": 1,
-          "time": "Q1 1:12",
-          "text": "Julian Reese enters the game for Will Riley"
+          "time": "Q1 43.8",
+          "text": "Julian Reese offensive foul"
         },
         {
-          "seq": 172.0,
+          "seq": 180.0,
           "period": 1,
-          "time": "Q1 1:12",
-          "text": "Sharife Cooper makes free throw 1 of 2"
+          "time": "Q1 46.3",
+          "text": "Anthony Gill offensive rebound"
         },
         {
-          "seq": 170.0,
+          "seq": 179.0,
+          "period": 1,
+          "time": "Q1 49.6",
+          "text": "Jaden Hardy misses 26-foot three point jumper"
+        },
+        {
+          "seq": 178.0,
+          "period": 1,
+          "time": "Q1 1:02",
+          "text": "Kennedy Chandler out of bounds bad pass turnover"
+        },
+        {
+          "seq": 177.0,
           "period": 1,
           "time": "Q1 1:12",
-          "text": "Blake Hinson personal foul"
+          "text": "Sharife Cooper makes free throw 2 of 2"
         }
       ],
-      "last_seq": 175.0
+      "last_seq": 183.0
     }
   }
 }
