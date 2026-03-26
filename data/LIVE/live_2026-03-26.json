@@ -1,9 +1,9 @@
 {
   "NYK-CHA-2026-03-26": {
     "status": "in",
-    "clock": "8:57 - 1st",
-    "away_score": "7",
-    "home_score": "12",
+    "clock": "8:20 - 1st",
+    "away_score": "10",
+    "home_score": "14",
     "team_stats": {
       "NYK": {
         "fieldGoalsMade-fieldGoalsAttempted": "3-6",
@@ -12,15 +12,15 @@
         "3P%": "33",
         "freeThrowsMade-freeThrowsAttempted": "0-0",
         "FT%": "0",
-        "REB": "0",
+        "REB": "1",
         "OR": "0",
-        "DR": "0",
+        "DR": "1",
         "AST": "2",
         "STL": "1",
         "BLK": "0",
-        "TO": "1",
+        "TO": "2",
         "TTO": "0",
-        "ToTO": "1",
+        "ToTO": "2",
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "0",
@@ -29,19 +29,19 @@
         "PF": "1",
         "LL": "2",
         "LC": "1",
-        "LPCT": "6"
+        "LPCT": "5"
       },
       "CHA": {
-        "fieldGoalsMade-fieldGoalsAttempted": "4-5",
-        "FG%": "80",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "2-3",
-        "3P%": "67",
+        "fieldGoalsMade-fieldGoalsAttempted": "5-7",
+        "FG%": "71",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "2-4",
+        "3P%": "50",
         "freeThrowsMade-freeThrowsAttempted": "2-2",
         "FT%": "100",
-        "REB": "3",
+        "REB": "4",
         "OR": "1",
-        "DR": "2",
-        "AST": "1",
+        "DR": "3",
+        "AST": "2",
         "STL": "0",
         "BLK": "0",
         "TO": "1",
@@ -51,16 +51,31 @@
         "FLAG": "0",
         "Points Conceded Off Turnovers": "0",
         "FBPs": "3",
-        "PIP": "2",
+        "PIP": "4",
         "PF": "0",
-        "LL": "5",
+        "LL": "7",
         "LC": "1",
-        "LPCT": "72"
+        "LPCT": "78"
       }
     },
     "players": {
       "CHA": {
         "Miles Bridges": {
+          "MIN": 3,
+          "PTS": "2",
+          "REB": "1",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "1-1",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 3.2,
+          "dk_pts": 3.25,
+          "is_on_court": true
+        },
+        "Moussa Diabate": {
           "MIN": 3,
           "PTS": "0",
           "REB": "1",
@@ -75,23 +90,8 @@
           "dk_pts": 1.25,
           "is_on_court": true
         },
-        "Moussa Diabate": {
-          "MIN": 2,
-          "PTS": "0",
-          "REB": "1",
-          "AST": "0",
-          "STL": "0",
-          "BLK": "0",
-          "TO": "0",
-          "FG": "0-0",
-          "3PT": "0-0",
-          "FT": "0-0",
-          "fd_pts": 1.2,
-          "dk_pts": 1.25,
-          "is_on_court": true
-        },
         "Brandon Miller": {
-          "MIN": 2,
+          "MIN": 3,
           "PTS": "4",
           "REB": "2",
           "AST": "1",
@@ -106,18 +106,18 @@
           "is_on_court": true
         },
         "LaMelo Ball": {
-          "MIN": 2,
+          "MIN": 3,
           "PTS": "8",
           "REB": "0",
-          "AST": "0",
+          "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "3-3",
-          "3PT": "2-2",
+          "FG": "3-4",
+          "3PT": "2-3",
           "FT": "0-0",
-          "fd_pts": 8.0,
-          "dk_pts": 9.0,
+          "fd_pts": 9.5,
+          "dk_pts": 10.5,
           "is_on_court": true
         },
         "Kon Knueppel": {
@@ -138,7 +138,7 @@
       },
       "NYK": {
         "OG Anunoby": {
-          "MIN": 2,
+          "MIN": 3,
           "PTS": "3",
           "REB": "0",
           "AST": "0",
@@ -153,7 +153,7 @@
           "is_on_court": true
         },
         "Karl-Anthony Towns": {
-          "MIN": 2,
+          "MIN": 3,
           "PTS": "2",
           "REB": "0",
           "AST": "0",
@@ -170,7 +170,7 @@
         "Josh Hart": {
           "MIN": 3,
           "PTS": "0",
-          "REB": "0",
+          "REB": "1",
           "AST": "0",
           "STL": "1",
           "BLK": "0",
@@ -178,8 +178,8 @@
           "FG": "0-0",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 3.0,
-          "dk_pts": 2.0,
+          "fd_pts": 4.2,
+          "dk_pts": 3.25,
           "is_on_court": true
         },
         "Mikal Bridges": {
@@ -198,18 +198,18 @@
           "is_on_court": true
         },
         "Jalen Brunson": {
-          "MIN": 2,
+          "MIN": 3,
           "PTS": "2",
           "REB": "0",
           "AST": "1",
           "STL": "0",
           "BLK": "0",
-          "TO": "0",
+          "TO": "1",
           "FG": "1-2",
           "3PT": "0-1",
           "FT": "0-0",
-          "fd_pts": 3.5,
-          "dk_pts": 3.5,
+          "fd_pts": 2.5,
+          "dk_pts": 3.0,
           "is_on_court": true
         }
       }
@@ -217,10 +217,34 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 36.0,
+          "period": 1,
+          "time": "Q1 8:44",
+          "text": "Jalen Brunson out of bounds bad pass turnover"
+        },
+        {
+          "seq": 34.0,
+          "period": 1,
+          "time": "Q1 8:57",
+          "text": "Josh Hart defensive rebound"
+        },
+        {
+          "seq": 33.0,
+          "period": 1,
+          "time": "Q1 9:01",
+          "text": "LaMelo Ball misses 26-foot running jump shot"
+        },
+        {
+          "seq": 32.0,
+          "period": 1,
+          "time": "Q1 9:05",
+          "text": "Miles Bridges defensive rebound"
+        },
+        {
           "seq": 31.0,
           "period": 1,
           "time": "Q1 9:06",
-          "text": "Mikal Bridges misses shot"
+          "text": "Mikal Bridges misses running layup"
         },
         {
           "seq": 29.0,
@@ -345,25 +369,31 @@
       ],
       "new_plays": [
         {
-          "seq": 31.0,
+          "seq": 36.0,
           "period": 1,
-          "time": "Q1 9:06",
-          "text": "Mikal Bridges misses shot"
+          "time": "Q1 8:44",
+          "text": "Jalen Brunson out of bounds bad pass turnover"
         },
         {
-          "seq": 29.0,
+          "seq": 34.0,
           "period": 1,
-          "time": "Q1 9:11",
-          "text": "Kon Knueppel bad pass\nturnover (Josh Hart steals)"
+          "time": "Q1 8:57",
+          "text": "Josh Hart defensive rebound"
         },
         {
-          "seq": 28.0,
+          "seq": 33.0,
           "period": 1,
-          "time": "Q1 9:24",
-          "text": "Mikal Bridges out of bounds bad pass turnover"
+          "time": "Q1 9:01",
+          "text": "LaMelo Ball misses 26-foot running jump shot"
+        },
+        {
+          "seq": 32.0,
+          "period": 1,
+          "time": "Q1 9:05",
+          "text": "Miles Bridges defensive rebound"
         }
       ],
-      "last_seq": 31.0
+      "last_seq": 36.0
     }
   },
   "NOP-DET-2026-03-26": {
@@ -716,29 +746,22 @@
           "text": "DeAndre Jordan vs. Jalen Duren (Dejounte Murray gains possession)"
         }
       ],
-      "new_plays": [
-        {
-          "seq": 36.0,
-          "period": 1,
-          "time": "Q1 9:04",
-          "text": "(09:04) [Pistons] COACH'S CHALLENGE (CALL OVERTURNED) [Pistons] retain their timeout"
-        }
-      ],
+      "new_plays": [],
       "last_seq": 36.0
     }
   },
   "SAC-ORL-2026-03-26": {
     "status": "in",
-    "clock": "7:07 - 1st",
+    "clock": "6:58 - 1st",
     "away_score": "11",
     "home_score": "14",
     "team_stats": {
       "SAC": {
-        "fieldGoalsMade-fieldGoalsAttempted": "4-10",
-        "FG%": "40",
+        "fieldGoalsMade-fieldGoalsAttempted": "5-11",
+        "FG%": "45",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "1-3",
         "3P%": "33",
-        "freeThrowsMade-freeThrowsAttempted": "0-0",
+        "freeThrowsMade-freeThrowsAttempted": "0-1",
         "FT%": "0",
         "REB": "4",
         "OR": "2",
@@ -757,7 +780,7 @@
         "PF": "2",
         "LL": "3",
         "LC": "1",
-        "LPCT": "5"
+        "LPCT": "4"
       },
       "ORL": {
         "fieldGoalsMade-fieldGoalsAttempted": "6-9",
@@ -766,9 +789,9 @@
         "3P%": "50",
         "freeThrowsMade-freeThrowsAttempted": "0-0",
         "FT%": "0",
-        "REB": "4",
+        "REB": "5",
         "OR": "0",
-        "DR": "4",
+        "DR": "5",
         "AST": "2",
         "STL": "0",
         "BLK": "0",
@@ -780,10 +803,10 @@
         "Points Conceded Off Turnovers": "2",
         "FBPs": "0",
         "PIP": "6",
-        "PF": "0",
+        "PF": "1",
         "LL": "5",
         "LC": "1",
-        "LPCT": "52"
+        "LPCT": "56"
       }
     },
     "players": {
@@ -821,7 +844,7 @@
         "Wendell Carter Jr.": {
           "MIN": 5,
           "PTS": "2",
-          "REB": "2",
+          "REB": "3",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
@@ -829,8 +852,8 @@
           "FG": "1-2",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 4.4,
-          "dk_pts": 4.5,
+          "fd_pts": 5.6,
+          "dk_pts": 5.75,
           "is_on_court": true
         },
         "Desmond Bane": {
@@ -912,17 +935,17 @@
         },
         "DeMar DeRozan": {
           "MIN": 5,
-          "PTS": "2",
+          "PTS": "4",
           "REB": "1",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "1-2",
+          "FG": "2-3",
           "3PT": "0-0",
-          "FT": "0-0",
-          "fd_pts": 3.2,
-          "dk_pts": 3.25,
+          "FT": "0-1",
+          "fd_pts": 5.2,
+          "dk_pts": 5.25,
           "is_on_court": true
         },
         "Malik Monk": {
@@ -956,7 +979,7 @@
           "is_on_court": true
         },
         "Daeqwon Plowden": {
-          "MIN": 0,
+          "MIN": 1,
           "PTS": "0",
           "REB": "0",
           "AST": "0",
@@ -974,6 +997,30 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 58.0,
+          "period": 1,
+          "time": "Q1 7:05",
+          "text": "Wendell Carter Jr. defensive rebound"
+        },
+        {
+          "seq": 57.0,
+          "period": 1,
+          "time": "Q1 7:07",
+          "text": "DeMar DeRozan misses free throw 1 of 1"
+        },
+        {
+          "seq": 55.0,
+          "period": 1,
+          "time": "Q1 7:07",
+          "text": "Tristan da Silva shooting foul"
+        },
+        {
+          "seq": 54.0,
+          "period": 1,
+          "time": "Q1 7:07",
+          "text": "DeMar DeRozan makes 17-foot pullup jump shot"
+        },
         {
           "seq": 53.0,
           "period": 1,
@@ -1043,7 +1090,7 @@
         {
           "seq": 38.0,
           "period": 1,
-          "time": "Q1 8:40",
+          "time": "Q1 8:42",
           "text": "Paolo Banchero defensive rebound"
         },
         {
@@ -1193,25 +1240,31 @@
       ],
       "new_plays": [
         {
-          "seq": 53.0,
+          "seq": 58.0,
           "period": 1,
-          "time": "Q1 7:29",
-          "text": "Tristan da Silva makes 12-foot pullup jump shot"
+          "time": "Q1 7:05",
+          "text": "Wendell Carter Jr. defensive rebound"
         },
         {
-          "seq": 51.0,
+          "seq": 57.0,
           "period": 1,
-          "time": "Q1 7:36",
-          "text": "Magic offensive team rebound"
+          "time": "Q1 7:07",
+          "text": "DeMar DeRozan misses free throw 1 of 1"
         },
         {
-          "seq": 50.0,
+          "seq": 55.0,
           "period": 1,
-          "time": "Q1 7:38",
-          "text": "Paolo Banchero misses 25-foot three point jumper"
+          "time": "Q1 7:07",
+          "text": "Tristan da Silva shooting foul"
+        },
+        {
+          "seq": 54.0,
+          "period": 1,
+          "time": "Q1 7:07",
+          "text": "DeMar DeRozan makes 17-foot pullup jump shot"
         }
       ],
-      "last_seq": 53.0
+      "last_seq": 58.0
     }
   }
 }
