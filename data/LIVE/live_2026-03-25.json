@@ -23123,7 +23123,7 @@
   },
   "HOU-MIN-2026-03-25": {
     "status": "in",
-    "clock": "3:01 - 4th",
+    "clock": "2:54 - 4th",
     "away_score": "84",
     "home_score": "93",
     "team_stats": {
@@ -23174,7 +23174,7 @@
         "Points Conceded Off Turnovers": "4",
         "FBPs": "18",
         "PIP": "52",
-        "PF": "19",
+        "PF": "20",
         "LL": "11",
         "LC": "4",
         "LPCT": "93"
@@ -23377,7 +23377,7 @@
           "FT": "2-2",
           "fd_pts": 19.4,
           "dk_pts": 20.25,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Dorian Finney-Smith": {
           "MIN": 6,
@@ -23407,7 +23407,7 @@
           "FT": "2-2",
           "fd_pts": 6.2,
           "dk_pts": 6.75,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Tari Eason": {
           "MIN": 21,
@@ -23474,10 +23474,22 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 651.0,
+          "period": 4,
+          "time": "Q4 2:54",
+          "text": "(02:54) [Rockets] REF-INITIATED REVIEW (CALL OVERTURNED)"
+        },
+        {
+          "seq": 649.0,
+          "period": 4,
+          "time": "Q4 2:54",
+          "text": "Julius Randle personal foul"
+        },
+        {
           "seq": 645.0,
           "period": 4,
           "time": "Q4 3:03",
-          "text": "enters the game for Jae'Sean Tate"
+          "text": "Reed Sheppard enters the game for Jae'Sean Tate"
         },
         {
           "seq": 644.0,
@@ -26170,43 +26182,37 @@
       ],
       "new_plays": [
         {
-          "seq": 645.0,
+          "seq": 651.0,
           "period": 4,
-          "time": "Q4 3:03",
-          "text": "enters the game for Jae'Sean Tate"
+          "time": "Q4 2:54",
+          "text": "(02:54) [Rockets] REF-INITIATED REVIEW (CALL OVERTURNED)"
         },
         {
-          "seq": 644.0,
+          "seq": 649.0,
           "period": 4,
-          "time": "Q4 3:03",
-          "text": "Bones Hyland enters the game for Kyle Anderson"
-        },
-        {
-          "seq": 643.0,
-          "period": 4,
-          "time": "Q4 3:03",
-          "text": "Donte DiVincenzo enters the game for Mike Conley"
+          "time": "Q4 2:54",
+          "text": "Julius Randle personal foul"
         }
       ],
-      "last_seq": 645.0
+      "last_seq": 651.0
     }
   },
   "DAL-DEN-2026-03-25": {
     "status": "in",
-    "clock": "10:39 - 4th",
+    "clock": "10:09 - 4th",
     "away_score": "104",
     "home_score": "113",
     "team_stats": {
       "DAL": {
-        "fieldGoalsMade-fieldGoalsAttempted": "36-75",
-        "FG%": "48",
+        "fieldGoalsMade-fieldGoalsAttempted": "36-76",
+        "FG%": "47",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "8-27",
         "3P%": "30",
         "freeThrowsMade-freeThrowsAttempted": "24-28",
         "FT%": "86",
-        "REB": "31",
+        "REB": "32",
         "OR": "7",
-        "DR": "24",
+        "DR": "25",
         "AST": "24",
         "STL": "2",
         "BLK": "3",
@@ -26218,21 +26224,21 @@
         "Points Conceded Off Turnovers": "2",
         "FBPs": "12",
         "PIP": "44",
-        "PF": "15",
+        "PF": "16",
         "LL": "4",
         "LC": "18",
-        "LPCT": "22"
+        "LPCT": "21"
       },
       "DEN": {
-        "fieldGoalsMade-fieldGoalsAttempted": "41-73",
-        "FG%": "56",
+        "fieldGoalsMade-fieldGoalsAttempted": "41-74",
+        "FG%": "55",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "16-31",
         "3P%": "52",
         "freeThrowsMade-freeThrowsAttempted": "15-18",
         "FT%": "83",
-        "REB": "37",
+        "REB": "38",
         "OR": "5",
-        "DR": "32",
+        "DR": "33",
         "AST": "32",
         "STL": "1",
         "BLK": "1",
@@ -26247,7 +26253,7 @@
         "PF": "21",
         "LL": "13",
         "LC": "18",
-        "LPCT": "74"
+        "LPCT": "75"
       }
     },
     "players": {
@@ -26270,7 +26276,7 @@
         "Spencer Jones": {
           "MIN": 17,
           "PTS": "2",
-          "REB": "1",
+          "REB": "2",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
@@ -26278,8 +26284,8 @@
           "FG": "0-1",
           "3PT": "0-1",
           "FT": "2-4",
-          "fd_pts": 3.2,
-          "dk_pts": 3.25,
+          "fd_pts": 4.4,
+          "dk_pts": 4.5,
           "is_on_court": true
         },
         "Nikola Jokic": {
@@ -26373,14 +26379,14 @@
           "is_on_court": true
         },
         "Peyton Watson": {
-          "MIN": 16,
+          "MIN": 17,
           "PTS": "13",
           "REB": "3",
           "AST": "3",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "6-8",
+          "FG": "6-9",
           "3PT": "1-2",
           "FT": "0-0",
           "fd_pts": 21.1,
@@ -26405,18 +26411,18 @@
           "is_on_court": false
         },
         "P.J. Washington": {
-          "MIN": 24,
+          "MIN": 25,
           "PTS": "13",
-          "REB": "10",
+          "REB": "11",
           "AST": "1",
           "STL": "0",
           "BLK": "1",
           "TO": "0",
-          "FG": "5-11",
+          "FG": "5-12",
           "3PT": "1-5",
           "FT": "2-2",
-          "fd_pts": 29.5,
-          "dk_pts": 31.0,
+          "fd_pts": 30.7,
+          "dk_pts": 32.25,
           "is_on_court": true
         },
         "Naji Marshall": {
@@ -26573,6 +26579,36 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 557.0,
+          "period": 4,
+          "time": "Q4 10:13",
+          "text": "Spencer Jones defensive rebound"
+        },
+        {
+          "seq": 556.0,
+          "period": 4,
+          "time": "Q4 10:15",
+          "text": "P.J. Washington misses driving floating jump shot"
+        },
+        {
+          "seq": 555.0,
+          "period": 4,
+          "time": "Q4 10:23",
+          "text": "P.J. Washington defensive rebound"
+        },
+        {
+          "seq": 554.0,
+          "period": 4,
+          "time": "Q4 10:26",
+          "text": "Peyton Watson misses 6-foot two point shot"
+        },
+        {
+          "seq": 552.0,
+          "period": 4,
+          "time": "Q4 10:39",
+          "text": "Ryan Nembhard personal foul"
+        },
         {
           "seq": 550.0,
           "period": 4,
@@ -28844,44 +28880,44 @@
       ],
       "new_plays": [
         {
-          "seq": 550.0,
+          "seq": 557.0,
           "period": 4,
-          "time": "Q4 10:48",
-          "text": "P.J. Washington makes free throw 2 of 2"
+          "time": "Q4 10:13",
+          "text": "Spencer Jones defensive rebound"
         },
         {
-          "seq": 549.0,
+          "seq": 556.0,
           "period": 4,
-          "time": "Q4 10:48",
-          "text": "P.J. Washington makes free throw 1 of 2"
+          "time": "Q4 10:15",
+          "text": "P.J. Washington misses driving floating jump shot"
         },
         {
-          "seq": 547.0,
+          "seq": 555.0,
           "period": 4,
-          "time": "Q4 10:48",
-          "text": "Peyton Watson shooting foul"
+          "time": "Q4 10:23",
+          "text": "P.J. Washington defensive rebound"
         },
         {
-          "seq": 546.0,
+          "seq": 554.0,
           "period": 4,
-          "time": "Q4 10:48",
-          "text": "P.J. Washington offensive rebound"
+          "time": "Q4 10:26",
+          "text": "Peyton Watson misses 6-foot two point shot"
         },
         {
-          "seq": 545.0,
+          "seq": 552.0,
           "period": 4,
-          "time": "Q4 10:50",
-          "text": "Khris Middleton misses 16-foot fade away jump shot"
+          "time": "Q4 10:39",
+          "text": "Ryan Nembhard personal foul"
         }
       ],
-      "last_seq": 550.0
+      "last_seq": 557.0
     }
   },
   "BKN-GSW-2026-03-25": {
     "status": "in",
-    "clock": "3:40 - 3rd",
-    "away_score": "77",
-    "home_score": "69",
+    "clock": "3:16 - 3rd",
+    "away_score": "79",
+    "home_score": "70",
     "team_stats": {
       "BKN": {
         "fieldGoalsMade-fieldGoalsAttempted": "27-54",
@@ -28904,7 +28940,7 @@
         "Points Conceded Off Turnovers": "16",
         "FBPs": "12",
         "PIP": "32",
-        "PF": "22",
+        "PF": "23",
         "LL": "13",
         "LC": "5",
         "LPCT": "68"
@@ -28914,8 +28950,8 @@
         "FG%": "49",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "6-21",
         "3P%": "29",
-        "freeThrowsMade-freeThrowsAttempted": "17-22",
-        "FT%": "77",
+        "freeThrowsMade-freeThrowsAttempted": "18-24",
+        "FT%": "75",
         "REB": "31",
         "OR": "7",
         "DR": "24",
@@ -29014,18 +29050,18 @@
           "is_on_court": false
         },
         "Omer Yurtseven": {
-          "MIN": 3,
-          "PTS": "0",
-          "REB": "0",
+          "MIN": 4,
+          "PTS": "1",
+          "REB": "1",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
           "FG": "0-1",
           "3PT": "0-0",
-          "FT": "0-0",
-          "fd_pts": 0.0,
-          "dk_pts": 0.0,
+          "FT": "1-2",
+          "fd_pts": 2.2,
+          "dk_pts": 2.25,
           "is_on_court": true
         },
         "Gary Payton II": {
@@ -29260,6 +29296,42 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 530.0,
+          "period": 3,
+          "time": "Q3 3:40",
+          "text": "Omer Yurtseven makes free throw 2 of 2"
+        },
+        {
+          "seq": 529.0,
+          "period": 3,
+          "time": "Q3 3:40",
+          "text": "Warriors offensive team rebound"
+        },
+        {
+          "seq": 528.0,
+          "period": 3,
+          "time": "Q3 3:40",
+          "text": "Omer Yurtseven misses free throw 1 of 2"
+        },
+        {
+          "seq": 526.0,
+          "period": 3,
+          "time": "Q3 3:40",
+          "text": "Terance Mann shooting foul"
+        },
+        {
+          "seq": 525.0,
+          "period": 3,
+          "time": "Q3 3:40",
+          "text": "Omer Yurtseven offensive rebound"
+        },
+        {
+          "seq": 524.0,
+          "period": 3,
+          "time": "Q3 3:41",
+          "text": "Gui Santos misses 7-foot two point shot"
+        },
+        {
           "seq": 522.0,
           "period": 3,
           "time": "Q3 4:01",
@@ -29338,22 +29410,10 @@
           "text": "Pat Spencer lost ball turnover (Ziaire Williams steals)"
         },
         {
-          "seq": 502.0,
-          "period": 3,
-          "time": "Q3 4:48",
-          "text": "Pat Spencer defensive rebound"
-        },
-        {
           "seq": 500.0,
           "period": 3,
           "time": "Q3 5:26",
           "text": "Pat Spencer enters the game for Brandin Podziemski"
-        },
-        {
-          "seq": 499.0,
-          "period": 3,
-          "time": "Q3 4:51",
-          "text": "Ziaire Williams misses layup"
         },
         {
           "seq": 497.0,
@@ -31326,13 +31386,43 @@
       ],
       "new_plays": [
         {
-          "seq": 522.0,
+          "seq": 530.0,
           "period": 3,
-          "time": "Q3 4:01",
-          "text": "Omer Yurtseven enters the game for Draymond Green"
+          "time": "Q3 3:40",
+          "text": "Omer Yurtseven makes free throw 2 of 2"
+        },
+        {
+          "seq": 529.0,
+          "period": 3,
+          "time": "Q3 3:40",
+          "text": "Warriors offensive team rebound"
+        },
+        {
+          "seq": 528.0,
+          "period": 3,
+          "time": "Q3 3:40",
+          "text": "Omer Yurtseven misses free throw 1 of 2"
+        },
+        {
+          "seq": 526.0,
+          "period": 3,
+          "time": "Q3 3:40",
+          "text": "Terance Mann shooting foul"
+        },
+        {
+          "seq": 525.0,
+          "period": 3,
+          "time": "Q3 3:40",
+          "text": "Omer Yurtseven offensive rebound"
+        },
+        {
+          "seq": 524.0,
+          "period": 3,
+          "time": "Q3 3:41",
+          "text": "Gui Santos misses 7-foot two point shot"
         }
       ],
-      "last_seq": 522.0
+      "last_seq": 530.0
     }
   },
   "MIL-POR-2026-03-25": {
@@ -31380,15 +31470,15 @@
         "AST": "23",
         "STL": "9",
         "BLK": "7",
-        "TO": "17",
+        "TO": "18",
         "TTO": "0",
-        "ToTO": "17",
+        "ToTO": "18",
         "TECH": "0",
         "FLAG": "0",
-        "Points Conceded Off Turnovers": "20",
+        "Points Conceded Off Turnovers": "23",
         "FBPs": "8",
         "PIP": "28",
-        "PF": "9",
+        "PF": "10",
         "LL": "31",
         "LC": "0",
         "LPCT": "99"
@@ -31472,7 +31562,7 @@
           "is_on_court": true
         },
         "Kris Murray": {
-          "MIN": 8,
+          "MIN": 9,
           "PTS": "3",
           "REB": "2",
           "AST": "1",
@@ -31487,7 +31577,7 @@
           "is_on_court": true
         },
         "Robert Williams III": {
-          "MIN": 12,
+          "MIN": 13,
           "PTS": "4",
           "REB": "6",
           "AST": "0",
@@ -31502,7 +31592,7 @@
           "is_on_court": true
         },
         "Matisse Thybulle": {
-          "MIN": 10,
+          "MIN": 11,
           "PTS": "9",
           "REB": "5",
           "AST": "0",
@@ -31517,18 +31607,18 @@
           "is_on_court": true
         },
         "Scoot Henderson": {
-          "MIN": 19,
+          "MIN": 20,
           "PTS": "11",
           "REB": "1",
           "AST": "2",
           "STL": "1",
           "BLK": "0",
-          "TO": "0",
+          "TO": "1",
           "FG": "3-9",
           "3PT": "1-5",
           "FT": "4-4",
-          "fd_pts": 18.2,
-          "dk_pts": 17.75,
+          "fd_pts": 17.2,
+          "dk_pts": 17.25,
           "is_on_court": true
         },
         "Sidy Cissoko": {
@@ -31576,7 +31666,7 @@
           "FT": "0-0",
           "fd_pts": 19.4,
           "dk_pts": 20.5,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Jericho Sims": {
           "MIN": 21,
@@ -31594,37 +31684,37 @@
           "is_on_court": false
         },
         "AJ Green": {
-          "MIN": 29,
+          "MIN": 30,
           "PTS": "5",
           "REB": "3",
-          "AST": "4",
+          "AST": "5",
           "STL": "1",
           "BLK": "0",
           "TO": "1",
           "FG": "2-6",
           "3PT": "1-4",
           "FT": "0-0",
-          "fd_pts": 16.6,
-          "dk_pts": 16.75,
-          "is_on_court": true
+          "fd_pts": 18.1,
+          "dk_pts": 18.25,
+          "is_on_court": false
         },
         "Ryan Rollins": {
-          "MIN": 24,
-          "PTS": "25",
+          "MIN": 25,
+          "PTS": "28",
           "REB": "3",
           "AST": "2",
           "STL": "2",
           "BLK": "0",
           "TO": "4",
-          "FG": "9-21",
-          "3PT": "3-8",
+          "FG": "10-22",
+          "3PT": "4-9",
           "FT": "4-4",
-          "fd_pts": 33.6,
-          "dk_pts": 35.25,
+          "fd_pts": 36.6,
+          "dk_pts": 38.75,
           "is_on_court": true
         },
         "Taurean Prince": {
-          "MIN": 20,
+          "MIN": 21,
           "PTS": "13",
           "REB": "5",
           "AST": "1",
@@ -31687,6 +31777,36 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 525.0,
+          "period": 3,
+          "time": "Q3 35.5",
+          "text": "Trail Blazers Full timeout"
+        },
+        {
+          "seq": 523.0,
+          "period": 3,
+          "time": "Q3 35.5",
+          "text": "Ousmane Dieng enters the game for AJ Green"
+        },
+        {
+          "seq": 522.0,
+          "period": 3,
+          "time": "Q3 35.5",
+          "text": "Scoot Henderson offensive foul turnover"
+        },
+        {
+          "seq": 520.0,
+          "period": 3,
+          "time": "Q3 35.5",
+          "text": "Scoot Henderson offensive foul"
+        },
+        {
+          "seq": 518.0,
+          "period": 3,
+          "time": "Q3 52.6",
+          "text": "Ryan Rollins makes 25-foot three point step back jumpshot (AJ Green assists)"
+        },
         {
           "seq": 516.0,
           "period": 3,
@@ -33832,61 +33952,55 @@
       ],
       "new_plays": [
         {
-          "seq": 516.0,
+          "seq": 525.0,
           "period": 3,
-          "time": "Q3 59.4",
-          "text": "Jrue Holiday lost ball turnover (Gary Trent Jr. steals)"
+          "time": "Q3 35.5",
+          "text": "Trail Blazers Full timeout"
         },
         {
-          "seq": 515.0,
+          "seq": 523.0,
           "period": 3,
-          "time": "Q3 1:12",
-          "text": "Robert Williams III defensive rebound"
+          "time": "Q3 35.5",
+          "text": "Ousmane Dieng enters the game for AJ Green"
         },
         {
-          "seq": 514.0,
+          "seq": 522.0,
           "period": 3,
-          "time": "Q3 1:16",
-          "text": "Gary Trent Jr. misses 28-foot three point jumper"
+          "time": "Q3 35.5",
+          "text": "Scoot Henderson offensive foul turnover"
         },
         {
-          "seq": 512.0,
+          "seq": 520.0,
           "period": 3,
-          "time": "Q3 1:42",
-          "text": "Jrue Holiday enters the game for Deni Avdija"
+          "time": "Q3 35.5",
+          "text": "Scoot Henderson offensive foul"
         },
         {
-          "seq": 510.0,
+          "seq": 518.0,
           "period": 3,
-          "time": "Q3 1:32",
-          "text": "Matisse Thybulle makes 23-foot three point jumper (Jrue Holiday assists)"
-        },
-        {
-          "seq": 509.0,
-          "period": 3,
-          "time": "Q3 1:42",
-          "text": "Taurean Prince makes free throw 2 of 2"
+          "time": "Q3 52.6",
+          "text": "Ryan Rollins makes 25-foot three point step back jumpshot (AJ Green assists)"
         }
       ],
-      "last_seq": 516.0
+      "last_seq": 525.0
     }
   },
   "TOR-LAC-2026-03-25": {
     "status": "in",
-    "clock": "10:41 - 3rd",
-    "away_score": "47",
-    "home_score": "62",
+    "clock": "9:40 - 3rd",
+    "away_score": "50",
+    "home_score": "64",
     "team_stats": {
       "TOR": {
-        "fieldGoalsMade-fieldGoalsAttempted": "21-54",
-        "FG%": "39",
+        "fieldGoalsMade-fieldGoalsAttempted": "21-56",
+        "FG%": "38",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "4-15",
         "3P%": "27",
         "freeThrowsMade-freeThrowsAttempted": "1-7",
         "FT%": "14",
-        "REB": "27",
+        "REB": "28",
         "OR": "11",
-        "DR": "16",
+        "DR": "17",
         "AST": "13",
         "STL": "6",
         "BLK": "1",
@@ -33904,15 +34018,15 @@
         "LPCT": "3"
       },
       "LAC": {
-        "fieldGoalsMade-fieldGoalsAttempted": "21-42",
+        "fieldGoalsMade-fieldGoalsAttempted": "22-44",
         "FG%": "50",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "7-17",
-        "3P%": "41",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "8-19",
+        "3P%": "42",
         "freeThrowsMade-freeThrowsAttempted": "10-14",
         "FT%": "71",
-        "REB": "29",
+        "REB": "30",
         "OR": "7",
-        "DR": "22",
+        "DR": "23",
         "AST": "13",
         "STL": "4",
         "BLK": "5",
@@ -33922,7 +34036,7 @@
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "14",
-        "FBPs": "7",
+        "FBPs": "10",
         "PIP": "20",
         "PF": "7",
         "LL": "22",
@@ -33980,31 +34094,31 @@
         "Brook Lopez": {
           "MIN": 16,
           "PTS": "11",
-          "REB": "2",
+          "REB": "3",
           "AST": "0",
           "STL": "1",
           "BLK": "3",
           "TO": "1",
-          "FG": "4-7",
-          "3PT": "2-4",
+          "FG": "4-8",
+          "3PT": "2-5",
           "FT": "1-1",
-          "fd_pts": 24.4,
-          "dk_pts": 22.0,
+          "fd_pts": 25.6,
+          "dk_pts": 23.25,
           "is_on_court": true
         },
         "Darius Garland": {
           "MIN": 18,
-          "PTS": "11",
+          "PTS": "14",
           "REB": "4",
           "AST": "2",
           "STL": "1",
           "BLK": "1",
           "TO": "2",
-          "FG": "4-8",
-          "3PT": "2-4",
+          "FG": "5-9",
+          "3PT": "3-5",
           "FT": "1-2",
-          "fd_pts": 22.8,
-          "dk_pts": 23.0,
+          "fd_pts": 25.8,
+          "dk_pts": 26.5,
           "is_on_court": true
         },
         "Nicolas Batum": {
@@ -34100,18 +34214,18 @@
           "is_on_court": true
         },
         "RJ Barrett": {
-          "MIN": 17,
+          "MIN": 18,
           "PTS": "9",
-          "REB": "4",
+          "REB": "5",
           "AST": "2",
           "STL": "1",
           "BLK": "0",
           "TO": "1",
-          "FG": "4-11",
+          "FG": "4-12",
           "3PT": "0-3",
           "FT": "1-3",
-          "fd_pts": 18.8,
-          "dk_pts": 18.5,
+          "fd_pts": 20.0,
+          "dk_pts": 19.75,
           "is_on_court": true
         },
         "Scottie Barnes": {
@@ -34137,7 +34251,7 @@
           "STL": "1",
           "BLK": "0",
           "TO": "0",
-          "FG": "3-5",
+          "FG": "3-6",
           "3PT": "0-0",
           "FT": "0-2",
           "fd_pts": 16.5,
@@ -34239,10 +34353,46 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 377.0,
+          "period": 3,
+          "time": "Q3 9:58",
+          "text": "Brook Lopez defensive rebound"
+        },
+        {
+          "seq": 376.0,
+          "period": 3,
+          "time": "Q3 10:00",
+          "text": "RJ Barrett misses 6-foot two point shot"
+        },
+        {
+          "seq": 375.0,
+          "period": 3,
+          "time": "Q3 10:09",
+          "text": "RJ Barrett defensive rebound"
+        },
+        {
+          "seq": 374.0,
+          "period": 3,
+          "time": "Q3 10:13",
+          "text": "Brook Lopez misses 28-foot three point jumper"
+        },
+        {
+          "seq": 372.0,
+          "period": 3,
+          "time": "Q3 10:27",
+          "text": "Clippers defensive team rebound"
+        },
+        {
+          "seq": 371.0,
+          "period": 3,
+          "time": "Q3 10:27",
+          "text": "Jakob Poeltl misses 3-foot hook shot"
+        },
+        {
           "seq": 370.0,
           "period": 3,
           "time": "Q3 10:41",
-          "text": "makes 29-foot shot"
+          "text": "Darius Garland makes 29-foot running pullup jump shot"
         },
         {
           "seq": 368.0,
@@ -35765,43 +35915,43 @@
       ],
       "new_plays": [
         {
-          "seq": 370.0,
+          "seq": 377.0,
           "period": 3,
-          "time": "Q3 10:41",
-          "text": "makes 29-foot shot"
+          "time": "Q3 9:58",
+          "text": "Brook Lopez defensive rebound"
         },
         {
-          "seq": 368.0,
+          "seq": 376.0,
           "period": 3,
-          "time": "Q3 10:46",
-          "text": "Brandon Ingram lost ball turnover (Darius Garland steals)"
+          "time": "Q3 10:00",
+          "text": "RJ Barrett misses 6-foot two point shot"
         },
         {
-          "seq": 367.0,
+          "seq": 375.0,
           "period": 3,
-          "time": "Q3 10:49",
+          "time": "Q3 10:09",
           "text": "RJ Barrett defensive rebound"
         },
         {
-          "seq": 366.0,
+          "seq": 374.0,
           "period": 3,
-          "time": "Q3 10:55",
-          "text": "Brook Lopez misses 14-foot hook shot"
+          "time": "Q3 10:13",
+          "text": "Brook Lopez misses 28-foot three point jumper"
         },
         {
-          "seq": 365.0,
+          "seq": 372.0,
           "period": 3,
-          "time": "Q3 11:11",
-          "text": "Brandon Ingram makes 18-foot two point shot"
+          "time": "Q3 10:27",
+          "text": "Clippers defensive team rebound"
         },
         {
-          "seq": 364.0,
+          "seq": 371.0,
           "period": 3,
-          "time": "Q3 11:30",
-          "text": "Derrick Jones Jr. traveling turnover"
+          "time": "Q3 10:27",
+          "text": "Jakob Poeltl misses 3-foot hook shot"
         }
       ],
-      "last_seq": 370.0
+      "last_seq": 377.0
     }
   }
 }
