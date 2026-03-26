@@ -787,7 +787,7 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
 
         // --- NEW: ON-COURT FLASHING DOT ---
         const onCourtDot = p.isOnCourt 
-            ? `<span class="spinner-grow spinner-grow-sm text-success slow-pulse me-1" style="width: 0.5rem; height: 0.5rem;" role="status"></span>` 
+            ? `<span class="spinner-grow spinner-grow-sm text-success slow-pulse me-1" style="width: 0.5rem; height: 0.5rem;" role="status"></span>`
             : '';
 
         return `
