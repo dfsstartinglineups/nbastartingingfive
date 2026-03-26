@@ -19860,8 +19860,8 @@
     }
   },
   "WAS-UTA-2026-03-25": {
-    "status": "in",
-    "clock": "11.1 - 4th",
+    "status": "post",
+    "clock": "Final",
     "away_score": "133",
     "home_score": "110",
     "team_stats": {
@@ -19879,8 +19879,8 @@
         "STL": "12",
         "BLK": "5",
         "TO": "18",
-        "TTO": "0",
-        "ToTO": "18",
+        "TTO": "1",
+        "ToTO": "19",
         "TECH": "0",
         "FLAG": "1",
         "Points Conceded Off Turnovers": "25",
@@ -20133,7 +20133,7 @@
           "is_on_court": false
         },
         "Sharife Cooper": {
-          "MIN": 24,
+          "MIN": 25,
           "PTS": "17",
           "REB": "4",
           "AST": "6",
@@ -20179,8 +20179,27 @@
         }
       }
     },
+    "game_ended_time": "2026-03-25T23:22:15.918291-04:00",
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 705.0,
+          "period": 4,
+          "time": "Q4 0.0",
+          "text": "End of Game"
+        },
+        {
+          "seq": 704.0,
+          "period": 4,
+          "time": "Q4 0.0",
+          "text": "End of the 4th Quarter"
+        },
+        {
+          "seq": 703.0,
+          "period": 4,
+          "time": "Q4 11.7",
+          "text": "shot clock turnover "
+        },
         {
           "seq": 702.0,
           "period": 4,
@@ -23100,13 +23119,25 @@
       ],
       "new_plays": [
         {
-          "seq": 702.0,
+          "seq": 705.0,
           "period": 4,
-          "time": "Q4 36.0",
-          "text": "Cody Williams makes driving layup"
+          "time": "Q4 0.0",
+          "text": "End of Game"
+        },
+        {
+          "seq": 704.0,
+          "period": 4,
+          "time": "Q4 0.0",
+          "text": "End of the 4th Quarter"
+        },
+        {
+          "seq": 703.0,
+          "period": 4,
+          "time": "Q4 11.7",
+          "text": "shot clock turnover "
         }
       ],
-      "last_seq": 702.0
+      "last_seq": 705.0
     }
   },
   "HOU-MIN-2026-03-25": {
@@ -23350,7 +23381,7 @@
           "FT": "2-2",
           "fd_pts": 19.1,
           "dk_pts": 19.25,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Reed Sheppard": {
           "MIN": 19,
@@ -23410,7 +23441,7 @@
           "FT": "0-0",
           "fd_pts": 14.6,
           "dk_pts": 15.0,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Clint Capela": {
           "MIN": 10,
@@ -23425,7 +23456,7 @@
           "FT": "0-0",
           "fd_pts": 9.8,
           "dk_pts": 8.5,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Aaron Holiday": {
           "MIN": 7,
@@ -23440,7 +23471,7 @@
           "FT": "0-0",
           "fd_pts": 4.4,
           "dk_pts": 5.5,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Josh Okogie": {
           "MIN": 1,
@@ -23462,6 +23493,24 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 473.0,
+          "period": 3,
+          "time": "Q3 2:12",
+          "text": "enters the game for Josh Okogie"
+        },
+        {
+          "seq": 472.0,
+          "period": 3,
+          "time": "Q3 2:12",
+          "text": "Amen Thompson enters the game for Clint Capela"
+        },
+        {
+          "seq": 471.0,
+          "period": 3,
+          "time": "Q3 2:12",
+          "text": "Aaron Holiday enters the game for Tari Eason"
+        },
+        {
           "seq": 470.0,
           "period": 3,
           "time": "Q3 2:11",
@@ -23476,7 +23525,7 @@
         {
           "seq": 467.0,
           "period": 3,
-          "time": "Q3 2:19",
+          "time": "Q3 2:18",
           "text": "Kyle Anderson offensive rebound"
         },
         {
@@ -25412,21 +25461,40 @@
           "text": "Alperen Sengun vs. Rudy Gobert (Donte DiVincenzo gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 470.0
+      "new_plays": [
+        {
+          "seq": 473.0,
+          "period": 3,
+          "time": "Q3 2:12",
+          "text": "enters the game for Josh Okogie"
+        },
+        {
+          "seq": 472.0,
+          "period": 3,
+          "time": "Q3 2:12",
+          "text": "Amen Thompson enters the game for Clint Capela"
+        },
+        {
+          "seq": 471.0,
+          "period": 3,
+          "time": "Q3 2:12",
+          "text": "Aaron Holiday enters the game for Tari Eason"
+        }
+      ],
+      "last_seq": 473.0
     }
   },
   "DAL-DEN-2026-03-25": {
     "status": "in",
-    "clock": "9:56 - 3rd",
-    "away_score": "64",
+    "clock": "9:35 - 3rd",
+    "away_score": "66",
     "home_score": "74",
     "team_stats": {
       "DAL": {
         "fieldGoalsMade-fieldGoalsAttempted": "24-52",
         "FG%": "46",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "7-20",
-        "3P%": "35",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "7-21",
+        "3P%": "33",
         "freeThrowsMade-freeThrowsAttempted": "9-11",
         "FT%": "82",
         "REB": "20",
@@ -25446,11 +25514,11 @@
         "PF": "8",
         "LL": "4",
         "LC": "18",
-        "LPCT": "31"
+        "LPCT": "30"
       },
       "DEN": {
-        "fieldGoalsMade-fieldGoalsAttempted": "27-50",
-        "FG%": "54",
+        "fieldGoalsMade-fieldGoalsAttempted": "28-51",
+        "FG%": "55",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "11-24",
         "3P%": "46",
         "freeThrowsMade-freeThrowsAttempted": "7-9",
@@ -25458,7 +25526,7 @@
         "REB": "26",
         "OR": "2",
         "DR": "24",
-        "AST": "21",
+        "AST": "22",
         "STL": "0",
         "BLK": "1",
         "TO": "4",
@@ -25467,12 +25535,12 @@
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "8",
-        "FBPs": "16",
-        "PIP": "28",
-        "PF": "8",
+        "FBPs": "18",
+        "PIP": "30",
+        "PF": "9",
         "LL": "11",
         "LC": "18",
-        "LPCT": "63"
+        "LPCT": "64"
       }
     },
     "players": {
@@ -25511,15 +25579,15 @@
           "MIN": 21,
           "PTS": "9",
           "REB": "10",
-          "AST": "11",
+          "AST": "12",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
           "FG": "4-10",
           "3PT": "1-4",
           "FT": "0-0",
-          "fd_pts": 37.5,
-          "dk_pts": 40.0,
+          "fd_pts": 39.0,
+          "dk_pts": 41.5,
           "is_on_court": true
         },
         "Jamal Murray": {
@@ -25638,7 +25706,7 @@
           "BLK": "0",
           "TO": "0",
           "FG": "3-8",
-          "3PT": "1-4",
+          "3PT": "1-5",
           "FT": "0-0",
           "fd_pts": 13.3,
           "dk_pts": 14.0,
@@ -25660,7 +25728,7 @@
           "is_on_court": true
         },
         "Cooper Flagg": {
-          "MIN": 19,
+          "MIN": 20,
           "PTS": "12",
           "REB": "4",
           "AST": "4",
@@ -25799,6 +25867,18 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 349.0,
+          "period": 3,
+          "time": "Q3 9:35",
+          "text": "Spencer Jones shooting foul"
+        },
+        {
+          "seq": 347.0,
+          "period": 3,
+          "time": "Q3 9:57",
+          "text": "Cameron Johnson makes 1-foot running dunk (Nikola Jokic assists)"
+        },
+        {
           "seq": 346.0,
           "period": 3,
           "time": "Q3 10:01",
@@ -25808,7 +25888,7 @@
           "seq": 345.0,
           "period": 3,
           "time": "Q3 10:04",
-          "text": "P.J. Washington misses 22-foot jumper"
+          "text": "P.J. Washington misses 24-foot three point jumper"
         },
         {
           "seq": 344.0,
@@ -27229,43 +27309,19 @@
       ],
       "new_plays": [
         {
-          "seq": 346.0,
+          "seq": 349.0,
           "period": 3,
-          "time": "Q3 10:01",
-          "text": "Nikola Jokic defensive rebound"
+          "time": "Q3 9:35",
+          "text": "Spencer Jones shooting foul"
         },
         {
-          "seq": 345.0,
+          "seq": 347.0,
           "period": 3,
-          "time": "Q3 10:04",
-          "text": "P.J. Washington misses 22-foot jumper"
-        },
-        {
-          "seq": 344.0,
-          "period": 3,
-          "time": "Q3 10:16",
-          "text": "Cameron Johnson makes 2-foot two point shot"
-        },
-        {
-          "seq": 342.0,
-          "period": 3,
-          "time": "Q3 10:27",
-          "text": "Dwight Powell loose ball foul"
-        },
-        {
-          "seq": 341.0,
-          "period": 3,
-          "time": "Q3 10:27",
-          "text": "Nuggets offensive team rebound"
-        },
-        {
-          "seq": 340.0,
-          "period": 3,
-          "time": "Q3 10:28",
-          "text": "Nikola Jokic misses driving floating jump shot"
+          "time": "Q3 9:57",
+          "text": "Cameron Johnson makes 1-foot running dunk (Nikola Jokic assists)"
         }
       ],
-      "last_seq": 346.0
+      "last_seq": 349.0
     }
   },
   "BKN-GSW-2026-03-25": {
@@ -31119,8 +31175,8 @@
       "LAC": {
         "fieldGoalsMade-fieldGoalsAttempted": "18-34",
         "FG%": "53",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "6-14",
-        "3P%": "43",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "6-13",
+        "3P%": "46",
         "freeThrowsMade-freeThrowsAttempted": "5-8",
         "FT%": "63",
         "REB": "21",
@@ -31266,7 +31322,7 @@
           "is_on_court": true
         },
         "Bennedict Mathurin": {
-          "MIN": 9,
+          "MIN": 10,
           "PTS": "8",
           "REB": "3",
           "AST": "3",
@@ -31274,7 +31330,7 @@
           "BLK": "0",
           "TO": "0",
           "FG": "2-5",
-          "3PT": "0-2",
+          "3PT": "0-1",
           "FT": "4-6",
           "fd_pts": 16.1,
           "dk_pts": 16.25,
@@ -31461,7 +31517,7 @@
           "seq": 246.0,
           "period": 2,
           "time": "Q2 6:55",
-          "text": "Collin Murray-Boyles turnover"
+          "text": "Collin Murray-Boyles out of bounds lost ball turnover"
         },
         {
           "seq": 245.0,
@@ -31593,7 +31649,7 @@
           "seq": 217.0,
           "period": 2,
           "time": "Q2 9:10",
-          "text": "Bennedict Mathurin misses 24-foot running jump shot"
+          "text": "Bennedict Mathurin misses 22-foot jumper"
         },
         {
           "seq": 216.0,
@@ -32448,50 +32504,7 @@
           "text": "Jakob Poeltl vs. Brook Lopez (Jamal Shead gains possession)"
         }
       ],
-      "new_plays": [
-        {
-          "seq": 247.0,
-          "period": 2,
-          "time": "Q2 6:55",
-          "text": "Clippers Full timeout"
-        },
-        {
-          "seq": 246.0,
-          "period": 2,
-          "time": "Q2 6:55",
-          "text": "Collin Murray-Boyles turnover"
-        },
-        {
-          "seq": 245.0,
-          "period": 2,
-          "time": "Q2 7:04",
-          "text": "Jamison Battle offensive rebound"
-        },
-        {
-          "seq": 244.0,
-          "period": 2,
-          "time": "Q2 7:09",
-          "text": "Sandro Mamukelashvili misses 27-foot three point jumper"
-        },
-        {
-          "seq": 243.0,
-          "period": 2,
-          "time": "Q2 7:10",
-          "text": "Collin Murray-Boyles offensive rebound"
-        },
-        {
-          "seq": 242.0,
-          "period": 2,
-          "time": "Q2 7:15",
-          "text": "RJ Barrett misses 23-foot three point jumper"
-        },
-        {
-          "seq": 241.0,
-          "period": 2,
-          "time": "Q2 7:16",
-          "text": "Jamison Battle offensive rebound"
-        }
-      ],
+      "new_plays": [],
       "last_seq": 247.0
     }
   }
