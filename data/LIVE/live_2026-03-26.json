@@ -26,7 +26,7 @@
         "Points Conceded Off Turnovers": "6",
         "FBPs": "0",
         "PIP": "22",
-        "PF": "5",
+        "PF": "6",
         "LL": "2",
         "LC": "1",
         "LPCT": "1"
@@ -351,6 +351,12 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 235.0,
+          "period": 2,
+          "time": "Q2 6:54",
+          "text": "Jose Alvarado personal foul"
+        },
         {
           "seq": 234.0,
           "period": 2,
@@ -1276,26 +1282,33 @@
           "text": "Karl-Anthony Towns vs. Moussa Diabate (Josh Hart gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 234.0
+      "new_plays": [
+        {
+          "seq": 235.0,
+          "period": 2,
+          "time": "Q2 6:54",
+          "text": "Jose Alvarado personal foul"
+        }
+      ],
+      "last_seq": 235.0
     }
   },
   "NOP-DET-2026-03-26": {
     "status": "in",
-    "clock": "8:09 - 2nd",
-    "away_score": "43",
-    "home_score": "46",
+    "clock": "7:09 - 2nd",
+    "away_score": "46",
+    "home_score": "48",
     "team_stats": {
       "NOP": {
-        "fieldGoalsMade-fieldGoalsAttempted": "17-33",
-        "FG%": "52",
+        "fieldGoalsMade-fieldGoalsAttempted": "18-37",
+        "FG%": "49",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "4-9",
         "3P%": "44",
-        "freeThrowsMade-freeThrowsAttempted": "5-9",
-        "FT%": "56",
-        "REB": "15",
-        "OR": "5",
-        "DR": "10",
+        "freeThrowsMade-freeThrowsAttempted": "6-10",
+        "FT%": "60",
+        "REB": "19",
+        "OR": "7",
+        "DR": "12",
         "AST": "12",
         "STL": "4",
         "BLK": "4",
@@ -1306,25 +1319,25 @@
         "FLAG": "0",
         "Points Conceded Off Turnovers": "8",
         "FBPs": "2",
-        "PIP": "26",
+        "PIP": "28",
         "PF": "6",
         "LL": "5",
         "LC": "6",
-        "LPCT": "50"
+        "LPCT": "47"
       },
       "DET": {
-        "fieldGoalsMade-fieldGoalsAttempted": "19-30",
-        "FG%": "63",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "7-10",
-        "3P%": "70",
+        "fieldGoalsMade-fieldGoalsAttempted": "19-32",
+        "FG%": "59",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "7-12",
+        "3P%": "58",
         "freeThrowsMade-freeThrowsAttempted": "3-5",
         "FT%": "60",
-        "REB": "13",
+        "REB": "14",
         "OR": "2",
-        "DR": "11",
+        "DR": "12",
         "AST": "14",
         "STL": "3",
-        "BLK": "1",
+        "BLK": "2",
         "TO": "6",
         "TTO": "0",
         "ToTO": "6",
@@ -1334,17 +1347,17 @@
         "FBPs": "7",
         "PIP": "22",
         "PF": "8",
-        "LL": "7",
+        "LL": "6",
         "LC": "6",
-        "LPCT": "37"
+        "LPCT": "41"
       }
     },
     "players": {
       "DET": {
         "Tobias Harris": {
-          "MIN": 8,
+          "MIN": 9,
           "PTS": "3",
-          "REB": "4",
+          "REB": "5",
           "AST": "2",
           "STL": "0",
           "BLK": "0",
@@ -1352,23 +1365,23 @@
           "FG": "1-3",
           "3PT": "1-2",
           "FT": "0-0",
-          "fd_pts": 10.8,
-          "dk_pts": 11.5,
+          "fd_pts": 12.0,
+          "dk_pts": 12.75,
           "is_on_court": true
         },
         "Jalen Duren": {
-          "MIN": 12,
-          "PTS": "11",
-          "REB": "2",
+          "MIN": 13,
+          "PTS": "13",
+          "REB": "3",
           "AST": "2",
           "STL": "0",
-          "BLK": "1",
+          "BLK": "2",
           "TO": "1",
-          "FG": "4-4",
+          "FG": "5-5",
           "3PT": "0-0",
           "FT": "3-4",
-          "fd_pts": 18.4,
-          "dk_pts": 18.0,
+          "fd_pts": 24.6,
+          "dk_pts": 23.25,
           "is_on_court": true
         },
         "Kevin Huerter": {
@@ -1387,7 +1400,7 @@
           "is_on_court": false
         },
         "Ausar Thompson": {
-          "MIN": 7,
+          "MIN": 8,
           "PTS": "2",
           "REB": "0",
           "AST": "0",
@@ -1462,30 +1475,30 @@
           "is_on_court": false
         },
         "Marcus Sasser": {
-          "MIN": 5,
-          "PTS": "5",
-          "REB": "2",
+          "MIN": 6,
+          "PTS": "3",
+          "REB": "1",
           "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "2",
-          "FG": "2-3",
-          "3PT": "1-1",
+          "FG": "1-3",
+          "3PT": "1-2",
           "FT": "0-0",
-          "fd_pts": 6.9,
-          "dk_pts": 8.5,
+          "fd_pts": 3.7,
+          "dk_pts": 5.25,
           "is_on_court": true
         },
         "Chaz Lanier": {
-          "MIN": 5,
+          "MIN": 6,
           "PTS": "3",
           "REB": "0",
           "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "1-2",
-          "3PT": "1-2",
+          "FG": "1-3",
+          "3PT": "1-3",
           "FT": "0-0",
           "fd_pts": 4.5,
           "dk_pts": 5.0,
@@ -1509,8 +1522,8 @@
           "is_on_court": false
         },
         "Zion Williamson": {
-          "MIN": 12,
-          "PTS": "12",
+          "MIN": 13,
+          "PTS": "13",
           "REB": "2",
           "AST": "1",
           "STL": "1",
@@ -1518,9 +1531,9 @@
           "TO": "1",
           "FG": "4-6",
           "3PT": "0-0",
-          "FT": "4-6",
-          "fd_pts": 17.9,
-          "dk_pts": 17.5,
+          "FT": "5-7",
+          "fd_pts": 18.9,
+          "dk_pts": 18.5,
           "is_on_court": true
         },
         "DeAndre Jordan": {
@@ -1539,18 +1552,18 @@
           "is_on_court": false
         },
         "Dejounte Murray": {
-          "MIN": 11,
+          "MIN": 12,
           "PTS": "2",
-          "REB": "3",
+          "REB": "4",
           "AST": "3",
           "STL": "1",
           "BLK": "0",
           "TO": "1",
-          "FG": "1-4",
+          "FG": "1-5",
           "3PT": "0-1",
           "FT": "0-0",
-          "fd_pts": 12.1,
-          "dk_pts": 11.75,
+          "fd_pts": 13.3,
+          "dk_pts": 13.0,
           "is_on_court": true
         },
         "Saddiq Bey": {
@@ -1569,7 +1582,7 @@
           "is_on_court": false
         },
         "Karlo Matkovic": {
-          "MIN": 3,
+          "MIN": 4,
           "PTS": "0",
           "REB": "0",
           "AST": "0",
@@ -1585,17 +1598,17 @@
         },
         "Derik Queen": {
           "MIN": 8,
-          "PTS": "5",
-          "REB": "2",
+          "PTS": "7",
+          "REB": "5",
           "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "2-5",
+          "FG": "3-7",
           "3PT": "0-1",
           "FT": "1-1",
-          "fd_pts": 8.9,
-          "dk_pts": 9.0,
+          "fd_pts": 14.5,
+          "dk_pts": 14.75,
           "is_on_court": true
         },
         "Yves Missi": {
@@ -1636,7 +1649,7 @@
           "STL": "0",
           "BLK": "0",
           "TO": "1",
-          "FG": "2-4",
+          "FG": "2-5",
           "3PT": "0-2",
           "FT": "0-0",
           "fd_pts": 9.9,
@@ -1647,6 +1660,84 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 266.0,
+          "period": 2,
+          "time": "Q2 7:28",
+          "text": "Derik Queen makes 4-foot shot"
+        },
+        {
+          "seq": 265.0,
+          "period": 2,
+          "time": "Q2 7:29",
+          "text": "Derik Queen offensive rebound"
+        },
+        {
+          "seq": 264.0,
+          "period": 2,
+          "time": "Q2 7:35",
+          "text": "Derik Queen misses tip shot"
+        },
+        {
+          "seq": 263.0,
+          "period": 2,
+          "time": "Q2 7:35",
+          "text": "Derik Queen offensive rebound"
+        },
+        {
+          "seq": 262.0,
+          "period": 2,
+          "time": "Q2 7:36",
+          "text": "Dejounte Murray misses driving layup"
+        },
+        {
+          "seq": 261.0,
+          "period": 2,
+          "time": "Q2 7:42",
+          "text": "Dejounte Murray defensive rebound"
+        },
+        {
+          "seq": 260.0,
+          "period": 2,
+          "time": "Q2 7:44",
+          "text": "Chaz Lanier misses 23-foot three point jumper"
+        },
+        {
+          "seq": 259.0,
+          "period": 2,
+          "time": "Q2 7:47",
+          "text": "Jalen Duren offensive rebound"
+        },
+        {
+          "seq": 258.0,
+          "period": 2,
+          "time": "Q2 7:51",
+          "text": "Marcus Sasser misses 26-foot three point jumper"
+        },
+        {
+          "seq": 257.0,
+          "period": 2,
+          "time": "Q2 7:56",
+          "text": "Tobias Harris defensive rebound"
+        },
+        {
+          "seq": 255.0,
+          "period": 2,
+          "time": "Q2 7:57",
+          "text": "Jalen Duren blocks Jeremiah Fears 's 4-foot driving layup"
+        },
+        {
+          "seq": 254.0,
+          "period": 2,
+          "time": "Q2 8:05",
+          "text": "Jalen Duren makes driving layup"
+        },
+        {
+          "seq": 253.0,
+          "period": 2,
+          "time": "Q2 8:25",
+          "text": "Zion Williamson makes free throw 1 of 1"
+        },
         {
           "seq": 251.0,
           "period": 2,
@@ -1660,16 +1751,10 @@
           "text": "Zion Williamson makes driving layup"
         },
         {
-          "seq": 249.0,
-          "period": 2,
-          "time": "Q2 8:25",
-          "text": "Marcus Sasser makes dunk"
-        },
-        {
           "seq": 248.0,
           "period": 2,
           "time": "Q2 8:25",
-          "text": "Marcus Sasser offensive rebound"
+          "text": "Derik Queen defensive rebound"
         },
         {
           "seq": 247.0,
@@ -1830,14 +1915,14 @@
         {
           "seq": 208.0,
           "period": 2,
-          "time": "Q2 10:36",
+          "time": "Q2 10:38",
           "text": "Zion Williamson defensive rebound"
         },
         {
           "seq": 207.0,
           "period": 2,
-          "time": "Q2 10:37",
-          "text": "Chaz Lanier misses 23-foot three point jumper"
+          "time": "Q2 10:40",
+          "text": "Chaz Lanier misses 23-foot running jump shot"
         },
         {
           "seq": 206.0,
@@ -2628,37 +2713,85 @@
       ],
       "new_plays": [
         {
-          "seq": 251.0,
+          "seq": 266.0,
           "period": 2,
-          "time": "Q2 8:25",
-          "text": "Tobias Harris shooting foul"
+          "time": "Q2 7:28",
+          "text": "Derik Queen makes 4-foot shot"
         },
         {
-          "seq": 250.0,
+          "seq": 265.0,
           "period": 2,
-          "time": "Q2 8:25",
-          "text": "Zion Williamson makes driving layup"
+          "time": "Q2 7:29",
+          "text": "Derik Queen offensive rebound"
         },
         {
-          "seq": 249.0,
+          "seq": 264.0,
           "period": 2,
-          "time": "Q2 8:25",
-          "text": "Marcus Sasser makes dunk"
+          "time": "Q2 7:35",
+          "text": "Derik Queen misses tip shot"
         },
         {
-          "seq": 248.0,
+          "seq": 263.0,
           "period": 2,
-          "time": "Q2 8:25",
-          "text": "Marcus Sasser offensive rebound"
+          "time": "Q2 7:35",
+          "text": "Derik Queen offensive rebound"
         },
         {
-          "seq": 247.0,
+          "seq": 262.0,
           "period": 2,
-          "time": "Q2 8:34",
-          "text": "Jalen Duren misses free throw 1 of 1"
+          "time": "Q2 7:36",
+          "text": "Dejounte Murray misses driving layup"
+        },
+        {
+          "seq": 261.0,
+          "period": 2,
+          "time": "Q2 7:42",
+          "text": "Dejounte Murray defensive rebound"
+        },
+        {
+          "seq": 260.0,
+          "period": 2,
+          "time": "Q2 7:44",
+          "text": "Chaz Lanier misses 23-foot three point jumper"
+        },
+        {
+          "seq": 259.0,
+          "period": 2,
+          "time": "Q2 7:47",
+          "text": "Jalen Duren offensive rebound"
+        },
+        {
+          "seq": 258.0,
+          "period": 2,
+          "time": "Q2 7:51",
+          "text": "Marcus Sasser misses 26-foot three point jumper"
+        },
+        {
+          "seq": 257.0,
+          "period": 2,
+          "time": "Q2 7:56",
+          "text": "Tobias Harris defensive rebound"
+        },
+        {
+          "seq": 255.0,
+          "period": 2,
+          "time": "Q2 7:57",
+          "text": "Jalen Duren blocks Jeremiah Fears 's 4-foot driving layup"
+        },
+        {
+          "seq": 254.0,
+          "period": 2,
+          "time": "Q2 8:05",
+          "text": "Jalen Duren makes driving layup"
+        },
+        {
+          "seq": 253.0,
+          "period": 2,
+          "time": "Q2 8:25",
+          "text": "Zion Williamson makes free throw 1 of 1"
         }
       ],
-      "last_seq": 251.0
+      "last_seq": 266.0
     }
   },
   "SAC-ORL-2026-03-26": {
@@ -3983,38 +4116,7 @@
           "text": "Maxime Raynaud vs. Wendell Carter Jr. (Tristan da Silva gains possession)"
         }
       ],
-      "new_plays": [
-        {
-          "seq": 238.0,
-          "period": 2,
-          "time": "Q2 7:10",
-          "text": "Magic Full timeout"
-        },
-        {
-          "seq": 236.0,
-          "period": 2,
-          "time": "Q2 7:09",
-          "text": "Malik Monk makes 26-foot three point jumper (Precious Achiuwa assists)"
-        },
-        {
-          "seq": 235.0,
-          "period": 2,
-          "time": "Q2 7:11",
-          "text": "Maxime Raynaud offensive rebound"
-        },
-        {
-          "seq": 234.0,
-          "period": 2,
-          "time": "Q2 7:14",
-          "text": "Precious Achiuwa misses driving layup"
-        },
-        {
-          "seq": 232.0,
-          "period": 2,
-          "time": "Q2 7:22",
-          "text": "Wendell Carter Jr. lost ball turnover (Precious Achiuwa steals)"
-        }
-      ],
+      "new_plays": [],
       "last_seq": 238.0
     }
   }
