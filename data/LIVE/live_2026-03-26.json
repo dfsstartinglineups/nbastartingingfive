@@ -15,7 +15,7 @@
         "REB": "15",
         "OR": "3",
         "DR": "12",
-        "AST": "13",
+        "AST": "14",
         "STL": "1",
         "BLK": "2",
         "TO": "7",
@@ -26,7 +26,7 @@
         "Points Conceded Off Turnovers": "9",
         "FBPs": "0",
         "PIP": "26",
-        "PF": "10",
+        "PF": "9",
         "LL": "2",
         "LC": "1",
         "LPCT": "1"
@@ -276,15 +276,15 @@
           "MIN": 21,
           "PTS": "17",
           "REB": "2",
-          "AST": "8",
+          "AST": "9",
           "STL": "0",
           "BLK": "0",
           "TO": "1",
           "FG": "6-12",
           "3PT": "0-3",
           "FT": "5-5",
-          "fd_pts": 30.4,
-          "dk_pts": 31.0,
+          "fd_pts": 31.9,
+          "dk_pts": 32.5,
           "is_on_court": true
         },
         "Mohamed Diawara": {
@@ -379,7 +379,7 @@
           "seq": 345.0,
           "period": 3,
           "time": "Q3 9:56",
-          "text": "Mikal Bridges makes 9-foot turnaround jump shot"
+          "text": "Mikal Bridges makes 9-foot turnaround jump shot (Jalen Brunson assists)"
         },
         {
           "seq": 344.0,
@@ -1762,39 +1762,26 @@
           "text": "Karl-Anthony Towns vs. Moussa Diabate (Josh Hart gains possession)"
         }
       ],
-      "new_plays": [
-        {
-          "seq": 351.0,
-          "period": 3,
-          "time": "Q3 9:35",
-          "text": "Kon Knueppel offensive rebound"
-        },
-        {
-          "seq": 350.0,
-          "period": 3,
-          "time": "Q3 9:35",
-          "text": "Kon Knueppel misses 8-foot jumper"
-        }
-      ],
+      "new_plays": [],
       "last_seq": 351.0
     }
   },
   "NOP-DET-2026-03-26": {
     "status": "in",
-    "clock": "8:12 - 3rd",
-    "away_score": "63",
-    "home_score": "76",
+    "clock": "7:14 - 3rd",
+    "away_score": "67",
+    "home_score": "78",
     "team_stats": {
       "NOP": {
-        "fieldGoalsMade-fieldGoalsAttempted": "25-53",
+        "fieldGoalsMade-fieldGoalsAttempted": "26-55",
         "FG%": "47",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "5-14",
         "3P%": "36",
         "freeThrowsMade-freeThrowsAttempted": "8-16",
         "FT%": "50",
-        "REB": "25",
-        "OR": "9",
-        "DR": "16",
+        "REB": "27",
+        "OR": "10",
+        "DR": "17",
         "AST": "15",
         "STL": "6",
         "BLK": "7",
@@ -1805,25 +1792,25 @@
         "FLAG": "0",
         "Points Conceded Off Turnovers": "17",
         "FBPs": "4",
-        "PIP": "40",
+        "PIP": "42",
         "PF": "10",
         "LL": "5",
         "LC": "6",
-        "LPCT": "28"
+        "LPCT": "27"
       },
       "DET": {
         "fieldGoalsMade-fieldGoalsAttempted": "29-54",
         "FG%": "54",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "8-18",
         "3P%": "44",
-        "freeThrowsMade-freeThrowsAttempted": "9-11",
-        "FT%": "82",
+        "freeThrowsMade-freeThrowsAttempted": "10-13",
+        "FT%": "77",
         "REB": "27",
         "OR": "6",
         "DR": "21",
         "AST": "20",
         "STL": "7",
-        "BLK": "3",
+        "BLK": "4",
         "TO": "10",
         "TTO": "1",
         "ToTO": "11",
@@ -1841,7 +1828,7 @@
     "players": {
       "DET": {
         "Tobias Harris": {
-          "MIN": 20,
+          "MIN": 21,
           "PTS": "9",
           "REB": "7",
           "AST": "5",
@@ -1856,22 +1843,22 @@
           "is_on_court": true
         },
         "Jalen Duren": {
-          "MIN": 20,
-          "PTS": "19",
+          "MIN": 21,
+          "PTS": "22",
           "REB": "8",
           "AST": "5",
           "STL": "1",
-          "BLK": "2",
+          "BLK": "3",
           "TO": "3",
-          "FG": "6-7",
+          "FG": "7-8",
           "3PT": "0-0",
-          "FT": "7-8",
-          "fd_pts": 42.1,
-          "dk_pts": 41.0,
+          "FT": "8-10",
+          "fd_pts": 48.1,
+          "dk_pts": 46.0,
           "is_on_court": false
         },
         "Kevin Huerter": {
-          "MIN": 20,
+          "MIN": 21,
           "PTS": "12",
           "REB": "1",
           "AST": "1",
@@ -1886,7 +1873,7 @@
           "is_on_court": true
         },
         "Ausar Thompson": {
-          "MIN": 19,
+          "MIN": 20,
           "PTS": "10",
           "REB": "2",
           "AST": "0",
@@ -1901,7 +1888,7 @@
           "is_on_court": true
         },
         "Daniss Jenkins": {
-          "MIN": 20,
+          "MIN": 21,
           "PTS": "11",
           "REB": "2",
           "AST": "4",
@@ -2008,7 +1995,7 @@
       },
       "NOP": {
         "Herbert Jones": {
-          "MIN": 18,
+          "MIN": 19,
           "PTS": "8",
           "REB": "0",
           "AST": "2",
@@ -2023,18 +2010,18 @@
           "is_on_court": true
         },
         "Zion Williamson": {
-          "MIN": 20,
-          "PTS": "13",
-          "REB": "4",
+          "MIN": 21,
+          "PTS": "15",
+          "REB": "5",
           "AST": "1",
           "STL": "1",
           "BLK": "1",
           "TO": "3",
-          "FG": "4-7",
+          "FG": "5-9",
           "3PT": "0-0",
           "FT": "5-7",
-          "fd_pts": 22.3,
-          "dk_pts": 22.0,
+          "fd_pts": 25.5,
+          "dk_pts": 25.25,
           "is_on_court": true
         },
         "DeAndre Jordan": {
@@ -2053,9 +2040,9 @@
           "is_on_court": true
         },
         "Dejounte Murray": {
-          "MIN": 21,
+          "MIN": 22,
           "PTS": "10",
-          "REB": "6",
+          "REB": "7",
           "AST": "4",
           "STL": "3",
           "BLK": "0",
@@ -2063,12 +2050,12 @@
           "FG": "4-10",
           "3PT": "0-2",
           "FT": "2-2",
-          "fd_pts": 27.2,
-          "dk_pts": 27.0,
+          "fd_pts": 28.4,
+          "dk_pts": 28.25,
           "is_on_court": false
         },
         "Saddiq Bey": {
-          "MIN": 20,
+          "MIN": 21,
           "PTS": "12",
           "REB": "1",
           "AST": "1",
@@ -2161,6 +2148,42 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 431.0,
+          "period": 3,
+          "time": "Q3 7:43",
+          "text": "Zion Williamson makes layup"
+        },
+        {
+          "seq": 430.0,
+          "period": 3,
+          "time": "Q3 7:45",
+          "text": "Zion Williamson offensive rebound"
+        },
+        {
+          "seq": 428.0,
+          "period": 3,
+          "time": "Q3 7:46",
+          "text": "Jalen Duren blocks Zion Williamson 's 2-foot layup"
+        },
+        {
+          "seq": 427.0,
+          "period": 3,
+          "time": "Q3 8:11",
+          "text": "Dejounte Murray defensive rebound"
+        },
+        {
+          "seq": 426.0,
+          "period": 3,
+          "time": "Q3 8:12",
+          "text": "Jalen Duren misses free throw 2 of 2"
+        },
+        {
+          "seq": 425.0,
+          "period": 3,
+          "time": "Q3 8:12",
+          "text": "Jalen Duren makes free throw 1 of 2"
+        },
         {
           "seq": 423.0,
           "period": 3,
@@ -3868,59 +3891,83 @@
       ],
       "new_plays": [
         {
-          "seq": 423.0,
+          "seq": 431.0,
           "period": 3,
-          "time": "Q3 8:12",
-          "text": "DeAndre Jordan shooting foul"
+          "time": "Q3 7:43",
+          "text": "Zion Williamson makes layup"
         },
         {
-          "seq": 421.0,
+          "seq": 430.0,
           "period": 3,
-          "time": "Q3 8:29",
-          "text": "Herbert Jones makes 4-foot layup (DeAndre Jordan assists)"
+          "time": "Q3 7:45",
+          "text": "Zion Williamson offensive rebound"
+        },
+        {
+          "seq": 428.0,
+          "period": 3,
+          "time": "Q3 7:46",
+          "text": "Jalen Duren blocks Zion Williamson 's 2-foot layup"
+        },
+        {
+          "seq": 427.0,
+          "period": 3,
+          "time": "Q3 8:11",
+          "text": "Dejounte Murray defensive rebound"
+        },
+        {
+          "seq": 426.0,
+          "period": 3,
+          "time": "Q3 8:12",
+          "text": "Jalen Duren misses free throw 2 of 2"
+        },
+        {
+          "seq": 425.0,
+          "period": 3,
+          "time": "Q3 8:12",
+          "text": "Jalen Duren makes free throw 1 of 2"
         }
       ],
-      "last_seq": 423.0
+      "last_seq": 431.0
     }
   },
   "SAC-ORL-2026-03-26": {
     "status": "in",
-    "clock": "9:24 - 3rd",
-    "away_score": "63",
+    "clock": "8:27 - 3rd",
+    "away_score": "67",
     "home_score": "74",
     "team_stats": {
       "SAC": {
-        "fieldGoalsMade-fieldGoalsAttempted": "25-50",
-        "FG%": "50",
+        "fieldGoalsMade-fieldGoalsAttempted": "27-52",
+        "FG%": "52",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "5-15",
         "3P%": "33",
         "freeThrowsMade-freeThrowsAttempted": "8-11",
         "FT%": "73",
-        "REB": "19",
+        "REB": "20",
         "OR": "6",
-        "DR": "13",
+        "DR": "14",
         "AST": "17",
         "STL": "4",
-        "BLK": "2",
+        "BLK": "3",
         "TO": "6",
         "TTO": "0",
         "ToTO": "6",
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "10",
-        "FBPs": "4",
-        "PIP": "30",
+        "FBPs": "6",
+        "PIP": "34",
         "PF": "16",
         "LL": "3",
         "LC": "1",
         "LPCT": "1"
       },
       "ORL": {
-        "fieldGoalsMade-fieldGoalsAttempted": "23-41",
-        "FG%": "56",
+        "fieldGoalsMade-fieldGoalsAttempted": "23-42",
+        "FG%": "55",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "9-17",
         "3P%": "53",
-        "freeThrowsMade-freeThrowsAttempted": "18-21",
+        "freeThrowsMade-freeThrowsAttempted": "19-22",
         "FT%": "86",
         "REB": "24",
         "OR": "4",
@@ -3945,14 +3992,14 @@
     "players": {
       "ORL": {
         "Paolo Banchero": {
-          "MIN": 21,
+          "MIN": 22,
           "PTS": "20",
           "REB": "6",
           "AST": "4",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "8-15",
+          "FG": "8-16",
           "3PT": "1-3",
           "FT": "3-4",
           "fd_pts": 33.2,
@@ -3960,7 +4007,7 @@
           "is_on_court": true
         },
         "Tristan da Silva": {
-          "MIN": 18,
+          "MIN": 19,
           "PTS": "11",
           "REB": "0",
           "AST": "0",
@@ -3975,14 +4022,14 @@
           "is_on_court": true
         },
         "Wendell Carter Jr.": {
-          "MIN": 19,
+          "MIN": 20,
           "PTS": "8",
           "REB": "10",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
           "TO": "2",
-          "FG": "2-4",
+          "FG": "2-5",
           "3PT": "0-1",
           "FT": "4-6",
           "fd_pts": 18.0,
@@ -3991,7 +4038,7 @@
         },
         "Desmond Bane": {
           "MIN": 19,
-          "PTS": "11",
+          "PTS": "12",
           "REB": "0",
           "AST": "4",
           "STL": "0",
@@ -3999,13 +4046,13 @@
           "TO": "1",
           "FG": "3-4",
           "3PT": "2-3",
-          "FT": "3-3",
-          "fd_pts": 16.0,
-          "dk_pts": 17.5,
+          "FT": "4-4",
+          "fd_pts": 17.0,
+          "dk_pts": 18.5,
           "is_on_court": true
         },
         "Jalen Suggs": {
-          "MIN": 18,
+          "MIN": 19,
           "PTS": "3",
           "REB": "2",
           "AST": "3",
@@ -4097,24 +4144,24 @@
       },
       "SAC": {
         "Precious Achiuwa": {
-          "MIN": 19,
-          "PTS": "8",
-          "REB": "5",
+          "MIN": 20,
+          "PTS": "12",
+          "REB": "6",
           "AST": "0",
           "STL": "1",
-          "BLK": "1",
+          "BLK": "2",
           "TO": "2",
-          "FG": "4-9",
+          "FG": "6-11",
           "3PT": "0-1",
           "FT": "0-0",
-          "fd_pts": 18.0,
-          "dk_pts": 17.25,
+          "fd_pts": 26.2,
+          "dk_pts": 24.5,
           "is_on_court": true
         },
         "Maxime Raynaud": {
-          "MIN": 22,
+          "MIN": 23,
           "PTS": "8",
-          "REB": "5",
+          "REB": "6",
           "AST": "3",
           "STL": "1",
           "BLK": "0",
@@ -4122,12 +4169,12 @@
           "FG": "3-7",
           "3PT": "0-1",
           "FT": "2-2",
-          "fd_pts": 20.5,
-          "dk_pts": 20.25,
+          "fd_pts": 21.7,
+          "dk_pts": 21.5,
           "is_on_court": true
         },
         "DeMar DeRozan": {
-          "MIN": 22,
+          "MIN": 23,
           "PTS": "23",
           "REB": "4",
           "AST": "5",
@@ -4142,7 +4189,7 @@
           "is_on_court": true
         },
         "Malik Monk": {
-          "MIN": 16,
+          "MIN": 17,
           "PTS": "6",
           "REB": "1",
           "AST": "4",
@@ -4157,7 +4204,7 @@
           "is_on_court": true
         },
         "Devin Carter": {
-          "MIN": 16,
+          "MIN": 17,
           "PTS": "11",
           "REB": "1",
           "AST": "2",
@@ -4251,6 +4298,30 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 365.0,
+          "period": 3,
+          "time": "Q3 8:48",
+          "text": "Precious Achiuwa defensive rebound"
+        },
+        {
+          "seq": 363.0,
+          "period": 3,
+          "time": "Q3 8:51",
+          "text": "Precious Achiuwa blocks Wendell Carter Jr. 's 1-foot driving layup"
+        },
+        {
+          "seq": 362.0,
+          "period": 3,
+          "time": "Q3 9:02",
+          "text": "Precious Achiuwa makes layup"
+        },
+        {
+          "seq": 361.0,
+          "period": 3,
+          "time": "Q3 9:24",
+          "text": "Desmond Bane makes free throw 2 of 2"
+        },
+        {
           "seq": 360.0,
           "period": 3,
           "time": "Q3 9:24",
@@ -4271,26 +4342,26 @@
         {
           "seq": 355.0,
           "period": 3,
-          "time": "Q3 9:56",
+          "time": "Q3 9:59",
           "text": "Paolo Banchero makes 1-foot dunk"
         },
         {
           "seq": 354.0,
           "period": 3,
-          "time": "Q3 9:56",
+          "time": "Q3 10:00",
           "text": "Paolo Banchero offensive rebound"
         },
         {
           "seq": 352.0,
           "period": 3,
-          "time": "Q3 9:56",
-          "text": "Precious Achiuwa blocks Paolo Banchero 's 3-foot driving layup"
+          "time": "Q3 10:01",
+          "text": "Precious Achiuwa blocks Paolo Banchero 's 4-foot driving layup"
         },
         {
           "seq": 351.0,
           "period": 3,
           "time": "Q3 10:10",
-          "text": "DeMar DeRozan makes 3-foot dunk (Malik Monk assists)"
+          "text": "DeMar DeRozan makes 3-foot running dunk (Malik Monk assists)"
         },
         {
           "seq": 349.0,
@@ -5747,25 +5818,31 @@
       ],
       "new_plays": [
         {
-          "seq": 360.0,
+          "seq": 365.0,
           "period": 3,
-          "time": "Q3 9:24",
-          "text": "Desmond Bane makes free throw 1 of 2"
+          "time": "Q3 8:48",
+          "text": "Precious Achiuwa defensive rebound"
         },
         {
-          "seq": 358.0,
+          "seq": 363.0,
           "period": 3,
-          "time": "Q3 9:24",
-          "text": "DeMar DeRozan shooting foul"
+          "time": "Q3 8:51",
+          "text": "Precious Achiuwa blocks Wendell Carter Jr. 's 1-foot driving layup"
         },
         {
-          "seq": 356.0,
+          "seq": 362.0,
           "period": 3,
-          "time": "Q3 9:38",
-          "text": "Devin Carter makes driving layup"
+          "time": "Q3 9:02",
+          "text": "Precious Achiuwa makes layup"
+        },
+        {
+          "seq": 361.0,
+          "period": 3,
+          "time": "Q3 9:24",
+          "text": "Desmond Bane makes free throw 2 of 2"
         }
       ],
-      "last_seq": 360.0
+      "last_seq": 365.0
     }
   }
 }
