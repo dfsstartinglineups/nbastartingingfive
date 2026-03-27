@@ -1,9 +1,9 @@
 {
   "LAC-IND-2026-03-27": {
     "status": "in",
-    "clock": "7:41 - 1st",
+    "clock": "7:36 - 1st",
     "away_score": "11",
-    "home_score": "14",
+    "home_score": "16",
     "team_stats": {
       "LAC": {
         "fieldGoalsMade-fieldGoalsAttempted": "4-12",
@@ -18,9 +18,9 @@
         "AST": "4",
         "STL": "0",
         "BLK": "1",
-        "TO": "0",
+        "TO": "1",
         "TTO": "0",
-        "ToTO": "0",
+        "ToTO": "1",
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "0",
@@ -32,8 +32,8 @@
         "LPCT": "40"
       },
       "IND": {
-        "fieldGoalsMade-fieldGoalsAttempted": "5-10",
-        "FG%": "50",
+        "fieldGoalsMade-fieldGoalsAttempted": "6-11",
+        "FG%": "55",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "4-5",
         "3P%": "80",
         "freeThrowsMade-freeThrowsAttempted": "0-0",
@@ -41,8 +41,8 @@
         "REB": "5",
         "OR": "0",
         "DR": "5",
-        "AST": "5",
-        "STL": "0",
+        "AST": "6",
+        "STL": "1",
         "BLK": "0",
         "TO": "0",
         "TTO": "0",
@@ -50,12 +50,12 @@
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "0",
-        "FBPs": "0",
-        "PIP": "0",
+        "FBPs": "2",
+        "PIP": "2",
         "PF": "0",
         "LL": "3",
         "LC": "1",
-        "LPCT": "13"
+        "LPCT": "16"
       }
     },
     "players": {
@@ -65,29 +65,29 @@
           "PTS": "0",
           "REB": "1",
           "AST": "0",
-          "STL": "0",
+          "STL": "1",
           "BLK": "0",
           "TO": "0",
           "FG": "0-1",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 1.2,
-          "dk_pts": 1.25,
+          "fd_pts": 4.2,
+          "dk_pts": 3.25,
           "is_on_court": true
         },
         "Jarace Walker": {
           "MIN": 4,
-          "PTS": "3",
+          "PTS": "5",
           "REB": "1",
           "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "1-2",
+          "FG": "2-3",
           "3PT": "1-1",
           "FT": "0-0",
-          "fd_pts": 5.7,
-          "dk_pts": 6.25,
+          "fd_pts": 7.7,
+          "dk_pts": 8.25,
           "is_on_court": true
         },
         "Jay Huff": {
@@ -118,7 +118,7 @@
           "FT": "0-0",
           "fd_pts": 6.0,
           "dk_pts": 6.5,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Aaron Nesmith": {
           "MIN": 4,
@@ -139,16 +139,16 @@
           "MIN": 0,
           "PTS": "0",
           "REB": "0",
-          "AST": "0",
+          "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
           "FG": "0-0",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 0.0,
-          "dk_pts": 0.0,
-          "is_on_court": false
+          "fd_pts": 1.5,
+          "dk_pts": 1.5,
+          "is_on_court": true
         }
       },
       "LAC": {
@@ -219,18 +219,42 @@
           "AST": "0",
           "STL": "0",
           "BLK": "0",
-          "TO": "0",
+          "TO": "1",
           "FG": "2-3",
           "3PT": "2-3",
           "FT": "0-0",
-          "fd_pts": 6.0,
-          "dk_pts": 7.0,
+          "fd_pts": 5.0,
+          "dk_pts": 6.5,
           "is_on_court": true
         }
       }
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 62.0,
+          "period": 1,
+          "time": "Q1 7:37",
+          "text": "foul"
+        },
+        {
+          "seq": 60.0,
+          "period": 1,
+          "time": "Q1 7:36",
+          "text": "Jarace Walker makes 1-foot running dunk (Quenton Jackson assists)"
+        },
+        {
+          "seq": 58.0,
+          "period": 1,
+          "time": "Q1 7:41",
+          "text": "Darius Garland bad pass\nturnover (Pascal Siakam steals)"
+        },
+        {
+          "seq": 56.0,
+          "period": 1,
+          "time": "Q1 7:44",
+          "text": "Quenton Jackson enters the game for Andrew Nembhard"
+        },
         {
           "seq": 54.0,
           "period": 1,
@@ -456,37 +480,31 @@
       ],
       "new_plays": [
         {
-          "seq": 54.0,
+          "seq": 62.0,
           "period": 1,
-          "time": "Q1 7:46",
-          "text": "Brook Lopez defensive rebound"
+          "time": "Q1 7:37",
+          "text": "foul"
         },
         {
-          "seq": 53.0,
+          "seq": 60.0,
           "period": 1,
-          "time": "Q1 7:48",
-          "text": "Jarace Walker misses running layup"
+          "time": "Q1 7:36",
+          "text": "Jarace Walker makes 1-foot running dunk (Quenton Jackson assists)"
         },
         {
-          "seq": 52.0,
+          "seq": 58.0,
           "period": 1,
-          "time": "Q1 7:53",
-          "text": "Jay Huff defensive rebound"
+          "time": "Q1 7:41",
+          "text": "Darius Garland bad pass\nturnover (Pascal Siakam steals)"
         },
         {
-          "seq": 51.0,
+          "seq": 56.0,
           "period": 1,
-          "time": "Q1 7:56",
-          "text": "John Collins misses 17-foot pullup jump shot"
-        },
-        {
-          "seq": 49.0,
-          "period": 1,
-          "time": "Q1 8:18",
-          "text": "Jarace Walker makes 28-foot three point jumper (Aaron Nesmith assists)"
+          "time": "Q1 7:44",
+          "text": "Quenton Jackson enters the game for Andrew Nembhard"
         }
       ],
-      "last_seq": 54.0
+      "last_seq": 62.0
     }
   }
 }
