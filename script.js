@@ -32,22 +32,7 @@ let livePollInterval;
 // Global CSS injection
 const style = document.createElement('style');
 style.innerHTML = `
-    slow-pulse { animation: spinner-grow 2s linear infinite !important; }
-    
-    /* NEW: Custom Mobile Dot */
-    @keyframes pulse-dot {
-        0% { transform: scale(0.8); opacity: 0.5; box-shadow: 0 0 0 0 rgba(32, 201, 151, 0.7); }
-        70% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 4px rgba(32, 201, 151, 0); }
-        100% { transform: scale(0.8); opacity: 0.5; box-shadow: 0 0 0 0 rgba(32, 201, 151, 0); }
-    }
-    .live-dot {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background-color: #20c997;
-        animation: pulse-dot 2s infinite;
-        flex-shrink: 0;
-    }
+    .slow-pulse { animation: spinner-grow 2s linear infinite !important; }
     @keyframes slideInHighlight {
         0% { background-color: #d1e7dd; transform: translateY(-5px); opacity: 0; }
         10% { transform: translateY(0); opacity: 1; }
@@ -800,12 +785,9 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
         
         const subLine = `${p.pos} • ${p.teamAbbrev} <span class="fw-bold text-dark ms-1 border-start ps-1 border-secondary border-opacity-50">${stats.PTS}p ${stats.REB}r ${stats.AST}a ${stats.STL}s ${stats.BLK}b ${stats.TO}to</span>`;
 
-        // --- ON-COURT FLASHING DOT (Responsive) ---
+        // --- NEW: ON-COURT FLASHING DOT ---
         const onCourtDot = p.isOnCourt 
-            ? `
-            <span class="spinner-grow spinner-grow-sm text-success slow-pulse me-1 flex-shrink-0 d-none d-md-inline-block" style="width: 0.5rem; height: 0.5rem;" role="status"></span>
-            <span class="live-dot me-2 d-inline-block d-md-none"></span>
-            ` 
+            ? `<span class="spinner-grow spinner-grow-sm text-success slow-pulse me-1" style="width: 0.5rem; height: 0.5rem;" role="status"></span>`
             : '';
 
         return `
