@@ -1,5 +1,5 @@
 {
-  "last_updated": "Mar 27, 07:34 PM ET",
+  "last_updated": "Mar 27, 07:36 PM ET",
   "espn_schedule": {
     "leagues": [
       {
@@ -349,11 +349,11 @@
                   ],
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/ind.png"
                 },
-                "score": "40",
+                "score": "42",
                 "linescores": [
                   {
-                    "value": 40.0,
-                    "displayValue": "40",
+                    "value": 42.0,
+                    "displayValue": "42",
                     "period": 1
                   }
                 ],
@@ -371,22 +371,22 @@
                   {
                     "name": "assists",
                     "abbreviation": "AST",
-                    "displayValue": "12"
+                    "displayValue": "14"
                   },
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "23"
+                    "displayValue": "26"
                   },
                   {
                     "name": "fieldGoalsMade",
                     "abbreviation": "FGM",
-                    "displayValue": "14"
+                    "displayValue": "16"
                   },
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "60.9"
+                    "displayValue": "61.5"
                   },
                   {
                     "name": "freeThrowPct",
@@ -406,37 +406,37 @@
                   {
                     "name": "points",
                     "abbreviation": "PTS",
-                    "displayValue": "37"
+                    "displayValue": "42"
                   },
                   {
                     "name": "threePointPct",
                     "abbreviation": "3P%",
-                    "displayValue": "77.8"
+                    "displayValue": "72.7"
                   },
                   {
                     "name": "threePointFieldGoalsAttempted",
                     "abbreviation": "3PA",
-                    "displayValue": "9"
+                    "displayValue": "11"
                   },
                   {
                     "name": "threePointFieldGoalsMade",
                     "abbreviation": "3PM",
-                    "displayValue": "7"
+                    "displayValue": "8"
                   },
                   {
                     "name": "avgPoints",
                     "abbreviation": "PTS",
-                    "displayValue": "37.0"
+                    "displayValue": "42.0"
                   },
                   {
                     "name": "avgAssists",
                     "abbreviation": "AST",
-                    "displayValue": "12.0"
+                    "displayValue": "14.0"
                   },
                   {
                     "name": "threePointFieldGoalPct",
                     "abbreviation": "3P%",
-                    "displayValue": "77.8"
+                    "displayValue": "72.7"
                   }
                 ],
                 "leaders": [
@@ -963,59 +963,32 @@
             "notes": [],
             "situation": {
               "lastPlay": {
-                "id": "401810921163",
+                "id": "401810921173",
                 "type": {
-                  "id": "92",
-                  "text": "Jump Shot"
+                  "id": "412",
+                  "text": "End Period"
                 },
-                "text": "Obi Toppin makes 27-foot three point jumper (T.J. McConnell assists)",
-                "scoreValue": 3,
-                "team": {
-                  "id": "11"
-                },
+                "text": "End of the 1st Quarter",
+                "scoreValue": 0,
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.807,
-                  "awayWinPercentage": 0.19299999999999995
-                },
-                "athletesInvolved": [
-                  {
-                    "id": "4278355",
-                    "fullName": "Obi Toppin",
-                    "displayName": "Obi Toppin",
-                    "shortName": "O. Toppin",
-                    "links": [
-                      {
-                        "rel": [
-                          "playercard",
-                          "desktop",
-                          "athlete"
-                        ],
-                        "href": "https://www.espn.com/nba/player/_/id/4278355/obi-toppin"
-                      }
-                    ],
-                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4278355.png",
-                    "jersey": "1",
-                    "position": "F",
-                    "team": {
-                      "id": "11"
-                    }
-                  }
-                ]
+                  "homeWinPercentage": 0.859,
+                  "awayWinPercentage": 0.14100000000000001
+                }
               }
             },
             "status": {
-              "clock": 60.0,
-              "displayClock": "1:00",
+              "clock": 0.0,
+              "displayClock": "0.0",
               "period": 1,
               "type": {
-                "id": "2",
-                "name": "STATUS_IN_PROGRESS",
+                "id": "22",
+                "name": "STATUS_END_PERIOD",
                 "state": "in",
                 "completed": false,
-                "description": "In Progress",
-                "detail": "1:00 - 1st Quarter",
-                "shortDetail": "1:00 - 1st"
+                "description": "End of Period",
+                "detail": "End of 1st Quarter",
+                "shortDetail": "End of 1st"
               }
             },
             "broadcasts": [
@@ -1129,17 +1102,17 @@
           }
         ],
         "status": {
-          "clock": 60.0,
-          "displayClock": "1:00",
+          "clock": 0.0,
+          "displayClock": "0.0",
           "period": 1,
           "type": {
-            "id": "2",
-            "name": "STATUS_IN_PROGRESS",
+            "id": "22",
+            "name": "STATUS_END_PERIOD",
             "state": "in",
             "completed": false,
-            "description": "In Progress",
-            "detail": "1:00 - 1st Quarter",
-            "shortDetail": "1:00 - 1st"
+            "description": "End of Period",
+            "detail": "End of 1st Quarter",
+            "shortDetail": "End of 1st"
           }
         }
       },
@@ -5767,7 +5740,7 @@
             "neutralSite": false,
             "conferenceCompetition": false,
             "playByPlayAvailable": false,
-            "recent": false,
+            "recent": true,
             "venue": {
               "id": "1838",
               "fullName": "Scotiabank Arena",
@@ -5941,24 +5914,6 @@
                     "rankDisplayValue": "1st"
                   }
                 ],
-                "records": [
-                  {
-                    "name": "overall",
-                    "abbreviation": "Total",
-                    "type": "total",
-                    "summary": "40-32"
-                  },
-                  {
-                    "name": "Home",
-                    "type": "home",
-                    "summary": "19-16"
-                  },
-                  {
-                    "name": "Road",
-                    "type": "road",
-                    "summary": "21-16"
-                  }
-                ],
                 "leaders": [
                   {
                     "name": "pointsPerGame",
@@ -6119,6 +6074,24 @@
                         }
                       }
                     ]
+                  }
+                ],
+                "records": [
+                  {
+                    "name": "overall",
+                    "abbreviation": "Total",
+                    "type": "total",
+                    "summary": "40-32"
+                  },
+                  {
+                    "name": "Home",
+                    "type": "home",
+                    "summary": "19-16"
+                  },
+                  {
+                    "name": "Road",
+                    "type": "road",
+                    "summary": "21-16"
                   }
                 ]
               },
@@ -12658,12 +12631,12 @@
               "dk_proj": 23.5,
               "dk_value": 5.22,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 4600,
                   "proj": 22.8,
                   "value": 4.96
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 4600,
                   "proj": 22.8,
                   "value": 4.96
@@ -12675,15 +12648,15 @@
                   "proj": 23.5,
                   "value": 5.22
                 },
-                "2348B": {
-                  "salary": 4200,
-                  "proj": 23.5,
-                  "value": 5.6
-                },
                 "2348A": {
                   "salary": 4500,
                   "proj": 23.5,
                   "value": 5.22
+                },
+                "2348B": {
+                  "salary": 4200,
+                  "proj": 23.5,
+                  "value": 5.6
                 }
               },
               "injury": "",
@@ -12700,12 +12673,12 @@
               "dk_proj": 34.0,
               "dk_value": 4.36,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 7300,
                   "proj": 33.0,
                   "value": 4.52
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 7300,
                   "proj": 33.0,
                   "value": 4.52
@@ -12717,15 +12690,15 @@
                   "proj": 34.0,
                   "value": 4.36
                 },
-                "2348B": {
-                  "salary": 8800,
-                  "proj": 34.0,
-                  "value": 3.86
-                },
                 "2348A": {
                   "salary": 7800,
                   "proj": 34.0,
                   "value": 4.36
+                },
+                "2348B": {
+                  "salary": 8800,
+                  "proj": 34.0,
+                  "value": 3.86
                 }
               },
               "injury": "",
@@ -12742,12 +12715,12 @@
               "dk_proj": 31.6,
               "dk_value": 4.86,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 6300,
                   "proj": 31.0,
                   "value": 4.92
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 6300,
                   "proj": 31.0,
                   "value": 4.92
@@ -12759,15 +12732,15 @@
                   "proj": 31.6,
                   "value": 4.86
                 },
-                "2348B": {
-                  "salary": 7200,
-                  "proj": 31.6,
-                  "value": 4.39
-                },
                 "2348A": {
                   "salary": 6500,
                   "proj": 31.6,
                   "value": 4.86
+                },
+                "2348B": {
+                  "salary": 7200,
+                  "proj": 31.6,
+                  "value": 4.39
                 }
               },
               "injury": "",
@@ -12784,12 +12757,12 @@
               "dk_proj": 25.6,
               "dk_value": 4.65,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 5700,
                   "proj": 25.1,
                   "value": 4.4
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 5700,
                   "proj": 25.1,
                   "value": 4.4
@@ -12801,15 +12774,15 @@
                   "proj": 25.6,
                   "value": 4.65
                 },
-                "2348B": {
-                  "salary": 6200,
-                  "proj": 25.6,
-                  "value": 4.13
-                },
                 "2348A": {
                   "salary": 5500,
                   "proj": 25.6,
                   "value": 4.65
+                },
+                "2348B": {
+                  "salary": 6200,
+                  "proj": 25.6,
+                  "value": 4.13
                 }
               },
               "injury": "",
@@ -12826,12 +12799,12 @@
               "dk_proj": 42.9,
               "dk_value": 4.88,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 9400,
                   "proj": 42.0,
                   "value": 4.47
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 9400,
                   "proj": 42.0,
                   "value": 4.47
@@ -12843,15 +12816,15 @@
                   "proj": 42.9,
                   "value": 4.88
                 },
-                "2348B": {
-                  "salary": 9800,
-                  "proj": 42.9,
-                  "value": 4.38
-                },
                 "2348A": {
                   "salary": 8800,
                   "proj": 42.9,
                   "value": 4.88
+                },
+                "2348B": {
+                  "salary": 9800,
+                  "proj": 42.9,
+                  "value": 4.38
                 }
               },
               "injury": "",
@@ -12870,12 +12843,12 @@
               "dk_proj": 22.0,
               "dk_value": 4.49,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 4800,
                   "proj": 21.6,
                   "value": 4.5
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 4800,
                   "proj": 21.6,
                   "value": 4.5
@@ -12887,15 +12860,15 @@
                   "proj": 22.0,
                   "value": 4.49
                 },
-                "2348B": {
-                  "salary": 5200,
-                  "proj": 22.0,
-                  "value": 4.23
-                },
                 "2348A": {
                   "salary": 4900,
                   "proj": 22.0,
                   "value": 4.49
+                },
+                "2348B": {
+                  "salary": 5200,
+                  "proj": 22.0,
+                  "value": 4.23
                 }
               },
               "injury": "",
@@ -12912,12 +12885,12 @@
               "dk_proj": 21.2,
               "dk_value": 3.71,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 5600,
                   "proj": 20.9,
                   "value": 3.74
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 5600,
                   "proj": 20.9,
                   "value": 3.74
@@ -12929,15 +12902,15 @@
                   "proj": 21.2,
                   "value": 3.71
                 },
-                "2348B": {
-                  "salary": 6600,
-                  "proj": 21.2,
-                  "value": 3.21
-                },
                 "2348A": {
                   "salary": 5700,
                   "proj": 21.2,
                   "value": 3.71
+                },
+                "2348B": {
+                  "salary": 6600,
+                  "proj": 21.2,
+                  "value": 3.21
                 }
               },
               "injury": "Q",
@@ -12954,12 +12927,12 @@
               "dk_proj": 21.0,
               "dk_value": 3.89,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 5800,
                   "proj": 20.6,
                   "value": 3.55
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 5800,
                   "proj": 20.6,
                   "value": 3.55
@@ -12971,15 +12944,15 @@
                   "proj": 21.0,
                   "value": 3.89
                 },
-                "2348B": {
-                  "salary": 6000,
-                  "proj": 21.0,
-                  "value": 3.5
-                },
                 "2348A": {
                   "salary": 5400,
                   "proj": 21.0,
                   "value": 3.89
+                },
+                "2348B": {
+                  "salary": 6000,
+                  "proj": 21.0,
+                  "value": 3.5
                 }
               },
               "injury": "",
@@ -12996,12 +12969,12 @@
               "dk_proj": 13.0,
               "dk_value": 4.07,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3800,
                   "proj": 12.6,
                   "value": 3.33
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3800,
                   "proj": 12.6,
                   "value": 3.33
@@ -13013,15 +12986,15 @@
                   "proj": 13.0,
                   "value": 4.07
                 },
-                "2348B": {
-                  "salary": 1600,
-                  "proj": 13.0,
-                  "value": 8.15
-                },
                 "2348A": {
                   "salary": 3200,
                   "proj": 13.0,
                   "value": 4.07
+                },
+                "2348B": {
+                  "salary": 1600,
+                  "proj": 13.0,
+                  "value": 8.15
                 }
               },
               "injury": "",
@@ -13038,12 +13011,12 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
@@ -13055,13 +13028,13 @@
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "2348B": {
-                  "salary": 1000,
+                "2348A": {
+                  "salary": 3000,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "2348A": {
-                  "salary": 3000,
+                "2348B": {
+                  "salary": 1000,
                   "proj": 0.0,
                   "value": 0.0
                 }
@@ -13085,12 +13058,12 @@
               "dk_proj": 44.1,
               "dk_value": 4.79,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 9500,
                   "proj": 42.8,
                   "value": 4.5
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 9500,
                   "proj": 42.8,
                   "value": 4.5
@@ -13102,15 +13075,15 @@
                   "proj": 44.1,
                   "value": 4.79
                 },
-                "2348B": {
-                  "salary": 10200,
-                  "proj": 44.1,
-                  "value": 4.32
-                },
                 "2348A": {
                   "salary": 9200,
                   "proj": 44.1,
                   "value": 4.79
+                },
+                "2348B": {
+                  "salary": 10200,
+                  "proj": 44.1,
+                  "value": 4.32
                 }
               },
               "injury": "",
@@ -13127,12 +13100,12 @@
               "dk_proj": 45.1,
               "dk_value": 4.85,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 9500,
                   "proj": 44.2,
                   "value": 4.65
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 9500,
                   "proj": 44.2,
                   "value": 4.65
@@ -13144,15 +13117,15 @@
                   "proj": 45.1,
                   "value": 4.85
                 },
-                "2348B": {
-                  "salary": 10400,
-                  "proj": 45.1,
-                  "value": 4.34
-                },
                 "2348A": {
                   "salary": 9300,
                   "proj": 45.1,
                   "value": 4.85
+                },
+                "2348B": {
+                  "salary": 10400,
+                  "proj": 45.1,
+                  "value": 4.34
                 }
               },
               "injury": "",
@@ -13169,12 +13142,12 @@
               "dk_proj": 23.9,
               "dk_value": 5.09,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 4900,
                   "proj": 23.4,
                   "value": 4.78
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 4900,
                   "proj": 23.4,
                   "value": 4.78
@@ -13186,15 +13159,15 @@
                   "proj": 23.9,
                   "value": 5.09
                 },
-                "2348B": {
-                  "salary": 4800,
-                  "proj": 23.9,
-                  "value": 4.98
-                },
                 "2348A": {
                   "salary": 4700,
                   "proj": 23.9,
                   "value": 5.09
+                },
+                "2348B": {
+                  "salary": 4800,
+                  "proj": 23.9,
+                  "value": 4.98
                 }
               },
               "injury": "",
@@ -13211,12 +13184,12 @@
               "dk_proj": 39.9,
               "dk_value": 4.48,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 8900,
                   "proj": 39.1,
                   "value": 4.39
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 8900,
                   "proj": 39.1,
                   "value": 4.39
@@ -13228,15 +13201,15 @@
                   "proj": 39.9,
                   "value": 4.48
                 },
-                "2348B": {
-                  "salary": 10000,
-                  "proj": 39.9,
-                  "value": 3.99
-                },
                 "2348A": {
                   "salary": 8900,
                   "proj": 39.9,
                   "value": 4.48
+                },
+                "2348B": {
+                  "salary": 10000,
+                  "proj": 39.9,
+                  "value": 3.99
                 }
               },
               "injury": "",
@@ -13253,12 +13226,12 @@
               "dk_proj": 25.3,
               "dk_value": 3.56,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 6400,
                   "proj": 24.8,
                   "value": 3.87
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 6400,
                   "proj": 24.8,
                   "value": 3.87
@@ -13270,15 +13243,15 @@
                   "proj": 25.3,
                   "value": 3.56
                 },
-                "2348B": {
-                  "salary": 7800,
-                  "proj": 25.3,
-                  "value": 3.24
-                },
                 "2348A": {
                   "salary": 7100,
                   "proj": 25.3,
                   "value": 3.56
+                },
+                "2348B": {
+                  "salary": 7800,
+                  "proj": 25.3,
+                  "value": 3.24
                 }
               },
               "injury": "Q",
@@ -13297,12 +13270,12 @@
               "dk_proj": 20.8,
               "dk_value": 4.63,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 4400,
                   "proj": 19.8,
                   "value": 4.5
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 4400,
                   "proj": 19.8,
                   "value": 4.5
@@ -13314,15 +13287,15 @@
                   "proj": 20.8,
                   "value": 4.63
                 },
-                "2348B": {
-                  "salary": 4400,
-                  "proj": 20.8,
-                  "value": 4.74
-                },
                 "2348A": {
                   "salary": 4500,
                   "proj": 20.8,
                   "value": 4.63
+                },
+                "2348B": {
+                  "salary": 4400,
+                  "proj": 20.8,
+                  "value": 4.74
                 }
               },
               "injury": "",
@@ -13339,12 +13312,12 @@
               "dk_proj": 18.6,
               "dk_value": 4.89,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 4000,
                   "proj": 18.0,
                   "value": 4.51
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 4000,
                   "proj": 18.0,
                   "value": 4.51
@@ -13356,15 +13329,15 @@
                   "proj": 18.6,
                   "value": 4.89
                 },
-                "2348B": {
-                  "salary": 3600,
-                  "proj": 18.6,
-                  "value": 5.16
-                },
                 "2348A": {
                   "salary": 3800,
                   "proj": 18.6,
                   "value": 4.89
+                },
+                "2348B": {
+                  "salary": 3600,
+                  "proj": 18.6,
+                  "value": 5.16
                 }
               },
               "injury": "",
@@ -13381,12 +13354,12 @@
               "dk_proj": 17.2,
               "dk_value": 3.74,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 4300,
                   "proj": 17.0,
                   "value": 3.96
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 4300,
                   "proj": 17.0,
                   "value": 3.96
@@ -13398,12 +13371,12 @@
                   "proj": 17.2,
                   "value": 3.74
                 },
-                "2348B": {
+                "2348A": {
                   "salary": 4600,
                   "proj": 17.2,
                   "value": 3.74
                 },
-                "2348A": {
+                "2348B": {
                   "salary": 4600,
                   "proj": 17.2,
                   "value": 3.74
@@ -13423,12 +13396,12 @@
               "dk_proj": 13.2,
               "dk_value": 3.78,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3800,
                   "proj": 13.0,
                   "value": 3.41
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3800,
                   "proj": 13.0,
                   "value": 3.41
@@ -13440,15 +13413,15 @@
                   "proj": 13.2,
                   "value": 3.78
                 },
-                "2348B": {
-                  "salary": 2600,
-                  "proj": 13.2,
-                  "value": 5.09
-                },
                 "2348A": {
                   "salary": 3500,
                   "proj": 13.2,
                   "value": 3.78
+                },
+                "2348B": {
+                  "salary": 2600,
+                  "proj": 13.2,
+                  "value": 5.09
                 }
               },
               "injury": "",
@@ -13465,12 +13438,12 @@
               "dk_proj": 3.1,
               "dk_value": 0.99,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3700,
                   "proj": 3.2,
                   "value": 0.87
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3700,
                   "proj": 3.2,
                   "value": 0.87
@@ -13482,15 +13455,15 @@
                   "proj": 3.1,
                   "value": 0.99
                 },
-                "2348B": {
-                  "salary": 1400,
-                  "proj": 3.1,
-                  "value": 2.19
-                },
                 "2348A": {
                   "salary": 3100,
                   "proj": 3.1,
                   "value": 0.99
+                },
+                "2348B": {
+                  "salary": 1400,
+                  "proj": 3.1,
+                  "value": 2.19
                 }
               },
               "injury": "",
@@ -13507,12 +13480,12 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3800,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3800,
                   "proj": 0.0,
                   "value": 0.0
@@ -13524,13 +13497,13 @@
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "2348B": {
-                  "salary": 3000,
+                "2348A": {
+                  "salary": 3600,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "2348A": {
-                  "salary": 3600,
+                "2348B": {
+                  "salary": 3000,
                   "proj": 0.0,
                   "value": 0.0
                 }
@@ -13549,12 +13522,12 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3800,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3800,
                   "proj": 0.0,
                   "value": 0.0
@@ -13566,13 +13539,13 @@
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "2348B": {
-                  "salary": 1000,
+                "2348A": {
+                  "salary": 3000,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "2348A": {
-                  "salary": 3000,
+                "2348B": {
+                  "salary": 1000,
                   "proj": 0.0,
                   "value": 0.0
                 }
@@ -13591,12 +13564,12 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 4500,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 4500,
                   "proj": 0.0,
                   "value": 0.0
@@ -13608,13 +13581,13 @@
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "2348B": {
-                  "salary": 4000,
+                "2348A": {
+                  "salary": 4400,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "2348A": {
-                  "salary": 4400,
+                "2348B": {
+                  "salary": 4000,
                   "proj": 0.0,
                   "value": 0.0
                 }
@@ -13654,12 +13627,12 @@
               "dk_proj": 30.3,
               "dk_value": 4.27,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 7100,
                   "proj": 29.4,
                   "value": 4.14
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 7100,
                   "proj": 29.4,
                   "value": 4.14
@@ -13691,12 +13664,12 @@
               "dk_proj": 29.7,
               "dk_value": 4.5,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 6800,
                   "proj": 28.8,
                   "value": 4.24
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 6800,
                   "proj": 28.8,
                   "value": 4.24
@@ -13728,12 +13701,12 @@
               "dk_proj": 30.5,
               "dk_value": 4.24,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 7600,
                   "proj": 29.9,
                   "value": 3.93
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 7600,
                   "proj": 29.9,
                   "value": 3.93
@@ -13765,12 +13738,12 @@
               "dk_proj": 47.6,
               "dk_value": 4.49,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 10300,
                   "proj": 46.6,
                   "value": 4.53
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 10300,
                   "proj": 46.6,
                   "value": 4.53
@@ -13802,12 +13775,12 @@
               "dk_proj": 28.7,
               "dk_value": 4.16,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 6900,
                   "proj": 28.1,
                   "value": 4.08
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 6900,
                   "proj": 28.1,
                   "value": 4.08
@@ -13841,12 +13814,12 @@
               "dk_proj": 21.8,
               "dk_value": 4.19,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 5400,
                   "proj": 21.6,
                   "value": 4.0
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 5400,
                   "proj": 21.6,
                   "value": 4.0
@@ -13878,12 +13851,12 @@
               "dk_proj": 12.5,
               "dk_value": 3.58,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 4300,
                   "proj": 12.4,
                   "value": 2.88
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 4300,
                   "proj": 12.4,
                   "value": 2.88
@@ -13915,12 +13888,12 @@
               "dk_proj": 9.2,
               "dk_value": 2.49,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 4100,
                   "proj": 9.1,
                   "value": 2.21
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 4100,
                   "proj": 9.1,
                   "value": 2.21
@@ -13952,12 +13925,12 @@
               "dk_proj": 9.1,
               "dk_value": 2.68,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3800,
                   "proj": 8.7,
                   "value": 2.28
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3800,
                   "proj": 8.7,
                   "value": 2.28
@@ -13989,12 +13962,12 @@
               "dk_proj": 7.1,
               "dk_value": 2.15,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3700,
                   "proj": 6.9,
                   "value": 1.86
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3700,
                   "proj": 6.9,
                   "value": 1.86
@@ -14026,12 +13999,12 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 4100,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 4100,
                   "proj": 0.0,
                   "value": 0.0
@@ -14068,12 +14041,12 @@
               "dk_proj": 39.4,
               "dk_value": 5.55,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 7300,
                   "proj": 38.2,
                   "value": 5.24
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 7300,
                   "proj": 38.2,
                   "value": 5.24
@@ -14105,12 +14078,12 @@
               "dk_proj": 20.1,
               "dk_value": 5.91,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 4000,
                   "proj": 19.7,
                   "value": 4.92
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 4000,
                   "proj": 19.7,
                   "value": 4.92
@@ -14142,12 +14115,12 @@
               "dk_proj": 19.2,
               "dk_value": 5.19,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 4000,
                   "proj": 19.0,
                   "value": 4.75
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 4000,
                   "proj": 19.0,
                   "value": 4.75
@@ -14179,12 +14152,12 @@
               "dk_proj": 44.1,
               "dk_value": 4.9,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 8700,
                   "proj": 43.2,
                   "value": 4.97
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 8700,
                   "proj": 43.2,
                   "value": 4.97
@@ -14216,12 +14189,12 @@
               "dk_proj": 28.5,
               "dk_value": 5.18,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 5500,
                   "proj": 27.9,
                   "value": 5.08
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 5500,
                   "proj": 27.9,
                   "value": 5.08
@@ -14255,12 +14228,12 @@
               "dk_proj": 32.4,
               "dk_value": 5.23,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 6200,
                   "proj": 31.4,
                   "value": 5.07
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 6200,
                   "proj": 31.4,
                   "value": 5.07
@@ -14292,12 +14265,12 @@
               "dk_proj": 17.0,
               "dk_value": 5.16,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3900,
                   "proj": 16.7,
                   "value": 4.28
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3900,
                   "proj": 16.7,
                   "value": 4.28
@@ -14329,12 +14302,12 @@
               "dk_proj": 15.4,
               "dk_value": 5.13,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3700,
                   "proj": 15.1,
                   "value": 4.08
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3700,
                   "proj": 15.1,
                   "value": 4.08
@@ -14366,12 +14339,12 @@
               "dk_proj": 9.0,
               "dk_value": 3.0,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3600,
                   "proj": 8.9,
                   "value": 2.48
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3600,
                   "proj": 8.9,
                   "value": 2.48
@@ -14403,12 +14376,12 @@
               "dk_proj": 5.2,
               "dk_value": 1.74,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3600,
                   "proj": 5.2,
                   "value": 1.44
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3600,
                   "proj": 5.2,
                   "value": 1.44
@@ -14440,12 +14413,12 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 5000,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 5000,
                   "proj": 0.0,
                   "value": 0.0
@@ -14477,12 +14450,12 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 9700,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 9700,
                   "proj": 0.0,
                   "value": 0.0
@@ -14535,12 +14508,12 @@
               "dk_proj": 32.5,
               "dk_value": 5.32,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 7100,
                   "proj": 31.5,
                   "value": 4.44
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 7100,
                   "proj": 31.5,
                   "value": 4.44
@@ -14572,12 +14545,12 @@
               "dk_proj": 38.8,
               "dk_value": 4.74,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 9000,
                   "proj": 37.7,
                   "value": 4.18
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 9000,
                   "proj": 37.7,
                   "value": 4.18
@@ -14609,12 +14582,12 @@
               "dk_proj": 42.1,
               "dk_value": 4.68,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 9300,
                   "proj": 40.9,
                   "value": 4.4
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 9300,
                   "proj": 40.9,
                   "value": 4.4
@@ -14646,12 +14619,12 @@
               "dk_proj": 30.8,
               "dk_value": 4.97,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 6300,
                   "proj": 30.2,
                   "value": 4.79
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 6300,
                   "proj": 30.2,
                   "value": 4.79
@@ -14683,12 +14656,12 @@
               "dk_proj": 44.9,
               "dk_value": 5.04,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 10100,
                   "proj": 44.0,
                   "value": 4.36
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 10100,
                   "proj": 44.0,
                   "value": 4.36
@@ -14722,12 +14695,12 @@
               "dk_proj": 20.6,
               "dk_value": 4.48,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 5200,
                   "proj": 21.0,
                   "value": 4.03
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 5200,
                   "proj": 21.0,
                   "value": 4.03
@@ -14759,12 +14732,12 @@
               "dk_proj": 10.4,
               "dk_value": 2.97,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3700,
                   "proj": 10.2,
                   "value": 2.76
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3700,
                   "proj": 10.2,
                   "value": 2.76
@@ -14796,12 +14769,12 @@
               "dk_proj": 8.3,
               "dk_value": 2.59,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3800,
                   "proj": 8.1,
                   "value": 2.14
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3800,
                   "proj": 8.1,
                   "value": 2.14
@@ -14833,12 +14806,12 @@
               "dk_proj": 7.0,
               "dk_value": 2.26,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3600,
                   "proj": 6.9,
                   "value": 1.92
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3600,
                   "proj": 6.9,
                   "value": 1.92
@@ -14870,12 +14843,12 @@
               "dk_proj": 5.5,
               "dk_value": 1.83,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3600,
                   "proj": 5.4,
                   "value": 1.5
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3600,
                   "proj": 5.4,
                   "value": 1.5
@@ -14907,12 +14880,12 @@
               "dk_proj": 4.2,
               "dk_value": 1.4,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3600,
                   "proj": 4.2,
                   "value": 1.16
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3600,
                   "proj": 4.2,
                   "value": 1.16
@@ -14944,12 +14917,12 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
@@ -14981,12 +14954,12 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
@@ -15023,12 +14996,12 @@
               "dk_proj": 25.9,
               "dk_value": 4.98,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 4600,
                   "proj": 25.1,
                   "value": 5.46
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 4600,
                   "proj": 25.1,
                   "value": 5.46
@@ -15060,12 +15033,12 @@
               "dk_proj": 25.0,
               "dk_value": 5.09,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 5500,
                   "proj": 24.5,
                   "value": 4.45
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 5500,
                   "proj": 24.5,
                   "value": 4.45
@@ -15097,12 +15070,12 @@
               "dk_proj": 28.3,
               "dk_value": 5.24,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 5900,
                   "proj": 27.5,
                   "value": 4.67
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 5900,
                   "proj": 27.5,
                   "value": 4.67
@@ -15134,12 +15107,12 @@
               "dk_proj": 21.9,
               "dk_value": 4.97,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 5200,
                   "proj": 21.4,
                   "value": 4.12
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 5200,
                   "proj": 21.4,
                   "value": 4.12
@@ -15171,12 +15144,12 @@
               "dk_proj": 22.4,
               "dk_value": 4.98,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 5300,
                   "proj": 21.9,
                   "value": 4.14
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 5300,
                   "proj": 21.9,
                   "value": 4.14
@@ -15210,12 +15183,12 @@
               "dk_proj": 22.3,
               "dk_value": 5.3,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 5100,
                   "proj": 21.8,
                   "value": 4.28
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 5100,
                   "proj": 21.8,
                   "value": 4.28
@@ -15247,12 +15220,12 @@
               "dk_proj": 22.3,
               "dk_value": 5.43,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 5100,
                   "proj": 21.7,
                   "value": 4.25
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 5100,
                   "proj": 21.7,
                   "value": 4.25
@@ -15310,12 +15283,12 @@
               "dk_proj": 15.3,
               "dk_value": 3.92,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 4500,
                   "proj": 14.8,
                   "value": 3.3
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 4500,
                   "proj": 14.8,
                   "value": 3.3
@@ -15347,12 +15320,12 @@
               "dk_proj": 8.3,
               "dk_value": 1.93,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3900,
                   "proj": 8.2,
                   "value": 2.11
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3900,
                   "proj": 8.2,
                   "value": 2.11
@@ -15384,12 +15357,12 @@
               "dk_proj": 7.2,
               "dk_value": 2.33,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3600,
                   "proj": 7.1,
                   "value": 1.97
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3600,
                   "proj": 7.1,
                   "value": 1.97
@@ -15421,12 +15394,12 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
@@ -15458,12 +15431,12 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 7000,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 7000,
                   "proj": 0.0,
                   "value": 0.0
@@ -15495,12 +15468,12 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
@@ -15532,12 +15505,12 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
@@ -15569,12 +15542,12 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
@@ -15606,12 +15579,12 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
@@ -15643,12 +15616,12 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
@@ -15680,12 +15653,12 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 4100,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 4100,
                   "proj": 0.0,
                   "value": 0.0
@@ -15717,12 +15690,12 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
-                "1F465": {
+                "1F464": {
                   "salary": 3900,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F464": {
+                "1F465": {
                   "salary": 3900,
                   "proj": 0.0,
                   "value": 0.0
@@ -15775,6 +15748,11 @@
               "dk_proj": 26.2,
               "dk_value": 4.52,
               "fd_slates": {
+                "1F464": {
+                  "salary": 6000,
+                  "proj": 25.4,
+                  "value": 4.24
+                },
                 "1F465": {
                   "salary": 6000,
                   "proj": 25.4,
@@ -15784,11 +15762,6 @@
                   "salary": 9000,
                   "proj": 25.4,
                   "value": 2.82
-                },
-                "1F464": {
-                  "salary": 6000,
-                  "proj": 25.4,
-                  "value": 4.24
                 }
               },
               "dk_slates": {
@@ -15817,6 +15790,11 @@
               "dk_proj": 43.7,
               "dk_value": 4.6,
               "fd_slates": {
+                "1F464": {
+                  "salary": 9600,
+                  "proj": 42.4,
+                  "value": 4.42
+                },
                 "1F465": {
                   "salary": 9600,
                   "proj": 42.4,
@@ -15826,11 +15804,6 @@
                   "salary": 13400,
                   "proj": 42.4,
                   "value": 3.16
-                },
-                "1F464": {
-                  "salary": 9600,
-                  "proj": 42.4,
-                  "value": 4.42
                 }
               },
               "dk_slates": {
@@ -15859,6 +15832,11 @@
               "dk_proj": 16.3,
               "dk_value": 3.88,
               "fd_slates": {
+                "1F464": {
+                  "salary": 3800,
+                  "proj": 16.0,
+                  "value": 4.2
+                },
                 "1F465": {
                   "salary": 3800,
                   "proj": 16.0,
@@ -15868,11 +15846,6 @@
                   "salary": 1600,
                   "proj": 16.0,
                   "value": 9.98
-                },
-                "1F464": {
-                  "salary": 3800,
-                  "proj": 16.0,
-                  "value": 4.2
                 }
               },
               "dk_slates": {
@@ -15901,6 +15874,11 @@
               "dk_proj": 32.3,
               "dk_value": 4.48,
               "fd_slates": {
+                "1F464": {
+                  "salary": 7400,
+                  "proj": 31.9,
+                  "value": 4.31
+                },
                 "1F465": {
                   "salary": 7400,
                   "proj": 31.9,
@@ -15910,11 +15888,6 @@
                   "salary": 10800,
                   "proj": 31.9,
                   "value": 2.96
-                },
-                "1F464": {
-                  "salary": 7400,
-                  "proj": 31.9,
-                  "value": 4.31
                 }
               },
               "dk_slates": {
@@ -15943,6 +15916,11 @@
               "dk_proj": 21.4,
               "dk_value": 4.37,
               "fd_slates": {
+                "1F464": {
+                  "salary": 4000,
+                  "proj": 21.0,
+                  "value": 5.24
+                },
                 "1F465": {
                   "salary": 4000,
                   "proj": 21.0,
@@ -15952,11 +15930,6 @@
                   "salary": 2000,
                   "proj": 21.0,
                   "value": 10.49
-                },
-                "1F464": {
-                  "salary": 4000,
-                  "proj": 21.0,
-                  "value": 5.24
                 }
               },
               "dk_slates": {
@@ -15987,6 +15960,11 @@
               "dk_proj": 22.8,
               "dk_value": 4.85,
               "fd_slates": {
+                "1F464": {
+                  "salary": 5400,
+                  "proj": 22.6,
+                  "value": 4.18
+                },
                 "1F465": {
                   "salary": 5400,
                   "proj": 22.6,
@@ -15996,11 +15974,6 @@
                   "salary": 6000,
                   "proj": 22.6,
                   "value": 3.76
-                },
-                "1F464": {
-                  "salary": 5400,
-                  "proj": 22.6,
-                  "value": 4.18
                 }
               },
               "dk_slates": {
@@ -16029,6 +16002,11 @@
               "dk_proj": 21.0,
               "dk_value": 4.38,
               "fd_slates": {
+                "1F464": {
+                  "salary": 5800,
+                  "proj": 20.2,
+                  "value": 3.48
+                },
                 "1F465": {
                   "salary": 5800,
                   "proj": 20.2,
@@ -16038,11 +16016,6 @@
                   "salary": 7400,
                   "proj": 20.2,
                   "value": 2.73
-                },
-                "1F464": {
-                  "salary": 5800,
-                  "proj": 20.2,
-                  "value": 3.48
                 }
               },
               "dk_slates": {
@@ -16071,6 +16044,11 @@
               "dk_proj": 16.6,
               "dk_value": 4.15,
               "fd_slates": {
+                "1F464": {
+                  "salary": 3700,
+                  "proj": 16.3,
+                  "value": 4.4
+                },
                 "1F465": {
                   "salary": 3700,
                   "proj": 16.3,
@@ -16080,11 +16058,6 @@
                   "salary": 1400,
                   "proj": 16.3,
                   "value": 11.62
-                },
-                "1F464": {
-                  "salary": 3700,
-                  "proj": 16.3,
-                  "value": 4.4
                 }
               },
               "dk_slates": {
@@ -16113,6 +16086,11 @@
               "dk_proj": 16.3,
               "dk_value": 3.78,
               "fd_slates": {
+                "1F464": {
+                  "salary": 5200,
+                  "proj": 15.8,
+                  "value": 3.04
+                },
                 "1F465": {
                   "salary": 5200,
                   "proj": 15.8,
@@ -16122,11 +16100,6 @@
                   "salary": 4800,
                   "proj": 15.8,
                   "value": 3.3
-                },
-                "1F464": {
-                  "salary": 5200,
-                  "proj": 15.8,
-                  "value": 3.04
                 }
               },
               "dk_slates": {
@@ -16155,6 +16128,11 @@
               "dk_proj": 6.3,
               "dk_value": 1.63,
               "fd_slates": {
+                "1F464": {
+                  "salary": 3500,
+                  "proj": 6.2,
+                  "value": 1.78
+                },
                 "1F465": {
                   "salary": 3500,
                   "proj": 6.2,
@@ -16164,11 +16142,6 @@
                   "salary": 1000,
                   "proj": 6.2,
                   "value": 6.21
-                },
-                "1F464": {
-                  "salary": 3500,
-                  "proj": 6.2,
-                  "value": 1.78
                 }
               },
               "dk_slates": {
@@ -16197,6 +16170,11 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
+                "1F464": {
+                  "salary": 3500,
+                  "proj": 0.0,
+                  "value": 0.0
+                },
                 "1F465": {
                   "salary": 3500,
                   "proj": 0.0,
@@ -16204,11 +16182,6 @@
                 },
                 "1F45C": {
                   "salary": 1000,
-                  "proj": 0.0,
-                  "value": 0.0
-                },
-                "1F464": {
-                  "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
                 }
@@ -16239,6 +16212,11 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
+                "1F464": {
+                  "salary": 4300,
+                  "proj": 0.0,
+                  "value": 0.0
+                },
                 "1F465": {
                   "salary": 4300,
                   "proj": 0.0,
@@ -16246,11 +16224,6 @@
                 },
                 "1F45C": {
                   "salary": 3000,
-                  "proj": 0.0,
-                  "value": 0.0
-                },
-                "1F464": {
-                  "salary": 4300,
                   "proj": 0.0,
                   "value": 0.0
                 }
@@ -16281,6 +16254,11 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
+                "1F464": {
+                  "salary": 4400,
+                  "proj": 0.0,
+                  "value": 0.0
+                },
                 "1F465": {
                   "salary": 4400,
                   "proj": 0.0,
@@ -16288,11 +16266,6 @@
                 },
                 "1F45C": {
                   "salary": 3200,
-                  "proj": 0.0,
-                  "value": 0.0
-                },
-                "1F464": {
-                  "salary": 4400,
                   "proj": 0.0,
                   "value": 0.0
                 }
@@ -16323,6 +16296,11 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
+                "1F464": {
+                  "salary": 3500,
+                  "proj": 0.0,
+                  "value": 0.0
+                },
                 "1F465": {
                   "salary": 3500,
                   "proj": 0.0,
@@ -16330,11 +16308,6 @@
                 },
                 "1F45C": {
                   "salary": 1000,
-                  "proj": 0.0,
-                  "value": 0.0
-                },
-                "1F464": {
-                  "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
                 }
@@ -16365,6 +16338,11 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
+                "1F464": {
+                  "salary": 3500,
+                  "proj": 0.0,
+                  "value": 0.0
+                },
                 "1F465": {
                   "salary": 3500,
                   "proj": 0.0,
@@ -16372,11 +16350,6 @@
                 },
                 "1F45C": {
                   "salary": 1000,
-                  "proj": 0.0,
-                  "value": 0.0
-                },
-                "1F464": {
-                  "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
                 }
@@ -16407,6 +16380,11 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
+                "1F464": {
+                  "salary": 3500,
+                  "proj": 0.0,
+                  "value": 0.0
+                },
                 "1F465": {
                   "salary": 3500,
                   "proj": 0.0,
@@ -16414,11 +16392,6 @@
                 },
                 "1F45C": {
                   "salary": 1000,
-                  "proj": 0.0,
-                  "value": 0.0
-                },
-                "1F464": {
-                  "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
                 }
@@ -16454,6 +16427,11 @@
               "dk_proj": 49.6,
               "dk_value": 4.82,
               "fd_slates": {
+                "1F464": {
+                  "salary": 10600,
+                  "proj": 48.1,
+                  "value": 4.54
+                },
                 "1F465": {
                   "salary": 10600,
                   "proj": 48.1,
@@ -16463,11 +16441,6 @@
                   "salary": 14800,
                   "proj": 48.1,
                   "value": 3.25
-                },
-                "1F464": {
-                  "salary": 10600,
-                  "proj": 48.1,
-                  "value": 4.54
                 }
               },
               "dk_slates": {
@@ -16496,6 +16469,11 @@
               "dk_proj": 20.5,
               "dk_value": 5.01,
               "fd_slates": {
+                "1F464": {
+                  "salary": 4700,
+                  "proj": 20.1,
+                  "value": 4.28
+                },
                 "1F465": {
                   "salary": 4700,
                   "proj": 20.1,
@@ -16505,11 +16483,6 @@
                   "salary": 3400,
                   "proj": 20.1,
                   "value": 5.92
-                },
-                "1F464": {
-                  "salary": 4700,
-                  "proj": 20.1,
-                  "value": 4.28
                 }
               },
               "dk_slates": {
@@ -16538,6 +16511,11 @@
               "dk_proj": 15.3,
               "dk_value": 4.38,
               "fd_slates": {
+                "1F464": {
+                  "salary": 4000,
+                  "proj": 15.0,
+                  "value": 3.75
+                },
                 "1F465": {
                   "salary": 4000,
                   "proj": 15.0,
@@ -16547,11 +16525,6 @@
                   "salary": 2000,
                   "proj": 15.0,
                   "value": 7.5
-                },
-                "1F464": {
-                  "salary": 4000,
-                  "proj": 15.0,
-                  "value": 3.75
                 }
               },
               "dk_slates": {
@@ -16580,6 +16553,11 @@
               "dk_proj": 29.5,
               "dk_value": 3.93,
               "fd_slates": {
+                "1F464": {
+                  "salary": 6300,
+                  "proj": 29.2,
+                  "value": 4.64
+                },
                 "1F465": {
                   "salary": 6300,
                   "proj": 29.2,
@@ -16589,11 +16567,6 @@
                   "salary": 10000,
                   "proj": 29.2,
                   "value": 2.92
-                },
-                "1F464": {
-                  "salary": 6300,
-                  "proj": 29.2,
-                  "value": 4.64
                 }
               },
               "dk_slates": {
@@ -16622,6 +16595,11 @@
               "dk_proj": 30.9,
               "dk_value": 5.34,
               "fd_slates": {
+                "1F464": {
+                  "salary": 5800,
+                  "proj": 30.3,
+                  "value": 5.23
+                },
                 "1F465": {
                   "salary": 5800,
                   "proj": 30.3,
@@ -16631,11 +16609,6 @@
                   "salary": 8000,
                   "proj": 30.3,
                   "value": 3.79
-                },
-                "1F464": {
-                  "salary": 5800,
-                  "proj": 30.3,
-                  "value": 5.23
                 }
               },
               "dk_slates": {
@@ -16666,6 +16639,11 @@
               "dk_proj": 26.2,
               "dk_value": 5.83,
               "fd_slates": {
+                "1F464": {
+                  "salary": 5300,
+                  "proj": 25.4,
+                  "value": 4.8
+                },
                 "1F465": {
                   "salary": 5300,
                   "proj": 25.4,
@@ -16675,11 +16653,6 @@
                   "salary": 5800,
                   "proj": 25.4,
                   "value": 4.39
-                },
-                "1F464": {
-                  "salary": 5300,
-                  "proj": 25.4,
-                  "value": 4.8
                 }
               },
               "dk_slates": {
@@ -16708,6 +16681,11 @@
               "dk_proj": 20.5,
               "dk_value": 4.45,
               "fd_slates": {
+                "1F464": {
+                  "salary": 4800,
+                  "proj": 20.1,
+                  "value": 4.18
+                },
                 "1F465": {
                   "salary": 4800,
                   "proj": 20.1,
@@ -16717,11 +16695,6 @@
                   "salary": 3600,
                   "proj": 20.1,
                   "value": 5.57
-                },
-                "1F464": {
-                  "salary": 4800,
-                  "proj": 20.1,
-                  "value": 4.18
                 }
               },
               "dk_slates": {
@@ -16750,6 +16723,11 @@
               "dk_proj": 15.5,
               "dk_value": 3.61,
               "fd_slates": {
+                "1F464": {
+                  "salary": 3900,
+                  "proj": 15.2,
+                  "value": 3.91
+                },
                 "1F465": {
                   "salary": 3900,
                   "proj": 15.2,
@@ -16759,11 +16737,6 @@
                   "salary": 1800,
                   "proj": 15.2,
                   "value": 8.46
-                },
-                "1F464": {
-                  "salary": 3900,
-                  "proj": 15.2,
-                  "value": 3.91
                 }
               },
               "dk_slates": {
@@ -16792,6 +16765,11 @@
               "dk_proj": 15.4,
               "dk_value": 4.16,
               "fd_slates": {
+                "1F464": {
+                  "salary": 4200,
+                  "proj": 14.9,
+                  "value": 3.56
+                },
                 "1F465": {
                   "salary": 4200,
                   "proj": 14.9,
@@ -16801,11 +16779,6 @@
                   "salary": 2400,
                   "proj": 14.9,
                   "value": 6.22
-                },
-                "1F464": {
-                  "salary": 4200,
-                  "proj": 14.9,
-                  "value": 3.56
                 }
               },
               "dk_slates": {
@@ -16834,6 +16807,11 @@
               "dk_proj": 15.0,
               "dk_value": 4.53,
               "fd_slates": {
+                "1F464": {
+                  "salary": 3900,
+                  "proj": 14.8,
+                  "value": 3.8
+                },
                 "1F465": {
                   "salary": 3900,
                   "proj": 14.8,
@@ -16843,11 +16821,6 @@
                   "salary": 1800,
                   "proj": 14.8,
                   "value": 8.22
-                },
-                "1F464": {
-                  "salary": 3900,
-                  "proj": 14.8,
-                  "value": 3.8
                 }
               },
               "dk_slates": {
@@ -16876,6 +16849,11 @@
               "dk_proj": 9.8,
               "dk_value": 2.44,
               "fd_slates": {
+                "1F464": {
+                  "salary": 4100,
+                  "proj": 9.7,
+                  "value": 2.36
+                },
                 "1F465": {
                   "salary": 4100,
                   "proj": 9.7,
@@ -16885,11 +16863,6 @@
                   "salary": 2200,
                   "proj": 9.7,
                   "value": 4.39
-                },
-                "1F464": {
-                  "salary": 4100,
-                  "proj": 9.7,
-                  "value": 2.36
                 }
               },
               "dk_slates": {
@@ -16918,6 +16891,11 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
+                "1F464": {
+                  "salary": 7500,
+                  "proj": 0.0,
+                  "value": 0.0
+                },
                 "1F465": {
                   "salary": 7500,
                   "proj": 0.0,
@@ -16925,11 +16903,6 @@
                 },
                 "1F45C": {
                   "salary": 11400,
-                  "proj": 0.0,
-                  "value": 0.0
-                },
-                "1F464": {
-                  "salary": 7500,
                   "proj": 0.0,
                   "value": 0.0
                 }
@@ -16960,6 +16933,11 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
+                "1F464": {
+                  "salary": 3500,
+                  "proj": 0.0,
+                  "value": 0.0
+                },
                 "1F465": {
                   "salary": 3500,
                   "proj": 0.0,
@@ -16967,11 +16945,6 @@
                 },
                 "1F45C": {
                   "salary": 1000,
-                  "proj": 0.0,
-                  "value": 0.0
-                },
-                "1F464": {
-                  "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
                 }
@@ -17023,24 +16996,24 @@
               "dk_proj": 26.8,
               "dk_value": 6.23,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 4600,
                   "proj": 26.0,
                   "value": 5.65
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 4600,
                   "proj": 26.0,
                   "value": 5.65
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 4300,
                   "proj": 26.8,
                   "value": 6.23
                 },
-                "2348E": {
+                "23485": {
                   "salary": 4300,
                   "proj": 26.8,
                   "value": 6.23
@@ -17060,24 +17033,24 @@
               "dk_proj": 23.1,
               "dk_value": 5.14,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 5500,
                   "proj": 22.9,
                   "value": 4.17
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 5500,
                   "proj": 22.9,
                   "value": 4.17
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 4500,
                   "proj": 23.1,
                   "value": 5.14
                 },
-                "2348E": {
+                "23485": {
                   "salary": 4500,
                   "proj": 23.1,
                   "value": 5.14
@@ -17097,24 +17070,24 @@
               "dk_proj": 32.5,
               "dk_value": 4.71,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 6400,
                   "proj": 32.2,
                   "value": 5.03
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 6400,
                   "proj": 32.2,
                   "value": 5.03
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 6900,
                   "proj": 32.5,
                   "value": 4.71
                 },
-                "2348E": {
+                "23485": {
                   "salary": 6900,
                   "proj": 32.5,
                   "value": 4.71
@@ -17134,24 +17107,24 @@
               "dk_proj": 35.7,
               "dk_value": 4.82,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 7500,
                   "proj": 35.0,
                   "value": 4.66
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 7500,
                   "proj": 35.0,
                   "value": 4.66
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 7400,
                   "proj": 35.7,
                   "value": 4.82
                 },
-                "2348E": {
+                "23485": {
                   "salary": 7400,
                   "proj": 35.7,
                   "value": 4.82
@@ -17171,24 +17144,24 @@
               "dk_proj": 18.5,
               "dk_value": 4.51,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 4400,
                   "proj": 18.1,
                   "value": 4.12
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 4400,
                   "proj": 18.1,
                   "value": 4.12
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 4100,
                   "proj": 18.5,
                   "value": 4.51
                 },
-                "2348E": {
+                "23485": {
                   "salary": 4100,
                   "proj": 18.5,
                   "value": 4.51
@@ -17210,24 +17183,24 @@
               "dk_proj": 21.1,
               "dk_value": 5.28,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 4500,
                   "proj": 20.7,
                   "value": 4.6
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 4500,
                   "proj": 20.7,
                   "value": 4.6
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 4000,
                   "proj": 21.1,
                   "value": 5.28
                 },
-                "2348E": {
+                "23485": {
                   "salary": 4000,
                   "proj": 21.1,
                   "value": 5.28
@@ -17247,24 +17220,24 @@
               "dk_proj": 19.6,
               "dk_value": 5.02,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 4000,
                   "proj": 19.2,
                   "value": 4.79
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 4000,
                   "proj": 19.2,
                   "value": 4.79
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 3900,
                   "proj": 19.6,
                   "value": 5.02
                 },
-                "2348E": {
+                "23485": {
                   "salary": 3900,
                   "proj": 19.6,
                   "value": 5.02
@@ -17284,24 +17257,24 @@
               "dk_proj": 15.9,
               "dk_value": 4.82,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 3700,
                   "proj": 15.4,
                   "value": 4.17
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 3700,
                   "proj": 15.4,
                   "value": 4.17
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 3300,
                   "proj": 15.9,
                   "value": 4.82
                 },
-                "2348E": {
+                "23485": {
                   "salary": 3300,
                   "proj": 15.9,
                   "value": 4.82
@@ -17321,24 +17294,24 @@
               "dk_proj": 13.6,
               "dk_value": 4.53,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 3600,
                   "proj": 13.3,
                   "value": 3.7
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 3600,
                   "proj": 13.3,
                   "value": 3.7
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 3000,
                   "proj": 13.6,
                   "value": 4.53
                 },
-                "2348E": {
+                "23485": {
                   "salary": 3000,
                   "proj": 13.6,
                   "value": 4.53
@@ -17358,24 +17331,24 @@
               "dk_proj": 11.9,
               "dk_value": 3.97,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 3500,
                   "proj": 11.7,
                   "value": 3.34
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 3500,
                   "proj": 11.7,
                   "value": 3.34
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 3000,
                   "proj": 11.9,
                   "value": 3.97
                 },
-                "2348E": {
+                "23485": {
                   "salary": 3000,
                   "proj": 11.9,
                   "value": 3.97
@@ -17395,24 +17368,24 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 7800,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 7800,
                   "proj": 0.0,
                   "value": 0.0
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 7600,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "2348E": {
+                "23485": {
                   "salary": 7600,
                   "proj": 0.0,
                   "value": 0.0
@@ -17432,24 +17405,24 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 7600,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 7600,
                   "proj": 0.0,
                   "value": 0.0
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 7700,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "2348E": {
+                "23485": {
                   "salary": 7700,
                   "proj": 0.0,
                   "value": 0.0
@@ -17474,24 +17447,24 @@
               "dk_proj": 24.4,
               "dk_value": 5.08,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 4600,
                   "proj": 23.9,
                   "value": 5.2
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 4600,
                   "proj": 23.9,
                   "value": 5.2
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 4800,
                   "proj": 24.4,
                   "value": 5.08
                 },
-                "2348E": {
+                "23485": {
                   "salary": 4800,
                   "proj": 24.4,
                   "value": 5.08
@@ -17511,24 +17484,24 @@
               "dk_proj": 34.3,
               "dk_value": 4.57,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 6900,
                   "proj": 34.0,
                   "value": 4.92
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 6900,
                   "proj": 34.0,
                   "value": 4.92
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 7500,
                   "proj": 34.3,
                   "value": 4.57
                 },
-                "2348E": {
+                "23485": {
                   "salary": 7500,
                   "proj": 34.3,
                   "value": 4.57
@@ -17548,24 +17521,24 @@
               "dk_proj": 37.0,
               "dk_value": 4.74,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 7200,
                   "proj": 36.2,
                   "value": 5.03
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 7200,
                   "proj": 36.2,
                   "value": 5.03
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 7800,
                   "proj": 37.0,
                   "value": 4.74
                 },
-                "2348E": {
+                "23485": {
                   "salary": 7800,
                   "proj": 37.0,
                   "value": 4.74
@@ -17585,24 +17558,24 @@
               "dk_proj": 42.4,
               "dk_value": 4.76,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 9200,
                   "proj": 41.5,
                   "value": 4.52
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 9200,
                   "proj": 41.5,
                   "value": 4.52
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 8900,
                   "proj": 42.4,
                   "value": 4.76
                 },
-                "2348E": {
+                "23485": {
                   "salary": 8900,
                   "proj": 42.4,
                   "value": 4.76
@@ -17622,24 +17595,24 @@
               "dk_proj": 27.2,
               "dk_value": 4.62,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 5900,
                   "proj": 26.7,
                   "value": 4.52
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 5900,
                   "proj": 26.7,
                   "value": 4.52
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 5900,
                   "proj": 27.2,
                   "value": 4.62
                 },
-                "2348E": {
+                "23485": {
                   "salary": 5900,
                   "proj": 27.2,
                   "value": 4.62
@@ -17661,24 +17634,24 @@
               "dk_proj": 20.1,
               "dk_value": 4.28,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 5200,
                   "proj": 20.9,
                   "value": 4.02
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 5200,
                   "proj": 20.9,
                   "value": 4.02
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 4700,
                   "proj": 20.1,
                   "value": 4.28
                 },
-                "2348E": {
+                "23485": {
                   "salary": 4700,
                   "proj": 20.1,
                   "value": 4.28
@@ -17698,24 +17671,24 @@
               "dk_proj": 18.6,
               "dk_value": 4.13,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 5300,
                   "proj": 18.2,
                   "value": 3.43
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 5300,
                   "proj": 18.2,
                   "value": 3.43
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 4500,
                   "proj": 18.6,
                   "value": 4.13
                 },
-                "2348E": {
+                "23485": {
                   "salary": 4500,
                   "proj": 18.6,
                   "value": 4.13
@@ -17735,24 +17708,24 @@
               "dk_proj": 18.5,
               "dk_value": 4.63,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 4500,
                   "proj": 18.1,
                   "value": 4.03
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 4500,
                   "proj": 18.1,
                   "value": 4.03
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 4000,
                   "proj": 18.5,
                   "value": 4.63
                 },
-                "2348E": {
+                "23485": {
                   "salary": 4000,
                   "proj": 18.5,
                   "value": 4.63
@@ -17772,24 +17745,24 @@
               "dk_proj": 9.8,
               "dk_value": 3.16,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 3700,
                   "proj": 9.9,
                   "value": 2.68
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 3700,
                   "proj": 9.9,
                   "value": 2.68
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 3100,
                   "proj": 9.8,
                   "value": 3.16
                 },
-                "2348E": {
+                "23485": {
                   "salary": 3100,
                   "proj": 9.8,
                   "value": 3.16
@@ -17809,24 +17782,24 @@
               "dk_proj": 7.4,
               "dk_value": 2.11,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 3700,
                   "proj": 7.3,
                   "value": 1.98
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 3700,
                   "proj": 7.3,
                   "value": 1.98
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 3500,
                   "proj": 7.4,
                   "value": 2.11
                 },
-                "2348E": {
+                "23485": {
                   "salary": 3500,
                   "proj": 7.4,
                   "value": 2.11
@@ -17846,24 +17819,24 @@
               "dk_proj": 3.0,
               "dk_value": 0.91,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 4000,
                   "proj": 2.9,
                   "value": 0.74
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 4000,
                   "proj": 2.9,
                   "value": 0.74
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 3300,
                   "proj": 3.0,
                   "value": 0.91
                 },
-                "2348E": {
+                "23485": {
                   "salary": 3300,
                   "proj": 3.0,
                   "value": 0.91
@@ -17883,24 +17856,24 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 6200,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 6200,
                   "proj": 0.0,
                   "value": 0.0
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 6800,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "2348E": {
+                "23485": {
                   "salary": 6800,
                   "proj": 0.0,
                   "value": 0.0
@@ -17920,24 +17893,24 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
-                "1F466": {
+                "1F464": {
                   "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F464": {
+                "1F466": {
                   "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
                 }
               },
               "dk_slates": {
-                "23485": {
+                "2348E": {
                   "salary": 3000,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "2348E": {
+                "23485": {
                   "salary": 3000,
                   "proj": 0.0,
                   "value": 0.0
@@ -17978,6 +17951,11 @@
               "dk_proj": 22.9,
               "dk_value": 4.24,
               "fd_slates": {
+                "1F464": {
+                  "salary": 5200,
+                  "proj": 22.2,
+                  "value": 4.27
+                },
                 "1F466": {
                   "salary": 5200,
                   "proj": 22.2,
@@ -17987,14 +17965,14 @@
                   "salary": 4000,
                   "proj": 22.2,
                   "value": 5.55
-                },
-                "1F464": {
-                  "salary": 5200,
-                  "proj": 22.2,
-                  "value": 4.27
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 5400,
+                  "proj": 22.9,
+                  "value": 4.24
+                },
                 "23485": {
                   "salary": 5400,
                   "proj": 22.9,
@@ -18004,11 +17982,6 @@
                   "salary": 5200,
                   "proj": 22.9,
                   "value": 4.4
-                },
-                "2348E": {
-                  "salary": 5400,
-                  "proj": 22.9,
-                  "value": 4.24
                 }
               },
               "injury": "",
@@ -18025,6 +17998,11 @@
               "dk_proj": 26.1,
               "dk_value": 4.5,
               "fd_slates": {
+                "1F464": {
+                  "salary": 6200,
+                  "proj": 25.3,
+                  "value": 4.08
+                },
                 "1F466": {
                   "salary": 6200,
                   "proj": 25.3,
@@ -18034,25 +18012,20 @@
                   "salary": 7600,
                   "proj": 25.3,
                   "value": 3.33
-                },
-                "1F464": {
-                  "salary": 6200,
-                  "proj": 25.3,
-                  "value": 4.08
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 5800,
+                  "proj": 26.1,
+                  "value": 4.5
+                },
                 "23485": {
                   "salary": 5800,
                   "proj": 26.1,
                   "value": 4.5
                 },
                 "234E5": {
-                  "salary": 5800,
-                  "proj": 26.1,
-                  "value": 4.5
-                },
-                "2348E": {
                   "salary": 5800,
                   "proj": 26.1,
                   "value": 4.5
@@ -18072,6 +18045,11 @@
               "dk_proj": 34.5,
               "dk_value": 4.32,
               "fd_slates": {
+                "1F464": {
+                  "salary": 8400,
+                  "proj": 34.2,
+                  "value": 4.07
+                },
                 "1F466": {
                   "salary": 8400,
                   "proj": 34.2,
@@ -18081,14 +18059,14 @@
                   "salary": 11800,
                   "proj": 34.2,
                   "value": 2.9
-                },
-                "1F464": {
-                  "salary": 8400,
-                  "proj": 34.2,
-                  "value": 4.07
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 8000,
+                  "proj": 34.5,
+                  "value": 4.32
+                },
                 "23485": {
                   "salary": 8000,
                   "proj": 34.5,
@@ -18098,11 +18076,6 @@
                   "salary": 8600,
                   "proj": 34.5,
                   "value": 4.02
-                },
-                "2348E": {
-                  "salary": 8000,
-                  "proj": 34.5,
-                  "value": 4.32
                 }
               },
               "injury": "",
@@ -18119,6 +18092,11 @@
               "dk_proj": 26.4,
               "dk_value": 3.99,
               "fd_slates": {
+                "1F464": {
+                  "salary": 6300,
+                  "proj": 25.8,
+                  "value": 4.1
+                },
                 "1F466": {
                   "salary": 6300,
                   "proj": 25.8,
@@ -18128,14 +18106,14 @@
                   "salary": 8000,
                   "proj": 25.8,
                   "value": 3.23
-                },
-                "1F464": {
-                  "salary": 6300,
-                  "proj": 25.8,
-                  "value": 4.1
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 6600,
+                  "proj": 26.4,
+                  "value": 3.99
+                },
                 "23485": {
                   "salary": 6600,
                   "proj": 26.4,
@@ -18145,11 +18123,6 @@
                   "salary": 6400,
                   "proj": 26.4,
                   "value": 4.12
-                },
-                "2348E": {
-                  "salary": 6600,
-                  "proj": 26.4,
-                  "value": 3.99
                 }
               },
               "injury": "",
@@ -18166,6 +18139,11 @@
               "dk_proj": 30.4,
               "dk_value": 4.22,
               "fd_slates": {
+                "1F464": {
+                  "salary": 6400,
+                  "proj": 29.8,
+                  "value": 4.66
+                },
                 "1F466": {
                   "salary": 6400,
                   "proj": 29.8,
@@ -18175,14 +18153,14 @@
                   "salary": 9200,
                   "proj": 29.8,
                   "value": 3.24
-                },
-                "1F464": {
-                  "salary": 6400,
-                  "proj": 29.8,
-                  "value": 4.66
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 7200,
+                  "proj": 30.4,
+                  "value": 4.22
+                },
                 "23485": {
                   "salary": 7200,
                   "proj": 30.4,
@@ -18192,11 +18170,6 @@
                   "salary": 6800,
                   "proj": 30.4,
                   "value": 4.47
-                },
-                "2348E": {
-                  "salary": 7200,
-                  "proj": 30.4,
-                  "value": 4.22
                 }
               },
               "injury": "Q",
@@ -18215,6 +18188,11 @@
               "dk_proj": 32.6,
               "dk_value": 4.79,
               "fd_slates": {
+                "1F464": {
+                  "salary": 6700,
+                  "proj": 31.9,
+                  "value": 4.77
+                },
                 "1F466": {
                   "salary": 6700,
                   "proj": 31.9,
@@ -18224,14 +18202,14 @@
                   "salary": 10000,
                   "proj": 31.9,
                   "value": 3.19
-                },
-                "1F464": {
-                  "salary": 6700,
-                  "proj": 31.9,
-                  "value": 4.77
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 6800,
+                  "proj": 32.6,
+                  "value": 4.79
+                },
                 "23485": {
                   "salary": 6800,
                   "proj": 32.6,
@@ -18241,11 +18219,6 @@
                   "salary": 6600,
                   "proj": 32.6,
                   "value": 4.94
-                },
-                "2348E": {
-                  "salary": 6800,
-                  "proj": 32.6,
-                  "value": 4.79
                 }
               },
               "injury": "",
@@ -18262,6 +18235,11 @@
               "dk_proj": 27.6,
               "dk_value": 5.02,
               "fd_slates": {
+                "1F464": {
+                  "salary": 6400,
+                  "proj": 28.1,
+                  "value": 4.39
+                },
                 "1F466": {
                   "salary": 6400,
                   "proj": 28.1,
@@ -18271,14 +18249,14 @@
                   "salary": 8800,
                   "proj": 28.1,
                   "value": 3.19
-                },
-                "1F464": {
-                  "salary": 6400,
-                  "proj": 28.1,
-                  "value": 4.39
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 5500,
+                  "proj": 27.6,
+                  "value": 5.02
+                },
                 "23485": {
                   "salary": 5500,
                   "proj": 27.6,
@@ -18288,11 +18266,6 @@
                   "salary": 5400,
                   "proj": 27.6,
                   "value": 5.11
-                },
-                "2348E": {
-                  "salary": 5500,
-                  "proj": 27.6,
-                  "value": 5.02
                 }
               },
               "injury": "",
@@ -18309,6 +18282,11 @@
               "dk_proj": 17.1,
               "dk_value": 3.89,
               "fd_slates": {
+                "1F464": {
+                  "salary": 5300,
+                  "proj": 16.9,
+                  "value": 3.19
+                },
                 "1F466": {
                   "salary": 5300,
                   "proj": 16.9,
@@ -18318,14 +18296,14 @@
                   "salary": 4600,
                   "proj": 16.9,
                   "value": 3.68
-                },
-                "1F464": {
-                  "salary": 5300,
-                  "proj": 16.9,
-                  "value": 3.19
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 4400,
+                  "proj": 17.1,
+                  "value": 3.89
+                },
                 "23485": {
                   "salary": 4400,
                   "proj": 17.1,
@@ -18335,11 +18313,6 @@
                   "salary": 4200,
                   "proj": 17.1,
                   "value": 4.07
-                },
-                "2348E": {
-                  "salary": 4400,
-                  "proj": 17.1,
-                  "value": 3.89
                 }
               },
               "injury": "",
@@ -18356,6 +18329,11 @@
               "dk_proj": 14.8,
               "dk_value": 3.43,
               "fd_slates": {
+                "1F464": {
+                  "salary": 5100,
+                  "proj": 14.8,
+                  "value": 2.9
+                },
                 "1F466": {
                   "salary": 5100,
                   "proj": 14.8,
@@ -18365,14 +18343,14 @@
                   "salary": 3600,
                   "proj": 14.8,
                   "value": 4.11
-                },
-                "1F464": {
-                  "salary": 5100,
-                  "proj": 14.8,
-                  "value": 2.9
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 4300,
+                  "proj": 14.8,
+                  "value": 3.43
+                },
                 "23485": {
                   "salary": 4300,
                   "proj": 14.8,
@@ -18382,11 +18360,6 @@
                   "salary": 4000,
                   "proj": 14.8,
                   "value": 3.69
-                },
-                "2348E": {
-                  "salary": 4300,
-                  "proj": 14.8,
-                  "value": 3.43
                 }
               },
               "injury": "",
@@ -18403,6 +18376,11 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
+                "1F464": {
+                  "salary": 3500,
+                  "proj": 0.0,
+                  "value": 0.0
+                },
                 "1F466": {
                   "salary": 3500,
                   "proj": 0.0,
@@ -18412,14 +18390,14 @@
                   "salary": 1000,
                   "proj": 0.0,
                   "value": 0.0
-                },
-                "1F464": {
-                  "salary": 3500,
-                  "proj": 0.0,
-                  "value": 0.0
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 3000,
+                  "proj": 0.0,
+                  "value": 0.0
+                },
                 "23485": {
                   "salary": 3000,
                   "proj": 0.0,
@@ -18427,11 +18405,6 @@
                 },
                 "234E5": {
                   "salary": 1000,
-                  "proj": 0.0,
-                  "value": 0.0
-                },
-                "2348E": {
-                  "salary": 3000,
                   "proj": 0.0,
                   "value": 0.0
                 }
@@ -18450,6 +18423,11 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
+                "1F464": {
+                  "salary": 6500,
+                  "proj": 0.0,
+                  "value": 0.0
+                },
                 "1F466": {
                   "salary": 6500,
                   "proj": 0.0,
@@ -18459,14 +18437,14 @@
                   "salary": 1000,
                   "proj": 0.0,
                   "value": 0.0
-                },
-                "1F464": {
-                  "salary": 6500,
-                  "proj": 0.0,
-                  "value": 0.0
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 8500,
+                  "proj": 0.0,
+                  "value": 0.0
+                },
                 "23485": {
                   "salary": 8500,
                   "proj": 0.0,
@@ -18474,11 +18452,6 @@
                 },
                 "234E5": {
                   "salary": 8000,
-                  "proj": 0.0,
-                  "value": 0.0
-                },
-                "2348E": {
-                  "salary": 8500,
                   "proj": 0.0,
                   "value": 0.0
                 }
@@ -18497,6 +18470,11 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
+                "1F464": {
+                  "salary": 3500,
+                  "proj": 0.0,
+                  "value": 0.0
+                },
                 "1F466": {
                   "salary": 3500,
                   "proj": 0.0,
@@ -18506,14 +18484,14 @@
                   "salary": 1000,
                   "proj": 0.0,
                   "value": 0.0
-                },
-                "1F464": {
-                  "salary": 3500,
-                  "proj": 0.0,
-                  "value": 0.0
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 3000,
+                  "proj": 0.0,
+                  "value": 0.0
+                },
                 "23485": {
                   "salary": 3000,
                   "proj": 0.0,
@@ -18521,11 +18499,6 @@
                 },
                 "234E5": {
                   "salary": 1000,
-                  "proj": 0.0,
-                  "value": 0.0
-                },
-                "2348E": {
-                  "salary": 3000,
                   "proj": 0.0,
                   "value": 0.0
                 }
@@ -18544,6 +18517,11 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
+                "1F464": {
+                  "salary": 3500,
+                  "proj": 0.0,
+                  "value": 0.0
+                },
                 "1F466": {
                   "salary": 3500,
                   "proj": 0.0,
@@ -18553,14 +18531,14 @@
                   "salary": 1000,
                   "proj": 0.0,
                   "value": 0.0
-                },
-                "1F464": {
-                  "salary": 3500,
-                  "proj": 0.0,
-                  "value": 0.0
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 3000,
+                  "proj": 0.0,
+                  "value": 0.0
+                },
                 "23485": {
                   "salary": 3000,
                   "proj": 0.0,
@@ -18568,11 +18546,6 @@
                 },
                 "234E5": {
                   "salary": 1000,
-                  "proj": 0.0,
-                  "value": 0.0
-                },
-                "2348E": {
-                  "salary": 3000,
                   "proj": 0.0,
                   "value": 0.0
                 }
@@ -18591,6 +18564,11 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
+                "1F464": {
+                  "salary": 7000,
+                  "proj": 0.0,
+                  "value": 0.0
+                },
                 "1F466": {
                   "salary": 7000,
                   "proj": 0.0,
@@ -18600,14 +18578,14 @@
                   "salary": 6000,
                   "proj": 0.0,
                   "value": 0.0
-                },
-                "1F464": {
-                  "salary": 7000,
-                  "proj": 0.0,
-                  "value": 0.0
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 7700,
+                  "proj": 0.0,
+                  "value": 0.0
+                },
                 "23485": {
                   "salary": 7700,
                   "proj": 0.0,
@@ -18615,11 +18593,6 @@
                 },
                 "234E5": {
                   "salary": 7400,
-                  "proj": 0.0,
-                  "value": 0.0
-                },
-                "2348E": {
-                  "salary": 7700,
                   "proj": 0.0,
                   "value": 0.0
                 }
@@ -18638,6 +18611,11 @@
               "dk_proj": 0.0,
               "dk_value": 0.0,
               "fd_slates": {
+                "1F464": {
+                  "salary": 6700,
+                  "proj": 0.0,
+                  "value": 0.0
+                },
                 "1F466": {
                   "salary": 6700,
                   "proj": 0.0,
@@ -18647,14 +18625,14 @@
                   "salary": 10400,
                   "proj": 0.0,
                   "value": 0.0
-                },
-                "1F464": {
-                  "salary": 6700,
-                  "proj": 0.0,
-                  "value": 0.0
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 7900,
+                  "proj": 0.0,
+                  "value": 0.0
+                },
                 "23485": {
                   "salary": 7900,
                   "proj": 0.0,
@@ -18662,11 +18640,6 @@
                 },
                 "234E5": {
                   "salary": 7600,
-                  "proj": 0.0,
-                  "value": 0.0
-                },
-                "2348E": {
-                  "salary": 7900,
                   "proj": 0.0,
                   "value": 0.0
                 }
@@ -18690,6 +18663,11 @@
               "dk_proj": 43.1,
               "dk_value": 4.74,
               "fd_slates": {
+                "1F464": {
+                  "salary": 9600,
+                  "proj": 41.8,
+                  "value": 4.35
+                },
                 "1F466": {
                   "salary": 9600,
                   "proj": 41.8,
@@ -18699,14 +18677,14 @@
                   "salary": 12600,
                   "proj": 41.8,
                   "value": 3.32
-                },
-                "1F464": {
-                  "salary": 9600,
-                  "proj": 41.8,
-                  "value": 4.35
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 9100,
+                  "proj": 43.1,
+                  "value": 4.74
+                },
                 "23485": {
                   "salary": 9100,
                   "proj": 43.1,
@@ -18716,11 +18694,6 @@
                   "salary": 10000,
                   "proj": 43.1,
                   "value": 4.31
-                },
-                "2348E": {
-                  "salary": 9100,
-                  "proj": 43.1,
-                  "value": 4.74
                 }
               },
               "injury": "",
@@ -18737,6 +18710,11 @@
               "dk_proj": 23.9,
               "dk_value": 4.27,
               "fd_slates": {
+                "1F464": {
+                  "salary": 5300,
+                  "proj": 23.4,
+                  "value": 4.42
+                },
                 "1F466": {
                   "salary": 5300,
                   "proj": 23.4,
@@ -18746,25 +18724,20 @@
                   "salary": 5000,
                   "proj": 23.4,
                   "value": 4.68
-                },
-                "1F464": {
-                  "salary": 5300,
-                  "proj": 23.4,
-                  "value": 4.42
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 5600,
+                  "proj": 23.9,
+                  "value": 4.27
+                },
                 "23485": {
                   "salary": 5600,
                   "proj": 23.9,
                   "value": 4.27
                 },
                 "234E5": {
-                  "salary": 5600,
-                  "proj": 23.9,
-                  "value": 4.27
-                },
-                "2348E": {
                   "salary": 5600,
                   "proj": 23.9,
                   "value": 4.27
@@ -18784,6 +18757,11 @@
               "dk_proj": 23.0,
               "dk_value": 4.34,
               "fd_slates": {
+                "1F464": {
+                  "salary": 5300,
+                  "proj": 22.8,
+                  "value": 4.3
+                },
                 "1F466": {
                   "salary": 5300,
                   "proj": 22.8,
@@ -18793,14 +18771,14 @@
                   "salary": 4800,
                   "proj": 22.8,
                   "value": 4.75
-                },
-                "1F464": {
-                  "salary": 5300,
-                  "proj": 22.8,
-                  "value": 4.3
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 5300,
+                  "proj": 23.0,
+                  "value": 4.34
+                },
                 "23485": {
                   "salary": 5300,
                   "proj": 23.0,
@@ -18810,11 +18788,6 @@
                   "salary": 5000,
                   "proj": 23.0,
                   "value": 4.6
-                },
-                "2348E": {
-                  "salary": 5300,
-                  "proj": 23.0,
-                  "value": 4.34
                 }
               },
               "injury": "",
@@ -18831,6 +18804,11 @@
               "dk_proj": 28.2,
               "dk_value": 4.4,
               "fd_slates": {
+                "1F464": {
+                  "salary": 5900,
+                  "proj": 27.6,
+                  "value": 4.68
+                },
                 "1F466": {
                   "salary": 5900,
                   "proj": 27.6,
@@ -18840,14 +18818,14 @@
                   "salary": 6200,
                   "proj": 27.6,
                   "value": 4.45
-                },
-                "1F464": {
-                  "salary": 5900,
-                  "proj": 27.6,
-                  "value": 4.68
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 6400,
+                  "proj": 28.2,
+                  "value": 4.4
+                },
                 "23485": {
                   "salary": 6400,
                   "proj": 28.2,
@@ -18857,11 +18835,6 @@
                   "salary": 6200,
                   "proj": 28.2,
                   "value": 4.54
-                },
-                "2348E": {
-                  "salary": 6400,
-                  "proj": 28.2,
-                  "value": 4.4
                 }
               },
               "injury": "",
@@ -18878,6 +18851,11 @@
               "dk_proj": 66.1,
               "dk_value": 5.29,
               "fd_slates": {
+                "1F464": {
+                  "salary": 13000,
+                  "proj": 64.8,
+                  "value": 4.98
+                },
                 "1F466": {
                   "salary": 13000,
                   "proj": 64.8,
@@ -18887,14 +18865,14 @@
                   "salary": 16800,
                   "proj": 64.8,
                   "value": 3.86
-                },
-                "1F464": {
-                  "salary": 13000,
-                  "proj": 64.8,
-                  "value": 4.98
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 12500,
+                  "proj": 66.1,
+                  "value": 5.29
+                },
                 "23485": {
                   "salary": 12500,
                   "proj": 66.1,
@@ -18904,11 +18882,6 @@
                   "salary": 13400,
                   "proj": 66.1,
                   "value": 4.93
-                },
-                "2348E": {
-                  "salary": 12500,
-                  "proj": 66.1,
-                  "value": 5.29
                 }
               },
               "injury": "",
@@ -18927,6 +18900,11 @@
               "dk_proj": 24.3,
               "dk_value": 3.86,
               "fd_slates": {
+                "1F464": {
+                  "salary": 5600,
+                  "proj": 24.1,
+                  "value": 4.3
+                },
                 "1F466": {
                   "salary": 5600,
                   "proj": 24.1,
@@ -18936,14 +18914,14 @@
                   "salary": 5800,
                   "proj": 24.1,
                   "value": 4.15
-                },
-                "1F464": {
-                  "salary": 5600,
-                  "proj": 24.1,
-                  "value": 4.3
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 6300,
+                  "proj": 24.3,
+                  "value": 3.86
+                },
                 "23485": {
                   "salary": 6300,
                   "proj": 24.3,
@@ -18953,11 +18931,6 @@
                   "salary": 6000,
                   "proj": 24.3,
                   "value": 4.06
-                },
-                "2348E": {
-                  "salary": 6300,
-                  "proj": 24.3,
-                  "value": 3.86
                 }
               },
               "injury": "",
@@ -18974,6 +18947,11 @@
               "dk_proj": 18.5,
               "dk_value": 4.3,
               "fd_slates": {
+                "1F464": {
+                  "salary": 4200,
+                  "proj": 17.6,
+                  "value": 4.18
+                },
                 "1F466": {
                   "salary": 4200,
                   "proj": 17.6,
@@ -18983,14 +18961,14 @@
                   "salary": 2400,
                   "proj": 17.6,
                   "value": 7.32
-                },
-                "1F464": {
-                  "salary": 4200,
-                  "proj": 17.6,
-                  "value": 4.18
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 4300,
+                  "proj": 18.5,
+                  "value": 4.3
+                },
                 "23485": {
                   "salary": 4300,
                   "proj": 18.5,
@@ -19000,11 +18978,6 @@
                   "salary": 3800,
                   "proj": 18.5,
                   "value": 4.87
-                },
-                "2348E": {
-                  "salary": 4300,
-                  "proj": 18.5,
-                  "value": 4.3
                 }
               },
               "injury": "",
@@ -19021,6 +18994,11 @@
               "dk_proj": 18.1,
               "dk_value": 4.9,
               "fd_slates": {
+                "1F464": {
+                  "salary": 3900,
+                  "proj": 17.6,
+                  "value": 4.51
+                },
                 "1F466": {
                   "salary": 3900,
                   "proj": 17.6,
@@ -19030,14 +19008,14 @@
                   "salary": 1800,
                   "proj": 17.6,
                   "value": 9.77
-                },
-                "1F464": {
-                  "salary": 3900,
-                  "proj": 17.6,
-                  "value": 4.51
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 3700,
+                  "proj": 18.1,
+                  "value": 4.9
+                },
                 "23485": {
                   "salary": 3700,
                   "proj": 18.1,
@@ -19047,11 +19025,6 @@
                   "salary": 3200,
                   "proj": 18.1,
                   "value": 5.67
-                },
-                "2348E": {
-                  "salary": 3700,
-                  "proj": 18.1,
-                  "value": 4.9
                 }
               },
               "injury": "",
@@ -19068,6 +19041,11 @@
               "dk_proj": 8.6,
               "dk_value": 2.53,
               "fd_slates": {
+                "1F464": {
+                  "salary": 3700,
+                  "proj": 8.9,
+                  "value": 2.4
+                },
                 "1F466": {
                   "salary": 3700,
                   "proj": 8.9,
@@ -19077,14 +19055,14 @@
                   "salary": 1400,
                   "proj": 8.9,
                   "value": 6.34
-                },
-                "1F464": {
-                  "salary": 3700,
-                  "proj": 8.9,
-                  "value": 2.4
                 }
               },
               "dk_slates": {
+                "2348E": {
+                  "salary": 3400,
+                  "proj": 8.6,
+                  "value": 2.53
+                },
                 "23485": {
                   "salary": 3400,
                   "proj": 8.6,
@@ -19094,11 +19072,6 @@
                   "salary": 2600,
                   "proj": 8.6,
                   "value": 3.31
-                },
-                "2348E": {
-                  "salary": 3400,
-                  "proj": 8.6,
-                  "value": 2.53
                 }
               },
               "injury": "",
