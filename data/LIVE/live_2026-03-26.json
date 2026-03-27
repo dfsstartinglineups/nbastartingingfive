@@ -1649,14 +1649,14 @@
         "LPCT": "32"
       },
       "DET": {
-        "fieldGoalsMade-fieldGoalsAttempted": "26-49",
-        "FG%": "53",
+        "fieldGoalsMade-fieldGoalsAttempted": "26-50",
+        "FG%": "52",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "8-17",
         "3P%": "47",
         "freeThrowsMade-freeThrowsAttempted": "5-7",
         "FT%": "71",
-        "REB": "24",
-        "OR": "5",
+        "REB": "25",
+        "OR": "6",
         "DR": "19",
         "AST": "17",
         "STL": "6",
@@ -1695,7 +1695,7 @@
         "Jalen Duren": {
           "MIN": 17,
           "PTS": "17",
-          "REB": "6",
+          "REB": "7",
           "AST": "3",
           "STL": "0",
           "BLK": "2",
@@ -1703,8 +1703,8 @@
           "FG": "6-7",
           "3PT": "0-0",
           "FT": "5-6",
-          "fd_pts": 32.7,
-          "dk_pts": 32.0,
+          "fd_pts": 33.9,
+          "dk_pts": 33.25,
           "is_on_court": false
         },
         "Kevin Huerter": {
@@ -1998,6 +1998,18 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 384.0,
+          "period": 2,
+          "time": "Q2 3:27",
+          "text": "Jalen Duren offensive rebound"
+        },
+        {
+          "seq": 383.0,
+          "period": 2,
+          "time": "Q2 3:28",
+          "text": "Daniss Jenkins misses layup"
+        },
         {
           "seq": 382.0,
           "period": 2,
@@ -3541,8 +3553,21 @@
           "text": "DeAndre Jordan vs. Jalen Duren (Dejounte Murray gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 382.0
+      "new_plays": [
+        {
+          "seq": 384.0,
+          "period": 2,
+          "time": "Q2 3:27",
+          "text": "Jalen Duren offensive rebound"
+        },
+        {
+          "seq": 383.0,
+          "period": 2,
+          "time": "Q2 3:28",
+          "text": "Daniss Jenkins misses layup"
+        }
+      ],
+      "last_seq": 384.0
     }
   },
   "SAC-ORL-2026-03-26": {
@@ -3933,13 +3958,13 @@
         {
           "seq": 332.0,
           "period": 2,
-          "time": "Q2 0.0",
+          "time": "Q2 1.6",
           "text": "Paolo Banchero offensive rebound"
         },
         {
           "seq": 331.0,
           "period": 2,
-          "time": "Q2 0.0",
+          "time": "Q2 2.0",
           "text": "Wendell Carter Jr. misses 26-foot three point jumper"
         },
         {
@@ -5305,32 +5330,7 @@
           "text": "Maxime Raynaud vs. Wendell Carter Jr. (Tristan da Silva gains possession)"
         }
       ],
-      "new_plays": [
-        {
-          "seq": 335.0,
-          "period": 2,
-          "time": "Q2 0.0",
-          "text": "End of the 2nd Quarter"
-        },
-        {
-          "seq": 334.0,
-          "period": 2,
-          "time": "Q2 0.8",
-          "text": "DeMar DeRozan defensive rebound"
-        },
-        {
-          "seq": 333.0,
-          "period": 2,
-          "time": "Q2 1.0",
-          "text": "Paolo Banchero misses tip shot"
-        },
-        {
-          "seq": 332.0,
-          "period": 2,
-          "time": "Q2 0.0",
-          "text": "Paolo Banchero offensive rebound"
-        }
-      ],
+      "new_plays": [],
       "last_seq": 335.0
     }
   }
