@@ -397,10 +397,22 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 620.0,
+          "period": 4,
+          "time": "Q4 5:24",
+          "text": "Clippers Full timeout"
+        },
+        {
+          "seq": 619.0,
+          "period": 4,
+          "time": "Q4 5:24",
+          "text": "Brook Lopez defensive goaltending violation"
+        },
+        {
           "seq": 617.0,
           "period": 4,
           "time": "Q4 5:24",
-          "text": "Pascal Siakam makes 1-foot shot (Aaron Nesmith assists)"
+          "text": "Pascal Siakam makes layup (Aaron Nesmith assists)"
         },
         {
           "seq": 615.0,
@@ -2973,56 +2985,26 @@
       ],
       "new_plays": [
         {
-          "seq": 617.0,
+          "seq": 620.0,
           "period": 4,
           "time": "Q4 5:24",
-          "text": "Pascal Siakam makes 1-foot shot (Aaron Nesmith assists)"
+          "text": "Clippers Full timeout"
         },
         {
-          "seq": 615.0,
+          "seq": 619.0,
           "period": 4,
-          "time": "Q4 5:32",
-          "text": "Obi Toppin defensive rebound"
-        },
-        {
-          "seq": 614.0,
-          "period": 4,
-          "time": "Q4 5:33",
-          "text": "Darius Garland misses 18-foot step back jumpshot"
-        },
-        {
-          "seq": 613.0,
-          "period": 4,
-          "time": "Q4 5:53",
-          "text": "Bennedict Mathurin defensive rebound"
-        },
-        {
-          "seq": 612.0,
-          "period": 4,
-          "time": "Q4 5:55",
-          "text": "Andrew Nembhard misses 13-foot two point shot"
-        },
-        {
-          "seq": 609.0,
-          "period": 4,
-          "time": "Q4 6:12",
-          "text": "Derrick Jones Jr. enters the game for Jordan Miller"
-        },
-        {
-          "seq": 608.0,
-          "period": 4,
-          "time": "Q4 6:12",
-          "text": "Pascal Siakam enters the game for Micah Potter"
+          "time": "Q4 5:24",
+          "text": "Brook Lopez defensive goaltending violation"
         }
       ],
-      "last_seq": 617.0
+      "last_seq": 620.0
     }
   },
   "ATL-BOS-2026-03-27": {
     "status": "in",
-    "clock": "38.7 - 3rd",
-    "away_score": "79",
-    "home_score": "84",
+    "clock": "29.1 - 3rd",
+    "away_score": "82",
+    "home_score": "85",
     "team_stats": {
       "ATL": {
         "fieldGoalsMade-fieldGoalsAttempted": "26-62",
@@ -3045,7 +3027,7 @@
         "Points Conceded Off Turnovers": "4",
         "FBPs": "12",
         "PIP": "26",
-        "PF": "14",
+        "PF": "15",
         "LL": "16",
         "LC": "6",
         "LPCT": "70"
@@ -3055,8 +3037,8 @@
         "FG%": "49",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "13-28",
         "3P%": "46",
-        "freeThrowsMade-freeThrowsAttempted": "9-10",
-        "FT%": "90",
+        "freeThrowsMade-freeThrowsAttempted": "10-12",
+        "FT%": "83",
         "REB": "37",
         "OR": "9",
         "DR": "28",
@@ -3081,7 +3063,7 @@
       "BOS": {
         "Jayson Tatum": {
           "MIN": 24,
-          "PTS": "10",
+          "PTS": "11",
           "REB": "9",
           "AST": "3",
           "STL": "0",
@@ -3089,9 +3071,9 @@
           "TO": "2",
           "FG": "4-15",
           "3PT": "1-5",
-          "FT": "1-1",
-          "fd_pts": 23.3,
-          "dk_pts": 25.25,
+          "FT": "2-3",
+          "fd_pts": 24.3,
+          "dk_pts": 26.25,
           "is_on_court": true
         },
         "Sam Hauser": {
@@ -3122,7 +3104,7 @@
           "FT": "0-0",
           "fd_pts": 19.9,
           "dk_pts": 19.75,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Derrick White": {
           "MIN": 29,
@@ -3167,7 +3149,7 @@
           "FT": "2-2",
           "fd_pts": 16.8,
           "dk_pts": 17.5,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Payton Pritchard": {
           "MIN": 22,
@@ -3229,7 +3211,7 @@
           "FT": "1-2",
           "fd_pts": 12.0,
           "dk_pts": 13.25,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Jalen Johnson": {
           "MIN": 27,
@@ -3259,7 +3241,7 @@
           "FT": "1-1",
           "fd_pts": 18.6,
           "dk_pts": 19.25,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Nickeil Alexander-Walker": {
           "MIN": 28,
@@ -3322,7 +3304,7 @@
           "is_on_court": true
         },
         "Mouhamed Gueye": {
-          "MIN": 9,
+          "MIN": 10,
           "PTS": "3",
           "REB": "1",
           "AST": "0",
@@ -3334,7 +3316,7 @@
           "FT": "0-0",
           "fd_pts": 10.2,
           "dk_pts": 8.75,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Zaccharie Risacher": {
           "MIN": 11,
@@ -3352,7 +3334,7 @@
           "is_on_court": true
         },
         "Gabe Vincent": {
-          "MIN": 10,
+          "MIN": 11,
           "PTS": "3",
           "REB": "0",
           "AST": "1",
@@ -3364,12 +3346,48 @@
           "FT": "0-0",
           "fd_pts": 4.5,
           "dk_pts": 5.0,
-          "is_on_court": true
+          "is_on_court": false
         }
       }
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 490.0,
+          "period": 3,
+          "time": "Q3 38.7",
+          "text": "CJ McCollum enters the game for Mouhamed Gueye"
+        },
+        {
+          "seq": 489.0,
+          "period": 3,
+          "time": "Q3 38.7",
+          "text": "Onyeka Okongwu enters the game for Gabe Vincent"
+        },
+        {
+          "seq": 488.0,
+          "period": 3,
+          "time": "Q3 38.7",
+          "text": "Neemias Queta enters the game for Luka Garza"
+        },
+        {
+          "seq": 487.0,
+          "period": 3,
+          "time": "Q3 38.7",
+          "text": "Celtics offensive team rebound"
+        },
+        {
+          "seq": 486.0,
+          "period": 3,
+          "time": "Q3 38.7",
+          "text": "Jayson Tatum misses free throw 1 of 2"
+        },
+        {
+          "seq": 484.0,
+          "period": 3,
+          "time": "Q3 38.7",
+          "text": "Zaccharie Risacher personal foul"
+        },
         {
           "seq": 483.0,
           "period": 3,
@@ -5347,37 +5365,43 @@
       ],
       "new_plays": [
         {
-          "seq": 483.0,
+          "seq": 490.0,
           "period": 3,
-          "time": "Q3 43.2",
-          "text": "Jayson Tatum defensive rebound"
+          "time": "Q3 38.7",
+          "text": "CJ McCollum enters the game for Mouhamed Gueye"
         },
         {
-          "seq": 482.0,
+          "seq": 489.0,
           "period": 3,
-          "time": "Q3 44.9",
-          "text": "Nickeil Alexander-Walker misses free throw 2 of 2"
+          "time": "Q3 38.7",
+          "text": "Onyeka Okongwu enters the game for Gabe Vincent"
         },
         {
-          "seq": 481.0,
+          "seq": 488.0,
           "period": 3,
-          "time": "Q3 44.9",
-          "text": "Nickeil Alexander-Walker makes free throw 1 of 2"
+          "time": "Q3 38.7",
+          "text": "Neemias Queta enters the game for Luka Garza"
         },
         {
-          "seq": 479.0,
+          "seq": 487.0,
           "period": 3,
-          "time": "Q3 44.9",
-          "text": "Luka Garza shooting foul"
+          "time": "Q3 38.7",
+          "text": "Celtics offensive team rebound"
         },
         {
-          "seq": 478.0,
+          "seq": 486.0,
           "period": 3,
-          "time": "Q3 53.3",
-          "text": "Zaccharie Risacher offensive rebound"
+          "time": "Q3 38.7",
+          "text": "Jayson Tatum misses free throw 1 of 2"
+        },
+        {
+          "seq": 484.0,
+          "period": 3,
+          "time": "Q3 38.7",
+          "text": "Zaccharie Risacher personal foul"
         }
       ],
-      "last_seq": 483.0
+      "last_seq": 490.0
     }
   },
   "MIA-CLE-2026-03-27": {
@@ -5429,7 +5453,7 @@
         "TTO": "1",
         "ToTO": "6",
         "TECH": "0",
-        "FLAG": "0",
+        "FLAG": "1",
         "Points Conceded Off Turnovers": "9",
         "FBPs": "17",
         "PIP": "42",
@@ -5733,6 +5757,18 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 487.0,
+          "period": 3,
+          "time": "Q3 2:40",
+          "text": "Heat Full timeout"
+        },
+        {
+          "seq": 486.0,
+          "period": 3,
+          "time": "Q3 2:40",
+          "text": "(02:40) [Heat] REF-INITIATED REVIEW (CALL OVERTURNED)"
+        },
+        {
           "seq": 485.0,
           "period": 3,
           "time": "Q3 2:40",
@@ -5742,7 +5778,7 @@
           "seq": 483.0,
           "period": 3,
           "time": "Q3 2:40",
-          "text": "Dennis Schroder personal foul"
+          "text": "Dennis Schroder flagrant foul type 1"
         },
         {
           "seq": 480.0,
@@ -7727,26 +7763,26 @@
       ],
       "new_plays": [
         {
-          "seq": 485.0,
+          "seq": 487.0,
           "period": 3,
           "time": "Q3 2:40",
-          "text": "Dennis Schroder turnover"
+          "text": "Heat Full timeout"
         },
         {
-          "seq": 483.0,
+          "seq": 486.0,
           "period": 3,
           "time": "Q3 2:40",
-          "text": "Dennis Schroder personal foul"
+          "text": "(02:40) [Heat] REF-INITIATED REVIEW (CALL OVERTURNED)"
         }
       ],
-      "last_seq": 485.0
+      "last_seq": 487.0
     }
   },
   "HOU-MEM-2026-03-27": {
     "status": "in",
-    "clock": "9:49 - 3rd",
+    "clock": "9:37 - 3rd",
     "away_score": "63",
-    "home_score": "60",
+    "home_score": "61",
     "team_stats": {
       "HOU": {
         "fieldGoalsMade-fieldGoalsAttempted": "25-54",
@@ -7769,7 +7805,7 @@
         "Points Conceded Off Turnovers": "11",
         "FBPs": "6",
         "PIP": "34",
-        "PF": "3",
+        "PF": "4",
         "LL": "9",
         "LC": "3",
         "LPCT": "66"
@@ -7779,7 +7815,7 @@
         "FG%": "49",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "9-22",
         "3P%": "41",
-        "freeThrowsMade-freeThrowsAttempted": "3-3",
+        "freeThrowsMade-freeThrowsAttempted": "4-4",
         "FT%": "100",
         "REB": "21",
         "OR": "5",
@@ -7793,7 +7829,7 @@
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "6",
-        "FBPs": "11",
+        "FBPs": "12",
         "PIP": "26",
         "PF": "7",
         "LL": "7",
@@ -7804,8 +7840,8 @@
     "players": {
       "MEM": {
         "Olivier-Maxence Prosper": {
-          "MIN": 13,
-          "PTS": "13",
+          "MIN": 14,
+          "PTS": "14",
           "REB": "2",
           "AST": "2",
           "STL": "2",
@@ -7813,9 +7849,9 @@
           "TO": "0",
           "FG": "5-6",
           "3PT": "3-3",
-          "FT": "0-0",
-          "fd_pts": 24.4,
-          "dk_pts": 24.0,
+          "FT": "1-1",
+          "fd_pts": 25.4,
+          "dk_pts": 25.0,
           "is_on_court": true
         },
         "Taylor Hendricks": {
@@ -8095,10 +8131,16 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 355.0,
+          "period": 3,
+          "time": "Q3 9:49",
+          "text": "Olivier-Maxence Prosper makes free throw 1 of 1"
+        },
+        {
           "seq": 353.0,
           "period": 3,
           "time": "Q3 9:49",
-          "text": "Alperen Sengun foul"
+          "text": "Alperen Sengun shooting foul"
         },
         {
           "seq": 351.0,
@@ -9531,43 +9573,13 @@
       ],
       "new_plays": [
         {
-          "seq": 353.0,
+          "seq": 355.0,
           "period": 3,
           "time": "Q3 9:49",
-          "text": "Alperen Sengun foul"
-        },
-        {
-          "seq": 351.0,
-          "period": 3,
-          "time": "Q3 9:49",
-          "text": "Olivier-Maxence Prosper makes two point shot (Javon Small assists)"
-        },
-        {
-          "seq": 350.0,
-          "period": 3,
-          "time": "Q3 9:51",
-          "text": "GG Jackson defensive rebound"
-        },
-        {
-          "seq": 349.0,
-          "period": 3,
-          "time": "Q3 9:54",
-          "text": "Jabari Smith Jr. misses 25-foot three point jumper"
-        },
-        {
-          "seq": 347.0,
-          "period": 3,
-          "time": "Q3 10:17",
-          "text": "Olivier-Maxence Prosper makes 25-foot three point jumper (Javon Small assists)"
-        },
-        {
-          "seq": 345.0,
-          "period": 3,
-          "time": "Q3 10:22",
-          "text": "Reed Sheppard personal foul"
+          "text": "Olivier-Maxence Prosper makes free throw 1 of 1"
         }
       ],
-      "last_seq": 353.0
+      "last_seq": 355.0
     }
   },
   "CHI-OKC-2026-03-27": {
@@ -11330,7 +11342,7 @@
   },
   "NOP-TOR-2026-03-27": {
     "status": "in",
-    "clock": "8:39 - 2nd",
+    "clock": "8:25 - 2nd",
     "away_score": "31",
     "home_score": "40",
     "team_stats": {
@@ -11347,9 +11359,9 @@
         "AST": "8",
         "STL": "1",
         "BLK": "2",
-        "TO": "2",
+        "TO": "3",
         "TTO": "1",
-        "ToTO": "3",
+        "ToTO": "4",
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "0",
@@ -11432,7 +11444,7 @@
           "FT": "2-2",
           "fd_pts": 25.6,
           "dk_pts": 24.25,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Jakob Poeltl": {
           "MIN": 11,
@@ -11537,7 +11549,7 @@
           "FT": "0-0",
           "fd_pts": 2.0,
           "dk_pts": 2.5,
-          "is_on_court": false
+          "is_on_court": true
         }
       },
       "NOP": {
@@ -11593,12 +11605,12 @@
           "AST": "2",
           "STL": "0",
           "BLK": "1",
-          "TO": "0",
+          "TO": "1",
           "FG": "1-4",
           "3PT": "1-2",
           "FT": "2-2",
-          "fd_pts": 12.2,
-          "dk_pts": 11.75,
+          "fd_pts": 11.2,
+          "dk_pts": 11.25,
           "is_on_court": true
         },
         "Jeremiah Fears": {
@@ -11696,6 +11708,24 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 216.0,
+          "period": 2,
+          "time": "Q2 8:39",
+          "text": "Jamal Shead enters the game for Scottie Barnes"
+        },
+        {
+          "seq": 215.0,
+          "period": 2,
+          "time": "Q2 8:39",
+          "text": "Saddiq Bey kicked ball turnover"
+        },
+        {
+          "seq": 213.0,
+          "period": 2,
+          "time": "Q2 8:54",
+          "text": "Sandro Mamukelashvili makes running dunk (Scottie Barnes assists)"
+        },
+        {
           "seq": 211.0,
           "period": 2,
           "time": "Q2 9:01",
@@ -11729,7 +11759,7 @@
           "seq": 206.0,
           "period": 2,
           "time": "Q2 9:30",
-          "text": "Jordan Poole misses 28-foot three point jumper"
+          "text": "Jordan Poole misses 28-foot three point pullup jump shot"
         },
         {
           "seq": 204.0,
@@ -12550,61 +12580,37 @@
       ],
       "new_plays": [
         {
-          "seq": 211.0,
+          "seq": 216.0,
           "period": 2,
-          "time": "Q2 9:01",
-          "text": "Karlo Matkovic makes alley oop layup (Jordan Hawkins assists)"
+          "time": "Q2 8:39",
+          "text": "Jamal Shead enters the game for Scottie Barnes"
         },
         {
-          "seq": 210.0,
+          "seq": 215.0,
           "period": 2,
-          "time": "Q2 9:08",
-          "text": "Karlo Matkovic defensive rebound"
+          "time": "Q2 8:39",
+          "text": "Saddiq Bey kicked ball turnover"
         },
         {
-          "seq": 209.0,
+          "seq": 213.0,
           "period": 2,
-          "time": "Q2 9:10",
-          "text": "Sandro Mamukelashvili misses driving dunk"
-        },
-        {
-          "seq": 208.0,
-          "period": 2,
-          "time": "Q2 9:29",
-          "text": "shot clock turnover "
-        },
-        {
-          "seq": 207.0,
-          "period": 2,
-          "time": "Q2 9:29",
-          "text": "Pelicans offensive team rebound"
-        },
-        {
-          "seq": 206.0,
-          "period": 2,
-          "time": "Q2 9:30",
-          "text": "Jordan Poole misses 28-foot three point jumper"
-        },
-        {
-          "seq": 204.0,
-          "period": 2,
-          "time": "Q2 9:43",
-          "text": "Karlo Matkovic enters the game for DeAndre Jordan"
+          "time": "Q2 8:54",
+          "text": "Sandro Mamukelashvili makes running dunk (Scottie Barnes assists)"
         }
       ],
-      "last_seq": 211.0
+      "last_seq": 216.0
     }
   },
   "UTA-DEN-2026-03-27": {
     "status": "in",
-    "clock": "9:46 - 1st",
-    "away_score": "8",
-    "home_score": "4",
+    "clock": "9:18 - 1st",
+    "away_score": "10",
+    "home_score": "6",
     "team_stats": {
       "UTA": {
-        "fieldGoalsMade-fieldGoalsAttempted": "4-5",
-        "FG%": "80",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "0-1",
+        "fieldGoalsMade-fieldGoalsAttempted": "4-6",
+        "FG%": "67",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "0-2",
         "3P%": "0",
         "freeThrowsMade-freeThrowsAttempted": "0-0",
         "FT%": "0",
@@ -12625,19 +12631,19 @@
         "PF": "1",
         "LL": "6",
         "LC": "0",
-        "LPCT": "56"
+        "LPCT": "67"
       },
       "DEN": {
-        "fieldGoalsMade-fieldGoalsAttempted": "1-5",
-        "FG%": "20",
+        "fieldGoalsMade-fieldGoalsAttempted": "2-6",
+        "FG%": "33",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "0-1",
         "3P%": "0",
         "freeThrowsMade-freeThrowsAttempted": "2-2",
         "FT%": "100",
-        "REB": "2",
+        "REB": "3",
         "OR": "1",
-        "DR": "1",
-        "AST": "0",
+        "DR": "2",
+        "AST": "1",
         "STL": "0",
         "BLK": "0",
         "TO": "1",
@@ -12647,7 +12653,7 @@
         "FLAG": "0",
         "Points Conceded Off Turnovers": "2",
         "FBPs": "0",
-        "PIP": "0",
+        "PIP": "2",
         "PF": "0",
         "LL": "0",
         "LC": "0",
@@ -12657,7 +12663,7 @@
     "players": {
       "DEN": {
         "Aaron Gordon": {
-          "MIN": 2,
+          "MIN": 3,
           "PTS": "0",
           "REB": "1",
           "AST": "0",
@@ -12672,7 +12678,7 @@
           "is_on_court": true
         },
         "Cameron Johnson": {
-          "MIN": 2,
+          "MIN": 3,
           "PTS": "0",
           "REB": "1",
           "AST": "0",
@@ -12687,37 +12693,37 @@
           "is_on_court": true
         },
         "Nikola Jokic": {
-          "MIN": 2,
+          "MIN": 3,
           "PTS": "0",
           "REB": "0",
-          "AST": "0",
+          "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "1",
           "FG": "0-0",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": -1.0,
-          "dk_pts": -0.5,
+          "fd_pts": 0.5,
+          "dk_pts": 1.0,
           "is_on_court": true
         },
         "Jamal Murray": {
-          "MIN": 2,
-          "PTS": "4",
-          "REB": "0",
+          "MIN": 3,
+          "PTS": "6",
+          "REB": "1",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "1-1",
+          "FG": "2-2",
           "3PT": "0-0",
           "FT": "2-2",
-          "fd_pts": 4.0,
-          "dk_pts": 4.0,
+          "fd_pts": 7.2,
+          "dk_pts": 7.25,
           "is_on_court": true
         },
         "Christian Braun": {
-          "MIN": 2,
+          "MIN": 3,
           "PTS": "0",
           "REB": "0",
           "AST": "0",
@@ -12734,22 +12740,22 @@
       },
       "UTA": {
         "Kyle Filipowski": {
-          "MIN": 2,
+          "MIN": 3,
           "PTS": "4",
           "REB": "2",
           "AST": "2",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "2-2",
-          "3PT": "0-0",
+          "FG": "2-3",
+          "3PT": "0-1",
           "FT": "0-0",
           "fd_pts": 9.4,
           "dk_pts": 9.5,
           "is_on_court": true
         },
         "Cody Williams": {
-          "MIN": 2,
+          "MIN": 3,
           "PTS": "2",
           "REB": "0",
           "AST": "0",
@@ -12764,7 +12770,7 @@
           "is_on_court": true
         },
         "Brice Sensabaugh": {
-          "MIN": 2,
+          "MIN": 3,
           "PTS": "0",
           "REB": "0",
           "AST": "1",
@@ -12779,7 +12785,7 @@
           "is_on_court": true
         },
         "Elijah Harkless": {
-          "MIN": 2,
+          "MIN": 3,
           "PTS": "0",
           "REB": "1",
           "AST": "0",
@@ -12794,7 +12800,7 @@
           "is_on_court": true
         },
         "Ace Bailey": {
-          "MIN": 2,
+          "MIN": 3,
           "PTS": "2",
           "REB": "0",
           "AST": "1",
@@ -12812,6 +12818,30 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 38.0,
+          "period": 1,
+          "time": "Q1 9:29",
+          "text": "Jamal Murray makes layup (Nikola Jokic assists)"
+        },
+        {
+          "seq": 36.0,
+          "period": 1,
+          "time": "Q1 9:46",
+          "text": "Jamal Murray defensive rebound"
+        },
+        {
+          "seq": 35.0,
+          "period": 1,
+          "time": "Q1 9:48",
+          "text": "Kyle Filipowski misses 26-foot three point pullup jump shot"
+        },
+        {
+          "seq": 34.0,
+          "period": 1,
+          "time": "Q1 9:59",
+          "text": "Jamal Murray makes 14-foot pullup jump shot"
+        },
         {
           "seq": 33.0,
           "period": 1,
@@ -12933,8 +12963,33 @@
           "text": "Kyle Filipowski vs. Nikola Jokic (Aaron Gordon gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 33.0
+      "new_plays": [
+        {
+          "seq": 38.0,
+          "period": 1,
+          "time": "Q1 9:29",
+          "text": "Jamal Murray makes layup (Nikola Jokic assists)"
+        },
+        {
+          "seq": 36.0,
+          "period": 1,
+          "time": "Q1 9:46",
+          "text": "Jamal Murray defensive rebound"
+        },
+        {
+          "seq": 35.0,
+          "period": 1,
+          "time": "Q1 9:48",
+          "text": "Kyle Filipowski misses 26-foot three point pullup jump shot"
+        },
+        {
+          "seq": 34.0,
+          "period": 1,
+          "time": "Q1 9:59",
+          "text": "Jamal Murray makes 14-foot pullup jump shot"
+        }
+      ],
+      "last_seq": 38.0
     }
   }
 }
