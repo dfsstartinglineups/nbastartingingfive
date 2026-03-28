@@ -1886,7 +1886,7 @@
         "PF": "5",
         "LL": "16",
         "LC": "1",
-        "LPCT": "92"
+        "LPCT": "93"
       },
       "BOS": {
         "fieldGoalsMade-fieldGoalsAttempted": "13-28",
@@ -2082,7 +2082,7 @@
           "FT": "2-2",
           "fd_pts": 13.7,
           "dk_pts": 15.25,
-          "is_on_court": false
+          "is_on_court": true
         },
         "CJ McCollum": {
           "MIN": 9,
@@ -2157,7 +2157,7 @@
           "FT": "2-2",
           "fd_pts": 5.9,
           "dk_pts": 6.0,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Mouhamed Gueye": {
           "MIN": 7,
@@ -2209,6 +2209,18 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 206.0,
+          "period": 2,
+          "time": "Q2 9:08",
+          "text": "enters the game for Mouhamed Gueye"
+        },
+        {
+          "seq": 205.0,
+          "period": 2,
+          "time": "Q2 9:08",
+          "text": "Jalen Johnson enters the game for Jonathan Kuminga"
+        },
+        {
           "seq": 204.0,
           "period": 2,
           "time": "Q2 9:08",
@@ -2242,7 +2254,7 @@
           "seq": 197.0,
           "period": 2,
           "time": "Q2 9:24",
-          "text": "Jordan Walsh blocks CJ McCollum 's 3-foot pullup jump shot"
+          "text": "Jordan Walsh blocks CJ McCollum 's 3-foot driving layup"
         },
         {
           "seq": 196.0,
@@ -2260,7 +2272,7 @@
           "seq": 193.0,
           "period": 2,
           "time": "Q2 9:49",
-          "text": "Jonathan Kuminga misses driving layup"
+          "text": "Jonathan Kuminga misses 3-foot two point shot"
         },
         {
           "seq": 192.0,
@@ -3067,29 +3079,42 @@
           "text": "Onyeka Okongwu vs. Neemias Queta (Baylor Scheierman gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 204.0
+      "new_plays": [
+        {
+          "seq": 206.0,
+          "period": 2,
+          "time": "Q2 9:08",
+          "text": "enters the game for Mouhamed Gueye"
+        },
+        {
+          "seq": 205.0,
+          "period": 2,
+          "time": "Q2 9:08",
+          "text": "Jalen Johnson enters the game for Jonathan Kuminga"
+        }
+      ],
+      "last_seq": 206.0
     }
   },
   "MIA-CLE-2026-03-27": {
     "status": "in",
-    "clock": "6:57 - 2nd",
+    "clock": "6:10 - 2nd",
     "away_score": "36",
     "home_score": "55",
     "team_stats": {
       "MIA": {
-        "fieldGoalsMade-fieldGoalsAttempted": "15-33",
-        "FG%": "45",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "4-12",
-        "3P%": "33",
+        "fieldGoalsMade-fieldGoalsAttempted": "15-35",
+        "FG%": "43",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "4-14",
+        "3P%": "29",
         "freeThrowsMade-freeThrowsAttempted": "2-2",
         "FT%": "100",
-        "REB": "15",
+        "REB": "17",
         "OR": "4",
-        "DR": "11",
+        "DR": "13",
         "AST": "10",
         "STL": "1",
-        "BLK": "2",
+        "BLK": "3",
         "TO": "7",
         "TTO": "0",
         "ToTO": "7",
@@ -3098,21 +3123,21 @@
         "Points Conceded Off Turnovers": "13",
         "FBPs": "6",
         "PIP": "20",
-        "PF": "6",
+        "PF": "7",
         "LL": "0",
         "LC": "0",
         "LPCT": "0"
       },
       "CLE": {
-        "fieldGoalsMade-fieldGoalsAttempted": "20-37",
-        "FG%": "54",
+        "fieldGoalsMade-fieldGoalsAttempted": "20-40",
+        "FG%": "50",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "9-19",
         "3P%": "47",
         "freeThrowsMade-freeThrowsAttempted": "6-7",
         "FT%": "86",
-        "REB": "17",
+        "REB": "19",
         "OR": "4",
-        "DR": "13",
+        "DR": "15",
         "AST": "16",
         "STL": "5",
         "BLK": "0",
@@ -3148,29 +3173,29 @@
           "is_on_court": false
         },
         "Evan Mobley": {
-          "MIN": 13,
+          "MIN": 14,
           "PTS": "7",
-          "REB": "6",
+          "REB": "7",
           "AST": "2",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "3-6",
+          "FG": "3-7",
           "3PT": "1-2",
           "FT": "0-0",
-          "fd_pts": 17.2,
-          "dk_pts": 18.0,
+          "fd_pts": 18.4,
+          "dk_pts": 19.25,
           "is_on_court": true
         },
         "James Harden": {
-          "MIN": 10,
+          "MIN": 11,
           "PTS": "8",
           "REB": "0",
           "AST": "5",
           "STL": "1",
           "BLK": "0",
           "TO": "0",
-          "FG": "2-3",
+          "FG": "2-5",
           "3PT": "1-2",
           "FT": "3-3",
           "fd_pts": 18.5,
@@ -3238,9 +3263,9 @@
           "is_on_court": false
         },
         "Max Strus": {
-          "MIN": 6,
+          "MIN": 7,
           "PTS": "12",
-          "REB": "1",
+          "REB": "2",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
@@ -3248,8 +3273,8 @@
           "FG": "4-5",
           "3PT": "4-5",
           "FT": "0-0",
-          "fd_pts": 12.2,
-          "dk_pts": 14.75,
+          "fd_pts": 13.4,
+          "dk_pts": 16.0,
           "is_on_court": true
         },
         "Keon Ellis": {
@@ -3285,33 +3310,33 @@
           "is_on_court": true
         },
         "Bam Adebayo": {
-          "MIN": 11,
+          "MIN": 13,
           "PTS": "4",
-          "REB": "6",
+          "REB": "7",
           "AST": "0",
           "STL": "0",
-          "BLK": "0",
+          "BLK": "1",
           "TO": "2",
           "FG": "2-7",
           "3PT": "0-3",
           "FT": "0-0",
-          "fd_pts": 9.2,
-          "dk_pts": 10.5,
+          "fd_pts": 13.4,
+          "dk_pts": 13.75,
           "is_on_court": true
         },
         "Norman Powell": {
-          "MIN": 8,
+          "MIN": 9,
           "PTS": "5",
-          "REB": "0",
+          "REB": "1",
           "AST": "0",
           "STL": "0",
           "BLK": "1",
           "TO": "0",
-          "FG": "2-4",
-          "3PT": "1-2",
+          "FG": "2-5",
+          "3PT": "1-3",
           "FT": "0-0",
-          "fd_pts": 8.0,
-          "dk_pts": 7.5,
+          "fd_pts": 9.2,
+          "dk_pts": 8.75,
           "is_on_court": true
         },
         "Davion Mitchell": {
@@ -3345,15 +3370,15 @@
           "is_on_court": false
         },
         "Simone Fontecchio": {
-          "MIN": 1,
+          "MIN": 2,
           "PTS": "0",
           "REB": "0",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "0-0",
-          "3PT": "0-0",
+          "FG": "0-1",
+          "3PT": "0-1",
           "FT": "0-0",
           "fd_pts": 0.0,
           "dk_pts": 0.0,
@@ -3423,6 +3448,66 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 260.0,
+          "period": 2,
+          "time": "Q2 6:10",
+          "text": "Bam Adebayo blocks Evan Mobley 's 8-foot shot"
+        },
+        {
+          "seq": 259.0,
+          "period": 2,
+          "time": "Q2 6:19",
+          "text": "Evan Mobley defensive rebound"
+        },
+        {
+          "seq": 258.0,
+          "period": 2,
+          "time": "Q2 6:23",
+          "text": "Norman Powell misses 27-foot three point jumper"
+        },
+        {
+          "seq": 257.0,
+          "period": 2,
+          "time": "Q2 6:29",
+          "text": "Bam Adebayo defensive rebound"
+        },
+        {
+          "seq": 256.0,
+          "period": 2,
+          "time": "Q2 6:31",
+          "text": "James Harden misses two point shot"
+        },
+        {
+          "seq": 255.0,
+          "period": 2,
+          "time": "Q2 6:47",
+          "text": "Max Strus defensive rebound"
+        },
+        {
+          "seq": 254.0,
+          "period": 2,
+          "time": "Q2 6:50",
+          "text": "Simone Fontecchio misses 24-foot running jump shot"
+        },
+        {
+          "seq": 253.0,
+          "period": 2,
+          "time": "Q2 6:54",
+          "text": "Norman Powell defensive rebound"
+        },
+        {
+          "seq": 252.0,
+          "period": 2,
+          "time": "Q2 6:55",
+          "text": "James Harden misses driving layup"
+        },
+        {
+          "seq": 250.0,
+          "period": 2,
+          "time": "Q2 7:11",
+          "text": "Norman Powell personal foul"
+        },
         {
           "seq": 249.0,
           "period": 2,
@@ -4398,37 +4483,67 @@
       ],
       "new_plays": [
         {
-          "seq": 249.0,
+          "seq": 260.0,
           "period": 2,
-          "time": "Q2 7:13",
+          "time": "Q2 6:10",
+          "text": "Bam Adebayo blocks Evan Mobley 's 8-foot shot"
+        },
+        {
+          "seq": 259.0,
+          "period": 2,
+          "time": "Q2 6:19",
           "text": "Evan Mobley defensive rebound"
         },
         {
-          "seq": 248.0,
+          "seq": 258.0,
           "period": 2,
-          "time": "Q2 7:16",
-          "text": "Andrew Wiggins misses driving layup"
+          "time": "Q2 6:23",
+          "text": "Norman Powell misses 27-foot three point jumper"
         },
         {
-          "seq": 244.0,
+          "seq": 257.0,
           "period": 2,
-          "time": "Q2 7:30",
-          "text": "Norman Powell enters the game for Tyler Herro"
+          "time": "Q2 6:29",
+          "text": "Bam Adebayo defensive rebound"
         },
         {
-          "seq": 243.0,
+          "seq": 256.0,
           "period": 2,
-          "time": "Q2 7:30",
-          "text": "Davion Mitchell enters the game for Pelle Larsson"
+          "time": "Q2 6:31",
+          "text": "James Harden misses two point shot"
         },
         {
-          "seq": 242.0,
+          "seq": 255.0,
           "period": 2,
-          "time": "Q2 7:30",
-          "text": "Keon Ellis enters the game for Donovan Mitchell"
+          "time": "Q2 6:47",
+          "text": "Max Strus defensive rebound"
+        },
+        {
+          "seq": 254.0,
+          "period": 2,
+          "time": "Q2 6:50",
+          "text": "Simone Fontecchio misses 24-foot running jump shot"
+        },
+        {
+          "seq": 253.0,
+          "period": 2,
+          "time": "Q2 6:54",
+          "text": "Norman Powell defensive rebound"
+        },
+        {
+          "seq": 252.0,
+          "period": 2,
+          "time": "Q2 6:55",
+          "text": "James Harden misses driving layup"
+        },
+        {
+          "seq": 250.0,
+          "period": 2,
+          "time": "Q2 7:11",
+          "text": "Norman Powell personal foul"
         }
       ],
-      "last_seq": 249.0
+      "last_seq": 260.0
     }
   },
   "HOU-MEM-2026-03-27": {
@@ -5027,20 +5142,7 @@
           "text": "Alperen Sengun vs. Taylor Hendricks (Javon Small gains possession)"
         }
       ],
-      "new_plays": [
-        {
-          "seq": 76.0,
-          "period": 1,
-          "time": "Q1 6:06",
-          "text": "Grizzlies Full timeout"
-        },
-        {
-          "seq": 75.0,
-          "period": 1,
-          "time": "Q1 6:06",
-          "text": "Reed Sheppard out of bounds bad pass turnover"
-        }
-      ],
+      "new_plays": [],
       "last_seq": 76.0
     }
   },
@@ -5086,7 +5188,7 @@
         "REB": "5",
         "OR": "2",
         "DR": "3",
-        "AST": "4",
+        "AST": "3",
         "STL": "2",
         "BLK": "1",
         "TO": "0",
@@ -5169,15 +5271,15 @@
           "MIN": 5,
           "PTS": "5",
           "REB": "1",
-          "AST": "2",
+          "AST": "1",
           "STL": "2",
           "BLK": "0",
           "TO": "0",
           "FG": "2-3",
           "3PT": "1-2",
           "FT": "0-0",
-          "fd_pts": 15.2,
-          "dk_pts": 13.75,
+          "fd_pts": 13.7,
+          "dk_pts": 12.25,
           "is_on_court": true
         }
       },
@@ -5240,7 +5342,7 @@
           "FT": "0-0",
           "fd_pts": 7.7,
           "dk_pts": 8.75,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Josh Giddey": {
           "MIN": 5,
@@ -5256,11 +5358,53 @@
           "fd_pts": 1.7,
           "dk_pts": 2.25,
           "is_on_court": true
+        },
+        "Leonard Miller": {
+          "MIN": 0,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
+          "is_on_court": true
+        },
+        "Collin Sexton": {
+          "MIN": 0,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
+          "is_on_court": false
         }
       }
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 61.0,
+          "period": 1,
+          "time": "Q1 7:00",
+          "text": "enters the game for Guerschon Yabusele"
+        },
+        {
+          "seq": 60.0,
+          "period": 1,
+          "time": "Q1 7:00",
+          "text": "Leonard Miller enters the game for Tre Jones"
+        },
         {
           "seq": 59.0,
           "period": 1,
@@ -5313,7 +5457,7 @@
           "seq": 47.0,
           "period": 1,
           "time": "Q1 7:56",
-          "text": "Tre Jones makes 24-foot running jump shot (Guerschon Yabusele assists)"
+          "text": "Tre Jones makes 24-foot running pullup jump shot (Guerschon Yabusele assists)"
         },
         {
           "seq": 46.0,
@@ -5385,7 +5529,7 @@
           "seq": 32.0,
           "period": 1,
           "time": "Q1 9:38",
-          "text": "Shai Gilgeous-Alexander makes 15-foot running pullup jump shot (Cason Wallace assists)"
+          "text": "Shai Gilgeous-Alexander makes 15-foot running pullup jump shot"
         },
         {
           "seq": 30.0,
@@ -5496,8 +5640,21 @@
           "text": "Matas Buzelis vs. Isaiah Hartenstein (Tre Jones gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 59.0
+      "new_plays": [
+        {
+          "seq": 61.0,
+          "period": 1,
+          "time": "Q1 7:00",
+          "text": "enters the game for Guerschon Yabusele"
+        },
+        {
+          "seq": 60.0,
+          "period": 1,
+          "time": "Q1 7:00",
+          "text": "Leonard Miller enters the game for Tre Jones"
+        }
+      ],
+      "last_seq": 61.0
     }
   }
 }
