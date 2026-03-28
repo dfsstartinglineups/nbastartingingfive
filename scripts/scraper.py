@@ -306,7 +306,11 @@ def scrape_dff_projections(target_date_str):
                 except:
                     sal, proj, val = 0, 0, 0
                     
-                pos = row.get('data-pos', 'Flex')
+                # --- NEW: COMBINE PRIMARY AND ALT POSITIONS ---
+                pos = row.get('data-pos', 'Flex').strip()
+                pos_alt = row.get('data-pos_alt', '').strip()
+                combined_pos = f"{pos}/{pos_alt}" if pos_alt else pos
+                
                 injury = row.get('data-inj', '')
                 
                 p_key = f"{team}_{clean_name}"
@@ -315,11 +319,13 @@ def scrape_dff_projections(target_date_str):
                     dff_data[p_key] = {
                         "name": raw_name, "injury": injury, "pos": "Flex", "salary": 0, "proj": 0.0, "value": 0.0,
                         "dk_pos": "Flex", "dk_salary": 0, "dk_proj": 0.0, "dk_value": 0.0,
-                        "fd_slates": {}, "dk_slates": {}
+                        "fd_slates": {}, "dk_slates": {},
+                        "fd_positions": "", "dk_positions": "" 
                     }
                 
                 if plt == 'fanduel' and sal > 0:
-                    dff_data[p_key]["pos"] = pos
+                    dff_data[p_key]["pos"] = combined_pos # Save full string to backwards compatible field
+                    dff_data[p_key]["fd_positions"] = combined_pos # Save to new explicit field
                     if injury: dff_data[p_key]["injury"] = injury
                     if sid:
                         dff_data[p_key]["fd_slates"][sid] = {
@@ -327,7 +333,8 @@ def scrape_dff_projections(target_date_str):
                         }
                         
                 elif plt == 'draftkings' and sal > 0:
-                    dff_data[p_key]["dk_pos"] = pos
+                    dff_data[p_key]["dk_pos"] = combined_pos # Save full string to backwards compatible field
+                    dff_data[p_key]["dk_positions"] = combined_pos # Save to new explicit field
                     if injury: dff_data[p_key]["injury"] = injury
                     if sid:
                         dff_data[p_key]["dk_slates"][sid] = {
@@ -452,9 +459,9 @@ def build_json():
                 dff_projections[player_key]['dk_slates'].update(stats['dk_slates'])
                 
                 if dff_projections[player_key]['salary'] == 0 and stats['salary'] > 0:
-                    dff_projections[player_key].update({k: v for k, v in stats.items() if k in ['salary', 'proj', 'value', 'pos', 'injury'] and v})
+                    dff_projections[player_key].update({k: v for k, v in stats.items() if k in ['salary', 'proj', 'value', 'pos', 'fd_positions', 'injury'] and v})
                 if dff_projections[player_key]['dk_salary'] == 0 and stats['dk_salary'] > 0:
-                    dff_projections[player_key].update({k: v for k, v in stats.items() if k in ['dk_salary', 'dk_proj', 'dk_value', 'dk_pos', 'injury'] and v})
+                    dff_projections[player_key].update({k: v for k, v in stats.items() if k in ['dk_salary', 'dk_proj', 'dk_value', 'dk_pos', 'dk_positions', 'injury'] and v})
 
     teams_list = list(scraped_rosters.keys())
     new_games_dict = {}
@@ -543,6 +550,7 @@ def build_json():
                     "salary": 0, "proj": 0, "value": 0,
                     "dk_pos": "Flex", "dk_salary": 0, "dk_proj": 0, "dk_value": 0,
                     "fd_slates": [], "dk_slates": [],
+                    "fd_positions": "", "dk_positions": "",
                     "injury": "", "verified": is_verified 
                 }
                 
@@ -556,6 +564,7 @@ def build_json():
                         "dk_pos": dff_p.get('dk_pos', 'Flex'),
                         "dk_salary": dff_p.get('dk_salary', 0), "dk_proj": dff_p.get('dk_proj', 0), "dk_value": dff_p.get('dk_value', 0),
                         "fd_slates": dff_p.get('fd_slates', []), "dk_slates": dff_p.get('dk_slates', []),
+                        "fd_positions": dff_p.get('fd_positions', ''), "dk_positions": dff_p.get('dk_positions', ''),
                         "injury": dff_p.get('injury', '')
                     })
                 else:
@@ -572,6 +581,7 @@ def build_json():
                                     "dk_pos": d_val.get('dk_pos', 'Flex'),
                                     "dk_salary": d_val.get('dk_salary', 0), "dk_proj": d_val.get('dk_proj', 0), "dk_value": d_val.get('dk_value', 0),
                                     "fd_slates": d_val.get('fd_slates', []), "dk_slates": d_val.get('dk_slates', []),
+                                    "fd_positions": d_val.get('fd_positions', ''), "dk_positions": d_val.get('dk_positions', ''),
                                     "injury": d_val.get('injury', '')
                                 })
                                 break
@@ -585,14 +595,15 @@ def build_json():
                                     "salary": old_p.get("salary", 0), "proj": old_p.get("proj", 0), "value": old_p.get("value", 0),
                                     "dk_pos": old_p.get("dk_pos", "Flex"),
                                     "dk_salary": old_p.get("dk_salary", 0), "dk_proj": old_p.get("dk_proj", 0), "dk_value": old_p.get("dk_value", 0),
-                                    "fd_slates": old_p.get("fd_slates", []), "dk_slates": old_p.get("dk_slates", [])
+                                    "fd_slates": old_p.get("fd_slates", []), "dk_slates": old_p.get("dk_slates", []),
+                                    "fd_positions": old_p.get("fd_positions", ""), "dk_positions": old_p.get("dk_positions", "")
                                 })
                                 break
                 
                 player_list.append(p_data)
             
             if not player_list:
-                 player_list.append({"pos": "-", "name": "Waiting for Lineup", "salary": 0, "proj": 0, "value": 0, "dk_pos": "-", "dk_salary": 0, "dk_proj": 0, "dk_value": 0, "fd_slates": [], "dk_slates": [], "injury": "", "verified": False})
+                 player_list.append({"pos": "-", "name": "Waiting for Lineup", "salary": 0, "proj": 0, "value": 0, "dk_pos": "-", "dk_salary": 0, "dk_proj": 0, "dk_value": 0, "fd_slates": [], "dk_slates": [], "fd_positions": "", "dk_positions": "", "injury": "", "verified": False})
 
             bench_list = []
             for d_key, d_val in dff_projections.items():
@@ -605,6 +616,7 @@ def build_json():
                             "dk_pos": d_val.get('dk_pos', 'Flex'),
                             "dk_salary": d_val.get('dk_salary', 0), "dk_proj": d_val.get('dk_proj', 0), "dk_value": d_val.get('dk_value', 0),
                             "fd_slates": d_val.get('fd_slates', []), "dk_slates": d_val.get('dk_slates', []),
+                            "fd_positions": d_val.get('fd_positions', ''), "dk_positions": d_val.get('dk_positions', ''),
                             "injury": d_val.get('injury', ''), "verified": False
                         })
             
