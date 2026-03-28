@@ -2993,8 +2993,8 @@
   },
   "DET-MIN-2026-03-28": {
     "status": "in",
-    "clock": "6:35 - 2nd",
-    "away_score": "41",
+    "clock": "6:22 - 2nd",
+    "away_score": "42",
     "home_score": "34",
     "team_stats": {
       "DET": {
@@ -3002,8 +3002,8 @@
         "FG%": "53",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "4-11",
         "3P%": "36",
-        "freeThrowsMade-freeThrowsAttempted": "5-6",
-        "FT%": "83",
+        "freeThrowsMade-freeThrowsAttempted": "6-8",
+        "FT%": "75",
         "REB": "19",
         "OR": "5",
         "DR": "14",
@@ -3044,7 +3044,7 @@
         "Points Conceded Off Turnovers": "4",
         "FBPs": "3",
         "PIP": "14",
-        "PF": "5",
+        "PF": "6",
         "LL": "4",
         "LC": "3",
         "LPCT": "17"
@@ -3206,7 +3206,7 @@
         },
         "Duncan Robinson": {
           "MIN": 7,
-          "PTS": "3",
+          "PTS": "4",
           "REB": "1",
           "AST": "2",
           "STL": "0",
@@ -3214,10 +3214,10 @@
           "TO": "0",
           "FG": "1-1",
           "3PT": "1-1",
-          "FT": "0-0",
-          "fd_pts": 7.2,
-          "dk_pts": 7.75,
-          "is_on_court": false
+          "FT": "1-2",
+          "fd_pts": 8.2,
+          "dk_pts": 8.75,
+          "is_on_court": true
         },
         "Jalen Duren": {
           "MIN": 9,
@@ -3337,7 +3337,7 @@
           "FT": "0-0",
           "fd_pts": 7.4,
           "dk_pts": 9.0,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Marcus Sasser": {
           "MIN": 5,
@@ -3359,10 +3359,16 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 231.0,
+          "period": 2,
+          "time": "Q2 6:22",
+          "text": "Mike Conley shooting foul"
+        },
+        {
           "seq": 228.0,
           "period": 2,
           "time": "Q2 6:35",
-          "text": "enters the game for Kevin Huerter"
+          "text": "Duncan Robinson enters the game for Kevin Huerter"
         },
         {
           "seq": 227.0,
@@ -4285,38 +4291,32 @@
       ],
       "new_plays": [
         {
-          "seq": 228.0,
+          "seq": 231.0,
           "period": 2,
-          "time": "Q2 6:35",
-          "text": "enters the game for Kevin Huerter"
-        },
-        {
-          "seq": 227.0,
-          "period": 2,
-          "time": "Q2 6:35",
-          "text": "Tobias Harris enters the game for Ronald Holland II"
+          "time": "Q2 6:22",
+          "text": "Mike Conley shooting foul"
         }
       ],
-      "last_seq": 228.0
+      "last_seq": 231.0
     }
   },
   "PHI-CHA-2026-03-28": {
     "status": "in",
-    "clock": "6:09 - 1st",
-    "away_score": "11",
-    "home_score": "13",
+    "clock": "5:10 - 1st",
+    "away_score": "13",
+    "home_score": "15",
     "team_stats": {
       "PHI": {
-        "fieldGoalsMade-fieldGoalsAttempted": "2-8",
-        "FG%": "25",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "1-1",
-        "3P%": "100",
+        "fieldGoalsMade-fieldGoalsAttempted": "4-11",
+        "FG%": "36",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "2-3",
+        "3P%": "67",
         "freeThrowsMade-freeThrowsAttempted": "3-4",
         "FT%": "75",
-        "REB": "3",
+        "REB": "4",
         "OR": "1",
-        "DR": "2",
-        "AST": "1",
+        "DR": "3",
+        "AST": "2",
         "STL": "1",
         "BLK": "1",
         "TO": "0",
@@ -4325,24 +4325,24 @@
         "TECH": "1",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "0",
-        "FBPs": "1",
-        "PIP": "2",
+        "FBPs": "3",
+        "PIP": "4",
         "PF": "2",
         "LL": "0",
         "LC": "0",
         "LPCT": "0"
       },
       "CHA": {
-        "fieldGoalsMade-fieldGoalsAttempted": "5-12",
-        "FG%": "42",
+        "fieldGoalsMade-fieldGoalsAttempted": "6-14",
+        "FG%": "43",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "2-4",
         "3P%": "50",
         "freeThrowsMade-freeThrowsAttempted": "1-1",
         "FT%": "100",
-        "REB": "6",
+        "REB": "7",
         "OR": "3",
-        "DR": "3",
-        "AST": "3",
+        "DR": "4",
+        "AST": "4",
         "STL": "0",
         "BLK": "1",
         "TO": "1",
@@ -4352,7 +4352,7 @@
         "FLAG": "0",
         "Points Conceded Off Turnovers": "1",
         "FBPs": "0",
-        "PIP": "6",
+        "PIP": "8",
         "PF": "4",
         "LL": "5",
         "LC": "0",
@@ -4362,18 +4362,18 @@
     "players": {
       "CHA": {
         "Miles Bridges": {
-          "MIN": 4,
-          "PTS": "0",
+          "MIN": 7,
+          "PTS": "2",
           "REB": "1",
           "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "0-0",
+          "FG": "1-1",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 2.7,
-          "dk_pts": 2.75,
+          "fd_pts": 4.7,
+          "dk_pts": 4.75,
           "is_on_court": true
         },
         "Moussa Diabate": {
@@ -4392,7 +4392,7 @@
           "is_on_court": false
         },
         "Brandon Miller": {
-          "MIN": 4,
+          "MIN": 7,
           "PTS": "2",
           "REB": "2",
           "AST": "0",
@@ -4407,24 +4407,24 @@
           "is_on_court": true
         },
         "LaMelo Ball": {
-          "MIN": 5,
+          "MIN": 7,
           "PTS": "4",
           "REB": "1",
-          "AST": "1",
+          "AST": "2",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "1-6",
+          "FG": "1-7",
           "3PT": "1-2",
           "FT": "1-1",
-          "fd_pts": 6.7,
-          "dk_pts": 7.25,
+          "fd_pts": 8.2,
+          "dk_pts": 8.75,
           "is_on_court": true
         },
         "Kon Knueppel": {
-          "MIN": 4,
+          "MIN": 7,
           "PTS": "3",
-          "REB": "1",
+          "REB": "2",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
@@ -4432,12 +4432,12 @@
           "FG": "1-1",
           "3PT": "1-1",
           "FT": "0-0",
-          "fd_pts": 3.2,
-          "dk_pts": 4.25,
+          "fd_pts": 4.4,
+          "dk_pts": 5.5,
           "is_on_court": true
         },
         "Ryan Kalkbrenner": {
-          "MIN": 2,
+          "MIN": 4,
           "PTS": "2",
           "REB": "0",
           "AST": "0",
@@ -4454,7 +4454,7 @@
       },
       "PHI": {
         "Paul George": {
-          "MIN": 4,
+          "MIN": 7,
           "PTS": "3",
           "REB": "1",
           "AST": "0",
@@ -4469,7 +4469,7 @@
           "is_on_court": true
         },
         "Dominick Barlow": {
-          "MIN": 4,
+          "MIN": 7,
           "PTS": "1",
           "REB": "0",
           "AST": "0",
@@ -4484,54 +4484,96 @@
           "is_on_court": true
         },
         "Joel Embiid": {
-          "MIN": 5,
-          "PTS": "4",
+          "MIN": 7,
+          "PTS": "7",
           "REB": "1",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "1-4",
-          "3PT": "0-0",
+          "FG": "2-5",
+          "3PT": "1-1",
           "FT": "2-2",
-          "fd_pts": 5.2,
-          "dk_pts": 5.25,
+          "fd_pts": 8.2,
+          "dk_pts": 8.75,
           "is_on_court": true
         },
         "Tyrese Maxey": {
-          "MIN": 5,
-          "PTS": "0",
-          "REB": "0",
+          "MIN": 7,
+          "PTS": "2",
+          "REB": "1",
           "AST": "1",
           "STL": "0",
           "BLK": "1",
           "TO": "0",
-          "FG": "0-0",
+          "FG": "1-1",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 4.5,
-          "dk_pts": 3.5,
+          "fd_pts": 7.7,
+          "dk_pts": 6.75,
           "is_on_court": true
         },
         "VJ Edgecombe": {
-          "MIN": 5,
+          "MIN": 7,
           "PTS": "0",
           "REB": "1",
-          "AST": "0",
+          "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "0-2",
-          "3PT": "0-0",
+          "FG": "0-3",
+          "3PT": "0-1",
           "FT": "0-0",
-          "fd_pts": 1.2,
-          "dk_pts": 1.25,
+          "fd_pts": 2.7,
+          "dk_pts": 2.75,
           "is_on_court": true
         }
       }
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 83.0,
+          "period": 1,
+          "time": "Q1 5:30",
+          "text": "Tyrese Maxey makes running layup"
+        },
+        {
+          "seq": 82.0,
+          "period": 1,
+          "time": "Q1 5:31",
+          "text": "Tyrese Maxey defensive rebound"
+        },
+        {
+          "seq": 81.0,
+          "period": 1,
+          "time": "Q1 5:37",
+          "text": "LaMelo Ball misses 7-foot floating jump shot"
+        },
+        {
+          "seq": 80.0,
+          "period": 1,
+          "time": "Q1 5:44",
+          "text": "Kon Knueppel defensive rebound"
+        },
+        {
+          "seq": 79.0,
+          "period": 1,
+          "time": "Q1 5:48",
+          "text": "VJ Edgecombe misses 25-foot three point jumper"
+        },
+        {
+          "seq": 77.0,
+          "period": 1,
+          "time": "Q1 6:10",
+          "text": "Miles Bridges makes 7-foot hook shot (LaMelo Ball assists)"
+        },
+        {
+          "seq": 75.0,
+          "period": 1,
+          "time": "Q1 6:29",
+          "text": "Joel Embiid makes 25-foot three point jumper (VJ Edgecombe assists)"
+        },
         {
           "seq": 73.0,
           "period": 1,
@@ -4841,25 +4883,49 @@
       ],
       "new_plays": [
         {
-          "seq": 73.0,
+          "seq": 83.0,
           "period": 1,
-          "time": "Q1 6:38",
-          "text": "76ers defensive team rebound"
+          "time": "Q1 5:30",
+          "text": "Tyrese Maxey makes running layup"
         },
         {
-          "seq": 71.0,
+          "seq": 82.0,
           "period": 1,
-          "time": "Q1 6:38",
-          "text": "Tyrese Maxey blocks LaMelo Ball 's 5-foot jumper"
+          "time": "Q1 5:31",
+          "text": "Tyrese Maxey defensive rebound"
         },
         {
-          "seq": 69.0,
+          "seq": 81.0,
           "period": 1,
-          "time": "Q1 6:47",
-          "text": "Tyrese Maxey personal foul"
+          "time": "Q1 5:37",
+          "text": "LaMelo Ball misses 7-foot floating jump shot"
+        },
+        {
+          "seq": 80.0,
+          "period": 1,
+          "time": "Q1 5:44",
+          "text": "Kon Knueppel defensive rebound"
+        },
+        {
+          "seq": 79.0,
+          "period": 1,
+          "time": "Q1 5:48",
+          "text": "VJ Edgecombe misses 25-foot three point jumper"
+        },
+        {
+          "seq": 77.0,
+          "period": 1,
+          "time": "Q1 6:10",
+          "text": "Miles Bridges makes 7-foot hook shot (LaMelo Ball assists)"
+        },
+        {
+          "seq": 75.0,
+          "period": 1,
+          "time": "Q1 6:29",
+          "text": "Joel Embiid makes 25-foot three point jumper (VJ Edgecombe assists)"
         }
       ],
-      "last_seq": 73.0
+      "last_seq": 83.0
     }
   }
 }
