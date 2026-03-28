@@ -729,7 +729,7 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
                 </div>
             </div>
             <div class="card-body p-0">
-                <div id="view-top-plays-list" class="px-2 list-view" style="max-height: 480px; overflow-y: auto;">
+                <div id="view-top-plays-list" class="px-2 list-view" style="max-height: 240px; overflow-y: auto;">
                     </div>
             </div>
         </div>
