@@ -1,7 +1,7 @@
 {
   "SAS-MIL-2026-03-28": {
     "status": "in",
-    "clock": "End of 1st",
+    "clock": "12:00 - 2nd",
     "away_score": "37",
     "home_score": "24",
     "team_stats": {
@@ -63,7 +63,7 @@
         "Pete Nance": {
           "MIN": 9,
           "PTS": "2",
-          "REB": "1",
+          "REB": "2",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
@@ -71,8 +71,8 @@
           "FG": "1-1",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 3.2,
-          "dk_pts": 3.25,
+          "fd_pts": 4.4,
+          "dk_pts": 4.5,
           "is_on_court": false
         },
         "Ousmane Dieng": {
@@ -153,7 +153,7 @@
         "Jericho Sims": {
           "MIN": 5,
           "PTS": "4",
-          "REB": "3",
+          "REB": "2",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
@@ -161,8 +161,8 @@
           "FG": "2-3",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 6.6,
-          "dk_pts": 7.25,
+          "fd_pts": 5.4,
+          "dk_pts": 6.0,
           "is_on_court": true
         },
         "AJ Green": {
@@ -210,7 +210,7 @@
           "FT": "0-0",
           "fd_pts": 4.2,
           "dk_pts": 4.75,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Victor Wembanyama": {
           "MIN": 7,
@@ -225,7 +225,7 @@
           "FT": "0-0",
           "fd_pts": 7.4,
           "dk_pts": 7.5,
-          "is_on_court": false
+          "is_on_court": true
         },
         "De'Aaron Fox": {
           "MIN": 9,
@@ -315,7 +315,7 @@
           "FT": "0-0",
           "fd_pts": 1.2,
           "dk_pts": 1.25,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Dylan Harper": {
           "MIN": 5,
@@ -330,12 +330,24 @@
           "FT": "0-0",
           "fd_pts": 7.5,
           "dk_pts": 8.0,
-          "is_on_court": true
+          "is_on_court": false
         }
       }
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 160.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Julian Champagnie enters the game for Luke Kornet"
+        },
+        {
+          "seq": 159.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Victor Wembanyama enters the game for Dylan Harper"
+        },
         {
           "seq": 158.0,
           "period": 1,
@@ -345,7 +357,7 @@
         {
           "seq": 157.0,
           "period": 1,
-          "time": "Q1 0.0",
+          "time": "Q1 0.1",
           "text": "Spurs offensive team rebound"
         },
         {
@@ -526,7 +538,7 @@
           "seq": 115.0,
           "period": 1,
           "time": "Q1 3:02",
-          "text": "Jericho Sims offensive rebound"
+          "text": "Pete Nance offensive rebound"
         },
         {
           "seq": 114.0,
@@ -979,8 +991,21 @@
           "text": "Victor Wembanyama vs. Myles Turner (De'Aaron Fox gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 158.0
+      "new_plays": [
+        {
+          "seq": 160.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Julian Champagnie enters the game for Luke Kornet"
+        },
+        {
+          "seq": 159.0,
+          "period": 2,
+          "time": "Q2 12:00",
+          "text": "Victor Wembanyama enters the game for Dylan Harper"
+        }
+      ],
+      "last_seq": 160.0
     }
   }
 }
