@@ -2995,7 +2995,7 @@
     "status": "in",
     "clock": "5:02 - 1st",
     "away_score": "19",
-    "home_score": "15",
+    "home_score": "17",
     "team_stats": {
       "DET": {
         "fieldGoalsMade-fieldGoalsAttempted": "7-13",
@@ -3028,7 +3028,7 @@
         "FG%": "38",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "2-7",
         "3P%": "29",
-        "freeThrowsMade-freeThrowsAttempted": "2-2",
+        "freeThrowsMade-freeThrowsAttempted": "4-4",
         "FT%": "100",
         "REB": "6",
         "OR": "2",
@@ -3054,7 +3054,7 @@
       "MIN": {
         "Julius Randle": {
           "MIN": 7,
-          "PTS": "2",
+          "PTS": "4",
           "REB": "3",
           "AST": "1",
           "STL": "0",
@@ -3062,9 +3062,9 @@
           "TO": "0",
           "FG": "1-3",
           "3PT": "0-1",
-          "FT": "0-0",
-          "fd_pts": 10.1,
-          "dk_pts": 9.25,
+          "FT": "2-2",
+          "fd_pts": 12.1,
+          "dk_pts": 11.25,
           "is_on_court": true
         },
         "Rudy Gobert": {
@@ -3125,6 +3125,21 @@
           "FT": "0-0",
           "fd_pts": 7.2,
           "dk_pts": 7.75,
+          "is_on_court": false
+        },
+        "Kyle Anderson": {
+          "MIN": 0,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
           "is_on_court": true
         },
         "Naz Reid": {
@@ -3232,7 +3247,7 @@
           "FT": "0-0",
           "fd_pts": 9.8,
           "dk_pts": 10.0,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Paul Reed": {
           "MIN": 4,
@@ -3278,11 +3293,50 @@
           "fd_pts": 0.0,
           "dk_pts": 0.0,
           "is_on_court": true
+        },
+        "Marcus Sasser": {
+          "MIN": 0,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
+          "is_on_court": true
         }
       }
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 95.0,
+          "period": 1,
+          "time": "Q1 5:02",
+          "text": "Marcus Sasser enters the game for Daniss Jenkins"
+        },
+        {
+          "seq": 94.0,
+          "period": 1,
+          "time": "Q1 5:02",
+          "text": "Kyle Anderson enters the game for Terrence Shannon Jr."
+        },
+        {
+          "seq": 93.0,
+          "period": 1,
+          "time": "Q1 5:02",
+          "text": "Julius Randle makes free throw 2 of 3"
+        },
+        {
+          "seq": 92.0,
+          "period": 1,
+          "time": "Q1 5:02",
+          "text": "Julius Randle makes free throw 1 of 3"
+        },
         {
           "seq": 90.0,
           "period": 1,
@@ -3652,25 +3706,31 @@
       ],
       "new_plays": [
         {
-          "seq": 90.0,
+          "seq": 95.0,
           "period": 1,
           "time": "Q1 5:02",
-          "text": "Daniss Jenkins shooting foul"
+          "text": "Marcus Sasser enters the game for Daniss Jenkins"
         },
         {
-          "seq": 89.0,
+          "seq": 94.0,
           "period": 1,
-          "time": "Q1 5:05",
-          "text": "Julius Randle offensive rebound"
+          "time": "Q1 5:02",
+          "text": "Kyle Anderson enters the game for Terrence Shannon Jr."
         },
         {
-          "seq": 88.0,
+          "seq": 93.0,
           "period": 1,
-          "time": "Q1 5:08",
-          "text": "Naz Reid misses 22-foot three point jumper"
+          "time": "Q1 5:02",
+          "text": "Julius Randle makes free throw 2 of 3"
+        },
+        {
+          "seq": 92.0,
+          "period": 1,
+          "time": "Q1 5:02",
+          "text": "Julius Randle makes free throw 1 of 3"
         }
       ],
-      "last_seq": 90.0
+      "last_seq": 95.0
     }
   }
 }
