@@ -2993,7 +2993,7 @@
   },
   "DET-MIN-2026-03-28": {
     "status": "in",
-    "clock": "End of 3rd",
+    "clock": "12:00 - 4th",
     "away_score": "74",
     "home_score": "60",
     "team_stats": {
@@ -3065,7 +3065,7 @@
           "FT": "7-7",
           "fd_pts": 25.4,
           "dk_pts": 26.25,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Rudy Gobert": {
           "MIN": 24,
@@ -3080,7 +3080,7 @@
           "FT": "2-4",
           "fd_pts": 18.8,
           "dk_pts": 20.25,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Mike Conley": {
           "MIN": 18,
@@ -3110,7 +3110,7 @@
           "FT": "1-1",
           "fd_pts": 27.4,
           "dk_pts": 28.0,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Terrence Shannon Jr.": {
           "MIN": 21,
@@ -3125,7 +3125,7 @@
           "FT": "2-4",
           "fd_pts": 13.1,
           "dk_pts": 13.75,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Kyle Anderson": {
           "MIN": 16,
@@ -3140,7 +3140,7 @@
           "FT": "0-0",
           "fd_pts": 10.9,
           "dk_pts": 9.5,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Naz Reid": {
           "MIN": 18,
@@ -3170,7 +3170,7 @@
           "FT": "1-2",
           "fd_pts": 6.8,
           "dk_pts": 7.5,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Bones Hyland": {
           "MIN": 18,
@@ -3307,7 +3307,7 @@
           "FT": "0-0",
           "fd_pts": 6.9,
           "dk_pts": 6.0,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Caris LeVert": {
           "MIN": 15,
@@ -3327,7 +3327,7 @@
         "Kevin Huerter": {
           "MIN": 16,
           "PTS": "7",
-          "REB": "3",
+          "REB": "2",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
@@ -3335,12 +3335,12 @@
           "FG": "3-9",
           "3PT": "1-4",
           "FT": "0-0",
-          "fd_pts": 8.6,
-          "dk_pts": 10.25,
+          "fd_pts": 7.4,
+          "dk_pts": 9.0,
           "is_on_court": true
         },
         "Marcus Sasser": {
-          "MIN": 8,
+          "MIN": 9,
           "PTS": "0",
           "REB": "1",
           "AST": "2",
@@ -3352,12 +3352,36 @@
           "FT": "0-0",
           "fd_pts": 3.2,
           "dk_pts": 3.75,
-          "is_on_court": true
+          "is_on_court": false
         }
       }
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 510.0,
+          "period": 4,
+          "time": "Q4 12:00",
+          "text": "Javonte Green enters the game for Marcus Sasser"
+        },
+        {
+          "seq": 509.0,
+          "period": 4,
+          "time": "Q4 12:00",
+          "text": "Rudy Gobert enters the game for Julius Randle"
+        },
+        {
+          "seq": 508.0,
+          "period": 4,
+          "time": "Q4 12:00",
+          "text": "Jaylen Clark enters the game for Kyle Anderson"
+        },
+        {
+          "seq": 507.0,
+          "period": 4,
+          "time": "Q4 12:00",
+          "text": "Donte DiVincenzo enters the game for Terrence Shannon Jr."
+        },
         {
           "seq": 506.0,
           "period": 3,
@@ -3392,7 +3416,7 @@
           "seq": 501.0,
           "period": 3,
           "time": "Q3 34.1",
-          "text": "Bones Hyland misses 25-foot running jump shot"
+          "text": "Bones Hyland misses running pullup jump shot"
         },
         {
           "seq": 499.0,
@@ -5471,19 +5495,44 @@
           "text": "Jalen Duren vs. Rudy Gobert (Daniss Jenkins gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 506.0
+      "new_plays": [
+        {
+          "seq": 510.0,
+          "period": 4,
+          "time": "Q4 12:00",
+          "text": "Javonte Green enters the game for Marcus Sasser"
+        },
+        {
+          "seq": 509.0,
+          "period": 4,
+          "time": "Q4 12:00",
+          "text": "Rudy Gobert enters the game for Julius Randle"
+        },
+        {
+          "seq": 508.0,
+          "period": 4,
+          "time": "Q4 12:00",
+          "text": "Jaylen Clark enters the game for Kyle Anderson"
+        },
+        {
+          "seq": 507.0,
+          "period": 4,
+          "time": "Q4 12:00",
+          "text": "Donte DiVincenzo enters the game for Terrence Shannon Jr."
+        }
+      ],
+      "last_seq": 510.0
     }
   },
   "PHI-CHA-2026-03-28": {
     "status": "in",
-    "clock": "10:21 - 3rd",
+    "clock": "10:10 - 3rd",
     "away_score": "69",
-    "home_score": "73",
+    "home_score": "74",
     "team_stats": {
       "PHI": {
-        "fieldGoalsMade-fieldGoalsAttempted": "23-44",
-        "FG%": "52",
+        "fieldGoalsMade-fieldGoalsAttempted": "23-45",
+        "FG%": "51",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "11-22",
         "3P%": "50",
         "freeThrowsMade-freeThrowsAttempted": "12-14",
@@ -5502,7 +5551,7 @@
         "Points Conceded Off Turnovers": "6",
         "FBPs": "15",
         "PIP": "20",
-        "PF": "13",
+        "PF": "14",
         "LL": "0",
         "LC": "0",
         "LPCT": "0"
@@ -5512,11 +5561,11 @@
         "FG%": "46",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "10-26",
         "3P%": "38",
-        "freeThrowsMade-freeThrowsAttempted": "13-15",
-        "FT%": "87",
-        "REB": "26",
+        "freeThrowsMade-freeThrowsAttempted": "14-17",
+        "FT%": "82",
+        "REB": "27",
         "OR": "12",
-        "DR": "14",
+        "DR": "15",
         "AST": "11",
         "STL": "2",
         "BLK": "1",
@@ -5531,7 +5580,7 @@
         "PF": "10",
         "LL": "13",
         "LC": "0",
-        "LPCT": "97"
+        "LPCT": "96"
       }
     },
     "players": {
@@ -5568,7 +5617,7 @@
         },
         "Brandon Miller": {
           "MIN": 16,
-          "PTS": "18",
+          "PTS": "19",
           "REB": "3",
           "AST": "0",
           "STL": "0",
@@ -5576,9 +5625,9 @@
           "TO": "0",
           "FG": "5-8",
           "3PT": "3-5",
-          "FT": "5-5",
-          "fd_pts": 21.6,
-          "dk_pts": 23.25,
+          "FT": "6-7",
+          "fd_pts": 22.6,
+          "dk_pts": 24.25,
           "is_on_court": true
         },
         "LaMelo Ball": {
@@ -5689,7 +5738,7 @@
       },
       "PHI": {
         "Paul George": {
-          "MIN": 19,
+          "MIN": 20,
           "PTS": "15",
           "REB": "5",
           "AST": "1",
@@ -5842,6 +5891,36 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 371.0,
+          "period": 3,
+          "time": "Q3 10:10",
+          "text": "Brandon Miller misses free throw 2 of 2"
+        },
+        {
+          "seq": 370.0,
+          "period": 3,
+          "time": "Q3 10:10",
+          "text": "Brandon Miller makes free throw 1 of 2"
+        },
+        {
+          "seq": 368.0,
+          "period": 3,
+          "time": "Q3 10:10",
+          "text": "Paul George shooting foul"
+        },
+        {
+          "seq": 367.0,
+          "period": 3,
+          "time": "Q3 10:21",
+          "text": "Moussa Diabate defensive rebound"
+        },
+        {
+          "seq": 366.0,
+          "period": 3,
+          "time": "Q3 10:24",
+          "text": "Joel Embiid misses 16-foot jumper"
+        },
         {
           "seq": 365.0,
           "period": 3,
@@ -7393,61 +7472,37 @@
       ],
       "new_plays": [
         {
-          "seq": 365.0,
+          "seq": 371.0,
           "period": 3,
-          "time": "Q3 10:41",
-          "text": "Paul George defensive rebound"
+          "time": "Q3 10:10",
+          "text": "Brandon Miller misses free throw 2 of 2"
         },
         {
-          "seq": 364.0,
+          "seq": 370.0,
           "period": 3,
-          "time": "Q3 10:43",
-          "text": "Moussa Diabate misses free throw 1 of 1"
+          "time": "Q3 10:10",
+          "text": "Brandon Miller makes free throw 1 of 2"
         },
         {
-          "seq": 362.0,
+          "seq": 368.0,
           "period": 3,
-          "time": "Q3 10:43",
-          "text": "Dominick Barlow shooting foul"
+          "time": "Q3 10:10",
+          "text": "Paul George shooting foul"
         },
         {
-          "seq": 361.0,
+          "seq": 367.0,
           "period": 3,
-          "time": "Q3 10:43",
-          "text": "Moussa Diabate makes layup"
+          "time": "Q3 10:21",
+          "text": "Moussa Diabate defensive rebound"
         },
         {
-          "seq": 360.0,
+          "seq": 366.0,
           "period": 3,
-          "time": "Q3 10:43",
-          "text": "Moussa Diabate offensive rebound"
-        },
-        {
-          "seq": 359.0,
-          "period": 3,
-          "time": "Q3 10:43",
-          "text": "Moussa Diabate misses layup"
-        },
-        {
-          "seq": 358.0,
-          "period": 3,
-          "time": "Q3 10:43",
-          "text": "Moussa Diabate offensive rebound"
-        },
-        {
-          "seq": 357.0,
-          "period": 3,
-          "time": "Q3 10:50",
-          "text": "Kon Knueppel misses 28-foot three point jumper"
-        },
-        {
-          "seq": 356.0,
-          "period": 3,
-          "time": "Q3 10:53",
-          "text": "Brandon Miller defensive rebound"
+          "time": "Q3 10:24",
+          "text": "Joel Embiid misses 16-foot jumper"
         }
       ],
-      "last_seq": 365.0
+      "last_seq": 371.0
     }
   }
 }
