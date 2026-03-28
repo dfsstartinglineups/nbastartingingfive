@@ -11,6 +11,10 @@ window.LEADERBOARD_SEARCH_TEXT = ''; // Holds the live leaderboard search state
 window.HAS_SCROLLED_TO_HASH = false;
 window.ACTIVE_GLOW_ID = null;
 
+// NEW GLOBALS FOR TOP PLAYS
+window.TOP_PLAYS_DATA = null;
+window.CURRENT_TOP_PLAYS_POS = 'ALL';
+
 function getDateFromHash() {
     if (window.location.hash) {
         const match = window.location.hash.match(/(\d{4}-\d{2}-\d{2})/);
@@ -46,6 +50,8 @@ style.innerHTML = `
     }
     .leaderboard-tab.active { color: #20c997; border-bottom: 2px solid #20c997; }
     .leaderboard-tab:hover:not(.active) { color: #495057; }
+    .list-view::-webkit-scrollbar { width: 4px; }
+    .list-view::-webkit-scrollbar-thumb { background-color: #dee2e6; border-radius: 4px; }
     
     /* Search Bar Styling */
     #leaderboard-search::placeholder { color: #868e96; opacity: 1; }
@@ -56,6 +62,13 @@ style.innerHTML = `
         border-color: #dc3545 !important; 
         transition: all 0.4s ease-out !important; 
     }
+
+    /* NEW POSITIONAL BUTTON STYLES */
+    .pos-filter-btn { font-size: 0.65rem; font-weight: 700; padding: 3px 10px; border-radius: 12px; border: 1px solid #dee2e6; color: #6c757d; background: #fff; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .pos-filter-btn:hover { background: #e9ecef; }
+    .pos-filter-btn.active { background: #343a40; color: #fff; border-color: #343a40; }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 `;
 document.head.appendChild(style);
 
@@ -255,7 +268,7 @@ async function pollLiveData(dateToFetch) {
             });
         }
 
-        if (needsGlobalRender) renderGames(); 
+        if (needsGlobalRender) renderGames(true); 
     } catch (e) { 
         console.error("Polling error:", e);
     }
@@ -551,6 +564,95 @@ window.openPlayerModal = function(el) {
     } catch(e) { console.error("Error highlighting game card:", e); }
 };
 
+window.setTopPlaysPos = function(el) {
+    document.querySelectorAll('.pos-filter-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    window.CURRENT_TOP_PLAYS_POS = el.getAttribute('data-pos');
+    window.updateTopPlaysView();
+};
+
+window.setTopPlaysTab = function(el) {
+    document.querySelectorAll('.leaderboard-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    window.updateTopPlaysView();
+};
+
+window.updateTopPlaysView = function() {
+    if (!window.TOP_PLAYS_DATA) return;
+
+    const pos = window.CURRENT_TOP_PLAYS_POS || 'ALL';
+    let tabEl = document.querySelector('.leaderboard-tab.active');
+    let tab = tabEl ? tabEl.getAttribute('data-tab') : 'value';
+
+    const platform = window.TOP_PLAYS_DATA.platform;
+    const posKey = platform === 'dk' ? 'dk_positions' : 'fd_positions';
+
+    let sourceArray = window.TOP_PLAYS_DATA.players;
+    let filtered = sourceArray;
+
+    if (pos !== 'ALL') {
+        const targetPositions = pos.split('/'); 
+        filtered = sourceArray.filter(p => {
+            const pPos = p[posKey] || p.pos || '';
+            if (!pPos) return false;
+            
+            const playerPositions = pPos.split('/'); 
+            return targetPositions.some(targetPos => playerPositions.includes(targetPos));
+        });
+    }
+
+    let sorted = [...filtered];
+    if (tab === 'value') sorted.sort((a, b) => (b.value || 0) - (a.value || 0));
+    else if (tab === 'proj') sorted.sort((a, b) => (b.proj || 0) - (a.proj || 0));
+
+    const top20 = sorted.slice(0, 20);
+    const listContainer = document.getElementById('view-top-plays-list');
+    if (listContainer) listContainer.innerHTML = buildTopPlaysListHtml(top20, tab, platform);
+};
+
+window.buildTopPlaysListHtml = function(players, mode, platform) {
+    if (players.length === 0) return `<div class="p-3 text-center text-muted fw-bold" style="font-size:0.8rem;">No players found for this selection.</div>`;
+    const posKey = platform === 'dk' ? 'dk_positions' : 'fd_positions';
+
+    return players.map((p, index) => {
+        const photoHtml = (p.photo && p.photo.includes("http")) 
+            ? `<img src="${p.photo}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 1px solid #dee2e6; background: #fff;">`
+            : `<div style="width: 48px; height: 48px; border-radius: 50%; background-color: #f8f9fa; color: #495057; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; border: 1px solid #dee2e6;">${p.name.charAt(0)}</div>`;
+        
+        const teamBadge = p.teamLogo ? `<img src="${p.teamLogo}" style="width: 20px; height: 20px; position: absolute; bottom: -2px; right: -4px; border-radius: 50%; background: #fff; border: 1px solid #dee2e6; object-fit: contain; padding: 1px;">` : '';
+        
+        let shortName = shortenPlayerName(p.name);
+        let displayPos = p[posKey] || p.pos || 'Flex';
+        
+        const isValue = mode === 'value';
+        
+        // --- NEW: ALTERNATING METRIC LOGIC ---
+        // Highlight the primary metric on the right, and put the alternate metric in the subtext
+        const highlightMetric = isValue ? `<span class="text-success">${parseFloat(p.value || 0).toFixed(2)}x</span>` : `<span class="text-primary">${parseFloat(p.proj || 0).toFixed(1)}</span> <span class="text-muted" style="font-size:0.6rem;">pts</span>`;
+        const subMetric = isValue ? `${parseFloat(p.proj || 0).toFixed(1)} pts` : `${parseFloat(p.value || 0).toFixed(2)}x`;
+        
+        return `
+        <div class="d-flex align-items-center justify-content-between py-2 border-bottom user-select-none" style="cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='transparent'" onclick="openPlayerModal(this)" data-player="${encodeURIComponent(JSON.stringify(p))}">
+            <div class="d-flex align-items-center overflow-hidden">
+                <div class="fw-bold text-muted me-2 text-end flex-shrink-0" style="font-size: 0.85rem; width: 22px;">${index + 1}.</div>
+                <div class="me-3 position-relative flex-shrink-0">
+                    ${photoHtml}
+                    ${teamBadge}
+                </div>
+                <div class="d-flex flex-column justify-content-center overflow-hidden pe-1">
+                    <span class="fw-bold text-dark text-truncate" style="font-size: 0.95rem; max-width: 220px;" title="${p.name}">${shortName}</span>
+                    <span class="text-muted text-truncate" style="font-size: 0.72rem; max-width: 240px;">
+                        ${displayPos} • ${p.teamAbbrev} • $${p.salary} • ${subMetric}
+                    </span>
+                </div>
+            </div>
+            <div class="text-end ms-1 flex-shrink-0">
+                <div class="fw-bold" style="font-size: 1.2rem;">${highlightMetric}</div>
+            </div>
+        </div>`;
+    }).join('');
+};
+
 function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
     let allPlayers = [];
     filteredGames.forEach(game => {
@@ -575,14 +677,16 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
                 
                 if (sal > 0 || proj > 0) {
                     let name = a.displayName || a.fullName || 'Unknown';
-                    
                     let dbPlayer = getPlayerFromDB(a.id, name);
                     let photo = dbPlayer ? dbPlayer.photo : (a.headshot?.href || a.dfs?.photo || '');
                     
                     let pos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position?.abbreviation || 'Flex');
                     if (platform === 'dk' && a.dfs && a.dfs.dk_pos) pos = a.dfs.dk_pos;
+
+                    let fd_pos = a.dfs.fd_positions || '';
+                    let dk_pos = a.dfs.dk_positions || '';
                     
-                    allPlayers.push({ id: a.id || name, name, pos, teamAbbrev: teamAbbr, teamLogo, photo, salary: sal, proj, value: val });
+                    allPlayers.push({ id: a.id || name, name, pos, fd_positions: fd_pos, dk_positions: dk_pos, teamAbbrev: teamAbbr, teamLogo, photo, salary: sal, proj, value: val });
                 }
             });
         };
@@ -593,58 +697,40 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
     });
 
     if (allPlayers.length === 0) return '';
-    allPlayers = Array.from(new Map(allPlayers.map(p => [p.id, p])).values());
-
-    const topValue = [...allPlayers].sort((a, b) => (b.value || 0) - (a.value || 0)).slice(0, 20);
-    const topProj = [...allPlayers].sort((a, b) => parseFloat(b.proj || 0) - parseFloat(a.proj || 0)).slice(0, 20);
-
-    const buildList = (players, isValue) => {
-        return players.map((p, index) => {
-            const photoHtml = (p.photo && p.photo.includes("http")) 
-                ? `<img src="${p.photo}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 1px solid #dee2e6; background: #fff;">`
-                : `<div style="width: 48px; height: 48px; border-radius: 50%; background-color: #f8f9fa; color: #495057; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; border: 1px solid #dee2e6;">${p.name.charAt(0)}</div>`;
-            
-            const teamBadge = p.teamLogo ? `<img src="${p.teamLogo}" style="width: 20px; height: 20px; position: absolute; bottom: -2px; right: -4px; border-radius: 50%; background: #fff; border: 1px solid #dee2e6; object-fit: contain; padding: 1px;">` : '';
-            const highlightMetric = isValue ? `<span class="text-success">${parseFloat(p.value || 0).toFixed(2)}x</span>` : `<span class="text-primary">${p.proj || 0}</span> <span class="text-muted" style="font-size:0.6rem;">pts</span>`;
-            
-            return `
-            <div class="d-flex align-items-center justify-content-between py-2 border-bottom user-select-none" style="cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='transparent'" onclick="openPlayerModal(this)" data-player="${encodeURIComponent(JSON.stringify(p))}">
-                <div class="d-flex align-items-center overflow-hidden">
-                    <div class="fw-bold text-muted me-2 text-end" style="font-size: 0.85rem; width: 22px;">${index + 1}.</div>
-                    <div class="me-3 position-relative flex-shrink-0">
-                        ${photoHtml}
-                        ${teamBadge}
-                    </div>
-                    <div class="d-flex flex-column justify-content-center overflow-hidden pe-1">
-                        <span class="fw-bold text-dark text-truncate" style="font-size: 0.95rem; max-width: 220px;" title="${p.name}">${shortenPlayerName(p.name)}</span>
-                        <span class="text-muted text-truncate" style="font-size: 0.72rem; max-width: 240px;">
-                            ${p.pos} • ${p.teamAbbrev} • $${p.salary} • ${p.proj} pts
-                        </span>
-                    </div>
-                </div>
-                <div class="text-end ms-1 flex-shrink-0">
-                    <div class="fw-bold" style="font-size: 1.2rem;">${highlightMetric}</div>
-                </div>
-            </div>`;
-        }).join('');
+    
+    window.TOP_PLAYS_DATA = {
+        players: Array.from(new Map(allPlayers.map(p => [p.id, p])).values()),
+        platform: platform
     };
+
+    const posButtons = ['ALL', 'PG', 'SG', 'SF', 'PF', 'C'];
+    let activePos = window.CURRENT_TOP_PLAYS_POS || 'ALL';
+    if (!posButtons.includes(activePos)) activePos = 'ALL';
+    window.CURRENT_TOP_PLAYS_POS = activePos;
+
+    const buttonsHtml = posButtons.map(pos => `<button class="pos-filter-btn ${pos === activePos ? 'active' : ''}" data-pos="${pos}" onclick="window.setTopPlaysPos(this)">${pos}</button>`).join('');
 
     return `
     <div class="col-12 col-md-6 col-lg-4 px-1 mb-3">
-        <div class="card shadow-sm border overflow-hidden" style="background-color: #fff; border-radius: 12px; border-color: #dee2e6 !important;">
+        <div class="card shadow-sm border overflow-hidden h-100" style="background-color: #fff; border-radius: 12px; border-color: #dee2e6 !important;">
             <div class="card-header bg-dark text-white py-2 d-flex justify-content-between align-items-center">
                 <h6 class="mb-0 fw-bold" style="font-size: 0.85rem;">⭐ Slate Top Plays</h6>
                 <span class="badge bg-secondary" style="font-size: 0.6rem;">${platform === 'dk' ? 'DraftKings' : 'FanDuel'}</span>
             </div>
+            
+            <div class="bg-light border-bottom d-flex align-items-center px-2 py-2 overflow-auto hide-scrollbar gap-1">
+                ${buttonsHtml}
+            </div>
+
             <div class="bg-light border-bottom d-flex justify-content-center align-items-center px-2 py-0">
                 <div class="d-flex w-100">
-                    <div class="leaderboard-tab active w-50" id="tab-top-value" onclick="document.getElementById('view-top-value').classList.remove('d-none'); document.getElementById('view-top-proj').classList.add('d-none'); this.classList.add('active'); document.getElementById('tab-top-proj').classList.remove('active');">TOP VALUE</div>
-                    <div class="leaderboard-tab w-50" id="tab-top-proj" onclick="document.getElementById('view-top-proj').classList.remove('d-none'); document.getElementById('view-top-value').classList.add('d-none'); this.classList.add('active'); document.getElementById('tab-top-value').classList.remove('active');">TOP PROJECTIONS</div>
+                    <div class="leaderboard-tab active w-50" data-tab="value" onclick="window.setTopPlaysTab(this)">TOP VALUE</div>
+                    <div class="leaderboard-tab w-50" data-tab="proj" onclick="window.setTopPlaysTab(this)">TOP PROJECTIONS</div>
                 </div>
             </div>
             <div class="card-body p-0">
-                <div id="view-top-value" class="px-2" style="max-height: 245px; overflow-y: auto;">${buildList(topValue, true)}</div>
-                <div id="view-top-proj" class="px-2 d-none" style="max-height: 245px; overflow-y: auto;">${buildList(topProj, false)}</div>
+                <div id="view-top-plays-list" class="px-2 list-view" style="max-height: 200px; overflow-y: auto;">
+                    </div>
             </div>
         </div>
     </div>`;
@@ -722,7 +808,6 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                     }
 
                     // --- NEW: LOGIC TO DETECT IF PLAYER IS ON COURT ---
-                    // Only pulse if they are on court AND the game isn't over
                     const isOnCourt = stats.is_on_court === true && liveMatch.status !== 'post';
 
                     livePlayers.push({ 
@@ -830,7 +915,7 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                            value="${window.LEADERBOARD_SEARCH_TEXT}" 
                            oninput="window.LEADERBOARD_SEARCH_TEXT = this.value; renderGames();">
                 </div>
-                       
+                        
                 <span class="badge bg-secondary text-nowrap" style="font-size: 0.6rem;">${platform === 'dk' ? 'DraftKings' : 'FanDuel'}</span>
             </div>
             <div class="card-body p-0 px-3" id="live-leaderboard-scroll" style="max-height: 520px; overflow-y: auto;">
@@ -840,17 +925,26 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
     </div>`;
 }
 
-function renderGames() {
+function renderGames(isSilentRefresh = false) {
     const container = document.getElementById('games-container');
     if (!container) return;
+
+    let activeTopPlaysTab = 'value'; // Default fallback
+    const activeTabEl = document.querySelector('.leaderboard-tab.active');
+    if (activeTabEl && activeTabEl.getAttribute('data-tab')) {
+        activeTopPlaysTab = activeTabEl.getAttribute('data-tab');
+    }
     
+    let scrollY = 0;
+    if (isSilentRefresh) scrollY = window.scrollY;
+
     const platformNode = document.querySelector('input[name="dfsPlatform"]:checked');
     const platform = platformNode ? platformNode.value : 'fd';
     const selectedSlate = document.getElementById('slate-selector')?.value || 'all';
 
     // SCROLL AND FOCUS LOCK
     const scrollPositions = {};
-    document.querySelectorAll('.live-table-wrapper, [id^="pbp-list-"], #view-top-value, #view-top-proj, #live-leaderboard-scroll').forEach(el => {
+    document.querySelectorAll('.live-table-wrapper, [id^="pbp-list-"], .list-view, #live-leaderboard-scroll').forEach(el => {
         scrollPositions[el.id] = { left: el.scrollLeft, top: el.scrollTop };
     });
 
@@ -910,10 +1004,21 @@ function renderGames() {
         return;
     }
 
+    // Insert Leaderboard if no search
     if (!searchText) {
         if (window.MASTER_TAB === 'lineups') {
             const topPlaysHtml = buildTopPlaysCard(filteredData, platform, selectedSlate);
-            if (topPlaysHtml) container.insertAdjacentHTML('beforeend', topPlaysHtml);
+            if (topPlaysHtml) {
+                container.insertAdjacentHTML('beforeend', topPlaysHtml);
+                
+                // --- RESTORE TAB AND RENDER DYNAMIC LIST ---
+                const newActiveTab = document.querySelector(`.leaderboard-tab[data-tab="${activeTopPlaysTab}"]`);
+                if (newActiveTab) {
+                    window.setTopPlaysTab(newActiveTab); // Fire the dynamic renderer and set active
+                } else {
+                    window.updateTopPlaysView(); // Failsafe
+                }
+            }
         } else if (window.MASTER_TAB === 'live') {
             const liveLeaderboardHtml = buildLiveLeaderboardCard(filteredData, platform);
             if (liveLeaderboardHtml) container.insertAdjacentHTML('beforeend', liveLeaderboardHtml);
@@ -928,14 +1033,12 @@ function renderGames() {
             const stateA = window.CARD_STATE[a.localId] || {};
             const stateB = window.CARD_STATE[b.localId] || {};
 
-            // A game is only considered "bottom of the list" if it is FINAL AND the flip timer has finished
             const isFinishedA = (liveA?.status === 'post' && stateA.hasFlippedPbp);
             const isFinishedB = (liveB?.status === 'post' && stateB.hasFlippedPbp);
 
             if (isFinishedA && !isFinishedB) return 1;
             if (isFinishedB && !isFinishedA) return -1;
             
-            // Otherwise, sort by game date
             return a.gameDate - b.gameDate;
         } else {
             return a.gameDate - b.gameDate;
@@ -946,7 +1049,7 @@ function renderGames() {
     });
 
     // RESTORE SCROLL AND FOCUS
-    document.querySelectorAll('.live-table-wrapper, [id^="pbp-list-"], #view-top-value, #view-top-proj, #live-leaderboard-scroll').forEach(el => {
+    document.querySelectorAll('.live-table-wrapper, [id^="pbp-list-"], .list-view, #live-leaderboard-scroll').forEach(el => {
         if (scrollPositions[el.id]) {
             el.scrollLeft = scrollPositions[el.id].left;
             el.scrollTop = scrollPositions[el.id].top;
@@ -961,6 +1064,11 @@ function renderGames() {
                 try { elToFocus.setSelectionRange(cursorStart, cursorEnd); } catch(e) {}
             }
         }
+    }
+
+    // SILENT REFRESH WINDOW JUMP FIX
+    if (isSilentRefresh) {
+        window.scrollTo(0, scrollY);
     }
 
     // --- NEW: URL HASH "LINK MAGIC" (BULLETPROOF VERSION) ---
