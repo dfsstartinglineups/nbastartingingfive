@@ -1,7 +1,7 @@
 {
   "LAC-IND-2026-03-27": {
     "status": "in",
-    "clock": "0.4 - 4th",
+    "clock": "0.0 - 4th",
     "away_score": "114",
     "home_score": "113",
     "team_stats": {
@@ -73,7 +73,7 @@
           "FT": "3-4",
           "fd_pts": 19.5,
           "dk_pts": 21.25,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Jarace Walker": {
           "MIN": 4,
@@ -223,7 +223,7 @@
           "FT": "0-0",
           "fd_pts": 4.6,
           "dk_pts": 5.25,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Quenton Jackson": {
           "MIN": 13,
@@ -396,6 +396,12 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 688.0,
+          "period": 4,
+          "time": "Q4 0.4",
+          "text": "Obi Toppin enters the game for Ben Sheppard"
+        },
         {
           "seq": 687.0,
           "period": 4,
@@ -3283,8 +3289,15 @@
           "text": "Brook Lopez vs. Jay Huff (Derrick Jones Jr. gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 687.0
+      "new_plays": [
+        {
+          "seq": 688.0,
+          "period": 4,
+          "time": "Q4 0.4",
+          "text": "Obi Toppin enters the game for Ben Sheppard"
+        }
+      ],
+      "last_seq": 688.0
     }
   },
   "ATL-BOS-2026-03-27": {
@@ -3312,7 +3325,7 @@
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "4",
-        "FBPs": "14",
+        "FBPs": "17",
         "PIP": "30",
         "PF": "15",
         "LL": "16",
@@ -3501,7 +3514,7 @@
           "is_on_court": true
         },
         "Jalen Johnson": {
-          "MIN": 30,
+          "MIN": 31,
           "PTS": "27",
           "REB": "3",
           "AST": "6",
@@ -3531,7 +3544,7 @@
           "is_on_court": false
         },
         "Nickeil Alexander-Walker": {
-          "MIN": 32,
+          "MIN": 33,
           "PTS": "18",
           "REB": "4",
           "AST": "4",
@@ -3546,7 +3559,7 @@
           "is_on_court": true
         },
         "Dyson Daniels": {
-          "MIN": 26,
+          "MIN": 27,
           "PTS": "6",
           "REB": "5",
           "AST": "5",
@@ -3640,6 +3653,12 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 561.0,
+          "period": 4,
+          "time": "Q4 5:37",
+          "text": "Celtics Full timeout"
+        },
+        {
           "seq": 560.0,
           "period": 4,
           "time": "Q4 5:38",
@@ -3654,7 +3673,7 @@
         {
           "seq": 558.0,
           "period": 4,
-          "time": "Q4 6:06",
+          "time": "Q4 6:07",
           "text": "Jalen Johnson makes 26-foot three pointer"
         },
         {
@@ -5958,44 +5977,20 @@
       ],
       "new_plays": [
         {
-          "seq": 560.0,
+          "seq": 561.0,
           "period": 4,
-          "time": "Q4 5:38",
-          "text": "Baylor Scheierman offensive rebound"
-        },
-        {
-          "seq": 559.0,
-          "period": 4,
-          "time": "Q4 5:41",
-          "text": "Jayson Tatum misses 26-foot three point pullup jump shot"
-        },
-        {
-          "seq": 558.0,
-          "period": 4,
-          "time": "Q4 6:06",
-          "text": "Jalen Johnson makes 26-foot three pointer"
-        },
-        {
-          "seq": 557.0,
-          "period": 4,
-          "time": "Q4 6:19",
-          "text": "Jayson Tatum makes 27-foot three pointer"
-        },
-        {
-          "seq": 555.0,
-          "period": 4,
-          "time": "Q4 6:41",
-          "text": "Jalen Johnson makes 26-foot three point jumper (Dyson Daniels assists)"
+          "time": "Q4 5:37",
+          "text": "Celtics Full timeout"
         }
       ],
-      "last_seq": 560.0
+      "last_seq": 561.0
     }
   },
   "MIA-CLE-2026-03-27": {
     "status": "in",
-    "clock": "10:15 - 4th",
-    "away_score": "89",
-    "home_score": "115",
+    "clock": "9:49 - 4th",
+    "away_score": "91",
+    "home_score": "119",
     "team_stats": {
       "MIA": {
         "fieldGoalsMade-fieldGoalsAttempted": "29-70",
@@ -6028,8 +6023,8 @@
         "FG%": "54",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "14-33",
         "3P%": "42",
-        "freeThrowsMade-freeThrowsAttempted": "15-18",
-        "FT%": "83",
+        "freeThrowsMade-freeThrowsAttempted": "17-20",
+        "FT%": "85",
         "REB": "41",
         "OR": "7",
         "DR": "34",
@@ -6069,7 +6064,7 @@
         },
         "Evan Mobley": {
           "MIN": 26,
-          "PTS": "17",
+          "PTS": "19",
           "REB": "10",
           "AST": "3",
           "STL": "1",
@@ -6077,9 +6072,9 @@
           "TO": "0",
           "FG": "8-13",
           "3PT": "1-2",
-          "FT": "0-0",
-          "fd_pts": 36.5,
-          "dk_pts": 38.0,
+          "FT": "2-2",
+          "fd_pts": 38.5,
+          "dk_pts": 40.0,
           "is_on_court": true
         },
         "James Harden": {
@@ -6222,7 +6217,7 @@
         "Norman Powell": {
           "MIN": 25,
           "PTS": "15",
-          "REB": "2",
+          "REB": "3",
           "AST": "2",
           "STL": "0",
           "BLK": "1",
@@ -6230,8 +6225,8 @@
           "FG": "5-10",
           "3PT": "2-5",
           "FT": "3-3",
-          "fd_pts": 23.4,
-          "dk_pts": 23.5,
+          "fd_pts": 24.6,
+          "dk_pts": 24.75,
           "is_on_court": false
         },
         "Davion Mitchell": {
@@ -6295,7 +6290,7 @@
           "is_on_court": true
         },
         "Kel'el Ware": {
-          "MIN": 10,
+          "MIN": 11,
           "PTS": "8",
           "REB": "3",
           "AST": "0",
@@ -6312,7 +6307,7 @@
         "Pelle Larsson": {
           "MIN": 20,
           "PTS": "8",
-          "REB": "2",
+          "REB": "1",
           "AST": "4",
           "STL": "0",
           "BLK": "0",
@@ -6320,8 +6315,8 @@
           "FG": "2-3",
           "3PT": "0-1",
           "FT": "4-4",
-          "fd_pts": 15.4,
-          "dk_pts": 16.0,
+          "fd_pts": 14.2,
+          "dk_pts": 14.75,
           "is_on_court": true
         },
         "Kasparas Jakucionis": {
@@ -6343,6 +6338,18 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 557.0,
+          "period": 4,
+          "time": "Q4 10:15",
+          "text": "Evan Mobley makes free throw 2 of 2"
+        },
+        {
+          "seq": 556.0,
+          "period": 4,
+          "time": "Q4 10:15",
+          "text": "Evan Mobley makes free throw 1 of 2"
+        },
         {
           "seq": 554.0,
           "period": 4,
@@ -6509,7 +6516,7 @@
           "seq": 514.0,
           "period": 3,
           "time": "Q3 27.4",
-          "text": "Pelle Larsson defensive rebound"
+          "text": "Norman Powell defensive rebound"
         },
         {
           "seq": 513.0,
@@ -8638,19 +8645,19 @@
       ],
       "new_plays": [
         {
-          "seq": 554.0,
+          "seq": 557.0,
           "period": 4,
           "time": "Q4 10:15",
-          "text": "Kel'el Ware shooting foul"
+          "text": "Evan Mobley makes free throw 2 of 2"
         },
         {
-          "seq": 553.0,
+          "seq": 556.0,
           "period": 4,
-          "time": "Q4 10:25",
-          "text": "Kel'el Ware makes layup"
+          "time": "Q4 10:15",
+          "text": "Evan Mobley makes free throw 1 of 2"
         }
       ],
-      "last_seq": 554.0
+      "last_seq": 557.0
     }
   },
   "HOU-MEM-2026-03-27": {
@@ -10872,58 +10879,21 @@
           "text": "Alperen Sengun vs. Taylor Hendricks (Javon Small gains possession)"
         }
       ],
-      "new_plays": [
-        {
-          "seq": 451.0,
-          "period": 3,
-          "time": "Q3 4:21",
-          "text": "Grizzlies Full timeout"
-        },
-        {
-          "seq": 449.0,
-          "period": 3,
-          "time": "Q3 4:21",
-          "text": "Jabari Smith Jr. makes 1-foot dunk (Reed Sheppard assists)"
-        },
-        {
-          "seq": 448.0,
-          "period": 3,
-          "time": "Q3 4:29",
-          "text": "Clint Capela defensive rebound"
-        },
-        {
-          "seq": 447.0,
-          "period": 3,
-          "time": "Q3 4:32",
-          "text": "Olivier-Maxence Prosper misses 22-foot three point jumper"
-        },
-        {
-          "seq": 445.0,
-          "period": 3,
-          "time": "Q3 4:46",
-          "text": "Tari Eason makes 1-foot layup (Jabari Smith Jr. assists)"
-        },
-        {
-          "seq": 443.0,
-          "period": 3,
-          "time": "Q3 5:02",
-          "text": "Tyler Burton makes 12-foot driving floating jump shot (Cam Spencer assists)"
-        }
-      ],
+      "new_plays": [],
       "last_seq": 451.0
     }
   },
   "CHI-OKC-2026-03-27": {
     "status": "in",
-    "clock": "6:16 - 3rd",
+    "clock": "5:52 - 3rd",
     "away_score": "79",
-    "home_score": "74",
+    "home_score": "75",
     "team_stats": {
       "CHI": {
-        "fieldGoalsMade-fieldGoalsAttempted": "30-54",
-        "FG%": "56",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "13-27",
-        "3P%": "48",
+        "fieldGoalsMade-fieldGoalsAttempted": "30-55",
+        "FG%": "55",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "13-28",
+        "3P%": "46",
         "freeThrowsMade-freeThrowsAttempted": "6-8",
         "FT%": "75",
         "REB": "29",
@@ -10940,7 +10910,7 @@
         "Points Conceded Off Turnovers": "9",
         "FBPs": "15",
         "PIP": "32",
-        "PF": "13",
+        "PF": "14",
         "LL": "9",
         "LC": "12",
         "LPCT": "78"
@@ -10952,9 +10922,9 @@
         "3P%": "27",
         "freeThrowsMade-freeThrowsAttempted": "10-14",
         "FT%": "71",
-        "REB": "29",
+        "REB": "30",
         "OR": "10",
-        "DR": "19",
+        "DR": "20",
         "AST": "17",
         "STL": "7",
         "BLK": "3",
@@ -11032,12 +11002,12 @@
           "FT": "1-2",
           "fd_pts": 30.5,
           "dk_pts": 30.75,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Cason Wallace": {
           "MIN": 22,
           "PTS": "13",
-          "REB": "4",
+          "REB": "5",
           "AST": "2",
           "STL": "3",
           "BLK": "0",
@@ -11045,8 +11015,8 @@
           "FG": "5-8",
           "3PT": "3-5",
           "FT": "0-0",
-          "fd_pts": 28.8,
-          "dk_pts": 28.0,
+          "fd_pts": 30.0,
+          "dk_pts": 29.25,
           "is_on_court": true
         },
         "Jaylin Williams": {
@@ -11137,7 +11107,7 @@
           "FT": "2-2",
           "fd_pts": 10.7,
           "dk_pts": 11.75,
-          "is_on_court": false
+          "is_on_court": true
         }
       },
       "CHI": {
@@ -11202,15 +11172,15 @@
           "is_on_court": false
         },
         "Josh Giddey": {
-          "MIN": 23,
+          "MIN": 24,
           "PTS": "3",
           "REB": "6",
           "AST": "7",
           "STL": "0",
           "BLK": "0",
           "TO": "5",
-          "FG": "1-5",
-          "3PT": "0-3",
+          "FG": "1-6",
+          "3PT": "0-4",
           "FT": "1-2",
           "fd_pts": 15.7,
           "dk_pts": 18.5,
@@ -11281,6 +11251,36 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 430.0,
+          "period": 3,
+          "time": "Q3 5:59",
+          "text": "Cason Wallace defensive rebound"
+        },
+        {
+          "seq": 429.0,
+          "period": 3,
+          "time": "Q3 6:02",
+          "text": "Josh Giddey misses 26-foot three point jumper"
+        },
+        {
+          "seq": 428.0,
+          "period": 3,
+          "time": "Q3 6:13",
+          "text": "Leonard Miller defensive rebound"
+        },
+        {
+          "seq": 427.0,
+          "period": 3,
+          "time": "Q3 6:16",
+          "text": "Cason Wallace misses 25-foot three point jumper"
+        },
+        {
+          "seq": 425.0,
+          "period": 3,
+          "time": "Q3 6:26",
+          "text": "Ajay Mitchell enters the game for Jalen Williams"
+        },
+        {
           "seq": 423.0,
           "period": 3,
           "time": "Q3 6:26",
@@ -11289,7 +11289,7 @@
         {
           "seq": 422.0,
           "period": 3,
-          "time": "Q3 6:25",
+          "time": "Q3 6:26",
           "text": "Thunder offensive team rebound"
         },
         {
@@ -13035,67 +13035,37 @@
       ],
       "new_plays": [
         {
-          "seq": 423.0,
+          "seq": 430.0,
           "period": 3,
-          "time": "Q3 6:26",
-          "text": "Leonard Miller loose ball foul"
+          "time": "Q3 5:59",
+          "text": "Cason Wallace defensive rebound"
         },
         {
-          "seq": 422.0,
+          "seq": 429.0,
           "period": 3,
-          "time": "Q3 6:25",
-          "text": "Thunder offensive team rebound"
-        },
-        {
-          "seq": 421.0,
-          "period": 3,
-          "time": "Q3 6:27",
-          "text": "Jalen Williams misses 25-foot three point jumper"
-        },
-        {
-          "seq": 420.0,
-          "period": 3,
-          "time": "Q3 6:31",
-          "text": "Isaiah Hartenstein offensive rebound"
-        },
-        {
-          "seq": 419.0,
-          "period": 3,
-          "time": "Q3 6:32",
-          "text": "Jalen Williams misses two point shot"
-        },
-        {
-          "seq": 418.0,
-          "period": 3,
-          "time": "Q3 6:40",
-          "text": "Isaiah Hartenstein defensive rebound"
-        },
-        {
-          "seq": 417.0,
-          "period": 3,
-          "time": "Q3 6:44",
-          "text": "Leonard Miller misses 23-foot three point jumper"
-        },
-        {
-          "seq": 416.0,
-          "period": 3,
-          "time": "Q3 6:48",
-          "text": "Isaac Okoro offensive rebound"
-        },
-        {
-          "seq": 415.0,
-          "period": 3,
-          "time": "Q3 6:50",
+          "time": "Q3 6:02",
           "text": "Josh Giddey misses 26-foot three point jumper"
         },
         {
-          "seq": 413.0,
+          "seq": 428.0,
           "period": 3,
-          "time": "Q3 7:10",
-          "text": "Shai Gilgeous-Alexander makes 2-foot two point shot (Jalen Williams assists)"
+          "time": "Q3 6:13",
+          "text": "Leonard Miller defensive rebound"
+        },
+        {
+          "seq": 427.0,
+          "period": 3,
+          "time": "Q3 6:16",
+          "text": "Cason Wallace misses 25-foot three point jumper"
+        },
+        {
+          "seq": 425.0,
+          "period": 3,
+          "time": "Q3 6:26",
+          "text": "Ajay Mitchell enters the game for Jalen Williams"
         }
       ],
-      "last_seq": 423.0
+      "last_seq": 430.0
     }
   },
   "NOP-TOR-2026-03-27": {
@@ -13120,7 +13090,7 @@
         "TO": "7",
         "TTO": "1",
         "ToTO": "8",
-        "TECH": "0",
+        "TECH": "1",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "8",
         "FBPs": "0",
@@ -13465,6 +13435,12 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 327.0,
+          "period": 2,
+          "time": "Q2 1:39",
+          "text": "Derik Queen technical foul"
+        },
         {
           "seq": 326.0,
           "period": 2,
@@ -14812,49 +14788,19 @@
       ],
       "new_plays": [
         {
-          "seq": 326.0,
+          "seq": 327.0,
           "period": 2,
           "time": "Q2 1:39",
-          "text": "Raptors Full timeout"
-        },
-        {
-          "seq": 324.0,
-          "period": 2,
-          "time": "Q2 1:39",
-          "text": "Yves Missi makes 2-foot two point shot (Zion Williamson assists)"
-        },
-        {
-          "seq": 323.0,
-          "period": 2,
-          "time": "Q2 1:42",
-          "text": "Zion Williamson offensive rebound"
-        },
-        {
-          "seq": 322.0,
-          "period": 2,
-          "time": "Q2 1:46",
-          "text": "Herbert Jones misses 26-foot three point jumper"
-        },
-        {
-          "seq": 321.0,
-          "period": 2,
-          "time": "Q2 1:57",
-          "text": "Scottie Barnes out of bounds bad pass turnover"
-        },
-        {
-          "seq": 319.0,
-          "period": 2,
-          "time": "Q2 2:01",
-          "text": "Yves Missi makes layup (Zion Williamson assists)"
+          "text": "Derik Queen technical foul"
         }
       ],
-      "last_seq": 326.0
+      "last_seq": 327.0
     }
   },
   "UTA-DEN-2026-03-27": {
     "status": "in",
-    "clock": "49.6 - 1st",
-    "away_score": "24",
+    "clock": "30.6 - 1st",
+    "away_score": "26",
     "home_score": "36",
     "team_stats": {
       "UTA": {
@@ -14862,7 +14808,7 @@
         "FG%": "46",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "0-8",
         "3P%": "0",
-        "freeThrowsMade-freeThrowsAttempted": "2-2",
+        "freeThrowsMade-freeThrowsAttempted": "4-4",
         "FT%": "100",
         "REB": "10",
         "OR": "1",
@@ -14915,7 +14861,7 @@
         "Aaron Gordon": {
           "MIN": 11,
           "PTS": "6",
-          "REB": "6",
+          "REB": "5",
           "AST": "1",
           "STL": "0",
           "BLK": "1",
@@ -14923,9 +14869,9 @@
           "FG": "3-7",
           "3PT": "0-2",
           "FT": "0-0",
-          "fd_pts": 17.7,
-          "dk_pts": 17.0,
-          "is_on_court": true
+          "fd_pts": 16.5,
+          "dk_pts": 15.75,
+          "is_on_court": false
         },
         "Cameron Johnson": {
           "MIN": 5,
@@ -14940,7 +14886,7 @@
           "FT": "0-0",
           "fd_pts": 1.2,
           "dk_pts": 1.25,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Nikola Jokic": {
           "MIN": 11,
@@ -15036,17 +14982,17 @@
         },
         "Cody Williams": {
           "MIN": 11,
-          "PTS": "4",
+          "PTS": "6",
           "REB": "0",
           "AST": "1",
           "STL": "0",
           "BLK": "0",
-          "TO": "1",
+          "TO": "0",
           "FG": "2-5",
           "3PT": "0-0",
-          "FT": "0-0",
-          "fd_pts": 4.5,
-          "dk_pts": 5.0,
+          "FT": "2-2",
+          "fd_pts": 7.5,
+          "dk_pts": 7.5,
           "is_on_court": true
         },
         "Brice Sensabaugh": {
@@ -15077,7 +15023,7 @@
           "FT": "0-0",
           "fd_pts": 9.9,
           "dk_pts": 8.0,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Ace Bailey": {
           "MIN": 7,
@@ -15123,11 +15069,44 @@
           "fd_pts": 0.0,
           "dk_pts": 0.0,
           "is_on_court": true
+        },
+        "Kennedy Chandler": {
+          "MIN": 0,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
+          "is_on_court": true
         }
       }
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 155.0,
+          "period": 1,
+          "time": "Q1 49.7",
+          "text": "Cody Williams makes free throw 1 of 2"
+        },
+        {
+          "seq": 152.0,
+          "period": 1,
+          "time": "Q1 49.6",
+          "text": "Kennedy Chandler enters the game for Elijah Harkless"
+        },
+        {
+          "seq": 151.0,
+          "period": 1,
+          "time": "Q1 49.6",
+          "text": "Cameron Johnson enters the game for Aaron Gordon"
+        },
         {
           "seq": 150.0,
           "period": 1,
@@ -15759,8 +15738,27 @@
           "text": "Kyle Filipowski vs. Nikola Jokic (Aaron Gordon gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 150.0
+      "new_plays": [
+        {
+          "seq": 155.0,
+          "period": 1,
+          "time": "Q1 49.7",
+          "text": "Cody Williams makes free throw 1 of 2"
+        },
+        {
+          "seq": 152.0,
+          "period": 1,
+          "time": "Q1 49.6",
+          "text": "Kennedy Chandler enters the game for Elijah Harkless"
+        },
+        {
+          "seq": 151.0,
+          "period": 1,
+          "time": "Q1 49.6",
+          "text": "Cameron Johnson enters the game for Aaron Gordon"
+        }
+      ],
+      "last_seq": 155.0
     }
   }
 }
