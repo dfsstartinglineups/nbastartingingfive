@@ -2993,8 +2993,8 @@
   },
   "DET-MIN-2026-03-28": {
     "status": "in",
-    "clock": "8:50 - 1st",
-    "away_score": "6",
+    "clock": "8:13 - 1st",
+    "away_score": "8",
     "home_score": "9",
     "team_stats": {
       "DET": {
@@ -3004,28 +3004,28 @@
         "3P%": "50",
         "freeThrowsMade-freeThrowsAttempted": "1-1",
         "FT%": "100",
-        "REB": "4",
+        "REB": "5",
         "OR": "2",
-        "DR": "2",
+        "DR": "3",
         "AST": "1",
         "STL": "0",
         "BLK": "0",
-        "TO": "1",
+        "TO": "2",
         "TTO": "0",
-        "ToTO": "1",
+        "ToTO": "2",
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "0",
         "FBPs": "0",
         "PIP": "0",
-        "PF": "1",
+        "PF": "2",
         "LL": "1",
         "LC": "2",
-        "LPCT": "10"
+        "LPCT": "8"
       },
       "MIN": {
-        "fieldGoalsMade-fieldGoalsAttempted": "3-5",
-        "FG%": "60",
+        "fieldGoalsMade-fieldGoalsAttempted": "3-6",
+        "FG%": "50",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "1-2",
         "3P%": "50",
         "freeThrowsMade-freeThrowsAttempted": "2-2",
@@ -3047,7 +3047,7 @@
         "PF": "1",
         "LL": "4",
         "LC": "2",
-        "LPCT": "66"
+        "LPCT": "67"
       }
     },
     "players": {
@@ -3060,7 +3060,7 @@
           "STL": "0",
           "BLK": "1",
           "TO": "0",
-          "FG": "1-1",
+          "FG": "1-2",
           "3PT": "0-0",
           "FT": "0-0",
           "fd_pts": 7.4,
@@ -3147,7 +3147,7 @@
         "Duncan Robinson": {
           "MIN": 3,
           "PTS": "0",
-          "REB": "0",
+          "REB": "1",
           "AST": "1",
           "STL": "0",
           "BLK": "0",
@@ -3155,8 +3155,8 @@
           "FG": "0-0",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 1.5,
-          "dk_pts": 1.5,
+          "fd_pts": 2.7,
+          "dk_pts": 2.75,
           "is_on_court": true
         },
         "Jalen Duren": {
@@ -3166,13 +3166,13 @@
           "AST": "0",
           "STL": "0",
           "BLK": "0",
-          "TO": "1",
+          "TO": "2",
           "FG": "0-2",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 0.2,
-          "dk_pts": 0.75,
-          "is_on_court": true
+          "fd_pts": -0.8,
+          "dk_pts": 0.25,
+          "is_on_court": false
         },
         "Ausar Thompson": {
           "MIN": 3,
@@ -3203,11 +3203,56 @@
           "fd_pts": 1.2,
           "dk_pts": 1.25,
           "is_on_court": true
+        },
+        "Paul Reed": {
+          "MIN": 0,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
+          "is_on_court": true
         }
       }
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 47.0,
+          "period": 1,
+          "time": "Q1 8:36",
+          "text": "Duncan Robinson defensive rebound"
+        },
+        {
+          "seq": 46.0,
+          "period": 1,
+          "time": "Q1 8:39",
+          "text": "Julius Randle misses 19-foot jumper"
+        },
+        {
+          "seq": 44.0,
+          "period": 1,
+          "time": "Q1 8:50",
+          "text": "Paul Reed enters the game for Jalen Duren"
+        },
+        {
+          "seq": 43.0,
+          "period": 1,
+          "time": "Q1 8:50",
+          "text": "Jalen Duren offensive foul turnover"
+        },
+        {
+          "seq": 41.0,
+          "period": 1,
+          "time": "Q1 8:50",
+          "text": "Jalen Duren offensive foul"
+        },
         {
           "seq": 40.0,
           "period": 1,
@@ -3260,7 +3305,7 @@
           "seq": 28.0,
           "period": 1,
           "time": "Q1 9:55",
-          "text": "Rudy Gobert blocks Jalen Duren 's 4-foot hook shot"
+          "text": "Donte DiVincenzo blocks Jalen Duren 's 4-foot two point shot"
         },
         {
           "seq": 27.0,
@@ -3367,31 +3412,37 @@
       ],
       "new_plays": [
         {
-          "seq": 40.0,
+          "seq": 47.0,
           "period": 1,
-          "time": "Q1 9:01",
-          "text": "Rudy Gobert makes free throw 2 of 2"
+          "time": "Q1 8:36",
+          "text": "Duncan Robinson defensive rebound"
         },
         {
-          "seq": 39.0,
+          "seq": 46.0,
           "period": 1,
-          "time": "Q1 9:01",
-          "text": "Rudy Gobert makes free throw 1 of 2"
+          "time": "Q1 8:39",
+          "text": "Julius Randle misses 19-foot jumper"
         },
         {
-          "seq": 37.0,
+          "seq": 44.0,
           "period": 1,
-          "time": "Q1 9:01",
-          "text": "Jalen Duren shooting foul"
+          "time": "Q1 8:50",
+          "text": "Paul Reed enters the game for Jalen Duren"
         },
         {
-          "seq": 36.0,
+          "seq": 43.0,
           "period": 1,
-          "time": "Q1 9:16",
-          "text": "Tobias Harris makes 25-foot three point jumper"
+          "time": "Q1 8:50",
+          "text": "Jalen Duren offensive foul turnover"
+        },
+        {
+          "seq": 41.0,
+          "period": 1,
+          "time": "Q1 8:50",
+          "text": "Jalen Duren offensive foul"
         }
       ],
-      "last_seq": 40.0
+      "last_seq": 47.0
     }
   }
 }
