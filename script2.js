@@ -625,7 +625,11 @@ window.buildTopPlaysListHtml = function(players, mode, platform) {
         let displayPos = p[posKey] || p.pos || 'Flex';
         
         const isValue = mode === 'value';
+        
+        // --- NEW: ALTERNATING METRIC LOGIC ---
+        // Highlight the primary metric on the right, and put the alternate metric in the subtext
         const highlightMetric = isValue ? `<span class="text-success">${parseFloat(p.value || 0).toFixed(2)}x</span>` : `<span class="text-primary">${parseFloat(p.proj || 0).toFixed(1)}</span> <span class="text-muted" style="font-size:0.6rem;">pts</span>`;
+        const subMetric = isValue ? `${parseFloat(p.proj || 0).toFixed(1)} pts` : `${parseFloat(p.value || 0).toFixed(2)}x`;
         
         return `
         <div class="d-flex align-items-center justify-content-between py-2 border-bottom user-select-none" style="cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='transparent'" onclick="openPlayerModal(this)" data-player="${encodeURIComponent(JSON.stringify(p))}">
@@ -638,7 +642,7 @@ window.buildTopPlaysListHtml = function(players, mode, platform) {
                 <div class="d-flex flex-column justify-content-center overflow-hidden pe-1">
                     <span class="fw-bold text-dark text-truncate" style="font-size: 0.95rem; max-width: 220px;" title="${p.name}">${shortName}</span>
                     <span class="text-muted text-truncate" style="font-size: 0.72rem; max-width: 240px;">
-                        ${displayPos} • ${p.teamAbbrev} • $${p.salary} • ${p.proj} pts
+                        ${displayPos} • ${p.teamAbbrev} • $${p.salary} • ${subMetric}
                     </span>
                 </div>
             </div>
