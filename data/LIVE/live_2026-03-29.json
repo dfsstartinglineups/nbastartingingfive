@@ -5917,7 +5917,7 @@
   "SAC-BKN-2026-03-29": {
     "status": "in",
     "clock": "1:07 - 3rd",
-    "away_score": "66",
+    "away_score": "68",
     "home_score": "86",
     "team_stats": {
       "SAC": {
@@ -6266,6 +6266,12 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 488.0,
+          "period": 3,
+          "time": "Q3 1:07",
+          "text": "(01:07) [Nets] COACH'S CHALLENGE (REPLAY SUPPORTS CALL) [Nets] charged with a timeout"
+        },
         {
           "seq": 487.0,
           "period": 3,
@@ -8301,21 +8307,28 @@
           "text": "Maxime Raynaud vs. Nic Claxton (Precious Achiuwa gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 487.0
+      "new_plays": [
+        {
+          "seq": 488.0,
+          "period": 3,
+          "time": "Q3 1:07",
+          "text": "(01:07) [Nets] COACH'S CHALLENGE (REPLAY SUPPORTS CALL) [Nets] charged with a timeout"
+        }
+      ],
+      "last_seq": 488.0
     }
   },
   "BOS-CHA-2026-03-29": {
     "status": "in",
-    "clock": "9:33 - 4th",
+    "clock": "8:45 - 4th",
     "away_score": "95",
-    "home_score": "80",
+    "home_score": "83",
     "team_stats": {
       "BOS": {
-        "fieldGoalsMade-fieldGoalsAttempted": "35-70",
-        "FG%": "50",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "13-31",
-        "3P%": "42",
+        "fieldGoalsMade-fieldGoalsAttempted": "35-71",
+        "FG%": "49",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "13-32",
+        "3P%": "41",
         "freeThrowsMade-freeThrowsAttempted": "12-16",
         "FT%": "75",
         "REB": "33",
@@ -8338,21 +8351,21 @@
         "LPCT": "88"
       },
       "CHA": {
-        "fieldGoalsMade-fieldGoalsAttempted": "30-69",
-        "FG%": "43",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "10-34",
-        "3P%": "29",
+        "fieldGoalsMade-fieldGoalsAttempted": "31-71",
+        "FG%": "44",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "11-35",
+        "3P%": "31",
         "freeThrowsMade-freeThrowsAttempted": "10-13",
         "FT%": "77",
-        "REB": "30",
+        "REB": "31",
         "OR": "9",
-        "DR": "21",
-        "AST": "14",
+        "DR": "22",
+        "AST": "15",
         "STL": "1",
         "BLK": "1",
         "TO": "8",
-        "TTO": "0",
-        "ToTO": "8",
+        "TTO": "1",
+        "ToTO": "9",
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "10",
@@ -8367,14 +8380,14 @@
     "players": {
       "CHA": {
         "Miles Bridges": {
-          "MIN": 25,
+          "MIN": 26,
           "PTS": "14",
           "REB": "2",
           "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "1",
-          "FG": "5-8",
+          "FG": "5-9",
           "3PT": "0-1",
           "FT": "4-4",
           "fd_pts": 16.9,
@@ -8397,39 +8410,39 @@
           "is_on_court": false
         },
         "Brandon Miller": {
-          "MIN": 26,
-          "PTS": "10",
-          "REB": "4",
+          "MIN": 27,
+          "PTS": "13",
+          "REB": "5",
           "AST": "4",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "4-12",
-          "3PT": "2-8",
+          "FG": "5-13",
+          "3PT": "3-9",
           "FT": "0-0",
-          "fd_pts": 20.8,
-          "dk_pts": 22.0,
+          "fd_pts": 25.0,
+          "dk_pts": 26.75,
           "is_on_court": true
         },
         "LaMelo Ball": {
-          "MIN": 20,
+          "MIN": 21,
           "PTS": "12",
           "REB": "4",
-          "AST": "2",
+          "AST": "3",
           "STL": "1",
           "BLK": "0",
           "TO": "4",
           "FG": "4-14",
           "3PT": "2-9",
           "FT": "2-2",
-          "fd_pts": 18.8,
-          "dk_pts": 21.0,
+          "fd_pts": 20.3,
+          "dk_pts": 22.5,
           "is_on_court": true
         },
         "Kon Knueppel": {
-          "MIN": 26,
+          "MIN": 27,
           "PTS": "13",
-          "REB": "3",
+          "REB": "4",
           "AST": "2",
           "STL": "0",
           "BLK": "0",
@@ -8437,8 +8450,8 @@
           "FG": "5-13",
           "3PT": "1-6",
           "FT": "2-3",
-          "fd_pts": 18.6,
-          "dk_pts": 19.75,
+          "fd_pts": 19.8,
+          "dk_pts": 21.0,
           "is_on_court": true
         },
         "Ryan Kalkbrenner": {
@@ -8457,7 +8470,7 @@
           "is_on_court": false
         },
         "Coby White": {
-          "MIN": 16,
+          "MIN": 17,
           "PTS": "11",
           "REB": "3",
           "AST": "0",
@@ -8519,22 +8532,22 @@
       },
       "BOS": {
         "Jayson Tatum": {
-          "MIN": 27,
+          "MIN": 28,
           "PTS": "27",
           "REB": "5",
           "AST": "7",
           "STL": "0",
           "BLK": "1",
           "TO": "0",
-          "FG": "10-19",
-          "3PT": "4-7",
+          "FG": "10-20",
+          "3PT": "4-8",
           "FT": "3-5",
           "fd_pts": 46.5,
           "dk_pts": 47.75,
           "is_on_court": true
         },
         "Sam Hauser": {
-          "MIN": 27,
+          "MIN": 25,
           "PTS": "7",
           "REB": "2",
           "AST": "0",
@@ -8579,7 +8592,7 @@
           "is_on_court": false
         },
         "Jordan Walsh": {
-          "MIN": 26,
+          "MIN": 27,
           "PTS": "3",
           "REB": "7",
           "AST": "2",
@@ -8624,7 +8637,7 @@
           "is_on_court": false
         },
         "Baylor Scheierman": {
-          "MIN": 22,
+          "MIN": 23,
           "PTS": "13",
           "REB": "0",
           "AST": "3",
@@ -8639,7 +8652,7 @@
           "is_on_court": true
         },
         "Hugo Gonzalez": {
-          "MIN": 7,
+          "MIN": 9,
           "PTS": "3",
           "REB": "2",
           "AST": "0",
@@ -8657,6 +8670,42 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 504.0,
+          "period": 4,
+          "time": "Q4 9:10",
+          "text": "Brandon Miller makes 22-foot three point jumper (LaMelo Ball assists)"
+        },
+        {
+          "seq": 503.0,
+          "period": 4,
+          "time": "Q4 9:16",
+          "text": "Kon Knueppel defensive rebound"
+        },
+        {
+          "seq": 502.0,
+          "period": 4,
+          "time": "Q4 9:19",
+          "text": "Jayson Tatum misses 26-foot three point jumper"
+        },
+        {
+          "seq": 501.0,
+          "period": 4,
+          "time": "Q4 9:33",
+          "text": "shot clock turnover "
+        },
+        {
+          "seq": 500.0,
+          "period": 4,
+          "time": "Q4 9:32",
+          "text": "Hornets offensive team rebound"
+        },
+        {
+          "seq": 499.0,
+          "period": 4,
+          "time": "Q4 9:32",
+          "text": "Miles Bridges misses 17-foot jumper"
+        },
         {
           "seq": 497.0,
           "period": 4,
@@ -8720,13 +8769,13 @@
         {
           "seq": 485.0,
           "period": 4,
-          "time": "Q4 11:18",
+          "time": "Q4 11:22",
           "text": "LaMelo Ball offensive rebound"
         },
         {
           "seq": 484.0,
           "period": 4,
-          "time": "Q4 11:22",
+          "time": "Q4 11:25",
           "text": "Coby White misses driving layup"
         },
         {
@@ -8793,7 +8842,7 @@
           "seq": 466.0,
           "period": 3,
           "time": "Q3 0.8",
-          "text": "Payton Pritchard misses 20-foot jumper"
+          "text": "Payton Pritchard misses two point shot"
         },
         {
           "seq": 465.0,
@@ -10802,73 +10851,67 @@
       ],
       "new_plays": [
         {
-          "seq": 497.0,
+          "seq": 504.0,
           "period": 4,
-          "time": "Q4 9:47",
+          "time": "Q4 9:10",
+          "text": "Brandon Miller makes 22-foot three point jumper (LaMelo Ball assists)"
+        },
+        {
+          "seq": 503.0,
+          "period": 4,
+          "time": "Q4 9:16",
+          "text": "Kon Knueppel defensive rebound"
+        },
+        {
+          "seq": 502.0,
+          "period": 4,
+          "time": "Q4 9:19",
+          "text": "Jayson Tatum misses 26-foot three point jumper"
+        },
+        {
+          "seq": 501.0,
+          "period": 4,
+          "time": "Q4 9:33",
+          "text": "shot clock turnover "
+        },
+        {
+          "seq": 500.0,
+          "period": 4,
+          "time": "Q4 9:32",
           "text": "Hornets offensive team rebound"
         },
         {
-          "seq": 496.0,
+          "seq": 499.0,
           "period": 4,
-          "time": "Q4 9:50",
-          "text": "Kon Knueppel misses 26-foot three point jumper"
-        },
-        {
-          "seq": 495.0,
-          "period": 4,
-          "time": "Q4 9:54",
-          "text": "Coby White defensive rebound"
-        },
-        {
-          "seq": 494.0,
-          "period": 4,
-          "time": "Q4 9:56",
-          "text": "Jayson Tatum misses driving layup"
-        },
-        {
-          "seq": 493.0,
-          "period": 4,
-          "time": "Q4 10:04",
-          "text": "Jordan Walsh defensive rebound"
-        },
-        {
-          "seq": 492.0,
-          "period": 4,
-          "time": "Q4 10:10",
-          "text": "Coby White misses 23-foot three point jumper"
-        },
-        {
-          "seq": 490.0,
-          "period": 4,
-          "time": "Q4 10:32",
-          "text": "Baylor Scheierman makes 27-foot three point jumper (Jayson Tatum assists)"
+          "time": "Q4 9:32",
+          "text": "Miles Bridges misses 17-foot jumper"
         }
       ],
-      "last_seq": 497.0
+      "last_seq": 504.0
     }
   },
   "ORL-TOR-2026-03-29": {
     "status": "in",
-    "clock": "3:41 - 3rd",
-    "away_score": "57",
-    "home_score": "93",
+    "clock": "2:45 - 3rd",
+    "away_score": "62",
+    "home_score": "98",
     "team_stats": {
       "ORL": {
-        "fieldGoalsMade-fieldGoalsAttempted": "19-53",
-        "FG%": "36",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "5-24",
-        "3P%": "21",
+        "fieldGoalsMade-fieldGoalsAttempted": "20-54",
+        "FG%": "37",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "6-25",
+        "3P%": "24",
         "freeThrowsMade-freeThrowsAttempted": "14-17",
         "FT%": "82",
         "REB": "25",
         "OR": "9",
         "DR": "16",
         "AST": "10",
-        "STL": "2",
+        "STL": "3",
         "BLK": "1",
-        "TO": "21",
+        "TO": "22",
         "TTO": "1",
-        "ToTO": "22",
+        "ToTO": "23",
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "30",
@@ -10877,24 +10920,24 @@
         "PF": "14",
         "LL": "7",
         "LC": "1",
-        "LPCT": "22"
+        "LPCT": "21"
       },
       "TOR": {
-        "fieldGoalsMade-fieldGoalsAttempted": "35-61",
-        "FG%": "57",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "9-19",
-        "3P%": "47",
+        "fieldGoalsMade-fieldGoalsAttempted": "36-62",
+        "FG%": "58",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "10-20",
+        "3P%": "50",
         "freeThrowsMade-freeThrowsAttempted": "14-15",
         "FT%": "93",
         "REB": "24",
         "OR": "4",
         "DR": "20",
-        "AST": "28",
-        "STL": "14",
+        "AST": "29",
+        "STL": "15",
         "BLK": "1",
-        "TO": "7",
+        "TO": "8",
         "TTO": "0",
-        "ToTO": "7",
+        "ToTO": "8",
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "7",
@@ -10927,15 +10970,15 @@
           "MIN": 25,
           "PTS": "16",
           "REB": "2",
-          "AST": "11",
+          "AST": "12",
           "STL": "3",
           "BLK": "0",
           "TO": "2",
           "FG": "6-11",
           "3PT": "2-2",
           "FT": "2-2",
-          "fd_pts": 41.9,
-          "dk_pts": 42.5,
+          "fd_pts": 43.4,
+          "dk_pts": 44.0,
           "is_on_court": true
         },
         "Jakob Poeltl": {
@@ -10954,7 +10997,7 @@
           "is_on_court": false
         },
         "Jamal Shead": {
-          "MIN": 21,
+          "MIN": 22,
           "PTS": "10",
           "REB": "2",
           "AST": "8",
@@ -10984,33 +11027,33 @@
           "is_on_court": false
         },
         "Sandro Mamukelashvili": {
-          "MIN": 16,
+          "MIN": 17,
           "PTS": "19",
           "REB": "2",
           "AST": "0",
           "STL": "2",
           "BLK": "0",
-          "TO": "2",
+          "TO": "3",
           "FG": "8-13",
           "3PT": "2-4",
           "FT": "1-1",
-          "fd_pts": 25.4,
-          "dk_pts": 25.5,
+          "fd_pts": 24.4,
+          "dk_pts": 25.0,
           "is_on_court": true
         },
         "A.J. Lawson": {
-          "MIN": 12,
-          "PTS": "8",
+          "MIN": 13,
+          "PTS": "11",
           "REB": "2",
           "AST": "2",
-          "STL": "2",
+          "STL": "3",
           "BLK": "0",
           "TO": "0",
-          "FG": "3-4",
-          "3PT": "2-3",
+          "FG": "4-5",
+          "3PT": "3-4",
           "FT": "0-0",
-          "fd_pts": 19.4,
-          "dk_pts": 18.5,
+          "fd_pts": 25.4,
+          "dk_pts": 24.0,
           "is_on_court": true
         },
         "Alijah Martin": {
@@ -11076,7 +11119,7 @@
           "is_on_court": false
         },
         "Wendell Carter Jr.": {
-          "MIN": 22,
+          "MIN": 23,
           "PTS": "4",
           "REB": "4",
           "AST": "1",
@@ -11088,7 +11131,7 @@
           "FT": "2-2",
           "fd_pts": 9.3,
           "dk_pts": 10.0,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Desmond Bane": {
           "MIN": 23,
@@ -11121,7 +11164,7 @@
           "is_on_court": false
         },
         "Jamal Cain": {
-          "MIN": 3,
+          "MIN": 4,
           "PTS": "0",
           "REB": "0",
           "AST": "0",
@@ -11163,21 +11206,21 @@
           "FT": "2-3",
           "fd_pts": 8.8,
           "dk_pts": 10.0,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Jevon Carter": {
           "MIN": 11,
-          "PTS": "0",
+          "PTS": "3",
           "REB": "1",
           "AST": "0",
-          "STL": "0",
+          "STL": "1",
           "BLK": "0",
-          "TO": "0",
-          "FG": "0-4",
-          "3PT": "0-3",
+          "TO": "1",
+          "FG": "1-5",
+          "3PT": "1-4",
           "FT": "0-0",
-          "fd_pts": 1.2,
-          "dk_pts": 1.25,
+          "fd_pts": 6.2,
+          "dk_pts": 6.25,
           "is_on_court": true
         },
         "Jett Howard": {
@@ -11196,7 +11239,7 @@
           "is_on_court": false
         },
         "Jase Richardson": {
-          "MIN": 2,
+          "MIN": 3,
           "PTS": "0",
           "REB": "1",
           "AST": "0",
@@ -11215,10 +11258,34 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 507.0,
+          "period": 3,
+          "time": "Q3 2:58",
+          "text": "Sandro Mamukelashvili bad pass\nturnover (Jevon Carter steals)"
+        },
+        {
+          "seq": 505.0,
+          "period": 3,
+          "time": "Q3 3:02",
+          "text": "Jevon Carter lost ball turnover (A.J. Lawson steals)"
+        },
+        {
+          "seq": 503.0,
+          "period": 3,
+          "time": "Q3 3:12",
+          "text": "A.J. Lawson makes 22-foot three point jumper (Scottie Barnes assists)"
+        },
+        {
+          "seq": 502.0,
+          "period": 3,
+          "time": "Q3 3:23",
+          "text": "Jevon Carter makes 25-foot three point step back jumpshot"
+        },
+        {
           "seq": 495.0,
           "period": 3,
           "time": "Q3 3:41",
-          "text": "enters the game for Goga Bitadze"
+          "text": "Wendell Carter Jr. enters the game for Goga Bitadze"
         },
         {
           "seq": 494.0,
@@ -11350,13 +11417,13 @@
           "seq": 470.0,
           "period": 3,
           "time": "Q3 4:54",
-          "text": "Tristan da Silva misses 11-foot turnaround jump shot"
+          "text": "Tristan da Silva misses 11-foot two point shot"
         },
         {
           "seq": 469.0,
           "period": 3,
           "time": "Q3 5:19",
-          "text": "Sandro Mamukelashvili makes 12-foot turnaround jump shot"
+          "text": "Sandro Mamukelashvili makes 12-foot two point shot"
         },
         {
           "seq": 468.0,
@@ -13215,54 +13282,42 @@
       ],
       "new_plays": [
         {
-          "seq": 495.0,
+          "seq": 507.0,
           "period": 3,
-          "time": "Q3 3:41",
-          "text": "enters the game for Goga Bitadze"
+          "time": "Q3 2:58",
+          "text": "Sandro Mamukelashvili bad pass\nturnover (Jevon Carter steals)"
         },
         {
-          "seq": 494.0,
+          "seq": 505.0,
           "period": 3,
-          "time": "Q3 3:41",
-          "text": "Desmond Bane enters the game for Tristan da Silva"
+          "time": "Q3 3:02",
+          "text": "Jevon Carter lost ball turnover (A.J. Lawson steals)"
         },
         {
-          "seq": 493.0,
+          "seq": 503.0,
           "period": 3,
-          "time": "Q3 3:41",
-          "text": "Jamal Cain enters the game for Paolo Banchero"
+          "time": "Q3 3:12",
+          "text": "A.J. Lawson makes 22-foot three point jumper (Scottie Barnes assists)"
         },
         {
-          "seq": 492.0,
+          "seq": 502.0,
           "period": 3,
-          "time": "Q3 3:41",
-          "text": "RJ Barrett enters the game for Jakob Poeltl"
-        },
-        {
-          "seq": 491.0,
-          "period": 3,
-          "time": "Q3 3:41",
-          "text": "Scottie Barnes enters the game for Ja'Kobe Walter"
-        },
-        {
-          "seq": 489.0,
-          "period": 3,
-          "time": "Q3 5:48",
-          "text": "Jalen Suggs bad pass\nturnover (Jakob Poeltl steals)"
+          "time": "Q3 3:23",
+          "text": "Jevon Carter makes 25-foot three point step back jumpshot"
         }
       ],
-      "last_seq": 495.0
+      "last_seq": 507.0
     }
   },
   "WAS-POR-2026-03-29": {
     "status": "in",
-    "clock": "3:18 - 3rd",
-    "away_score": "54",
-    "home_score": "81",
+    "clock": "2:26 - 3rd",
+    "away_score": "56",
+    "home_score": "84",
     "team_stats": {
       "WAS": {
-        "fieldGoalsMade-fieldGoalsAttempted": "21-63",
-        "FG%": "33",
+        "fieldGoalsMade-fieldGoalsAttempted": "22-65",
+        "FG%": "34",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "4-17",
         "3P%": "24",
         "freeThrowsMade-freeThrowsAttempted": "8-11",
@@ -13270,45 +13325,45 @@
         "REB": "30",
         "OR": "8",
         "DR": "22",
-        "AST": "11",
-        "STL": "4",
+        "AST": "12",
+        "STL": "5",
         "BLK": "1",
         "TO": "11",
         "TTO": "1",
         "ToTO": "12",
         "TECH": "0",
         "FLAG": "0",
-        "Points Conceded Off Turnovers": "17",
+        "Points Conceded Off Turnovers": "19",
         "FBPs": "3",
-        "PIP": "26",
+        "PIP": "28",
         "PF": "18",
         "LL": "0",
         "LC": "0",
         "LPCT": "0"
       },
       "POR": {
-        "fieldGoalsMade-fieldGoalsAttempted": "29-59",
-        "FG%": "49",
+        "fieldGoalsMade-fieldGoalsAttempted": "30-60",
+        "FG%": "50",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "7-24",
         "3P%": "29",
         "freeThrowsMade-freeThrowsAttempted": "14-19",
         "FT%": "74",
-        "REB": "34",
+        "REB": "35",
         "OR": "6",
-        "DR": "28",
+        "DR": "29",
         "AST": "15",
         "STL": "6",
         "BLK": "8",
-        "TO": "10",
+        "TO": "11",
         "TTO": "0",
-        "ToTO": "10",
+        "ToTO": "11",
         "TECH": "1",
         "FLAG": "0",
-        "Points Conceded Off Turnovers": "13",
-        "FBPs": "11",
-        "PIP": "42",
+        "Points Conceded Off Turnovers": "15",
+        "FBPs": "13",
+        "PIP": "44",
         "PF": "13",
-        "LL": "27",
+        "LL": "28",
         "LC": "0",
         "LPCT": "97"
       }
@@ -13316,7 +13371,7 @@
     "players": {
       "POR": {
         "Toumani Camara": {
-          "MIN": 26,
+          "MIN": 27,
           "PTS": "20",
           "REB": "7",
           "AST": "1",
@@ -13337,16 +13392,16 @@
           "AST": "4",
           "STL": "1",
           "BLK": "0",
-          "TO": "3",
+          "TO": "4",
           "FG": "8-16",
           "3PT": "1-3",
           "FT": "3-6",
-          "fd_pts": 34.4,
-          "dk_pts": 35.75,
+          "fd_pts": 33.4,
+          "dk_pts": 35.25,
           "is_on_court": true
         },
         "Donovan Clingan": {
-          "MIN": 18,
+          "MIN": 19,
           "PTS": "6",
           "REB": "5",
           "AST": "1",
@@ -13391,7 +13446,7 @@
           "is_on_court": false
         },
         "Kris Murray": {
-          "MIN": 17,
+          "MIN": 18,
           "PTS": "3",
           "REB": "0",
           "AST": "1",
@@ -13423,7 +13478,7 @@
         "Matisse Thybulle": {
           "MIN": 16,
           "PTS": "7",
-          "REB": "4",
+          "REB": "5",
           "AST": "1",
           "STL": "0",
           "BLK": "1",
@@ -13431,8 +13486,8 @@
           "FG": "3-5",
           "3PT": "1-2",
           "FT": "0-0",
-          "fd_pts": 15.3,
-          "dk_pts": 15.5,
+          "fd_pts": 16.5,
+          "dk_pts": 16.75,
           "is_on_court": true
         },
         "Jayson Kent": {
@@ -13483,7 +13538,7 @@
           "is_on_court": false
         },
         "Julian Reese": {
-          "MIN": 29,
+          "MIN": 30,
           "PTS": "6",
           "REB": "10",
           "AST": "3",
@@ -13525,17 +13580,17 @@
           "FT": "2-2",
           "fd_pts": 18.4,
           "dk_pts": 20.0,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Bilal Coulibaly": {
-          "MIN": 23,
+          "MIN": 24,
           "PTS": "4",
           "REB": "5",
           "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "2",
-          "FG": "2-13",
+          "FG": "2-14",
           "3PT": "0-5",
           "FT": "0-0",
           "fd_pts": 9.5,
@@ -13543,33 +13598,33 @@
           "is_on_court": true
         },
         "Anthony Gill": {
-          "MIN": 22,
-          "PTS": "6",
-          "REB": "3",
+          "MIN": 23,
+          "PTS": "8",
+          "REB": "2",
           "AST": "0",
           "STL": "1",
           "BLK": "0",
           "TO": "1",
-          "FG": "3-4",
+          "FG": "4-5",
           "3PT": "0-1",
           "FT": "0-0",
-          "fd_pts": 11.6,
-          "dk_pts": 11.25,
+          "fd_pts": 12.4,
+          "dk_pts": 12.0,
           "is_on_court": true
         },
         "Justin Champagnie": {
-          "MIN": 8,
+          "MIN": 10,
           "PTS": "0",
           "REB": "0",
-          "AST": "1",
+          "AST": "2",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
           "FG": "0-2",
           "3PT": "0-1",
           "FT": "0-0",
-          "fd_pts": 1.5,
-          "dk_pts": 1.5,
+          "fd_pts": 3.0,
+          "dk_pts": 3.0,
           "is_on_court": true
         },
         "Sharife Cooper": {
@@ -13607,20 +13662,62 @@
           "PTS": "6",
           "REB": "0",
           "AST": "0",
-          "STL": "0",
+          "STL": "1",
           "BLK": "0",
           "TO": "0",
           "FG": "2-5",
           "3PT": "1-1",
           "FT": "1-1",
-          "fd_pts": 6.0,
-          "dk_pts": 6.5,
-          "is_on_court": false
+          "fd_pts": 9.0,
+          "dk_pts": 8.5,
+          "is_on_court": true
         }
       }
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 495.0,
+          "period": 3,
+          "time": "Q3 2:32",
+          "text": "Will Riley enters the game for Bub Carrington"
+        },
+        {
+          "seq": 493.0,
+          "period": 3,
+          "time": "Q3 2:39",
+          "text": "Anthony Gill makes driving layup (Justin Champagnie assists)"
+        },
+        {
+          "seq": 491.0,
+          "period": 3,
+          "time": "Q3 2:45",
+          "text": "Deni Avdija bad pass\nturnover (Will Riley steals)"
+        },
+        {
+          "seq": 490.0,
+          "period": 3,
+          "time": "Q3 2:49",
+          "text": "Matisse Thybulle defensive rebound"
+        },
+        {
+          "seq": 489.0,
+          "period": 3,
+          "time": "Q3 2:51",
+          "text": "Bilal Coulibaly misses 5-foot turnaround jump shot"
+        },
+        {
+          "seq": 488.0,
+          "period": 3,
+          "time": "Q3 3:19",
+          "text": "Trail Blazers delay of game violation"
+        },
+        {
+          "seq": 487.0,
+          "period": 3,
+          "time": "Q3 3:19",
+          "text": "Deni Avdija makes running layup"
+        },
         {
           "seq": 485.0,
           "period": 3,
@@ -15670,37 +15767,49 @@
       ],
       "new_plays": [
         {
-          "seq": 485.0,
+          "seq": 495.0,
           "period": 3,
-          "time": "Q3 3:25",
-          "text": "Bilal Coulibaly bad pass\nturnover (Donovan Clingan steals)"
+          "time": "Q3 2:32",
+          "text": "Will Riley enters the game for Bub Carrington"
         },
         {
-          "seq": 484.0,
+          "seq": 493.0,
           "period": 3,
-          "time": "Q3 3:44",
-          "text": "Julian Reese defensive rebound"
+          "time": "Q3 2:39",
+          "text": "Anthony Gill makes driving layup (Justin Champagnie assists)"
         },
         {
-          "seq": 483.0,
+          "seq": 491.0,
           "period": 3,
-          "time": "Q3 3:47",
-          "text": "Deni Avdija misses free throw 2 of 2"
+          "time": "Q3 2:45",
+          "text": "Deni Avdija bad pass\nturnover (Will Riley steals)"
         },
         {
-          "seq": 482.0,
+          "seq": 490.0,
           "period": 3,
-          "time": "Q3 3:47",
-          "text": "Trail Blazers offensive team rebound"
+          "time": "Q3 2:49",
+          "text": "Matisse Thybulle defensive rebound"
         },
         {
-          "seq": 481.0,
+          "seq": 489.0,
           "period": 3,
-          "time": "Q3 3:47",
-          "text": "Deni Avdija misses free throw 1 of 2"
+          "time": "Q3 2:51",
+          "text": "Bilal Coulibaly misses 5-foot turnaround jump shot"
+        },
+        {
+          "seq": 488.0,
+          "period": 3,
+          "time": "Q3 3:19",
+          "text": "Trail Blazers delay of game violation"
+        },
+        {
+          "seq": 487.0,
+          "period": 3,
+          "time": "Q3 3:19",
+          "text": "Deni Avdija makes running layup"
         }
       ],
-      "last_seq": 485.0
+      "last_seq": 495.0
     }
   },
   "HOU-NOP-2026-03-29": {
@@ -17037,7 +17146,7 @@
   },
   "NYK-OKC-2026-03-29": {
     "status": "in",
-    "clock": "7:24 - 1st",
+    "clock": "7:21 - 1st",
     "away_score": "9",
     "home_score": "9",
     "team_stats": {
@@ -17062,7 +17171,7 @@
         "Points Conceded Off Turnovers": "0",
         "FBPs": "0",
         "PIP": "4",
-        "PF": "0",
+        "PF": "1",
         "LL": "0",
         "LC": "0",
         "LPCT": "0"
@@ -17219,7 +17328,7 @@
           "is_on_court": true
         },
         "Mikal Bridges": {
-          "MIN": 4,
+          "MIN": 5,
           "PTS": "4",
           "REB": "0",
           "AST": "0",
@@ -17252,6 +17361,30 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 53.0,
+          "period": 1,
+          "time": "Q1 7:21",
+          "text": "Thunder Full timeout"
+        },
+        {
+          "seq": 51.0,
+          "period": 1,
+          "time": "Q1 7:21",
+          "text": "Mikal Bridges personal foul"
+        },
+        {
+          "seq": 50.0,
+          "period": 1,
+          "time": "Q1 7:24",
+          "text": "Isaiah Hartenstein defensive rebound"
+        },
+        {
+          "seq": 49.0,
+          "period": 1,
+          "time": "Q1 7:26",
+          "text": "OG Anunoby misses 2-foot two point shot"
+        },
         {
           "seq": 48.0,
           "period": 1,
@@ -17453,67 +17586,31 @@
       ],
       "new_plays": [
         {
-          "seq": 48.0,
+          "seq": 53.0,
           "period": 1,
-          "time": "Q1 7:35",
-          "text": "Jalen Brunson defensive rebound"
+          "time": "Q1 7:21",
+          "text": "Thunder Full timeout"
         },
         {
-          "seq": 47.0,
+          "seq": 51.0,
           "period": 1,
-          "time": "Q1 7:39",
-          "text": "Shai Gilgeous-Alexander misses running pullup jump shot"
+          "time": "Q1 7:21",
+          "text": "Mikal Bridges personal foul"
         },
         {
-          "seq": 46.0,
+          "seq": 50.0,
           "period": 1,
-          "time": "Q1 7:43",
-          "text": "Shai Gilgeous-Alexander defensive rebound"
+          "time": "Q1 7:24",
+          "text": "Isaiah Hartenstein defensive rebound"
         },
         {
-          "seq": 45.0,
+          "seq": 49.0,
           "period": 1,
-          "time": "Q1 7:45",
-          "text": "Josh Hart misses running layup"
-        },
-        {
-          "seq": 44.0,
-          "period": 1,
-          "time": "Q1 7:50",
-          "text": "Karl-Anthony Towns defensive rebound"
-        },
-        {
-          "seq": 43.0,
-          "period": 1,
-          "time": "Q1 7:52",
-          "text": "Isaiah Hartenstein misses 9-foot floating jump shot"
-        },
-        {
-          "seq": 41.0,
-          "period": 1,
-          "time": "Q1 8:07",
-          "text": "Mikal Bridges makes layup (Jalen Brunson assists)"
-        },
-        {
-          "seq": 40.0,
-          "period": 1,
-          "time": "Q1 8:13",
-          "text": "Karl-Anthony Towns defensive rebound"
-        },
-        {
-          "seq": 39.0,
-          "period": 1,
-          "time": "Q1 8:16",
-          "text": "Shai Gilgeous-Alexander misses 12-foot pullup jump shot"
-        },
-        {
-          "seq": 37.0,
-          "period": 1,
-          "time": "Q1 8:28",
-          "text": "Jalen Brunson makes 23-foot three point jumper (OG Anunoby assists)"
+          "time": "Q1 7:26",
+          "text": "OG Anunoby misses 2-foot two point shot"
         }
       ],
-      "last_seq": 48.0
+      "last_seq": 53.0
     }
   }
 }
