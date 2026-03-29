@@ -1,21 +1,21 @@
 {
   "LAC-MIL-2026-03-29": {
     "status": "in",
-    "clock": "6:46 - 1st",
-    "away_score": "13",
+    "clock": "6:16 - 1st",
+    "away_score": "16",
     "home_score": "15",
     "team_stats": {
       "LAC": {
-        "fieldGoalsMade-fieldGoalsAttempted": "6-10",
-        "FG%": "60",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "1-4",
-        "3P%": "25",
+        "fieldGoalsMade-fieldGoalsAttempted": "7-11",
+        "FG%": "64",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "2-5",
+        "3P%": "40",
         "freeThrowsMade-freeThrowsAttempted": "0-0",
         "FT%": "0",
         "REB": "4",
         "OR": "0",
         "DR": "4",
-        "AST": "3",
+        "AST": "4",
         "STL": "1",
         "BLK": "1",
         "TO": "1",
@@ -24,12 +24,12 @@
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "3",
-        "FBPs": "0",
+        "FBPs": "3",
         "PIP": "8",
         "PF": "1",
         "LL": "4",
-        "LC": "3",
-        "LPCT": "44"
+        "LC": "4",
+        "LPCT": "48"
       },
       "MIL": {
         "fieldGoalsMade-fieldGoalsAttempted": "6-10",
@@ -44,35 +44,35 @@
         "AST": "3",
         "STL": "1",
         "BLK": "0",
-        "TO": "2",
+        "TO": "3",
         "TTO": "0",
-        "ToTO": "2",
+        "ToTO": "3",
         "TECH": "0",
         "FLAG": "0",
-        "Points Conceded Off Turnovers": "2",
+        "Points Conceded Off Turnovers": "5",
         "FBPs": "0",
         "PIP": "6",
         "PF": "2",
         "LL": "2",
-        "LC": "3",
-        "LPCT": "17"
+        "LC": "4",
+        "LPCT": "18"
       }
     },
     "players": {
       "MIL": {
         "Pete Nance": {
-          "MIN": 5,
+          "MIN": 6,
           "PTS": "0",
           "REB": "0",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
-          "TO": "0",
+          "TO": "1",
           "FG": "0-2",
           "3PT": "0-2",
           "FT": "0-0",
-          "fd_pts": 0.0,
-          "dk_pts": 0.0,
+          "fd_pts": -1.0,
+          "dk_pts": -0.5,
           "is_on_court": true
         },
         "Ousmane Dieng": {
@@ -134,22 +134,37 @@
           "fd_pts": 0.0,
           "dk_pts": 0.0,
           "is_on_court": true
+        },
+        "Taurean Prince": {
+          "MIN": 0,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
+          "is_on_court": false
         }
       },
       "LAC": {
         "Kawhi Leonard": {
           "MIN": 5,
-          "PTS": "2",
+          "PTS": "5",
           "REB": "3",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "1-2",
-          "3PT": "0-1",
+          "FG": "2-3",
+          "3PT": "1-2",
           "FT": "0-0",
-          "fd_pts": 5.6,
-          "dk_pts": 5.75,
+          "fd_pts": 8.6,
+          "dk_pts": 9.25,
           "is_on_court": true
         },
         "John Collins": {
@@ -201,21 +216,39 @@
           "MIN": 5,
           "PTS": "5",
           "REB": "1",
-          "AST": "2",
-          "STL": "0",
+          "AST": "3",
+          "STL": "1",
           "BLK": "0",
           "TO": "0",
           "FG": "2-3",
           "3PT": "1-2",
           "FT": "0-0",
-          "fd_pts": 9.2,
-          "dk_pts": 9.75,
+          "fd_pts": 13.7,
+          "dk_pts": 13.25,
           "is_on_court": true
         }
       }
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 58.0,
+          "period": 1,
+          "time": "Q1 6:16",
+          "text": "Pete Nance out of bounds bad pass turnover"
+        },
+        {
+          "seq": 56.0,
+          "period": 1,
+          "time": "Q1 6:40",
+          "text": "Kawhi Leonard makes 22-foot running jump shot (Darius Garland assists)"
+        },
+        {
+          "seq": 54.0,
+          "period": 1,
+          "time": "Q1 6:46",
+          "text": "Gary Trent Jr. bad pass\nturnover (Darius Garland steals)"
+        },
         {
           "seq": 53.0,
           "period": 1,
@@ -429,43 +462,25 @@
       ],
       "new_plays": [
         {
-          "seq": 53.0,
+          "seq": 58.0,
           "period": 1,
-          "time": "Q1 6:50",
-          "text": "Gary Trent Jr. defensive rebound"
+          "time": "Q1 6:16",
+          "text": "Pete Nance out of bounds bad pass turnover"
         },
         {
-          "seq": 52.0,
+          "seq": 56.0,
           "period": 1,
-          "time": "Q1 6:54",
-          "text": "Kawhi Leonard misses 27-foot three point step back jumpshot"
+          "time": "Q1 6:40",
+          "text": "Kawhi Leonard makes 22-foot running jump shot (Darius Garland assists)"
         },
         {
-          "seq": 51.0,
+          "seq": 54.0,
           "period": 1,
-          "time": "Q1 7:02",
-          "text": "Gary Trent Jr. makes 13-foot driving floating jump shot"
-        },
-        {
-          "seq": 49.0,
-          "period": 1,
-          "time": "Q1 7:29",
-          "text": "Derrick Jones Jr. makes dunk (John Collins assists)"
-        },
-        {
-          "seq": 48.0,
-          "period": 1,
-          "time": "Q1 7:53",
-          "text": "Gary Trent Jr. makes 24-foot three pointer"
-        },
-        {
-          "seq": 46.0,
-          "period": 1,
-          "time": "Q1 7:54",
-          "text": "Derrick Jones Jr. lost ball turnover (Gary Trent Jr. steals)"
+          "time": "Q1 6:46",
+          "text": "Gary Trent Jr. bad pass\nturnover (Darius Garland steals)"
         }
       ],
-      "last_seq": 53.0
+      "last_seq": 58.0
     }
   }
 }
