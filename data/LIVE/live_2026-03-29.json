@@ -4723,7 +4723,7 @@
       },
       "SAC": {
         "Precious Achiuwa": {
-          "MIN": 5,
+          "MIN": 6,
           "PTS": "2",
           "REB": "1",
           "AST": "0",
@@ -4735,7 +4735,7 @@
           "FT": "0-2",
           "fd_pts": 2.2,
           "dk_pts": 2.75,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Maxime Raynaud": {
           "MIN": 5,
@@ -4753,7 +4753,7 @@
           "is_on_court": true
         },
         "Daeqwon Plowden": {
-          "MIN": 5,
+          "MIN": 6,
           "PTS": "0",
           "REB": "0",
           "AST": "2",
@@ -4768,7 +4768,7 @@
           "is_on_court": true
         },
         "Devin Carter": {
-          "MIN": 5,
+          "MIN": 6,
           "PTS": "0",
           "REB": "1",
           "AST": "1",
@@ -4780,7 +4780,7 @@
           "FT": "0-0",
           "fd_pts": 1.7,
           "dk_pts": 2.25,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Nique Clifford": {
           "MIN": 2,
@@ -4795,7 +4795,22 @@
           "FT": "0-0",
           "fd_pts": 0.0,
           "dk_pts": 0.0,
-          "is_on_court": false
+          "is_on_court": true
+        },
+        "Doug McDermott": {
+          "MIN": 0,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
+          "is_on_court": true
         },
         "DaQuan Jeffries": {
           "MIN": 4,
@@ -4811,11 +4826,44 @@
           "fd_pts": 1.0,
           "dk_pts": 1.5,
           "is_on_court": true
+        },
+        "Killian Hayes": {
+          "MIN": 0,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
+          "is_on_court": false
         }
       }
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 66.0,
+          "period": 1,
+          "time": "Q1 6:27",
+          "text": "enters the game for Daeqwon Plowden"
+        },
+        {
+          "seq": 65.0,
+          "period": 1,
+          "time": "Q1 6:27",
+          "text": "Nique Clifford enters the game for Devin Carter"
+        },
+        {
+          "seq": 64.0,
+          "period": 1,
+          "time": "Q1 6:27",
+          "text": "Doug McDermott enters the game for Precious Achiuwa"
+        },
         {
           "seq": 63.0,
           "period": 1,
@@ -5069,15 +5117,34 @@
           "text": "Maxime Raynaud vs. Nic Claxton (Precious Achiuwa gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 63.0
+      "new_plays": [
+        {
+          "seq": 66.0,
+          "period": 1,
+          "time": "Q1 6:27",
+          "text": "enters the game for Daeqwon Plowden"
+        },
+        {
+          "seq": 65.0,
+          "period": 1,
+          "time": "Q1 6:27",
+          "text": "Nique Clifford enters the game for Devin Carter"
+        },
+        {
+          "seq": 64.0,
+          "period": 1,
+          "time": "Q1 6:27",
+          "text": "Doug McDermott enters the game for Precious Achiuwa"
+        }
+      ],
+      "last_seq": 66.0
     }
   },
   "BOS-CHA-2026-03-29": {
     "status": "in",
-    "clock": "5:48 - 1st",
+    "clock": "5:29 - 1st",
     "away_score": "15",
-    "home_score": "9",
+    "home_score": "12",
     "team_stats": {
       "BOS": {
         "fieldGoalsMade-fieldGoalsAttempted": "6-15",
@@ -5100,7 +5167,7 @@
         "Points Conceded Off Turnovers": "0",
         "FBPs": "3",
         "PIP": "4",
-        "PF": "0",
+        "PF": "1",
         "LL": "6",
         "LC": "3",
         "LPCT": "27"
@@ -5129,7 +5196,7 @@
         "PF": "1",
         "LL": "3",
         "LC": "3",
-        "LPCT": "57"
+        "LPCT": "55"
       }
     },
     "players": {
@@ -5147,7 +5214,7 @@
           "FT": "0-0",
           "fd_pts": 4.7,
           "dk_pts": 4.75,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Moussa Diabate": {
           "MIN": 5,
@@ -5224,6 +5291,21 @@
           "dk_pts": 0.0,
           "is_on_court": true
         },
+        "Coby White": {
+          "MIN": 0,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
+          "is_on_court": true
+        },
         "Josh Green": {
           "MIN": 1,
           "PTS": "0",
@@ -5238,6 +5320,21 @@
           "fd_pts": 0.0,
           "dk_pts": 0.0,
           "is_on_court": true
+        },
+        "Sion James": {
+          "MIN": 0,
+          "PTS": "0",
+          "REB": "0",
+          "AST": "0",
+          "STL": "0",
+          "BLK": "0",
+          "TO": "0",
+          "FG": "0-0",
+          "3PT": "0-0",
+          "FT": "0-0",
+          "fd_pts": 0.0,
+          "dk_pts": 0.0,
+          "is_on_court": false
         }
       },
       "BOS": {
@@ -5335,6 +5432,36 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 76.0,
+          "period": 1,
+          "time": "Q1 5:48",
+          "text": "enters the game for LaMelo Ball"
+        },
+        {
+          "seq": 75.0,
+          "period": 1,
+          "time": "Q1 5:48",
+          "text": "Coby White enters the game for Miles Bridges"
+        },
+        {
+          "seq": 73.0,
+          "period": 1,
+          "time": "Q1 5:48",
+          "text": "Neemias Queta loose ball foul"
+        },
+        {
+          "seq": 72.0,
+          "period": 1,
+          "time": "Q1 5:48",
+          "text": "Hornets defensive team rebound"
+        },
+        {
+          "seq": 71.0,
+          "period": 1,
+          "time": "Q1 5:49",
+          "text": "Baylor Scheierman misses 22-foot three point jumper"
+        },
         {
           "seq": 70.0,
           "period": 1,
@@ -5440,25 +5567,25 @@
         {
           "seq": 47.0,
           "period": 1,
-          "time": "Q1 7:37",
+          "time": "Q1 7:40",
           "text": "Brandon Miller defensive rebound"
         },
         {
           "seq": 46.0,
           "period": 1,
-          "time": "Q1 7:39",
+          "time": "Q1 7:43",
           "text": "Neemias Queta misses driving layup"
         },
         {
           "seq": 45.0,
           "period": 1,
-          "time": "Q1 7:45",
+          "time": "Q1 7:47",
           "text": "Neemias Queta offensive rebound"
         },
         {
           "seq": 44.0,
           "period": 1,
-          "time": "Q1 7:48",
+          "time": "Q1 7:50",
           "text": "Payton Pritchard misses 28-foot three point pullup jump shot"
         },
         {
@@ -5656,60 +5783,48 @@
       ],
       "new_plays": [
         {
-          "seq": 70.0,
+          "seq": 76.0,
           "period": 1,
-          "time": "Q1 5:57",
-          "text": "Neemias Queta defensive rebound"
+          "time": "Q1 5:48",
+          "text": "enters the game for LaMelo Ball"
         },
         {
-          "seq": 69.0,
+          "seq": 75.0,
           "period": 1,
-          "time": "Q1 6:01",
-          "text": "LaMelo Ball misses 26-foot three point jumper"
+          "time": "Q1 5:48",
+          "text": "Coby White enters the game for Miles Bridges"
         },
         {
-          "seq": 68.0,
+          "seq": 73.0,
           "period": 1,
-          "time": "Q1 6:13",
-          "text": "Jayson Tatum makes 27-foot three point jumper"
+          "time": "Q1 5:48",
+          "text": "Neemias Queta loose ball foul"
         },
         {
-          "seq": 65.0,
+          "seq": 72.0,
           "period": 1,
-          "time": "Q1 6:24",
-          "text": "Miles Bridges personal foul"
+          "time": "Q1 5:48",
+          "text": "Hornets defensive team rebound"
         },
         {
-          "seq": 64.0,
+          "seq": 71.0,
           "period": 1,
-          "time": "Q1 6:24",
-          "text": "Celtics defensive team rebound"
-        },
-        {
-          "seq": 63.0,
-          "period": 1,
-          "time": "Q1 6:25",
-          "text": "LaMelo Ball misses 25-foot three point jumper"
-        },
-        {
-          "seq": 61.0,
-          "period": 1,
-          "time": "Q1 6:28",
-          "text": "Baylor Scheierman enters the game for Jordan Walsh"
+          "time": "Q1 5:49",
+          "text": "Baylor Scheierman misses 22-foot three point jumper"
         }
       ],
-      "last_seq": 70.0
+      "last_seq": 76.0
     }
   },
   "ORL-TOR-2026-03-29": {
     "status": "in",
-    "clock": "7:25 - 1st",
-    "away_score": "13",
+    "clock": "6:49 - 1st",
+    "away_score": "15",
     "home_score": "8",
     "team_stats": {
       "ORL": {
-        "fieldGoalsMade-fieldGoalsAttempted": "5-10",
-        "FG%": "50",
+        "fieldGoalsMade-fieldGoalsAttempted": "5-11",
+        "FG%": "45",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "2-4",
         "3P%": "50",
         "freeThrowsMade-freeThrowsAttempted": "1-1",
@@ -5718,7 +5833,7 @@
         "OR": "2",
         "DR": "3",
         "AST": "3",
-        "STL": "0",
+        "STL": "1",
         "BLK": "0",
         "TO": "2",
         "TTO": "0",
@@ -5734,8 +5849,8 @@
         "LPCT": "94"
       },
       "TOR": {
-        "fieldGoalsMade-fieldGoalsAttempted": "4-8",
-        "FG%": "50",
+        "fieldGoalsMade-fieldGoalsAttempted": "4-9",
+        "FG%": "44",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "0-3",
         "3P%": "0",
         "freeThrowsMade-freeThrowsAttempted": "0-0",
@@ -5745,10 +5860,10 @@
         "DR": "1",
         "AST": "3",
         "STL": "1",
-        "BLK": "1",
-        "TO": "0",
+        "BLK": "0",
+        "TO": "1",
         "TTO": "0",
-        "ToTO": "0",
+        "ToTO": "1",
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "0",
@@ -5793,7 +5908,7 @@
           "is_on_court": true
         },
         "Jakob Poeltl": {
-          "MIN": 4,
+          "MIN": 5,
           "PTS": "2",
           "REB": "1",
           "AST": "0",
@@ -5844,18 +5959,18 @@
           "AST": "0",
           "STL": "0",
           "BLK": "0",
-          "TO": "0",
-          "FG": "0-0",
+          "TO": "1",
+          "FG": "0-1",
           "3PT": "0-0",
           "FT": "0-0",
-          "fd_pts": 0.0,
-          "dk_pts": 0.0,
+          "fd_pts": -1.0,
+          "dk_pts": -0.5,
           "is_on_court": true
         }
       },
       "ORL": {
         "Paolo Banchero": {
-          "MIN": 4,
+          "MIN": 5,
           "PTS": "0",
           "REB": "0",
           "AST": "1",
@@ -5900,14 +6015,14 @@
           "is_on_court": true
         },
         "Desmond Bane": {
-          "MIN": 4,
+          "MIN": 5,
           "PTS": "5",
           "REB": "2",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
           "TO": "2",
-          "FG": "2-2",
+          "FG": "2-3",
           "3PT": "1-1",
           "FT": "0-0",
           "fd_pts": 5.4,
@@ -5933,6 +6048,42 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 60.0,
+          "period": 1,
+          "time": "Q1 7:14",
+          "text": "Magic defensive team rebound"
+        },
+        {
+          "seq": 59.0,
+          "period": 1,
+          "time": "Q1 7:14",
+          "text": "Gradey Dick misses driving floating jump shot"
+        },
+        {
+          "seq": 57.0,
+          "period": 1,
+          "time": "Q1 7:25",
+          "text": "Raptors defensive team rebound"
+        },
+        {
+          "seq": 56.0,
+          "period": 1,
+          "time": "Q1 7:25",
+          "text": "Desmond Bane misses driving layup"
+        },
+        {
+          "seq": 54.0,
+          "period": 1,
+          "time": "Q1 7:28",
+          "text": "Gradey Dick lost ball turnover (Jalen Suggs steals)"
+        },
+        {
+          "seq": 52.0,
+          "period": 1,
+          "time": "Q1 7:35",
+          "text": "Desmond Bane bad pass\nturnover (Scottie Barnes steals)"
+        },
         {
           "seq": 50.0,
           "period": 1,
@@ -6081,7 +6232,7 @@
           "seq": 17.0,
           "period": 1,
           "time": "Q1 10:55",
-          "text": "Scottie Barnes blocks Paolo Banchero 's 2-foot driving layup"
+          "text": "Paolo Banchero misses driving layup"
         },
         {
           "seq": 15.0,
@@ -6134,13 +6285,43 @@
       ],
       "new_plays": [
         {
-          "seq": 50.0,
+          "seq": 60.0,
           "period": 1,
-          "time": "Q1 7:52",
-          "text": "Jakob Poeltl makes reverse layup (Scottie Barnes assists)"
+          "time": "Q1 7:14",
+          "text": "Magic defensive team rebound"
+        },
+        {
+          "seq": 59.0,
+          "period": 1,
+          "time": "Q1 7:14",
+          "text": "Gradey Dick misses driving floating jump shot"
+        },
+        {
+          "seq": 57.0,
+          "period": 1,
+          "time": "Q1 7:25",
+          "text": "Raptors defensive team rebound"
+        },
+        {
+          "seq": 56.0,
+          "period": 1,
+          "time": "Q1 7:25",
+          "text": "Desmond Bane misses driving layup"
+        },
+        {
+          "seq": 54.0,
+          "period": 1,
+          "time": "Q1 7:28",
+          "text": "Gradey Dick lost ball turnover (Jalen Suggs steals)"
+        },
+        {
+          "seq": 52.0,
+          "period": 1,
+          "time": "Q1 7:35",
+          "text": "Desmond Bane bad pass\nturnover (Scottie Barnes steals)"
         }
       ],
-      "last_seq": 50.0
+      "last_seq": 60.0
     }
   },
   "WAS-POR-2026-03-29": {
@@ -6709,38 +6890,7 @@
           "text": "Julian Reese vs. Donovan Clingan (Deni Avdija gains possession)"
         }
       ],
-      "new_plays": [
-        {
-          "seq": 76.0,
-          "period": 1,
-          "time": "Q1 6:20",
-          "text": "(06:20) [Wizards] COACH'S CHALLENGE (CALL REPLAYCENTER)"
-        },
-        {
-          "seq": 75.0,
-          "period": 1,
-          "time": "Q1 6:20",
-          "text": "Trail Blazers Full timeout"
-        },
-        {
-          "seq": 74.0,
-          "period": 1,
-          "time": "Q1 6:20",
-          "text": "Deni Avdija offensive foul turnover"
-        },
-        {
-          "seq": 72.0,
-          "period": 1,
-          "time": "Q1 6:20",
-          "text": "Deni Avdija offensive charge"
-        },
-        {
-          "seq": 71.0,
-          "period": 1,
-          "time": "Q1 6:32",
-          "text": "Bub Carrington makes 20-foot fade away jump shot"
-        }
-      ],
+      "new_plays": [],
       "last_seq": 76.0
     }
   }
