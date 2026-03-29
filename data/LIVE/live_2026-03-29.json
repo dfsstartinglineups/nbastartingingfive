@@ -1,7 +1,7 @@
 {
   "LAC-MIL-2026-03-29": {
     "status": "in",
-    "clock": "6:50 - 2nd",
+    "clock": "6:17 - 2nd",
     "away_score": "36",
     "home_score": "34",
     "team_stats": {
@@ -12,9 +12,9 @@
         "3P%": "33",
         "freeThrowsMade-freeThrowsAttempted": "0-0",
         "FT%": "0",
-        "REB": "17",
+        "REB": "18",
         "OR": "4",
-        "DR": "13",
+        "DR": "14",
         "AST": "8",
         "STL": "3",
         "BLK": "2",
@@ -29,15 +29,15 @@
         "PF": "2",
         "LL": "9",
         "LC": "6",
-        "LPCT": "71"
+        "LPCT": "72"
       },
       "MIL": {
-        "fieldGoalsMade-fieldGoalsAttempted": "13-28",
-        "FG%": "46",
+        "fieldGoalsMade-fieldGoalsAttempted": "13-29",
+        "FG%": "45",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "7-18",
         "3P%": "39",
-        "freeThrowsMade-freeThrowsAttempted": "0-0",
-        "FT%": "0",
+        "freeThrowsMade-freeThrowsAttempted": "1-1",
+        "FT%": "100",
         "REB": "14",
         "OR": "1",
         "DR": "13",
@@ -55,7 +55,7 @@
         "PF": "7",
         "LL": "2",
         "LC": "6",
-        "LPCT": "12"
+        "LPCT": "11"
       }
     },
     "players": {
@@ -167,25 +167,25 @@
         },
         "AJ Green": {
           "MIN": 9,
-          "PTS": "0",
+          "PTS": "1",
           "REB": "2",
           "AST": "0",
           "STL": "1",
           "BLK": "0",
           "TO": "0",
-          "FG": "0-1",
+          "FG": "0-2",
           "3PT": "0-1",
-          "FT": "0-0",
-          "fd_pts": 5.4,
-          "dk_pts": 4.5,
+          "FT": "1-1",
+          "fd_pts": 6.4,
+          "dk_pts": 5.5,
           "is_on_court": true
         }
       },
       "LAC": {
         "Kawhi Leonard": {
-          "MIN": 7,
+          "MIN": 8,
           "PTS": "5",
-          "REB": "7",
+          "REB": "8",
           "AST": "0",
           "STL": "0",
           "BLK": "0",
@@ -193,8 +193,8 @@
           "FG": "2-7",
           "3PT": "1-2",
           "FT": "0-0",
-          "fd_pts": 13.4,
-          "dk_pts": 14.25,
+          "fd_pts": 14.6,
+          "dk_pts": 15.5,
           "is_on_court": true
         },
         "John Collins": {
@@ -321,6 +321,24 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 200.0,
+          "period": 2,
+          "time": "Q2 6:27",
+          "text": "Kawhi Leonard defensive rebound"
+        },
+        {
+          "seq": 199.0,
+          "period": 2,
+          "time": "Q2 6:31",
+          "text": "AJ Green misses 13-foot two point shot"
+        },
+        {
+          "seq": 198.0,
+          "period": 2,
+          "time": "Q2 6:50",
+          "text": "AJ Green makes technical free throw"
+        },
         {
           "seq": 196.0,
           "period": 2,
@@ -1152,13 +1170,25 @@
       ],
       "new_plays": [
         {
-          "seq": 196.0,
+          "seq": 200.0,
+          "period": 2,
+          "time": "Q2 6:27",
+          "text": "Kawhi Leonard defensive rebound"
+        },
+        {
+          "seq": 199.0,
+          "period": 2,
+          "time": "Q2 6:31",
+          "text": "AJ Green misses 13-foot two point shot"
+        },
+        {
+          "seq": 198.0,
           "period": 2,
           "time": "Q2 6:50",
-          "text": "Darius Garland enters the game for Bennedict Mathurin"
+          "text": "AJ Green makes technical free throw"
         }
       ],
-      "last_seq": 196.0
+      "last_seq": 200.0
     }
   }
 }
