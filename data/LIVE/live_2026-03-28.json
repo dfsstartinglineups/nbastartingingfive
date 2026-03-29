@@ -6320,9 +6320,9 @@
     }
   },
   "PHI-CHA-2026-03-28": {
-    "status": "in",
-    "clock": "1.5 - 4th",
-    "away_score": "117",
+    "status": "post",
+    "clock": "Final",
+    "away_score": "118",
     "home_score": "114",
     "team_stats": {
       "PHI": {
@@ -6330,8 +6330,8 @@
         "FG%": "49",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "16-34",
         "3P%": "47",
-        "freeThrowsMade-freeThrowsAttempted": "21-28",
-        "FT%": "75",
+        "freeThrowsMade-freeThrowsAttempted": "22-29",
+        "FT%": "76",
         "REB": "41",
         "OR": "7",
         "DR": "34",
@@ -6408,7 +6408,7 @@
           "FT": "2-3",
           "fd_pts": 28.2,
           "dk_pts": 29.75,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Brandon Miller": {
           "MIN": 34,
@@ -6441,7 +6441,7 @@
           "is_on_court": true
         },
         "Kon Knueppel": {
-          "MIN": 35,
+          "MIN": 36,
           "PTS": "11",
           "REB": "11",
           "AST": "2",
@@ -6453,7 +6453,7 @@
           "FT": "2-2",
           "fd_pts": 25.2,
           "dk_pts": 29.75,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Grant Williams": {
           "MIN": 25,
@@ -6483,7 +6483,7 @@
           "FT": "2-2",
           "fd_pts": 7.0,
           "dk_pts": 6.0,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Coby White": {
           "MIN": 19,
@@ -6528,13 +6528,13 @@
           "FT": "2-2",
           "fd_pts": 6.2,
           "dk_pts": 6.25,
-          "is_on_court": true
+          "is_on_court": false
         }
       },
       "PHI": {
         "Paul George": {
           "MIN": 36,
-          "PTS": "25",
+          "PTS": "26",
           "REB": "13",
           "AST": "2",
           "STL": "4",
@@ -6542,9 +6542,9 @@
           "TO": "3",
           "FG": "9-19",
           "3PT": "4-11",
-          "FT": "3-4",
-          "fd_pts": 55.6,
-          "dk_pts": 56.25,
+          "FT": "4-5",
+          "fd_pts": 56.6,
+          "dk_pts": 57.25,
           "is_on_court": true
         },
         "Dominick Barlow": {
@@ -6578,22 +6578,22 @@
           "is_on_court": true
         },
         "Tyrese Maxey": {
-          "MIN": 42,
+          "MIN": 43,
           "PTS": "26",
           "REB": "7",
           "AST": "8",
-          "STL": "2",
+          "STL": "1",
           "BLK": "1",
           "TO": "3",
           "FG": "10-18",
           "3PT": "3-6",
           "FT": "3-4",
-          "fd_pts": 52.4,
-          "dk_pts": 52.75,
+          "fd_pts": 49.4,
+          "dk_pts": 50.75,
           "is_on_court": true
         },
         "VJ Edgecombe": {
-          "MIN": 30,
+          "MIN": 31,
           "PTS": "13",
           "REB": "5",
           "AST": "3",
@@ -6668,7 +6668,7 @@
           "is_on_court": false
         },
         "Kelly Oubre Jr.": {
-          "MIN": 27,
+          "MIN": 28,
           "PTS": "9",
           "REB": "5",
           "AST": "0",
@@ -6699,8 +6699,51 @@
         }
       }
     },
+    "game_ended_time": "2026-03-28T20:35:21.475495-04:00",
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 717.0,
+          "period": 4,
+          "time": "Q4 0.0",
+          "text": "End of the 4th Quarter"
+        },
+        {
+          "seq": 716.0,
+          "period": 4,
+          "time": "Q4 0.0",
+          "text": "Hornets offensive team rebound"
+        },
+        {
+          "seq": 715.0,
+          "period": 4,
+          "time": "Q4 0.0",
+          "text": "LaMelo Ball misses heave jump shot"
+        },
+        {
+          "seq": 714.0,
+          "period": 4,
+          "time": "Q4 1.5",
+          "text": "Paul George makes free throw 2 of 2"
+        },
+        {
+          "seq": 712.0,
+          "period": 4,
+          "time": "Q4 1.5",
+          "text": "Ryan Kalkbrenner enters the game for Kon Knueppel"
+        },
+        {
+          "seq": 710.0,
+          "period": 4,
+          "time": "Q4 1.5",
+          "text": "Moussa Diabate enters the game for Sion James"
+        },
+        {
+          "seq": 709.0,
+          "period": 4,
+          "time": "Q4 1.5",
+          "text": "76ers offensive team rebound"
+        },
         {
           "seq": 708.0,
           "period": 4,
@@ -6765,7 +6808,7 @@
           "seq": 692.0,
           "period": 4,
           "time": "Q4 19.3",
-          "text": "LaMelo Ball misses 30-foot three point jumper"
+          "text": "LaMelo Ball misses 30-foot three point pullup jump shot"
         },
         {
           "seq": 691.0,
@@ -9734,44 +9777,62 @@
       ],
       "new_plays": [
         {
-          "seq": 708.0,
+          "seq": 717.0,
           "period": 4,
-          "time": "Q4 1.5",
-          "text": "Paul George misses free throw 1 of 2"
+          "time": "Q4 0.0",
+          "text": "End of the 4th Quarter"
         },
         {
-          "seq": 706.0,
+          "seq": 716.0,
           "period": 4,
-          "time": "Q4 1.5",
-          "text": "Grant Williams personal take foul"
+          "time": "Q4 0.0",
+          "text": "Hornets offensive team rebound"
         },
         {
-          "seq": 705.0,
+          "seq": 715.0,
           "period": 4,
-          "time": "Q4 1.5",
-          "text": "Paul George defensive rebound"
+          "time": "Q4 0.0",
+          "text": "LaMelo Ball misses heave jump shot"
         },
         {
-          "seq": 704.0,
+          "seq": 714.0,
           "period": 4,
-          "time": "Q4 4.3",
-          "text": "LaMelo Ball misses 23-foot three point jumper"
+          "time": "Q4 1.5",
+          "text": "Paul George makes free throw 2 of 2"
+        },
+        {
+          "seq": 712.0,
+          "period": 4,
+          "time": "Q4 1.5",
+          "text": "Ryan Kalkbrenner enters the game for Kon Knueppel"
+        },
+        {
+          "seq": 710.0,
+          "period": 4,
+          "time": "Q4 1.5",
+          "text": "Moussa Diabate enters the game for Sion James"
+        },
+        {
+          "seq": 709.0,
+          "period": 4,
+          "time": "Q4 1.5",
+          "text": "76ers offensive team rebound"
         }
       ],
-      "last_seq": 708.0
+      "last_seq": 717.0
     }
   },
   "SAC-ATL-2026-03-28": {
     "status": "in",
-    "clock": "2:03 - 2nd",
-    "away_score": "51",
-    "home_score": "61",
+    "clock": "1:05 - 2nd",
+    "away_score": "54",
+    "home_score": "63",
     "team_stats": {
       "SAC": {
-        "fieldGoalsMade-fieldGoalsAttempted": "21-41",
-        "FG%": "51",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "4-11",
-        "3P%": "36",
+        "fieldGoalsMade-fieldGoalsAttempted": "21-43",
+        "FG%": "49",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "4-12",
+        "3P%": "33",
         "freeThrowsMade-freeThrowsAttempted": "5-5",
         "FT%": "100",
         "REB": "18",
@@ -9791,86 +9852,86 @@
         "PF": "9",
         "LL": "7",
         "LC": "4",
-        "LPCT": "51"
+        "LPCT": "49"
       },
       "ATL": {
-        "fieldGoalsMade-fieldGoalsAttempted": "22-43",
-        "FG%": "51",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "5-17",
-        "3P%": "29",
+        "fieldGoalsMade-fieldGoalsAttempted": "24-45",
+        "FG%": "53",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "6-18",
+        "3P%": "33",
         "freeThrowsMade-freeThrowsAttempted": "9-10",
         "FT%": "90",
-        "REB": "17",
+        "REB": "19",
         "OR": "7",
-        "DR": "10",
-        "AST": "17",
+        "DR": "12",
+        "AST": "19",
         "STL": "6",
-        "BLK": "1",
+        "BLK": "2",
         "TO": "6",
         "TTO": "0",
         "ToTO": "6",
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "13",
-        "FBPs": "5",
-        "PIP": "28",
+        "FBPs": "12",
+        "PIP": "30",
         "PF": "5",
-        "LL": "7",
+        "LL": "12",
         "LC": "4",
-        "LPCT": "29"
+        "LPCT": "32"
       }
     },
     "players": {
       "ATL": {
         "Jalen Johnson": {
-          "MIN": 16,
+          "MIN": 17,
           "PTS": "13",
           "REB": "2",
-          "AST": "5",
+          "AST": "6",
           "STL": "1",
           "BLK": "0",
           "TO": "1",
           "FG": "6-11",
           "3PT": "1-4",
           "FT": "0-0",
-          "fd_pts": 24.9,
-          "dk_pts": 25.0,
+          "fd_pts": 26.4,
+          "dk_pts": 26.5,
           "is_on_court": true
         },
         "Mouhamed Gueye": {
-          "MIN": 11,
-          "PTS": "2",
+          "MIN": 12,
+          "PTS": "4",
           "REB": "4",
           "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "1-4",
+          "FG": "2-5",
           "3PT": "0-1",
           "FT": "0-0",
-          "fd_pts": 8.3,
-          "dk_pts": 8.5,
+          "fd_pts": 10.3,
+          "dk_pts": 10.5,
           "is_on_court": true
         },
         "Jock Landale": {
           "MIN": 16,
           "PTS": "11",
-          "REB": "5",
+          "REB": "6",
           "AST": "2",
           "STL": "0",
-          "BLK": "0",
+          "BLK": "1",
           "TO": "1",
           "FG": "5-6",
           "3PT": "1-1",
           "FT": "0-0",
-          "fd_pts": 19.0,
-          "dk_pts": 20.25,
+          "fd_pts": 23.2,
+          "dk_pts": 23.5,
           "is_on_court": true
         },
         "CJ McCollum": {
-          "MIN": 14,
+          "MIN": 15,
           "PTS": "7",
-          "REB": "2",
+          "REB": "3",
           "AST": "3",
           "STL": "0",
           "BLK": "0",
@@ -9878,23 +9939,23 @@
           "FG": "3-8",
           "3PT": "0-3",
           "FT": "1-2",
-          "fd_pts": 13.9,
-          "dk_pts": 14.0,
+          "fd_pts": 15.1,
+          "dk_pts": 15.25,
           "is_on_court": true
         },
         "Nickeil Alexander-Walker": {
           "MIN": 16,
-          "PTS": "11",
+          "PTS": "14",
           "REB": "0",
-          "AST": "4",
+          "AST": "5",
           "STL": "3",
           "BLK": "0",
           "TO": "0",
-          "FG": "1-3",
-          "3PT": "1-3",
+          "FG": "2-4",
+          "3PT": "2-4",
           "FT": "8-8",
-          "fd_pts": 26.0,
-          "dk_pts": 23.5,
+          "fd_pts": 30.5,
+          "dk_pts": 28.5,
           "is_on_court": true
         },
         "Corey Kispert": {
@@ -9975,14 +10036,14 @@
           "is_on_court": false
         },
         "Maxime Raynaud": {
-          "MIN": 14,
+          "MIN": 15,
           "PTS": "7",
           "REB": "4",
           "AST": "0",
           "STL": "1",
           "BLK": "0",
           "TO": "1",
-          "FG": "2-3",
+          "FG": "2-4",
           "3PT": "1-1",
           "FT": "2-2",
           "fd_pts": 13.8,
@@ -10065,7 +10126,7 @@
           "is_on_court": false
         },
         "Daeqwon Plowden": {
-          "MIN": 10,
+          "MIN": 11,
           "PTS": "5",
           "REB": "1",
           "AST": "0",
@@ -10102,8 +10163,8 @@
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "1-3",
-          "3PT": "1-2",
+          "FG": "1-4",
+          "3PT": "1-3",
           "FT": "0-0",
           "fd_pts": 9.6,
           "dk_pts": 10.25,
@@ -10114,10 +10175,46 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 309.0,
+          "period": 2,
+          "time": "Q2 1:38",
+          "text": "Mouhamed Gueye makes dunk (Nickeil Alexander-Walker assists)"
+        },
+        {
+          "seq": 308.0,
+          "period": 2,
+          "time": "Q2 1:42",
+          "text": "Jock Landale defensive rebound"
+        },
+        {
+          "seq": 307.0,
+          "period": 2,
+          "time": "Q2 1:46",
+          "text": "Nique Clifford misses 23-foot three point step back jumpshot"
+        },
+        {
+          "seq": 305.0,
+          "period": 2,
+          "time": "Q2 2:01",
+          "text": "Nickeil Alexander-Walker makes 22-foot running jump shot (Jalen Johnson assists)"
+        },
+        {
+          "seq": 304.0,
+          "period": 2,
+          "time": "Q2 2:03",
+          "text": "CJ McCollum defensive rebound"
+        },
+        {
+          "seq": 302.0,
+          "period": 2,
+          "time": "Q2 2:06",
+          "text": "Jock Landale blocks Maxime Raynaud 's 1-foot driving dunk"
+        },
+        {
           "seq": 301.0,
           "period": 2,
           "time": "Q2 2:25",
-          "text": "Jalen Johnson makes 1-foot shot"
+          "text": "Jalen Johnson makes running layup"
         },
         {
           "seq": 299.0,
@@ -11364,25 +11461,43 @@
       ],
       "new_plays": [
         {
-          "seq": 301.0,
+          "seq": 309.0,
           "period": 2,
-          "time": "Q2 2:25",
-          "text": "Jalen Johnson makes 1-foot shot"
+          "time": "Q2 1:38",
+          "text": "Mouhamed Gueye makes dunk (Nickeil Alexander-Walker assists)"
         },
         {
-          "seq": 299.0,
+          "seq": 308.0,
           "period": 2,
-          "time": "Q2 2:30",
-          "text": "DeMar DeRozan bad pass\nturnover (Jalen Johnson steals)"
+          "time": "Q2 1:42",
+          "text": "Jock Landale defensive rebound"
         },
         {
-          "seq": 297.0,
+          "seq": 307.0,
           "period": 2,
-          "time": "Q2 2:44",
-          "text": "DeMar DeRozan enters the game for Malik Monk"
+          "time": "Q2 1:46",
+          "text": "Nique Clifford misses 23-foot three point step back jumpshot"
+        },
+        {
+          "seq": 305.0,
+          "period": 2,
+          "time": "Q2 2:01",
+          "text": "Nickeil Alexander-Walker makes 22-foot running jump shot (Jalen Johnson assists)"
+        },
+        {
+          "seq": 304.0,
+          "period": 2,
+          "time": "Q2 2:03",
+          "text": "CJ McCollum defensive rebound"
+        },
+        {
+          "seq": 302.0,
+          "period": 2,
+          "time": "Q2 2:06",
+          "text": "Jock Landale blocks Maxime Raynaud 's 1-foot driving dunk"
         }
       ],
-      "last_seq": 301.0
+      "last_seq": 309.0
     }
   },
   "CHI-MEM-2026-03-28": {
