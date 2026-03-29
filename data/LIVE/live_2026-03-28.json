@@ -9996,7 +9996,7 @@
           "FT": "0-0",
           "fd_pts": 24.2,
           "dk_pts": 24.0,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Maxime Raynaud": {
           "MIN": 16,
@@ -10056,7 +10056,7 @@
           "FT": "0-0",
           "fd_pts": 1.7,
           "dk_pts": 2.25,
-          "is_on_court": false
+          "is_on_court": true
         },
         "Dylan Cardwell": {
           "MIN": 9,
@@ -10101,7 +10101,7 @@
           "FT": "0-0",
           "fd_pts": 7.4,
           "dk_pts": 8.0,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Killian Hayes": {
           "MIN": 7,
@@ -10121,7 +10121,7 @@
         "Nique Clifford": {
           "MIN": 12,
           "PTS": "3",
-          "REB": "4",
+          "REB": "3",
           "AST": "2",
           "STL": "0",
           "BLK": "0",
@@ -10129,14 +10129,32 @@
           "FG": "1-4",
           "3PT": "1-3",
           "FT": "0-0",
-          "fd_pts": 9.8,
-          "dk_pts": 11.0,
-          "is_on_court": true
+          "fd_pts": 8.6,
+          "dk_pts": 9.75,
+          "is_on_court": false
         }
       }
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 334.0,
+          "period": 3,
+          "time": "Q3 12:00",
+          "text": "enters the game for DaQuan Jeffries"
+        },
+        {
+          "seq": 333.0,
+          "period": 3,
+          "time": "Q3 12:00",
+          "text": "Devin Carter enters the game for Daeqwon Plowden"
+        },
+        {
+          "seq": 332.0,
+          "period": 3,
+          "time": "Q3 12:00",
+          "text": "Precious Achiuwa enters the game for Nique Clifford"
+        },
         {
           "seq": 331.0,
           "period": 2,
@@ -10669,7 +10687,7 @@
           "seq": 206.0,
           "period": 2,
           "time": "Q2 8:38",
-          "text": "Corey Kispert makes layup (Jalen Johnson assists)"
+          "text": "Corey Kispert makes 1-foot layup (Jalen Johnson assists)"
         },
         {
           "seq": 205.0,
@@ -11518,8 +11536,27 @@
           "text": "Maxime Raynaud vs. Jock Landale (Nickeil Alexander-Walker gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 331.0
+      "new_plays": [
+        {
+          "seq": 334.0,
+          "period": 3,
+          "time": "Q3 12:00",
+          "text": "enters the game for DaQuan Jeffries"
+        },
+        {
+          "seq": 333.0,
+          "period": 3,
+          "time": "Q3 12:00",
+          "text": "Devin Carter enters the game for Daeqwon Plowden"
+        },
+        {
+          "seq": 332.0,
+          "period": 3,
+          "time": "Q3 12:00",
+          "text": "Precious Achiuwa enters the game for Nique Clifford"
+        }
+      ],
+      "last_seq": 334.0
     }
   },
   "CHI-MEM-2026-03-28": {
@@ -11541,9 +11578,9 @@
         "AST": "6",
         "STL": "2",
         "BLK": "6",
-        "TO": "6",
+        "TO": "7",
         "TTO": "0",
-        "ToTO": "6",
+        "ToTO": "7",
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "4",
@@ -11757,12 +11794,12 @@
           "AST": "1",
           "STL": "1",
           "BLK": "2",
-          "TO": "1",
+          "TO": "2",
           "FG": "1-4",
           "3PT": "0-3",
           "FT": "2-2",
-          "fd_pts": 15.9,
-          "dk_pts": 13.5,
+          "fd_pts": 14.9,
+          "dk_pts": 13.0,
           "is_on_court": true
         },
         "Leonard Miller": {
@@ -11875,10 +11912,16 @@
     "play_by_play": {
       "full_log": [
         {
+          "seq": 266.0,
+          "period": 2,
+          "time": "Q2 8:42",
+          "text": "Matas Buzelis out of bounds lost ball turnover"
+        },
+        {
           "seq": 265.0,
           "period": 2,
           "time": "Q2 8:42",
-          "text": "(08:42) [Grizzlies] COACH'S CHALLENGE (CALL REPLAYCENTER)"
+          "text": "(08:42) [Grizzlies] COACH'S CHALLENGE (CALL OVERTURNED) [Grizzlies] retain their timeout"
         },
         {
           "seq": 264.0,
@@ -12949,8 +12992,15 @@
           "text": "Matas Buzelis vs. Olivier-Maxence Prosper (Leonard Miller gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 265.0
+      "new_plays": [
+        {
+          "seq": 266.0,
+          "period": 2,
+          "time": "Q2 8:42",
+          "text": "Matas Buzelis out of bounds lost ball turnover"
+        }
+      ],
+      "last_seq": 266.0
     }
   }
 }
