@@ -1254,7 +1254,9 @@ function createLineupCard(data) {
             const a = p.athlete || p;
             let rawPos = (a.dfs && a.dfs.pos) ? a.dfs.pos : (a.position?.abbreviation || 'Flex');
             if (platform === 'dk' && a.dfs && a.dfs.dk_pos) rawPos = a.dfs.dk_pos;
-            const displayPos = isBench ? rawPos : (fixedPositions[index] || 'Flex');
+            
+            // Fix: Split by '/' and grab the first item so bench multi-positions don't overflow
+            const displayPos = isBench ? rawPos.split('/')[0] : (fixedPositions[index] || 'Flex');
             
             let showStats = false, salFmt = '-', projFmt = '-', valFmt = '-';
             
