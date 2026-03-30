@@ -15875,7 +15875,7 @@
           "is_on_court": true
         },
         "Bub Carrington": {
-          "MIN": 23,
+          "MIN": 22,
           "PTS": "11",
           "REB": "2",
           "AST": "4",
@@ -15887,7 +15887,7 @@
           "FT": "2-2",
           "fd_pts": 18.4,
           "dk_pts": 20.0,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Bilal Coulibaly": {
           "MIN": 24,
@@ -15965,7 +15965,7 @@
           "is_on_court": true
         },
         "Will Riley": {
-          "MIN": 25,
+          "MIN": 26,
           "PTS": "14",
           "REB": "1",
           "AST": "1",
@@ -15977,13 +15977,19 @@
           "FT": "5-5",
           "fd_pts": 22.7,
           "dk_pts": 21.25,
-          "is_on_court": false
+          "is_on_court": true
         }
       }
     },
     "game_ended_time": "2026-03-29T20:29:20.020397-04:00",
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 711.0,
+          "period": 3,
+          "time": "Q3 4:35",
+          "text": "Will Riley enters the game for Bub Carrington"
+        },
         {
           "seq": 710.0,
           "period": 4,
@@ -18973,8 +18979,15 @@
           "text": "Julian Reese vs. Donovan Clingan (Deni Avdija gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 710.0
+      "new_plays": [
+        {
+          "seq": 711.0,
+          "period": 3,
+          "time": "Q3 4:35",
+          "text": "Will Riley enters the game for Bub Carrington"
+        }
+      ],
+      "last_seq": 711.0
     }
   },
   "HOU-NOP-2026-03-29": {
@@ -18996,9 +19009,9 @@
         "AST": "23",
         "STL": "7",
         "BLK": "6",
-        "TO": "3",
+        "TO": "4",
         "TTO": "2",
-        "ToTO": "5",
+        "ToTO": "6",
         "TECH": "1",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "2",
@@ -19016,8 +19029,8 @@
         "3P%": "33",
         "freeThrowsMade-freeThrowsAttempted": "11-15",
         "FT%": "73",
-        "REB": "23",
-        "OR": "3",
+        "REB": "22",
+        "OR": "2",
         "DR": "20",
         "AST": "14",
         "STL": "2",
@@ -19206,18 +19219,18 @@
           "is_on_court": true
         },
         "Alperen Sengun": {
-          "MIN": 22,
+          "MIN": 23,
           "PTS": "23",
           "REB": "8",
           "AST": "6",
           "STL": "3",
           "BLK": "2",
-          "TO": "0",
+          "TO": "1",
           "FG": "8-14",
           "3PT": "4-4",
           "FT": "3-4",
-          "fd_pts": 56.6,
-          "dk_pts": 54.0,
+          "fd_pts": 55.6,
+          "dk_pts": 53.5,
           "is_on_court": true
         },
         "Amen Thompson": {
@@ -19314,6 +19327,24 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 419.0,
+          "period": 3,
+          "time": "Q3 5:48",
+          "text": "(05:48) [Rockets] COACH'S CHALLENGE (CALL REPLAYCENTER)"
+        },
+        {
+          "seq": 417.0,
+          "period": 3,
+          "time": "Q3 5:48",
+          "text": "Rockets Full timeout"
+        },
+        {
+          "seq": 416.0,
+          "period": 3,
+          "time": "Q3 5:48",
+          "text": "Alperen Sengun out of bounds bad pass turnover"
+        },
         {
           "seq": 414.0,
           "period": 3,
@@ -21015,54 +21046,42 @@
       ],
       "new_plays": [
         {
-          "seq": 414.0,
+          "seq": 419.0,
           "period": 3,
-          "time": "Q3 6:10",
-          "text": "Zion Williamson makes tip shot"
+          "time": "Q3 5:48",
+          "text": "(05:48) [Rockets] COACH'S CHALLENGE (CALL REPLAYCENTER)"
         },
         {
-          "seq": 413.0,
+          "seq": 417.0,
           "period": 3,
-          "time": "Q3 6:10",
-          "text": "Zion Williamson offensive rebound"
+          "time": "Q3 5:48",
+          "text": "Rockets Full timeout"
         },
         {
-          "seq": 412.0,
+          "seq": 416.0,
           "period": 3,
-          "time": "Q3 6:13",
-          "text": "Herbert Jones misses 5-foot turnaround jump shot"
-        },
-        {
-          "seq": 410.0,
-          "period": 3,
-          "time": "Q3 6:26",
-          "text": "Amen Thompson makes alley oop dunk (Alperen Sengun assists)"
-        },
-        {
-          "seq": 408.0,
-          "period": 3,
-          "time": "Q3 6:34",
-          "text": "Saddiq Bey makes driving layup (Dejounte Murray assists)"
+          "time": "Q3 5:48",
+          "text": "Alperen Sengun out of bounds bad pass turnover"
         }
       ],
-      "last_seq": 414.0
+      "last_seq": 419.0
     }
   },
   "NYK-OKC-2026-03-29": {
     "status": "in",
-    "clock": "4:46 - 2nd",
-    "away_score": "39",
+    "clock": "4:16 - 2nd",
+    "away_score": "42",
     "home_score": "42",
     "team_stats": {
       "NYK": {
-        "fieldGoalsMade-fieldGoalsAttempted": "13-38",
-        "FG%": "34",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "7-18",
-        "3P%": "39",
+        "fieldGoalsMade-fieldGoalsAttempted": "14-40",
+        "FG%": "35",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "8-20",
+        "3P%": "40",
         "freeThrowsMade-freeThrowsAttempted": "6-6",
         "FT%": "100",
-        "REB": "20",
-        "OR": "6",
+        "REB": "21",
+        "OR": "7",
         "DR": "14",
         "AST": "9",
         "STL": "5",
@@ -21075,22 +21094,22 @@
         "Points Conceded Off Turnovers": "4",
         "FBPs": "4",
         "PIP": "10",
-        "PF": "10",
+        "PF": "11",
         "LL": "0",
         "LC": "0",
         "LPCT": "0"
       },
       "OKC": {
-        "fieldGoalsMade-fieldGoalsAttempted": "14-30",
-        "FG%": "47",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "3-10",
-        "3P%": "30",
+        "fieldGoalsMade-fieldGoalsAttempted": "14-31",
+        "FG%": "45",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "3-11",
+        "3P%": "27",
         "freeThrowsMade-freeThrowsAttempted": "11-13",
         "FT%": "85",
         "REB": "19",
         "OR": "2",
         "DR": "17",
-        "AST": "8",
+        "AST": "9",
         "STL": "2",
         "BLK": "0",
         "TO": "6",
@@ -21099,12 +21118,12 @@
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "6",
-        "FBPs": "5",
+        "FBPs": "6",
         "PIP": "22",
         "PF": "7",
         "LL": "9",
         "LC": "0",
-        "LPCT": "91"
+        "LPCT": "88"
       }
     },
     "players": {
@@ -21125,22 +21144,22 @@
           "is_on_court": false
         },
         "Chet Holmgren": {
-          "MIN": 9,
+          "MIN": 10,
           "PTS": "2",
           "REB": "2",
           "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "1-2",
-          "3PT": "0-1",
+          "FG": "1-3",
+          "3PT": "0-2",
           "FT": "0-0",
           "fd_pts": 5.9,
           "dk_pts": 6.0,
           "is_on_court": true
         },
         "Shai Gilgeous-Alexander": {
-          "MIN": 13,
+          "MIN": 14,
           "PTS": "10",
           "REB": "3",
           "AST": "1",
@@ -21155,7 +21174,7 @@
           "is_on_court": true
         },
         "Luguentz Dort": {
-          "MIN": 9,
+          "MIN": 10,
           "PTS": "8",
           "REB": "1",
           "AST": "0",
@@ -21337,18 +21356,18 @@
           "is_on_court": false
         },
         "Jalen Brunson": {
-          "MIN": 13,
-          "PTS": "9",
-          "REB": "3",
+          "MIN": 14,
+          "PTS": "12",
+          "REB": "4",
           "AST": "3",
           "STL": "0",
           "BLK": "0",
           "TO": "1",
-          "FG": "4-7",
-          "3PT": "1-2",
+          "FG": "5-8",
+          "3PT": "2-3",
           "FT": "0-0",
-          "fd_pts": 16.1,
-          "dk_pts": 17.25,
+          "fd_pts": 20.3,
+          "dk_pts": 22.0,
           "is_on_court": true
         },
         "Mitchell Robinson": {
@@ -21415,6 +21434,42 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 273.0,
+          "period": 2,
+          "time": "Q2 4:16",
+          "text": "Jalen Brunson foul"
+        },
+        {
+          "seq": 272.0,
+          "period": 2,
+          "time": "Q2 4:16",
+          "text": "Thunder offensive team rebound"
+        },
+        {
+          "seq": 271.0,
+          "period": 2,
+          "time": "Q2 4:17",
+          "text": "Chet Holmgren misses 25-foot three point pullup jump shot"
+        },
+        {
+          "seq": 270.0,
+          "period": 2,
+          "time": "Q2 4:46",
+          "text": "Jalen Brunson makes 27-foot three pointer"
+        },
+        {
+          "seq": 269.0,
+          "period": 2,
+          "time": "Q2 4:47",
+          "text": "Jalen Brunson offensive rebound"
+        },
+        {
+          "seq": 268.0,
+          "period": 2,
+          "time": "Q2 4:51",
+          "text": "Jose Alvarado misses 26-foot three point jumper"
+        },
         {
           "seq": 266.0,
           "period": 2,
@@ -21545,7 +21600,7 @@
           "seq": 234.0,
           "period": 2,
           "time": "Q2 7:06",
-          "text": "Jalen Williams makes 6-foot running pullup jump shot"
+          "text": "Jalen Williams makes 6-foot running pullup jump shot (Ajay Mitchell assists)"
         },
         {
           "seq": 233.0,
@@ -22546,19 +22601,43 @@
       ],
       "new_plays": [
         {
-          "seq": 266.0,
+          "seq": 273.0,
           "period": 2,
-          "time": "Q2 5:13",
-          "text": "Shai Gilgeous-Alexander makes 4-foot turnaround jump shot"
+          "time": "Q2 4:16",
+          "text": "Jalen Brunson foul"
         },
         {
-          "seq": 264.0,
+          "seq": 272.0,
           "period": 2,
-          "time": "Q2 5:29",
-          "text": "Luguentz Dort enters the game for Jalen Williams"
+          "time": "Q2 4:16",
+          "text": "Thunder offensive team rebound"
+        },
+        {
+          "seq": 271.0,
+          "period": 2,
+          "time": "Q2 4:17",
+          "text": "Chet Holmgren misses 25-foot three point pullup jump shot"
+        },
+        {
+          "seq": 270.0,
+          "period": 2,
+          "time": "Q2 4:46",
+          "text": "Jalen Brunson makes 27-foot three pointer"
+        },
+        {
+          "seq": 269.0,
+          "period": 2,
+          "time": "Q2 4:47",
+          "text": "Jalen Brunson offensive rebound"
+        },
+        {
+          "seq": 268.0,
+          "period": 2,
+          "time": "Q2 4:51",
+          "text": "Jose Alvarado misses 26-foot three point jumper"
         }
       ],
-      "last_seq": 266.0
+      "last_seq": 273.0
     }
   }
 }
