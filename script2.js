@@ -27,12 +27,22 @@ function getDateFromHash() {
 window.MASTER_TAB = 'lineups'; 
 window.CARD_STATE = {}; 
 window.RENDERED_PBP = {}; 
-let livePollInterval; // Kept the variable declaration just in case you ever want to revert
+window.PBP_QUEUE = {};    
+window.LAST_SEQ_SEEN = {}; 
+window.PENDING_LIVE_DATA = {}; 
+window.GAME_QUEUE_TIMERS = {}; 
+let livePollInterval; 
 
 // Global CSS injection
 const style = document.createElement('style');
 style.innerHTML = `
     .slow-pulse { animation: spinner-grow 2s linear infinite !important; }
+    @keyframes slideInHighlight {
+        0% { background-color: #d1e7dd; transform: translateY(-5px); opacity: 0; }
+        10% { transform: translateY(0); opacity: 1; }
+        100% { background-color: transparent; }
+    }
+    .new-play-anim { animation: slideInHighlight 3.5s ease-out; }
     .leaderboard-tab {
         font-size: 0.7rem; font-weight: 700; color: #adb5bd; cursor: pointer;
         padding: 8px 0; text-align: center; text-transform: uppercase; letter-spacing: 0.5px;
@@ -87,6 +97,60 @@ function getPlayerFromDB(id, fullName) {
 }
 
 // ==========================================
+// DYNAMIC QUEUE PROCESSOR (1-2 SECOND DELAY)
+// ==========================================
+function processGameQueue(localId) {
+    if (window.GAME_QUEUE_TIMERS[localId]) return;
+
+    function runNextPlay() {
+        if (!window.PBP_QUEUE[localId] || window.PBP_QUEUE[localId].length === 0) {
+            window.GAME_QUEUE_TIMERS[localId] = false;
+            if (window.PENDING_LIVE_DATA[localId]) {
+                setTimeout(() => {
+                    if (window.PENDING_LIVE_DATA[localId] && (!window.PBP_QUEUE[localId] || window.PBP_QUEUE[localId].length === 0)) {
+                        LIVE_GAMES_DATA[localId] = window.PENDING_LIVE_DATA[localId];
+                        delete window.PENDING_LIVE_DATA[localId];
+                        if (window.MASTER_TAB === 'live') renderGames(); 
+                    }
+                }, 2000); 
+            }
+            return;
+        }
+
+        window.GAME_QUEUE_TIMERS[localId] = true;
+        let playToInject = window.PBP_QUEUE[localId].shift();
+        
+        if (!window.RENDERED_PBP[localId]) window.RENDERED_PBP[localId] = [];
+        window.RENDERED_PBP[localId].unshift(playToInject);
+
+        if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
+        let state = window.CARD_STATE[localId];
+        let playPeriod = Number(playToInject.period);
+        let switchedQuarter = false;
+        
+        let isFinal = LIVE_GAMES_DATA[localId] && LIVE_GAMES_DATA[localId].status === 'post';
+
+        if (!isFinal && (!state.highestPeriodSeen || playPeriod > state.highestPeriodSeen)) {
+            if (!state.pbpTab || state.pbpTab === 'All' || state.pbpTab === (state.highestPeriodSeen || 1).toString()) {
+                state.pbpTab = playPeriod.toString();
+                switchedQuarter = true;
+            }
+            state.highestPeriodSeen = playPeriod;
+        }
+
+        if (window.MASTER_TAB === 'live') {
+            if (switchedQuarter) renderGames();
+            else injectPlayIntoDOM(localId, playToInject);
+        }
+
+        // 1000ms to 2000ms delay between plays splashing on screen
+        const randomMs = Math.floor(Math.random() * 1000) + 1000;
+        setTimeout(runNextPlay, randomMs);
+    }
+    runNextPlay();
+}
+
+// ==========================================
 // 1. MAIN APP LOGIC 
 // ==========================================
 function getStandardAbbr(abbr) {
@@ -117,6 +181,7 @@ async function pollLiveData(dateToFetch) {
             console.log("📡 Connecting to Firebase Realtime Stream...");
             const liveRef = firebase.database().ref('live_games');
             
+            // This 'on' listener automatically triggers instantly whenever Python updates Firebase
             liveRef.on('value', async (snapshot) => {
                 const incomingData = snapshot.val();
                 let needsGlobalRender = false;
@@ -124,30 +189,42 @@ async function pollLiveData(dateToFetch) {
                 if (incomingData) {
                     for (let localId in incomingData) {
                         let game = incomingData[localId];
+                        let hasNewPlays = false;
 
-                        // --- Instant PBP Sync ---
                         if (game.play_by_play) {
                             let fullLog = game.play_by_play.full_log || [];
-                            window.RENDERED_PBP[localId] = [...fullLog];
+                            if (!window.LAST_SEQ_SEEN[localId]) {
+                                window.RENDERED_PBP[localId] = [...fullLog];
+                                window.LAST_SEQ_SEEN[localId] = game.play_by_play.last_seq || 0;
+                                if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
+                                let state = window.CARD_STATE[localId];
+                                if (fullLog.length > 0) state.highestPeriodSeen = Math.max(...fullLog.map(p => Number(p.period)));
 
-                            if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
-                            let state = window.CARD_STATE[localId];
-
-                            // Track quarters to auto-switch tabs
-                            if (fullLog.length > 0) {
-                                let currentMaxPeriod = Math.max(...fullLog.map(p => Number(p.period)));
-                                if (!state.highestPeriodSeen || currentMaxPeriod > state.highestPeriodSeen) {
-                                    state.highestPeriodSeen = currentMaxPeriod;
-                                    if (game.status !== 'post') state.pbpTab = currentMaxPeriod.toString();
+                                if (game.status === 'post') {
+                                    state.hasFlippedPbp = true;
+                                    state.pbpTab = 'All';
+                                    state.finalTimerStarted = true;
+                                }
+                            } else {
+                                let unseenPlays = fullLog.filter(p => p.seq > window.LAST_SEQ_SEEN[localId]);
+                                if (unseenPlays.length > 0) {
+                                    hasNewPlays = true;
+                                    if (!window.PBP_QUEUE[localId]) window.PBP_QUEUE[localId] = [];
+                                    window.PBP_QUEUE[localId].push(...[...unseenPlays].reverse());
+                                    window.LAST_SEQ_SEEN[localId] = Math.max(...unseenPlays.map(p => p.seq));
+                                    processGameQueue(localId);
                                 }
                             }
                         }
 
-                        let isAlreadyPost = LIVE_GAMES_DATA[localId] && LIVE_GAMES_DATA[localId].status === 'post';
-                        LIVE_GAMES_DATA[localId] = game;
-                        if (!isAlreadyPost || game.status !== 'post') needsGlobalRender = true;
+                        if (hasNewPlays || (window.PBP_QUEUE[localId] && window.PBP_QUEUE[localId].length > 0)) {
+                            window.PENDING_LIVE_DATA[localId] = game;
+                        } else {
+                            let isAlreadyPost = LIVE_GAMES_DATA[localId] && LIVE_GAMES_DATA[localId].status === 'post';
+                            LIVE_GAMES_DATA[localId] = game;
+                            if (!isAlreadyPost || game.status !== 'post') needsGlobalRender = true;
+                        }
 
-                        // Post-game 5-minute cooldown before flipping logs
                         if (game.status === 'post') {
                             if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
                             let state = window.CARD_STATE[localId];
@@ -1050,6 +1127,48 @@ function renderGames(isSilentRefresh = false) {
         }, 100);
     }
 } 
+
+function injectPlayIntoDOM(localId, play) {
+    const listContainer = document.getElementById(`pbp-list-${localId}`);
+    if (!listContainer) return; 
+
+    const state = window.CARD_STATE[localId] || {};
+    const activeTab = state.pbpTab || 'All';
+
+    if (activeTab === 'All' || activeTab === play.period.toString()) {
+        const el = document.createElement('div');
+        el.className = `d-flex align-items-start px-2 py-1 new-play-anim`;
+        el.style.fontSize = '0.65rem';
+        el.style.borderBottom = '1px solid #f1f3f5';
+        
+        const isMake = play.text.includes(' makes ');
+        const textWeight = isMake ? 'fw-bold' : '';
+        
+        el.innerHTML = `
+            <div class="fw-bold text-secondary me-2" style="white-space: nowrap; width: 50px; text-align: right; padding-top: 1px;">${play.time}</div>
+            <div class="text-dark ${textWeight}" style="flex: 1; line-height: 1.3;" title="${play.text}">${play.text}</div>
+        `;
+
+        const isScrolled = listContainer.scrollTop > 5;
+        const oldScrollHeight = listContainer.scrollHeight;
+        listContainer.prepend(el);
+
+        if (isScrolled) {
+            const newScrollHeight = listContainer.scrollHeight;
+            listContainer.scrollTop += (newScrollHeight - oldScrollHeight);
+        }
+
+        Array.from(listContainer.children).forEach((child, index) => {
+            if (index % 2 === 0) {
+                child.classList.remove('bg-white');
+                child.classList.add('bg-light');
+            } else {
+                child.classList.remove('bg-light');
+                child.classList.add('bg-white');
+            }
+        });
+    }
+}
 
 function getRecentPlaysHtml(localId) {
     let plays = window.RENDERED_PBP[localId] || [];
