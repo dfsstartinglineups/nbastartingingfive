@@ -31,7 +31,7 @@ window.PBP_QUEUE = {};
 window.LAST_SEQ_SEEN = {}; 
 window.PENDING_LIVE_DATA = {}; 
 window.GAME_QUEUE_TIMERS = {}; 
-let livePollInterval;
+let livePollInterval; 
 
 // Global CSS injection
 const style = document.createElement('style');
@@ -97,7 +97,7 @@ function getPlayerFromDB(id, fullName) {
 }
 
 // ==========================================
-// DYNAMIC QUEUE PROCESSOR
+// DYNAMIC QUEUE PROCESSOR (1-2 SECOND DELAY)
 // ==========================================
 function processGameQueue(localId) {
     if (window.GAME_QUEUE_TIMERS[localId]) return;
@@ -112,7 +112,7 @@ function processGameQueue(localId) {
                         delete window.PENDING_LIVE_DATA[localId];
                         if (window.MASTER_TAB === 'live') renderGames(); 
                     }
-                }, 3500); 
+                }, 2000); 
             }
             return;
         }
@@ -143,8 +143,9 @@ function processGameQueue(localId) {
             else injectPlayIntoDOM(localId, playToInject);
         }
 
-        const randomSeconds = Math.floor(Math.random() * 5) + 1;
-        setTimeout(runNextPlay, randomSeconds * 1000);
+        // 1000ms to 2000ms delay between plays splashing on screen
+        const randomMs = Math.floor(Math.random() * 1000) + 1000;
+        setTimeout(runNextPlay, randomMs);
     }
     runNextPlay();
 }
@@ -171,106 +172,135 @@ async function fetchLocalProbables(dateToFetch) {
 
 async function pollLiveData(dateToFetch) {
     try {
-        const liveResponse = await fetch(`data/LIVE/live_${dateToFetch}.json?v=` + new Date().getTime(), { cache: 'no-store' });
-        let needsGlobalRender = false;
+        const todayStr = new Date().toLocaleDateString('en-CA');
         
-        if (liveResponse.ok) {
-            const incomingData = await liveResponse.json();
+        // ==========================================
+        // 1. THE REAL-TIME PATH (Today's Games)
+        // ==========================================
+        if (dateToFetch === todayStr) {
+            console.log("📡 Connecting to Firebase Realtime Stream...");
+            const liveRef = firebase.database().ref('live_games');
             
-            for (let localId in incomingData) {
-                let game = incomingData[localId];
-                let hasNewPlays = false;
+            // This 'on' listener automatically triggers instantly whenever Python updates Firebase
+            liveRef.on('value', async (snapshot) => {
+                const incomingData = snapshot.val();
+                let needsGlobalRender = false;
+                
+                if (incomingData) {
+                    for (let localId in incomingData) {
+                        let game = incomingData[localId];
+                        let hasNewPlays = false;
 
-                if (game.play_by_play) {
-                    let fullLog = game.play_by_play.full_log || [];
-                    
-                    if (!window.LAST_SEQ_SEEN[localId]) {
-                        window.RENDERED_PBP[localId] = [...fullLog];
-                        window.LAST_SEQ_SEEN[localId] = game.play_by_play.last_seq || 0;
-                        if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
-                        let state = window.CARD_STATE[localId];
-                        if (fullLog.length > 0) state.highestPeriodSeen = Math.max(...fullLog.map(p => Number(p.period)));
+                        if (game.play_by_play) {
+                            let fullLog = game.play_by_play.full_log || [];
+                            if (!window.LAST_SEQ_SEEN[localId]) {
+                                window.RENDERED_PBP[localId] = [...fullLog];
+                                window.LAST_SEQ_SEEN[localId] = game.play_by_play.last_seq || 0;
+                                if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
+                                let state = window.CARD_STATE[localId];
+                                if (fullLog.length > 0) state.highestPeriodSeen = Math.max(...fullLog.map(p => Number(p.period)));
 
-                        if (game.status === 'post') {
-                            state.hasFlippedPbp = true;
-                            state.pbpTab = 'All';
-                            state.finalTimerStarted = true;
-                        }
-                    } else {
-                        let unseenPlays = fullLog.filter(p => p.seq > window.LAST_SEQ_SEEN[localId]);
-                        if (unseenPlays.length > 0) {
-                            hasNewPlays = true;
-                            if (!window.PBP_QUEUE[localId]) window.PBP_QUEUE[localId] = [];
-                            window.PBP_QUEUE[localId].push(...[...unseenPlays].reverse());
-                            window.LAST_SEQ_SEEN[localId] = Math.max(...unseenPlays.map(p => p.seq));
-                            processGameQueue(localId);
-                        }
-                    }
-                }
-
-                if (hasNewPlays || (window.PBP_QUEUE[localId] && window.PBP_QUEUE[localId].length > 0)) {
-                    window.PENDING_LIVE_DATA[localId] = game;
-                } else {
-                    let isAlreadyPost = LIVE_GAMES_DATA[localId] && LIVE_GAMES_DATA[localId].status === 'post';
-                    LIVE_GAMES_DATA[localId] = game;
-                    if (!isAlreadyPost || game.status !== 'post') needsGlobalRender = true;
-                }
-
-                if (game.status === 'post') {
-                    if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
-                    let state = window.CARD_STATE[localId];
-                    if (!state.hasFlippedPbp && !state.finalTimerStarted) {
-                        state.finalTimerStarted = true;
-                        setTimeout(() => {
-                            let currentState = window.CARD_STATE[localId];
-                            if (currentState && !currentState.hasFlippedPbp) {
-                                currentState.hasFlippedPbp = true;
-                                currentState.pbpTab = 'All';
-                                if (window.MASTER_TAB === 'live') {
-                                    renderGames();
-                                    setTimeout(() => {
-                                        const listContainer = document.getElementById(`pbp-list-${localId}`);
-                                        if (listContainer) listContainer.scrollTop = 0;
-                                    }, 100);
+                                if (game.status === 'post') {
+                                    state.hasFlippedPbp = true;
+                                    state.pbpTab = 'All';
+                                    state.finalTimerStarted = true;
+                                }
+                            } else {
+                                let unseenPlays = fullLog.filter(p => p.seq > window.LAST_SEQ_SEEN[localId]);
+                                if (unseenPlays.length > 0) {
+                                    hasNewPlays = true;
+                                    if (!window.PBP_QUEUE[localId]) window.PBP_QUEUE[localId] = [];
+                                    window.PBP_QUEUE[localId].push(...[...unseenPlays].reverse());
+                                    window.LAST_SEQ_SEEN[localId] = Math.max(...unseenPlays.map(p => p.seq));
+                                    processGameQueue(localId);
                                 }
                             }
-                        }, 300000); 
+                        }
+
+                        if (hasNewPlays || (window.PBP_QUEUE[localId] && window.PBP_QUEUE[localId].length > 0)) {
+                            window.PENDING_LIVE_DATA[localId] = game;
+                        } else {
+                            let isAlreadyPost = LIVE_GAMES_DATA[localId] && LIVE_GAMES_DATA[localId].status === 'post';
+                            LIVE_GAMES_DATA[localId] = game;
+                            if (!isAlreadyPost || game.status !== 'post') needsGlobalRender = true;
+                        }
+
+                        if (game.status === 'post') {
+                            if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
+                            let state = window.CARD_STATE[localId];
+                            if (!state.hasFlippedPbp && !state.finalTimerStarted) {
+                                state.finalTimerStarted = true;
+                                setTimeout(() => {
+                                    let currentState = window.CARD_STATE[localId];
+                                    if (currentState && !currentState.hasFlippedPbp) {
+                                        currentState.hasFlippedPbp = true;
+                                        currentState.pbpTab = 'All';
+                                        if (window.MASTER_TAB === 'live') {
+                                            renderGames();
+                                            setTimeout(() => {
+                                                const listContainer = document.getElementById(`pbp-list-${localId}`);
+                                                if (listContainer) listContainer.scrollTop = 0;
+                                            }, 100);
+                                        }
+                                    }
+                                }, 300000); 
+                            }
+                        }
                     }
+                } else {
+                    LIVE_GAMES_DATA = {};
+                    needsGlobalRender = true;
                 }
+
+                // Global projected flag check
+                const dailyData = await fetchLocalProbables(dateToFetch);
+                if (dailyData && dailyData.games) {
+                    ALL_GAMES_DATA.forEach(gameObj => {
+                        const awayStd = getStandardAbbr(gameObj.away.team.abbreviation);
+                        const homeStd = getStandardAbbr(gameObj.home.team.abbreviation);
+                        const localGameMatch = dailyData.games.find(g => g.id === gameObj.localId);
+                        
+                        if (localGameMatch && localGameMatch.rosters) {
+                            if (localGameMatch.rosters[awayStd] && localGameMatch.rosters[awayStd].players) {
+                                const isVerified = localGameMatch.rosters[awayStd].players.every(p => p.verified === true);
+                                if (gameObj.awayIsProjected !== !isVerified) {
+                                    gameObj.awayIsProjected = !isVerified;
+                                    needsGlobalRender = true;
+                                }
+                            }
+                            if (localGameMatch.rosters[homeStd] && localGameMatch.rosters[homeStd].players) {
+                                const isVerified = localGameMatch.rosters[homeStd].players.every(p => p.verified === true);
+                                if (gameObj.homeIsProjected !== !isVerified) {
+                                    gameObj.homeIsProjected = !isVerified;
+                                    needsGlobalRender = true;
+                                }
+                            }
+                        }
+                    });
+                }
+                
+                if (needsGlobalRender) renderGames(true);
+            });
+        } 
+        
+        // ==========================================
+        // 2. THE STATIC PATH (Historical Dates)
+        // ==========================================
+        else {
+            console.log(`Fetching static archive for ${dateToFetch}...`);
+            if (typeof firebase !== 'undefined') firebase.database().ref('live_games').off();
+            
+            const liveResponse = await fetch(`data/LIVE/live_${dateToFetch}.json?v=` + new Date().getTime(), { cache: 'no-store' });
+            if (liveResponse.ok) {
+                LIVE_GAMES_DATA = await liveResponse.json();
+                renderGames(true);
+            } else {
+                LIVE_GAMES_DATA = {};
+                renderGames(true);
             }
         }
-
-        const dailyData = await fetchLocalProbables(dateToFetch);
-        if (dailyData && dailyData.games) {
-            ALL_GAMES_DATA.forEach(gameObj => {
-                const awayStd = getStandardAbbr(gameObj.away.team.abbreviation);
-                const homeStd = getStandardAbbr(gameObj.home.team.abbreviation);
-                const localGameMatch = dailyData.games.find(g => g.id === gameObj.localId);
-                
-                if (localGameMatch && localGameMatch.rosters) {
-                    if (localGameMatch.rosters[awayStd] && localGameMatch.rosters[awayStd].players) {
-                        const isVerified = localGameMatch.rosters[awayStd].players.every(p => p.verified === true);
-                        if (gameObj.awayIsProjected !== !isVerified) {
-                            gameObj.awayIsProjected = !isVerified;
-                            needsGlobalRender = true;
-                        }
-                        gameObj.awayStarters = localGameMatch.rosters[awayStd].players.map(p => ({ athlete: { id: p.id || p.espn_id, displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
-                    }
-                    if (localGameMatch.rosters[homeStd] && localGameMatch.rosters[homeStd].players) {
-                        const isVerified = localGameMatch.rosters[homeStd].players.every(p => p.verified === true);
-                        if (gameObj.homeIsProjected !== !isVerified) {
-                            gameObj.homeIsProjected = !isVerified;
-                            needsGlobalRender = true;
-                        }
-                        gameObj.homeStarters = localGameMatch.rosters[homeStd].players.map(p => ({ athlete: { id: p.id || p.espn_id, displayName: p.name, position: { abbreviation: p.pos }, dfs: p } }));
-                    }
-                }
-            });
-        }
-
-        if (needsGlobalRender) renderGames(true); 
     } catch (e) { 
-        console.error("Polling error:", e);
+        console.error("Live Data error:", e);
     }
 }
 
@@ -511,9 +541,11 @@ async function init(dateToFetch) {
         });
 
         renderGames();
+        
+        // ==========================================
+        // Firebase Listener handles everything now!
+        // ==========================================
         await pollLiveData(dateToFetch);
-        clearInterval(livePollInterval);
-        livePollInterval = setInterval(() => pollLiveData(dateToFetch), 30000);
 
     } catch (error) {
         console.error("Init error:", error);
@@ -807,7 +839,6 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                         }
                     }
 
-                    // --- NEW: LOGIC TO DETECT IF PLAYER IS ON COURT ---
                     const isOnCourt = stats.is_on_court === true && liveMatch.status !== 'post';
 
                     livePlayers.push({ 
@@ -870,7 +901,6 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
         
         const subLine = `${p.pos} • ${p.teamAbbrev} <span class="fw-bold text-dark ms-1 border-start ps-1 border-secondary border-opacity-50">${stats.PTS}p ${stats.REB}r ${stats.AST}a ${stats.STL}s ${stats.BLK}b ${stats.TO}to</span>`;
 
-        // --- NEW: ON-COURT FLASHING DOT ---
         const onCourtDot = p.isOnCourt 
             ? `<span class="spinner-grow spinner-grow-sm text-success slow-pulse me-1" style="width: 0.5rem; height: 0.5rem;" role="status"></span>`
             : '';
