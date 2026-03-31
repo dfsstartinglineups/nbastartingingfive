@@ -616,7 +616,61 @@ window.setTopPlaysTab = function(el) {
 window.buildNewsListHtml = function(newsItems) {
     if (!newsItems || newsItems.length === 0) return `<div class="p-3 text-center text-muted fw-bold" style="font-size:0.8rem;">No recent news available.</div>`;
 
-    return newsItems.map((news) => {
+    const htmlArray = newsItems.map((news) => {
+        const statusStr = (news.status_badge || '').toUpperCase();
+        const pName = news.player_name;
+        const rawDesc = news.description || '';
+
+        let badgeClass = 'bg-secondary';
+        let badgeText = '';
+        let descText = '';
+        let isValidBadge = true;
+
+        // --- NEW: CUSTOM BADGE & DESCRIPTION MAPPING ---
+        switch(statusStr) {
+            case 'B':
+                badgeClass = 'bg-secondary';
+                badgeText = 'Not Starting';
+                descText = `${pName} off the bench`;
+                break;
+            case 'OUT':
+                badgeClass = 'bg-danger';
+                badgeText = 'Not Playing';
+                descText = `${pName} is out due to ${rawDesc}`;
+                break;
+            case 'IN':
+                badgeClass = 'bg-success';
+                badgeText = 'Playing';
+                descText = `${pName} is available to play`;
+                break;
+            case 'Q':
+                badgeClass = 'bg-warning text-dark';
+                badgeText = 'Questionable';
+                descText = `${pName} is questionable to play today due to ${rawDesc}`;
+                break;
+            case 'P':
+                badgeClass = 'bg-info text-dark';
+                badgeText = 'Probable';
+                descText = `${pName} is probable to play today`;
+                break;
+            case 'D':
+                badgeClass = 'bg-warning text-dark'; 
+                badgeText = 'Doubtful';
+                descText = `${pName} is doubtful to play today`;
+                break;
+            case 'S':
+                badgeClass = 'bg-success';
+                badgeText = 'Starting';
+                descText = `${pName} is in the starting lineup today`;
+                break;
+            default:
+                // Ignore all other badges (e.g., 'X', 'OFF INJ')
+                isValidBadge = false;
+        }
+
+        // Skip rendering if it's a badge we don't care about
+        if (!isValidBadge) return '';
+
         let photo = '';
         let dbPlayer = getPlayerFromDB(null, news.player_name);
         if (dbPlayer && dbPlayer.photo) {
@@ -630,14 +684,6 @@ window.buildNewsListHtml = function(newsItems) {
         const teamLogo = `https://a.espncdn.com/i/teamlogos/nba/500/${news.team.toLowerCase()}.png`;
         const teamBadge = `<img src="${teamLogo}" style="width: 18px; height: 18px; position: absolute; bottom: -2px; right: -4px; border-radius: 50%; background: #fff; border: 1px solid #dee2e6; object-fit: contain; padding: 1px;">`;
         
-        let badgeClass = 'bg-secondary';
-        const statusStr = (news.status_badge || '').toUpperCase();
-        if (['OUT', 'X'].includes(statusStr)) badgeClass = 'bg-danger';
-        else if (['IN', 'OFF INJ', 'S'].includes(statusStr)) badgeClass = 'bg-success';
-        else if (statusStr === 'Q') badgeClass = 'bg-warning text-dark';
-        else if (statusStr === 'P') badgeClass = 'bg-info text-dark';
-        else if (statusStr === 'D') badgeClass = 'bg-warning text-dark'; 
-
         let shortName = shortenPlayerName(news.player_name);
 
         return `
@@ -650,10 +696,10 @@ window.buildNewsListHtml = function(newsItems) {
                 <div class="d-flex flex-column justify-content-center overflow-hidden pe-1">
                     <div class="d-flex align-items-center">
                         <span class="fw-bold text-dark text-truncate" style="font-size: 0.90rem; max-width: 160px;" title="${news.player_name}">${shortName}</span>
-                        <span class="badge ${badgeClass} ms-2" style="font-size: 0.6rem;">${news.status_badge}</span>
+                        <span class="badge ${badgeClass} ms-2" style="font-size: 0.6rem;">${badgeText}</span>
                     </div>
-                    <span class="text-muted text-truncate" style="font-size: 0.72rem; max-width: 220px;" title="${news.description}">
-                        ${news.position} • <span class="fw-bold text-dark">${news.description}</span>
+                    <span class="text-muted text-truncate" style="font-size: 0.72rem; max-width: 220px;" title="${descText}">
+                        ${news.position} • <span class="fw-bold text-dark">${descText}</span>
                     </span>
                 </div>
             </div>
@@ -661,7 +707,15 @@ window.buildNewsListHtml = function(newsItems) {
                 <div class="fw-bold text-muted me-1" style="font-size: 0.7rem;">${news.time_elapsed}</div>
             </div>
         </div>`;
-    }).join('');
+    });
+
+    // Filter out the empty strings from ignored badges and join the HTML together
+    const finalHtml = htmlArray.filter(html => html !== '').join('');
+    
+    // If the entire array was filtered out, show the fallback message
+    if (!finalHtml) return `<div class="p-3 text-center text-muted fw-bold" style="font-size:0.8rem;">No recent news available.</div>`;
+    
+    return finalHtml;
 };
 
 window.updateTopPlaysView = function() {
