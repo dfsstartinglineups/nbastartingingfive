@@ -42,7 +42,7 @@
         "OR": "10",
         "DR": "25",
         "AST": "21",
-        "STL": "3",
+        "STL": "4",
         "BLK": "2",
         "TO": "6",
         "TTO": "0",
@@ -125,14 +125,14 @@
           "PTS": "13",
           "REB": "6",
           "AST": "2",
-          "STL": "0",
+          "STL": "1",
           "BLK": "0",
           "TO": "0",
           "FG": "6-10",
           "3PT": "0-3",
           "FT": "1-2",
-          "fd_pts": 23.2,
-          "dk_pts": 23.5,
+          "fd_pts": 26.2,
+          "dk_pts": 25.5,
           "is_on_court": true
         },
         "Simone Fontecchio": {
@@ -210,7 +210,7 @@
           "FT": "1-1",
           "fd_pts": 22.6,
           "dk_pts": 23.75,
-          "is_on_court": true
+          "is_on_court": false
         },
         "Dominick Barlow": {
           "MIN": 20,
@@ -255,7 +255,7 @@
           "FT": "3-3",
           "fd_pts": 21.1,
           "dk_pts": 20.75,
-          "is_on_court": true
+          "is_on_court": false
         },
         "VJ Edgecombe": {
           "MIN": 20,
@@ -330,17 +330,29 @@
           "FT": "0-0",
           "fd_pts": 8.9,
           "dk_pts": 9.5,
-          "is_on_court": false
+          "is_on_court": true
         }
       }
     },
     "play_by_play": {
       "full_log": [
         {
+          "seq": 413.0,
+          "period": 3,
+          "time": "Q3 6:44",
+          "text": "enters the game for Dominick Barlow"
+        },
+        {
+          "seq": 412.0,
+          "period": 3,
+          "time": "Q3 6:44",
+          "text": "Quentin Grimes enters the game for Paul George"
+        },
+        {
           "seq": 410.0,
           "period": 3,
           "time": "Q3 8:23",
-          "text": "Joel Embiid bad pass\nturnover"
+          "text": "Joel Embiid bad pass\nturnover (Pelle Larsson steals)"
         },
         {
           "seq": 409.0,
@@ -2047,8 +2059,21 @@
           "text": "Dominick Barlow vs. Bam Adebayo (Tyler Herro gains possession)"
         }
       ],
-      "new_plays": [],
-      "last_seq": 410.0
+      "new_plays": [
+        {
+          "seq": 413.0,
+          "period": 3,
+          "time": "Q3 6:44",
+          "text": "enters the game for Dominick Barlow"
+        },
+        {
+          "seq": 412.0,
+          "period": 3,
+          "time": "Q3 6:44",
+          "text": "Quentin Grimes enters the game for Paul George"
+        }
+      ],
+      "last_seq": 413.0
     }
   },
   "BOS-ATL-2026-03-30": {
@@ -3760,13 +3785,13 @@
   },
   "PHX-MEM-2026-03-30": {
     "status": "in",
-    "clock": "11:46 - 2nd",
+    "clock": "10:45 - 2nd",
     "away_score": "36",
-    "home_score": "31",
+    "home_score": "33",
     "team_stats": {
       "PHX": {
-        "fieldGoalsMade-fieldGoalsAttempted": "13-23",
-        "FG%": "57",
+        "fieldGoalsMade-fieldGoalsAttempted": "14-25",
+        "FG%": "56",
         "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "6-14",
         "3P%": "43",
         "freeThrowsMade-freeThrowsAttempted": "2-4",
@@ -3774,7 +3799,7 @@
         "REB": "8",
         "OR": "2",
         "DR": "6",
-        "AST": "10",
+        "AST": "11",
         "STL": "2",
         "BLK": "1",
         "TO": "1",
@@ -3788,24 +3813,24 @@
         "PF": "5",
         "LL": "10",
         "LC": "1",
-        "LPCT": "53"
+        "LPCT": "57"
       },
       "MEM": {
-        "fieldGoalsMade-fieldGoalsAttempted": "11-19",
-        "FG%": "58",
-        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "3-8",
-        "3P%": "38",
+        "fieldGoalsMade-fieldGoalsAttempted": "11-20",
+        "FG%": "55",
+        "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "3-9",
+        "3P%": "33",
         "freeThrowsMade-freeThrowsAttempted": "6-6",
         "FT%": "100",
-        "REB": "8",
+        "REB": "9",
         "OR": "2",
-        "DR": "6",
+        "DR": "7",
         "AST": "9",
         "STL": "1",
         "BLK": "0",
         "TO": "3",
-        "TTO": "0",
-        "ToTO": "3",
+        "TTO": "1",
+        "ToTO": "4",
         "TECH": "0",
         "FLAG": "0",
         "Points Conceded Off Turnovers": "2",
@@ -3814,7 +3839,7 @@
         "PF": "5",
         "LL": "4",
         "LC": "1",
-        "LPCT": "43"
+        "LPCT": "40"
       }
     },
     "players": {
@@ -3850,24 +3875,24 @@
           "is_on_court": true
         },
         "GG Jackson": {
-          "MIN": 8,
+          "MIN": 9,
           "PTS": "6",
           "REB": "0",
           "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "1",
-          "FG": "2-2",
-          "3PT": "0-0",
+          "FG": "2-3",
+          "3PT": "0-1",
           "FT": "2-2",
           "fd_pts": 6.5,
           "dk_pts": 7.0,
           "is_on_court": true
         },
         "Cam Spencer": {
-          "MIN": 6,
+          "MIN": 7,
           "PTS": "8",
-          "REB": "1",
+          "REB": "2",
           "AST": "1",
           "STL": "0",
           "BLK": "0",
@@ -3875,8 +3900,8 @@
           "FG": "3-4",
           "3PT": "2-3",
           "FT": "0-0",
-          "fd_pts": 10.7,
-          "dk_pts": 11.75,
+          "fd_pts": 11.9,
+          "dk_pts": 13.0,
           "is_on_court": true
         },
         "Jahmai Mashack": {
@@ -4005,30 +4030,30 @@
           "MIN": 8,
           "PTS": "0",
           "REB": "0",
-          "AST": "2",
+          "AST": "3",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
           "FG": "0-3",
           "3PT": "0-2",
           "FT": "0-0",
-          "fd_pts": 3.0,
-          "dk_pts": 3.0,
+          "fd_pts": 4.5,
+          "dk_pts": 4.5,
           "is_on_court": true
         },
         "Jalen Green": {
-          "MIN": 8,
-          "PTS": "8",
+          "MIN": 9,
+          "PTS": "10",
           "REB": "3",
           "AST": "1",
           "STL": "0",
           "BLK": "0",
           "TO": "0",
-          "FG": "3-4",
+          "FG": "4-6",
           "3PT": "2-3",
           "FT": "0-0",
-          "fd_pts": 13.1,
-          "dk_pts": 14.25,
+          "fd_pts": 15.1,
+          "dk_pts": 16.25,
           "is_on_court": true
         },
         "Ryan Dunn": {
@@ -4095,6 +4120,42 @@
     },
     "play_by_play": {
       "full_log": [
+        {
+          "seq": 179.0,
+          "period": 2,
+          "time": "Q2 11:03",
+          "text": "Cam Spencer defensive rebound"
+        },
+        {
+          "seq": 178.0,
+          "period": 2,
+          "time": "Q2 11:06",
+          "text": "Jalen Green misses driving floating jump shot"
+        },
+        {
+          "seq": 177.0,
+          "period": 2,
+          "time": "Q2 11:21",
+          "text": "shot clock turnover "
+        },
+        {
+          "seq": 176.0,
+          "period": 2,
+          "time": "Q2 11:21",
+          "text": "Grizzlies offensive team rebound"
+        },
+        {
+          "seq": 175.0,
+          "period": 2,
+          "time": "Q2 11:21",
+          "text": "GG Jackson misses 26-foot three point jumper"
+        },
+        {
+          "seq": 173.0,
+          "period": 2,
+          "time": "Q2 11:46",
+          "text": "Jalen Green makes 13-foot step back jumpshot (Collin Gillespie assists)"
+        },
         {
           "seq": 166.0,
           "period": 2,
@@ -4752,49 +4813,43 @@
       ],
       "new_plays": [
         {
-          "seq": 166.0,
+          "seq": 179.0,
           "period": 2,
-          "time": "Q2 12:00",
-          "text": "Jalen Green enters the game for Jordan Goodwin"
+          "time": "Q2 11:03",
+          "text": "Cam Spencer defensive rebound"
         },
         {
-          "seq": 165.0,
+          "seq": 178.0,
           "period": 2,
-          "time": "Q2 12:00",
-          "text": "Royce O'Neale enters the game for Rasheer Fleming"
+          "time": "Q2 11:06",
+          "text": "Jalen Green misses driving floating jump shot"
         },
         {
-          "seq": 164.0,
+          "seq": 177.0,
           "period": 2,
-          "time": "Q2 12:00",
-          "text": "Cam Spencer enters the game for DeJon Jarreau"
+          "time": "Q2 11:21",
+          "text": "shot clock turnover "
         },
         {
-          "seq": 163.0,
+          "seq": 176.0,
           "period": 2,
-          "time": "Q2 12:00",
-          "text": "Cedric Coward enters the game for Adama Bal"
+          "time": "Q2 11:21",
+          "text": "Grizzlies offensive team rebound"
         },
         {
-          "seq": 162.0,
+          "seq": 175.0,
           "period": 2,
-          "time": "Q2 12:00",
-          "text": "Tyler Burton enters the game for Walter Clayton Jr."
+          "time": "Q2 11:21",
+          "text": "GG Jackson misses 26-foot three point jumper"
         },
         {
-          "seq": 161.0,
-          "period": 1,
-          "time": "Q1 1.3",
-          "text": "DeJon Jarreau makes free throw 2 of 2"
-        },
-        {
-          "seq": 160.0,
-          "period": 1,
-          "time": "Q1 1.3",
-          "text": "DeJon Jarreau makes free throw 1 of 2"
+          "seq": 173.0,
+          "period": 2,
+          "time": "Q2 11:46",
+          "text": "Jalen Green makes 13-foot step back jumpshot (Collin Gillespie assists)"
         }
       ],
-      "last_seq": 166.0
+      "last_seq": 179.0
     }
   },
   "CHI-SAS-2026-03-30": {
@@ -5128,7 +5183,7 @@
         {
           "seq": 155.0,
           "period": 1,
-          "time": "Q1 0.0",
+          "time": "Q1 1.0",
           "text": "Spurs offensive team rebound"
         },
         {
