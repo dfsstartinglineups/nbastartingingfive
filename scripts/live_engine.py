@@ -226,7 +226,6 @@ def main():
             home_score = comp['competitors'][0].get('score', '0')
             
             print(f"Processing Live Game: {away_abbr} {away_score} @ {home_score} {home_abbr} ({clock_text})")
-            active_games_found += 1
             
             # 🛑 THE 10-MINUTE COOLDOWN: Catch late stat corrections, then go to sleep!
             if status_state == 'post':
@@ -237,9 +236,12 @@ def main():
                         if now_est > ended_time + timedelta(minutes=10):
                             new_live_data[local_game_id] = old_live_data[local_game_id]
                             print(f"   -> Game Final for 10+ mins. Carried over saved stats.")
-                            continue
+                            continue # <-- This safely skips the active_games_found increment below!
                     except: pass
 
+            # Only increments for games actively playing or finished less than 10 minutes ago
+            active_games_found += 1
+            
             # --- FETCH BOXSCORE AND PLAY-BY-PLAY (FROM SUMMARY) ---
             summary_url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event={game_id}"
             try:
@@ -603,8 +605,10 @@ def main():
             except:
                 pass
 
-        # 2. Push the permanent archive to GitHub (Only fires once per night)
-        if current_date_str not in ARCHIVED_DATES and old_live_data:
+        # 2. Push the permanent archive to GitHub 10 mins after ALL games end
+        unstarted_games = sum(1 for e in scoreboard_data.get('events', []) if e['status']['type']['state'] == 'pre')
+        
+        if unstarted_games == 0 and current_date_str not in ARCHIVED_DATES and old_live_data:
             # Make sure there are actually finished games in the data before we push
             if any(g.get('status') == 'post' for g in old_live_data.values()):
                 success = archive_to_github(current_date_str, old_live_data)
