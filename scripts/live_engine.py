@@ -4,6 +4,7 @@ import requests
 import zoneinfo
 import time
 from datetime import datetime, timedelta
+import base64
 
 # --- FIREBASE IMPORTS ---
 import firebase_admin
@@ -44,6 +45,47 @@ TEAM_MAP = {
     'PHO': 'PHX', 'UT': 'UTA', 'WSH': 'WAS', 'BKO': 'BKN', 'CHO': 'CHA',
     'UTAH': 'UTA'
 }
+
+ARCHIVED_DATES = set()
+
+def archive_to_github(date_str, json_data):
+    """Pushes the final JSON file to the GitHub repository permanently"""
+    token = os.environ.get("GITHUB_TOKEN")
+    repo = os.environ.get("GITHUB_REPO") # e.g., "yourusername/nbastartingfive"
+    
+    if not token or not repo:
+        print("⚠️ GitHub credentials missing. Skipping permanent archive.")
+        return False
+
+    url = f"https://api.github.com/repos/{repo}/contents/data/LIVE/live_{date_str}.json"
+    headers = {
+        "Authorization": f"token {token}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+
+    # 1. Check if the file already exists so we can get its SHA (required to update files)
+    sha = None
+    get_res = requests.get(url, headers=headers)
+    if get_res.status_code == 200:
+        sha = get_res.json().get("sha")
+
+    # 2. Package the JSON and push it
+    content_b64 = base64.b64encode(json.dumps(json_data, indent=2).encode('utf-8')).decode('utf-8')
+    data = {
+        "message": f"🤖 Auto-archiving final live data for {date_str}",
+        "content": content_b64,
+        "branch": "main" # Change this if your default branch is 'master'
+    }
+    if sha: 
+        data["sha"] = sha
+
+    put_res = requests.put(url, headers=headers, json=data)
+    if put_res.status_code in [200, 201]:
+        print(f"📦 Successfully archived {date_str} to GitHub!")
+        return True
+    else:
+        print(f"❌ Failed to archive to GitHub: {put_res.text}")
+        return False
 
 def normalize_team(abbr):
     if not abbr: return ""
@@ -462,7 +504,7 @@ def main():
                     for ath in team_athletes:
                         if not ath.get('stats'): continue
                         p_name = ath['athlete']['displayName']
-                        safe_p_name = safe_key(p_name) 
+                        safe_p_name = safe_key(p_name) # <--- SAFE KEY HERE
                         
                         mapped_stats = dict(zip(stat_labels, ath['stats']))
                         
@@ -551,13 +593,23 @@ def main():
         # Check if any game is truly LIVE right now (not just in the post-game cooldown)
         has_live_games = any(g.get('status') == 'in' for g in new_live_data.values())
     else:
+        global ARCHIVED_DATES
         print("\n💤 No active games right now.")
-        # If no games are active, ensure Firebase is wiped clean so the UI knows
+        
+        # 1. Wipe Firebase clean so the UI knows games are over
         if firebase_admin._apps:
             try:
                 db.reference('live_games').delete()
             except:
                 pass
+
+        # 2. Push the permanent archive to GitHub (Only fires once per night)
+        if current_date_str not in ARCHIVED_DATES and old_live_data:
+            # Make sure there are actually finished games in the data before we push
+            if any(g.get('status') == 'post' for g in old_live_data.values()):
+                success = archive_to_github(current_date_str, old_live_data)
+                if success:
+                    ARCHIVED_DATES.add(current_date_str)
 
     # Return True if we need to poll fast, False if we can rest (5 mins)
     return has_live_games
