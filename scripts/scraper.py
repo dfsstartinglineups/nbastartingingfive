@@ -29,6 +29,7 @@ os.makedirs(DATA_DIR, exist_ok=True)
 # --- CONFIGURATION ---
 # ==========================================================
 BBM_URL = "https://basketballmonster.com/nbalineups.aspx"
+BBM_NEWS_URL = "https://basketballmonster.com/playernews.aspx"
 
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
@@ -141,7 +142,77 @@ def get_espn_schedule_data():
     return team_schedule
 
 # ==========================================================
-# --- SCRAPE BASKETBALL MONSTER ---
+# --- SCRAPE BASKETBALL MONSTER PLAYER NEWS ---
+# ==========================================================
+def scrape_bbm_player_news():
+    print(f"--- SCRAPING {BBM_NEWS_URL} ---")
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Connection': 'keep-alive',
+    }
+    
+    try:
+        response = requests.get(BBM_NEWS_URL, headers=headers, timeout=15)
+        if response.status_code != 200:
+            print(f"⚠️ Failed to fetch BBM News. Status Code: {response.status_code}")
+            return []
+        html_content = response.text
+    except Exception as e:
+        print(f"⚠️ Network error fetching BBM News: {e}")
+        return []
+
+    soup = BeautifulSoup(html_content, 'html.parser')
+    news_items = soup.find_all('div', class_='q-su-item')
+    
+    if not news_items:
+        print("❌ Could not find any news items on BBM.")
+        return []
+    
+    extracted_news = []
+    
+    for item in news_items:
+        news_data = {}
+        
+        title_span = item.find('span', class_='q-title')
+        if title_span and title_span.a:
+            news_data['player_name'] = title_span.a.text.strip()
+            
+        player_info_spans = item.find_all('span', class_='q-player-info')
+        if len(player_info_spans) >= 2:
+            news_data['team'] = normalize_team(player_info_spans[0].text.strip())
+            news_data['position'] = player_info_spans[1].text.strip()
+            
+        status_square = item.find('span', class_='status-square')
+        if status_square:
+            news_data['status_badge'] = ''.join([text for text in status_square.strings if text.parent == status_square]).strip()
+            
+        desc_span = item.find('span', class_='text-muted')
+        if desc_span:
+            news_data['description'] = desc_span.text.strip()
+        else:
+            status_div = item.find('div', class_='status-update-player-status')
+            if status_div:
+                 raw_desc = status_div.text.replace("high level", "").replace("low level", "").replace("medium level", "").strip()
+                 news_data['description'] = raw_desc
+                 
+        time_div = item.find('div', class_='q-date')
+        if time_div:
+            news_data['time_elapsed'] = time_div.text.strip()
+            
+        small_divs = item.find_all('div', class_='ml-1 small')
+        game_divs = [div for div in small_divs if 'text-muted' not in div.get('class', [])]
+        if game_divs:
+            news_data['next_game'] = game_divs[-1].text.strip()
+            
+        extracted_news.append(news_data)
+        
+    print(f"Scraped {len(extracted_news)} player news items.")
+    return extracted_news
+
+# ==========================================================
+# --- SCRAPE BASKETBALL MONSTER STARTERS ---
 # ==========================================================
 def scrape_starters():
     print(f"--- SCRAPING {BBM_URL} ---")
@@ -426,6 +497,10 @@ def build_json():
     current_espn_date = et_now.strftime("%Y%m%d")
     tomorrow_espn_date = (et_now + timedelta(days=1)).strftime("%Y%m%d")
     
+    # --- GET DAY OF THE WEEK FOR NEWS FILTERING ---
+    today_weekday = et_now.strftime("%A")
+    tomorrow_weekday = (et_now + timedelta(days=1)).strftime("%A")
+    
     valid_dates = [yesterday_str, current_date_str, tomorrow_str]
     
     old_memory = {}
@@ -443,6 +518,9 @@ def build_json():
 
     team_schedule = get_espn_schedule_data()
     scraped_rosters = scrape_starters()
+    
+    # Fetch all recent news items once
+    all_player_news = scrape_bbm_player_news()
     
     # We scrape BOTH today and tomorrow to ensure both daily files are created
     unique_dates = [current_date_str, tomorrow_str]
@@ -653,32 +731,39 @@ def build_json():
 
     today_games = [g for g in games_output if g['date'] == current_date_str]
     tomorrow_games = [g for g in games_output if g['date'] == tomorrow_str]
+    
+    # Filter the news into Today and Tomorrow buckets
+    today_news = [n for n in all_player_news if n.get('next_game', '').startswith(today_weekday)]
+    tomorrow_news = [n for n in all_player_news if n.get('next_game', '').startswith(tomorrow_weekday)]
 
-    # Write 1: Today's Daily File (With ESPN Scoreboard)
+    # Write 1: Today's Daily File
     today_json = {
         "last_updated": formatted_time,
+        "player_news": today_news,
         "espn_schedule": fetch_espn_scoreboard(current_espn_date),
         "slates": formatted_slates, 
         "games": today_games
     }
     with open(os.path.join(DATA_DIR, f"{current_date_str}.json"), 'w') as f:
         json.dump(today_json, f, indent=2)
-    print(f"✅ Saved Daily JSON: data/{current_date_str}.json ({len(today_games)} games)")
+    print(f"✅ Saved Daily JSON: data/{current_date_str}.json ({len(today_games)} games, {len(today_news)} news items)")
 
-    # Write 2: Tomorrow's Daily File (With ESPN Scoreboard)
+    # Write 2: Tomorrow's Daily File
     tomorrow_json = {
         "last_updated": formatted_time,
+        "player_news": tomorrow_news,
         "espn_schedule": fetch_espn_scoreboard(tomorrow_espn_date),
         "slates": formatted_slates,
         "games": tomorrow_games
     }
     with open(os.path.join(DATA_DIR, f"{tomorrow_str}.json"), 'w') as f:
         json.dump(tomorrow_json, f, indent=2)
-    print(f"✅ Saved Daily JSON: data/{tomorrow_str}.json ({len(tomorrow_games)} games)")
+    print(f"✅ Saved Daily JSON: data/{tomorrow_str}.json ({len(tomorrow_games)} games, {len(tomorrow_news)} news items)")
 
-    # Write 3: Legacy JSON (Combines everything for Tweet Bot)
+    # Write 3: Legacy JSON (Combines everything)
     legacy_json = {
         "last_updated": formatted_time,
+        "player_news": all_player_news,
         "slates": formatted_slates,
         "games": games_output
     }
