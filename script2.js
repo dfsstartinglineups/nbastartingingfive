@@ -11,9 +11,10 @@ window.LEADERBOARD_SEARCH_TEXT = ''; // Holds the live leaderboard search state
 window.HAS_SCROLLED_TO_HASH = false;
 window.ACTIVE_GLOW_ID = null;
 
-// NEW GLOBALS FOR TOP PLAYS
+// NEW GLOBALS FOR TOP PLAYS & NEWS
 window.TOP_PLAYS_DATA = null;
-window.CURRENT_TOP_PLAYS_POS = 'ALL';
+window.PLAYER_NEWS_DATA = [];
+window.CURRENT_TOP_PLAYS_POS = 'NEWS'; // Set NEWS as the default tab
 
 function getDateFromHash() {
     if (window.location.hash) {
@@ -167,7 +168,7 @@ async function fetchLocalProbables(dateToFetch) {
     } catch (e) {
         console.log(`No daily JSON found for ${dateToFetch}.`);
     }
-    return { games: [], slates: { fanduel: [], draftkings: [] }, espn_schedule: null };
+    return { games: [], slates: { fanduel: [], draftkings: [] }, player_news: [], espn_schedule: null };
 }
 
 async function pollLiveData(dateToFetch) {
@@ -472,6 +473,9 @@ async function init(dateToFetch) {
         const localProbables = localData.games || [];
         ALL_SLATES = localData.slates || { fanduel: [], draftkings: [] };
         
+        // Load in the Player News payload
+        window.PLAYER_NEWS_DATA = localData.player_news || [];
+        
         populateSlates();
 
         if (!scheduleData.events || scheduleData.events.length === 0) {
@@ -609,10 +613,72 @@ window.setTopPlaysTab = function(el) {
     window.updateTopPlaysView();
 };
 
+window.buildNewsListHtml = function(newsItems) {
+    if (!newsItems || newsItems.length === 0) return `<div class="p-3 text-center text-muted fw-bold" style="font-size:0.8rem;">No recent news available.</div>`;
+
+    return newsItems.map((news) => {
+        let photo = '';
+        let dbPlayer = getPlayerFromDB(null, news.player_name);
+        if (dbPlayer && dbPlayer.photo) {
+            photo = dbPlayer.photo;
+        }
+
+        const photoHtml = (photo && photo.includes("http")) 
+            ? `<img src="${photo}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1px solid #dee2e6; background: #fff;">`
+            : `<div style="width: 40px; height: 40px; border-radius: 50%; background-color: #f8f9fa; color: #495057; display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 800; border: 1px solid #dee2e6;">${news.player_name.charAt(0)}</div>`;
+        
+        const teamLogo = `https://a.espncdn.com/i/teamlogos/nba/500/${news.team.toLowerCase()}.png`;
+        const teamBadge = `<img src="${teamLogo}" style="width: 18px; height: 18px; position: absolute; bottom: -2px; right: -4px; border-radius: 50%; background: #fff; border: 1px solid #dee2e6; object-fit: contain; padding: 1px;">`;
+        
+        let badgeClass = 'bg-secondary';
+        const statusStr = (news.status_badge || '').toUpperCase();
+        if (['OUT', 'X'].includes(statusStr)) badgeClass = 'bg-danger';
+        else if (['IN', 'OFF INJ', 'S'].includes(statusStr)) badgeClass = 'bg-success';
+        else if (statusStr === 'Q') badgeClass = 'bg-warning text-dark';
+        else if (statusStr === 'P') badgeClass = 'bg-info text-dark';
+        else if (statusStr === 'D') badgeClass = 'bg-warning text-dark'; 
+
+        let shortName = shortenPlayerName(news.player_name);
+
+        return `
+        <div class="d-flex align-items-center justify-content-between py-2 border-bottom user-select-none">
+            <div class="d-flex align-items-center overflow-hidden">
+                <div class="me-3 position-relative flex-shrink-0 ms-1">
+                    ${photoHtml}
+                    ${teamBadge}
+                </div>
+                <div class="d-flex flex-column justify-content-center overflow-hidden pe-1">
+                    <div class="d-flex align-items-center">
+                        <span class="fw-bold text-dark text-truncate" style="font-size: 0.90rem; max-width: 160px;" title="${news.player_name}">${shortName}</span>
+                        <span class="badge ${badgeClass} ms-2" style="font-size: 0.6rem;">${news.status_badge}</span>
+                    </div>
+                    <span class="text-muted text-truncate" style="font-size: 0.72rem; max-width: 220px;" title="${news.description}">
+                        ${news.position} • <span class="fw-bold text-dark">${news.description}</span>
+                    </span>
+                </div>
+            </div>
+            <div class="text-end ms-1 flex-shrink-0">
+                <div class="fw-bold text-muted me-1" style="font-size: 0.7rem;">${news.time_elapsed}</div>
+            </div>
+        </div>`;
+    }).join('');
+};
+
 window.updateTopPlaysView = function() {
+    const pos = window.CURRENT_TOP_PLAYS_POS || 'NEWS';
+    const subTabsContainer = document.getElementById('top-plays-sub-tabs');
+    const listContainer = document.getElementById('view-top-plays-list');
+
+    // --- THE FORK IN THE ROAD: NEWS vs DFS ---
+    if (pos === 'NEWS') {
+        if (subTabsContainer) subTabsContainer.style.display = 'none';
+        if (listContainer) listContainer.innerHTML = buildNewsListHtml(window.PLAYER_NEWS_DATA || []);
+        return; 
+    }
+
+    if (subTabsContainer) subTabsContainer.style.display = 'flex';
     if (!window.TOP_PLAYS_DATA) return;
 
-    const pos = window.CURRENT_TOP_PLAYS_POS || 'ALL';
     let tabEl = document.querySelector('.leaderboard-tab.active');
     let tab = tabEl ? tabEl.getAttribute('data-tab') : 'value';
 
@@ -638,7 +704,6 @@ window.updateTopPlaysView = function() {
     else if (tab === 'proj') sorted.sort((a, b) => (b.proj || 0) - (a.proj || 0));
 
     const top20 = sorted.slice(0, 20);
-    const listContainer = document.getElementById('view-top-plays-list');
     if (listContainer) listContainer.innerHTML = buildTopPlaysListHtml(top20, tab, platform);
 };
 
@@ -735,12 +800,15 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
         platform: platform
     };
 
-    const posButtons = ['ALL', 'PG', 'SG', 'SF', 'PF', 'C'];
-    let activePos = window.CURRENT_TOP_PLAYS_POS || 'ALL';
-    if (!posButtons.includes(activePos)) activePos = 'ALL';
+    // --- ADD NEWS TO THE POSITIONS ARRAY ---
+    const posButtons = ['NEWS', 'ALL', 'PG', 'SG', 'SF', 'PF', 'C'];
+    let activePos = window.CURRENT_TOP_PLAYS_POS || 'NEWS';
+    if (!posButtons.includes(activePos)) activePos = 'NEWS';
     window.CURRENT_TOP_PLAYS_POS = activePos;
 
     const buttonsHtml = posButtons.map(pos => `<button class="pos-filter-btn ${pos === activePos ? 'active' : ''}" data-pos="${pos}" onclick="window.setTopPlaysPos(this)">${pos}</button>`).join('');
+
+    const subTabsDisplay = activePos === 'NEWS' ? 'none' : 'flex';
 
     return `
     <div class="col-12 col-md-6 col-lg-4 px-1 mb-3">
@@ -754,7 +822,7 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
                 ${buttonsHtml}
             </div>
 
-            <div class="bg-light border-bottom d-flex justify-content-center align-items-center px-2 py-0">
+            <div id="top-plays-sub-tabs" class="bg-light border-bottom justify-content-center align-items-center px-2 py-0" style="display: ${subTabsDisplay};">
                 <div class="d-flex w-100">
                     <div class="leaderboard-tab active w-50" data-tab="value" onclick="window.setTopPlaysTab(this)">TOP VALUE</div>
                     <div class="leaderboard-tab w-50" data-tab="proj" onclick="window.setTopPlaysTab(this)">TOP PROJECTIONS</div>
@@ -1043,10 +1111,10 @@ function renderGames(isSilentRefresh = false) {
                 
                 // --- RESTORE TAB AND RENDER DYNAMIC LIST ---
                 const newActiveTab = document.querySelector(`.leaderboard-tab[data-tab="${activeTopPlaysTab}"]`);
-                if (newActiveTab) {
-                    window.setTopPlaysTab(newActiveTab); // Fire the dynamic renderer and set active
+                if (newActiveTab && window.CURRENT_TOP_PLAYS_POS !== 'NEWS') {
+                    window.setTopPlaysTab(newActiveTab); 
                 } else {
-                    window.updateTopPlaysView(); // Failsafe
+                    window.updateTopPlaysView(); 
                 }
             }
         } else if (window.MASTER_TAB === 'live') {
