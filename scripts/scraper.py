@@ -91,50 +91,45 @@ def parse_time_to_minutes(time_str):
 # --- NEW: NEWS MEMORY MERGER ---
 def merge_news_lists(old_news, new_news):
     """
-    Combines old and new news, purging duplicates from both lists.
-    Keeps only the version with the freshest timestamp/description.
+    Combines old and new news, purging duplicates.
+    Sorts strictly by the local timestamp of when the news was first discovered.
     """
     merged_dict = {}
+    current_time = time.time()
     
     # 1. Process OLD news first.
-    # 2. Process NEW news second.
-    # This order ensures that if a player+badge exists in both, the 'new_news' 
-    # version (which is fresher) overwrites the 'old_news' version in the dictionary.
-    for n in (old_news + new_news):
-        # Normalize fields for a reliable key
+    for n in old_news:
         name = str(n.get('player_name', '')).strip().lower()
         badge = str(n.get('status_badge', '')).strip().upper()
-        
-        # Use Name + Badge as the unique "Fingerprint"
-        # This will automatically collapse any historical duplicates into one row
         key = f"{name}_{badge}"
         
         if name and badge:
-            # Check if this item is "fresher" than what we already have in the dict
-            # If we already have the key, the current loop item 'n' (being newer in order) 
-            # replaces the existing one.
+            # Give legacy items a fake older timestamp if they don't have one yet
+            if 'local_timestamp' not in n:
+                n['local_timestamp'] = current_time - 86400 
             merged_dict[key] = n
             
-    # Convert the cleaned dictionary back to a list
+    # 2. Process NEW news second.
+    for n in new_news:
+        name = str(n.get('player_name', '')).strip().lower()
+        badge = str(n.get('status_badge', '')).strip().upper()
+        key = f"{name}_{badge}"
+        
+        if name and badge:
+            if key in merged_dict:
+                # Inherit the exact original timestamp. No bumping.
+                n['local_timestamp'] = merged_dict[key].get('local_timestamp', current_time)
+            else:
+                # Brand new event
+                n['local_timestamp'] = current_time
+                
+            merged_dict[key] = n
+            
     cleaned_list = list(merged_dict.values())
     
-    # 3. Sorting logic: Always keep the freshest news at the top of the UI
-    def get_time_weight(news_item):
-        time_str = str(news_item.get('time_elapsed', '999d')).lower()
-        try:
-            # Handles "1.1h", "45m", "2d", etc.
-            val_str = ''.join([c for c in time_str if c.isdigit() or c == '.'])
-            if not val_str: return 999999
-            val = float(val_str)
-            
-            if 'm' in time_str: return val
-            if 'h' in time_str: return val * 60
-            if 'd' in time_str: return val * 1440
-            return val
-        except:
-            return 999999
-        
-    cleaned_list.sort(key=get_time_weight)
+    # 3. Sort strictly by our guaranteed local timestamp (Highest/Newest first)
+    cleaned_list.sort(key=lambda x: x.get('local_timestamp', 0), reverse=True)
+    
     return cleaned_list
 
 # ==========================================================
