@@ -694,8 +694,7 @@ window.buildNewsListHtml = function(newsItems) {
     if (!newsItems || newsItems.length === 0) return `<div class="p-3 text-center text-muted fw-bold" style="font-size:0.8rem;">No recent news available.</div>`;
 
     const htmlArray = newsItems.map((news) => {
-        // THE JS FIX: regex /[^A-Z ]/g physically deletes invisible garbage characters
-        const statusStr = (news.status_badge || '').toUpperCase().replace(/[^A-Z ]/g, '').trim();
+        const statusStr = (news.status_badge || '').toUpperCase();
         const pName = news.player_name;
         const rawDesc = news.description || '';
 
@@ -704,6 +703,7 @@ window.buildNewsListHtml = function(newsItems) {
         let descText = '';
         let isValidBadge = true;
 
+        // Custom Badge Mapping
         switch(statusStr) {
             case 'B':
                 badgeClass = 'bg-secondary'; badgeText = 'Not Starting'; descText = `${pName} off the bench`; break;
@@ -723,10 +723,7 @@ window.buildNewsListHtml = function(newsItems) {
                 badgeClass = 'bg-success'; badgeText = 'Available'; descText = `${pName} is off injury report and is available to play`; break;
             case 'LR':
             case 'LOCKER ROOM':
-                badgeClass = 'bg-danger'; 
-                badgeText = 'In Game Injury'; 
-                descText = rawDesc ? `${pName} has gone to the locker room with an apparent injury to their ${rawDesc}` : `${pName} has gone to the locker room with an apparent injury`; 
-                break;
+                badgeClass = 'bg-danger'; badgeText = 'In Game Injury'; descText = `${pName} has gone to the locker room with an apparent injury to his ${rawDesc}`; break;
             default:
                 isValidBadge = false;
         }
