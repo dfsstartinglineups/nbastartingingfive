@@ -8,6 +8,7 @@ let ALL_SLATES = { fanduel: [], draftkings: [] };
 let ARE_ALL_EXPANDED = false;
 let PLAYERS_DB = {}; // Holds our player database
 window.LEADERBOARD_SEARCH_TEXT = ''; // Holds the live leaderboard search state
+window.TOP_PLAYS_SEARCH_TEXT = '';
 window.HAS_SCROLLED_TO_HASH = false;
 window.ACTIVE_GLOW_ID = null;
 
@@ -56,8 +57,8 @@ style.innerHTML = `
     .list-view::-webkit-scrollbar-thumb { background-color: #dee2e6; border-radius: 4px; }
     
     /* Search Bar Styling */
-    #leaderboard-search::placeholder { color: #868e96; opacity: 1; }
-    #leaderboard-search:focus { box-shadow: none; border-color: #20c997; outline: none; }
+    #leaderboard-search::placeholder, #top-plays-search::placeholder { color: #868e96; opacity: 1; }
+    #leaderboard-search:focus, #top-plays-search:focus { box-shadow: none; border-color: #20c997; outline: none; }
 
     .link-target-glow { 
         box-shadow: 0 0 20px rgba(220, 53, 69, 0.8) !important; 
@@ -806,10 +807,22 @@ window.updateTopPlaysView = function() {
     const pos = window.CURRENT_TOP_PLAYS_POS || 'NEWS';
     const subTabsContainer = document.getElementById('top-plays-sub-tabs');
     const listContainer = document.getElementById('view-top-plays-list');
+    const searchTerm = (window.TOP_PLAYS_SEARCH_TEXT || '').toLowerCase(); // Capture search term
 
     if (pos === 'NEWS') {
         if (subTabsContainer) subTabsContainer.style.display = 'none';
-        if (listContainer) listContainer.innerHTML = buildNewsListHtml(window.PLAYER_NEWS_DATA || []);
+        let newsToRender = window.PLAYER_NEWS_DATA || [];
+        
+        // Apply text filter to News
+        if (searchTerm) {
+            newsToRender = newsToRender.filter(n => 
+                (n.player_name && n.player_name.toLowerCase().includes(searchTerm)) ||
+                (n.team && n.team.toLowerCase().includes(searchTerm)) ||
+                (n.description && n.description.toLowerCase().includes(searchTerm))
+            );
+        }
+        
+        if (listContainer) listContainer.innerHTML = buildNewsListHtml(newsToRender);
         return; 
     }
 
@@ -825,15 +838,24 @@ window.updateTopPlaysView = function() {
     let sourceArray = window.TOP_PLAYS_DATA.players;
     let filtered = sourceArray;
 
+    // Apply Position Filter
     if (pos !== 'ALL') {
         const targetPositions = pos.split('/'); 
-        filtered = sourceArray.filter(p => {
+        filtered = filtered.filter(p => {
             const pPos = p[posKey] || p.pos || '';
             if (!pPos) return false;
             
             const playerPositions = pPos.split('/'); 
             return targetPositions.some(targetPos => playerPositions.includes(targetPos));
         });
+    }
+
+    // Apply Text Filter to Players
+    if (searchTerm) {
+        filtered = filtered.filter(p => 
+            (p.name && p.name.toLowerCase().includes(searchTerm)) ||
+            (p.teamAbbrev && p.teamAbbrev.toLowerCase().includes(searchTerm))
+        );
     }
 
     let sorted = [...filtered];
@@ -944,12 +966,27 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
 
     const subTabsDisplay = activePos === 'NEWS' ? 'none' : 'flex';
 
+    // Build the Search Bar HTML
+    const searchBarHtml = `
+        <div class="position-relative mx-2 w-100" style="max-width: 140px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="#adb5bd" viewBox="0 0 16 16" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+            <input type="text" id="top-plays-search" class="form-control form-control-sm pe-2" 
+                   style="background-color: #212529; color: #fff; border-color: #495057; font-size: 0.75rem; border-radius: 15px; padding-left: 26px;" 
+                   placeholder="Search..." 
+                   value="${window.TOP_PLAYS_SEARCH_TEXT || ''}" 
+                   oninput="window.TOP_PLAYS_SEARCH_TEXT = this.value; window.updateTopPlaysView();">
+        </div>
+    `;
+
     return `
     <div class="col-12 col-md-6 col-lg-4 px-1 mb-3">
         <div class="card shadow-sm border overflow-hidden h-100" style="background-color: #fff; border-radius: 12px; border-color: #dee2e6 !important;">
             <div class="card-header bg-dark text-white py-2 d-flex justify-content-between align-items-center">
-                <h6 class="mb-0 fw-bold" style="font-size: 0.85rem;">⭐ Slate Top Plays</h6>
-                <span class="badge bg-secondary" style="font-size: 0.6rem;">${platform === 'dk' ? 'DraftKings' : 'FanDuel'}</span>
+                <h6 class="mb-0 fw-bold text-nowrap" style="font-size: 0.85rem;">⭐ Slate Top Plays</h6>
+                ${searchBarHtml}
+                <span class="badge bg-secondary text-nowrap" style="font-size: 0.6rem;">${platform === 'dk' ? 'DraftKings' : 'FanDuel'}</span>
             </div>
             
             <div class="bg-light border-bottom d-flex align-items-center px-2 py-2 overflow-auto hide-scrollbar gap-1">
@@ -1183,7 +1220,7 @@ function renderGames(isSilentRefresh = false) {
     const activeElement = document.activeElement;
     const activeId = activeElement ? activeElement.id : null;
     let cursorStart = null, cursorEnd = null;
-    if (activeId && (activeId === 'leaderboard-search' || activeId === 'team-search')) {
+    if (activeId && (activeId === 'leaderboard-search' || activeId === 'team-search' || activeId === 'top-plays-search')) { // <--- Added top-plays-search here
         try {
             cursorStart = activeElement.selectionStart;
             cursorEnd = activeElement.selectionEnd;
