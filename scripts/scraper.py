@@ -91,38 +91,32 @@ def parse_time_to_minutes(time_str):
 # --- NEW: NEWS MEMORY MERGER ---
 def merge_news_lists(old_news, new_news):
     """Merges news arrays, prioritizing fresh scrapes and preserving old news without strict duplication."""
-    
-    # We will use a dictionary to track the most recent update for a specific player + badge combo.
-    # This prevents the same player from having 5 "Questionable" updates in the feed.
     merged_dict = {}
     
     # 1. Process the fresh news first. 
-    # (Since these are new, they represent the most current state of the player)
     for n in new_news:
-        # Our unique key is the player name + their specific badge
-        key = f"{n.get('player_name', '')}_{n.get('status_badge', '')}"
-        
-        # If there are somehow duplicates in the *new* feed itself, keep the first one we see
+        # We use Name + Badge + Description. 
+        # We explicitly LEAVE OUT time_elapsed so the ticking clock doesn't create massive duplicates!
+        key = f"{n.get('player_name', '')}_{n.get('status_badge', '')}_{n.get('description', '')}"
         if key not in merged_dict:
             merged_dict[key] = n
             
     # 2. Process the old news.
     for n in old_news:
-        key = f"{n.get('player_name', '')}_{n.get('status_badge', '')}"
-        
-        # If we didn't get a fresh update for this player+badge combo in the new scrape,
-        # we append the old one to preserve the historical record!
+        key = f"{n.get('player_name', '')}_{n.get('status_badge', '')}_{n.get('description', '')}"
         if key not in merged_dict:
             merged_dict[key] = n
             
-    # Convert the dictionary back into a list
     merged_list = list(merged_dict.values())
     
-    # Sort the list chronologically (Rough approximation based on the string: "1m", "5h", "1d", etc.)
+    # 3. Sort the list chronologically
     def get_time_weight(news_item):
         time_str = news_item.get('time_elapsed', '999d').lower()
         try:
-            val = int(''.join(filter(str.isdigit, time_str)))
+            # Safely extract floats (e.g. "1.1h" becomes 1.1)
+            val_str = ''.join([c for c in time_str if c.isdigit() or c == '.'])
+            if not val_str: return 999999
+            val = float(val_str)
             if 'm' in time_str: return val
             if 'h' in time_str: return val * 60
             if 'd' in time_str: return val * 1440
@@ -131,7 +125,6 @@ def merge_news_lists(old_news, new_news):
         return 999999
         
     merged_list.sort(key=get_time_weight)
-            
     return merged_list
 
 # ==========================================================
