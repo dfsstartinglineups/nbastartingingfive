@@ -15,6 +15,7 @@ window.ACTIVE_GLOW_ID = null;
 window.TOP_PLAYS_DATA = null;
 window.PLAYER_NEWS_DATA = [];
 window.CURRENT_TOP_PLAYS_POS = 'NEWS'; // Set NEWS as the default tab
+window.NEWS_POLL_INTERVAL = null;
 
 function getDateFromHash() {
     if (window.location.hash) {
@@ -251,33 +252,6 @@ async function pollLiveData(dateToFetch) {
                 } else {
                     LIVE_GAMES_DATA = {};
                     needsGlobalRender = true;
-                }
-
-                // Global projected flag check
-                const dailyData = await fetchLocalProbables(dateToFetch);
-                if (dailyData && dailyData.games) {
-                    ALL_GAMES_DATA.forEach(gameObj => {
-                        const awayStd = getStandardAbbr(gameObj.away.team.abbreviation);
-                        const homeStd = getStandardAbbr(gameObj.home.team.abbreviation);
-                        const localGameMatch = dailyData.games.find(g => g.id === gameObj.localId);
-                        
-                        if (localGameMatch && localGameMatch.rosters) {
-                            if (localGameMatch.rosters[awayStd] && localGameMatch.rosters[awayStd].players) {
-                                const isVerified = localGameMatch.rosters[awayStd].players.every(p => p.verified === true);
-                                if (gameObj.awayIsProjected !== !isVerified) {
-                                    gameObj.awayIsProjected = !isVerified;
-                                    needsGlobalRender = true;
-                                }
-                            }
-                            if (localGameMatch.rosters[homeStd] && localGameMatch.rosters[homeStd].players) {
-                                const isVerified = localGameMatch.rosters[homeStd].players.every(p => p.verified === true);
-                                if (gameObj.homeIsProjected !== !isVerified) {
-                                    gameObj.homeIsProjected = !isVerified;
-                                    needsGlobalRender = true;
-                                }
-                            }
-                        }
-                    });
                 }
                 
                 if (needsGlobalRender) renderGames(true);
@@ -547,9 +521,112 @@ async function init(dateToFetch) {
         renderGames();
         
         // ==========================================
-        // Firebase Listener handles everything now!
+        // Firebase Listener handles Live PBP/Scores
         // ==========================================
         await pollLiveData(dateToFetch);
+
+        // ==========================================
+        // --- 30-SECOND SILENT JSON POLLER ---
+        // (Handles all News, Lineups, Projections, and Odds updates!)
+        // ==========================================
+        if (window.NEWS_POLL_INTERVAL) clearInterval(window.NEWS_POLL_INTERVAL);
+        
+        window.NEWS_POLL_INTERVAL = setInterval(async () => {
+            const todayStr = new Date().toLocaleDateString('en-CA');
+            if (dateToFetch !== todayStr) return; // Only aggressively poll for today's data
+
+            try {
+                const freshData = await fetchLocalProbables(dateToFetch);
+                if (!freshData) return;
+
+                let needsRender = false;
+
+                // 1. Check for News Updates
+                const oldNewsStr = JSON.stringify(window.PLAYER_NEWS_DATA);
+                const newNewsStr = JSON.stringify(freshData.player_news || []);
+                if (oldNewsStr !== newNewsStr) {
+                    window.PLAYER_NEWS_DATA = freshData.player_news || [];
+                    needsRender = true;
+                }
+
+                // 2. Check for Slate Updates
+                if (freshData.slates && JSON.stringify(ALL_SLATES) !== JSON.stringify(freshData.slates)) {
+                    ALL_SLATES = freshData.slates;
+                    populateSlates(); // Updates the UI dropdown options
+                    needsRender = true;
+                }
+
+                // 3. Check for Lineup / Odds / Projected Status Updates
+                if (freshData.games) {
+                    ALL_GAMES_DATA.forEach(gameObj => {
+                        const awayStd = getStandardAbbr(gameObj.away.team.abbreviation);
+                        const homeStd = getStandardAbbr(gameObj.home.team.abbreviation);
+                        const localGameMatch = freshData.games.find(g => g.id === gameObj.localId);
+
+                        if (localGameMatch && localGameMatch.rosters) {
+                            
+                            const extractRoster = (abbr) => {
+                                let starters = [], isProj = true, bench = [];
+                                let localPlayers = localGameMatch.rosters[abbr] ? localGameMatch.rosters[abbr].players : null;
+                                let localBench = localGameMatch.rosters[abbr] ? localGameMatch.rosters[abbr].bench : [];
+                                
+                                const mapPlayer = p => ({ athlete: { id: p.id || p.espn_id, displayName: p.name, position: { abbreviation: p.pos }, dfs: p } });
+
+                                if (localPlayers && localPlayers.every(p => p.verified)) {
+                                    starters = localPlayers.map(mapPlayer);
+                                    isProj = false;
+                                } else if (localPlayers) {
+                                    starters = localPlayers.map(mapPlayer);
+                                }
+                                if (localBench) bench = localBench.map(mapPlayer);
+                                return { starters, bench, isProj };
+                            };
+
+                            const newAwayRoster = extractRoster(awayStd);
+                            const newHomeRoster = extractRoster(homeStd);
+
+                            // Detect any changes to the rosters or verification statuses
+                            if (JSON.stringify(gameObj.awayStarters) !== JSON.stringify(newAwayRoster.starters) ||
+                                JSON.stringify(gameObj.homeStarters) !== JSON.stringify(newHomeRoster.starters) ||
+                                JSON.stringify(gameObj.awayBench) !== JSON.stringify(newAwayRoster.bench) ||
+                                JSON.stringify(gameObj.homeBench) !== JSON.stringify(newHomeRoster.bench) ||
+                                gameObj.awayIsProjected !== newAwayRoster.isProj ||
+                                gameObj.homeIsProjected !== newHomeRoster.isProj) {
+                                
+                                gameObj.awayStarters = newAwayRoster.starters;
+                                gameObj.homeStarters = newHomeRoster.starters;
+                                gameObj.awayBench = newAwayRoster.bench;
+                                gameObj.homeBench = newHomeRoster.bench;
+                                gameObj.awayIsProjected = newAwayRoster.isProj;
+                                gameObj.homeIsProjected = newHomeRoster.isProj;
+                                needsRender = true;
+                            }
+                            
+                            // Detect any changes to the odds
+                            if (localGameMatch.meta) {
+                                let newSpread = localGameMatch.meta.spread && localGameMatch.meta.spread !== "TBD" ? localGameMatch.meta.spread : gameObj.odds.spread;
+                                let newTotal = localGameMatch.meta.total && localGameMatch.meta.total !== "TBD" ? `O/U ${localGameMatch.meta.total}` : gameObj.odds.overUnder;
+                                
+                                if (gameObj.odds.spread !== newSpread || gameObj.odds.overUnder !== newTotal) {
+                                    gameObj.odds.spread = newSpread;
+                                    gameObj.odds.overUnder = newTotal;
+                                    needsRender = true;
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // Safely trigger a silent refresh if any of the above changed!
+                if (needsRender) {
+                    renderGames(true);
+                }
+
+            } catch (e) {
+                // Silently fail if there's a temporary network blip
+            }
+        }, 30000); 
+        // --------------------------------------------------
 
     } catch (error) {
         console.error("Init error:", error);
@@ -694,12 +771,12 @@ window.buildNewsListHtml = function(newsItems) {
     
     return finalHtml;
 };
+
 window.updateTopPlaysView = function() {
     const pos = window.CURRENT_TOP_PLAYS_POS || 'NEWS';
     const subTabsContainer = document.getElementById('top-plays-sub-tabs');
     const listContainer = document.getElementById('view-top-plays-list');
 
-    // --- THE FORK IN THE ROAD: NEWS vs DFS ---
     if (pos === 'NEWS') {
         if (subTabsContainer) subTabsContainer.style.display = 'none';
         if (listContainer) listContainer.innerHTML = buildNewsListHtml(window.PLAYER_NEWS_DATA || []);
@@ -753,8 +830,6 @@ window.buildTopPlaysListHtml = function(players, mode, platform) {
         
         const isValue = mode === 'value';
         
-        // --- NEW: ALTERNATING METRIC LOGIC ---
-        // Highlight the primary metric on the right, and put the alternate metric in the subtext
         const highlightMetric = isValue ? `<span class="text-success">${parseFloat(p.value || 0).toFixed(2)}x</span>` : `<span class="text-primary">${parseFloat(p.proj || 0).toFixed(1)}</span> <span class="text-muted" style="font-size:0.6rem;">pts</span>`;
         const subMetric = isValue ? `${parseFloat(p.proj || 0).toFixed(1)} pts` : `${parseFloat(p.value || 0).toFixed(2)}x`;
         
@@ -830,7 +905,6 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
         platform: platform
     };
 
-    // --- ADD NEWS TO THE POSITIONS ARRAY ---
     const posButtons = ['NEWS', 'ALL', 'PG', 'SG', 'SF', 'PF', 'C'];
     let activePos = window.CURRENT_TOP_PLAYS_POS || 'NEWS';
     if (!posButtons.includes(activePos)) activePos = 'NEWS';
