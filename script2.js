@@ -642,7 +642,7 @@ window.buildNewsListHtml = function(newsItems) {
                 badgeClass = 'bg-warning text-dark'; badgeText = 'Doubtful'; descText = `${pName} is doubtful to play today`; break;
             case 'S':
                 badgeClass = 'bg-success'; badgeText = 'Starting'; descText = `${pName} is in the starting lineup today`; break;
-            case 'OFF INJ': // <--- NEW BADGE ADDED HERE
+            case 'OFF INJ':
                 badgeClass = 'bg-success'; badgeText = 'Available'; descText = `${pName} is off injury report and is available to play`; break;
             default:
                 isValidBadge = false;
@@ -678,7 +678,7 @@ window.buildNewsListHtml = function(newsItems) {
                         <span class="badge ${badgeClass} ms-2" style="font-size: 0.6rem;">${badgeText}</span>
                     </div>
                     <div class="text-muted" style="font-size: 0.80rem; line-height: 1.3; white-space: normal;">
-                        ${news.position} • <span class="fw-bold text-dark">${descText}</span>
+                        ${news.position} • <span class="text-dark">${descText}</span>
                     </div>
                 </div>
             </div>
