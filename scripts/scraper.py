@@ -91,35 +91,38 @@ def parse_time_to_minutes(time_str):
 # --- NEW: NEWS MEMORY MERGER ---
 def merge_news_lists(old_news, new_news):
     """
-    Merges news arrays. If a duplicate (Same Player and Badge) 
-    is found, it keeps only the freshest one from the latest scrape.
+    Combines old and new news, purging duplicates from both lists.
+    Keeps only the version with the freshest timestamp/description.
     """
-    # Using a dictionary for de-duplication
     merged_dict = {}
     
-    # Process old news first, then new news. 
-    # By processing new_news LAST, any matching player+badge combo 
-    # will be overwritten by the newest description and time_elapsed.
+    # 1. Process OLD news first.
+    # 2. Process NEW news second.
+    # This order ensures that if a player+badge exists in both, the 'new_news' 
+    # version (which is fresher) overwrites the 'old_news' version in the dictionary.
     for n in (old_news + new_news):
+        # Normalize fields for a reliable key
         name = str(n.get('player_name', '')).strip().lower()
-        # Normalize badge (e.g., 2ndHalf -> 2NDHALF)
         badge = str(n.get('status_badge', '')).strip().upper()
         
-        # THE NEW FINGERPRINT: Just Name and Badge
-        # This ensures one entry per player status (e.g., one 'OUT', one 'Q')
+        # Use Name + Badge as the unique "Fingerprint"
+        # This will automatically collapse any historical duplicates into one row
         key = f"{name}_{badge}"
         
         if name and badge:
+            # Check if this item is "fresher" than what we already have in the dict
+            # If we already have the key, the current loop item 'n' (being newer in order) 
+            # replaces the existing one.
             merged_dict[key] = n
             
-    # Convert back to a list
-    merged_list = list(merged_dict.values())
+    # Convert the cleaned dictionary back to a list
+    cleaned_list = list(merged_dict.values())
     
-    # Sort the final list chronologically (freshest at the top)
+    # 3. Sorting logic: Always keep the freshest news at the top of the UI
     def get_time_weight(news_item):
         time_str = str(news_item.get('time_elapsed', '999d')).lower()
         try:
-            # Extract numbers/decimals to handle "1.1h", "45m", etc.
+            # Handles "1.1h", "45m", "2d", etc.
             val_str = ''.join([c for c in time_str if c.isdigit() or c == '.'])
             if not val_str: return 999999
             val = float(val_str)
@@ -131,8 +134,8 @@ def merge_news_lists(old_news, new_news):
         except:
             return 999999
         
-    merged_list.sort(key=get_time_weight)
-    return merged_list
+    cleaned_list.sort(key=get_time_weight)
+    return cleaned_list
 
 # ==========================================================
 # --- RAW ESPN SCOREBOARD FETCH (FOR THE NEW BUNDLED JSON) ---
