@@ -230,23 +230,19 @@ def scrape_bbm_player_news():
             news_data['team'] = normalize_team(player_info_spans[0].text.strip())
             news_data['position'] = player_info_spans[1].text.strip()
             
-        # 3. STATUS BADGE (The Fix for 2ndHalf/LR)
+        # 3. STATUS BADGE
         status_square = item.find('span', class_='status-square')
         badge_val = ""
         if status_square:
-            # .get_text(strip=True) ignores the <i> and <small> tags entirely
             badge_val = status_square.get_text(strip=True).upper()
             news_data['status_badge'] = badge_val
             
-        # 4. DESCRIPTION (The Fix for Duplication)
+        # 4. DESCRIPTION
         status_div = item.find('div', class_='status-update-player-status')
         if status_div:
-            # We get the raw text and remove the Badge and the "Level" tags
             raw_text = status_div.get_text(separator=" ", strip=True)
             clean_desc = raw_text.replace(badge_val, "").strip()
-            # Remove "high level", "medium level", etc.
             clean_desc = re.sub(r'(high|medium|low|monster)\s+level', '', clean_desc, flags=re.IGNORECASE).strip()
-            # Strip leading/trailing hyphens or dots often left behind
             clean_desc = clean_desc.lstrip('- ').strip()
             news_data['description'] = clean_desc
                  
@@ -344,7 +340,7 @@ def scrape_dff_projections(target_date_str):
     chrome_options = Options()
     chrome_options.add_argument("--headless") 
     chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-dev-shm usage")
     chrome_options.add_argument("--window-size=1920,1080")
     chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
     
@@ -549,10 +545,12 @@ def build_json():
     
     current_espn_date = et_now.strftime("%Y%m%d")
     tomorrow_espn_date = (et_now + timedelta(days=1)).strftime("%Y%m%d")
+    yesterday_espn_date = (et_now - timedelta(days=1)).strftime("%Y%m%d")
     
     # --- GET DAY OF THE WEEK FOR NEWS FILTERING ---
     today_weekday = et_now.strftime("%A")
     tomorrow_weekday = (et_now + timedelta(days=1)).strftime("%A")
+    yesterday_weekday = (et_now - timedelta(days=1)).strftime("%A")
     
     valid_dates = [yesterday_str, current_date_str, tomorrow_str]
     
@@ -577,6 +575,7 @@ def build_json():
     # Load Existing Daily Files (to preserve old news items from earlier in the day)
     today_file_path = os.path.join(DATA_DIR, f"{current_date_str}.json")
     tomorrow_file_path = os.path.join(DATA_DIR, f"{tomorrow_str}.json")
+    yesterday_file_path = os.path.join(DATA_DIR, f"{yesterday_str}.json")
 
     old_today_news = []
     if os.path.exists(today_file_path):
@@ -591,6 +590,13 @@ def build_json():
             with open(tomorrow_file_path, 'r') as f:
                 old_tomorrow_news = json.load(f).get('player_news', [])
         except: pass
+        
+    old_yesterday_news = []
+    if os.path.exists(yesterday_file_path):
+        try:
+            with open(yesterday_file_path, 'r') as f:
+                old_yesterday_news = json.load(f).get('player_news', [])
+        except: pass
     # ----------------------------------------------------
 
     team_schedule = get_espn_schedule_data()
@@ -599,13 +605,14 @@ def build_json():
     # Fetch fresh news items 
     all_player_news = scrape_bbm_player_news()
     
-    # Filter the FRESH news into Today and Tomorrow buckets
+    # Filter the FRESH news into Yesterday, Today, and Tomorrow buckets
+    fresh_yesterday_news = [n for n in all_player_news if n.get('next_game', '').startswith(yesterday_weekday)]
     fresh_today_news = [n for n in all_player_news if n.get('next_game', '').startswith(today_weekday)]
     fresh_tomorrow_news = [n for n in all_player_news if n.get('next_game', '').startswith(tomorrow_weekday)]
 
-    # We scrape BOTH today and tomorrow to ensure both daily files are created
-    unique_dates = [current_date_str, tomorrow_str]
-    print(f"\n[TIME CHECK] Scraping Today & Tomorrow: {unique_dates}")
+    # We scrape Yesterday, Today, and Tomorrow to ensure all daily files are created/updated
+    unique_dates = [yesterday_str, current_date_str, tomorrow_str]
+    print(f"\n[TIME CHECK] Scraping Yesterday, Today, & Tomorrow: {unique_dates}")
         
     dff_projections = {}
     for d_str in unique_dates:
@@ -810,15 +817,29 @@ def build_json():
     # ==========================================================
     print("\n--- SAVING FILES ---")
 
+    yesterday_games = [g for g in games_output if g['date'] == yesterday_str]
     today_games = [g for g in games_output if g['date'] == current_date_str]
     tomorrow_games = [g for g in games_output if g['date'] == tomorrow_str]
 
     # --- NEW: MERGE THE NEWS BUCKETS ---
+    final_yesterday_news = merge_news_lists(old_yesterday_news, fresh_yesterday_news)
     final_today_news = merge_news_lists(old_today_news, fresh_today_news)
     final_tomorrow_news = merge_news_lists(old_tomorrow_news, fresh_tomorrow_news)
     final_legacy_news = merge_news_lists(old_legacy_news, all_player_news)
+    
+    # Write 1: Yesterday's Daily File (Keeps updating post-midnight for West Coast games)
+    yesterday_json = {
+        "last_updated": formatted_time,
+        "player_news": final_yesterday_news,
+        "espn_schedule": fetch_espn_scoreboard(yesterday_espn_date),
+        "slates": formatted_slates,
+        "games": yesterday_games
+    }
+    with open(os.path.join(DATA_DIR, f"{yesterday_str}.json"), 'w') as f:
+        json.dump(yesterday_json, f, indent=2)
+    print(f"✅ Saved Daily JSON: data/{yesterday_str}.json ({len(yesterday_games)} games, {len(final_yesterday_news)} news items)")
 
-    # Write 1: Today's Daily File
+    # Write 2: Today's Daily File
     today_json = {
         "last_updated": formatted_time,
         "player_news": final_today_news,
@@ -830,7 +851,7 @@ def build_json():
         json.dump(today_json, f, indent=2)
     print(f"✅ Saved Daily JSON: data/{current_date_str}.json ({len(today_games)} games, {len(final_today_news)} news items)")
 
-    # Write 2: Tomorrow's Daily File
+    # Write 3: Tomorrow's Daily File
     tomorrow_json = {
         "last_updated": formatted_time,
         "player_news": final_tomorrow_news,
@@ -842,7 +863,7 @@ def build_json():
         json.dump(tomorrow_json, f, indent=2)
     print(f"✅ Saved Daily JSON: data/{tomorrow_str}.json ({len(tomorrow_games)} games, {len(final_tomorrow_news)} news items)")
 
-    # Write 3: Legacy JSON (Combines everything)
+    # Write 4: Legacy JSON (Combines everything)
     legacy_json = {
         "last_updated": formatted_time,
         "player_news": final_legacy_news,
