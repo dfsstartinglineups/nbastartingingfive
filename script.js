@@ -11,9 +11,11 @@ window.LEADERBOARD_SEARCH_TEXT = ''; // Holds the live leaderboard search state
 window.HAS_SCROLLED_TO_HASH = false;
 window.ACTIVE_GLOW_ID = null;
 
-// NEW GLOBALS FOR TOP PLAYS
+// NEW GLOBALS FOR TOP PLAYS & NEWS
 window.TOP_PLAYS_DATA = null;
-window.CURRENT_TOP_PLAYS_POS = 'ALL';
+window.PLAYER_NEWS_DATA = [];
+window.CURRENT_TOP_PLAYS_POS = 'NEWS'; // Set NEWS as the default tab
+window.NEWS_POLL_INTERVAL = null;
 
 function getDateFromHash() {
     if (window.location.hash) {
@@ -167,7 +169,7 @@ async function fetchLocalProbables(dateToFetch) {
     } catch (e) {
         console.log(`No daily JSON found for ${dateToFetch}.`);
     }
-    return { games: [], slates: { fanduel: [], draftkings: [] }, espn_schedule: null };
+    return { games: [], slates: { fanduel: [], draftkings: [] }, player_news: [], espn_schedule: null };
 }
 
 async function pollLiveData(dateToFetch) {
@@ -250,33 +252,6 @@ async function pollLiveData(dateToFetch) {
                 } else {
                     LIVE_GAMES_DATA = {};
                     needsGlobalRender = true;
-                }
-
-                // Global projected flag check
-                const dailyData = await fetchLocalProbables(dateToFetch);
-                if (dailyData && dailyData.games) {
-                    ALL_GAMES_DATA.forEach(gameObj => {
-                        const awayStd = getStandardAbbr(gameObj.away.team.abbreviation);
-                        const homeStd = getStandardAbbr(gameObj.home.team.abbreviation);
-                        const localGameMatch = dailyData.games.find(g => g.id === gameObj.localId);
-                        
-                        if (localGameMatch && localGameMatch.rosters) {
-                            if (localGameMatch.rosters[awayStd] && localGameMatch.rosters[awayStd].players) {
-                                const isVerified = localGameMatch.rosters[awayStd].players.every(p => p.verified === true);
-                                if (gameObj.awayIsProjected !== !isVerified) {
-                                    gameObj.awayIsProjected = !isVerified;
-                                    needsGlobalRender = true;
-                                }
-                            }
-                            if (localGameMatch.rosters[homeStd] && localGameMatch.rosters[homeStd].players) {
-                                const isVerified = localGameMatch.rosters[homeStd].players.every(p => p.verified === true);
-                                if (gameObj.homeIsProjected !== !isVerified) {
-                                    gameObj.homeIsProjected = !isVerified;
-                                    needsGlobalRender = true;
-                                }
-                            }
-                        }
-                    });
                 }
                 
                 if (needsGlobalRender) renderGames(true);
@@ -472,6 +447,9 @@ async function init(dateToFetch) {
         const localProbables = localData.games || [];
         ALL_SLATES = localData.slates || { fanduel: [], draftkings: [] };
         
+        // Load in the Player News payload
+        window.PLAYER_NEWS_DATA = localData.player_news || [];
+        
         populateSlates();
 
         if (!scheduleData.events || scheduleData.events.length === 0) {
@@ -543,9 +521,112 @@ async function init(dateToFetch) {
         renderGames();
         
         // ==========================================
-        // Firebase Listener handles everything now!
+        // Firebase Listener handles Live PBP/Scores
         // ==========================================
         await pollLiveData(dateToFetch);
+
+        // ==========================================
+        // --- 30-SECOND SILENT JSON POLLER ---
+        // (Handles all News, Lineups, Projections, and Odds updates!)
+        // ==========================================
+        if (window.NEWS_POLL_INTERVAL) clearInterval(window.NEWS_POLL_INTERVAL);
+        
+        window.NEWS_POLL_INTERVAL = setInterval(async () => {
+            const todayStr = new Date().toLocaleDateString('en-CA');
+            if (dateToFetch !== todayStr) return; // Only aggressively poll for today's data
+
+            try {
+                const freshData = await fetchLocalProbables(dateToFetch);
+                if (!freshData) return;
+
+                let needsRender = false;
+
+                // 1. Check for News Updates
+                const oldNewsStr = JSON.stringify(window.PLAYER_NEWS_DATA);
+                const newNewsStr = JSON.stringify(freshData.player_news || []);
+                if (oldNewsStr !== newNewsStr) {
+                    window.PLAYER_NEWS_DATA = freshData.player_news || [];
+                    needsRender = true;
+                }
+
+                // 2. Check for Slate Updates
+                if (freshData.slates && JSON.stringify(ALL_SLATES) !== JSON.stringify(freshData.slates)) {
+                    ALL_SLATES = freshData.slates;
+                    populateSlates(); // Updates the UI dropdown options
+                    needsRender = true;
+                }
+
+                // 3. Check for Lineup / Odds / Projected Status Updates
+                if (freshData.games) {
+                    ALL_GAMES_DATA.forEach(gameObj => {
+                        const awayStd = getStandardAbbr(gameObj.away.team.abbreviation);
+                        const homeStd = getStandardAbbr(gameObj.home.team.abbreviation);
+                        const localGameMatch = freshData.games.find(g => g.id === gameObj.localId);
+
+                        if (localGameMatch && localGameMatch.rosters) {
+                            
+                            const extractRoster = (abbr) => {
+                                let starters = [], isProj = true, bench = [];
+                                let localPlayers = localGameMatch.rosters[abbr] ? localGameMatch.rosters[abbr].players : null;
+                                let localBench = localGameMatch.rosters[abbr] ? localGameMatch.rosters[abbr].bench : [];
+                                
+                                const mapPlayer = p => ({ athlete: { id: p.id || p.espn_id, displayName: p.name, position: { abbreviation: p.pos }, dfs: p } });
+
+                                if (localPlayers && localPlayers.every(p => p.verified)) {
+                                    starters = localPlayers.map(mapPlayer);
+                                    isProj = false;
+                                } else if (localPlayers) {
+                                    starters = localPlayers.map(mapPlayer);
+                                }
+                                if (localBench) bench = localBench.map(mapPlayer);
+                                return { starters, bench, isProj };
+                            };
+
+                            const newAwayRoster = extractRoster(awayStd);
+                            const newHomeRoster = extractRoster(homeStd);
+
+                            // Detect any changes to the rosters or verification statuses
+                            if (JSON.stringify(gameObj.awayStarters) !== JSON.stringify(newAwayRoster.starters) ||
+                                JSON.stringify(gameObj.homeStarters) !== JSON.stringify(newHomeRoster.starters) ||
+                                JSON.stringify(gameObj.awayBench) !== JSON.stringify(newAwayRoster.bench) ||
+                                JSON.stringify(gameObj.homeBench) !== JSON.stringify(newHomeRoster.bench) ||
+                                gameObj.awayIsProjected !== newAwayRoster.isProj ||
+                                gameObj.homeIsProjected !== newHomeRoster.isProj) {
+                                
+                                gameObj.awayStarters = newAwayRoster.starters;
+                                gameObj.homeStarters = newHomeRoster.starters;
+                                gameObj.awayBench = newAwayRoster.bench;
+                                gameObj.homeBench = newHomeRoster.bench;
+                                gameObj.awayIsProjected = newAwayRoster.isProj;
+                                gameObj.homeIsProjected = newHomeRoster.isProj;
+                                needsRender = true;
+                            }
+                            
+                            // Detect any changes to the odds
+                            if (localGameMatch.meta) {
+                                let newSpread = localGameMatch.meta.spread && localGameMatch.meta.spread !== "TBD" ? localGameMatch.meta.spread : gameObj.odds.spread;
+                                let newTotal = localGameMatch.meta.total && localGameMatch.meta.total !== "TBD" ? `O/U ${localGameMatch.meta.total}` : gameObj.odds.overUnder;
+                                
+                                if (gameObj.odds.spread !== newSpread || gameObj.odds.overUnder !== newTotal) {
+                                    gameObj.odds.spread = newSpread;
+                                    gameObj.odds.overUnder = newTotal;
+                                    needsRender = true;
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // Safely trigger a silent refresh if any of the above changed!
+                if (needsRender) {
+                    renderGames(true);
+                }
+
+            } catch (e) {
+                // Silently fail if there's a temporary network blip
+            }
+        }, 30000); 
+        // --------------------------------------------------
 
     } catch (error) {
         console.error("Init error:", error);
@@ -609,10 +690,102 @@ window.setTopPlaysTab = function(el) {
     window.updateTopPlaysView();
 };
 
+window.buildNewsListHtml = function(newsItems) {
+    if (!newsItems || newsItems.length === 0) return `<div class="p-3 text-center text-muted fw-bold" style="font-size:0.8rem;">No recent news available.</div>`;
+
+    const htmlArray = newsItems.map((news) => {
+        const statusStr = (news.status_badge || '').toUpperCase();
+        const pName = news.player_name;
+        const rawDesc = news.description || '';
+
+        let badgeClass = 'bg-secondary';
+        let badgeText = '';
+        let descText = '';
+        let isValidBadge = true;
+
+        // Custom Badge Mapping
+        switch(statusStr) {
+            case 'B':
+                badgeClass = 'bg-secondary'; badgeText = 'Not Starting'; descText = `${pName} off the bench`; break;
+            case 'OUT':
+                badgeClass = 'bg-danger'; badgeText = 'Not Playing'; descText = `${pName} is out due to ${rawDesc}`; break;
+            case 'IN':
+                badgeClass = 'bg-success'; badgeText = 'Playing'; descText = `${pName} is available to play`; break;
+            case 'Q':
+                badgeClass = 'bg-warning text-dark'; badgeText = 'Questionable'; descText = `${pName} is questionable to play today due to ${rawDesc}`; break;
+            case 'P':
+                badgeClass = 'bg-info text-dark'; badgeText = 'Probable'; descText = `${pName} is probable to play today`; break;
+            case 'D':
+                badgeClass = 'bg-warning text-dark'; badgeText = 'Doubtful'; descText = `${pName} is doubtful to play today`; break;
+            case 'S':
+                badgeClass = 'bg-success'; badgeText = 'Starting'; descText = `${pName} is in the starting lineup today`; break;
+            case 'OFF INJ':
+                badgeClass = 'bg-success'; badgeText = 'Available'; descText = `${pName} is off injury report and is available to play`; break;
+            default:
+                isValidBadge = false;
+        }
+
+        if (!isValidBadge) return '';
+
+        let photo = '';
+        let dbPlayer = getPlayerFromDB(null, news.player_name);
+        if (dbPlayer && dbPlayer.photo) {
+            photo = dbPlayer.photo;
+        }
+
+        const photoHtml = (photo && photo.includes("http")) 
+            ? `<img src="${photo}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1px solid #dee2e6; background: #fff;">`
+            : `<div style="width: 40px; height: 40px; border-radius: 50%; background-color: #f8f9fa; color: #495057; display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 800; border: 1px solid #dee2e6;">${news.player_name.charAt(0)}</div>`;
+        
+        const teamLogo = `https://a.espncdn.com/i/teamlogos/nba/500/${news.team.toLowerCase()}.png`;
+        const teamBadge = `<img src="${teamLogo}" style="width: 18px; height: 18px; position: absolute; bottom: -2px; right: -4px; border-radius: 50%; background: #fff; border: 1px solid #dee2e6; object-fit: contain; padding: 1px;">`;
+        
+        let shortName = shortenPlayerName(news.player_name);
+
+        return `
+        <div class="d-flex align-items-start justify-content-between py-2 border-bottom user-select-none w-100">
+            <div class="d-flex align-items-start flex-grow-1 pe-2">
+                <div class="me-3 position-relative flex-shrink-0 ms-1 mt-1">
+                    ${photoHtml}
+                    ${teamBadge}
+                </div>
+                <div class="d-flex flex-column justify-content-center w-100">
+                    <div class="d-flex align-items-center flex-wrap mb-1">
+                        <span class="fw-bold text-dark" style="font-size: 0.95rem;">${shortName}</span>
+                        <span class="badge ${badgeClass} ms-2" style="font-size: 0.6rem;">${badgeText}</span>
+                    </div>
+                    <div class="text-muted" style="font-size: 0.80rem; line-height: 1.3; white-space: normal;">
+                        ${news.position} • <span class="text-dark">${descText}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-end ms-1 flex-shrink-0 mt-1">
+                <div class="fw-bold text-muted" style="font-size: 0.7rem;">${news.time_elapsed}</div>
+            </div>
+        </div>`;
+    });
+
+    const finalHtml = htmlArray.filter(html => html !== '').join('');
+    
+    if (!finalHtml) return `<div class="p-3 text-center text-muted fw-bold" style="font-size:0.8rem;">No recent news available.</div>`;
+    
+    return finalHtml;
+};
+
 window.updateTopPlaysView = function() {
+    const pos = window.CURRENT_TOP_PLAYS_POS || 'NEWS';
+    const subTabsContainer = document.getElementById('top-plays-sub-tabs');
+    const listContainer = document.getElementById('view-top-plays-list');
+
+    if (pos === 'NEWS') {
+        if (subTabsContainer) subTabsContainer.style.display = 'none';
+        if (listContainer) listContainer.innerHTML = buildNewsListHtml(window.PLAYER_NEWS_DATA || []);
+        return; 
+    }
+
+    if (subTabsContainer) subTabsContainer.style.display = 'flex';
     if (!window.TOP_PLAYS_DATA) return;
 
-    const pos = window.CURRENT_TOP_PLAYS_POS || 'ALL';
     let tabEl = document.querySelector('.leaderboard-tab.active');
     let tab = tabEl ? tabEl.getAttribute('data-tab') : 'value';
 
@@ -638,7 +811,6 @@ window.updateTopPlaysView = function() {
     else if (tab === 'proj') sorted.sort((a, b) => (b.proj || 0) - (a.proj || 0));
 
     const top20 = sorted.slice(0, 20);
-    const listContainer = document.getElementById('view-top-plays-list');
     if (listContainer) listContainer.innerHTML = buildTopPlaysListHtml(top20, tab, platform);
 };
 
@@ -658,8 +830,6 @@ window.buildTopPlaysListHtml = function(players, mode, platform) {
         
         const isValue = mode === 'value';
         
-        // --- NEW: ALTERNATING METRIC LOGIC ---
-        // Highlight the primary metric on the right, and put the alternate metric in the subtext
         const highlightMetric = isValue ? `<span class="text-success">${parseFloat(p.value || 0).toFixed(2)}x</span>` : `<span class="text-primary">${parseFloat(p.proj || 0).toFixed(1)}</span> <span class="text-muted" style="font-size:0.6rem;">pts</span>`;
         const subMetric = isValue ? `${parseFloat(p.proj || 0).toFixed(1)} pts` : `${parseFloat(p.value || 0).toFixed(2)}x`;
         
@@ -735,12 +905,14 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
         platform: platform
     };
 
-    const posButtons = ['ALL', 'PG', 'SG', 'SF', 'PF', 'C'];
-    let activePos = window.CURRENT_TOP_PLAYS_POS || 'ALL';
-    if (!posButtons.includes(activePos)) activePos = 'ALL';
+    const posButtons = ['NEWS', 'ALL', 'PG', 'SG', 'SF', 'PF', 'C'];
+    let activePos = window.CURRENT_TOP_PLAYS_POS || 'NEWS';
+    if (!posButtons.includes(activePos)) activePos = 'NEWS';
     window.CURRENT_TOP_PLAYS_POS = activePos;
 
     const buttonsHtml = posButtons.map(pos => `<button class="pos-filter-btn ${pos === activePos ? 'active' : ''}" data-pos="${pos}" onclick="window.setTopPlaysPos(this)">${pos}</button>`).join('');
+
+    const subTabsDisplay = activePos === 'NEWS' ? 'none' : 'flex';
 
     return `
     <div class="col-12 col-md-6 col-lg-4 px-1 mb-3">
@@ -754,7 +926,7 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
                 ${buttonsHtml}
             </div>
 
-            <div class="bg-light border-bottom d-flex justify-content-center align-items-center px-2 py-0">
+            <div id="top-plays-sub-tabs" class="bg-light border-bottom justify-content-center align-items-center px-2 py-0" style="display: ${subTabsDisplay};">
                 <div class="d-flex w-100">
                     <div class="leaderboard-tab active w-50" data-tab="value" onclick="window.setTopPlaysTab(this)">TOP VALUE</div>
                     <div class="leaderboard-tab w-50" data-tab="proj" onclick="window.setTopPlaysTab(this)">TOP PROJECTIONS</div>
@@ -1043,10 +1215,10 @@ function renderGames(isSilentRefresh = false) {
                 
                 // --- RESTORE TAB AND RENDER DYNAMIC LIST ---
                 const newActiveTab = document.querySelector(`.leaderboard-tab[data-tab="${activeTopPlaysTab}"]`);
-                if (newActiveTab) {
-                    window.setTopPlaysTab(newActiveTab); // Fire the dynamic renderer and set active
+                if (newActiveTab && window.CURRENT_TOP_PLAYS_POS !== 'NEWS') {
+                    window.setTopPlaysTab(newActiveTab); 
                 } else {
-                    window.updateTopPlaysView(); // Failsafe
+                    window.updateTopPlaysView(); 
                 }
             }
         } else if (window.MASTER_TAB === 'live') {
