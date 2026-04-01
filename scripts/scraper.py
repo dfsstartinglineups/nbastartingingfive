@@ -91,41 +91,39 @@ def parse_time_to_minutes(time_str):
 # --- NEW: NEWS MEMORY MERGER ---
 def merge_news_lists(old_news, new_news):
     """
-    Merges news arrays. If a duplicate (Same Player, Badge, and Description) 
-    is found, it keeps only the freshest one.
+    Merges news arrays. If a duplicate (Same Player and Badge) 
+    is found, it keeps only the freshest one from the latest scrape.
     """
-    # Using a dictionary where the key is the "Fingerprint"
-    # This automatically handles de-duplication
+    # Using a dictionary for de-duplication
     merged_dict = {}
     
     # Process old news first, then new news. 
-    # Because we process new_news LAST, it will overwrite any 
-    # matching old items with the fresher 'time_elapsed'.
+    # By processing new_news LAST, any matching player+badge combo 
+    # will be overwritten by the newest description and time_elapsed.
     for n in (old_news + new_news):
-        name = str(n.get('player_name', '')).strip()
-        # Normalize badge to uppercase to match your JS switch cases (e.g., 2NDHALF)
+        name = str(n.get('player_name', '')).strip().lower()
+        # Normalize badge (e.g., 2ndHalf -> 2NDHALF)
         badge = str(n.get('status_badge', '')).strip().upper()
-        # Normalize description to catch minor spacing differences
-        desc = str(n.get('description', '')).strip()
         
-        # THE FINGERPRINT KEY
-        # If these three match, it's the same news event.
-        key = f"{name}_{badge}_{desc}"
+        # THE NEW FINGERPRINT: Just Name and Badge
+        # This ensures one entry per player status (e.g., one 'OUT', one 'Q')
+        key = f"{name}_{badge}"
         
-        if key:
+        if name and badge:
             merged_dict[key] = n
             
     # Convert back to a list
     merged_list = list(merged_dict.values())
     
-    # Sort the final list so the freshest items are at the top
+    # Sort the final list chronologically (freshest at the top)
     def get_time_weight(news_item):
         time_str = str(news_item.get('time_elapsed', '999d')).lower()
         try:
-            # Extract numbers/decimals (handles "1.1h", "20m", etc.)
+            # Extract numbers/decimals to handle "1.1h", "45m", etc.
             val_str = ''.join([c for c in time_str if c.isdigit() or c == '.'])
             if not val_str: return 999999
             val = float(val_str)
+            
             if 'm' in time_str: return val
             if 'h' in time_str: return val * 60
             if 'd' in time_str: return val * 1440
