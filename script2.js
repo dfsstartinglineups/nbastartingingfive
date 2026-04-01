@@ -694,7 +694,8 @@ window.buildNewsListHtml = function(newsItems) {
     if (!newsItems || newsItems.length === 0) return `<div class="p-3 text-center text-muted fw-bold" style="font-size:0.8rem;">No recent news available.</div>`;
 
     const htmlArray = newsItems.map((news) => {
-        const statusStr = (news.status_badge || '').toUpperCase();
+        // Keeping .trim() just to protect the strict switch from accidental trailing spaces
+        const statusStr = (news.status_badge || '').toUpperCase().trim();
         const pName = news.player_name;
         const rawDesc = news.description || '';
 
@@ -724,6 +725,9 @@ window.buildNewsListHtml = function(newsItems) {
             case 'LR':
             case 'LOCKER ROOM':
                 badgeClass = 'bg-warning text-dark'; badgeText = 'In Game Injury'; descText = `${pName} has gone to the locker room with an apparent injury to his ${rawDesc}`; break;
+            case '2NDHALF':
+            case '2ND HALF':
+                badgeClass = 'bg-success'; badgeText = 'Starting 2nd Half'; descText = rawDesc ? `${pName} is starting 2nd Half ${rawDesc}.` : `${pName} is starting 2nd Half.`; break;
             default:
                 isValidBadge = false;
         }
