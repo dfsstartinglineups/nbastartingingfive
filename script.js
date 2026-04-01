@@ -690,15 +690,34 @@ window.setTopPlaysTab = function(el) {
     window.updateTopPlaysView();
 };
 
+//const rawDesc = (news.description || '').replace(/in the locker room/ig, '').replace(/doubtful/ig, '').replace(/oubtful/ig, '').replace(/out/ig, '').replace(/ut/ig, '').replace(/questionable/ig, '').replace(/uestionable/ig, '').replace(/will not return/ig, '').replace(/^-?\s*/, '').trim();
+
 window.buildNewsListHtml = function(newsItems) {
     if (!newsItems || newsItems.length === 0) return `<div class="p-3 text-center text-muted fw-bold" style="font-size:0.8rem;">No recent news available.</div>`;
 
     const htmlArray = newsItems.map((news) => {
-        // Keeping .trim() just to protect the strict switch from accidental trailing spaces
+        // Status & Description prep
         const statusStr = (news.status_badge || '').toUpperCase().trim();
         const pName = news.player_name;
-        // Inside window.buildNewsListHtml
         const rawDesc = (news.description || '').replace(/in the locker room/ig, '').replace(/doubtful/ig, '').replace(/oubtful/ig, '').replace(/out/ig, '').replace(/ut/ig, '').replace(/questionable/ig, '').replace(/uestionable/ig, '').replace(/will not return/ig, '').replace(/^-?\s*/, '').trim();
+
+        // --- NEW: CALCULATE LIVE ELAPSED TIME ---
+        let displayTime = news.time_elapsed || ''; // Fallback to BBM's string just in case
+        if (news.local_timestamp) {
+            const nowSeconds = Math.floor(Date.now() / 1000);
+            const diffSeconds = Math.max(0, nowSeconds - news.local_timestamp);
+
+            if (diffSeconds < 60) {
+                displayTime = '1m'; 
+            } else if (diffSeconds < 3600) {
+                displayTime = Math.floor(diffSeconds / 60) + 'm';
+            } else if (diffSeconds < 86400) {
+                displayTime = Math.floor(diffSeconds / 3600) + 'h';
+            } else {
+                displayTime = Math.floor(diffSeconds / 86400) + 'd';
+            }
+        }
+        // ----------------------------------------
 
         let badgeClass = 'bg-secondary';
         let badgeText = '';
@@ -725,7 +744,7 @@ window.buildNewsListHtml = function(newsItems) {
                 badgeClass = 'bg-success'; badgeText = 'Available'; descText = `${pName} is off injury report and is available to play`; break;
             case 'LR':
             case 'LOCKER ROOM':
-                badgeClass = 'bg-warning text-dark'; badgeText = 'In Game Injury'; descText = rawDesc ? `${pName} has gone to the locker room with an apparent injury to their ${rawDesc}` : `${pName} has gone to the locker room with an apparent injury`; break;
+                badgeClass = 'bg-warning text-dark'; badgeText = 'In Game Injury'; descText = `${pName} has gone to the locker room with an apparent injury to his ${rawDesc}`; break;
             case '2NDHALF':
             case '2ND HALF':
                 badgeClass = 'bg-success'; badgeText = 'Starting 2nd Half'; descText = rawDesc ? `${pName} is starting 2nd Half ${rawDesc}.` : `${pName} is starting 2nd Half.`; break;
@@ -771,7 +790,7 @@ window.buildNewsListHtml = function(newsItems) {
                 </div>
             </div>
             <div class="text-end ms-1 flex-shrink-0 mt-1">
-                <div class="fw-bold text-muted" style="font-size: 0.7rem;">${news.time_elapsed}</div>
+                <div class="fw-bold text-muted" style="font-size: 0.7rem;">${displayTime}</div>
             </div>
         </div>`;
     });
