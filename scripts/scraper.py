@@ -90,25 +90,49 @@ def parse_time_to_minutes(time_str):
 
 # --- NEW: NEWS MEMORY MERGER ---
 def merge_news_lists(old_news, new_news):
-    """Merges news arrays, keeping new items at the top and preventing duplicates based on a unique fingerprint."""
-    merged = []
-    seen = set()
+    """Merges news arrays, prioritizing fresh scrapes and preserving old news without strict duplication."""
     
-    # 1. Add the freshly scraped news first (so it stays at the top of the feed)
+    # We will use a dictionary to track the most recent update for a specific player + badge combo.
+    # This prevents the same player from having 5 "Questionable" updates in the feed.
+    merged_dict = {}
+    
+    # 1. Process the fresh news first. 
+    # (Since these are new, they represent the most current state of the player)
     for n in new_news:
-        fingerprint = f"{n.get('player_name', '')}_{n.get('status_badge', '')}_{n.get('description', '')}"
-        if fingerprint not in seen:
-            merged.append(n)
-            seen.add(fingerprint)
+        # Our unique key is the player name + their specific badge
+        key = f"{n.get('player_name', '')}_{n.get('status_badge', '')}"
+        
+        # If there are somehow duplicates in the *new* feed itself, keep the first one we see
+        if key not in merged_dict:
+            merged_dict[key] = n
             
-    # 2. Append any older news from the JSON file that wasn't in the new scrape
+    # 2. Process the old news.
     for n in old_news:
-        fingerprint = f"{n.get('player_name', '')}_{n.get('status_badge', '')}_{n.get('description', '')}"
-        if fingerprint not in seen:
-            merged.append(n)
-            seen.add(fingerprint)
+        key = f"{n.get('player_name', '')}_{n.get('status_badge', '')}"
+        
+        # If we didn't get a fresh update for this player+badge combo in the new scrape,
+        # we append the old one to preserve the historical record!
+        if key not in merged_dict:
+            merged_dict[key] = n
             
-    return merged
+    # Convert the dictionary back into a list
+    merged_list = list(merged_dict.values())
+    
+    # Sort the list chronologically (Rough approximation based on the string: "1m", "5h", "1d", etc.)
+    def get_time_weight(news_item):
+        time_str = news_item.get('time_elapsed', '999d').lower()
+        try:
+            val = int(''.join(filter(str.isdigit, time_str)))
+            if 'm' in time_str: return val
+            if 'h' in time_str: return val * 60
+            if 'd' in time_str: return val * 1440
+        except:
+            return 999999
+        return 999999
+        
+    merged_list.sort(key=get_time_weight)
+            
+    return merged_list
 
 # ==========================================================
 # --- RAW ESPN SCOREBOARD FETCH (FOR THE NEW BUNDLED JSON) ---
