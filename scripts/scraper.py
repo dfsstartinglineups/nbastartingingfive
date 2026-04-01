@@ -214,32 +214,40 @@ def scrape_bbm_player_news():
     for item in news_items:
         news_data = {}
         
+        # 1. Extract Player Name
         title_span = item.find('span', class_='q-title')
         if title_span and title_span.a:
             news_data['player_name'] = title_span.a.text.strip()
             
+        # 2. Extract Team and Position
         player_info_spans = item.find_all('span', class_='q-player-info')
         if len(player_info_spans) >= 2:
             news_data['team'] = normalize_team(player_info_spans[0].text.strip())
             news_data['position'] = player_info_spans[1].text.strip()
             
+        # 3. FIX: Robust Status Badge Extraction
         status_square = item.find('span', class_='status-square')
         if status_square:
-            news_data['status_badge'] = ''.join([text for text in status_square.strings if text.parent == status_square]).strip()
+            # .get_text(strip=True) ignores icons and child tags automatically
+            news_data['status_badge'] = status_square.get_text(strip=True).upper()
             
-        desc_span = item.find('span', class_='text-muted')
-        if desc_span:
-            news_data['description'] = desc_span.text.strip()
-        else:
-            status_div = item.find('div', class_='status-update-player-status')
-            if status_div:
-                 raw_desc = status_div.text.replace("high level", "").replace("low level", "").replace("medium level", "").strip()
-                 news_data['description'] = raw_desc
+        # 4. FIX: Robust Description Extraction
+        status_div = item.find('div', class_='status-update-player-status')
+        if status_div:
+            # Grab all text in the div
+            full_text = status_div.get_text(separator=" ", strip=True)
+            # Remove the Badge text from the description
+            clean_desc = full_text.replace(status_square.get_text(strip=True) if status_square else "", "").strip()
+            # Remove the alert levels (high level, low level, etc)
+            clean_desc = re.sub(r'(high|medium|low)\s+level', '', clean_desc, flags=re.IGNORECASE).strip()
+            news_data['description'] = clean_desc
                  
+        # 5. Extract Time Elapsed
         time_div = item.find('div', class_='q-date')
         if time_div:
             news_data['time_elapsed'] = time_div.text.strip()
             
+        # 6. Extract Next Game
         small_divs = item.find_all('div', class_='ml-1 small')
         game_divs = [div for div in small_divs if 'text-muted' not in div.get('class', [])]
         if game_divs:
