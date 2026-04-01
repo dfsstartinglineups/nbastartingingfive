@@ -698,7 +698,7 @@ window.buildNewsListHtml = function(newsItems) {
         const statusStr = (news.status_badge || '').toUpperCase().trim();
         const pName = news.player_name;
         // Inside window.buildNewsListHtml
-        const rawDesc = (news.description || '').replace(/will not return/ig, '').replace(/^-?\s*/, '').trim();
+        const rawDesc = (news.description || '').replace(/doubtful/ig, '').replace(/oubtful/ig, '').replace(/out/ig, '').replace(/ut/ig, '').replace(/questionable/ig, '').replace(/uestionable/ig, '').replace(/will not return/ig, '').replace(/^-?\s*/, '').trim();
 
         let badgeClass = 'bg-secondary';
         let badgeText = '';
