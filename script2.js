@@ -697,7 +697,8 @@ window.buildNewsListHtml = function(newsItems) {
         // Keeping .trim() just to protect the strict switch from accidental trailing spaces
         const statusStr = (news.status_badge || '').toUpperCase().trim();
         const pName = news.player_name;
-        const rawDesc = news.description || '';
+        // Inside window.buildNewsListHtml
+        const rawDesc = (news.description || '').replace(/will not return/ig, '').replace(/^-?\s*/, '').trim();
 
         let badgeClass = 'bg-secondary';
         let badgeText = '';
