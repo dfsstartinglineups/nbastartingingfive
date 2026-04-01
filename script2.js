@@ -723,7 +723,7 @@ window.buildNewsListHtml = function(newsItems) {
                 badgeClass = 'bg-success'; badgeText = 'Available'; descText = `${pName} is off injury report and is available to play`; break;
             case 'LR':
             case 'LOCKER ROOM':
-                badgeClass = 'bg-danger'; badgeText = 'In Game Injury'; descText = `${pName} has gone to the locker room with an apparent injury to his ${rawDesc}`; break;
+                badgeClass = 'bg-warning text-dark'; badgeText = 'In Game Injury'; descText = `${pName} has gone to the locker room with an apparent injury to his ${rawDesc}`; break;
             default:
                 isValidBadge = false;
         }
