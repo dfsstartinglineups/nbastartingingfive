@@ -729,6 +729,9 @@ window.buildNewsListHtml = function(newsItems) {
             case '2NDHALF':
             case '2ND HALF':
                 badgeClass = 'bg-success'; badgeText = 'Starting 2nd Half'; descText = rawDesc ? `${pName} is starting 2nd Half ${rawDesc}.` : `${pName} is starting 2nd Half.`; break;
+            case 'RET':
+            case 'RETURNED':
+                badgeClass = 'bg-success'; badgeText = 'Returned to game'; descText = `${pName} has returned to the game.`; break;
             default:
                 isValidBadge = false;
         }
