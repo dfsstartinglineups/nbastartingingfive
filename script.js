@@ -729,11 +729,11 @@ window.buildNewsListHtml = function(newsItems) {
             case 'B':
                 badgeClass = 'bg-secondary'; badgeText = 'Not Starting'; descText = `${pName} off the bench`; break;
             case 'OUT':
-                badgeClass = 'bg-danger'; badgeText = 'Not Playing'; descText = `${pName} is out due to ${rawDesc}`; break;
+                badgeClass = 'bg-danger'; badgeText = 'Not Playing'; descText = rawDesc ? `${pName} is out due to ${rawDesc}` : `${pName} is out today`; break;
             case 'IN':
                 badgeClass = 'bg-success'; badgeText = 'Playing'; descText = `${pName} is available to play`; break;
             case 'Q':
-                badgeClass = 'bg-warning text-dark'; badgeText = 'Questionable'; descText = `${pName} is questionable to play today due to ${rawDesc}`; break;
+                badgeClass = 'bg-warning text-dark'; badgeText = 'Questionable'; descText = rawDesc ? `${pName} is questionable to play today due to ${rawDesc}` : `${pName} is questionable to play today`; break;
             case 'P':
                 badgeClass = 'bg-info text-dark'; badgeText = 'Probable'; descText = `${pName} is probable to play today`; break;
             case 'D':
