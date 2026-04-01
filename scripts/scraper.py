@@ -88,6 +88,28 @@ def parse_time_to_minutes(time_str):
     except:
         return 9999
 
+# --- NEW: NEWS MEMORY MERGER ---
+def merge_news_lists(old_news, new_news):
+    """Merges news arrays, keeping new items at the top and preventing duplicates based on a unique fingerprint."""
+    merged = []
+    seen = set()
+    
+    # 1. Add the freshly scraped news first (so it stays at the top of the feed)
+    for n in new_news:
+        fingerprint = f"{n.get('player_name', '')}_{n.get('status_badge', '')}_{n.get('description', '')}"
+        if fingerprint not in seen:
+            merged.append(n)
+            seen.add(fingerprint)
+            
+    # 2. Append any older news from the JSON file that wasn't in the new scrape
+    for n in old_news:
+        fingerprint = f"{n.get('player_name', '')}_{n.get('status_badge', '')}_{n.get('description', '')}"
+        if fingerprint not in seen:
+            merged.append(n)
+            seen.add(fingerprint)
+            
+    return merged
+
 # ==========================================================
 # --- RAW ESPN SCOREBOARD FETCH (FOR THE NEW BUNDLED JSON) ---
 # ==========================================================
@@ -503,11 +525,16 @@ def build_json():
     
     valid_dates = [yesterday_str, current_date_str, tomorrow_str]
     
+    # ----------------------------------------------------
+    # LOAD EXISTING MEMORY BEFORE DOING ANYTHING NEW
+    # ----------------------------------------------------
     old_memory = {}
+    old_legacy_news = []
     if os.path.exists(LEGACY_FILE):
         try:
             with open(LEGACY_FILE, 'r') as f:
                 old_data = json.load(f)
+                old_legacy_news = old_data.get('player_news', [])
                 for g in old_data.get('games', []):
                     clean_id = str(g['id']).replace('\r', '').replace('\n', '').replace(' ', '')
                     g_date = g.get("date", current_date_str)
@@ -516,12 +543,35 @@ def build_json():
         except Exception as e:
             print(f"Failed to load memory: {e}")
 
+    # Load Existing Daily Files (to preserve old news items from earlier in the day)
+    today_file_path = os.path.join(DATA_DIR, f"{current_date_str}.json")
+    tomorrow_file_path = os.path.join(DATA_DIR, f"{tomorrow_str}.json")
+
+    old_today_news = []
+    if os.path.exists(today_file_path):
+        try:
+            with open(today_file_path, 'r') as f:
+                old_today_news = json.load(f).get('player_news', [])
+        except: pass
+
+    old_tomorrow_news = []
+    if os.path.exists(tomorrow_file_path):
+        try:
+            with open(tomorrow_file_path, 'r') as f:
+                old_tomorrow_news = json.load(f).get('player_news', [])
+        except: pass
+    # ----------------------------------------------------
+
     team_schedule = get_espn_schedule_data()
     scraped_rosters = scrape_starters()
     
-    # Fetch all recent news items once
+    # Fetch fresh news items 
     all_player_news = scrape_bbm_player_news()
     
+    # Filter the FRESH news into Today and Tomorrow buckets
+    fresh_today_news = [n for n in all_player_news if n.get('next_game', '').startswith(today_weekday)]
+    fresh_tomorrow_news = [n for n in all_player_news if n.get('next_game', '').startswith(tomorrow_weekday)]
+
     # We scrape BOTH today and tomorrow to ensure both daily files are created
     unique_dates = [current_date_str, tomorrow_str]
     print(f"\n[TIME CHECK] Scraping Today & Tomorrow: {unique_dates}")
@@ -731,39 +781,40 @@ def build_json():
 
     today_games = [g for g in games_output if g['date'] == current_date_str]
     tomorrow_games = [g for g in games_output if g['date'] == tomorrow_str]
-    
-    # Filter the news into Today and Tomorrow buckets
-    today_news = [n for n in all_player_news if n.get('next_game', '').startswith(today_weekday)]
-    tomorrow_news = [n for n in all_player_news if n.get('next_game', '').startswith(tomorrow_weekday)]
+
+    # --- NEW: MERGE THE NEWS BUCKETS ---
+    final_today_news = merge_news_lists(old_today_news, fresh_today_news)
+    final_tomorrow_news = merge_news_lists(old_tomorrow_news, fresh_tomorrow_news)
+    final_legacy_news = merge_news_lists(old_legacy_news, all_player_news)
 
     # Write 1: Today's Daily File
     today_json = {
         "last_updated": formatted_time,
-        "player_news": today_news,
+        "player_news": final_today_news,
         "espn_schedule": fetch_espn_scoreboard(current_espn_date),
         "slates": formatted_slates, 
         "games": today_games
     }
     with open(os.path.join(DATA_DIR, f"{current_date_str}.json"), 'w') as f:
         json.dump(today_json, f, indent=2)
-    print(f"✅ Saved Daily JSON: data/{current_date_str}.json ({len(today_games)} games, {len(today_news)} news items)")
+    print(f"✅ Saved Daily JSON: data/{current_date_str}.json ({len(today_games)} games, {len(final_today_news)} news items)")
 
     # Write 2: Tomorrow's Daily File
     tomorrow_json = {
         "last_updated": formatted_time,
-        "player_news": tomorrow_news,
+        "player_news": final_tomorrow_news,
         "espn_schedule": fetch_espn_scoreboard(tomorrow_espn_date),
         "slates": formatted_slates,
         "games": tomorrow_games
     }
     with open(os.path.join(DATA_DIR, f"{tomorrow_str}.json"), 'w') as f:
         json.dump(tomorrow_json, f, indent=2)
-    print(f"✅ Saved Daily JSON: data/{tomorrow_str}.json ({len(tomorrow_games)} games, {len(tomorrow_news)} news items)")
+    print(f"✅ Saved Daily JSON: data/{tomorrow_str}.json ({len(tomorrow_games)} games, {len(final_tomorrow_news)} news items)")
 
     # Write 3: Legacy JSON (Combines everything)
     legacy_json = {
         "last_updated": formatted_time,
-        "player_news": all_player_news,
+        "player_news": final_legacy_news,
         "slates": formatted_slates,
         "games": games_output
     }
