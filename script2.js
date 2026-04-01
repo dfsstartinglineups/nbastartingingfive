@@ -642,6 +642,8 @@ window.buildNewsListHtml = function(newsItems) {
                 badgeClass = 'bg-warning text-dark'; badgeText = 'Doubtful'; descText = `${pName} is doubtful to play today`; break;
             case 'S':
                 badgeClass = 'bg-success'; badgeText = 'Starting'; descText = `${pName} is in the starting lineup today`; break;
+            case 'OFF INJ': // <--- NEW BADGE ADDED HERE
+                badgeClass = 'bg-success'; badgeText = 'Available'; descText = `${pName} is off injury report and is available to play`; break;
             default:
                 isValidBadge = false;
         }
@@ -663,8 +665,6 @@ window.buildNewsListHtml = function(newsItems) {
         
         let shortName = shortenPlayerName(news.player_name);
 
-        // --- THE FIX: Removed text-truncate and overflow constraints. ---
-        // Changed align-items-center to align-items-start so the photo stays at the top.
         return `
         <div class="d-flex align-items-start justify-content-between py-2 border-bottom user-select-none w-100">
             <div class="d-flex align-items-start flex-grow-1 pe-2">
@@ -694,7 +694,6 @@ window.buildNewsListHtml = function(newsItems) {
     
     return finalHtml;
 };
-
 window.updateTopPlaysView = function() {
     const pos = window.CURRENT_TOP_PLAYS_POS || 'NEWS';
     const subTabsContainer = document.getElementById('top-plays-sub-tabs');
