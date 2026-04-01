@@ -90,30 +90,28 @@ def parse_time_to_minutes(time_str):
 
 # --- NEW: NEWS MEMORY MERGER ---
 def merge_news_lists(old_news, new_news):
-    """Merges news arrays, prioritizing fresh scrapes and preserving old news without strict duplication."""
     merged_dict = {}
     
-    # 1. Process the fresh news first. 
-    for n in new_news:
-        # We use Name + Badge + Description. 
-        # We explicitly LEAVE OUT time_elapsed so the ticking clock doesn't create massive duplicates!
-        key = f"{n.get('player_name', '')}_{n.get('status_badge', '')}_{n.get('description', '')}"
-        if key not in merged_dict:
-            merged_dict[key] = n
-            
-    # 2. Process the old news.
-    for n in old_news:
-        key = f"{n.get('player_name', '')}_{n.get('status_badge', '')}_{n.get('description', '')}"
+    # Combined processing to ensure the freshest version of a specific update is kept
+    # We combine them into one loop but process new_news first so they take priority
+    for n in (new_news + old_news):
+        name = n.get('player_name', '').strip()
+        badge = n.get('status_badge', '').strip().upper()
+        # Clean description for the key to prevent "space-based" duplicates
+        desc = n.get('description', '').strip().lower()
+        
+        # Create the unique fingerprint
+        key = f"{name}_{badge}_{desc}"
+        
         if key not in merged_dict:
             merged_dict[key] = n
             
     merged_list = list(merged_dict.values())
     
-    # 3. Sort the list chronologically
+    # Sort by time
     def get_time_weight(news_item):
         time_str = news_item.get('time_elapsed', '999d').lower()
         try:
-            # Safely extract floats (e.g. "1.1h" becomes 1.1)
             val_str = ''.join([c for c in time_str if c.isdigit() or c == '.'])
             if not val_str: return 999999
             val = float(val_str)
@@ -214,40 +212,41 @@ def scrape_bbm_player_news():
     for item in news_items:
         news_data = {}
         
-        # 1. Extract Player Name
+        # 1. Player Name
         title_span = item.find('span', class_='q-title')
         if title_span and title_span.a:
             news_data['player_name'] = title_span.a.text.strip()
             
-        # 2. Extract Team and Position
+        # 2. Team & Position
         player_info_spans = item.find_all('span', class_='q-player-info')
         if len(player_info_spans) >= 2:
             news_data['team'] = normalize_team(player_info_spans[0].text.strip())
             news_data['position'] = player_info_spans[1].text.strip()
             
-        # 3. FIX: Robust Status Badge Extraction
+        # 3. STATUS BADGE (The Fix for 2ndHalf/LR)
         status_square = item.find('span', class_='status-square')
+        badge_val = ""
         if status_square:
-            # .get_text(strip=True) ignores icons and child tags automatically
-            news_data['status_badge'] = status_square.get_text(strip=True).upper()
+            # .get_text(strip=True) ignores the <i> and <small> tags entirely
+            badge_val = status_square.get_text(strip=True).upper()
+            news_data['status_badge'] = badge_val
             
-        # 4. FIX: Robust Description Extraction
+        # 4. DESCRIPTION (The Fix for Duplication)
         status_div = item.find('div', class_='status-update-player-status')
         if status_div:
-            # Grab all text in the div
-            full_text = status_div.get_text(separator=" ", strip=True)
-            # Remove the Badge text from the description
-            clean_desc = full_text.replace(status_square.get_text(strip=True) if status_square else "", "").strip()
-            # Remove the alert levels (high level, low level, etc)
-            clean_desc = re.sub(r'(high|medium|low)\s+level', '', clean_desc, flags=re.IGNORECASE).strip()
+            # We get the raw text and remove the Badge and the "Level" tags
+            raw_text = status_div.get_text(separator=" ", strip=True)
+            clean_desc = raw_text.replace(badge_val, "").strip()
+            # Remove "high level", "medium level", etc.
+            clean_desc = re.sub(r'(high|medium|low|monster)\s+level', '', clean_desc, flags=re.IGNORECASE).strip()
+            # Strip leading/trailing hyphens or dots often left behind
+            clean_desc = clean_desc.lstrip('- ').strip()
             news_data['description'] = clean_desc
                  
-        # 5. Extract Time Elapsed
+        # 5. Time and Next Game
         time_div = item.find('div', class_='q-date')
-        if time_div:
-            news_data['time_elapsed'] = time_div.text.strip()
+        news_data['time_elapsed'] = time_div.text.strip() if time_div else "0m"
             
-        # 6. Extract Next Game
         small_divs = item.find_all('div', class_='ml-1 small')
         game_divs = [div for div in small_divs if 'text-muted' not in div.get('class', [])]
         if game_divs:
