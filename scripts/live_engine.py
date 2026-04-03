@@ -577,12 +577,13 @@ def main():
     # =========================================================
     has_live_games = False
 
-    if active_games_found > 0:
-        # 1. The Historical Archive (File Save)
+    # 1. ALWAYS SAVE TO FILE IF DATA HAS CHANGED (Ensures final post-game states are saved locally)
+    if new_live_data and new_live_data != old_live_data:
         with open(live_file_path, 'w') as f:
             json.dump(new_live_data, f, indent=2)
-        print(f"\n✅ Successfully updated {live_file_path} with {active_games_found} active games.")
+        print(f"\n✅ Successfully updated {live_file_path} with {len(new_live_data)} games.")
 
+    if active_games_found > 0:
         # 2. The Real-Time Stream (Firebase Push)
         if firebase_admin._apps:
             try:
@@ -608,10 +609,10 @@ def main():
         # 2. Push the permanent archive to GitHub 10 mins after ALL games end
         unstarted_games = sum(1 for e in scoreboard_data.get('events', []) if e['status']['type']['state'] == 'pre')
         
-        if unstarted_games == 0 and current_date_str not in ARCHIVED_DATES and old_live_data:
-            # Make sure there are actually finished games in the data before we push
-            if any(g.get('status') == 'post' for g in old_live_data.values()):
-                success = archive_to_github(current_date_str, old_live_data)
+        # USE new_live_data instead of old_live_data to guarantee the absolute final state is pushed
+        if unstarted_games == 0 and current_date_str not in ARCHIVED_DATES and new_live_data:
+            if any(g.get('status') == 'post' for g in new_live_data.values()):
+                success = archive_to_github(current_date_str, new_live_data)
                 if success:
                     ARCHIVED_DATES.add(current_date_str)
 
