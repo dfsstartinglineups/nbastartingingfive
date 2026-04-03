@@ -1022,7 +1022,7 @@ function buildTopPlaysCard(filteredGames, platform, selectedSlate) {
                 </div>
             </div>
             <div class="card-body p-0">
-                <div id="view-top-plays-list" class="px-2 list-view" style="max-height: 200px; overflow-y: auto;">
+                <div id="view-top-plays-list" class="px-2 list-view" style="max-height: 200px; overflow-y: auto; outline: none;" tabindex="0">
                     </div>
             </div>
         </div>
@@ -1209,7 +1209,7 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
                         
                 <span class="badge bg-secondary text-nowrap" style="font-size: 0.6rem;">${platform === 'dk' ? 'DraftKings' : 'FanDuel'}</span>
             </div>
-            <div class="card-body p-0 px-3" id="live-leaderboard-scroll" style="max-height: 520px; overflow-y: auto;">
+            <div class="card-body p-0 px-3" id="live-leaderboard-scroll" style="max-height: 520px; overflow-y: auto; outline: none;" tabindex="0">
                 ${listHtml}
             </div>
         </div>
@@ -1486,7 +1486,7 @@ function getRecentPlaysHtml(localId) {
             </div>
             <div style="display: ${isPbpOpen ? 'block' : 'none'};">
                 ${tabsHtml}
-                <div class="d-flex flex-column overflow-auto" id="pbp-list-${localId}" style="max-height: 130px; scrollbar-width: thin;">
+                <div class="d-flex flex-column overflow-auto" id="pbp-list-${localId}" style="max-height: 130px; scrollbar-width: thin; outline: none;" tabindex="0">
                     ${playsHtml}
                 </div>
             </div>
