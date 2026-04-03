@@ -269,6 +269,28 @@ async function pollLiveData(dateToFetch) {
             const liveResponse = await fetch(`data/LIVE/live_${dateToFetch}.json?v=` + new Date().getTime(), { cache: 'no-store' });
             if (liveResponse.ok) {
                 LIVE_GAMES_DATA = await liveResponse.json();
+                
+                // --- NEW: POPULATE PBP MEMORY FOR PAST GAMES ---
+                for (let localId in LIVE_GAMES_DATA) {
+                    let game = LIVE_GAMES_DATA[localId];
+                    if (game.play_by_play && game.play_by_play.full_log) {
+                        window.RENDERED_PBP[localId] = [...game.play_by_play.full_log];
+                        
+                        if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
+                        let state = window.CARD_STATE[localId];
+                        
+                        if (game.play_by_play.full_log.length > 0) {
+                            state.highestPeriodSeen = Math.max(...game.play_by_play.full_log.map(p => Number(p.period)));
+                        }
+                        
+                        if (game.status === 'post') {
+                            state.hasFlippedPbp = true;
+                            state.pbpTab = 'All';
+                        }
+                    }
+                }
+                // -----------------------------------------------
+
                 renderGames(true);
             } else {
                 LIVE_GAMES_DATA = {};
