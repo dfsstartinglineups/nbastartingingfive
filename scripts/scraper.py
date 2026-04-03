@@ -340,7 +340,7 @@ def scrape_dff_projections(target_date_str):
     chrome_options = Options()
     chrome_options.add_argument("--headless") 
     chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm usage")
+    chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--window-size=1920,1080")
     chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
     
@@ -618,20 +618,13 @@ def build_json():
     unique_dates = [yesterday_str, current_date_str, tomorrow_str]
     print(f"\n[TIME CHECK] Scraping Yesterday, Today, & Tomorrow: {unique_dates}")
         
-    dff_projections = {}
+    # Create a master dictionary separated by DATE
+    dff_projections_by_date = {d: {} for d in unique_dates}
+    
     for d_str in unique_dates:
-        slate_data = scrape_dff_projections(d_str)
-        for player_key, stats in slate_data.items():
-            if player_key not in dff_projections:
-                dff_projections[player_key] = stats
-            else:
-                dff_projections[player_key]['fd_slates'].update(stats['fd_slates'])
-                dff_projections[player_key]['dk_slates'].update(stats['dk_slates'])
-                
-                if dff_projections[player_key]['salary'] == 0 and stats['salary'] > 0:
-                    dff_projections[player_key].update({k: v for k, v in stats.items() if k in ['salary', 'proj', 'value', 'pos', 'fd_positions', 'injury'] and v})
-                if dff_projections[player_key]['dk_salary'] == 0 and stats['dk_salary'] > 0:
-                    dff_projections[player_key].update({k: v for k, v in stats.items() if k in ['dk_salary', 'dk_proj', 'dk_value', 'dk_pos', 'dk_positions', 'injury'] and v})
+        # Since scrape_dff_projections already perfectly handles cross-slate logic 
+        # for a SINGLE day, we just save the finished product into that date's bucket!
+        dff_projections_by_date[d_str] = scrape_dff_projections(d_str)
 
     teams_list = list(scraped_rosters.keys())
     new_games_dict = {}
@@ -654,6 +647,9 @@ def build_json():
         game_date = schedule_info.get("date", current_date_str)
         game_time = schedule_info.get("time", "TBD")
         game_id = f"{team_a}-{team_b}-{game_date}"
+        
+        # Grab the specific DFS data for THIS game's exact date
+        daily_dff = dff_projections_by_date.get(game_date, {})
         
         # --- START ODDS SHIELD LOGIC ---
         # 1. Fetch fresh event data from ESPN to check for current odds
@@ -725,9 +721,9 @@ def build_json():
                 }
                 
                 p_key = f"{team}_{clean}"
-                if p_key in dff_projections:
+                if p_key in daily_dff:
                     matched_dff_keys.add(p_key)
-                    dff_p = dff_projections[p_key]
+                    dff_p = daily_dff[p_key]
                     p_data.update({
                         "pos": dff_p.get('pos', 'Flex'),
                         "salary": dff_p.get('salary', 0), "proj": dff_p.get('proj', 0), "value": dff_p.get('value', 0),
@@ -742,7 +738,7 @@ def build_json():
                     if len(parts) >= 2:
                         last_name = parts[-1]
                         first_initial = parts[0][0]
-                        for d_key, d_val in dff_projections.items():
+                        for d_key, d_val in daily_dff.items():
                             if d_key.startswith(f"{team}_") and last_name in d_key and d_key.split('_')[1].startswith(first_initial):
                                 matched_dff_keys.add(d_key)
                                 p_data.update({
@@ -776,7 +772,7 @@ def build_json():
                  player_list.append({"pos": "-", "name": "Waiting for Lineup", "salary": 0, "proj": 0, "value": 0, "dk_pos": "-", "dk_salary": 0, "dk_proj": 0, "dk_value": 0, "fd_slates": [], "dk_slates": [], "fd_positions": "", "dk_positions": "", "injury": "", "verified": False})
 
             bench_list = []
-            for d_key, d_val in dff_projections.items():
+            for d_key, d_val in daily_dff.items():
                 if d_key.startswith(f"{team}_") and d_key not in matched_dff_keys:
                     if d_val.get('salary', 0) > 0 or d_val.get('dk_salary', 0) > 0:
                         bench_list.append({
