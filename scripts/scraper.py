@@ -495,35 +495,39 @@ def scrape_dff_projections(target_date_str):
         else: return 3
         
     for p_key, p_data in dff_data.items():
-        # Fanduel
-        best_fd_sid = None
-        best_fd_pri = 99
+        # --- Fanduel ---
+        best_fd_sid, best_fd_pri = None, 99
         for sid, stats in p_data["fd_slates"].items():
-            s_name = GLOBAL_SLATES['fanduel'].get(sid, "")
-            pri = get_slate_priority(s_name)
-            if pri < best_fd_pri:
-                best_fd_pri = pri
-                best_fd_sid = sid
-            elif pri == best_fd_pri:
-                if stats["proj"] > p_data["fd_slates"][best_fd_sid]["proj"]:
-                    best_fd_sid = sid
+            pri = get_slate_priority(GLOBAL_SLATES['fanduel'].get(sid, ""))
+            best_proj = p_data["fd_slates"].get(best_fd_sid, {}).get("proj", 0)
+            
+            # Rule 1: Actual projections always beat 0.0 projections
+            if stats["proj"] > 0 and best_proj == 0:
+                best_fd_pri, best_fd_sid = pri, sid
+            # Rule 2: If both have stats (or both are 0), defer to priority & highest projection
+            elif (stats["proj"] > 0) == (best_proj > 0):
+                if pri < best_fd_pri or (pri == best_fd_pri and stats["proj"] > best_proj):
+                    best_fd_pri, best_fd_sid = pri, sid
+                    
         if best_fd_sid:
             p_data["salary"] = p_data["fd_slates"][best_fd_sid]["salary"]
             p_data["proj"] = p_data["fd_slates"][best_fd_sid]["proj"]
             p_data["value"] = p_data["fd_slates"][best_fd_sid]["value"]
             
-        # DraftKings
-        best_dk_sid = None
-        best_dk_pri = 99
+        # --- DraftKings ---
+        best_dk_sid, best_dk_pri = None, 99
         for sid, stats in p_data["dk_slates"].items():
-            s_name = GLOBAL_SLATES['draftkings'].get(sid, "")
-            pri = get_slate_priority(s_name)
-            if pri < best_dk_pri:
-                best_dk_pri = pri
-                best_dk_sid = sid
-            elif pri == best_dk_pri:
-                if stats["proj"] > p_data["dk_slates"][best_dk_sid]["proj"]:
-                    best_dk_sid = sid
+            pri = get_slate_priority(GLOBAL_SLATES['draftkings'].get(sid, ""))
+            best_proj = p_data["dk_slates"].get(best_dk_sid, {}).get("proj", 0)
+            
+            # Rule 1: Actual projections always beat 0.0 projections
+            if stats["proj"] > 0 and best_proj == 0:
+                best_dk_pri, best_dk_sid = pri, sid
+            # Rule 2: If both have stats (or both are 0), defer to priority & highest projection
+            elif (stats["proj"] > 0) == (best_proj > 0):
+                if pri < best_dk_pri or (pri == best_dk_pri and stats["proj"] > best_proj):
+                    best_dk_pri, best_dk_sid = pri, sid
+                    
         if best_dk_sid:
             p_data["dk_salary"] = p_data["dk_slates"][best_dk_sid]["salary"]
             p_data["dk_proj"] = p_data["dk_slates"][best_dk_sid]["proj"]
