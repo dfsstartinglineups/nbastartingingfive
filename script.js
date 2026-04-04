@@ -173,18 +173,50 @@ async function fetchLocalProbables(dateToFetch) {
     return { games: [], slates: { fanduel: [], draftkings: [] }, player_news: [], espn_schedule: null };
 }
 
+// ==========================================
+// FAILSAFE: STATIC ARCHIVE LOADER
+// ==========================================
+async function loadStaticLiveArchive(dateToFetch) {
+    console.log(`Checking local archive for live_${dateToFetch}.json...`);
+    try {
+        const liveResponse = await fetch(`data/LIVE/live_${dateToFetch}.json?v=` + new Date().getTime(), { cache: 'no-store' });
+        
+        if (liveResponse.ok) {
+            LIVE_GAMES_DATA = await liveResponse.json();
+            
+            // Populate PBP memory so stats and plays show up for completed games
+            for (let localId in LIVE_GAMES_DATA) {
+                let game = LIVE_GAMES_DATA[localId];
+                if (game.play_by_play && game.play_by_play.full_log) {
+                    window.RENDERED_PBP[localId] = [...game.play_by_play.full_log];
+                    if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
+                    let state = window.CARD_STATE[localId];
+                    if (game.play_by_play.full_log.length > 0) {
+                        state.highestPeriodSeen = Math.max(...game.play_by_play.full_log.map(p => Number(p.period)));
+                    }
+                    if (game.status === 'post') {
+                        state.hasFlippedPbp = true;
+                        state.pbpTab = 'All';
+                    }
+                }
+            }
+            return true;
+        }
+    } catch (e) {
+        console.error("Static fetch failed:", e);
+    }
+    LIVE_GAMES_DATA = {}; // Final fallback if file is also missing
+    return false;
+}
+
 async function pollLiveData(dateToFetch) {
     try {
         const todayStr = new Date().toLocaleDateString('en-CA');
         
-        // ==========================================
-        // 1. THE REAL-TIME PATH (Today's Games)
-        // ==========================================
         if (dateToFetch === todayStr) {
             console.log("📡 Connecting to Firebase Realtime Stream...");
             const liveRef = firebase.database().ref('live_games');
             
-            // This 'on' listener automatically triggers instantly whenever Python updates Firebase
             liveRef.on('value', async (snapshot) => {
                 const incomingData = snapshot.val();
                 let needsGlobalRender = false;
@@ -202,7 +234,6 @@ async function pollLiveData(dateToFetch) {
                                 if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
                                 let state = window.CARD_STATE[localId];
                                 if (fullLog.length > 0) state.highestPeriodSeen = Math.max(...fullLog.map(p => Number(p.period)));
-
                                 if (game.status === 'post') {
                                     state.hasFlippedPbp = true;
                                     state.pbpTab = 'All';
@@ -251,57 +282,25 @@ async function pollLiveData(dateToFetch) {
                         }
                     }
                 } else {
-                    LIVE_GAMES_DATA = {};
+                    // --- FAILSAFE TRIGGER ---
+                    console.log("⚠️ Firebase empty. Falling back to local static JSON.");
+                    await loadStaticLiveArchive(dateToFetch);
                     needsGlobalRender = true;
                 }
                 
                 if (needsGlobalRender) renderGames(true);
             });
         } 
-        
-        // ==========================================
-        // 2. THE STATIC PATH (Historical Dates)
-        // ==========================================
         else {
-            console.log(`Fetching static archive for ${dateToFetch}...`);
+            // --- HISTORICAL PATH: USE THE SAME FAILSAFE ---
             if (typeof firebase !== 'undefined') firebase.database().ref('live_games').off();
-            
-            const liveResponse = await fetch(`data/LIVE/live_${dateToFetch}.json?v=` + new Date().getTime(), { cache: 'no-store' });
-            if (liveResponse.ok) {
-                LIVE_GAMES_DATA = await liveResponse.json();
-                
-                // --- NEW: POPULATE PBP MEMORY FOR PAST GAMES ---
-                for (let localId in LIVE_GAMES_DATA) {
-                    let game = LIVE_GAMES_DATA[localId];
-                    if (game.play_by_play && game.play_by_play.full_log) {
-                        window.RENDERED_PBP[localId] = [...game.play_by_play.full_log];
-                        
-                        if (!window.CARD_STATE[localId]) window.CARD_STATE[localId] = {};
-                        let state = window.CARD_STATE[localId];
-                        
-                        if (game.play_by_play.full_log.length > 0) {
-                            state.highestPeriodSeen = Math.max(...game.play_by_play.full_log.map(p => Number(p.period)));
-                        }
-                        
-                        if (game.status === 'post') {
-                            state.hasFlippedPbp = true;
-                            state.pbpTab = 'All';
-                        }
-                    }
-                }
-                // -----------------------------------------------
-
-                renderGames(true);
-            } else {
-                LIVE_GAMES_DATA = {};
-                renderGames(true);
-            }
+            await loadStaticLiveArchive(dateToFetch);
+            renderGames(true);
         }
     } catch (e) { 
         console.error("Live Data error:", e);
     }
 }
-
 // ==========================================
 // 2. TOGGLE LOGIC & STATE MANAGEMENT
 // ==========================================
