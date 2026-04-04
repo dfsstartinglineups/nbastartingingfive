@@ -98,7 +98,7 @@ def main():
     now_est = datetime.now(ny_tz)
     
     # 🌙 MIDNIGHT ROLLOVER FIX
-    nba_day = now_est - timedelta(hours=4)
+    nba_day = now_est - timedelta(hours=6)
     
     current_date_str = nba_day.strftime("%Y-%m-%d")
     espn_date_str = nba_day.strftime("%Y%m%d")
