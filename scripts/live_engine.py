@@ -48,43 +48,32 @@ TEAM_MAP = {
 
 ARCHIVED_DATES = set()
 
-def archive_to_github(date_str, json_data):
-    """Pushes the final JSON file to the GitHub repository permanently"""
+def trigger_github_action(date_str):
+    """Pings the GitHub Action to run the live_update script and commit the final archive."""
     token = os.environ.get("GITHUB_TOKEN")
     repo = os.environ.get("GITHUB_REPO") # e.g., "yourusername/nbastartingfive"
-    
+
     if not token or not repo:
-        print("⚠️ GitHub credentials missing. Skipping permanent archive.")
+        print("⚠️ GitHub credentials missing. Cannot trigger Action.")
         return False
 
-    url = f"https://api.github.com/repos/{repo}/contents/data/LIVE/live_{date_str}.json"
+    url = f"https://api.github.com/repos/{repo}/dispatches"
     headers = {
         "Authorization": f"token {token}",
         "Accept": "application/vnd.github.v3+json"
     }
-
-    # 1. Check if the file already exists so we can get its SHA (required to update files)
-    sha = None
-    get_res = requests.get(url, headers=headers)
-    if get_res.status_code == 200:
-        sha = get_res.json().get("sha")
-
-    # 2. Package the JSON and push it
-    content_b64 = base64.b64encode(json.dumps(json_data, indent=2).encode('utf-8')).decode('utf-8')
     data = {
-        "message": f"🤖 Auto-archiving final live data for {date_str}",
-        "content": content_b64,
-        "branch": "main" # Change this if your default branch is 'master'
+        "event_type": "live-update"  # Matches your YAML exactly!
     }
-    if sha: 
-        data["sha"] = sha
 
-    put_res = requests.put(url, headers=headers, json=data)
-    if put_res.status_code in [200, 201]:
-        print(f"📦 Successfully archived {date_str} to GitHub!")
+    print(f"🔔 Pinging GitHub Action for {repo}...")
+    res = requests.post(url, headers=headers, json=data)
+
+    if res.status_code == 204:
+        print(f"✅ Successfully triggered GitHub Action for {date_str}!")
         return True
     else:
-        print(f"❌ Failed to archive to GitHub: {put_res.text}")
+        print(f"❌ Failed to trigger GitHub Action: {res.status_code} - {res.text}")
         return False
 
 def normalize_team(abbr):
@@ -169,6 +158,7 @@ def resolve_espn_name(pbp_name, roster_names):
     return None
 
 def main():
+    global ARCHIVED_DATES
     ny_tz = zoneinfo.ZoneInfo("America/New_York")
     now_est = datetime.now(ny_tz)
     
@@ -596,25 +586,39 @@ def main():
         # Check if any game is truly LIVE right now (not just in the post-game cooldown)
         has_live_games = any(g.get('status') == 'in' for g in new_live_data.values())
     else:
-        global ARCHIVED_DATES
         print("\n💤 No active games right now.")
         
-        # 1. Wipe Firebase clean so the UI knows games are over
-        if firebase_admin._apps:
-            try:
-                db.reference('live_games').delete()
-            except:
-                pass
-
-        # 2. Push the permanent archive to GitHub 10 mins after ALL games end
+        # 1. Count unstarted games on the ESPN scoreboard
         unstarted_games = sum(1 for e in scoreboard_data.get('events', []) if e['status']['type']['state'] == 'pre')
-        
-        # USE new_live_data instead of old_live_data to guarantee the absolute final state is pushed
-        if unstarted_games == 0 and current_date_str not in ARCHIVED_DATES and new_live_data:
-            if any(g.get('status') == 'post' for g in new_live_data.values()):
-                success = archive_to_github(current_date_str, new_live_data)
-                if success:
-                    ARCHIVED_DATES.add(current_date_str)
+
+        # =========================================================
+        # THE MASTER GATE: All games finished, and no more scheduled
+        # =========================================================
+        if unstarted_games == 0 and current_date_str not in ARCHIVED_DATES:
+            print("🏆 All games for the day are finished!")
+            
+            # 2. Ping GitHub Actions
+            ping_success = trigger_github_action(current_date_str)
+            
+            if ping_success:
+                # 3. THE SHIELD: Wait 5 minutes for GitHub to build the archive
+                print("⏳ Waiting 5 minutes for GitHub Action to build and save the final archive...")
+                time.sleep(300)
+                
+                # 4. WIPE FIREBASE (The Baton Pass)
+                if firebase_admin._apps:
+                    try:
+                        db.reference('live_games').delete()
+                        print("🧹 Firebase live_games wiped clean. Baton successfully passed!")
+                    except Exception as e:
+                        print(f"⚠️ Error wiping Firebase: {e}")
+                        
+                ARCHIVED_DATES.add(current_date_str)
+            else:
+                print("⚠️ Ping failed. Retrying on next loop.")
+                
+        elif unstarted_games > 0:
+            print(f"⏳ Waiting for {unstarted_games} unstarted game(s). Firebase stays alive.")
 
     # Return True if we need to poll fast, False if we can rest (5 mins)
     return has_live_games
