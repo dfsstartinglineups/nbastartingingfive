@@ -54,7 +54,7 @@ def trigger_github_action(date_str):
     repo = os.environ.get("GITHUB_REPO") # e.g., "yourusername/nbastartingfive"
 
     if not token or not repo:
-        print("⚠️ GitHub credentials missing. Cannot trigger Action.")
+        print("⚠️ GitHub credentials missing. Cannot trigger Action.", flush=True)
         return False
 
     url = f"https://api.github.com/repos/{repo}/dispatches"
@@ -66,14 +66,21 @@ def trigger_github_action(date_str):
         "event_type": "live-update"  # Matches your YAML exactly!
     }
 
-    print(f"🔔 Pinging GitHub Action for {repo}...")
-    res = requests.post(url, headers=headers, json=data)
+    print(f"🔔 Pinging GitHub Action for {repo}...", flush=True) # flush=True forces instant log output!
+    
+    # 🛡️ THE FIX: Wrapped in a try/except with a 10-second timeout!
+    try:
+        res = requests.post(url, headers=headers, json=data, timeout=10)
 
-    if res.status_code == 204:
-        print(f"✅ Successfully triggered GitHub Action for {date_str}!")
-        return True
-    else:
-        print(f"❌ Failed to trigger GitHub Action: {res.status_code} - {res.text}")
+        if res.status_code == 204:
+            print(f"✅ Successfully triggered GitHub Action for {date_str}!", flush=True)
+            return True
+        else:
+            print(f"❌ Failed to trigger GitHub Action: {res.status_code} - {res.text}", flush=True)
+            return False
+            
+    except Exception as e:
+        print(f"❌ Network hiccup while pinging GitHub: {e}. Will retry.", flush=True)
         return False
 
 def normalize_team(abbr):
