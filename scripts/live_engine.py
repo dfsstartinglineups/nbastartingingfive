@@ -3,6 +3,7 @@ import json
 import requests
 import zoneinfo
 import time
+import re
 from datetime import datetime, timedelta
 import base64
 
@@ -87,6 +88,24 @@ def normalize_team(abbr):
     if not abbr: return ""
     clean = abbr.strip().upper()
     return TEAM_MAP.get(clean, clean)
+
+def inspect_and_sanitize(obj, current_path="root"):
+    """Recursively removes forbidden Firebase characters from dictionary keys"""
+    if isinstance(obj, dict):
+        new_dict = {}
+        for k, v in obj.items():
+            k_str = str(k).strip()
+            safe_key = k_str
+            if not k_str: safe_key = "empty_key"
+            
+            if re.search(r'[.$#\[\]/]', safe_key):
+                safe_key = re.sub(r'[.$#\[\]/]', '_', safe_key)
+            new_dict[safe_key] = inspect_and_sanitize(v, f"{current_path} -> {safe_key}")
+        return new_dict
+    elif isinstance(obj, list):
+        return [inspect_and_sanitize(item, f"{current_path}[{i}]") for i, item in enumerate(obj)]
+    else:
+        return obj
 
 def safe_key(name):
     """Removes forbidden Firebase characters from dictionary keys"""
@@ -581,12 +600,31 @@ def main():
         print(f"\n✅ Successfully updated {live_file_path} with {len(new_live_data)} games.")
 
     if active_games_found > 0:
-        # 2. The Real-Time Stream (Firebase Push)
+        # 2. The Real-Time Stream (Firebase Push - DELTA UPDATES ONLY)
         if firebase_admin._apps:
             try:
-                ref = db.reference('live_games')
-                ref.set(new_live_data)
-                print("🚀 Pushed live data to Firebase!")
+                delta_payload = {}
+                
+                # A. Find games that updated
+                for fix_id, game_data in new_live_data.items():
+                    if fix_id not in old_live_data or old_live_data[fix_id] != game_data:
+                        # Clean keys before pushing to Firebase
+                        safe_game_data = inspect_and_sanitize(game_data) 
+                        delta_payload[fix_id] = safe_game_data
+                
+                # B. Find games that finished the cooldown and need to be wiped
+                for fix_id in old_live_data:
+                    if fix_id not in new_live_data:
+                        delta_payload[fix_id] = None  # None tells .update() to delete the specific node
+                        
+                # C. Only push if something actually changed
+                if delta_payload:
+                    ref = db.reference('live_games')
+                    ref.update(delta_payload)
+                    print(f"🚀 Pushed deltas for {len(delta_payload)} active NBA games to Firebase!")
+                else:
+                    print("💤 No NBA stats changed this cycle. Skipping Firebase push.")
+                    
             except Exception as e:
                 print(f"⚠️ Failed to push to Firebase: {e}")
 
