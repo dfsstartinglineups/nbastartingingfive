@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NBA Starting 5 - Tactical Half-Court</title>
+    <title>NBA Starting 5 - Tactical Square</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&family=Oswald:wght@500;700&family=Montserrat:ital,wght@0,800;1,900&display=swap" rel="stylesheet">
@@ -55,11 +55,11 @@
         button:hover { background: #555; }
 
         /* =========================================
-           THE EXPORTABLE CANVAS (1080x1350)
+           THE EXPORTABLE CANVAS (1080x1080 SQUARE)
            ========================================= */
         #capture-area {
             width: 1080px;
-            height: 1350px; 
+            height: 1080px; /* SHRUNK TO SQUARE */
             background-color: var(--bg-dark);
             /* Subtle Dark Hardwood Floor CSS Pattern */
             background-image: 
@@ -83,7 +83,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 400px;
+            height: 350px;
             background: radial-gradient(ellipse at top, var(--team-primary) 0%, transparent 70%);
             opacity: 0.3;
             z-index: 1;
@@ -94,7 +94,7 @@
         #header {
             width: 100%;
             box-sizing: border-box;
-            padding: 40px 60px 20px;
+            padding: 30px 50px 10px; /* TIGHTENED PADDING */
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -106,10 +106,10 @@
 
         .starting-tag {
             font-family: 'Teko', sans-serif;
-            font-size: 48px;
+            font-size: 40px; /* SLIGHTLY SMALLER */
             color: var(--team-primary);
             text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             line-height: 1;
             text-shadow: 0 0 10px rgba(0,0,0,0.8);
         }
@@ -118,7 +118,7 @@
             font-family: 'Montserrat', sans-serif;
             font-weight: 900;
             font-style: italic;
-            font-size: 85px; 
+            font-size: 75px; /* SLIGHTLY SMALLER */
             margin: 0;
             line-height: 0.9;
             text-transform: uppercase;
@@ -129,16 +129,16 @@
 
         #matchup-info {
             font-family: 'Oswald', sans-serif;
-            font-size: 28px;
+            font-size: 24px;
             color: #ccc;
-            margin-top: 15px;
+            margin-top: 10px;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
 
         #team-logo {
-            width: 160px;
-            height: 160px;
+            width: 140px; /* SLIGHTLY SMALLER */
+            height: 140px;
             object-fit: contain;
             filter: drop-shadow(0 10px 20px rgba(0,0,0,0.8));
         }
@@ -146,7 +146,7 @@
         /* --- Tactical Half-Court --- */
         #court-scene {
             width: 100%;
-            height: 1050px; 
+            height: 850px; /* SHRUNK COURT HEIGHT */
             position: absolute;
             bottom: 0;
             display: flex;
@@ -156,7 +156,7 @@
 
         #court {
             width: 960px; 
-            height: 1000px; 
+            height: 800px; /* SHRUNK COURT HEIGHT */
             position: relative;
             border: 4px solid var(--team-primary);
             border-bottom: none;
@@ -171,7 +171,7 @@
             left: 50%;
             transform: translateX(-50%);
             width: 320px;
-            height: 400px;
+            height: 350px; /* SHRUNK PAINT HEIGHT */
             border: 4px solid var(--team-primary);
             border-bottom: none;
             background: linear-gradient(to top, rgba(255,255,255,0.05), transparent);
@@ -179,7 +179,7 @@
 
         .free-throw-circle {
             position: absolute;
-            bottom: 400px;
+            bottom: 350px; /* MOVED DOWN */
             left: 50%;
             transform: translateX(-50%);
             width: 120px;
@@ -196,23 +196,23 @@
             left: 50%;
             transform: translateX(-50%);
             width: 800px;
-            height: 650px;
+            height: 550px; /* SHRUNK ARC HEIGHT */
             border: 4px solid var(--team-primary);
             border-radius: 50% 50% 0 0;
             border-bottom: none;
-            clip-path: inset(0 0 100px 0); /* Clips the bottom so we can add straight corner lines */
+            clip-path: inset(0 0 80px 0); 
         }
 
-        .corner-three-left { position: absolute; bottom: 0; left: 80px; width: 4px; height: 100px; background: var(--team-primary); }
-        .corner-three-right { position: absolute; bottom: 0; right: 80px; width: 4px; height: 100px; background: var(--team-primary); }
+        .corner-three-left { position: absolute; bottom: 0; left: 80px; width: 4px; height: 80px; background: var(--team-primary); }
+        .corner-three-right { position: absolute; bottom: 0; right: 80px; width: 4px; height: 80px; background: var(--team-primary); }
 
         .half-court-circle {
             position: absolute;
             top: 0;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 300px;
-            height: 300px;
+            width: 250px; /* SHRUNK */
+            height: 250px; /* SHRUNK */
             border: 4px solid var(--team-primary);
             border-radius: 50%;
         }
@@ -220,13 +220,13 @@
         /* The Massive Ghost Watermark */
         .watermark-logo {
             position: absolute;
-            top: 40%;
+            top: 45%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 600px; 
-            height: 600px;
+            width: 500px; /* SHRUNK */
+            height: 500px; /* SHRUNK */
             object-fit: contain;
-            opacity: 0.15; /* Highly visible but ghosted */
+            opacity: 0.15; 
             z-index: 0;
             pointer-events: none;
             filter: grayscale(100%) brightness(150%);
@@ -247,20 +247,20 @@
             background: var(--team-primary);
             color: white;
             font-family: 'Teko', sans-serif;
-            font-size: 22px;
-            padding: 2px 12px;
+            font-size: 20px; /* SHRUNK */
+            padding: 2px 10px;
             border-radius: 4px;
-            margin-bottom: -10px;
+            margin-bottom: -8px;
             z-index: 15;
             box-shadow: 0 4px 6px rgba(0,0,0,0.5);
             border: 1px solid rgba(255,255,255,0.3);
         }
 
         .player-photo-container {
-            width: 100px;  
-            height: 100px; 
+            width: 90px;  /* SHRUNK */
+            height: 90px; /* SHRUNK */
             border-radius: 50%;
-            border: 5px solid var(--team-secondary); 
+            border: 4px solid var(--team-secondary); 
             background-color: #222;
             box-shadow: 0 8px 20px rgba(0,0,0,0.8);
             z-index: 12;
@@ -288,26 +288,26 @@
             background-color: #111;
             color: white;
             border: 2px solid var(--team-secondary);
-            width: 40px; 
-            height: 40px; 
+            width: 34px; /* SHRUNK */
+            height: 34px; /* SHRUNK */
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             font-family: 'Teko', sans-serif;
-            font-size: 24px; 
+            font-size: 20px; /* SHRUNK */
             font-weight: bold;
             z-index: 15;
         }
 
         .player-nameplate {
-            margin-top: -15px; 
+            margin-top: -12px; 
             background: rgba(10, 10, 10, 0.95);
             border: 1px solid rgba(255,255,255,0.2);
-            padding: 6px 16px; 
+            padding: 4px 14px; 
             border-radius: 6px;
             font-family: 'Montserrat', sans-serif;
-            font-size: 18px; 
+            font-size: 16px; /* SHRUNK */
             font-weight: 900;
             font-style: italic;
             text-transform: uppercase;
@@ -398,14 +398,13 @@
 
         const POSITIONS = ["PG", "SG", "SF", "PF", "C"];
         
-        // --- X,Y Coordinates for the 5 positions on a half-court ---
-        // (0,0 is top left of the court div, 100,100 is bottom right near the hoop)
+        // --- UPDATED COORDINATES FOR THE SQUARE COURT ---
         const COURT_COORDS = [
-            { x: 50, y: 15 }, // PG: Top of the key (near half court)
-            { x: 15, y: 40 }, // SG: Left Wing
-            { x: 85, y: 40 }, // SF: Right Wing
-            { x: 28, y: 75 }, // PF: Left block/corner
-            { x: 50, y: 80 }  // C: Inside the paint near the hoop
+            { x: 50, y: 15 }, // PG
+            { x: 15, y: 40 }, // SG
+            { x: 85, y: 40 }, // SF
+            { x: 30, y: 72 }, // PF
+            { x: 50, y: 80 }  // C
         ];
 
         let allGames = [];
@@ -544,7 +543,7 @@
             const capture = document.getElementById('capture-area');
             capture.style.opacity = '0.5';
             setTimeout(() => { capture.style.opacity = '1'; }, 100);
-            alert("Ready! Playwright will capture #capture-area.");
+            alert("Ready! Playwright will capture #capture-area as a 1080x1080 square.");
         }
 
         loadData();
