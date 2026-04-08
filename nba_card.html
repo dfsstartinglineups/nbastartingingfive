@@ -237,7 +237,6 @@
         /* --- Player Nodes --- */
         .player-node {
             position: absolute;
-            width: 170px; 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -245,51 +244,16 @@
             z-index: 10;
         }
 
-        /* FLOATED ABOVE THE LEFT EDGE OF THE PHOTO */
-        .player-position {
-            position: absolute;
-            top: -20px; 
-            left: 20px; 
-            background-color: var(--team-primary);
-            color: white;
-            border: 3px solid var(--team-secondary);
-            width: 44px; 
-            height: 44px; 
-            border-radius: 50%;
+        /* Groups the photo and the floating number together */
+        .photo-wrapper {
+            position: relative;
             display: flex;
             justify-content: center;
-            align-items: center;
-            font-family: 'Teko', sans-serif;
-            font-size: 22px; 
-            font-weight: bold;
-            z-index: 15;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.6);
-        }
-
-        /* FLOATED ABOVE THE RIGHT EDGE OF THE PHOTO */
-        .player-number {
-            position: absolute;
-            top: -20px; 
-            right: 20px; 
-            background-color: #111;
-            color: white;
-            border: 3px solid var(--team-secondary);
-            width: 44px; 
-            height: 44px; 
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Teko', sans-serif;
-            font-size: 26px; 
-            font-weight: bold;
-            z-index: 15;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.6);
         }
 
         .player-photo-container {
-            width: 125px;  
-            height: 125px; 
+            width: 145px;  /* SIGNIFICANTLY INCREASED */
+            height: 145px; /* SIGNIFICANTLY INCREASED */
             border-radius: 50%;
             border: 5px solid var(--team-secondary); 
             background-color: #222;
@@ -317,21 +281,61 @@
             opacity: 0.6;
         }
 
-        .player-nameplate {
-            margin-top: -16px; 
-            background: rgba(10, 10, 10, 0.95);
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 6px 18px; 
+        /* UPPER RIGHT FLOATING NUMBER */
+        .player-number {
+            position: absolute;
+            top: -5px; 
+            right: -5px; 
+            background-color: #111;
+            color: white;
+            border: 3px solid var(--team-secondary);
+            width: 44px; 
+            height: 44px; 
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Teko', sans-serif;
+            font-size: 24px; 
+            font-weight: bold;
+            z-index: 15;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+        }
+
+        /* UNIFIED NAMEPLATE & POSITION BADGE */
+        .nameplate-wrapper {
+            display: flex;
+            align-items: stretch;
+            margin-top: -18px; /* Pulled up to overlap the photo */
+            z-index: 14;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.8);
             border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .nameplate-pos {
+            background-color: var(--team-primary);
+            color: white;
+            font-family: 'Teko', sans-serif;
+            font-size: 22px;
+            padding: 3px 12px 0px; /* Slight top padding to vertically center Teko font */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid rgba(0,0,0,0.3); /* Adds separation between Pos and Name */
+        }
+
+        .player-nameplate {
+            background: rgba(10, 10, 10, 0.95);
+            padding: 4px 16px 4px 12px; 
             font-family: 'Montserrat', sans-serif;
             font-size: 19px; 
             font-weight: 900;
             font-style: italic;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            z-index: 14;
             white-space: nowrap;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.7);
         }
     </style>
 </head>
@@ -415,12 +419,13 @@
 
         const POSITIONS = ["PG", "SG", "SF", "PF", "C"];
         
+        // Tweak coordinates slightly to accommodate the larger 145px photos
         const COURT_COORDS = [
-            { x: 50, y: 16 }, // PG
-            { x: 18, y: 40 }, // SG
-            { x: 82, y: 40 }, // SF
-            { x: 32, y: 74 }, // PF
-            { x: 68, y: 74 }  // C
+            { x: 50, y: 15 }, // PG
+            { x: 18, y: 42 }, // SG
+            { x: 82, y: 42 }, // SF
+            { x: 32, y: 75 }, // PF
+            { x: 68, y: 75 }  // C
         ];
 
         let allGames = [];
@@ -543,12 +548,16 @@
 
                 const html = `
                     <div class="player-node" style="left: ${coords.x}%; top: ${coords.y}%;">
-                        <div class="player-position">${pos}</div>
-                        ${jerseyNum ? `<div class="player-number">${jerseyNum}</div>` : ''}
-                        <div class="player-photo-container">
-                            ${photoHtml}
+                        <div class="photo-wrapper">
+                            ${jerseyNum ? `<div class="player-number">${jerseyNum}</div>` : ''}
+                            <div class="player-photo-container">
+                                ${photoHtml}
+                            </div>
                         </div>
-                        <div class="player-nameplate">${lastName}</div>
+                        <div class="nameplate-wrapper">
+                            <div class="nameplate-pos">${pos}</div>
+                            <div class="player-nameplate">${lastName}</div>
+                        </div>
                     </div>
                 `;
                 container.insertAdjacentHTML('beforeend', html);
