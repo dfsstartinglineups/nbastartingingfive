@@ -14,8 +14,7 @@
             --team-primary: #17408B; 
             --team-secondary: #C9082A;
             /* Light blonde maple hardwood colors */
-            --bg-wood: #f4dca6; 
-            --wood-grain: #e8cd93; 
+            --bg-wood: #eacc98; 
             --text-dark: #111; 
         }
 
@@ -63,10 +62,14 @@
             width: 1080px;
             height: 1080px; 
             background-color: var(--bg-wood);
-            background-image: 
-                linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0,0,0,0.02) 100px, transparent 100px);
-            background-size: 40px 100px;
+            /* RESTORED & ENHANCED: Alternating Vertical Stained Wood Planks */
+            background-image: repeating-linear-gradient(
+                to right,
+                rgba(0, 0, 0, 0.05) 0px,
+                rgba(0, 0, 0, 0.05) 50px,
+                rgba(255, 255, 255, 0.05) 50px,
+                rgba(255, 255, 255, 0.05) 100px
+            );
             position: relative;
             overflow: hidden;
             display: flex;
@@ -108,11 +111,11 @@
         .starting-tag {
             font-family: 'Teko', sans-serif;
             font-size: 40px; 
-            /* CHANGED: Now uses the dark text color for a sharp black look */
             color: var(--text-dark);
             text-transform: uppercase;
             letter-spacing: 3px;
             line-height: 1;
+            text-shadow: 1px 1px 0px rgba(255,255,255,0.5); /* Subtle highlight so it lifts off the wood */
         }
 
         #team-name {
@@ -124,15 +127,17 @@
             line-height: 0.9;
             text-transform: uppercase;
             letter-spacing: 1px;
-            /* CHANGED: Fills with Team Primary color, drops a harsh dark shadow */
+            
+            /* FIXED TEXT CLASH: Primary Color Text, White Outline, Secondary Color Shadow */
             color: var(--team-primary);
-            text-shadow: 3px 3px 0px var(--text-dark);
+            -webkit-text-stroke: 2px #fff;
+            text-shadow: 4px 4px 0px var(--team-secondary);
         }
 
         #matchup-info {
             font-family: 'Oswald', sans-serif;
             font-size: 24px;
-            color: #555;
+            color: #444;
             margin-top: 10px;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -177,7 +182,7 @@
             height: 350px; 
             border: 4px solid var(--team-primary);
             border-bottom: none;
-            background: linear-gradient(to top, rgba(0,0,0,0.05), transparent);
+            background: rgba(0, 0, 0, 0.05); /* Solid subtle dark stain inside the paint */
         }
 
         .free-throw-circle {
@@ -247,7 +252,6 @@
             z-index: 10;
         }
 
-        /* Groups the photo and the floating badges together */
         .photo-wrapper {
             position: relative;
             display: flex;
@@ -259,7 +263,7 @@
             height: 155px; 
             border-radius: 50%;
             border: 5px solid var(--team-secondary); 
-            background-color: var(--bg-wood); 
+            background-color: #222; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.4); 
             z-index: 12;
             overflow: hidden;
