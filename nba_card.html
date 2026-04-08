@@ -13,8 +13,10 @@
             /* Default Fallback Colors */
             --team-primary: #17408B; 
             --team-secondary: #C9082A;
-            --bg-wood: #eacc98; /* Base blonde wood color */
-            --text-dark: #111;
+            /* Light blonde maple hardwood colors */
+            --bg-wood: #f4dca6; 
+            --wood-grain: #e8cd93; 
+            --text-dark: #111; 
         }
 
         body {
@@ -61,14 +63,10 @@
             width: 1080px;
             height: 1080px; 
             background-color: var(--bg-wood);
-            /* NEW: Alternating Vertical Wood Planks */
-            background-image: repeating-linear-gradient(
-                to right,
-                rgba(0, 0, 0, 0.04) 0px,
-                rgba(0, 0, 0, 0.04) 40px,
-                rgba(255, 255, 255, 0.06) 40px,
-                rgba(255, 255, 255, 0.06) 80px
-            );
+            background-image: 
+                linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0,0,0,0.02) 100px, transparent 100px);
+            background-size: 40px 100px;
             position: relative;
             overflow: hidden;
             display: flex;
@@ -110,11 +108,11 @@
         .starting-tag {
             font-family: 'Teko', sans-serif;
             font-size: 40px; 
-            color: var(--team-primary);
+            /* CHANGED: Now uses the dark text color for a sharp black look */
+            color: var(--text-dark);
             text-transform: uppercase;
             letter-spacing: 3px;
             line-height: 1;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
 
         #team-name {
@@ -126,14 +124,15 @@
             line-height: 0.9;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: var(--text-dark);
-            text-shadow: 3px 3px 0px var(--team-primary);
+            /* CHANGED: Fills with Team Primary color, drops a harsh dark shadow */
+            color: var(--team-primary);
+            text-shadow: 3px 3px 0px var(--text-dark);
         }
 
         #matchup-info {
             font-family: 'Oswald', sans-serif;
             font-size: 24px;
-            color: #444;
+            color: #555;
             margin-top: 10px;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -178,8 +177,7 @@
             height: 350px; 
             border: 4px solid var(--team-primary);
             border-bottom: none;
-            /* Subtle dark stain in the paint */
-            background: linear-gradient(to top, rgba(0,0,0,0.1), transparent);
+            background: linear-gradient(to top, rgba(0,0,0,0.05), transparent);
         }
 
         .free-throw-circle {
@@ -236,7 +234,7 @@
             opacity: 0.15; 
             z-index: 0;
             pointer-events: none;
-            filter: grayscale(100%) brightness(150%);
+            filter: grayscale(100%) brightness(50%);
         }
 
         /* --- Player Nodes --- */
@@ -261,8 +259,7 @@
             height: 155px; 
             border-radius: 50%;
             border: 5px solid var(--team-secondary); 
-            /* Let the wood background bleed through for silhouettes, or use solid for photos */
-            background-color: #222; 
+            background-color: var(--bg-wood); 
             box-shadow: 0 10px 25px rgba(0,0,0,0.4); 
             z-index: 12;
             overflow: hidden;
