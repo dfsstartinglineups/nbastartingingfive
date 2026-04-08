@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA Starting 5 Card</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&family=Oswald:wght@500;700&family=Montserrat:ital,wght@0,800;1,900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Default Fallback Colors (Dark Mode) */
+            --team-primary: #17408B; 
+            --team-secondary: #C9082A;
+            --bg-dark: #111317;
+            --panel-bg: rgba(25, 28, 35, 0.85);
+            --text-light: #f8f9fa;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #000;
+            font-family: 'Oswald', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- UI Controls --- */
+        #controls {
+            margin-bottom: 20px;
+            background: #222;
+            padding: 15px 25px;
+            border-radius: 8px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.8);
+            z-index: 100;
+        }
+
+        select, button {
+            padding: 8px 16px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #555;
+            background: #333;
+            color: white;
+            cursor: pointer;
+            font-family: 'Oswald', sans-serif;
+        }
+
+        button:hover { background: #555; }
+
+        /* =========================================
+           THE EXPORTABLE CANVAS (1080x1350)
+           ========================================= */
+        #capture-area {
+            width: 1080px;
+            height: 1350px; 
+            background-color: var(--bg-dark);
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.01) 100px, transparent 100px);
+            background-size: 40px 100px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+            color: var(--text-light);
+            border-top: 15px solid var(--team-primary);
+            border-bottom: 15px solid var(--team-primary);
+        }
+
+        .watermark-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 900px; 
+            height: 900px;
+            object-fit: contain;
+            opacity: 0.08; 
+            z-index: 0;
+            pointer-events: none;
+            filter: grayscale(100%) brightness(200%); 
+        }
+
+        .arena-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 400px;
+            background: radial-gradient(ellipse at top, var(--team-primary) 0%, transparent 70%);
+            opacity: 0.25;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* --- Header Section --- */
+        #header {
+            padding: 50px 60px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header-left {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .starting-tag {
+            font-family: 'Teko', sans-serif;
+            font-size: 48px;
+            color: var(--team-primary);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            line-height: 1;
+            text-shadow: 0 0 10px rgba(0,0,0,0.8);
+        }
+
+        #team-name {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-style: italic;
+            font-size: 85px; 
+            margin: 0;
+            line-height: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #fff;
+            text-shadow: 4px 4px 0px var(--team-primary);
+        }
+
+        #matchup-info {
+            font-family: 'Oswald', sans-serif;
+            font-size: 28px;
+            color: #aaa;
+            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        #team-logo {
+            width: 180px;
+            height: 180px;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.8));
+        }
+
+        /* --- Lineup Section --- */
+        #lineup-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 60px 40px;
+            gap: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .player-row {
+            display: flex;
+            align-items: center;
+            background: var(--panel-bg);
+            border-left: 8px solid var(--team-primary);
+            border-radius: 0 12px 12px 0;
+            height: 140px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .col-pos {
+            width: 120px;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-style: italic;
+            font-size: 48px;
+            color: var(--team-primary);
+            border-right: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .col-photo {
+            width: 160px;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end; 
+            position: relative;
+            background: rgba(255,255,255,0.02);
+            overflow: visible; /* Allows head to poke out top if needed */
+        }
+
+        .headshot {
+            width: 170px; /* Slightly larger to fit ESPN aspect ratio nicely */
+            height: 140px;
+            object-fit: cover;
+            object-position: top center;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.6));
+        }
+
+        .silhouette {
+            width: 100px;
+            height: 130px;
+            background: #333;
+            clip-path: polygon(20% 100%, 20% 60%, 40% 40%, 40% 20%, 60% 20%, 60% 40%, 80% 60%, 80% 100%);
+            opacity: 0.5;
+        }
+
+        .col-name {
+            flex-grow: 1;
+            padding-left: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .player-first-name {
+            font-family: 'Teko', sans-serif;
+            font-size: 32px;
+            color: #aaa;
+            line-height: 0.8;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .player-last-name {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 52px;
+            color: #fff;
+            line-height: 1.1;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .col-number {
+            width: 100px;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Teko', sans-serif;
+            font-size: 72px;
+            color: rgba(255,255,255,0.1); 
+            padding-right: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="controls">
+        <label>Game:</label>
+        <select id="game-selector"></select>
+        
+        <label>Team:</label>
+        <select id="team-selector">
+            <option value="home">Home Team</option>
+            <option value="away">Away Team</option>
+        </select>
+        
+        <button onclick="takeScreenshot()">Simulate Screenshot</button>
+    </div>
+
+    <div id="capture-area">
+        <div class="arena-glow"></div>
+        <img id="watermark" class="watermark-logo" src="" alt="">
+
+        <div id="header">
+            <div class="header-left">
+                <div class="starting-tag">Official Starting 5</div>
+                <h1 id="team-name">LOADING...</h1>
+                <div id="matchup-info">FETCHING DATA...</div>
+            </div>
+            <img id="team-logo" src="" alt="Team Logo">
+        </div>
+
+        <div id="lineup-container">
+            </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. NBA MASTER THEME DICTIONARY
+        // ==========================================
+        const NBA_TEAMS = {
+            "ATL": { name: "Hawks", primary: "#e03a3e", secondary: "#c1d32f", id: 1610612737 },
+            "BOS": { name: "Celtics", primary: "#007A33", secondary: "#ba9653", id: 1610612738 },
+            "BKN": { name: "Nets", primary: "#ffffff", secondary: "#000000", id: 1610612751 },
+            "CHA": { name: "Hornets", primary: "#1d1160", secondary: "#00788c", id: 1610612766 },
+            "CHI": { name: "Bulls", primary: "#ce1141", secondary: "#000000", id: 1610612741 },
+            "CLE": { name: "Cavaliers", primary: "#860038", secondary: "#041e42", id: 1610612739 },
+            "DAL": { name: "Mavericks", primary: "#00538c", secondary: "#002b5e", id: 1610612742 },
+            "DEN": { name: "Nuggets", primary: "#0e2240", secondary: "#fec524", id: 1610612743 },
+            "DET": { name: "Pistons", primary: "#c8102e", secondary: "#1d42ba", id: 1610612765 },
+            "GSW": { name: "Warriors", primary: "#1d428a", secondary: "#ffc72c", id: 1610612744 },
+            "HOU": { name: "Rockets", primary: "#ce1141", secondary: "#000000", id: 1610612745 },
+            "IND": { name: "Pacers", primary: "#002d62", secondary: "#fdbb30", id: 1610612754 },
+            "LAC": { name: "Clippers", primary: "#c8102e", secondary: "#1d428a", id: 1610612746 },
+            "LAL": { name: "Lakers", primary: "#552583", secondary: "#fdb927", id: 1610612747 },
+            "MEM": { name: "Grizzlies", primary: "#5d76a9", secondary: "#12173f", id: 1610612763 },
+            "MIA": { name: "Heat", primary: "#98002e", secondary: "#f9a01b", id: 1610612748 },
+            "MIL": { name: "Bucks", primary: "#00471b", secondary: "#eee1c6", id: 1610612749 },
+            "MIN": { name: "Timberwolves", primary: "#0c2340", secondary: "#236192", id: 1610612750 },
+            "NOP": { name: "Pelicans", primary: "#0c2340", secondary: "#c8102e", id: 1610612740 },
+            "NYK": { name: "Knicks", primary: "#006bb6", secondary: "#f58426", id: 1610612752 },
+            "OKC": { name: "Thunder", primary: "#007ac1", secondary: "#ef3b24", id: 1610612760 },
+            "ORL": { name: "Magic", primary: "#0077c0", secondary: "#c4ced4", id: 1610612753 },
+            "PHI": { name: "76ers", primary: "#006bb6", secondary: "#ed174c", id: 1610612755 },
+            "PHX": { name: "Suns", primary: "#1d1160", secondary: "#e56020", id: 1610612756 },
+            "POR": { name: "Trail Blazers", primary: "#e03a3e", secondary: "#000000", id: 1610612757 },
+            "SAC": { name: "Kings", primary: "#5a2d81", secondary: "#63727a", id: 1610612758 },
+            "SAS": { name: "Spurs", primary: "#c4ced4", secondary: "#000000", id: 1610612759 },
+            "TOR": { name: "Raptors", primary: "#ce1141", secondary: "#000000", id: 1610612761 },
+            "UTA": { name: "Jazz", primary: "#002b5c", secondary: "#00471b", id: 1610612762 },
+            "WAS": { name: "Wizards", primary: "#002b5c", secondary: "#e31837", id: 1610612764 }
+        };
+
+        const POSITIONS = ["PG", "SG", "SF", "PF", "C"];
+        let allGames = [];
+        let playerDatabase = {}; // NEW: Holds the ESPN headshot data
+
+        function getNbaLogo(abbr) {
+            const team = NBA_TEAMS[abbr];
+            if(team) return `https://cdn.nba.com/logos/nba/${team.id}/global/L/logo.svg`;
+            return ''; 
+        }
+
+        // --- NEW: Player Photo Lookup Function ---
+        function getPlayerData(playerName) {
+            // Loop through the massive dictionary to find a matching name
+            for (const key in playerDatabase) {
+                if (playerDatabase[key].name === playerName || playerDatabase[key].short_name === playerName) {
+                    return playerDatabase[key]; // Returns the object containing photo url, jersey number, etc.
+                }
+            }
+            return null; // If they aren't in the DB yet
+        }
+
+        // ==========================================
+        // 2. DATA FETCHING (Parallel Fetching)
+        // ==========================================
+        async function loadData() {
+            try {
+                // Fetch BOTH the live lineups AND your player database at the same time
+                const [nbaRes, playersRes] = await Promise.all([
+                    fetch('https://nbastartingfive.com/nba_data.json'),
+                    // ⚠️ MAKE SURE THIS PATH IS CORRECT FOR YOUR SERVER STRUCTURE ⚠️
+                    fetch('data/players.json') 
+                ]);
+                
+                if (nbaRes.ok) {
+                    const data = await nbaRes.json();
+                    allGames = data.games.filter(g => g.teams && g.rosters && g.rosters[g.teams[0]] && g.rosters[g.teams[0]].players.length >= 5);
+                }
+                
+                if (playersRes.ok) {
+                    playerDatabase = await playersRes.json();
+                    console.log("✅ Player Database loaded successfully!");
+                }
+
+            } catch (e) {
+                console.error("Failed to load data.", e);
+            }
+            
+            populateDropdown();
+            
+            if (allGames.length > 0) {
+                renderCard();
+            } else {
+                document.getElementById('team-name').textContent = "NO LINEUPS YET";
+                document.getElementById('matchup-info').textContent = "Check back closer to tipoff.";
+            }
+        }
+
+        function populateDropdown() {
+            const select = document.getElementById('game-selector');
+            select.innerHTML = '';
+            allGames.forEach((g, idx) => {
+                const opt = document.createElement('option');
+                opt.value = idx;
+                opt.textContent = `${g.teams[0]} @ ${g.teams[1]}`;
+                select.appendChild(opt);
+            });
+            select.addEventListener('change', () => renderCard());
+            document.getElementById('team-selector').addEventListener('change', () => renderCard());
+        }
+
+        // ==========================================
+        // 3. RENDER ENGINE & CHAMELEON THEME
+        // ==========================================
+        function applyTeamTheme(abbr) {
+            const theme = NBA_TEAMS[abbr];
+            if (theme) {
+                let primaryColor = theme.primary === "#ffffff" ? theme.secondary : theme.primary;
+                document.documentElement.style.setProperty('--team-primary', primaryColor);
+                document.documentElement.style.setProperty('--team-secondary', theme.secondary);
+            }
+        }
+
+        function renderCard() {
+            if(allGames.length === 0) return;
+
+            const gameIdx = document.getElementById('game-selector').value;
+            const side = document.getElementById('team-selector').value;
+            const game = allGames[gameIdx];
+
+            const awayAbbr = game.teams[0];
+            const homeAbbr = game.teams[1];
+            
+            const targetAbbr = side === 'home' ? homeAbbr : awayAbbr;
+            const oppAbbr = side === 'home' ? awayAbbr : homeAbbr;
+            const isHome = side === 'home';
+
+            const targetData = NBA_TEAMS[targetAbbr];
+            const oppData = NBA_TEAMS[oppAbbr];
+
+            applyTeamTheme(targetAbbr);
+
+            document.getElementById('team-name').textContent = targetData ? targetData.name : targetAbbr;
+            document.getElementById('matchup-info').textContent = `${isHome ? 'VS' : '@'} ${oppData ? oppData.name : oppAbbr}  |  ${game.date}`;
+            
+            const logoUrl = getNbaLogo(targetAbbr);
+            document.getElementById('team-logo').src = logoUrl;
+            document.getElementById('watermark').src = logoUrl;
+
+            const container = document.getElementById('lineup-container');
+            container.innerHTML = '';
+
+            const roster = game.rosters[targetAbbr].players.slice(0, 5);
+
+            roster.forEach((player, index) => {
+                const pos = POSITIONS[index];
+                
+                // 1. Look up the player in the database we fetched
+                const dbPlayer = getPlayerData(player.name);
+                
+                // 2. Extract Data (with safe fallbacks if dbPlayer is null)
+                const photoUrl = dbPlayer ? dbPlayer.photo : null;
+                const jerseyNum = dbPlayer ? dbPlayer.jersey : "";
+
+                const nameParts = player.name.split(' ');
+                const firstName = nameParts.length > 1 ? nameParts[0] : '';
+                const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : player.name;
+
+                // 3. Render Photo or Silhouette
+                const photoHtml = photoUrl 
+                    ? `<img src="${photoUrl}" class="headshot" crossorigin="anonymous">` 
+                    : `<div class="silhouette"></div>`;
+
+                const html = `
+                    <div class="player-row">
+                        <div class="col-pos">${pos}</div>
+                        <div class="col-photo">${photoHtml}</div>
+                        <div class="col-name">
+                            <div class="player-first-name">${firstName}</div>
+                            <div class="player-last-name">${lastName}</div>
+                        </div>
+                        <div class="col-number">${jerseyNum}</div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+        }
+
+        function takeScreenshot() {
+            const capture = document.getElementById('capture-area');
+            capture.style.opacity = '0.5';
+            setTimeout(() => { capture.style.opacity = '1'; }, 100);
+            alert("Ready! Playwright will capture #capture-area.");
+        }
+
+        // Boot
+        loadData();
+    </script>
+</body>
+</html>
