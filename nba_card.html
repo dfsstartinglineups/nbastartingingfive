@@ -13,16 +13,16 @@
             /* Default Fallback Colors */
             --team-primary: #17408B; 
             --team-secondary: #C9082A;
-            /* CHANGED: Warm, dark hardwood base colors */
-            --bg-dark: #1a110a; 
-            --wood-grain: #2d1d11; 
-            --text-light: #f8f9fa;
+            /* CHANGED: Light blonde maple hardwood colors */
+            --bg-wood: #f4dca6; /* Base light wood color */
+            --wood-grain: #e8cd93; /* Slightly darker for the grain lines */
+            --text-dark: #111; /* Dark text for contrast against the light wood */
         }
 
         body {
             margin: 0;
             padding: 20px;
-            /* Darker background outside the canvas to make the court pop */
+            /* Dark background outside the canvas */
             background-color: #050302; 
             font-family: 'Oswald', sans-serif;
             display: flex;
@@ -63,11 +63,11 @@
         #capture-area {
             width: 1080px;
             height: 1080px; 
-            background-color: var(--bg-dark);
-            /* CHANGED: Warmer Hardwood Floor CSS Pattern */
+            background-color: var(--bg-wood);
+            /* CHANGED: Light wood grain pattern */
             background-image: 
-                linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255,255,255,0.02) 100px, transparent 100px);
+                linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0,0,0,0.02) 100px, transparent 100px);
             background-size: 40px 100px;
             position: relative;
             overflow: hidden;
@@ -75,7 +75,7 @@
             flex-direction: column;
             align-items: center;
             box-shadow: 0 20px 50px rgba(0,0,0,0.9);
-            color: var(--text-light);
+            color: var(--text-dark);
             border-top: 15px solid var(--team-primary);
             border-bottom: 15px solid var(--team-primary);
         }
@@ -88,7 +88,7 @@
             width: 100%;
             height: 350px;
             background: radial-gradient(ellipse at top, var(--team-primary) 0%, transparent 70%);
-            opacity: 0.25; /* Slightly less opaque so it doesn't wash out the wood */
+            opacity: 0.15; /* Reduced opacity because the floor is so light */
             z-index: 1;
             pointer-events: none;
         }
@@ -114,7 +114,8 @@
             text-transform: uppercase;
             letter-spacing: 3px;
             line-height: 1;
-            text-shadow: 0 0 10px rgba(0,0,0,0.8);
+            /* CHANGED: Switched to a dark shadow to pop against the light wood */
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
 
         #team-name {
@@ -126,24 +127,27 @@
             line-height: 0.9;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: #fff;
-            text-shadow: 4px 4px 0px var(--team-primary);
+            /* CHANGED: Text is dark, shadow is the team color */
+            color: var(--text-dark);
+            text-shadow: 3px 3px 0px var(--team-primary);
         }
 
         #matchup-info {
             font-family: 'Oswald', sans-serif;
             font-size: 24px;
-            color: #ccc;
+            /* CHANGED: Darker grey for contrast */
+            color: #555;
             margin-top: 10px;
             text-transform: uppercase;
             letter-spacing: 2px;
+            font-weight: bold;
         }
 
         #team-logo {
             width: 140px; 
             height: 140px;
             object-fit: contain;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.8));
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
         }
 
         /* --- Tactical Half-Court --- */
@@ -164,7 +168,8 @@
             border: 4px solid var(--team-primary);
             border-bottom: none;
             border-radius: 10px 10px 0 0;
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+            /* Lighter inset shadow to match the light wood */
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.1);
         }
 
         /* Court Painted Lines */
@@ -177,8 +182,8 @@
             height: 350px; 
             border: 4px solid var(--team-primary);
             border-bottom: none;
-            /* CHANGED: Subtle wood stain inside the paint */
-            background: linear-gradient(to top, rgba(0,0,0,0.2), transparent);
+            /* CHANGED: Lighter stain inside the paint */
+            background: linear-gradient(to top, rgba(0,0,0,0.05), transparent);
         }
 
         .free-throw-circle {
@@ -235,7 +240,8 @@
             opacity: 0.15; 
             z-index: 0;
             pointer-events: none;
-            filter: grayscale(100%) brightness(150%);
+            /* We can keep the grayscale, but reduce brightness so it shows up on light wood */
+            filter: grayscale(100%) brightness(50%);
         }
 
         /* --- Player Nodes --- */
@@ -260,8 +266,8 @@
             height: 155px; 
             border-radius: 50%;
             border: 5px solid var(--team-secondary); 
-            background-color: #222;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+            background-color: var(--bg-wood); /* Match the new light wood */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4); /* Softer shadow */
             z-index: 12;
             overflow: hidden;
             display: flex;
@@ -280,9 +286,10 @@
         .fallback-silhouette {
             width: 70%;
             height: 90%;
-            background: #444;
+            /* Dark silhouette on the light background */
+            background: #666;
             clip-path: polygon(20% 100%, 20% 60%, 40% 40%, 40% 20%, 60% 20%, 60% 40%, 80% 60%, 80% 100%);
-            opacity: 0.6;
+            opacity: 0.8;
             margin-top: 15px; 
         }
 
@@ -304,7 +311,7 @@
             font-size: 24px; 
             font-weight: bold;
             z-index: 15;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
 
         /* UPPER RIGHT FLOATING NUMBER */
@@ -312,8 +319,9 @@
             position: absolute;
             top: -5px; 
             right: -5px; 
-            background-color: #111;
-            color: white;
+            /* White background for the number circle looks cleaner against light wood */
+            background-color: #fff;
+            color: var(--text-dark);
             border: 3px solid var(--team-secondary);
             width: 48px; 
             height: 48px; 
@@ -325,7 +333,7 @@
             font-size: 26px; 
             font-weight: bold;
             z-index: 15;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
 
         /* UNIFIED NAMEPLATE */
@@ -334,14 +342,17 @@
             align-items: stretch;
             margin-top: -18px; 
             z-index: 14;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.8);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
             border-radius: 6px;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.2);
+            /* Dark border to define the white nameplate */
+            border: 1px solid rgba(0,0,0,0.1);
         }
 
         .player-nameplate {
-            background: rgba(10, 10, 10, 0.95);
+            /* White nameplates to match the lighter aesthetic */
+            background: #fff;
+            color: var(--text-dark);
             padding: 6px 20px; 
             font-family: 'Montserrat', sans-serif;
             font-size: 20px; 
@@ -401,7 +412,7 @@
         const NBA_TEAMS = {
             "ATL": { name: "Hawks", primary: "#e03a3e", secondary: "#c1d32f", id: 1610612737 },
             "BOS": { name: "Celtics", primary: "#007A33", secondary: "#ba9653", id: 1610612738 },
-            "BKN": { name: "Nets", primary: "#ffffff", secondary: "#000000", id: 1610612751 },
+            "BKN": { name: "Nets", primary: "#000000", secondary: "#ffffff", id: 1610612751 }, /* Flipped primary/secondary so white borders don't vanish */
             "CHA": { name: "Hornets", primary: "#1d1160", secondary: "#00788c", id: 1610612766 },
             "CHI": { name: "Bulls", primary: "#ce1141", secondary: "#000000", id: 1610612741 },
             "CLE": { name: "Cavaliers", primary: "#860038", secondary: "#041e42", id: 1610612739 },
@@ -506,6 +517,7 @@
         function applyTeamTheme(abbr) {
             const theme = NBA_TEAMS[abbr];
             if (theme) {
+                // If a team has a light secondary color (like white), make sure the lines are the primary dark color
                 let primaryColor = theme.primary === "#ffffff" ? theme.secondary : theme.primary;
                 document.documentElement.style.setProperty('--team-primary', primaryColor);
                 document.documentElement.style.setProperty('--team-secondary', theme.secondary);
