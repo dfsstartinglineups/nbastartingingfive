@@ -13,16 +13,13 @@
             /* Default Fallback Colors */
             --team-primary: #17408B; 
             --team-secondary: #C9082A;
-            /* CHANGED: Light blonde maple hardwood colors */
-            --bg-wood: #f4dca6; /* Base light wood color */
-            --wood-grain: #e8cd93; /* Slightly darker for the grain lines */
-            --text-dark: #111; /* Dark text for contrast against the light wood */
+            --bg-wood: #eacc98; /* Base blonde wood color */
+            --text-dark: #111;
         }
 
         body {
             margin: 0;
             padding: 20px;
-            /* Dark background outside the canvas */
             background-color: #050302; 
             font-family: 'Oswald', sans-serif;
             display: flex;
@@ -64,11 +61,14 @@
             width: 1080px;
             height: 1080px; 
             background-color: var(--bg-wood);
-            /* CHANGED: Light wood grain pattern */
-            background-image: 
-                linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0,0,0,0.02) 100px, transparent 100px);
-            background-size: 40px 100px;
+            /* NEW: Alternating Vertical Wood Planks */
+            background-image: repeating-linear-gradient(
+                to right,
+                rgba(0, 0, 0, 0.04) 0px,
+                rgba(0, 0, 0, 0.04) 40px,
+                rgba(255, 255, 255, 0.06) 40px,
+                rgba(255, 255, 255, 0.06) 80px
+            );
             position: relative;
             overflow: hidden;
             display: flex;
@@ -88,7 +88,7 @@
             width: 100%;
             height: 350px;
             background: radial-gradient(ellipse at top, var(--team-primary) 0%, transparent 70%);
-            opacity: 0.15; /* Reduced opacity because the floor is so light */
+            opacity: 0.15; 
             z-index: 1;
             pointer-events: none;
         }
@@ -114,7 +114,6 @@
             text-transform: uppercase;
             letter-spacing: 3px;
             line-height: 1;
-            /* CHANGED: Switched to a dark shadow to pop against the light wood */
             text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
 
@@ -127,7 +126,6 @@
             line-height: 0.9;
             text-transform: uppercase;
             letter-spacing: 1px;
-            /* CHANGED: Text is dark, shadow is the team color */
             color: var(--text-dark);
             text-shadow: 3px 3px 0px var(--team-primary);
         }
@@ -135,8 +133,7 @@
         #matchup-info {
             font-family: 'Oswald', sans-serif;
             font-size: 24px;
-            /* CHANGED: Darker grey for contrast */
-            color: #555;
+            color: #444;
             margin-top: 10px;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -168,7 +165,6 @@
             border: 4px solid var(--team-primary);
             border-bottom: none;
             border-radius: 10px 10px 0 0;
-            /* Lighter inset shadow to match the light wood */
             box-shadow: inset 0 0 50px rgba(0,0,0,0.1);
         }
 
@@ -182,8 +178,8 @@
             height: 350px; 
             border: 4px solid var(--team-primary);
             border-bottom: none;
-            /* CHANGED: Lighter stain inside the paint */
-            background: linear-gradient(to top, rgba(0,0,0,0.05), transparent);
+            /* Subtle dark stain in the paint */
+            background: linear-gradient(to top, rgba(0,0,0,0.1), transparent);
         }
 
         .free-throw-circle {
@@ -240,8 +236,7 @@
             opacity: 0.15; 
             z-index: 0;
             pointer-events: none;
-            /* We can keep the grayscale, but reduce brightness so it shows up on light wood */
-            filter: grayscale(100%) brightness(50%);
+            filter: grayscale(100%) brightness(150%);
         }
 
         /* --- Player Nodes --- */
@@ -266,8 +261,9 @@
             height: 155px; 
             border-radius: 50%;
             border: 5px solid var(--team-secondary); 
-            background-color: var(--bg-wood); /* Match the new light wood */
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4); /* Softer shadow */
+            /* Let the wood background bleed through for silhouettes, or use solid for photos */
+            background-color: #222; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4); 
             z-index: 12;
             overflow: hidden;
             display: flex;
@@ -286,7 +282,6 @@
         .fallback-silhouette {
             width: 70%;
             height: 90%;
-            /* Dark silhouette on the light background */
             background: #666;
             clip-path: polygon(20% 100%, 20% 60%, 40% 40%, 40% 20%, 60% 20%, 60% 40%, 80% 60%, 80% 100%);
             opacity: 0.8;
@@ -319,7 +314,6 @@
             position: absolute;
             top: -5px; 
             right: -5px; 
-            /* White background for the number circle looks cleaner against light wood */
             background-color: #fff;
             color: var(--text-dark);
             border: 3px solid var(--team-secondary);
@@ -345,12 +339,10 @@
             box-shadow: 0 5px 10px rgba(0,0,0,0.3);
             border-radius: 6px;
             overflow: hidden;
-            /* Dark border to define the white nameplate */
             border: 1px solid rgba(0,0,0,0.1);
         }
 
         .player-nameplate {
-            /* White nameplates to match the lighter aesthetic */
             background: #fff;
             color: var(--text-dark);
             padding: 6px 20px; 
@@ -412,7 +404,7 @@
         const NBA_TEAMS = {
             "ATL": { name: "Hawks", primary: "#e03a3e", secondary: "#c1d32f", id: 1610612737 },
             "BOS": { name: "Celtics", primary: "#007A33", secondary: "#ba9653", id: 1610612738 },
-            "BKN": { name: "Nets", primary: "#000000", secondary: "#ffffff", id: 1610612751 }, /* Flipped primary/secondary so white borders don't vanish */
+            "BKN": { name: "Nets", primary: "#000000", secondary: "#ffffff", id: 1610612751 }, 
             "CHA": { name: "Hornets", primary: "#1d1160", secondary: "#00788c", id: 1610612766 },
             "CHI": { name: "Bulls", primary: "#ce1141", secondary: "#000000", id: 1610612741 },
             "CLE": { name: "Cavaliers", primary: "#860038", secondary: "#041e42", id: 1610612739 },
@@ -445,11 +437,11 @@
         const POSITIONS = ["PG", "SG", "SF", "PF", "C"];
         
         const COURT_COORDS = [
-            { x: 50, y: 15 }, // PG
-            { x: 18, y: 42 }, // SG
-            { x: 82, y: 42 }, // SF
-            { x: 32, y: 75 }, // PF
-            { x: 68, y: 75 }  // C
+            { x: 50, y: 17 }, // PG
+            { x: 19, y: 44 }, // SG
+            { x: 81, y: 44 }, // SF
+            { x: 33, y: 77 }, // PF
+            { x: 67, y: 77 }  // C
         ];
 
         let allGames = [];
@@ -517,7 +509,6 @@
         function applyTeamTheme(abbr) {
             const theme = NBA_TEAMS[abbr];
             if (theme) {
-                // If a team has a light secondary color (like white), make sure the lines are the primary dark color
                 let primaryColor = theme.primary === "#ffffff" ? theme.secondary : theme.primary;
                 document.documentElement.style.setProperty('--team-primary', primaryColor);
                 document.documentElement.style.setProperty('--team-secondary', theme.secondary);
