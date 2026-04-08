@@ -251,10 +251,9 @@
             justify-content: center;
         }
 
-        /* SIGNIFICANTLY INCREASED SIZE */
         .player-photo-container {
-            width: 155px;  /* Increased from 125px */
-            height: 155px; /* Increased from 125px */
+            width: 155px;  
+            height: 155px; 
             border-radius: 50%;
             border: 5px solid var(--team-secondary); 
             background-color: #222;
@@ -263,16 +262,18 @@
             overflow: hidden;
             display: flex;
             justify-content: center;
-            align-items: flex-end;
+            /* CHANGED TO FLEX-START: Aligns the top of the image to the top of the circle */
+            align-items: flex-start; 
             position: relative;
         }
 
-        /* Tweak the object-fit scale so the face is prominent */
+        /* FIXED ZOOM & OFFSET TO PREVENT CROPPING HEADS */
         .player-photo { 
-            width: 135%; 
-            height: 135%; 
+            width: 115%; /* Reduced from 130% so it fits better */
+            height: 115%; 
             object-fit: cover; 
-            object-position: top center; 
+            /* Pulls the image 15px down from the top edge so the head clears the curve! */
+            object-position: center 15px; 
         }
         
         .fallback-silhouette {
@@ -281,6 +282,7 @@
             background: #444;
             clip-path: polygon(20% 100%, 20% 60%, 40% 40%, 40% 20%, 60% 20%, 60% 40%, 80% 60%, 80% 100%);
             opacity: 0.6;
+            margin-top: 15px; /* Push the silhouette down slightly too */
         }
 
         /* UPPER LEFT FLOATING POSITION */
@@ -291,14 +293,14 @@
             background-color: var(--team-primary);
             color: white;
             border: 3px solid var(--team-secondary);
-            width: 48px; /* Increased */
-            height: 48px; /* Increased */
+            width: 48px; 
+            height: 48px; 
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             font-family: 'Teko', sans-serif;
-            font-size: 24px; /* Increased */
+            font-size: 24px; 
             font-weight: bold;
             z-index: 15;
             box-shadow: 0 4px 8px rgba(0,0,0,0.6);
@@ -312,14 +314,14 @@
             background-color: #111;
             color: white;
             border: 3px solid var(--team-secondary);
-            width: 48px; /* Increased */
-            height: 48px; /* Increased */
+            width: 48px; 
+            height: 48px; 
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             font-family: 'Teko', sans-serif;
-            font-size: 26px; /* Increased */
+            font-size: 26px; 
             font-weight: bold;
             z-index: 15;
             box-shadow: 0 4px 8px rgba(0,0,0,0.6);
@@ -341,7 +343,7 @@
             background: rgba(10, 10, 10, 0.95);
             padding: 6px 20px; 
             font-family: 'Montserrat', sans-serif;
-            font-size: 20px; /* Slightly larger text */
+            font-size: 20px; 
             font-weight: 900;
             font-style: italic;
             text-transform: uppercase;
@@ -430,13 +432,12 @@
 
         const POSITIONS = ["PG", "SG", "SF", "PF", "C"];
         
-        // Tweak coordinates slightly to accommodate the massive 155px photos
         const COURT_COORDS = [
-            { x: 50, y: 17 }, // PG
-            { x: 19, y: 44 }, // SG
-            { x: 81, y: 44 }, // SF
-            { x: 33, y: 77 }, // PF
-            { x: 67, y: 77 }  // C
+            { x: 50, y: 15 }, // PG
+            { x: 18, y: 42 }, // SG
+            { x: 82, y: 42 }, // SF
+            { x: 32, y: 75 }, // PF
+            { x: 68, y: 75 }  // C
         ];
 
         let allGames = [];
