@@ -244,16 +244,17 @@
             z-index: 10;
         }
 
-        /* Groups the photo and the floating number together */
+        /* Groups the photo and the floating badges together */
         .photo-wrapper {
             position: relative;
             display: flex;
             justify-content: center;
         }
 
+        /* SIGNIFICANTLY INCREASED SIZE */
         .player-photo-container {
-            width: 145px;  /* SIGNIFICANTLY INCREASED */
-            height: 145px; /* SIGNIFICANTLY INCREASED */
+            width: 155px;  /* Increased from 125px */
+            height: 155px; /* Increased from 125px */
             border-radius: 50%;
             border: 5px solid var(--team-secondary); 
             background-color: #222;
@@ -266,9 +267,10 @@
             position: relative;
         }
 
+        /* Tweak the object-fit scale so the face is prominent */
         .player-photo { 
-            width: 130%; 
-            height: 130%; 
+            width: 135%; 
+            height: 135%; 
             object-fit: cover; 
             object-position: top center; 
         }
@@ -281,6 +283,27 @@
             opacity: 0.6;
         }
 
+        /* UPPER LEFT FLOATING POSITION */
+        .player-position {
+            position: absolute;
+            top: -5px; 
+            left: -5px; 
+            background-color: var(--team-primary);
+            color: white;
+            border: 3px solid var(--team-secondary);
+            width: 48px; /* Increased */
+            height: 48px; /* Increased */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Teko', sans-serif;
+            font-size: 24px; /* Increased */
+            font-weight: bold;
+            z-index: 15;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+        }
+
         /* UPPER RIGHT FLOATING NUMBER */
         .player-number {
             position: absolute;
@@ -289,24 +312,24 @@
             background-color: #111;
             color: white;
             border: 3px solid var(--team-secondary);
-            width: 44px; 
-            height: 44px; 
+            width: 48px; /* Increased */
+            height: 48px; /* Increased */
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             font-family: 'Teko', sans-serif;
-            font-size: 24px; 
+            font-size: 26px; /* Increased */
             font-weight: bold;
             z-index: 15;
             box-shadow: 0 4px 8px rgba(0,0,0,0.6);
         }
 
-        /* UNIFIED NAMEPLATE & POSITION BADGE */
+        /* UNIFIED NAMEPLATE */
         .nameplate-wrapper {
             display: flex;
             align-items: stretch;
-            margin-top: -18px; /* Pulled up to overlap the photo */
+            margin-top: -18px; 
             z-index: 14;
             box-shadow: 0 5px 10px rgba(0,0,0,0.8);
             border-radius: 6px;
@@ -314,23 +337,11 @@
             border: 1px solid rgba(255,255,255,0.2);
         }
 
-        .nameplate-pos {
-            background-color: var(--team-primary);
-            color: white;
-            font-family: 'Teko', sans-serif;
-            font-size: 22px;
-            padding: 3px 12px 0px; /* Slight top padding to vertically center Teko font */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-right: 1px solid rgba(0,0,0,0.3); /* Adds separation between Pos and Name */
-        }
-
         .player-nameplate {
             background: rgba(10, 10, 10, 0.95);
-            padding: 4px 16px 4px 12px; 
+            padding: 6px 20px; 
             font-family: 'Montserrat', sans-serif;
-            font-size: 19px; 
+            font-size: 20px; /* Slightly larger text */
             font-weight: 900;
             font-style: italic;
             text-transform: uppercase;
@@ -419,13 +430,13 @@
 
         const POSITIONS = ["PG", "SG", "SF", "PF", "C"];
         
-        // Tweak coordinates slightly to accommodate the larger 145px photos
+        // Tweak coordinates slightly to accommodate the massive 155px photos
         const COURT_COORDS = [
-            { x: 50, y: 15 }, // PG
-            { x: 18, y: 42 }, // SG
-            { x: 82, y: 42 }, // SF
-            { x: 32, y: 75 }, // PF
-            { x: 68, y: 75 }  // C
+            { x: 50, y: 17 }, // PG
+            { x: 19, y: 44 }, // SG
+            { x: 81, y: 44 }, // SF
+            { x: 33, y: 77 }, // PF
+            { x: 67, y: 77 }  // C
         ];
 
         let allGames = [];
@@ -549,13 +560,13 @@
                 const html = `
                     <div class="player-node" style="left: ${coords.x}%; top: ${coords.y}%;">
                         <div class="photo-wrapper">
+                            <div class="player-position">${pos}</div>
                             ${jerseyNum ? `<div class="player-number">${jerseyNum}</div>` : ''}
                             <div class="player-photo-container">
                                 ${photoHtml}
                             </div>
                         </div>
                         <div class="nameplate-wrapper">
-                            <div class="nameplate-pos">${pos}</div>
                             <div class="player-nameplate">${lastName}</div>
                         </div>
                     </div>
