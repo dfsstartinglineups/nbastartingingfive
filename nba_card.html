@@ -39,7 +39,7 @@
             z-index: 100;
         }
 
-        select, button {
+        select, button, input {
             padding: 8px 16px;
             font-size: 16px;
             border-radius: 4px;
@@ -467,19 +467,10 @@
 
         async function loadData() {
             try {
-                // Fetch the Data
-                const [nbaRes, playersRes] = await Promise.all([
-                    fetch('https://nbastartingfive.com/nba_data.json'),
-                    fetch('data/players.json') 
-                ]);
-
-                // =========================================
-                // NEW: DATE IDENTIFIER LOGIC
-                // =========================================
                 const urlParams = new URLSearchParams(window.location.search);
                 let targetDate = urlParams.get('date');
                 
-                // If the bot didn't pass a date, figure out what "today" is
+                // If no date provided in URL, default to today (local time)
                 if (!targetDate) {
                     const today = new Date();
                     const yyyy = today.getFullYear();
@@ -488,19 +479,21 @@
                     targetDate = `${yyyy}-${mm}-${dd}`;
                 }
                 
-                // Show the target date in the UI control bar so you know what day you are looking at
                 document.getElementById('date-indicator').value = targetDate;
                 
+                const [nbaRes, playersRes] = await Promise.all([
+                    // Dynamically fetch the daily JSON!
+                    fetch(`https://nbastartingfive.com/data/${targetDate}.json?v=${new Date().getTime()}`),
+                    fetch('data/players.json') 
+                ]);
+
                 if (nbaRes.ok) {
                     const data = await nbaRes.json();
                     
-                    // NEW: Filter the array by DATE first, then by valid rosters!
                     allGames = data.games.filter(g => {
-                        // 1. Drop any game that doesn't match our target date
                         if (g.date !== targetDate) return false;
-                        
-                        // 2. Ensure the game has team and roster data
                         if (!g.teams || !g.rosters) return false;
+                        
                         const t1 = g.teams[0];
                         const t2 = g.teams[1];
                         
@@ -509,7 +502,6 @@
                         
                         if (!hasRoster1 && !hasRoster2) return false;
 
-                        // 3. Ensure at least one side is completely verified
                         const t1Verified = hasRoster1 && g.rosters[t1].players.slice(0, 5).every(p => p.verified === true);
                         const t2Verified = hasRoster2 && g.rosters[t2].players.slice(0, 5).every(p => p.verified === true);
 
@@ -528,19 +520,18 @@
             
             populateDropdown();
             
-            // ==========================================
-            // NEW: LISTEN TO THE PYTHON BOT'S URL COMMANDS
-            // ==========================================
             const urlParams = new URLSearchParams(window.location.search);
-            const botGameIdx = urlParams.get('gameIdx');
+            const botTeam = urlParams.get('team');
             const botSide = urlParams.get('side');
 
-            // If the bot passed a game index, force the dropdown to select it
-            if (botGameIdx !== null && allGames[botGameIdx]) {
-                document.getElementById('game-selector').value = botGameIdx;
+            // Find game by Team Abbreviation
+            if (botTeam !== null) {
+                const foundIndex = allGames.findIndex(g => g.teams.includes(botTeam));
+                if (foundIndex !== -1) {
+                    document.getElementById('game-selector').value = foundIndex;
+                }
             }
             
-            // If the bot passed a side (home/away), force the dropdown to select it
             if (botSide !== null) {
                 document.getElementById('team-selector').value = botSide;
             }
@@ -600,72 +591,4 @@
             teamNameEl.textContent = teamNameStr;
             teamNameEl.setAttribute('data-text', teamNameStr);
 
-            document.getElementById('matchup-info').textContent = `${isHome ? 'VS' : '@'} ${oppData ? oppData.name : oppAbbr}  |  ${game.date}`;
-            
-            const logoUrl = getNbaLogo(targetAbbr);
-            document.getElementById('team-logo').src = logoUrl;
-            document.getElementById('watermark').src = logoUrl;
-
-            const container = document.getElementById('players-container');
-            container.innerHTML = '';
-
-            const roster = game.rosters[targetAbbr].players.slice(0, 5);
-
-            const isOfficial = roster.every(p => p.verified === true);
-            const tagEl = document.getElementById('starting-tag');
-            
-            if (isOfficial) {
-                tagEl.textContent = "STARTING 5";
-                tagEl.style.color = "var(--text-dark)";
-                tagEl.style.textShadow = "1px 1px 0px rgba(255,255,255,0.5)";
-            } else {
-                tagEl.textContent = "PROJECTED 5";
-                tagEl.style.color = "rgba(0,0,0,0.4)"; 
-                tagEl.style.textShadow = "none";
-            }
-
-            roster.forEach((player, index) => {
-                const pos = POSITIONS[index];
-                const coords = COURT_COORDS[index];
-                
-                const dbPlayer = getPlayerData(player.name);
-                const photoUrl = dbPlayer ? dbPlayer.photo : null;
-                const jerseyNum = dbPlayer && dbPlayer.jersey ? dbPlayer.jersey : "";
-
-                const nameParts = player.name.split(' ');
-                let lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : player.name;
-                if (lastName.length > 12) lastName = lastName.substring(0, 10) + '.';
-
-                const photoHtml = (photoUrl && photoUrl.trim() !== '') 
-                    ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` 
-                    : `<div class="fallback-silhouette"></div>`;
-
-                const html = `
-                    <div class="player-node" style="left: ${coords.x}%; top: ${coords.y}%;">
-                        <div class="photo-wrapper">
-                            <div class="player-position">${pos}</div>
-                            ${jerseyNum ? `<div class="player-number">${jerseyNum}</div>` : ''}
-                            <div class="player-photo-container">
-                                ${photoHtml}
-                            </div>
-                        </div>
-                        <div class="nameplate-wrapper">
-                            <div class="player-nameplate">${lastName}</div>
-                        </div>
-                    </div>
-                `;
-                container.insertAdjacentHTML('beforeend', html);
-            });
-        }
-
-        function takeScreenshot() {
-            const capture = document.getElementById('capture-area');
-            capture.style.opacity = '0.5';
-            setTimeout(() => { capture.style.opacity = '1'; }, 100);
-            alert("Ready! Playwright will capture #capture-area as a 1080x1080 square.");
-        }
-
-        loadData();
-    </script>
-</body>
-</html>
+            document.getElementById('matchup-info').textContent = `${isHome ? 'VS' : '@'} ${oppData ? oppData
