@@ -62,7 +62,6 @@
             width: 1080px;
             height: 1080px; 
             background-color: var(--bg-wood);
-            /* Alternating Vertical Stained Wood Planks */
             background-image: repeating-linear-gradient(
                 to right,
                 rgba(0, 0, 0, 0.05) 0px,
@@ -128,19 +127,8 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--team-primary);
-            
-            /* FIXED: 8-directional 2px white shadow to create a flawless outer stroke, 
-               followed by a 5px offset drop shadow in the team's secondary color */
-            text-shadow: 
-                -2px -2px 0 #fff,  
-                 0   -2px 0 #fff,  
-                 2px -2px 0 #fff,  
-                 2px  0   0 #fff,  
-                 2px  2px 0 #fff,  
-                 0    2px 0 #fff,  
-                -2px  2px 0 #fff,  
-                -2px  0   0 #fff,  
-                 5px  5px 0 var(--team-secondary);
+            -webkit-text-stroke: 2px #fff;
+            text-shadow: 4px 4px 0px var(--team-secondary);
         }
 
         #matchup-info {
@@ -472,6 +460,12 @@
             return null; 
         }
 
+        // NEW: Broken Image Handler
+        function handleImageError(img) {
+            const container = img.parentElement;
+            container.innerHTML = '<div class="fallback-silhouette"></div>';
+        }
+
         async function loadData() {
             try {
                 const [nbaRes, playersRes] = await Promise.all([
@@ -568,8 +562,9 @@
                 let lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : player.name;
                 if (lastName.length > 12) lastName = lastName.substring(0, 10) + '.';
 
-                const photoHtml = photoUrl 
-                    ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous">` 
+                // NEW: Added onerror="handleImageError(this)" to catch broken links
+                const photoHtml = (photoUrl && photoUrl.trim() !== '') 
+                    ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` 
                     : `<div class="fallback-silhouette"></div>`;
 
                 const html = `
