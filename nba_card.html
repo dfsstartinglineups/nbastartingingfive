@@ -117,6 +117,9 @@
             text-shadow: 1px 1px 0px rgba(255,255,255,0.5);
         }
 
+        /* FIXED: Flawless Broadcast-Style Typography
+           We use a pseudo-element behind the main text to draw the stroke.
+        */
         #team-name {
             font-family: 'Montserrat', sans-serif;
             font-weight: 900;
@@ -127,7 +130,18 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--team-primary);
-            -webkit-text-stroke: 2px #fff;
+            position: relative;
+            z-index: 1;
+        }
+
+        #team-name::before {
+            content: attr(data-text); /* Pulls the text dynamically */
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: -1;
+            /* Draws a flawless, perfectly smooth 6px stroke on the outside */
+            -webkit-text-stroke: 6px #fff; 
             text-shadow: 4px 4px 0px var(--team-secondary);
         }
 
@@ -277,13 +291,15 @@
             object-position: center 5px; 
         }
         
+        /* FIXED: Professional Embedded SVG Bust instead of the bottle shape */
         .fallback-silhouette {
-            width: 70%;
-            height: 90%;
-            background: #666;
-            clip-path: polygon(20% 100%, 20% 60%, 40% 40%, 40% 20%, 60% 20%, 60% 40%, 80% 60%, 80% 100%);
-            opacity: 0.8;
-            margin-top: 15px; 
+            width: 100%;
+            height: 100%;
+            background-color: #2b2b2b;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="%23666666" xmlns="http://www.w3.org/2000/svg"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
+            background-size: 90%;
+            background-position: center 20px;
+            background-repeat: no-repeat;
         }
 
         /* UPPER LEFT FLOATING POSITION */
@@ -375,7 +391,7 @@
         <div id="header">
             <div class="header-left">
                 <div class="starting-tag">Starting 5</div>
-                <h1 id="team-name">LOADING...</h1>
+                <h1 id="team-name" data-text="LOADING...">LOADING...</h1>
                 <div id="matchup-info">FETCHING DATA...</div>
             </div>
             <img id="team-logo" src="" alt="Team Logo">
@@ -460,7 +476,7 @@
             return null; 
         }
 
-        // NEW: Broken Image Handler
+        // Properly handles broken 404 image links
         function handleImageError(img) {
             const container = img.parentElement;
             container.innerHTML = '<div class="fallback-silhouette"></div>';
@@ -493,6 +509,7 @@
                 renderCard();
             } else {
                 document.getElementById('team-name').textContent = "NO LINEUPS YET";
+                document.getElementById('team-name').setAttribute('data-text', "NO LINEUPS YET");
                 document.getElementById('matchup-info').textContent = "Check back closer to tipoff.";
             }
         }
@@ -538,7 +555,12 @@
 
             applyTeamTheme(targetAbbr);
 
-            document.getElementById('team-name').textContent = targetData ? targetData.name : targetAbbr;
+            const teamNameStr = targetData ? targetData.name : targetAbbr;
+            const teamNameEl = document.getElementById('team-name');
+            teamNameEl.textContent = teamNameStr;
+            // CRITICAL: We must pass the data-text attribute so the CSS stroke works
+            teamNameEl.setAttribute('data-text', teamNameStr);
+
             document.getElementById('matchup-info').textContent = `${isHome ? 'VS' : '@'} ${oppData ? oppData.name : oppAbbr}  |  ${game.date}`;
             
             const logoUrl = getNbaLogo(targetAbbr);
@@ -562,7 +584,6 @@
                 let lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : player.name;
                 if (lastName.length > 12) lastName = lastName.substring(0, 10) + '.';
 
-                // NEW: Added onerror="handleImageError(this)" to catch broken links
                 const photoHtml = (photoUrl && photoUrl.trim() !== '') 
                     ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` 
                     : `<div class="fallback-silhouette"></div>`;
