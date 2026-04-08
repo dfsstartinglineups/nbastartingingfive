@@ -3,41 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NBA Starting 5 - Tactical Square</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&family=Oswald:wght@500;700&family=Montserrat:ital,wght@0,800;1,900&display=swap" rel="stylesheet">
-    
+    <title>2D Tactical Matchup Generator (Vertical 4:5)</title>
     <style>
         :root {
-            /* Default Fallback Colors */
-            --team-primary: #17408B; 
-            --team-secondary: #C9082A;
-            --bg-dark: #0a0b0d;
-            --text-light: #f8f9fa;
+            --bg-color: #0b0e14;
         }
 
         body {
             margin: 0;
             padding: 20px;
-            background-color: #000;
-            font-family: 'Oswald', sans-serif;
+            background-color: #1a1a1a;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* --- UI Controls --- */
+        /* Controls outside the capture area */
         #controls {
             margin-bottom: 20px;
-            background: #222;
+            background: #2a2a2a;
             padding: 15px 25px;
             border-radius: 8px;
             display: flex;
             gap: 15px;
             align-items: center;
-            color: white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.8);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
             z-index: 100;
         }
 
@@ -45,317 +37,248 @@
             padding: 8px 16px;
             font-size: 16px;
             border-radius: 4px;
-            border: 1px solid #555;
+            border: 1px solid #444;
             background: #333;
             color: white;
             cursor: pointer;
-            font-family: 'Oswald', sans-serif;
+            transition: background-color 0.2s;
         }
 
-        button:hover { background: #555; }
+        button:hover { background: #444; }
 
         /* =========================================
-           THE EXPORTABLE CANVAS (1080x1080 SQUARE)
+           THE EXPORTABLE CANVAS (1080x1350)
+           Optimized for mobile-friendly vertical viewing
            ========================================= */
         #capture-area {
             width: 1080px;
-            height: 1080px; /* SHRUNK TO SQUARE */
-            background-color: var(--bg-dark);
-            /* Subtle Dark Hardwood Floor CSS Pattern */
-            background-image: 
-                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255,255,255,0.02) 100px, transparent 100px);
-            background-size: 40px 100px;
+            height: 1350px; 
+            background: radial-gradient(circle at center, #1a2235 0%, #080a0f 100%);
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
-            color: var(--text-light);
-            border-top: 15px solid var(--team-primary);
-            border-bottom: 15px solid var(--team-primary);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
         }
 
-        /* Top Glowing Light Effect */
-        .arena-glow {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 350px;
-            background: radial-gradient(ellipse at top, var(--team-primary) 0%, transparent 70%);
-            opacity: 0.3;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        /* --- Header Section --- */
+        /* --- Header --- */
         #header {
             width: 100%;
-            box-sizing: border-box;
-            padding: 30px 50px 10px; /* TIGHTENED PADDING */
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-            z-index: 10;
-        }
-
-        .header-left { display: flex; flex-direction: column; }
-
-        .starting-tag {
-            font-family: 'Teko', sans-serif;
-            font-size: 40px; /* SLIGHTLY SMALLER */
-            color: var(--team-primary);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            line-height: 1;
-            text-shadow: 0 0 10px rgba(0,0,0,0.8);
-        }
-
-        #team-name {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 900;
-            font-style: italic;
-            font-size: 75px; /* SLIGHTLY SMALLER */
-            margin: 0;
-            line-height: 0.9;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #fff;
-            text-shadow: 4px 4px 0px var(--team-primary);
-        }
-
-        #matchup-info {
-            font-family: 'Oswald', sans-serif;
-            font-size: 24px;
-            color: #ccc;
-            margin-top: 10px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        #team-logo {
-            width: 140px; /* SLIGHTLY SMALLER */
-            height: 140px;
-            object-fit: contain;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.8));
-        }
-
-        /* --- Tactical Half-Court --- */
-        #court-scene {
-            width: 100%;
-            height: 850px; /* SHRUNK COURT HEIGHT */
-            position: absolute;
-            bottom: 0;
+            padding: 10px 30px;
             display: flex;
             justify-content: center;
-            align-items: flex-end;
+            align-items: center;
+            z-index: 10;
+            box-sizing: border-box;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
         }
 
-        #court {
-            width: 960px; 
-            height: 800px; /* SHRUNK COURT HEIGHT */
+        .team-block {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 42%;
+        }
+        .team-block.home { justify-content: flex-end; }
+        .team-block.away { justify-content: flex-start; }
+
+        .team-logo { width: 50px; height: 50px; object-fit: contain; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5)); }
+        
+        .team-info-text { display: flex; flex-direction: column; }
+        .team-block.home .team-info-text { align-items: flex-end; }
+        .team-block.away .team-info-text { align-items: flex-start; }
+
+        .team-name { font-size: 24px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin: 0; line-height: 1; }
+        .formation { font-size: 14px; font-weight: bold; color: #adb5bd; margin-top: 2px; }
+
+        .vs-badge {
+            width: 10%;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 900;
+            color: #fff;
+            background: rgba(255,255,255,0.1);
+            padding: 4px 0;
+            border-radius: 20px;
+            letter-spacing: 2px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* --- 2D Flat Pitch --- */
+        #scene {
+            width: 100%;
+            height: 1250px; 
+            position: absolute;
+            bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #pitch {
+            width: 980px; 
+            height: 1230px; 
+            background: repeating-linear-gradient(
+                0deg,
+                #1e4d2b,
+                #1e4d2b 75px,
+                #1a4224 75px,
+                #1a4224 150px
+            );
             position: relative;
-            border: 4px solid var(--team-primary);
-            border-bottom: none;
-            border-radius: 10px 10px 0 0;
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+            border: 4px solid rgba(255,255,255,0.6);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            border-radius: 4px;
         }
 
-        /* Court Painted Lines */
-        .paint-area {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 320px;
-            height: 350px; /* SHRUNK PAINT HEIGHT */
-            border: 4px solid var(--team-primary);
-            border-bottom: none;
-            background: linear-gradient(to top, rgba(255,255,255,0.05), transparent);
-        }
+        /* Field Lines */
+        .pitch-line { position: absolute; border: 3px solid rgba(255,255,255,0.5); z-index: 2; }
+        .center-circle { width: 220px; height: 220px; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .center-dot { width: 8px; height: 8px; background: rgba(255,255,255,0.5); border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; }
+        .halfway-line { width: 100%; height: 3px; top: 50%; border-left: none; border-right: none; background: rgba(255,255,255,0.5); border: none; z-index: 2; }
+        
+        .penalty-box-bottom { width: 440px; height: 160px; bottom: 0; left: 50%; transform: translateX(-50%); border-bottom: none; }
+        .six-yard-bottom { width: 220px; height: 60px; bottom: 0; left: 50%; transform: translateX(-50%); border-bottom: none; position: absolute; border: 3px solid rgba(255,255,255,0.5); z-index: 2;}
+        .penalty-arc-bottom { width: 160px; height: 90px; bottom: 160px; left: 50%; transform: translateX(-50%); border: 3px solid rgba(255,255,255,0.5); border-bottom: none; border-radius: 90px 90px 0 0; position: absolute; border-bottom-color: transparent; z-index: 2;}
+        
+        .penalty-box-top { width: 440px; height: 160px; top: 0; left: 50%; transform: translateX(-50%); border-top: none; }
+        .six-yard-top { width: 220px; height: 60px; top: 0; left: 50%; transform: translateX(-50%); border-top: none; position: absolute; border: 3px solid rgba(255,255,255,0.5); z-index: 2;}
+        .penalty-arc-top { width: 160px; height: 90px; top: 160px; left: 50%; transform: translateX(-50%); border: 3px solid rgba(255,255,255,0.5); border-top: none; border-radius: 0 0 90px 90px; position: absolute; border-top-color: transparent; z-index: 2;}
 
-        .free-throw-circle {
+        /* --- New Central Watermarks --- */
+        .watermark {
             position: absolute;
-            bottom: 350px; /* MOVED DOWN */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 120px;
-            border: 4px solid var(--team-primary);
-            border-radius: 50%;
-            background: var(--bg-dark);
-            z-index: 1;
-        }
-
-        .three-point-arc {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 800px;
-            height: 550px; /* SHRUNK ARC HEIGHT */
-            border: 4px solid var(--team-primary);
-            border-radius: 50% 50% 0 0;
-            border-bottom: none;
-            clip-path: inset(0 0 80px 0); 
-        }
-
-        .corner-three-left { position: absolute; bottom: 0; left: 80px; width: 4px; height: 80px; background: var(--team-primary); }
-        .corner-three-right { position: absolute; bottom: 0; right: 80px; width: 4px; height: 80px; background: var(--team-primary); }
-
-        .half-court-circle {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 250px; /* SHRUNK */
-            height: 250px; /* SHRUNK */
-            border: 4px solid var(--team-primary);
-            border-radius: 50%;
-        }
-
-        /* The Massive Ghost Watermark */
-        .watermark-logo {
-            position: absolute;
-            top: 45%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 500px; /* SHRUNK */
-            height: 500px; /* SHRUNK */
+            width: 600px; 
+            height: 600px; 
             object-fit: contain;
-            opacity: 0.15; 
-            z-index: 0;
-            pointer-events: none;
-            filter: grayscale(100%) brightness(150%);
+            opacity: 0.5; /* 50% opacity */
+            transform: translate(-50%, -50%); 
+            z-index: 1; 
+            pointer-events: none; 
+        }
+
+        #home-watermark {
+            top: 75%; 
+            left: 50%;
+        }
+
+        #away-watermark {
+            top: 25%; 
+            left: 50%;
         }
 
         /* --- Player Nodes --- */
         .player-node {
             position: absolute;
-            width: 140px; 
+            width: 140px; /* INCREASED to fit larger photo container */
             display: flex;
             flex-direction: column;
             align-items: center;
             transform: translate(-50%, -50%);
-            z-index: 10;
-        }
-
-        .node-pos-badge {
-            background: var(--team-primary);
-            color: white;
-            font-family: 'Teko', sans-serif;
-            font-size: 20px; /* SHRUNK */
-            padding: 2px 10px;
-            border-radius: 4px;
-            margin-bottom: -8px;
-            z-index: 15;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.5s ease;
         }
 
         .player-photo-container {
-            width: 90px;  /* SHRUNK */
-            height: 90px; /* SHRUNK */
+            width: 100px;  /* INCREASED from 72px */
+            height: 100px; /* INCREASED from 72px */
             border-radius: 50%;
-            border: 4px solid var(--team-secondary); 
-            background-color: #222;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.8);
-            z-index: 12;
+            border: 4px solid var(--node-color); 
+            background-color: #2b3035;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.7);
+            z-index: 3; 
             overflow: hidden;
             display: flex;
             justify-content: center;
-            align-items: flex-end;
+            align-items: center;
             position: relative;
         }
 
-        .player-photo { width: 130%; height: 130%; object-fit: cover; object-position: top center; }
-        
-        .fallback-silhouette {
-            width: 70%;
-            height: 90%;
-            background: #444;
-            clip-path: polygon(20% 100%, 20% 60%, 40% 40%, 40% 20%, 60% 20%, 60% 40%, 80% 60%, 80% 100%);
-            opacity: 0.6;
-        }
+        .player-photo { width: 100%; height: 100%; object-fit: cover; }
+        .fallback-initials { font-size: 36px; /* INCREASED to match larger circle */ font-weight: bold; color: #adb5bd; }
 
         .player-number {
             position: absolute;
-            top: 5px; 
-            right: -10px; 
+            top: -5px; 
+            right: 5px; 
             background-color: #111;
             color: white;
-            border: 2px solid var(--team-secondary);
-            width: 34px; /* SHRUNK */
-            height: 34px; /* SHRUNK */
+            border: 2px solid var(--node-color);
+            width: 40px; /* INCREASED */
+            height: 40px; /* INCREASED */
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Teko', sans-serif;
-            font-size: 20px; /* SHRUNK */
+            font-size: 20px; /* INCREASED */
             font-weight: bold;
-            z-index: 15;
+            z-index: 4;
         }
 
         .player-nameplate {
-            margin-top: -12px; 
-            background: rgba(10, 10, 10, 0.95);
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 4px 14px; 
-            border-radius: 6px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 16px; /* SHRUNK */
-            font-weight: 900;
-            font-style: italic;
+            margin-top: -15px; /* ADJUSTED overlap for larger circle */
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 5px 14px; 
+            border-radius: 8px;
+            font-size: 18px; /* Slightly larger text */
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            z-index: 14;
+            z-index: 4;
             white-space: nowrap;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.7);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.6);
         }
     </style>
 </head>
 <body>
 
     <div id="controls">
-        <label>Game:</label>
-        <select id="game-selector"></select>
-        
-        <label>Team:</label>
-        <select id="team-selector">
-            <option value="home">Home Team</option>
-            <option value="away">Away Team</option>
-        </select>
-        
+        <label fw-bold>Select Match:</label>
+        <select id="match-selector"></select>
         <button onclick="takeScreenshot()">Simulate Screenshot</button>
+        <button id="copy-btn" onclick="copyTweetText()">📋 Copy Tweet Text</button>
     </div>
 
     <div id="capture-area">
-        <div class="arena-glow"></div>
-        
         <div id="header">
-            <div class="header-left">
-                <div class="starting-tag">Starting 5</div>
-                <h1 id="team-name">LOADING...</h1>
-                <div id="matchup-info">FETCHING DATA...</div>
+            <div class="team-block home">
+                <div class="team-info-text">
+                    <h1 id="home-name" class="team-name">HOME</h1>
+                    <div id="home-formation" class="formation">4-3-3</div>
+                </div>
+                <img id="home-logo" class="team-logo" src="" alt="Home Logo">
             </div>
-            <img id="team-logo" src="" alt="Team Logo">
+
+            <div class="vs-badge">VS</div>
+
+            <div class="team-block away">
+                <img id="away-logo" class="team-logo" src="" alt="Away Logo">
+                <div class="team-info-text">
+                    <h1 id="away-name" class="team-name">AWAY</h1>
+                    <div id="away-formation" class="formation">4-3-3</div>
+                </div>
+            </div>
         </div>
 
-        <div id="court-scene">
-            <div id="court">
-                <div class="half-court-circle"></div>
-                <div class="three-point-arc"></div>
-                <div class="corner-three-left"></div>
-                <div class="corner-three-right"></div>
-                <div class="free-throw-circle"></div>
-                <div class="paint-area"></div>
-                
-                <img id="watermark" class="watermark-logo" src="" alt="">
+        <div id="scene">
+            <div id="pitch">
+                <img id="away-watermark" class="watermark" src="" alt="">
+                <img id="home-watermark" class="watermark" src="" alt="">
 
+                <div class="pitch-line center-circle"></div>
+                <div class="center-dot"></div>
+                <div class="halfway-line"></div>
+                
+                <div class="pitch-line penalty-box-bottom"></div>
+                <div class="six-yard-bottom"></div>
+                <div class="penalty-arc-bottom"></div>
+
+                <div class="pitch-line penalty-box-top"></div>
+                <div class="six-yard-top"></div>
+                <div class="penalty-arc-top"></div>
+                
                 <div id="players-container">
                     </div>
             </div>
@@ -363,187 +286,194 @@
     </div>
 
     <script>
-        const NBA_TEAMS = {
-            "ATL": { name: "Hawks", primary: "#e03a3e", secondary: "#c1d32f", id: 1610612737 },
-            "BOS": { name: "Celtics", primary: "#007A33", secondary: "#ba9653", id: 1610612738 },
-            "BKN": { name: "Nets", primary: "#ffffff", secondary: "#000000", id: 1610612751 },
-            "CHA": { name: "Hornets", primary: "#1d1160", secondary: "#00788c", id: 1610612766 },
-            "CHI": { name: "Bulls", primary: "#ce1141", secondary: "#000000", id: 1610612741 },
-            "CLE": { name: "Cavaliers", primary: "#860038", secondary: "#041e42", id: 1610612739 },
-            "DAL": { name: "Mavericks", primary: "#00538c", secondary: "#002b5e", id: 1610612742 },
-            "DEN": { name: "Nuggets", primary: "#0e2240", secondary: "#fec524", id: 1610612743 },
-            "DET": { name: "Pistons", primary: "#c8102e", secondary: "#1d42ba", id: 1610612765 },
-            "GSW": { name: "Warriors", primary: "#1d428a", secondary: "#ffc72c", id: 1610612744 },
-            "HOU": { name: "Rockets", primary: "#ce1141", secondary: "#000000", id: 1610612745 },
-            "IND": { name: "Pacers", primary: "#002d62", secondary: "#fdbb30", id: 1610612754 },
-            "LAC": { name: "Clippers", primary: "#c8102e", secondary: "#1d428a", id: 1610612746 },
-            "LAL": { name: "Lakers", primary: "#552583", secondary: "#fdb927", id: 1610612747 },
-            "MEM": { name: "Grizzlies", primary: "#5d76a9", secondary: "#12173f", id: 1610612763 },
-            "MIA": { name: "Heat", primary: "#98002e", secondary: "#f9a01b", id: 1610612748 },
-            "MIL": { name: "Bucks", primary: "#00471b", secondary: "#eee1c6", id: 1610612749 },
-            "MIN": { name: "Timberwolves", primary: "#0c2340", secondary: "#236192", id: 1610612750 },
-            "NOP": { name: "Pelicans", primary: "#0c2340", secondary: "#c8102e", id: 1610612740 },
-            "NYK": { name: "Knicks", primary: "#006bb6", secondary: "#f58426", id: 1610612752 },
-            "OKC": { name: "Thunder", primary: "#007ac1", secondary: "#ef3b24", id: 1610612760 },
-            "ORL": { name: "Magic", primary: "#0077c0", secondary: "#c4ced4", id: 1610612753 },
-            "PHI": { name: "76ers", primary: "#006bb6", secondary: "#ed174c", id: 1610612755 },
-            "PHX": { name: "Suns", primary: "#1d1160", secondary: "#e56020", id: 1610612756 },
-            "POR": { name: "Trail Blazers", primary: "#e03a3e", secondary: "#000000", id: 1610612757 },
-            "SAC": { name: "Kings", primary: "#5a2d81", secondary: "#63727a", id: 1610612758 },
-            "SAS": { name: "Spurs", primary: "#c4ced4", secondary: "#000000", id: 1610612759 },
-            "TOR": { name: "Raptors", primary: "#ce1141", secondary: "#000000", id: 1610612761 },
-            "UTA": { name: "Jazz", primary: "#002b5c", secondary: "#00471b", id: 1610612762 },
-            "WAS": { name: "Wizards", primary: "#002b5c", secondary: "#e31837", id: 1610612764 }
-        };
-
-        const POSITIONS = ["PG", "SG", "SF", "PF", "C"];
-        
-        // --- UPDATED COORDINATES FOR THE SQUARE COURT ---
-        const COURT_COORDS = [
-            { x: 50, y: 15 }, // PG
-            { x: 15, y: 40 }, // SG
-            { x: 85, y: 40 }, // SF
-            { x: 30, y: 72 }, // PF
-            { x: 50, y: 80 }  // C
-        ];
-
-        let allGames = [];
-        let playerDatabase = {}; 
-
-        function getNbaLogo(abbr) {
-            const team = NBA_TEAMS[abbr];
-            if(team) return `https://cdn.nba.com/logos/nba/${team.id}/global/L/logo.svg`;
-            return ''; 
-        }
-
-        function getPlayerData(playerName) {
-            for (const key in playerDatabase) {
-                if (playerDatabase[key].name === playerName || playerDatabase[key].short_name === playerName) {
-                    return playerDatabase[key]; 
-                }
-            }
-            return null; 
-        }
+        let allMatches = [];
 
         async function loadData() {
             try {
-                const [nbaRes, playersRes] = await Promise.all([
-                    fetch('https://nbastartingfive.com/nba_data.json'),
-                    fetch('data/players.json') 
-                ]);
+                const urlParams = new URLSearchParams(window.location.search);
+                let targetDate = urlParams.get('date');
                 
-                if (nbaRes.ok) {
-                    const data = await nbaRes.json();
-                    allGames = data.games.filter(g => g.teams && g.rosters && g.rosters[g.teams[0]] && g.rosters[g.teams[0]].players.length >= 5);
-                }
-                
-                if (playersRes.ok) {
-                    playerDatabase = await playersRes.json();
-                    console.log("✅ Player Database loaded successfully!");
+                if (!targetDate) {
+                    const today = new Date();
+                    targetDate = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
                 }
 
+                const res = await fetch(`data/games_${targetDate}.json`); 
+                if (res.ok) {
+                    const data = await res.json();
+                    allMatches = data.filter(m => m.homeLineup && m.homeLineup.startXI && m.awayLineup && m.awayLineup.startXI);
+                } else throw new Error("File not found");
             } catch (e) {
-                console.error("Failed to load data.", e);
+                console.log(`Failed to load data for ${targetDate}.`);
             }
-            
             populateDropdown();
             
-            if (allGames.length > 0) {
-                renderCard();
-            } else {
-                document.getElementById('team-name').textContent = "NO LINEUPS YET";
-                document.getElementById('matchup-info').textContent = "Check back closer to tipoff.";
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetFixture = urlParams.get('fixture');
+            
+            if (targetFixture && allMatches.find(m => m.fixture.id == targetFixture)) {
+                document.getElementById('match-selector').value = targetFixture;
+                renderMatch(parseInt(targetFixture));
+            } else if (allMatches.length > 0) {
+                renderMatch(allMatches[0].fixture.id);
             }
         }
 
         function populateDropdown() {
-            const select = document.getElementById('game-selector');
+            const select = document.getElementById('match-selector');
             select.innerHTML = '';
-            allGames.forEach((g, idx) => {
+            allMatches.forEach(m => {
                 const opt = document.createElement('option');
-                opt.value = idx;
-                opt.textContent = `${g.teams[0]} @ ${g.teams[1]}`;
+                opt.value = m.fixture.id;
+                opt.textContent = `${m.teams.home.name} vs ${m.teams.away.name}`;
                 select.appendChild(opt);
             });
-            select.addEventListener('change', () => renderCard());
-            document.getElementById('team-selector').addEventListener('change', () => renderCard());
+            select.addEventListener('change', (e) => { renderMatch(parseInt(e.target.value)); });
         }
 
-        function applyTeamTheme(abbr) {
-            const theme = NBA_TEAMS[abbr];
-            if (theme) {
-                let primaryColor = theme.primary === "#ffffff" ? theme.secondary : theme.primary;
-                document.documentElement.style.setProperty('--team-primary', primaryColor);
-                document.documentElement.style.setProperty('--team-secondary', theme.secondary);
+        function sliceArrayByFormation(formationStr, startXI) {
+            const parts = formationStr.split('-').map(Number);
+            const rows = [];
+            rows.push([startXI[0]]);
+            let currentIndex = 1;
+            for (let i = 0; i < parts.length; i++) {
+                const count = parts[i];
+                rows.push(startXI.slice(currentIndex, currentIndex + count));
+                currentIndex += count;
+            }
+            return rows;
+        }
+
+        function getYPositions(numRows, isHome) {
+            const homeStart = 95, homeEnd = 58;
+            const awayStart = 5, awayEnd = 42;
+
+            if (isHome) {
+                const step = (homeStart - homeEnd) / Math.max(1, numRows - 1);
+                return Array.from({length: numRows}, (_, i) => homeStart - (step * i));
+            } else {
+                const step = (awayEnd - awayStart) / Math.max(1, numRows - 1);
+                return Array.from({length: numRows}, (_, i) => awayStart + (step * i));
             }
         }
 
-        function renderCard() {
-            if(allGames.length === 0) return;
-
-            const gameIdx = document.getElementById('game-selector').value;
-            const side = document.getElementById('team-selector').value;
-            const game = allGames[gameIdx];
-
-            const awayAbbr = game.teams[0];
-            const homeAbbr = game.teams[1];
+        function getXPositions(numPlayers) {
+            if (numPlayers === 1) return [50];
+            if (numPlayers === 2) return [35, 65]; 
+            if (numPlayers === 3) return [20, 50, 80];
+            if (numPlayers === 4) return [15, 38.33, 61.66, 85];
+            if (numPlayers === 5) return [10, 30, 50, 70, 90];
+            if (numPlayers === 6) return [8, 24.8, 41.6, 58.4, 75.2, 92];
             
-            const targetAbbr = side === 'home' ? homeAbbr : awayAbbr;
-            const oppAbbr = side === 'home' ? awayAbbr : homeAbbr;
-            const isHome = side === 'home';
+            let positions = [];
+            let step = 80 / (numPlayers - 1);
+            for(let i=0; i<numPlayers; i++) {
+                positions.push(10 + (step * i));
+            }
+            return positions;
+        }
 
-            const targetData = NBA_TEAMS[targetAbbr];
-            const oppData = NBA_TEAMS[oppAbbr];
+        function renderMatch(fixtureId) {
+            const match = allMatches.find(m => m.fixture.id === fixtureId);
+            if (!match) return;
 
-            applyTeamTheme(targetAbbr);
+            document.getElementById('home-name').textContent = match.teams.home.name;
+            document.getElementById('home-logo').src = match.teams.home.logo;
+            document.getElementById('home-formation').textContent = match.homeLineup.formation;
 
-            document.getElementById('team-name').textContent = targetData ? targetData.name : targetAbbr;
-            document.getElementById('matchup-info').textContent = `${isHome ? 'VS' : '@'} ${oppData ? oppData.name : oppAbbr}  |  ${game.date}`;
-            
-            const logoUrl = getNbaLogo(targetAbbr);
-            document.getElementById('team-logo').src = logoUrl;
-            document.getElementById('watermark').src = logoUrl;
+            document.getElementById('away-name').textContent = match.teams.away.name;
+            document.getElementById('away-logo').src = match.teams.away.logo;
+            document.getElementById('away-formation').textContent = match.awayLineup.formation;
+
+            // Set central watermarks
+            document.getElementById('home-watermark').src = match.teams.home.logo;
+            document.getElementById('away-watermark').src = match.teams.away.logo;
+
+            let homeColor = match.homeLineup.team?.colors?.player?.primary ? `#${match.homeLineup.team.colors.player.primary}` : '#ffffff';
+            let awayColor = match.awayLineup.team?.colors?.player?.primary ? `#${match.awayLineup.team.colors.player.primary}` : '#dddddd';
 
             const container = document.getElementById('players-container');
             container.innerHTML = '';
 
-            const roster = game.rosters[targetAbbr].players.slice(0, 5);
+            const homeRows = sliceArrayByFormation(match.homeLineup.formation, match.homeLineup.startXI);
+            const awayRows = sliceArrayByFormation(match.awayLineup.formation, match.awayLineup.startXI);
 
-            roster.forEach((player, index) => {
-                const pos = POSITIONS[index];
-                const coords = COURT_COORDS[index];
+            function drawTeam(rows, isHome, teamColor) {
+                const numRows = rows.length;
+                const yPositions = getYPositions(numRows, isHome); 
                 
-                const dbPlayer = getPlayerData(player.name);
-                const photoUrl = dbPlayer ? dbPlayer.photo : null;
-                const jerseyNum = dbPlayer && dbPlayer.jersey ? dbPlayer.jersey : "";
+                rows.forEach((rowPlayers, rowIndex) => {
+                    if (!rowPlayers || rowPlayers.length === 0) return;
+                    
+                    const yPos = yPositions[rowIndex];
+                    const numPlayers = rowPlayers.length;
+                    const xPositions = getXPositions(numPlayers); 
+                    
+                    const playersToDraw = isHome ? [...rowPlayers].reverse() : rowPlayers;
 
-                const nameParts = player.name.split(' ');
-                let lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : player.name;
-                if (lastName.length > 12) lastName = lastName.substring(0, 10) + '.';
+                    const baseZIndex = isHome ? (100 - rowIndex) : (10 + rowIndex);
 
-                const photoHtml = photoUrl 
-                    ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous">` 
-                    : `<div class="fallback-silhouette"></div>`;
+                    playersToDraw.forEach((slot, colIndex) => {
+                        const p = slot.player;
+                        const xPos = xPositions[colIndex];
 
-                const html = `
-                    <div class="player-node" style="left: ${coords.x}%; top: ${coords.y}%;">
-                        <div class="node-pos-badge">${pos}</div>
-                        ${jerseyNum ? `<div class="player-number">${jerseyNum}</div>` : ''}
-                        <div class="player-photo-container">
-                            ${photoHtml}
-                        </div>
-                        <div class="player-nameplate">${lastName}</div>
-                    </div>
-                `;
-                container.insertAdjacentHTML('beforeend', html);
-            });
+                        const nameParts = p.name.split(' ');
+                        let displayName = nameParts.length > 1 ? nameParts[nameParts.length - 1] : p.name;
+                        if (displayName.length > 12) displayName = displayName.substring(0, 10) + '.';
+
+                        let photoHtml = `<div class="fallback-initials">${p.name.charAt(0).toUpperCase()}</div>`;
+                        if (p.photo && p.photo.includes("http")) {
+                            photoHtml = `<img src="${p.photo}" class="player-photo" crossorigin="anonymous">`;
+                        }
+
+                        const nodeHtml = `
+                            <div class="player-node" style="left: ${xPos}%; top: ${yPos}%; z-index: ${baseZIndex}; --node-color: ${teamColor};">
+                                <div class="player-photo-container">
+                                    <div class="player-number">${p.number || ''}</div>
+                                    ${photoHtml}
+                                </div>
+                                <div class="player-nameplate">${displayName}</div>
+                            </div>
+                        `;
+                        container.insertAdjacentHTML('beforeend', nodeHtml);
+                    });
+                });
+            }
+
+            drawTeam(awayRows, false, awayColor);
+            drawTeam(homeRows, true, homeColor);
         }
 
         function takeScreenshot() {
             const capture = document.getElementById('capture-area');
             capture.style.opacity = '0.5';
             setTimeout(() => { capture.style.opacity = '1'; }, 100);
-            alert("Ready! Playwright will capture #capture-area as a 1080x1080 square.");
+            alert("Ready! Your Python bot will capture this mobile-optimized 1080x1350 layout.");
+        }
+
+        function copyTweetText() {
+            const select = document.getElementById('match-selector');
+            const match = allMatches.find(m => m.fixture.id === parseInt(select.value));
+            if (!match) return;
+
+            const homeName = match.teams.home.name;
+            const awayName = match.teams.away.name;
+            const homeHashtag = "#" + homeName.replace(/[^a-zA-Z0-9]/g, '');
+            const awayHashtag = "#" + awayName.replace(/[^a-zA-Z0-9]/g, '');
+
+            const tweetText = `🚨 Official Starting XI 🚨\n\n⚽ ${homeName} vs ${awayName}\n\n${homeHashtag} ${awayHashtag}`;
+
+            navigator.clipboard.writeText(tweetText).then(() => {
+                const btn = document.getElementById('copy-btn');
+                btn.textContent = "✅ Copied!";
+                btn.style.backgroundColor = "#198754";
+                btn.style.borderColor = "#198754";
+                setTimeout(() => {
+                    btn.textContent = "📋 Copy Tweet Text";
+                    btn.style.backgroundColor = "#333";
+                    btn.style.borderColor = "#444";
+                }, 2000);
+            });
         }
 
         loadData();
