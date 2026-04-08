@@ -1,81 +1,166 @@
-async function loadData() {
-            try {
-                const urlParams = new URLSearchParams(window.location.search);
-                let targetDate = urlParams.get('date');
-                
-                // TIMEZONE ALIGNMENT: Ensures the browser perfectly matches the Python bot's "today"
-                if (!targetDate) {
-                    const estDate = new Date(new Date().toLocaleString("en-US", {timeZone: "America/New_York"}));
-                    const yyyy = estDate.getFullYear();
-                    const mm = String(estDate.getMonth() + 1).padStart(2, '0');
-                    const dd = String(estDate.getDate()).padStart(2, '0');
-                    targetDate = `${yyyy}-${mm}-${dd}`;
-                }
-                
-                document.getElementById('date-indicator').value = targetDate;
-                
-                const [nbaRes, playersRes] = await Promise.all([
-                    fetch(`https://nbastartingfive.com/data/${targetDate}.json?v=${new Date().getTime()}`),
-                    fetch('data/players.json') 
-                ]);
-
-                if (nbaRes.ok) {
-                    const data = await nbaRes.json();
-                    
-                    // STRICT FILTER RESTORED: Only allows games into the dropdown if AT LEAST ONE 
-                    // team has 5 verified starters.
-                    allGames = data.games.filter(g => {
-                        if (g.date !== targetDate) return false;
-                        if (!g.teams || !g.rosters) return false;
-                        
-                        const t1 = g.teams[0];
-                        const t2 = g.teams[1];
-                        
-                        const hasRoster1 = g.rosters[t1] && g.rosters[t1].players && g.rosters[t1].players.length >= 5;
-                        const hasRoster2 = g.rosters[t2] && g.rosters[t2].players && g.rosters[t2].players.length >= 5;
-                        
-                        if (!hasRoster1 && !hasRoster2) return false;
-
-                        // Check the Python verified flag
-                        const t1Verified = hasRoster1 && g.rosters[t1].players.slice(0, 5).every(p => p.verified === true);
-                        const t2Verified = hasRoster2 && g.rosters[t2].players.slice(0, 5).every(p => p.verified === true);
-
-                        return t1Verified || t2Verified;
-                    });
-                }
-                
-                if (playersRes.ok) {
-                    playerDatabase = await playersRes.json();
-                    console.log("✅ Player Database loaded successfully!");
-                }
-
-            } catch (e) {
-                console.error("Failed to load data.", e);
-            }
-            
-            populateDropdown();
-            
-            const urlParams = new URLSearchParams(window.location.search);
-            const botTeam = urlParams.get('team');
-            const botSide = urlParams.get('side');
-
-            // Find game by Team Abbreviation
-            if (botTeam !== null) {
-                const foundIndex = allGames.findIndex(g => g.teams.includes(botTeam));
-                if (foundIndex !== -1) {
-                    document.getElementById('game-selector').value = foundIndex;
-                }
-            }
-            
-            if (botSide !== null) {
-                document.getElementById('team-selector').value = botSide;
-            }
-
-            if (allGames.length > 0) {
-                renderCard();
-            } else {
-                document.getElementById('team-name').textContent = "NO LINEUPS YET";
-                document.getElementById('team-name').setAttribute('data-text', "NO LINEUPS YET");
-                document.getElementById('matchup-info').textContent = "Check back closer to tipoff.";
-            }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA Starting 5 - Tactical Square</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&family=Oswald:wght@500;700&family=Montserrat:ital,wght@0,800;1,900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --team-primary: #17408B; 
+            --team-secondary: #C9082A;
+            --bg-wood: #eacc98; 
+            --text-dark: #111; 
         }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #050302; 
+            font-family: 'Oswald', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #controls {
+            margin-bottom: 20px;
+            background: #222;
+            padding: 15px 25px;
+            border-radius: 8px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.8);
+            z-index: 100;
+        }
+
+        select, button, input {
+            padding: 8px 16px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #555;
+            background: #333;
+            color: white;
+            cursor: pointer;
+            font-family: 'Oswald', sans-serif;
+        }
+
+        button:hover { background: #555; }
+
+        #capture-area {
+            width: 1080px;
+            height: 1080px; 
+            background-color: var(--bg-wood);
+            background-image: repeating-linear-gradient(
+                to right,
+                rgba(0, 0, 0, 0.05) 0px,
+                rgba(0, 0, 0, 0.05) 50px,
+                rgba(255, 255, 255, 0.05) 50px,
+                rgba(255, 255, 255, 0.05) 100px
+            );
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+            color: var(--text-dark);
+            border-top: 15px solid var(--team-primary);
+            border-bottom: 15px solid var(--team-primary);
+        }
+
+        .arena-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 350px;
+            background: radial-gradient(ellipse at top, var(--team-primary) 0%, transparent 70%);
+            opacity: 0.15; 
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        #header {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 30px 50px 10px; 
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header-left { display: flex; flex-direction: column; }
+
+        .starting-tag {
+            font-family: 'Teko', sans-serif;
+            font-size: 40px; 
+            color: var(--text-dark);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            line-height: 1;
+            text-shadow: 1px 1px 0px rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+        }
+
+        #team-name {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-style: italic;
+            font-size: 75px; 
+            margin: 0;
+            line-height: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--team-primary);
+            position: relative;
+            z-index: 1;
+        }
+
+        #team-name::before {
+            content: attr(data-text); 
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: -1;
+            -webkit-text-stroke: 6px #fff; 
+            text-shadow: 4px 4px 0px var(--team-secondary);
+        }
+
+        #matchup-info {
+            font-family: 'Oswald', sans-serif;
+            font-size: 24px;
+            color: #444;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        #team-logo {
+            width: 140px; 
+            height: 140px;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+        }
+
+        #court-scene {
+            width: 100%;
+            height: 850px; 
+            position: absolute;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        #court {
+            width: 960px; 
+            height:
