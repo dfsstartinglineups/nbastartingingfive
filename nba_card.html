@@ -13,14 +13,17 @@
             /* Default Fallback Colors */
             --team-primary: #17408B; 
             --team-secondary: #C9082A;
-            --bg-dark: #0a0b0d;
+            /* CHANGED: Warm, dark hardwood base colors */
+            --bg-dark: #1a110a; 
+            --wood-grain: #2d1d11; 
             --text-light: #f8f9fa;
         }
 
         body {
             margin: 0;
             padding: 20px;
-            background-color: #000;
+            /* Darker background outside the canvas to make the court pop */
+            background-color: #050302; 
             font-family: 'Oswald', sans-serif;
             display: flex;
             flex-direction: column;
@@ -61,9 +64,9 @@
             width: 1080px;
             height: 1080px; 
             background-color: var(--bg-dark);
-            /* Subtle Dark Hardwood Floor CSS Pattern */
+            /* CHANGED: Warmer Hardwood Floor CSS Pattern */
             background-image: 
-                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(255,255,255,0.02) 100px, transparent 100px);
             background-size: 40px 100px;
             position: relative;
@@ -85,7 +88,7 @@
             width: 100%;
             height: 350px;
             background: radial-gradient(ellipse at top, var(--team-primary) 0%, transparent 70%);
-            opacity: 0.3;
+            opacity: 0.25; /* Slightly less opaque so it doesn't wash out the wood */
             z-index: 1;
             pointer-events: none;
         }
@@ -174,7 +177,8 @@
             height: 350px; 
             border: 4px solid var(--team-primary);
             border-bottom: none;
-            background: linear-gradient(to top, rgba(255,255,255,0.05), transparent);
+            /* CHANGED: Subtle wood stain inside the paint */
+            background: linear-gradient(to top, rgba(0,0,0,0.2), transparent);
         }
 
         .free-throw-circle {
@@ -270,7 +274,6 @@
             width: 115%; 
             height: 115%; 
             object-fit: cover; 
-            /* FIXED: Nudged up from 15px to 5px to raise the player's head */
             object-position: center 5px; 
         }
         
