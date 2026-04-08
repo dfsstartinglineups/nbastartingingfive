@@ -10,10 +10,8 @@
     
     <style>
         :root {
-            /* Default Fallback Colors */
             --team-primary: #17408B; 
             --team-secondary: #C9082A;
-            /* Light blonde maple hardwood colors */
             --bg-wood: #eacc98; 
             --text-dark: #111; 
         }
@@ -28,7 +26,6 @@
             align-items: center;
         }
 
-        /* --- UI Controls --- */
         #controls {
             margin-bottom: 20px;
             background: #222;
@@ -55,9 +52,6 @@
 
         button:hover { background: #555; }
 
-        /* =========================================
-           THE EXPORTABLE CANVAS (1080x1080 SQUARE)
-           ========================================= */
         #capture-area {
             width: 1080px;
             height: 1080px; 
@@ -80,7 +74,6 @@
             border-bottom: 15px solid var(--team-primary);
         }
 
-        /* Top Glowing Light Effect */
         .arena-glow {
             position: absolute;
             top: 0;
@@ -93,7 +86,6 @@
             pointer-events: none;
         }
 
-        /* --- Header Section --- */
         #header {
             width: 100%;
             box-sizing: border-box;
@@ -159,7 +151,6 @@
             filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
         }
 
-        /* --- Tactical Half-Court --- */
         #court-scene {
             width: 100%;
             height: 850px; 
@@ -180,7 +171,6 @@
             box-shadow: inset 0 0 50px rgba(0,0,0,0.1);
         }
 
-        /* Court Painted Lines */
         .paint-area {
             position: absolute;
             bottom: 0;
@@ -235,7 +225,6 @@
             border-radius: 50%;
         }
 
-        /* The Massive Ghost Watermark */
         .watermark-logo {
             position: absolute;
             top: 45%;
@@ -250,7 +239,6 @@
             filter: grayscale(100%) brightness(50%);
         }
 
-        /* --- Player Nodes --- */
         .player-node {
             position: absolute;
             display: flex;
@@ -298,7 +286,6 @@
             background-repeat: no-repeat;
         }
 
-        /* UPPER LEFT FLOATING POSITION */
         .player-position {
             position: absolute;
             top: -5px; 
@@ -319,7 +306,6 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
 
-        /* UPPER RIGHT FLOATING NUMBER */
         .player-number {
             position: absolute;
             top: -5px; 
@@ -340,7 +326,6 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
 
-        /* UNIFIED NAMEPLATE */
         .nameplate-wrapper {
             display: flex;
             align-items: stretch;
@@ -369,6 +354,9 @@
 <body>
 
     <div id="controls">
+        <label>Date:</label>
+        <input type="text" id="date-indicator" readonly style="width: 100px; text-align: center; background: #444; border: 1px solid #555; color: #ccc;">
+        
         <label>Game:</label>
         <select id="game-selector"></select>
         
@@ -479,17 +467,39 @@
 
         async function loadData() {
             try {
+                // Fetch the Data
                 const [nbaRes, playersRes] = await Promise.all([
                     fetch('https://nbastartingfive.com/nba_data.json'),
                     fetch('data/players.json') 
                 ]);
+
+                // =========================================
+                // NEW: DATE IDENTIFIER LOGIC
+                // =========================================
+                const urlParams = new URLSearchParams(window.location.search);
+                let targetDate = urlParams.get('date');
+                
+                // If the bot didn't pass a date, figure out what "today" is
+                if (!targetDate) {
+                    const today = new Date();
+                    const yyyy = today.getFullYear();
+                    const mm = String(today.getMonth() + 1).padStart(2, '0');
+                    const dd = String(today.getDate()).padStart(2, '0');
+                    targetDate = `${yyyy}-${mm}-${dd}`;
+                }
+                
+                // Show the target date in the UI control bar so you know what day you are looking at
+                document.getElementById('date-indicator').value = targetDate;
                 
                 if (nbaRes.ok) {
                     const data = await nbaRes.json();
                     
-                    // FIX: Strict verification filter!
-                    // We only allow games into the dropdown if AT LEAST ONE team has 5 verified starters.
+                    // NEW: Filter the array by DATE first, then by valid rosters!
                     allGames = data.games.filter(g => {
+                        // 1. Drop any game that doesn't match our target date
+                        if (g.date !== targetDate) return false;
+                        
+                        // 2. Ensure the game has team and roster data
                         if (!g.teams || !g.rosters) return false;
                         const t1 = g.teams[0];
                         const t2 = g.teams[1];
@@ -499,7 +509,7 @@
                         
                         if (!hasRoster1 && !hasRoster2) return false;
 
-                        // Check the Python verified flag
+                        // 3. Ensure at least one side is completely verified
                         const t1Verified = hasRoster1 && g.rosters[t1].players.slice(0, 5).every(p => p.verified === true);
                         const t2Verified = hasRoster2 && g.rosters[t2].players.slice(0, 5).every(p => p.verified === true);
 
@@ -518,6 +528,23 @@
             
             populateDropdown();
             
+            // ==========================================
+            // NEW: LISTEN TO THE PYTHON BOT'S URL COMMANDS
+            // ==========================================
+            const urlParams = new URLSearchParams(window.location.search);
+            const botGameIdx = urlParams.get('gameIdx');
+            const botSide = urlParams.get('side');
+
+            // If the bot passed a game index, force the dropdown to select it
+            if (botGameIdx !== null && allGames[botGameIdx]) {
+                document.getElementById('game-selector').value = botGameIdx;
+            }
+            
+            // If the bot passed a side (home/away), force the dropdown to select it
+            if (botSide !== null) {
+                document.getElementById('team-selector').value = botSide;
+            }
+
             if (allGames.length > 0) {
                 renderCard();
             } else {
@@ -584,9 +611,6 @@
 
             const roster = game.rosters[targetAbbr].players.slice(0, 5);
 
-            // FIX: Dynamic Header Check
-            // If you load a game where the opponent is verified, but THIS selected team is not,
-            // it dynamically changes the text to "PROJECTED 5" so you don't accidentally post misinformation.
             const isOfficial = roster.every(p => p.verified === true);
             const tagEl = document.getElementById('starting-tag');
             
