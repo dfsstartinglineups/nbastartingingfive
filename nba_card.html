@@ -183,10 +183,11 @@
             left: 50%;
             transform: translateX(-50%);
             width: 120px;
-            height: 120px;
+            height: 60px; /* Cut height in half */
             border: 4px solid var(--team-primary);
-            border-radius: 50%;
-            background: var(--bg-dark);
+            border-bottom: none; /* Remove bottom line */
+            border-radius: 60px 60px 0 0; /* Perfect half-circle arch */
+            background: transparent; /* Removes the black hole effect! */
             z-index: 1;
         }
 
@@ -235,7 +236,7 @@
         /* --- Player Nodes (INCREASED SIZE) --- */
         .player-node {
             position: absolute;
-            width: 170px; /* INCREASED width to hold larger photo */
+            width: 170px; 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -247,7 +248,7 @@
             background: var(--team-primary);
             color: white;
             font-family: 'Teko', sans-serif;
-            font-size: 24px; /* INCREASED */
+            font-size: 24px; 
             padding: 2px 14px;
             border-radius: 4px;
             margin-bottom: -10px;
@@ -257,10 +258,10 @@
         }
 
         .player-photo-container {
-            width: 125px;  /* SIGNIFICANTLY INCREASED from 90px */
-            height: 125px; /* SIGNIFICANTLY INCREASED from 90px */
+            width: 125px;  
+            height: 125px; 
             border-radius: 50%;
-            border: 5px solid var(--team-secondary); /* Thicker border */
+            border: 5px solid var(--team-secondary); 
             background-color: #222;
             box-shadow: 0 10px 25px rgba(0,0,0,0.8);
             z-index: 12;
@@ -293,26 +294,26 @@
             background-color: #111;
             color: white;
             border: 3px solid var(--team-secondary);
-            width: 44px; /* INCREASED */
-            height: 44px; /* INCREASED */
+            width: 44px; 
+            height: 44px; 
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             font-family: 'Teko', sans-serif;
-            font-size: 26px; /* INCREASED */
+            font-size: 26px; 
             font-weight: bold;
             z-index: 15;
         }
 
         .player-nameplate {
-            margin-top: -16px; /* Adjusted overlap for bigger photo */
+            margin-top: -16px; 
             background: rgba(10, 10, 10, 0.95);
             border: 1px solid rgba(255,255,255,0.2);
             padding: 6px 18px; 
             border-radius: 6px;
             font-family: 'Montserrat', sans-serif;
-            font-size: 19px; /* INCREASED */
+            font-size: 19px; 
             font-weight: 900;
             font-style: italic;
             text-transform: uppercase;
