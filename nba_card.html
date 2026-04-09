@@ -446,9 +446,11 @@
         let playerDatabase = {}; 
 
         function getNbaLogo(abbr) {
-            const team = NBA_TEAMS[abbr];
-            if(team) return `https://cdn.nba.com/logos/nba/${team.id}/global/L/logo.svg`;
-            return ''; 
+            if (!abbr) return '';
+            
+            // Points directly to your local folder. 
+            // (Make sure the extension matches what you downloaded: .svg or .png)
+            return `logos/${abbr}.svg`; 
         }
 
         function getPlayerData(playerName) {
