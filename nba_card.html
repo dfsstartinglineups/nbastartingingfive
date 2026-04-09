@@ -254,11 +254,12 @@
             justify-content: center;
         }
 
+        /* INCREASED SIZE: 155px -> 190px */
         .player-photo-container {
-            width: 155px;  
-            height: 155px; 
+            width: 190px;  
+            height: 190px; 
             border-radius: 50%;
-            border: 5px solid var(--team-secondary); 
+            border: 6px solid var(--team-secondary); 
             background-color: #222; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.4); 
             z-index: 12;
@@ -286,41 +287,43 @@
             background-repeat: no-repeat;
         }
 
+        /* INCREASED SIZE: 48px -> 58px */
         .player-position {
             position: absolute;
-            top: -5px; 
-            left: -5px; 
+            top: -8px; 
+            left: -8px; 
             background-color: var(--team-primary);
             color: white;
-            border: 3px solid var(--team-secondary);
-            width: 48px; 
-            height: 48px; 
+            border: 4px solid var(--team-secondary);
+            width: 58px; 
+            height: 58px; 
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             font-family: 'Teko', sans-serif;
-            font-size: 24px; 
+            font-size: 28px; 
             font-weight: bold;
             z-index: 15;
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
 
+        /* INCREASED SIZE: 48px -> 58px */
         .player-number {
             position: absolute;
-            top: -5px; 
-            right: -5px; 
+            top: -8px; 
+            right: -8px; 
             background-color: #fff;
             color: var(--text-dark);
-            border: 3px solid var(--team-secondary);
-            width: 48px; 
-            height: 48px; 
+            border: 4px solid var(--team-secondary);
+            width: 58px; 
+            height: 58px; 
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             font-family: 'Teko', sans-serif;
-            font-size: 26px; 
+            font-size: 30px; 
             font-weight: bold;
             z-index: 15;
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
@@ -329,20 +332,21 @@
         .nameplate-wrapper {
             display: flex;
             align-items: stretch;
-            margin-top: -18px; 
+            margin-top: -24px; /* Pulled up tighter to the larger circle */
             z-index: 14;
             box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-            border-radius: 6px;
+            border-radius: 8px;
             overflow: hidden;
             border: 1px solid rgba(0,0,0,0.1);
         }
 
+        /* INCREASED FONT SIZE & PADDING */
         .player-nameplate {
             background: #fff;
             color: var(--text-dark);
-            padding: 6px 20px; 
+            padding: 8px 24px; 
             font-family: 'Montserrat', sans-serif;
-            font-size: 20px; 
+            font-size: 24px; 
             font-weight: 900;
             font-style: italic;
             text-transform: uppercase;
@@ -447,35 +451,19 @@
 
         function getNbaLogo(abbr) {
             if (!abbr) return '';
-            
-            // Points directly to your local folder. 
-            // (Make sure the extension matches what you downloaded: .svg or .png)
             return `logos/${abbr}.svg`; 
         }
 
         function getPlayerData(playerName) {
             if (!playerName) return null;
         
-            // 1. Common NBA Nickname Map
             const nicknames = {
-                "cam": "cameron",
-                "cameron": "cam",
-                "steph": "stephen",
-                "stephen": "steph",
-                "trey": "trae",
-                "mo": "mohamed",
-                "mohamed": "mo",
-                "nico": "nicolas",
-                "nicolas": "nico"
+                "cam": "cameron", "cameron": "cam", "steph": "stephen", "stephen": "steph",
+                "trey": "trae", "mo": "mohamed", "mohamed": "mo", "nico": "nicolas", "nicolas": "nico"
             };
         
-            // 2. Helper to normalize names (removes accents like ć -> c and makes lowercase)
             const normalize = (str) => {
-                return str.toLowerCase()
-                    .trim()
-                    .normalize("NFD") 
-                    .replace(/[\u0300-\u036f]/g, "") // Strips accents
-                    .replace(/\./g, ""); // Strips dots (Jr. -> Jr)
+                return str.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\./g, ""); 
             };
         
             const cleanInput = normalize(playerName);
@@ -487,10 +475,8 @@
                 const dbName = normalize(playerDatabase[key].name || "");
                 const dbShort = normalize(playerDatabase[key].short_name || "");
         
-                // A. Direct Match
                 if (dbName === cleanInput || dbShort === cleanInput) return playerDatabase[key];
         
-                // B. Nickname Check (Check if the first name is a known variant)
                 if (nicknames[firstName]) {
                     const nicknameVariant = nicknames[firstName] + " " + lastName;
                     if (dbName === nicknameVariant || dbShort === nicknameVariant) {
@@ -498,8 +484,6 @@
                     }
                 }
         
-                // C. Fuzzy Fallback: Last Name + First Initial
-                // Useful for "Porter Jr" vs "Porter" issues
                 if (lastName.length > 2 && dbName.includes(lastName) && dbName.startsWith(firstName.charAt(0))) {
                     return playerDatabase[key];
                 }
@@ -527,9 +511,11 @@
                 
                 document.getElementById('date-indicator').value = targetDate;
                 
+                // Added the timestamp cache-buster to players.json here as well!
+                const timestamp = new Date().getTime();
                 const [nbaRes, playersRes] = await Promise.all([
-                    fetch(`https://nbastartingfive.com/data/${targetDate}.json?v=${new Date().getTime()}`),
-                    fetch('data/players.json') 
+                    fetch(`https://nbastartingfive.com/data/${targetDate}.json?v=${timestamp}`),
+                    fetch(`data/players.json?v=${timestamp}`) 
                 ]);
 
                 if (nbaRes.ok) {
@@ -547,9 +533,6 @@
                         
                         if (!hasRoster1 && !hasRoster2) return false;
 
-                        // ========================================================
-                        // 🛑 THE NEW "IS_OFFICIAL" ROSTER-LEVEL CHECK
-                        // ========================================================
                         const t1Verified = g.rosters[t1].is_official === true || (hasRoster1 && g.rosters[t1].players.slice(0, 5).every(p => p.verified === true));
                         const t2Verified = g.rosters[t2].is_official === true || (hasRoster2 && g.rosters[t2].players.slice(0, 5).every(p => p.verified === true));
 
@@ -600,7 +583,6 @@
                 const opt = document.createElement('option');
                 opt.value = idx;
                 
-                // ADD A CHECKMARK TO THE DROPDOWN SO YOU KNOW IT'S OFFICIAL
                 const t1 = g.teams[0];
                 const t2 = g.teams[1];
                 
@@ -662,9 +644,6 @@
 
             const roster = game.rosters[targetAbbr].players.slice(0, 5);
 
-            // ========================================================
-            // 🛑 THE NEW "IS_OFFICIAL" ROSTER-LEVEL CHECK
-            // ========================================================
             const isOfficial = game.rosters[targetAbbr].is_official === true || roster.every(p => p.verified === true);
             const tagEl = document.getElementById('starting-tag');
             
@@ -686,9 +665,16 @@
                 const photoUrl = dbPlayer ? dbPlayer.photo : null;
                 const jerseyNum = dbPlayer && dbPlayer.jersey ? dbPlayer.jersey : "";
 
-                const nameParts = player.name.split(' ');
-                let lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : player.name;
-                if (lastName.length > 12) lastName = lastName.substring(0, 10) + '.';
+                // ========================================================
+                // FULL NAME LOGIC
+                // ========================================================
+                let displayName = player.name;
+                
+                // Truncate only if the full name is excessively long (19+ characters) 
+                // so it doesn't break the CSS box width on the square.
+                if (displayName.length > 18) {
+                    displayName = displayName.substring(0, 16) + '...';
+                }
 
                 const photoHtml = (photoUrl && photoUrl.trim() !== '') 
                     ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` 
@@ -704,7 +690,7 @@
                             </div>
                         </div>
                         <div class="nameplate-wrapper">
-                            <div class="player-nameplate">${lastName}</div>
+                            <div class="player-nameplate">${displayName}</div>
                         </div>
                     </div>
                 `;
