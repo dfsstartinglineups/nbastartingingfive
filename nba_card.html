@@ -452,12 +452,57 @@
         }
 
         function getPlayerData(playerName) {
+            if (!playerName) return null;
+        
+            // 1. Common NBA Nickname Map
+            const nicknames = {
+                "cam": "cameron",
+                "cameron": "cam",
+                "steph": "stephen",
+                "stephen": "steph",
+                "trey": "trae",
+                "mo": "mohamed",
+                "mohamed": "mo",
+                "nico": "nicolas",
+                "nicolas": "nico"
+            };
+        
+            // 2. Helper to normalize names (removes accents like ć -> c and makes lowercase)
+            const normalize = (str) => {
+                return str.toLowerCase()
+                    .trim()
+                    .normalize("NFD") 
+                    .replace(/[\u0300-\u036f]/g, "") // Strips accents
+                    .replace(/\./g, ""); // Strips dots (Jr. -> Jr)
+            };
+        
+            const cleanInput = normalize(playerName);
+            const inputParts = cleanInput.split(" ");
+            const firstName = inputParts[0];
+            const lastName = inputParts.slice(1).join(" ");
+        
             for (const key in playerDatabase) {
-                if (playerDatabase[key].name === playerName || playerDatabase[key].short_name === playerName) {
-                    return playerDatabase[key]; 
+                const dbName = normalize(playerDatabase[key].name || "");
+                const dbShort = normalize(playerDatabase[key].short_name || "");
+        
+                // A. Direct Match
+                if (dbName === cleanInput || dbShort === cleanInput) return playerDatabase[key];
+        
+                // B. Nickname Check (Check if the first name is a known variant)
+                if (nicknames[firstName]) {
+                    const nicknameVariant = nicknames[firstName] + " " + lastName;
+                    if (dbName === nicknameVariant || dbShort === nicknameVariant) {
+                        return playerDatabase[key];
+                    }
+                }
+        
+                // C. Fuzzy Fallback: Last Name + First Initial
+                // Useful for "Porter Jr" vs "Porter" issues
+                if (lastName.length > 2 && dbName.includes(lastName) && dbName.startsWith(firstName.charAt(0))) {
+                    return playerDatabase[key];
                 }
             }
-            return null; 
+            return null;
         }
 
         function handleImageError(img) {
