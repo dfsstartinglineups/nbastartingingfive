@@ -233,10 +233,15 @@
             width: 500px; 
             height: 500px; 
             object-fit: contain;
-            opacity: 0.15; 
+            
+            /* UPDATED: Increased from 0.15 to 0.35 */
+            opacity: 0.35; 
+            
             z-index: 0;
             pointer-events: none;
-            filter: grayscale(100%) brightness(50%);
+            
+            /* UPDATED: Brought back 50% of the team color and brightened it */
+            filter: grayscale(50%) brightness(80%); 
         }
 
         .player-node {
