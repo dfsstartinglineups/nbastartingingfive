@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roster Mapping Auditor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&family=Oswald:wght@500;700&family=Montserrat:ital,wght@0,800;1,900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #050302; 
+            --text-light: #f1f3f5;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-dark); 
+            font-family: 'Oswald', sans-serif;
+            color: var(--text-light);
+        }
+
+        #controls {
+            margin-bottom: 30px;
+            background: #222;
+            padding: 15px 25px;
+            border-radius: 8px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.8);
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+        }
+
+        input, button {
+            padding: 8px 16px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #555;
+            background: #333;
+            color: white;
+            cursor: pointer;
+            font-family: 'Oswald', sans-serif;
+        }
+
+        button:hover { background: #555; }
+
+        /* Team Layout */
+        .team-section {
+            background: #111;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .team-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .team-logo {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+        }
+
+        .team-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 40px;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            margin: 0;
+            line-height: 1;
+        }
+
+        /* Player Grid */
+        .player-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 25px;
+        }
+
+        .player-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            position: relative;
+        }
+
+        .role-badge {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #444;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+
+        .role-starter { background: #198754; }
+        .role-bench { background: #6c757d; }
+
+        /* Photo Styles perfectly copied from your original code */
+        .player-photo-container {
+            width: 120px;  
+            height: 120px; 
+            border-radius: 50%;
+            border: 4px solid #444; 
+            background-color: #222; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4); 
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; 
+            margin-bottom: 15px;
+            margin-top: 5px;
+        }
+
+        .player-photo { 
+            width: 115%; 
+            height: 115%; 
+            object-fit: cover; 
+            object-position: center 5px; 
+        }
+        
+        .fallback-silhouette {
+            width: 100%;
+            height: 100%;
+            background-color: #2b2b2b;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="%23666666" xmlns="http://www.w3.org/2000/svg"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
+            background-size: 90%;
+            background-position: center 15px;
+            background-repeat: no-repeat;
+        }
+
+        .player-nameplate {
+            background: #fff;
+            color: #111;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px; 
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 8px;
+        }
+
+        .status-badge {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 3px 6px;
+            border-radius: 4px;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .status-mapped { background: rgba(25, 135, 84, 0.2); color: #20c997; border: 1px solid #198754; }
+        .status-no-photo { background: rgba(255, 193, 7, 0.2); color: #ffc107; border: 1px solid #ffc107; }
+        .status-unmapped { background: rgba(220, 53, 69, 0.2); color: #ff6b6b; border: 1px solid #dc3545; }
+
+    </style>
+</head>
+<body>
+
+    <div id="controls">
+        <label>Select Date:</label>
+        <input type="date" id="date-picker">
+        <button onclick="loadData()">Load Rosters</button>
+        <div style="margin-left: auto; font-size: 14px; color: #aaa;">
+            Check your teams for missing photos.
+        </div>
+    </div>
+
+    <div id="auditor-container">
+        <h2 style="text-align: center; color: #555;">Select a date to begin audit.</h2>
+    </div>
+
+    <script>
+        const NBA_TEAMS = {
+            "ATL": { name: "Hawks", primary: "#e03a3e", id: 1610612737 },
+            "BOS": { name: "Celtics", primary: "#007A33", id: 1610612738 },
+            "BKN": { name: "Nets", primary: "#000000", id: 1610612751 }, 
+            "CHA": { name: "Hornets", primary: "#1d1160", id: 1610612766 },
+            "CHI": { name: "Bulls", primary: "#ce1141", id: 1610612741 },
+            "CLE": { name: "Cavaliers", primary: "#860038", id: 1610612739 },
+            "DAL": { name: "Mavericks", primary: "#00538c", id: 1610612742 },
+            "DEN": { name: "Nuggets", primary: "#0e2240", id: 1610612743 },
+            "DET": { name: "Pistons", primary: "#c8102e", id: 1610612765 },
+            "GSW": { name: "Warriors", primary: "#1d428a", id: 1610612744 },
+            "HOU": { name: "Rockets", primary: "#ce1141", id: 1610612745 },
+            "IND": { name: "Pacers", primary: "#002d62", id: 1610612754 },
+            "LAC": { name: "Clippers", primary: "#c8102e", id: 1610612746 },
+            "LAL": { name: "Lakers", primary: "#552583", id: 1610612747 },
+            "MEM": { name: "Grizzlies", primary: "#5d76a9", id: 1610612763 },
+            "MIA": { name: "Heat", primary: "#98002e", id: 1610612748 },
+            "MIL": { name: "Bucks", primary: "#00471b", id: 1610612749 },
+            "MIN": { name: "Timberwolves", primary: "#0c2340", id: 1610612750 },
+            "NOP": { name: "Pelicans", primary: "#0c2340", id: 1610612740 },
+            "NYK": { name: "Knicks", primary: "#006bb6", id: 1610612752 },
+            "OKC": { name: "Thunder", primary: "#007ac1", id: 1610612760 },
+            "ORL": { name: "Magic", primary: "#0077c0", id: 1610612753 },
+            "PHI": { name: "76ers", primary: "#006bb6", id: 1610612755 },
+            "PHX": { name: "Suns", primary: "#1d1160", id: 1610612756 },
+            "POR": { name: "Trail Blazers", primary: "#e03a3e", id: 1610612757 },
+            "SAC": { name: "Kings", primary: "#5a2d81", id: 1610612758 },
+            "SAS": { name: "Spurs", primary: "#c4ced4", id: 1610612759 },
+            "TOR": { name: "Raptors", primary: "#ce1141", id: 1610612761 },
+            "UTA": { name: "Jazz", primary: "#002b5c", id: 1610612762 },
+            "WAS": { name: "Wizards", primary: "#002b5c", id: 1610612764 }
+        };
+
+        let playerDatabase = {}; 
+
+        // Set default date to today
+        document.addEventListener("DOMContentLoaded", () => {
+            const estDate = new Date(new Date().toLocaleString("en-US", {timeZone: "America/New_York"}));
+            const yyyy = estDate.getFullYear();
+            const mm = String(estDate.getMonth() + 1).padStart(2, '0');
+            const dd = String(estDate.getDate()).padStart(2, '0');
+            document.getElementById('date-picker').value = `${yyyy}-${mm}-${dd}`;
+            loadData();
+        });
+
+        // Exact Matcher Logic from your code
+        function getPlayerData(playerName) {
+            if (!playerName) return null;
+        
+            const nicknames = {
+                "cam": "cameron", "cameron": "cam", "steph": "stephen", "stephen": "steph",
+                "trey": "trae", "mo": "mohamed", "mohamed": "mo", "nico": "nicolas", "nicolas": "nico"
+            };
+        
+            const normalize = (str) => {
+                return str.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\./g, ""); 
+            };
+        
+            const cleanInput = normalize(playerName);
+            const inputParts = cleanInput.split(" ");
+            const firstName = inputParts[0];
+            const lastName = inputParts.slice(1).join(" ");
+        
+            for (const key in playerDatabase) {
+                const dbName = normalize(playerDatabase[key].name || "");
+                const dbShort = normalize(playerDatabase[key].short_name || "");
+        
+                if (dbName === cleanInput || dbShort === cleanInput) return playerDatabase[key];
+        
+                if (nicknames[firstName]) {
+                    const nicknameVariant = nicknames[firstName] + " " + lastName;
+                    if (dbName === nicknameVariant || dbShort === nicknameVariant) return playerDatabase[key];
+                }
+        
+                if (lastName.length > 2 && dbName.includes(lastName) && dbName.startsWith(firstName.charAt(0))) {
+                    return playerDatabase[key];
+                }
+            }
+            return null;
+        }
+
+        function handleImageError(img) {
+            const container = img.parentElement;
+            container.innerHTML = '<div class="fallback-silhouette"></div>';
+            // Update the badge if the image breaks at runtime
+            const card = container.closest('.player-card');
+            const badge = card.querySelector('.status-badge');
+            badge.className = 'status-badge status-unmapped';
+            badge.innerHTML = 'BROKEN IMAGE LINK ❌';
+        }
+
+        async function loadData() {
+            const targetDate = document.getElementById('date-picker').value;
+            const container = document.getElementById('auditor-container');
+            container.innerHTML = '<h2 style="text-align: center;">Loading data...</h2>';
+
+            try {
+                const [nbaRes, playersRes] = await Promise.all([
+                    fetch(`https://nbastartingfive.com/data/${targetDate}.json?v=${new Date().getTime()}`),
+                    fetch('data/players.json') 
+                ]);
+
+                if (playersRes.ok) {
+                    playerDatabase = await playersRes.json();
+                }
+
+                if (nbaRes.ok) {
+                    const data = await nbaRes.json();
+                    const dailyGames = data.games.filter(g => g.date === targetDate);
+                    
+                    if (dailyGames.length === 0) {
+                        container.innerHTML = '<h2 style="text-align: center; color: #ff6b6b;">No games found for this date.</h2>';
+                        return;
+                    }
+
+                    container.innerHTML = ''; // Clear loading text
+
+                    // Extract all unique teams playing today
+                    dailyGames.forEach(game => {
+                        game.teams.forEach(teamAbbr => {
+                            if (game.rosters && game.rosters[teamAbbr] && game.rosters[teamAbbr].players) {
+                                renderTeamAudit(teamAbbr, game.rosters[teamAbbr].players);
+                            }
+                        });
+                    });
+
+                } else {
+                    container.innerHTML = '<h2 style="text-align: center; color: #ff6b6b;">Schedule JSON not found for this date.</h2>';
+                }
+
+            } catch (e) {
+                console.error("Failed to load data.", e);
+                container.innerHTML = '<h2 style="text-align: center; color: #ff6b6b;">Error fetching data. Check console.</h2>';
+            }
+        }
+
+        function renderTeamAudit(teamAbbr, roster) {
+            const container = document.getElementById('auditor-container');
+            const teamData = NBA_TEAMS[teamAbbr] || { name: teamAbbr, primary: "#333" };
+            
+            // Build the Team Section Wrapper
+            const section = document.createElement('div');
+            section.className = 'team-section';
+            section.style.borderTop = `5px solid ${teamData.primary}`;
+
+            // Build Team Header
+            const header = document.createElement('div');
+            header.className = 'team-header';
+            header.innerHTML = `
+                <img src="logos/${teamAbbr}.svg" class="team-logo" alt="${teamAbbr} logo" onerror="this.src='logos/${teamAbbr}.png'">
+                <h2 class="team-name" style="color: ${teamData.primary}">${teamData.name} (${teamAbbr})</h2>
+            `;
+            section.appendChild(header);
+
+            // Build Player Grid
+            const grid = document.createElement('div');
+            grid.className = 'player-grid';
+
+            roster.forEach((player, index) => {
+                // Determine if they are a starter or bench player based on array index
+                const isStarter = index < 5;
+                const roleClass = isStarter ? 'role-starter' : 'role-bench';
+                const roleText = isStarter ? 'STARTER' : 'BENCH';
+
+                const dbPlayer = getPlayerData(player.name);
+                const photoUrl = dbPlayer ? dbPlayer.photo : null;
+                
+                // Diagnostic Logic
+                let statusHtml = '';
+                let photoHtml = '';
+
+                if (!dbPlayer) {
+                    statusHtml = '<div class="status-badge status-unmapped">UNMAPPED 🔴</div>';
+                    photoHtml = '<div class="fallback-silhouette"></div>';
+                } else if (!photoUrl || photoUrl.trim() === '') {
+                    statusHtml = '<div class="status-badge status-no-photo">NO PHOTO 🟠</div>';
+                    photoHtml = '<div class="fallback-silhouette"></div>';
+                } else {
+                    statusHtml = '<div class="status-badge status-mapped">MAPPED 🟢</div>';
+                    photoHtml = `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">`;
+                }
+
+                const cardHtml = `
+                    <div class="player-card">
+                        <div class="role-badge ${roleClass}">${roleText}</div>
+                        <div class="player-photo-container" style="border-color: ${teamData.primary}">
+                            ${photoHtml}
+                        </div>
+                        <div class="player-nameplate">${player.name}</div>
+                        ${statusHtml}
+                    </div>
+                `;
+                
+                grid.insertAdjacentHTML('beforeend', cardHtml);
+            });
+
+            section.appendChild(grid);
+            container.appendChild(section);
+        }
+    </script>
+</body>
+</html>
