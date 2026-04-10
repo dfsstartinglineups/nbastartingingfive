@@ -489,6 +489,10 @@ async function init(dateToFetch) {
             const awayStd = getStandardAbbr(awayTeamData.team.abbreviation);
             const espnGameDate = new Date(game.date).toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
 
+            // 🛑 LOCAL LOGO OVERRIDE: Point the frontend to your local SVG folder
+            homeTeamData.team.logo = `logos/${homeStd}.svg`;
+            awayTeamData.team.logo = `logos/${awayStd}.svg`;
+
             const localGameMatch = localProbables.find(g => {
                 if (!g.teams || g.teams.length < 2) return false;
                 const t1 = getStandardAbbr(g.teams[0]);
@@ -789,8 +793,10 @@ window.buildNewsListHtml = function(newsItems) {
             ? `<img src="${photo}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1px solid #dee2e6; background: #fff;">`
             : `<div style="width: 40px; height: 40px; border-radius: 50%; background-color: #f8f9fa; color: #495057; display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 800; border: 1px solid #dee2e6;">${news.player_name.charAt(0)}</div>`;
         
-        const teamLogo = `https://a.espncdn.com/i/teamlogos/nba/500/${news.team.toLowerCase()}.png`;
-        const teamBadge = `<img src="${teamLogo}" style="width: 18px; height: 18px; position: absolute; bottom: -2px; right: -4px; border-radius: 50%; background: #fff; border: 1px solid #dee2e6; object-fit: contain; padding: 1px;">`;
+        // 🛑 LOCAL LOGO OVERRIDE FOR NEWS BADGES
+        const stdTeamAbbr = getStandardAbbr(news.team);
+        const teamLogo = `logos/${stdTeamAbbr}.svg`;
+        const teamBadge = `<img src="${teamLogo}" style="width: 18px; height: 18px; position: absolute; bottom: -2px; right: -4px; border-radius: 50%; background: #fff; border: 1px solid #dee2e6; object-fit: contain; padding: 1px;" onerror="this.style.display='none'">`;
         
         let shortName = shortenPlayerName(news.player_name);
 
