@@ -1,5 +1,5 @@
 {
-  "last_updated": "Apr 09, 09:42 PM ET",
+  "last_updated": "Apr 09, 09:44 PM ET",
   "player_news": [
     {
       "player_name": "Malevy Leons",
@@ -7,7 +7,7 @@
       "position": "PF",
       "status_badge": "B",
       "description": "Off the ench",
-      "time_elapsed": "5m",
+      "time_elapsed": "7m",
       "next_game": "Thursday vs LAL",
       "local_timestamp": 1775785175.1022832
     },
@@ -17,7 +17,7 @@
       "position": "C",
       "status_badge": "B",
       "description": "Off the ench",
-      "time_elapsed": "6m",
+      "time_elapsed": "8m",
       "next_game": "Thursday @GSW",
       "local_timestamp": 1775785175.1022832
     },
@@ -37,7 +37,7 @@
       "position": "PF",
       "status_badge": "LR",
       "description": "In the Locker Room shoulder",
-      "time_elapsed": "1.2h",
+      "time_elapsed": "1.3h",
       "next_game": "Thursday @WAS",
       "local_timestamp": 1775780973.5774515
     },
@@ -857,7 +857,7 @@
       "position": "SF",
       "status_badge": "S",
       "description": "tarting",
-      "time_elapsed": "5m",
+      "time_elapsed": "7m",
       "next_game": "Thursday vs LAL",
       "local_timestamp": 1775093868.006261
     },
@@ -3042,6 +3042,7 @@
                 "type": "team",
                 "order": 0,
                 "homeAway": "home",
+                "winner": false,
                 "team": {
                   "id": "17",
                   "uid": "s:40~l:46~t:17",
@@ -3374,14 +3375,14 @@
                 "records": [
                   {
                     "name": "overall",
-                    "abbreviation": "Total",
+                    "abbreviation": "Game",
                     "type": "total",
-                    "summary": "20-59"
+                    "summary": "20-60"
                   },
                   {
                     "name": "Home",
                     "type": "home",
-                    "summary": "12-28"
+                    "summary": "12-29"
                   },
                   {
                     "name": "Road",
@@ -3396,6 +3397,7 @@
                 "type": "team",
                 "order": 1,
                 "homeAway": "away",
+                "winner": true,
                 "team": {
                   "id": "11",
                   "uid": "s:40~l:46~t:11",
@@ -3728,9 +3730,9 @@
                 "records": [
                   {
                     "name": "overall",
-                    "abbreviation": "Total",
+                    "abbreviation": "Game",
                     "type": "total",
-                    "summary": "18-61"
+                    "summary": "19-61"
                   },
                   {
                     "name": "Home",
@@ -3740,67 +3742,24 @@
                   {
                     "name": "Road",
                     "type": "road",
-                    "summary": "7-33"
+                    "summary": "8-33"
                   }
                 ]
               }
             ],
             "notes": [],
-            "situation": {
-              "lastPlay": {
-                "id": "401811022666",
-                "type": {
-                  "id": "155",
-                  "text": "Defensive Rebound"
-                },
-                "text": "Taelon Peter defensive rebound",
-                "scoreValue": 0,
-                "team": {
-                  "id": "11"
-                },
-                "probability": {
-                  "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.001,
-                  "awayWinPercentage": 0.999
-                },
-                "athletesInvolved": [
-                  {
-                    "id": "4703421",
-                    "fullName": "Taelon Peter",
-                    "displayName": "Taelon Peter",
-                    "shortName": "T. Peter",
-                    "links": [
-                      {
-                        "rel": [
-                          "playercard",
-                          "desktop",
-                          "athlete"
-                        ],
-                        "href": "https://www.espn.com/nba/player/_/id/4703421/taelon-peter"
-                      }
-                    ],
-                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4703421.png",
-                    "jersey": "4",
-                    "position": "G",
-                    "team": {
-                      "id": "11"
-                    }
-                  }
-                ]
-              }
-            },
             "status": {
-              "clock": 37.7,
-              "displayClock": "37.7",
+              "clock": 0.0,
+              "displayClock": "0.0",
               "period": 4,
               "type": {
-                "id": "2",
-                "name": "STATUS_IN_PROGRESS",
-                "state": "in",
-                "completed": false,
-                "description": "In Progress",
-                "detail": "37.7 - 4th Quarter",
-                "shortDetail": "37.7 - 4th"
+                "id": "3",
+                "name": "STATUS_FINAL",
+                "state": "post",
+                "completed": true,
+                "description": "Final",
+                "detail": "Final",
+                "shortDetail": "Final"
               }
             },
             "broadcasts": [
@@ -3864,11 +3823,11 @@
           {
             "language": "en-US",
             "rel": [
-              "live",
+              "summary",
               "desktop",
               "event"
             ],
-            "href": "https://www.espn.com/nba/game?gameId=401811022",
+            "href": "https://www.espn.com/nba/game/_/gameId/401811022/pacers-nets",
             "text": "Gamecast",
             "shortText": "Gamecast",
             "isExternal": false,
@@ -3914,17 +3873,17 @@
           }
         ],
         "status": {
-          "clock": 37.7,
-          "displayClock": "37.7",
+          "clock": 0.0,
+          "displayClock": "0.0",
           "period": 4,
           "type": {
-            "id": "2",
-            "name": "STATUS_IN_PROGRESS",
-            "state": "in",
-            "completed": false,
-            "description": "In Progress",
-            "detail": "37.7 - 4th Quarter",
-            "shortDetail": "37.7 - 4th"
+            "id": "3",
+            "name": "STATUS_FINAL",
+            "state": "post",
+            "completed": true,
+            "description": "Final",
+            "detail": "Final",
+            "shortDetail": "Final"
           }
         }
       },
@@ -4032,7 +3991,7 @@
                   ],
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/ny.png"
                 },
-                "score": "99",
+                "score": "100",
                 "linescores": [
                   {
                     "value": 26.0,
@@ -4050,8 +4009,8 @@
                     "period": 3
                   },
                   {
-                    "value": 18.0,
-                    "displayValue": "18",
+                    "value": 19.0,
+                    "displayValue": "19",
                     "period": 4
                   }
                 ],
@@ -4069,22 +4028,22 @@
                   {
                     "name": "assists",
                     "abbreviation": "AST",
-                    "displayValue": "25"
+                    "displayValue": "26"
                   },
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "74"
+                    "displayValue": "76"
                   },
                   {
                     "name": "fieldGoalsMade",
                     "abbreviation": "FGM",
-                    "displayValue": "38"
+                    "displayValue": "39"
                   },
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "51.4"
+                    "displayValue": "51.3"
                   },
                   {
                     "name": "freeThrowPct",
@@ -4104,37 +4063,37 @@
                   {
                     "name": "points",
                     "abbreviation": "PTS",
-                    "displayValue": "96"
+                    "displayValue": "99"
                   },
                   {
                     "name": "threePointPct",
                     "abbreviation": "3P%",
-                    "displayValue": "37.5"
+                    "displayValue": "38.2"
                   },
                   {
                     "name": "threePointFieldGoalsAttempted",
                     "abbreviation": "3PA",
-                    "displayValue": "32"
+                    "displayValue": "34"
                   },
                   {
                     "name": "threePointFieldGoalsMade",
                     "abbreviation": "3PM",
-                    "displayValue": "12"
+                    "displayValue": "13"
                   },
                   {
                     "name": "avgPoints",
                     "abbreviation": "PTS",
-                    "displayValue": "96.0"
+                    "displayValue": "99.0"
                   },
                   {
                     "name": "avgAssists",
                     "abbreviation": "AST",
-                    "displayValue": "25.0"
+                    "displayValue": "26.0"
                   },
                   {
                     "name": "threePointFieldGoalPct",
                     "abbreviation": "3P%",
-                    "displayValue": "37.5"
+                    "displayValue": "38.2"
                   }
                 ],
                 "leaders": [
@@ -4225,8 +4184,8 @@
                     "abbreviation": "Ast",
                     "leaders": [
                       {
-                        "displayValue": "7",
-                        "value": 7.0,
+                        "displayValue": "8",
+                        "value": 8.0,
                         "athlete": {
                           "id": "3934672",
                           "fullName": "Jalen Brunson",
@@ -4265,8 +4224,8 @@
                     "abbreviation": "RAT",
                     "leaders": [
                       {
-                        "displayValue": "22 PTS, 7 AST",
-                        "value": 35.400001525878906,
+                        "displayValue": "22 PTS, 8 AST",
+                        "value": 36.79999923706055,
                         "athlete": {
                           "id": "3934672",
                           "fullName": "Jalen Brunson",
@@ -4386,7 +4345,7 @@
                   ],
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/bos.png"
                 },
-                "score": "98",
+                "score": "101",
                 "linescores": [
                   {
                     "value": 29.0,
@@ -4404,8 +4363,8 @@
                     "period": 3
                   },
                   {
-                    "value": 15.0,
-                    "displayValue": "15",
+                    "value": 18.0,
+                    "displayValue": "18",
                     "period": 4
                   }
                 ],
@@ -4413,32 +4372,32 @@
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "40"
+                    "displayValue": "41"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "40.0"
+                    "displayValue": "41.0"
                   },
                   {
                     "name": "assists",
                     "abbreviation": "AST",
-                    "displayValue": "20"
+                    "displayValue": "21"
                   },
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "77"
+                    "displayValue": "78"
                   },
                   {
                     "name": "fieldGoalsMade",
                     "abbreviation": "FGM",
-                    "displayValue": "35"
+                    "displayValue": "36"
                   },
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "45.5"
+                    "displayValue": "46.2"
                   },
                   {
                     "name": "freeThrowPct",
@@ -4458,37 +4417,37 @@
                   {
                     "name": "points",
                     "abbreviation": "PTS",
-                    "displayValue": "98"
+                    "displayValue": "101"
                   },
                   {
                     "name": "threePointPct",
                     "abbreviation": "3P%",
-                    "displayValue": "36.8"
+                    "displayValue": "38.5"
                   },
                   {
                     "name": "threePointFieldGoalsAttempted",
                     "abbreviation": "3PA",
-                    "displayValue": "38"
+                    "displayValue": "39"
                   },
                   {
                     "name": "threePointFieldGoalsMade",
                     "abbreviation": "3PM",
-                    "displayValue": "14"
+                    "displayValue": "15"
                   },
                   {
                     "name": "avgPoints",
                     "abbreviation": "PTS",
-                    "displayValue": "98.0"
+                    "displayValue": "101.0"
                   },
                   {
                     "name": "avgAssists",
                     "abbreviation": "AST",
-                    "displayValue": "20.0"
+                    "displayValue": "21.0"
                   },
                   {
                     "name": "threePointFieldGoalPct",
                     "abbreviation": "3P%",
-                    "displayValue": "36.8"
+                    "displayValue": "38.5"
                   }
                 ],
                 "leaders": [
@@ -4539,8 +4498,8 @@
                     "abbreviation": "Reb",
                     "leaders": [
                       {
-                        "displayValue": "12",
-                        "value": 12.0,
+                        "displayValue": "13",
+                        "value": 13.0,
                         "athlete": {
                           "id": "4065648",
                           "fullName": "Jayson Tatum",
@@ -4619,8 +4578,8 @@
                     "abbreviation": "RAT",
                     "leaders": [
                       {
-                        "displayValue": "24 PTS, 12 REB, 8 AST",
-                        "value": 44.0,
+                        "displayValue": "24 PTS, 13 REB, 8 AST",
+                        "value": 44.29999923706055,
                         "athlete": {
                           "id": "4065648",
                           "fullName": "Jayson Tatum",
@@ -4676,27 +4635,27 @@
             "notes": [],
             "situation": {
               "lastPlay": {
-                "id": "401811023526",
+                "id": "401811023541",
                 "type": {
-                  "id": "131",
-                  "text": "Pullup Jump Shot"
+                  "id": "44",
+                  "text": "Shooting Foul"
                 },
-                "text": "Baylor Scheierman makes 12-foot pullup jump shot (Jayson Tatum assists)",
-                "scoreValue": 2,
+                "text": "Neemias Queta shooting foul",
+                "scoreValue": 0,
                 "team": {
                   "id": "2"
                 },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.376,
-                  "awayWinPercentage": 0.624
+                  "homeWinPercentage": 0.324,
+                  "awayWinPercentage": 0.6759999999999999
                 },
                 "athletesInvolved": [
                   {
-                    "id": "4593841",
-                    "fullName": "Baylor Scheierman",
-                    "displayName": "Baylor Scheierman",
-                    "shortName": "B. Scheierman",
+                    "id": "4397424",
+                    "fullName": "Neemias Queta",
+                    "displayName": "Neemias Queta",
+                    "shortName": "N. Queta",
                     "links": [
                       {
                         "rel": [
@@ -4704,12 +4663,12 @@
                           "desktop",
                           "athlete"
                         ],
-                        "href": "https://www.espn.com/nba/player/_/id/4593841/baylor-scheierman"
+                        "href": "https://www.espn.com/nba/player/_/id/4397424/neemias-queta"
                       }
                     ],
-                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4593841.png",
-                    "jersey": "55",
-                    "position": "G",
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4397424.png",
+                    "jersey": "88",
+                    "position": "C",
                     "team": {
                       "id": "2"
                     }
@@ -4718,8 +4677,8 @@
               }
             },
             "status": {
-              "clock": 250.0,
-              "displayClock": "4:10",
+              "clock": 202.0,
+              "displayClock": "3:22",
               "period": 4,
               "type": {
                 "id": "2",
@@ -4727,8 +4686,8 @@
                 "state": "in",
                 "completed": false,
                 "description": "In Progress",
-                "detail": "4:10 - 4th Quarter",
-                "shortDetail": "4:10 - 4th"
+                "detail": "3:22 - 4th Quarter",
+                "shortDetail": "3:22 - 4th"
               }
             },
             "broadcasts": [
@@ -4829,8 +4788,8 @@
           }
         ],
         "status": {
-          "clock": 250.0,
-          "displayClock": "4:10",
+          "clock": 202.0,
+          "displayClock": "3:22",
           "period": 4,
           "type": {
             "id": "2",
@@ -4838,8 +4797,8 @@
             "state": "in",
             "completed": false,
             "description": "In Progress",
-            "detail": "4:10 - 4th Quarter",
-            "shortDetail": "4:10 - 4th"
+            "detail": "3:22 - 4th Quarter",
+            "shortDetail": "3:22 - 4th"
           }
         }
       },
@@ -4947,7 +4906,7 @@
                   ],
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/hou.png"
                 },
-                "score": "91",
+                "score": "96",
                 "linescores": [
                   {
                     "value": 35.0,
@@ -4960,8 +4919,8 @@
                     "period": 2
                   },
                   {
-                    "value": 18.0,
-                    "displayValue": "18",
+                    "value": 23.0,
+                    "displayValue": "23",
                     "period": 3
                   }
                 ],
@@ -4979,72 +4938,72 @@
                   {
                     "name": "assists",
                     "abbreviation": "AST",
-                    "displayValue": "15"
+                    "displayValue": "16"
                   },
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "67"
+                    "displayValue": "68"
                   },
                   {
                     "name": "fieldGoalsMade",
                     "abbreviation": "FGM",
-                    "displayValue": "35"
+                    "displayValue": "36"
                   },
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "52.2"
+                    "displayValue": "52.9"
                   },
                   {
                     "name": "freeThrowPct",
                     "abbreviation": "FT%",
-                    "displayValue": "75.0"
+                    "displayValue": "77.3"
                   },
                   {
                     "name": "freeThrowsAttempted",
                     "abbreviation": "FTA",
-                    "displayValue": "20"
+                    "displayValue": "22"
                   },
                   {
                     "name": "freeThrowsMade",
                     "abbreviation": "FTM",
-                    "displayValue": "15"
+                    "displayValue": "17"
                   },
                   {
                     "name": "points",
                     "abbreviation": "PTS",
-                    "displayValue": "91"
+                    "displayValue": "96"
                   },
                   {
                     "name": "threePointPct",
                     "abbreviation": "3P%",
-                    "displayValue": "31.6"
+                    "displayValue": "35.0"
                   },
                   {
                     "name": "threePointFieldGoalsAttempted",
                     "abbreviation": "3PA",
-                    "displayValue": "19"
+                    "displayValue": "20"
                   },
                   {
                     "name": "threePointFieldGoalsMade",
                     "abbreviation": "3PM",
-                    "displayValue": "6"
+                    "displayValue": "7"
                   },
                   {
                     "name": "avgPoints",
                     "abbreviation": "PTS",
-                    "displayValue": "91.0"
+                    "displayValue": "96.0"
                   },
                   {
                     "name": "avgAssists",
                     "abbreviation": "AST",
-                    "displayValue": "15.0"
+                    "displayValue": "16.0"
                   },
                   {
                     "name": "threePointFieldGoalPct",
                     "abbreviation": "3P%",
-                    "displayValue": "31.6"
+                    "displayValue": "35.0"
                   }
                 ],
                 "leaders": [
@@ -5055,8 +5014,8 @@
                     "abbreviation": "Pts",
                     "leaders": [
                       {
-                        "displayValue": "21",
-                        "value": 21.0,
+                        "displayValue": "23",
+                        "value": 23.0,
                         "athlete": {
                           "id": "3202",
                           "fullName": "Kevin Durant",
@@ -5175,8 +5134,8 @@
                     "abbreviation": "RAT",
                     "leaders": [
                       {
-                        "displayValue": "21 PTS",
-                        "value": 32.79999923706055,
+                        "displayValue": "23 PTS",
+                        "value": 35.29999923706055,
                         "athlete": {
                           "id": "3202",
                           "fullName": "Kevin Durant",
@@ -5296,7 +5255,7 @@
                   ],
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/phi.png"
                 },
-                "score": "66",
+                "score": "70",
                 "linescores": [
                   {
                     "value": 26.0,
@@ -5309,8 +5268,8 @@
                     "period": 2
                   },
                   {
-                    "value": 10.0,
-                    "displayValue": "10",
+                    "value": 14.0,
+                    "displayValue": "14",
                     "period": 3
                   }
                 ],
@@ -5328,22 +5287,22 @@
                   {
                     "name": "assists",
                     "abbreviation": "AST",
-                    "displayValue": "13"
+                    "displayValue": "14"
                   },
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "54"
+                    "displayValue": "55"
                   },
                   {
                     "name": "fieldGoalsMade",
                     "abbreviation": "FGM",
-                    "displayValue": "23"
+                    "displayValue": "24"
                   },
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "42.6"
+                    "displayValue": "43.6"
                   },
                   {
                     "name": "freeThrowPct",
@@ -5363,7 +5322,7 @@
                   {
                     "name": "points",
                     "abbreviation": "PTS",
-                    "displayValue": "66"
+                    "displayValue": "68"
                   },
                   {
                     "name": "threePointPct",
@@ -5383,12 +5342,12 @@
                   {
                     "name": "avgPoints",
                     "abbreviation": "PTS",
-                    "displayValue": "66.0"
+                    "displayValue": "68.0"
                   },
                   {
                     "name": "avgAssists",
                     "abbreviation": "AST",
-                    "displayValue": "13.0"
+                    "displayValue": "14.0"
                   },
                   {
                     "name": "threePointFieldGoalPct",
@@ -5487,10 +5446,10 @@
                         "displayValue": "4",
                         "value": 4.0,
                         "athlete": {
-                          "id": "5124612",
-                          "fullName": "VJ Edgecombe",
-                          "displayName": "VJ Edgecombe",
-                          "shortName": "V. Edgecombe",
+                          "id": "4431678",
+                          "fullName": "Tyrese Maxey",
+                          "displayName": "Tyrese Maxey",
+                          "shortName": "T. Maxey",
                           "links": [
                             {
                               "rel": [
@@ -5498,11 +5457,11 @@
                                 "desktop",
                                 "athlete"
                               ],
-                              "href": "https://www.espn.com/nba/player/_/id/5124612/vj-edgecombe"
+                              "href": "https://www.espn.com/nba/player/_/id/4431678/tyrese-maxey"
                             }
                           ],
-                          "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/5124612.png",
-                          "jersey": "77",
+                          "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4431678.png",
+                          "jersey": "0",
                           "position": {
                             "abbreviation": "G"
                           },
@@ -5581,20 +5540,20 @@
             "notes": [],
             "situation": {
               "lastPlay": {
-                "id": "401811024471",
+                "id": "401811024481",
                 "type": {
-                  "id": "155",
-                  "text": "Defensive Rebound"
+                  "id": "92",
+                  "text": "Jump Shot"
                 },
-                "text": "Tari Eason defensive rebound",
-                "scoreValue": 0,
+                "text": "Tari Eason makes 23-foot three point jumper (Amen Thompson assists)",
+                "scoreValue": 3,
                 "team": {
                   "id": "10"
                 },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.998,
-                  "awayWinPercentage": 0.0020000000000000018
+                  "homeWinPercentage": 0.999,
+                  "awayWinPercentage": 0.0010000000000000009
                 },
                 "athletesInvolved": [
                   {
@@ -5623,8 +5582,8 @@
               }
             },
             "status": {
-              "clock": 217.0,
-              "displayClock": "3:37",
+              "clock": 135.0,
+              "displayClock": "2:15",
               "period": 3,
               "type": {
                 "id": "2",
@@ -5632,8 +5591,8 @@
                 "state": "in",
                 "completed": false,
                 "description": "In Progress",
-                "detail": "3:37 - 3rd Quarter",
-                "shortDetail": "3:37 - 3rd"
+                "detail": "2:15 - 3rd Quarter",
+                "shortDetail": "2:15 - 3rd"
               }
             },
             "broadcasts": [
@@ -5747,8 +5706,8 @@
           }
         ],
         "status": {
-          "clock": 217.0,
-          "displayClock": "3:37",
+          "clock": 135.0,
+          "displayClock": "2:15",
           "period": 3,
           "type": {
             "id": "2",
@@ -5756,8 +5715,8 @@
             "state": "in",
             "completed": false,
             "description": "In Progress",
-            "detail": "3:37 - 3rd Quarter",
-            "shortDetail": "3:37 - 3rd"
+            "detail": "2:15 - 3rd Quarter",
+            "shortDetail": "2:15 - 3rd"
           }
         }
       },
@@ -8896,6 +8855,11 @@
                 }
               },
               "dk_slates": {
+                "237F5": {
+                  "salary": 8000,
+                  "proj": 35.3,
+                  "value": 4.41
+                },
                 "237C4": {
                   "salary": 7200,
                   "proj": 35.3,
@@ -8905,11 +8869,6 @@
                   "salary": 7200,
                   "proj": 35.3,
                   "value": 4.9
-                },
-                "237F5": {
-                  "salary": 8000,
-                  "proj": 35.3,
-                  "value": 4.41
                 }
               },
               "fd_positions": "SG/PG",
@@ -8940,6 +8899,11 @@
                 }
               },
               "dk_slates": {
+                "237F5": {
+                  "salary": 1600,
+                  "proj": 16.9,
+                  "value": 10.59
+                },
                 "237C4": {
                   "salary": 3200,
                   "proj": 16.9,
@@ -8949,11 +8913,6 @@
                   "salary": 3200,
                   "proj": 16.9,
                   "value": 5.29
-                },
-                "237F5": {
-                  "salary": 1600,
-                  "proj": 16.9,
-                  "value": 10.59
                 }
               },
               "fd_positions": "SF/SG",
@@ -8984,6 +8943,11 @@
                 }
               },
               "dk_slates": {
+                "237F5": {
+                  "salary": 4400,
+                  "proj": 19.5,
+                  "value": 4.43
+                },
                 "237C4": {
                   "salary": 4300,
                   "proj": 19.5,
@@ -8993,11 +8957,6 @@
                   "salary": 4300,
                   "proj": 19.5,
                   "value": 4.53
-                },
-                "237F5": {
-                  "salary": 4400,
-                  "proj": 19.5,
-                  "value": 4.43
                 }
               },
               "fd_positions": "SF/PF",
@@ -9028,6 +8987,11 @@
                 }
               },
               "dk_slates": {
+                "237F5": {
+                  "salary": 11000,
+                  "proj": 48.1,
+                  "value": 4.37
+                },
                 "237C4": {
                   "salary": 10000,
                   "proj": 48.1,
@@ -9037,11 +9001,6 @@
                   "salary": 10000,
                   "proj": 48.1,
                   "value": 4.81
-                },
-                "237F5": {
-                  "salary": 11000,
-                  "proj": 48.1,
-                  "value": 4.37
                 }
               },
               "fd_positions": "PF/SF",
@@ -9072,6 +9031,11 @@
                 }
               },
               "dk_slates": {
+                "237F5": {
+                  "salary": 6000,
+                  "proj": 27.0,
+                  "value": 4.5
+                },
                 "237C4": {
                   "salary": 5900,
                   "proj": 27.0,
@@ -9081,11 +9045,6 @@
                   "salary": 5900,
                   "proj": 27.0,
                   "value": 4.58
-                },
-                "237F5": {
-                  "salary": 6000,
-                  "proj": 27.0,
-                  "value": 4.5
                 }
               },
               "fd_positions": "C",
@@ -9118,6 +9077,11 @@
                 }
               },
               "dk_slates": {
+                "237F5": {
+                  "salary": 7600,
+                  "proj": 30.1,
+                  "value": 3.96
+                },
                 "237C4": {
                   "salary": 6700,
                   "proj": 30.1,
@@ -9127,11 +9091,6 @@
                   "salary": 6700,
                   "proj": 30.1,
                   "value": 4.49
-                },
-                "237F5": {
-                  "salary": 7600,
-                  "proj": 30.1,
-                  "value": 3.96
                 }
               },
               "fd_positions": "PG/SG",
@@ -9162,17 +9121,17 @@
                 }
               },
               "dk_slates": {
+                "237F5": {
+                  "salary": 5000,
+                  "proj": 21.7,
+                  "value": 4.35
+                },
                 "237C4": {
                   "salary": 5000,
                   "proj": 21.7,
                   "value": 4.35
                 },
                 "237F4": {
-                  "salary": 5000,
-                  "proj": 21.7,
-                  "value": 4.35
-                },
-                "237F5": {
                   "salary": 5000,
                   "proj": 21.7,
                   "value": 4.35
@@ -9206,6 +9165,11 @@
                 }
               },
               "dk_slates": {
+                "237F5": {
+                  "salary": 3400,
+                  "proj": 17.6,
+                  "value": 5.17
+                },
                 "237C4": {
                   "salary": 3800,
                   "proj": 17.6,
@@ -9215,11 +9179,6 @@
                   "salary": 3800,
                   "proj": 17.6,
                   "value": 4.63
-                },
-                "237F5": {
-                  "salary": 3400,
-                  "proj": 17.6,
-                  "value": 5.17
                 }
               },
               "fd_positions": "SG",
@@ -9250,6 +9209,11 @@
                 }
               },
               "dk_slates": {
+                "237F5": {
+                  "salary": 1000,
+                  "proj": 7.2,
+                  "value": 7.22
+                },
                 "237C4": {
                   "salary": 3000,
                   "proj": 7.2,
@@ -9259,11 +9223,6 @@
                   "salary": 3000,
                   "proj": 7.2,
                   "value": 2.41
-                },
-                "237F5": {
-                  "salary": 1000,
-                  "proj": 7.2,
-                  "value": 7.22
                 }
               },
               "fd_positions": "SF/SG",
@@ -9294,6 +9253,11 @@
                 }
               },
               "dk_slates": {
+                "237F5": {
+                  "salary": 10800,
+                  "proj": 0.0,
+                  "value": 0.0
+                },
                 "237C4": {
                   "salary": 9700,
                   "proj": 0.0,
@@ -9301,11 +9265,6 @@
                 },
                 "237F4": {
                   "salary": 9700,
-                  "proj": 0.0,
-                  "value": 0.0
-                },
-                "237F5": {
-                  "salary": 10800,
                   "proj": 0.0,
                   "value": 0.0
                 }
@@ -9343,6 +9302,11 @@
                 }
               },
               "dk_slates": {
+                "237F5": {
+                  "salary": 10200,
+                  "proj": 42.0,
+                  "value": 4.12
+                },
                 "237C4": {
                   "salary": 9200,
                   "proj": 42.0,
@@ -9352,11 +9316,6 @@
                   "salary": 9200,
                   "proj": 42.0,
                   "value": 4.57
-                },
-                "237F5": {
-                  "salary": 10200,
-                  "proj": 42.0,
-                  "value": 4.12
                 }
               },
               "fd_positions": "PG",
@@ -9387,6 +9346,11 @@
                 }
               },
               "dk_slates": {
+                "237F5": {
+                  "salary": 6400,
+                  "proj": 26.2,
+                  "value": 4.1
+                },
                 "237C4": {
                   "salary": 6000,
                   "proj": 26.2,
@@ -9396,11 +9360,6 @@
                   "salary": 6000,
                   "proj": 26.2,
                   "value": 4.37
-                },
-                "237F5": {
-                  "salary": 6400,
-                  "proj": 26.2,
-                  "value": 4.1
                 }
               },
               "fd_positions": "SG/SF",
@@ -9431,6 +9390,11 @@
                 }
               },
               "dk_slates": {
+                "237F5": {
+                  "salary": 6800,
+                  "proj": 28.5,
+                  "value": 4.19
+                },
                 "237C4": {
                   "salary": 6400,
                   "proj": 28.5,
@@ -9440,11 +9404,6 @@
                   "salary": 6400,
                   "proj": 28.5,
                   "value": 4.45
-                },
-                "237F5": {
-                  "salary": 6800,
-                  "proj": 28.5,
-                  "value": 4.19
                 }
               },
               "fd_positions": "SF/PF",
@@ -9475,6 +9434,11 @@
                 }
               },
               "dk_slates": {
+                "237F5": {
+                  "salary": 7200,
+                  "proj": 31.4,
+                  "value": 4.36
+                },
                 "237C4": {
                   "salary": 6600,
                   "proj": 31.4,
@@ -9484,11 +9448,6 @@
                   "salary": 6600,
                   "proj": 31.4,
                   "value": 4.76
-                },
-                "237F5": {
-                  "salary": 7200,
-                  "proj": 31.4,
-                  "value": 4.36
                 }
               },
               "fd_positions": "SF/PF",
@@ -9519,6 +9478,11 @@
                 }
               },
               "dk_slates": {
+                "237F5": {
+                  "salary": 10000,
+                  "proj": 39.9,
+                  "value": 3.99
+                },
                 "237C4": {
                   "salary": 9100,
                   "proj": 39.9,
@@ -9528,11 +9492,6 @@
                   "salary": 9100,
                   "proj": 39.9,
                   "value": 4.38
-                },
-                "237F5": {
-                  "salary": 10000,
-                  "proj": 39.9,
-                  "value": 3.99
                 }
               },
               "fd_positions": "C/PF",
@@ -9565,6 +9524,11 @@
                 }
               },
               "dk_slates": {
+                "237F5": {
+                  "salary": 4800,
+                  "proj": 19.4,
+                  "value": 4.05
+                },
                 "237C4": {
                   "salary": 4600,
                   "proj": 19.4,
@@ -9574,11 +9538,6 @@
                   "salary": 4600,
                   "proj": 19.4,
                   "value": 4.23
-                },
-                "237F5": {
-                  "salary": 4800,
-                  "proj": 19.4,
-                  "value": 4.05
                 }
               },
               "fd_positions": "C",
@@ -9609,6 +9568,11 @@
                 }
               },
               "dk_slates": {
+                "237F5": {
+                  "salary": 2800,
+                  "proj": 16.8,
+                  "value": 6.0
+                },
                 "237C4": {
                   "salary": 3600,
                   "proj": 16.8,
@@ -9618,11 +9582,6 @@
                   "salary": 3600,
                   "proj": 16.8,
                   "value": 4.66
-                },
-                "237F5": {
-                  "salary": 2800,
-                  "proj": 16.8,
-                  "value": 6.0
                 }
               },
               "fd_positions": "PG/SG",
@@ -9653,6 +9612,11 @@
                 }
               },
               "dk_slates": {
+                "237F5": {
+                  "salary": 2400,
+                  "proj": 14.2,
+                  "value": 5.9
+                },
                 "237C4": {
                   "salary": 3500,
                   "proj": 14.2,
@@ -9662,11 +9626,6 @@
                   "salary": 3500,
                   "proj": 14.2,
                   "value": 4.05
-                },
-                "237F5": {
-                  "salary": 2400,
-                  "proj": 14.2,
-                  "value": 5.9
                 }
               },
               "fd_positions": "SG/SF",
@@ -9697,6 +9656,11 @@
                 }
               },
               "dk_slates": {
+                "237F5": {
+                  "salary": 2000,
+                  "proj": 7.7,
+                  "value": 3.87
+                },
                 "237C4": {
                   "salary": 3300,
                   "proj": 7.7,
@@ -9706,11 +9670,6 @@
                   "salary": 3300,
                   "proj": 7.7,
                   "value": 2.35
-                },
-                "237F5": {
-                  "salary": 2000,
-                  "proj": 7.7,
-                  "value": 3.87
                 }
               },
               "fd_positions": "SG/PG",
@@ -9741,6 +9700,11 @@
                 }
               },
               "dk_slates": {
+                "237F5": {
+                  "salary": 1000,
+                  "proj": 0.0,
+                  "value": 0.0
+                },
                 "237C4": {
                   "salary": 3000,
                   "proj": 0.0,
@@ -9748,11 +9712,6 @@
                 },
                 "237F4": {
                   "salary": 3000,
-                  "proj": 0.0,
-                  "value": 0.0
-                },
-                "237F5": {
-                  "salary": 1000,
                   "proj": 0.0,
                   "value": 0.0
                 }
@@ -11289,24 +11248,24 @@
                   "proj": 46.0,
                   "value": 4.6
                 },
-                "1F6E5": {
-                  "salary": 10000,
-                  "proj": 46.0,
-                  "value": 4.6
-                },
                 "1F6E8": {
                   "salary": 15000,
                   "proj": 46.0,
                   "value": 3.07
+                },
+                "1F6E5": {
+                  "salary": 10000,
+                  "proj": 46.0,
+                  "value": 4.6
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 9500,
                   "proj": 47.4,
                   "value": 4.99
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 9500,
                   "proj": 47.4,
                   "value": 4.99
@@ -11333,24 +11292,24 @@
                   "proj": 32.2,
                   "value": 4.74
                 },
-                "1F6E5": {
-                  "salary": 6800,
-                  "proj": 32.2,
-                  "value": 4.74
-                },
                 "1F6E8": {
                   "salary": 7800,
                   "proj": 32.2,
                   "value": 4.13
+                },
+                "1F6E5": {
+                  "salary": 6800,
+                  "proj": 32.2,
+                  "value": 4.74
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 7300,
                   "proj": 33.2,
                   "value": 4.55
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 7300,
                   "proj": 33.2,
                   "value": 4.55
@@ -11377,24 +11336,24 @@
                   "proj": 23.3,
                   "value": 4.4
                 },
-                "1F6E5": {
-                  "salary": 5300,
-                  "proj": 23.3,
-                  "value": 4.4
-                },
                 "1F6E8": {
                   "salary": 5400,
                   "proj": 23.3,
                   "value": 4.32
+                },
+                "1F6E5": {
+                  "salary": 5300,
+                  "proj": 23.3,
+                  "value": 4.4
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 5400,
                   "proj": 23.8,
                   "value": 4.41
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 5400,
                   "proj": 23.8,
                   "value": 4.41
@@ -11421,24 +11380,24 @@
                   "proj": 39.8,
                   "value": 4.91
                 },
-                "1F6E5": {
-                  "salary": 8100,
-                  "proj": 39.8,
-                  "value": 4.91
-                },
                 "1F6E8": {
                   "salary": 9800,
                   "proj": 39.8,
                   "value": 4.06
+                },
+                "1F6E5": {
+                  "salary": 8100,
+                  "proj": 39.8,
+                  "value": 4.91
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 8300,
                   "proj": 40.2,
                   "value": 4.84
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 8300,
                   "proj": 40.2,
                   "value": 4.84
@@ -11465,24 +11424,24 @@
                   "proj": 15.4,
                   "value": 3.85
                 },
-                "1F6E5": {
-                  "salary": 4000,
-                  "proj": 15.4,
-                  "value": 3.85
-                },
                 "1F6E8": {
                   "salary": 3800,
                   "proj": 15.4,
                   "value": 4.05
+                },
+                "1F6E5": {
+                  "salary": 4000,
+                  "proj": 15.4,
+                  "value": 3.85
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 3800,
                   "proj": 15.7,
                   "value": 4.13
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 3800,
                   "proj": 15.7,
                   "value": 4.13
@@ -11511,24 +11470,24 @@
                   "proj": 22.2,
                   "value": 4.63
                 },
-                "1F6E5": {
+                "1F6E8": {
                   "salary": 4800,
                   "proj": 22.2,
                   "value": 4.63
                 },
-                "1F6E8": {
+                "1F6E5": {
                   "salary": 4800,
                   "proj": 22.2,
                   "value": 4.63
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 4300,
                   "proj": 22.7,
                   "value": 5.28
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 4300,
                   "proj": 22.7,
                   "value": 5.28
@@ -11555,24 +11514,24 @@
                   "proj": 19.8,
                   "value": 4.82
                 },
-                "1F6E5": {
-                  "salary": 4100,
-                  "proj": 19.8,
-                  "value": 4.82
-                },
                 "1F6E8": {
                   "salary": 4000,
                   "proj": 19.8,
                   "value": 4.94
+                },
+                "1F6E5": {
+                  "salary": 4100,
+                  "proj": 19.8,
+                  "value": 4.82
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 4000,
                   "proj": 20.2,
                   "value": 5.04
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 4000,
                   "proj": 20.2,
                   "value": 5.04
@@ -11599,24 +11558,24 @@
                   "proj": 18.3,
                   "value": 3.53
                 },
-                "1F6E5": {
-                  "salary": 5200,
-                  "proj": 18.3,
-                  "value": 3.53
-                },
                 "1F6E8": {
                   "salary": 5000,
                   "proj": 18.3,
                   "value": 3.67
+                },
+                "1F6E5": {
+                  "salary": 5200,
+                  "proj": 18.3,
+                  "value": 3.53
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 5000,
                   "proj": 18.9,
                   "value": 3.78
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 5000,
                   "proj": 18.9,
                   "value": 3.78
@@ -11643,24 +11602,24 @@
                   "proj": 4.3,
                   "value": 1.07
                 },
-                "1F6E5": {
-                  "salary": 4000,
-                  "proj": 4.3,
-                  "value": 1.07
-                },
                 "1F6E8": {
                   "salary": 3600,
                   "proj": 4.3,
                   "value": 1.19
+                },
+                "1F6E5": {
+                  "salary": 4000,
+                  "proj": 4.3,
+                  "value": 1.07
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 3200,
                   "proj": 4.3,
                   "value": 1.36
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 3200,
                   "proj": 4.3,
                   "value": 1.36
@@ -11687,24 +11646,24 @@
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F6E5": {
-                  "salary": 3500,
+                "1F6E8": {
+                  "salary": 1000,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F6E8": {
-                  "salary": 1000,
+                "1F6E5": {
+                  "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 3000,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 3000,
                   "proj": 0.0,
                   "value": 0.0
@@ -11731,24 +11690,24 @@
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F6E5": {
-                  "salary": 9500,
+                "1F6E8": {
+                  "salary": 14000,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F6E8": {
-                  "salary": 14000,
+                "1F6E5": {
+                  "salary": 9500,
                   "proj": 0.0,
                   "value": 0.0
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 9800,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 9800,
                   "proj": 0.0,
                   "value": 0.0
@@ -11775,24 +11734,24 @@
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F6E5": {
-                  "salary": 3500,
+                "1F6E8": {
+                  "salary": 1000,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F6E8": {
-                  "salary": 1000,
+                "1F6E5": {
+                  "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 3000,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 3000,
                   "proj": 0.0,
                   "value": 0.0
@@ -11824,24 +11783,24 @@
                   "proj": 39.1,
                   "value": 4.39
                 },
-                "1F6E5": {
-                  "salary": 8900,
-                  "proj": 39.1,
-                  "value": 4.39
-                },
                 "1F6E8": {
                   "salary": 11800,
                   "proj": 39.1,
                   "value": 3.31
+                },
+                "1F6E5": {
+                  "salary": 8900,
+                  "proj": 39.1,
+                  "value": 4.39
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 7800,
                   "proj": 40.3,
                   "value": 5.17
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 7800,
                   "proj": 40.3,
                   "value": 5.17
@@ -11868,24 +11827,24 @@
                   "proj": 9.8,
                   "value": 2.72
                 },
-                "1F6E5": {
-                  "salary": 3600,
-                  "proj": 9.8,
-                  "value": 2.72
-                },
                 "1F6E8": {
                   "salary": 1800,
                   "proj": 9.8,
                   "value": 5.43
+                },
+                "1F6E5": {
+                  "salary": 3600,
+                  "proj": 9.8,
+                  "value": 2.72
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 3400,
                   "proj": 10.0,
                   "value": 2.94
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 3400,
                   "proj": 10.0,
                   "value": 2.94
@@ -11912,24 +11871,24 @@
                   "proj": 41.9,
                   "value": 4.55
                 },
-                "1F6E5": {
-                  "salary": 9200,
-                  "proj": 41.9,
-                  "value": 4.55
-                },
                 "1F6E8": {
                   "salary": 12600,
                   "proj": 41.9,
                   "value": 3.32
+                },
+                "1F6E5": {
+                  "salary": 9200,
+                  "proj": 41.9,
+                  "value": 4.55
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 8800,
                   "proj": 42.3,
                   "value": 4.81
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 8800,
                   "proj": 42.3,
                   "value": 4.81
@@ -11956,24 +11915,24 @@
                   "proj": 30.2,
                   "value": 4.79
                 },
-                "1F6E5": {
-                  "salary": 6300,
-                  "proj": 30.2,
-                  "value": 4.79
-                },
                 "1F6E8": {
                   "salary": 6800,
                   "proj": 30.2,
                   "value": 4.44
+                },
+                "1F6E5": {
+                  "salary": 6300,
+                  "proj": 30.2,
+                  "value": 4.79
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 6300,
                   "proj": 30.8,
                   "value": 4.89
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 6300,
                   "proj": 30.8,
                   "value": 4.89
@@ -12000,24 +11959,24 @@
                   "proj": 40.8,
                   "value": 4.34
                 },
-                "1F6E5": {
-                  "salary": 9400,
-                  "proj": 40.8,
-                  "value": 4.34
-                },
                 "1F6E8": {
                   "salary": 13600,
                   "proj": 40.8,
                   "value": 3.0
+                },
+                "1F6E5": {
+                  "salary": 9400,
+                  "proj": 40.8,
+                  "value": 4.34
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 8600,
                   "proj": 41.6,
                   "value": 4.84
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 8600,
                   "proj": 41.6,
                   "value": 4.84
@@ -12046,24 +12005,24 @@
                   "proj": 24.1,
                   "value": 3.76
                 },
-                "1F6E5": {
+                "1F6E8": {
                   "salary": 6400,
                   "proj": 24.1,
                   "value": 3.76
                 },
-                "1F6E8": {
+                "1F6E5": {
                   "salary": 6400,
                   "proj": 24.1,
                   "value": 3.76
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 6100,
                   "proj": 24.8,
                   "value": 4.07
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 6100,
                   "proj": 24.8,
                   "value": 4.07
@@ -12090,24 +12049,24 @@
                   "proj": 23.4,
                   "value": 4.33
                 },
-                "1F6E5": {
-                  "salary": 5400,
-                  "proj": 23.4,
-                  "value": 4.33
-                },
                 "1F6E8": {
                   "salary": 5600,
                   "proj": 23.4,
                   "value": 4.18
+                },
+                "1F6E5": {
+                  "salary": 5400,
+                  "proj": 23.4,
+                  "value": 4.33
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 4300,
                   "proj": 23.9,
                   "value": 5.55
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 4300,
                   "proj": 23.9,
                   "value": 5.55
@@ -12134,24 +12093,24 @@
                   "proj": 12.7,
                   "value": 3.43
                 },
-                "1F6E5": {
-                  "salary": 3700,
-                  "proj": 12.7,
-                  "value": 3.43
-                },
                 "1F6E8": {
                   "salary": 2000,
                   "proj": 12.7,
                   "value": 6.34
+                },
+                "1F6E5": {
+                  "salary": 3700,
+                  "proj": 12.7,
+                  "value": 3.43
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 4000,
                   "proj": 13.1,
                   "value": 3.27
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 4000,
                   "proj": 13.1,
                   "value": 3.27
@@ -12178,24 +12137,24 @@
                   "proj": 9.7,
                   "value": 2.56
                 },
-                "1F6E5": {
-                  "salary": 3800,
-                  "proj": 9.7,
-                  "value": 2.56
-                },
                 "1F6E8": {
                   "salary": 3200,
                   "proj": 9.7,
                   "value": 3.04
+                },
+                "1F6E5": {
+                  "salary": 3800,
+                  "proj": 9.7,
+                  "value": 2.56
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 3300,
                   "proj": 9.9,
                   "value": 3.0
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 3300,
                   "proj": 9.9,
                   "value": 3.0
@@ -12222,24 +12181,24 @@
                   "proj": 5.9,
                   "value": 1.65
                 },
-                "1F6E5": {
-                  "salary": 3600,
-                  "proj": 5.9,
-                  "value": 1.65
-                },
                 "1F6E8": {
                   "salary": 1600,
                   "proj": 5.9,
                   "value": 3.71
+                },
+                "1F6E5": {
+                  "salary": 3600,
+                  "proj": 5.9,
+                  "value": 1.65
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 3100,
                   "proj": 6.0,
                   "value": 1.94
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 3100,
                   "proj": 6.0,
                   "value": 1.94
@@ -12266,24 +12225,24 @@
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F6E5": {
-                  "salary": 3500,
+                "1F6E8": {
+                  "salary": 1000,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F6E8": {
-                  "salary": 1000,
+                "1F6E5": {
+                  "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 3000,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 3000,
                   "proj": 0.0,
                   "value": 0.0
@@ -12310,24 +12269,24 @@
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F6E5": {
-                  "salary": 3500,
+                "1F6E8": {
+                  "salary": 1000,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "1F6E8": {
-                  "salary": 1000,
+                "1F6E5": {
+                  "salary": 3500,
                   "proj": 0.0,
                   "value": 0.0
                 }
               },
               "dk_slates": {
-                "237F6": {
+                "237C4": {
                   "salary": 3000,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "237C4": {
+                "237F6": {
                   "salary": 3000,
                   "proj": 0.0,
                   "value": 0.0
