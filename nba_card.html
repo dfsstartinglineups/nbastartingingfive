@@ -476,24 +476,40 @@
             const firstName = inputParts[0];
             const lastName = inputParts.slice(1).join(" ");
         
+            // PASS 1: Strict Exact Matches Only
             for (const key in playerDatabase) {
                 const dbName = normalize(playerDatabase[key].name || "");
                 const dbShort = normalize(playerDatabase[key].short_name || "");
-        
-                if (dbName === cleanInput || dbShort === cleanInput) return playerDatabase[key];
-        
-                if (nicknames[firstName]) {
-                    const nicknameVariant = nicknames[firstName] + " " + lastName;
+                
+                if (dbName === cleanInput || dbShort === cleanInput) {
+                    return playerDatabase[key];
+                }
+            }
+            
+            // PASS 2: Nickname Matches (e.g., Steph Curry -> Stephen Curry)
+            if (nicknames[firstName]) {
+                const nicknameVariant = nicknames[firstName] + " " + lastName;
+                for (const key in playerDatabase) {
+                    const dbName = normalize(playerDatabase[key].name || "");
+                    const dbShort = normalize(playerDatabase[key].short_name || "");
+                    
                     if (dbName === nicknameVariant || dbShort === nicknameVariant) {
                         return playerDatabase[key];
                     }
                 }
-        
-                if (lastName.length > 2 && dbName.includes(lastName) && dbName.startsWith(firstName.charAt(0))) {
-                    return playerDatabase[key];
+            }
+            
+            // PASS 3: Loose Initial/Last Name Match (e.g., M. Bridges -> Mikal Bridges)
+            if (lastName.length > 2) {
+                for (const key in playerDatabase) {
+                    const dbName = normalize(playerDatabase[key].name || "");
+                    if (dbName.includes(lastName) && dbName.startsWith(firstName.charAt(0))) {
+                        return playerDatabase[key];
+                    }
                 }
             }
-            return null;
+            
+            return null; // No matches found after all 3 passes
         }
 
         function handleImageError(img) {
