@@ -1,5 +1,5 @@
 {
-  "last_updated": "Apr 15, 12:46 AM ET",
+  "last_updated": "Apr 15, 12:48 AM ET",
   "player_news": [
     {
       "player_name": "Bam Adebayo",
@@ -27,7 +27,7 @@
       "position": "C",
       "status_badge": "QR",
       "description": "Questionable to return lower back",
-      "time_elapsed": "4.3h",
+      "time_elapsed": "4.4h",
       "next_game": "Tuesday @CHA",
       "local_timestamp": 1776212948.0384748
     },
@@ -1788,6 +1788,7 @@
                 "type": "team",
                 "order": 0,
                 "homeAway": "home",
+                "winner": false,
                 "team": {
                   "id": "21",
                   "uid": "s:40~l:46~t:21",
@@ -2084,7 +2085,7 @@
                     "leaders": [
                       {
                         "displayValue": "35 PTS",
-                        "value": 42.75,
+                        "value": 44.150001525878906,
                         "athlete": {
                           "id": "4437244",
                           "fullName": "Jalen Green",
@@ -2142,6 +2143,7 @@
                 "type": "team",
                 "order": 1,
                 "homeAway": "away",
+                "winner": true,
                 "team": {
                   "id": "22",
                   "uid": "s:40~l:46~t:22",
@@ -2204,7 +2206,7 @@
                   ],
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/por.png"
                 },
-                "score": "112",
+                "score": "114",
                 "linescores": [
                   {
                     "value": 31.0,
@@ -2222,8 +2224,8 @@
                     "period": 3
                   },
                   {
-                    "value": 29.0,
-                    "displayValue": "29",
+                    "value": 31.0,
+                    "displayValue": "31",
                     "period": 4
                   }
                 ],
@@ -2246,17 +2248,17 @@
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "87"
+                    "displayValue": "88"
                   },
                   {
                     "name": "fieldGoalsMade",
                     "abbreviation": "FGM",
-                    "displayValue": "39"
+                    "displayValue": "40"
                   },
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "44.8"
+                    "displayValue": "45.5"
                   },
                   {
                     "name": "freeThrowPct",
@@ -2276,7 +2278,7 @@
                   {
                     "name": "points",
                     "abbreviation": "PTS",
-                    "displayValue": "112"
+                    "displayValue": "114"
                   },
                   {
                     "name": "threePointPct",
@@ -2296,7 +2298,7 @@
                   {
                     "name": "avgPoints",
                     "abbreviation": "PTS",
-                    "displayValue": "112.0"
+                    "displayValue": "114.0"
                   },
                   {
                     "name": "avgAssists",
@@ -2497,61 +2499,18 @@
                 "headline": "NBA Play-In - West - 7th Place vs 8th Place"
               }
             ],
-            "situation": {
-              "lastPlay": {
-                "id": "401866754737",
-                "type": {
-                  "id": "584",
-                  "text": "Substitution"
-                },
-                "text": "enters the game for Deni Avdija",
-                "scoreValue": 0,
-                "team": {
-                  "id": "22"
-                },
-                "probability": {
-                  "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.317,
-                  "awayWinPercentage": 0.683
-                },
-                "athletesInvolved": [
-                  {
-                    "id": "4683021",
-                    "fullName": "Deni Avdija",
-                    "displayName": "Deni Avdija",
-                    "shortName": "D. Avdija",
-                    "links": [
-                      {
-                        "rel": [
-                          "playercard",
-                          "desktop",
-                          "athlete"
-                        ],
-                        "href": "https://www.espn.com/nba/player/_/id/4683021/deni-avdija"
-                      }
-                    ],
-                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4683021.png",
-                    "jersey": "8",
-                    "position": "F",
-                    "team": {
-                      "id": "22"
-                    }
-                  }
-                ]
-              }
-            },
             "status": {
-              "clock": 8.9,
-              "displayClock": "8.9",
+              "clock": 0.0,
+              "displayClock": "0.0",
               "period": 4,
               "type": {
-                "id": "2",
-                "name": "STATUS_IN_PROGRESS",
-                "state": "in",
-                "completed": false,
-                "description": "In Progress",
-                "detail": "8.9 - 4th Quarter",
-                "shortDetail": "8.9 - 4th"
+                "id": "3",
+                "name": "STATUS_FINAL",
+                "state": "post",
+                "completed": true,
+                "description": "Final",
+                "detail": "Final",
+                "shortDetail": "Final"
               }
             },
             "broadcasts": [
@@ -2593,11 +2552,11 @@
           {
             "language": "en-US",
             "rel": [
-              "live",
+              "summary",
               "desktop",
               "event"
             ],
-            "href": "https://www.espn.com/nba/game?gameId=401866754",
+            "href": "https://www.espn.com/nba/game/_/gameId/401866754/trail-blazers-suns",
             "text": "Gamecast",
             "shortText": "Gamecast",
             "isExternal": false,
@@ -2619,6 +2578,18 @@
           {
             "language": "en-US",
             "rel": [
+              "highlights",
+              "desktop"
+            ],
+            "href": "https://www.espn.com/nba/video?gameId=401866754",
+            "text": "Highlights",
+            "shortText": "Highlights",
+            "isExternal": false,
+            "isPremium": false
+          },
+          {
+            "language": "en-US",
+            "rel": [
               "pbp",
               "desktop",
               "event"
@@ -2631,17 +2602,17 @@
           }
         ],
         "status": {
-          "clock": 8.9,
-          "displayClock": "8.9",
+          "clock": 0.0,
+          "displayClock": "0.0",
           "period": 4,
           "type": {
-            "id": "2",
-            "name": "STATUS_IN_PROGRESS",
-            "state": "in",
-            "completed": false,
-            "description": "In Progress",
-            "detail": "8.9 - 4th Quarter",
-            "shortDetail": "8.9 - 4th"
+            "id": "3",
+            "name": "STATUS_FINAL",
+            "state": "post",
+            "completed": true,
+            "description": "Final",
+            "detail": "Final",
+            "shortDetail": "Final"
           }
         }
       }
