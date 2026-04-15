@@ -1,5 +1,5 @@
 {
-  "last_updated": "Apr 14, 10:22 PM ET",
+  "last_updated": "Apr 14, 10:24 PM ET",
   "player_news": [
     {
       "player_name": "Bam Adebayo",
@@ -27,7 +27,7 @@
       "position": "C",
       "status_badge": "QR",
       "description": "Questionable to return lower back",
-      "time_elapsed": "1.9h",
+      "time_elapsed": "2.0h",
       "next_game": "Tuesday @CHA",
       "local_timestamp": 1776212948.0384748
     },
@@ -451,6 +451,7 @@
                 "type": "team",
                 "order": 0,
                 "homeAway": "home",
+                "winner": true,
                 "team": {
                   "id": "30",
                   "uid": "s:40~l:46~t:30",
@@ -545,12 +546,12 @@
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "53"
+                    "displayValue": "54"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "53.0"
+                    "displayValue": "54.0"
                   },
                   {
                     "name": "assists",
@@ -810,6 +811,7 @@
                 "type": "team",
                 "order": 1,
                 "homeAway": "away",
+                "winner": false,
                 "team": {
                   "id": "14",
                   "uid": "s:40~l:46~t:14",
@@ -1170,37 +1172,19 @@
                 "headline": "NBA Play-In - East - 9th Place vs 10th Place"
               }
             ],
-            "situation": {
-              "lastPlay": {
-                "id": "401866755770",
-                "type": {
-                  "id": "156",
-                  "text": "Offensive Rebound"
-                },
-                "text": "Heat offensive team rebound",
-                "scoreValue": 0,
-                "team": {
-                  "id": "14"
-                },
-                "probability": {
-                  "tiePercentage": 0.0,
-                  "homeWinPercentage": 1.0,
-                  "awayWinPercentage": 0.0
-                }
-              }
-            },
             "status": {
               "clock": 0.0,
               "displayClock": "0.0",
               "period": 5,
               "type": {
-                "id": "2",
-                "name": "STATUS_IN_PROGRESS",
-                "state": "in",
-                "completed": false,
-                "description": "In Progress",
-                "detail": "0.0 - OT",
-                "shortDetail": "0.0 - OT"
+                "id": "3",
+                "name": "STATUS_FINAL",
+                "state": "post",
+                "completed": true,
+                "description": "Final",
+                "detail": "Final/OT",
+                "shortDetail": "Final/OT",
+                "altDetail": "OT"
               }
             },
             "broadcasts": [
@@ -1242,11 +1226,11 @@
           {
             "language": "en-US",
             "rel": [
-              "live",
+              "summary",
               "desktop",
               "event"
             ],
-            "href": "https://www.espn.com/nba/game?gameId=401866755",
+            "href": "https://www.espn.com/nba/game/_/gameId/401866755/heat-hornets",
             "text": "Gamecast",
             "shortText": "Gamecast",
             "isExternal": false,
@@ -1296,13 +1280,14 @@
           "displayClock": "0.0",
           "period": 5,
           "type": {
-            "id": "2",
-            "name": "STATUS_IN_PROGRESS",
-            "state": "in",
-            "completed": false,
-            "description": "In Progress",
-            "detail": "0.0 - OT",
-            "shortDetail": "0.0 - OT"
+            "id": "3",
+            "name": "STATUS_FINAL",
+            "state": "post",
+            "completed": true,
+            "description": "Final",
+            "detail": "Final/OT",
+            "shortDetail": "Final/OT",
+            "altDetail": "OT"
           }
         }
       },
@@ -1452,12 +1437,12 @@
                   {
                     "name": "freeThrowPct",
                     "abbreviation": "FT%",
-                    "displayValue": "83.3"
+                    "displayValue": "71.4"
                   },
                   {
                     "name": "freeThrowsAttempted",
                     "abbreviation": "FTA",
-                    "displayValue": "6"
+                    "displayValue": "7"
                   },
                   {
                     "name": "freeThrowsMade",
@@ -1629,12 +1614,12 @@
                     "leaders": [
                       {
                         "displayValue": "5 PTS",
-                        "value": 7.25,
+                        "value": 6.75,
                         "athlete": {
-                          "id": "4437244",
-                          "fullName": "Jalen Green",
-                          "displayName": "Jalen Green",
-                          "shortName": "J. Green",
+                          "id": "3136193",
+                          "fullName": "Devin Booker",
+                          "displayName": "Devin Booker",
+                          "shortName": "D. Booker",
                           "links": [
                             {
                               "rel": [
@@ -1642,11 +1627,11 @@
                                 "desktop",
                                 "athlete"
                               ],
-                              "href": "https://www.espn.com/nba/player/_/id/4437244/jalen-green"
+                              "href": "https://www.espn.com/nba/player/_/id/3136193/devin-booker"
                             }
                           ],
-                          "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4437244.png",
-                          "jersey": "4",
+                          "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/3136193.png",
+                          "jersey": "1",
                           "position": {
                             "abbreviation": "G"
                           },
@@ -2029,45 +2014,21 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "40186675452",
+                "id": "40186675457",
                 "type": {
-                  "id": "12",
-                  "text": "Kicked Ball"
+                  "id": "16",
+                  "text": "Full Timeout"
                 },
-                "text": "Matisse Thybulle kicked ball violation",
+                "text": "Trail Blazers Full timeout",
                 "scoreValue": 0,
                 "team": {
                   "id": "22"
                 },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.726,
-                  "awayWinPercentage": 0.274
-                },
-                "athletesInvolved": [
-                  {
-                    "id": "3907498",
-                    "fullName": "Matisse Thybulle",
-                    "displayName": "Matisse Thybulle",
-                    "shortName": "M. Thybulle",
-                    "links": [
-                      {
-                        "rel": [
-                          "playercard",
-                          "desktop",
-                          "athlete"
-                        ],
-                        "href": "https://www.espn.com/nba/player/_/id/3907498/matisse-thybulle"
-                      }
-                    ],
-                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/3907498.png",
-                    "jersey": "4",
-                    "position": "G",
-                    "team": {
-                      "id": "22"
-                    }
-                  }
-                ]
+                  "homeWinPercentage": 0.748,
+                  "awayWinPercentage": 0.252
+                }
               }
             },
             "status": {
