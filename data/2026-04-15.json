@@ -1,5 +1,5 @@
 {
-  "last_updated": "Apr 15, 11:34 PM ET",
+  "last_updated": "Apr 15, 11:36 PM ET",
   "player_news": [
     {
       "player_name": "Isaiah Jackson",
@@ -27,7 +27,7 @@
       "position": "SF",
       "status_badge": "IN",
       "description": "Playing left ankle sprain",
-      "time_elapsed": "6.3h",
+      "time_elapsed": "6.4h",
       "next_game": "Wednesday @PHI",
       "local_timestamp": 1776287847.883908
     },
@@ -37,7 +37,7 @@
       "position": "C",
       "status_badge": "P",
       "description": "robable right ankle sprain",
-      "time_elapsed": "7.5h",
+      "time_elapsed": "7.6h",
       "next_game": "Wednesday vs GSW",
       "local_timestamp": 1776283583.763614
     },
@@ -1863,6 +1863,11 @@
                     "value": 30.0,
                     "displayValue": "30",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -2207,6 +2212,11 @@
                     "value": 31.0,
                     "displayValue": "31",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -2481,32 +2491,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401866756346",
+                "id": "401866756352",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "584",
+                  "text": "Substitution"
                 },
-                "text": "End of the 2nd Quarter",
+                "text": "Gui Santos enters the game for Gary Payton II",
                 "scoreValue": 0,
+                "team": {
+                  "id": "9"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
                   "homeWinPercentage": 0.84,
                   "awayWinPercentage": 0.16000000000000003
-                }
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "4997536",
+                    "fullName": "Gui Santos",
+                    "displayName": "Gui Santos",
+                    "shortName": "G. Santos",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/4997536/gui-santos"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4997536.png",
+                    "jersey": "15",
+                    "position": "F",
+                    "team": {
+                      "id": "9"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 2,
+              "clock": 720.0,
+              "displayClock": "12:00",
+              "period": 3,
               "type": {
-                "id": "23",
-                "name": "STATUS_HALFTIME",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "Halftime",
-                "detail": "Halftime",
-                "shortDetail": "Halftime"
+                "description": "In Progress",
+                "detail": "12:00 - 3rd Quarter",
+                "shortDetail": "12:00 - 3rd"
               }
             },
             "broadcasts": [
@@ -2586,17 +2623,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 2,
+          "clock": 720.0,
+          "displayClock": "12:00",
+          "period": 3,
           "type": {
-            "id": "23",
-            "name": "STATUS_HALFTIME",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "Halftime",
-            "detail": "Halftime",
-            "shortDetail": "Halftime"
+            "description": "In Progress",
+            "detail": "12:00 - 3rd Quarter",
+            "shortDetail": "12:00 - 3rd"
           }
         }
       }
