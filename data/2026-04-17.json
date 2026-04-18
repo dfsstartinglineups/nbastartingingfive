@@ -1,5 +1,5 @@
 {
-  "last_updated": "Apr 17, 10:46 PM ET",
+  "last_updated": "Apr 17, 10:48 PM ET",
   "player_news": [
     {
       "player_name": "Grayson Allen",
@@ -47,7 +47,7 @@
       "position": "C",
       "status_badge": "IN",
       "description": "Playing right ankle soreness",
-      "time_elapsed": "1.6h",
+      "time_elapsed": "1.7h",
       "next_game": "Friday @PHO",
       "local_timestamp": 1775867753.1256578
     },
@@ -57,7 +57,7 @@
       "position": "C",
       "status_badge": "P",
       "description": "robable right ankle soreness",
-      "time_elapsed": "6.8h",
+      "time_elapsed": "6.9h",
       "next_game": "Friday @PHO",
       "local_timestamp": 1775848635.8153563
     },
@@ -87,7 +87,7 @@
       "position": "C",
       "status_badge": "OUT",
       "description": "Out left foot soreness",
-      "time_elapsed": "2.4h",
+      "time_elapsed": "2.5h",
       "next_game": "Friday vs GSW",
       "local_timestamp": 1775678505.6546972
     },
@@ -107,7 +107,7 @@
       "position": "C",
       "status_badge": "IN",
       "description": "Playing left hip soreness",
-      "time_elapsed": "4.2h",
+      "time_elapsed": "4.3h",
       "next_game": "Friday @ORL",
       "local_timestamp": 1775424690.2105236
     },
@@ -1606,6 +1606,11 @@
                     "value": 33.0,
                     "displayValue": "33",
                     "period": 1
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 2
                   }
                 ],
                 "statistics": [
@@ -1945,6 +1950,11 @@
                     "value": 15.0,
                     "displayValue": "15",
                     "period": 1
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 2
                   }
                 ],
                 "statistics": [
@@ -2219,32 +2229,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401866759163",
+                "id": "401866759168",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "584",
+                  "text": "Substitution"
                 },
-                "text": "End of the 1st Quarter",
+                "text": "Draymond Green enters the game for Al Horford",
                 "scoreValue": 0,
+                "team": {
+                  "id": "9"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
                   "homeWinPercentage": 0.937,
                   "awayWinPercentage": 0.06299999999999994
-                }
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "6589",
+                    "fullName": "Draymond Green",
+                    "displayName": "Draymond Green",
+                    "shortName": "D. Green",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/6589/draymond-green"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/6589.png",
+                    "jersey": "23",
+                    "position": "F",
+                    "team": {
+                      "id": "9"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 1,
+              "clock": 696.0,
+              "displayClock": "11:36",
+              "period": 2,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "End of Period",
-                "detail": "End of 1st Quarter",
-                "shortDetail": "End of 1st"
+                "description": "In Progress",
+                "detail": "11:36 - 2nd Quarter",
+                "shortDetail": "11:36 - 2nd"
               }
             },
             "broadcasts": [
@@ -2324,17 +2361,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 1,
+          "clock": 696.0,
+          "displayClock": "11:36",
+          "period": 2,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "End of Period",
-            "detail": "End of 1st Quarter",
-            "shortDetail": "End of 1st"
+            "description": "In Progress",
+            "detail": "11:36 - 2nd Quarter",
+            "shortDetail": "11:36 - 2nd"
           }
         }
       }
