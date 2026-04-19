@@ -126,11 +126,14 @@ def merge_news_lists(old_news, new_news):
             merged_dict[key] = n
             
     cleaned_list = list(merged_dict.values())
-    
-    # 3. Sort strictly by our guaranteed local timestamp (Highest/Newest first)
-    cleaned_list.sort(key=lambda x: x.get('local_timestamp', 0), reverse=True)
-    
-    return cleaned_list
+            
+            # --- NEW: Filter out any news older than 24 hours (86400 seconds) ---
+            recent_list = [n for n in cleaned_list if (current_time - n.get('local_timestamp', 0)) <= 86400]
+            
+            # 3. Sort strictly by our guaranteed local timestamp (Highest/Newest first)
+            recent_list.sort(key=lambda x: x.get('local_timestamp', 0), reverse=True)
+            
+            return recent_list
 
 # ==========================================================
 # --- RAW ESPN SCOREBOARD FETCH (FOR THE NEW BUNDLED JSON) ---
