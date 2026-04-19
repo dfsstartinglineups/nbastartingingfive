@@ -243,6 +243,19 @@
             /* UPDATED: Brought back 50% of the team color and brightened it */
             filter: grayscale(50%) brightness(80%); 
         }
+        .playoffs-watermark {
+            position: absolute;
+            bottom: 20px; /* Adjust this to push it higher or lower from the baseline */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px; /* Adjust this to make the logo larger or smaller */
+            object-fit: contain;
+            opacity: 0.25; /* 25% opacity as requested */
+            z-index: 1; 
+            pointer-events: none;
+            /* Optional: Add a grayscale filter if you want it to blend in more like the team logo */
+            /* filter: grayscale(100%); */
+        }
 
         .player-node {
             position: absolute;
@@ -400,6 +413,8 @@
                 <div class="paint-area"></div>
                 
                 <img id="watermark" class="watermark-logo" src="" alt="">
+                
+                <img class="playoffs-watermark" src="logos/nba_playoffs.png" alt="NBA Playoffs">
 
                 <div id="players-container">
                     </div>
