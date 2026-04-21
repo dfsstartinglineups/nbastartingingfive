@@ -100,37 +100,42 @@ def merge_news_lists(old_news, new_news):
     # 1. Process OLD news first.
     for n in old_news:
         name = str(n.get('player_name', '')).strip().lower()
-        badge = str(n.get('status_badge', '')).strip().upper()
-        key = f"{name}_{badge}"
-        
-        if name and badge:
+        if name:
             # Give legacy items a fake older timestamp if they don't have one yet
             if 'local_timestamp' not in n:
                 n['local_timestamp'] = current_time - 86400 
-            merged_dict[key] = n
+            merged_dict[name] = n
             
-    # 2. Process NEW news second.
-    for n in new_news:
+    # 2. Process NEW news in REVERSE order (Bottom to Top)
+    # This ensures the newest news at the top of the page is written LAST, overwriting old statuses!
+    for i, n in enumerate(reversed(new_news)):
         name = str(n.get('player_name', '')).strip().lower()
         badge = str(n.get('status_badge', '')).strip().upper()
-        key = f"{name}_{badge}"
         
-        if name and badge:
-            if key in merged_dict:
-                # Inherit the exact original timestamp. No bumping.
-                n['local_timestamp'] = merged_dict[key].get('local_timestamp', current_time)
-            else:
-                # Brand new event
-                n['local_timestamp'] = current_time
+        if name:
+            if name in merged_dict:
+                old_item = merged_dict[name]
+                old_badge = str(old_item.get('status_badge', '')).strip().upper()
                 
-            merged_dict[key] = n
+                # If the status is exactly the same, inherit the old timestamp so it doesn't jump to the top
+                if badge == old_badge:
+                    n['local_timestamp'] = old_item.get('local_timestamp', current_time)
+                else:
+                    # The status changed! (e.g., Questionable -> In). 
+                    # Assign a new timestamp, adding a tiny fraction based on index to prevent ties.
+                    n['local_timestamp'] = current_time + (i * 0.001)
+            else:
+                # Brand new player in the news
+                n['local_timestamp'] = current_time + (i * 0.001)
+                
+            merged_dict[name] = n
             
     cleaned_list = list(merged_dict.values())
             
-            # --- NEW: Filter out any news older than 24 hours (86400 seconds) ---
+    # 3. Filter out any news older than 24 hours (86400 seconds)
     recent_list = [n for n in cleaned_list if (current_time - n.get('local_timestamp', 0)) <= 86400]
             
-            # 3. Sort strictly by our guaranteed local timestamp (Highest/Newest first)
+    # 4. Sort strictly by our guaranteed local timestamp (Highest/Newest first)
     recent_list.sort(key=lambda x: x.get('local_timestamp', 0), reverse=True)
             
     return recent_list
