@@ -245,13 +245,13 @@
         }
         .playoffs-watermark {
             position: absolute;
-            top: 45%; /* Centers it vertically, matching the team watermark */
+            top: 22%; /* Decreased from 45% to slide it physically up the court */
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 800px; /* Massive size to cover most of the 960px wide court */
+            width: 750px; /* Still massive, but balanced for the upper half */
             object-fit: contain;
-            opacity: 0.20; /* Subtle opacity so it blends into the hardwood */
-            z-index: 1; /* Layers right above the team watermark (which is z-index: 0) */
+            opacity: 0.20; 
+            z-index: 1; 
             pointer-events: none;
         }
 
