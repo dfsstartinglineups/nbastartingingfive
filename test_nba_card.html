@@ -243,11 +243,16 @@
             /* UPDATED: Brought back 50% of the team color and brightened it */
             filter: grayscale(50%) brightness(80%); 
         }
-        .playoffs-header-logo {
-            width: 180px; /* Scaled down slightly to fit nicely in the header */
-            margin-top: 12px; /* Gives it a little breathing room under the text */
-            opacity: 0.5; /* Bumped up to 50% as requested */
+        .playoffs-watermark {
+            position: absolute;
+            top: 45%; /* Centers it vertically, matching the team watermark */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px; /* Massive size to cover most of the 960px wide court */
             object-fit: contain;
+            opacity: 0.20; /* Subtle opacity so it blends into the hardwood */
+            z-index: 1; /* Layers right above the team watermark (which is z-index: 0) */
+            pointer-events: none;
         }
 
         .player-node {
@@ -392,8 +397,6 @@
                 <div id="starting-tag" class="starting-tag">Starting 5</div>
                 <h1 id="team-name" data-text="LOADING...">LOADING...</h1>
                 <div id="matchup-info">FETCHING DATA...</div>
-                
-                <img class="playoffs-header-logo" src="logos/nba_playoffs.png" alt="NBA Playoffs">
             </div>
             <img id="team-logo" src="" alt="Team Logo">
         </div>
@@ -408,6 +411,7 @@
                 <div class="paint-area"></div>
                 
                 <img id="watermark" class="watermark-logo" src="" alt="">
+                <img class="playoffs-watermark" src="logos/nba_playoffs.png" alt="NBA Playoffs">
 
                 <div id="players-container">
                     </div>
