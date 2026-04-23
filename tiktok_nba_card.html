@@ -678,10 +678,12 @@
                         const t2 = g.teams[1];
                         const hasRoster1 = g.rosters[t1] && g.rosters[t1].players && g.rosters[t1].players.length >= 5;
                         const hasRoster2 = g.rosters[t2] && g.rosters[t2].players && g.rosters[t2].players.length >= 5;
+                        
+                        // If neither team has at least 5 players loaded, skip this game
                         if (!hasRoster1 && !hasRoster2) return false;
-                        const t1Verified = g.rosters[t1].is_official === true || (hasRoster1 && g.rosters[t1].players.slice(0, 5).every(p => p.verified === true));
-                        const t2Verified = g.rosters[t2].is_official === true || (hasRoster2 && g.rosters[t2].players.slice(0, 5).every(p => p.verified === true));
-                        return t1Verified || t2Verified;
+                        
+                        // Otherwise, load the game! (Whether it's Official or Projected)
+                        return true; 
                     });
                 }
                 
@@ -793,18 +795,12 @@
 
             const roster = game.rosters[targetAbbr].players.slice(0, 5);
 
-            const isOfficial = game.rosters[targetAbbr].is_official === true || roster.every(p => p.verified === true);
             const tagEl = document.getElementById('starting-tag');
             
-            if (isOfficial) {
-                tagEl.textContent = "STARTING 5";
-                tagEl.style.color = "var(--text-dark)";
-                tagEl.style.textShadow = "1px 1px 0px rgba(255,255,255,0.5)";
-            } else {
-                tagEl.textContent = "PROJECTED 5";
-                tagEl.style.color = "rgba(0,0,0,0.4)"; 
-                tagEl.style.textShadow = "none";
-            }
+            // ALWAYS render "STARTING 5" so the draft video is perfectly ready to post
+            tagEl.textContent = "STARTING 5";
+            tagEl.style.color = "var(--text-dark)";
+            tagEl.style.textShadow = "1px 1px 0px rgba(255,255,255,0.5)";
 
             tagEl.classList.remove('anim-header-tag');
             void tagEl.offsetWidth; 
