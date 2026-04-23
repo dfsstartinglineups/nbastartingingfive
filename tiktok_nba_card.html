@@ -239,7 +239,7 @@
             filter: grayscale(50%) brightness(80%); 
         }
 
-        /* --- NEW: DYNAMIC TRACKING SPOTLIGHT & STROBE --- */
+        /* --- NEW: DYNAMIC TRACKING SPOTLIGHT --- */
 
         #spotlight-overlay {
             position: absolute;
@@ -255,29 +255,6 @@
         .lights-out-mode #spotlight-overlay {
             opacity: 1;
         }
-
-        #strobe-container {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 21; 
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        
-        .strobe-on {
-            opacity: 1 !important;
-        }
-
-        .strobe {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: white;
-            opacity: 0;
-            mix-blend-mode: overlay;
-        }
-        @keyframes strobeFlash { 0%, 100% { opacity: 0; } 50% { opacity: 0.15; } }
-        .strobe-on .strobe { animation: strobeFlash 0.1s infinite; }
 
         /* ======================================================== */
 
@@ -527,9 +504,6 @@
         </div>
 
         <div id="spotlight-overlay"></div>
-        <div id="strobe-container">
-            <div id="strobe" class="strobe"></div>
-        </div>
     </div>
 
     <script>
@@ -775,9 +749,7 @@
             trackingSpotlight = false;
             activePlayerIndex = -1;
             const captureArea = document.getElementById('capture-area');
-            const strobeCont = document.getElementById('strobe-container');
             if (captureArea) captureArea.classList.remove('lights-out-mode');
-            if (strobeCont) strobeCont.classList.remove('strobe-on');
 
             const gameIdx = document.getElementById('game-selector').value;
             const side = document.getElementById('team-selector').value;
@@ -885,9 +857,8 @@
 
             // --- TRIGGER THE ARENA LIGHTS OFF AT 4.11s ---
             setTimeout(() => {
-                if (captureArea && strobeCont) {
+                if (captureArea) {
                     captureArea.classList.add('lights-out-mode');
-                    strobeCont.classList.add('strobe-on');
                 }
                 trackingSpotlight = true;
                 trackSpotlight(); 
@@ -895,9 +866,8 @@
 
             // --- TRIGGER THE ARENA LIGHTS ON AT 42.5s (End of Intro) ---
             setTimeout(() => {
-                if (captureArea && strobeCont) {
+                if (captureArea) {
                     captureArea.classList.remove('lights-out-mode');
-                    strobeCont.classList.remove('strobe-on');
                 }
                 trackingSpotlight = false; // Turn off the heavy rendering loop
             }, 42500); 
