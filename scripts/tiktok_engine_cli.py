@@ -32,6 +32,21 @@ NBA_NAMES = {
     "UTA": "Utah Jazz", "WAS": "Washington Wizards"
 }
 
+# Dictionary to expand state abbreviations into spoken words
+STATE_NAMES = {
+    "AL": "Alabama", "AK": "Alaska", "AZ": "Arizona", "AR": "Arkansas", "CA": "California",
+    "CO": "Colorado", "CT": "Connecticut", "DE": "Delaware", "FL": "Florida", "GA": "Georgia",
+    "HI": "Hawaii", "ID": "Idaho", "IL": "Illinois", "IN": "Indiana", "IA": "Iowa",
+    "KS": "Kansas", "KY": "Kentucky", "LA": "Louisiana", "ME": "Maine", "MD": "Maryland",
+    "MA": "Massachusetts", "MI": "Michigan", "MN": "Minnesota", "MS": "Mississippi", "MO": "Missouri",
+    "MT": "Montana", "NE": "Nebraska", "NV": "Nevada", "NH": "New Hampshire", "NJ": "New Jersey",
+    "NM": "New Mexico", "NY": "New York", "NC": "North Carolina", "ND": "North Dakota", "OH": "Ohio",
+    "OK": "Oklahoma", "OR": "Oregon", "PA": "Pennsylvania", "RI": "Rhode Island", "SC": "South Carolina",
+    "SD": "South Dakota", "TN": "Tennessee", "TX": "Texas", "UT": "Utah", "VT": "Vermont",
+    "VA": "Virginia", "WA": "Washington", "WV": "West Virginia", "WI": "Wisconsin", "WY": "Wyoming",
+    "DC": "Washington D.C."
+}
+
 # ==========================================
 # FUNCTIONS
 # ==========================================
@@ -149,8 +164,22 @@ def generate_announcer_audio():
                     athlete_data = espn_response.json().get('athlete', {})
                     
                     college_or_home = athlete_data.get('college', {}).get('name', '')
+                    
+                    # 🚨 NEW: Extract birthplace and swap abbreviation for full state name
                     if not college_or_home:
-                        college_or_home = athlete_data.get('displayBirthPlace', '')
+                        raw_birth_place = athlete_data.get('displayBirthPlace', '')
+                        if raw_birth_place:
+                            # Split "Akron, OH" into ["Akron", "OH"]
+                            bp_parts = [p.strip() for p in raw_birth_place.split(',')]
+                            if len(bp_parts) > 1:
+                                possible_state = bp_parts[-1].upper()
+                                if possible_state in STATE_NAMES:
+                                    bp_parts[-1] = STATE_NAMES[possible_state]
+                                    college_or_home = ", ".join(bp_parts)
+                                else:
+                                    college_or_home = raw_birth_place
+                            else:
+                                college_or_home = raw_birth_place
                         
                     raw_height = athlete_data.get('displayHeight', '')
                     if raw_height:
