@@ -51,12 +51,18 @@ async def record_nba_video():
         )
         page = await context.new_page()
         
-        # Point to your live site (make sure this is the file with the animations!)
         url = f"https://nbastartingfive.com/tiktok_nba_card.html?date={TARGET_DATE}&team={TARGET_TEAM}&side={TARGET_SIDE}"
         await page.goto(url, wait_until="networkidle")
         
+        # Hide the controls menu dynamically so the video only sees the court!
+        await page.evaluate("""
+            const controls = document.getElementById('controls');
+            if(controls) {
+                controls.style.display = 'none';
+            }
+        """)
+        
         print("⏳ Waiting 26 seconds for CSS animations to finish...")
-        # Increased to 26 to ensure the Center's animation finishes and we get a nice 3-second hold at the end
         await asyncio.sleep(26)
         
         video_path = await page.video.path()
@@ -67,7 +73,6 @@ async def record_nba_video():
 def generate_announcer_audio():
     print("🎙️ Generating PA Announcer Audio...")
     
-    # 1. Fetch the live roster from your site
     try:
         data = requests.get(f"https://nbastartingfive.com/data/{TARGET_DATE}.json").json()
         games = data.get('games', [])
@@ -77,7 +82,6 @@ def generate_announcer_audio():
         print(f"❌ Failed to fetch roster for audio script: {e}")
         return None
 
-    # 2. Fetch your players.json to get Jerseys and ESPN IDs
     players_db = {}
     try:
         players_url = f"https://nbastartingfive.com/data/players.json?v={time.time()}"
@@ -85,7 +89,6 @@ def generate_announcer_audio():
     except Exception as e:
         print(f"⚠️ Could not load players.json: {e}")
 
-    # 3. Build the Ultimate Script
     full_name = NBA_NAMES.get(TARGET_TEAM, TARGET_TEAM)
     script = f"And now... the starting lineup for your... {full_name}! "
     
@@ -97,23 +100,19 @@ def generate_announcer_audio():
         raw_name = player.get('name', 'Unknown')
         target_clean = normalize_name(raw_name)
         
-        # Extract first and last name for nickname matching
         parts = target_clean.split(" ")
         first_name = parts[0]
         last_name = " ".join(parts[1:])
         
-        # Search players.json for a match
         db_player = {}
         for key, pdata in players_db.items():
             db_name = normalize_name(pdata.get('name', ''))
             db_short = normalize_name(pdata.get('short_name', ''))
             
-            # Pass 1: Strict Match
             if target_clean in [db_name, db_short]:
                 db_player = pdata
                 break
             
-            # Pass 2: Nickname Match
             if nicknames.get(first_name):
                 nick_variant = f"{nicknames[first_name]} {last_name}"
                 if nick_variant in [db_name, db_short]:
@@ -121,30 +120,47 @@ def generate_announcer_audio():
                     break
                     
         jersey = db_player.get('jersey', '')
-        espn_id = db_player.get('espn_id', '')
+        
+        # 🚨 FIX: Dig directly into the nested 'athlete' dictionary to grab the 'id'
+        espn_id = ""
+        if 'athlete' in db_player and isinstance(db_player['athlete'], dict):
+            espn_id = db_player['athlete'].get('id', '')
+            
+        # Fallbacks just in case the structure varies
+        if not espn_id:
+            espn_id = db_player.get('espn_id') or db_player.get('id', '')
+        
         college_or_home = ""
         spoken_height = ""
 
-        # Hit ESPN specifically for this player's college and height using their exact ID
         if espn_id:
             try:
                 espn_url = f"http://site.api.espn.com/apis/common/v3/sports/basketball/nba/athletes/{espn_id}"
-                athlete_data = requests.get(espn_url).json().get('athlete', {})
                 
-                # Grab College or Birthplace
-                college_or_home = athlete_data.get('college', {}).get('name', '')
-                if not college_or_home:
-                    college_or_home = athlete_data.get('displayBirthPlace', '')
+                espn_headers = {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+                }
+                
+                espn_response = requests.get(espn_url, headers=espn_headers)
+                
+                if espn_response.status_code == 200:
+                    athlete_data = espn_response.json().get('athlete', {})
                     
-                # Grab Height and format it for Text-to-Speech (e.g. 6' 9" -> 6 foot 9)
-                raw_height = athlete_data.get('displayHeight', '')
-                if raw_height:
-                    spoken_height = raw_height.replace("'", " foot").replace('"', '').strip()
+                    college_or_home = athlete_data.get('college', {}).get('name', '')
+                    if not college_or_home:
+                        college_or_home = athlete_data.get('displayBirthPlace', '')
+                        
+                    raw_height = athlete_data.get('displayHeight', '')
+                    if raw_height:
+                        spoken_height = raw_height.replace("'", " foot").replace('"', '').strip()
+                else:
+                    print(f"⚠️ ESPN API blocked the request for {raw_name} (Error {espn_response.status_code})")
                     
             except Exception as e:
                 print(f"⚠️ Could not fetch ESPN data for {raw_name}: {e}")
+        else:
+            print(f"⚠️ Could not locate ESPN ID for {raw_name} in players.json")
 
-        # Assemble the final string for this player
         script += f"At {spoken_pos}... "
         if spoken_height:
             script += f"standing at {spoken_height}... "
@@ -156,7 +172,6 @@ def generate_announcer_audio():
         
     print(f"📜 Final Script: {script}")
     
-    # 4. Call ElevenLabs API
     try:
         url = f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}"
         headers = {
@@ -203,7 +218,6 @@ def create_final_tiktok(silent_video_path, voiceover_path):
         video_clip.close()
         voice_clip.close()
         
-        # Clean up the raw files so they don't get committed to GitHub
         if os.path.exists(silent_video_path): os.remove(silent_video_path)
         if os.path.exists(voiceover_path): os.remove(voiceover_path)
         
