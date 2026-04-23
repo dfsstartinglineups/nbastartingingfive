@@ -59,29 +59,75 @@ async def record_nba_video():
 def generate_announcer_audio():
     print("🎙️ Generating PA Announcer Audio...")
     
-    # Fetch the live roster to get the names for the script
+    # 1. Fetch the live roster from your site
     try:
         data = requests.get(f"https://nbastartingfive.com/data/{TARGET_DATE}.json").json()
         games = data.get('games', [])
         target_game = next((g for g in games if TARGET_TEAM in g.get('teams', [])), None)
         roster = target_game['rosters'][TARGET_TEAM]['players'][:5]
     except Exception as e:
-        print(f"Failed to fetch roster for audio script: {e}")
+        print(f"❌ Failed to fetch roster for audio script: {e}")
         return None
 
+    # 2. Fetch ESPN Roster to get Colleges and Jerseys
+    # ESPN uses slightly different abbreviations for a few teams, so we map them here
+    espn_abbr_map = {"GSW": "GS", "NOP": "NO", "NYK": "NY", "SAS": "SA", "UTA": "UTAH", "WAS": "WSH"}
+    espn_team = espn_abbr_map.get(TARGET_TEAM, TARGET_TEAM)
+    espn_url = f"http://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/{espn_team}/roster"
+    
+    player_info_db = {}
+    try:
+        espn_data = requests.get(espn_url).json()
+        athletes = espn_data.get('athletes', [])[0].get('items', [])
+        for item in athletes:
+            name_key = item.get('fullName', '').lower().replace('.', '').strip()
+            jersey = item.get('jersey', '')
+            college = item.get('college', {}).get('name', '')
+            
+            # Fallback for international players (e.g., Luka Doncic -> "from Slovenia")
+            if not college and 'birthPlace' in item:
+                college = item['birthPlace'].get('country', '')
+                if college == "USA": college = "" # Skip if just USA
+                
+            player_info_db[name_key] = {'jersey': jersey, 'college': college}
+    except Exception as e:
+        print(f"⚠️ Could not fetch ESPN data: {e}")
+
+    # 3. Build the Ultimate Script
     full_name = NBA_NAMES.get(TARGET_TEAM, TARGET_TEAM)
     script = f"And now... the starting lineup for your... {full_name}! "
     
-    # NEW: Hardcoded list of full position names to match the 5 players perfectly
+    # Hardcoded full position names to match the 5 players perfectly
     SPOKEN_POSITIONS = ["Point Guard", "Shooting Guard", "Small Forward", "Power Forward", "Center"]
     
     for i, player in enumerate(roster):
-        # Grab the full position name based on their order in the starting 5
         spoken_pos = SPOKEN_POSITIONS[i] if i < len(SPOKEN_POSITIONS) else "Flex"
-        
         name = player.get('name', 'Unknown')
-        script += f"At {spoken_pos}... {name}... "
+        search_name = name.lower().replace('.', '').strip()
         
+        # Try to find the player in our ESPN data
+        info = player_info_db.get(search_name, {})
+        if not info:
+            # Loose matching just in case (e.g., "Cam Thomas" vs "Cameron Thomas")
+            for espn_name, db_info in player_info_db.items():
+                if search_name in espn_name or espn_name in search_name:
+                    info = db_info
+                    break
+                    
+        jersey = info.get('jersey', '')
+        college = info.get('college', '')
+
+        # Add to script with dynamic pauses (...)
+        script += f"At {spoken_pos}... "
+        if college:
+            script += f"from {college}... "
+        if jersey:
+            script += f"number {jersey}... "
+        script += f"{name}! "
+        
+    print(f"📜 Final Script: {script}")
+    
+    # 4. Call ElevenLabs API
     try:
         url = f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}"
         headers = {
