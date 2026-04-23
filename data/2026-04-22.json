@@ -1,5 +1,5 @@
 {
-  "last_updated": "Apr 23, 12:14 AM ET",
+  "last_updated": "Apr 23, 12:16 AM ET",
   "player_news": [
     {
       "player_name": "Jalen Williams",
@@ -7,9 +7,9 @@
       "position": "SF",
       "status_badge": "QR",
       "description": "Questionable to return left hamstring strain.",
-      "time_elapsed": "35m",
+      "time_elapsed": "37m",
       "next_game": "Wednesday vs PHO",
-      "local_timestamp": 1776917735.106766
+      "local_timestamp": 1776917848.8837807
     },
     {
       "player_name": "Grayson Allen",
@@ -19,7 +19,7 @@
       "description": "Playing left hamstring strain",
       "time_elapsed": "3.4h",
       "next_game": "Wednesday @OKC",
-      "local_timestamp": 1776917735.104766
+      "local_timestamp": 1776917848.8817806
     },
     {
       "player_name": "Jordan Goodwin",
@@ -27,9 +27,9 @@
       "position": "SG",
       "status_badge": "OUT",
       "description": "Out left calf soreness",
-      "time_elapsed": "3.7h",
+      "time_elapsed": "3.8h",
       "next_game": "Wednesday @OKC",
-      "local_timestamp": 1776917735.103766
+      "local_timestamp": 1776917848.8807807
     },
     {
       "player_name": "Mark Williams",
@@ -1707,6 +1707,7 @@
                 "type": "team",
                 "order": 0,
                 "homeAway": "home",
+                "winner": true,
                 "team": {
                   "id": "25",
                   "uid": "s:40~l:46~t:25",
@@ -2061,6 +2062,7 @@
                 "type": "team",
                 "order": 1,
                 "homeAway": "away",
+                "winner": false,
                 "team": {
                   "id": "21",
                   "uid": "s:40~l:46~t:21",
@@ -2390,7 +2392,7 @@
                     ]
                   }
                 ],
-                "record": "0-1",
+                "record": "0-2",
                 "records": [
                   {
                     "name": "overall",
@@ -2417,61 +2419,18 @@
                 "headline": "West 1st Round - Game 2"
               }
             ],
-            "situation": {
-              "lastPlay": {
-                "id": "401869368696",
-                "type": {
-                  "id": "99",
-                  "text": "Free Throw - 2 of 2"
-                },
-                "text": "Shai Gilgeous-Alexander makes free throw 2 of 2",
-                "scoreValue": 1,
-                "team": {
-                  "id": "25"
-                },
-                "probability": {
-                  "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.999,
-                  "awayWinPercentage": 0.0010000000000000009
-                },
-                "athletesInvolved": [
-                  {
-                    "id": "4278073",
-                    "fullName": "Shai Gilgeous-Alexander",
-                    "displayName": "Shai Gilgeous-Alexander",
-                    "shortName": "S. Gilgeous-Alexander",
-                    "links": [
-                      {
-                        "rel": [
-                          "playercard",
-                          "desktop",
-                          "athlete"
-                        ],
-                        "href": "https://www.espn.com/nba/player/_/id/4278073/shai-gilgeous-alexander"
-                      }
-                    ],
-                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4278073.png",
-                    "jersey": "2",
-                    "position": "G",
-                    "team": {
-                      "id": "25"
-                    }
-                  }
-                ]
-              }
-            },
             "status": {
               "clock": 0.0,
               "displayClock": "0.0",
               "period": 4,
               "type": {
-                "id": "2",
-                "name": "STATUS_IN_PROGRESS",
-                "state": "in",
-                "completed": false,
-                "description": "In Progress",
-                "detail": "0.0 - 4th Quarter",
-                "shortDetail": "0.0 - 4th"
+                "id": "3",
+                "name": "STATUS_FINAL",
+                "state": "post",
+                "completed": true,
+                "description": "Final",
+                "detail": "Final",
+                "shortDetail": "Final"
               }
             },
             "broadcasts": [
@@ -2491,14 +2450,14 @@
             "series": {
               "type": "playoff",
               "title": "Playoff Series",
-              "summary": "OKC leads series 1-0",
+              "summary": "OKC leads series 2-0",
               "completed": false,
               "totalCompetitions": 7,
               "competitors": [
                 {
                   "id": "25",
                   "uid": "s:40~l:46~t:25",
-                  "wins": 1,
+                  "wins": 2,
                   "ties": 0,
                   "href": "http://sports.core.api.espn.pvt/v2/sports/basketball/leagues/nba/seasons/2026/teams/25?lang=en&region=us"
                 },
@@ -2538,11 +2497,11 @@
           {
             "language": "en-US",
             "rel": [
-              "live",
+              "summary",
               "desktop",
               "event"
             ],
-            "href": "https://www.espn.com/nba/game?gameId=401869368",
+            "href": "https://www.espn.com/nba/game/_/gameId/401869368/suns-thunder",
             "text": "Gamecast",
             "shortText": "Gamecast",
             "isExternal": false,
@@ -2592,13 +2551,13 @@
           "displayClock": "0.0",
           "period": 4,
           "type": {
-            "id": "2",
-            "name": "STATUS_IN_PROGRESS",
-            "state": "in",
-            "completed": false,
-            "description": "In Progress",
-            "detail": "0.0 - 4th Quarter",
-            "shortDetail": "0.0 - 4th"
+            "id": "3",
+            "name": "STATUS_FINAL",
+            "state": "post",
+            "completed": true,
+            "description": "Final",
+            "detail": "Final",
+            "shortDetail": "Final"
           }
         }
       }
