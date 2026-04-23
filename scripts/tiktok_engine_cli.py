@@ -70,13 +70,18 @@ def generate_announcer_audio():
 
     full_name = NBA_NAMES.get(TARGET_TEAM, TARGET_TEAM)
     script = f"And now... the starting lineup for your... {full_name}! "
-    for player in roster:
-        pos = player.get('pos', 'Flex')
+    
+    # NEW: Hardcoded list of full position names to match the 5 players perfectly
+    SPOKEN_POSITIONS = ["Point Guard", "Shooting Guard", "Small Forward", "Power Forward", "Center"]
+    
+    for i, player in enumerate(roster):
+        # Grab the full position name based on their order in the starting 5
+        spoken_pos = SPOKEN_POSITIONS[i] if i < len(SPOKEN_POSITIONS) else "Flex"
+        
         name = player.get('name', 'Unknown')
-        script += f"At {pos}... {name}... "
+        script += f"At {spoken_pos}... {name}... "
         
     try:
-        # Using a direct HTTP request so we never have to worry about library version updates
         url = f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}"
         headers = {
             "Accept": "audio/mpeg",
