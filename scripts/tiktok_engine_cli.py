@@ -47,8 +47,9 @@ async def record_nba_video():
         url = f"https://nbastartingfive.com/tiktok_nba_card.html?date={TARGET_DATE}&team={TARGET_TEAM}&side={TARGET_SIDE}"
         await page.goto(url, wait_until="networkidle")
         
-        print("⏳ Waiting 22 seconds for CSS animations to finish...")
-        await asyncio.sleep(22)
+        print("⏳ Waiting 26 seconds for CSS animations to finish...")
+        # Increased to 26 to ensure the Center's animation finishes and we get a nice 3-second hold at the end
+        await asyncio.sleep(26)
         
         video_path = await page.video.path()
         await context.close()
