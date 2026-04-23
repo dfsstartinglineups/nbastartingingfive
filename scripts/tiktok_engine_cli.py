@@ -3,8 +3,6 @@ import time
 import asyncio
 import requests
 from playwright.async_api import async_playwright
-from elevenlabs.client import ElevenLabs
-from elevenlabs import save
 from moviepy.editor import VideoFileClip, AudioFileClip
 
 # ==========================================
@@ -59,7 +57,6 @@ async def record_nba_video():
 
 def generate_announcer_audio():
     print("🎙️ Generating PA Announcer Audio...")
-    client = ElevenLabs(api_key=ELEVENLABS_API_KEY)
     
     # Fetch the live roster to get the names for the script
     try:
@@ -79,10 +76,34 @@ def generate_announcer_audio():
         script += f"At {pos}... {name}... "
         
     try:
-        audio = client.generate(text=script, voice=VOICE_ID, model="eleven_multilingual_v2")
-        audio_path = os.path.join(OUTPUT_DIR, f"{TARGET_TEAM}_audio.mp3")
-        save(audio, audio_path)
-        return audio_path
+        # Using a direct HTTP request so we never have to worry about library version updates
+        url = f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}"
+        headers = {
+            "Accept": "audio/mpeg",
+            "Content-Type": "application/json",
+            "xi-api-key": ELEVENLABS_API_KEY
+        }
+        payload = {
+            "text": script,
+            "model_id": "eleven_multilingual_v2",
+            "voice_settings": {
+                "stability": 0.5,
+                "similarity_boost": 0.75
+            }
+        }
+        
+        response = requests.post(url, json=payload, headers=headers)
+        
+        if response.status_code == 200:
+            audio_path = os.path.join(OUTPUT_DIR, f"{TARGET_TEAM}_audio.mp3")
+            with open(audio_path, "wb") as f:
+                f.write(response.content)
+            print("✅ Audio generated successfully!")
+            return audio_path
+        else:
+            print(f"❌ API Error {response.status_code}: {response.text}")
+            return None
+            
     except Exception as e:
         print(f"❌ Audio Generation Failed: {e}")
         return None
