@@ -48,30 +48,12 @@ STATE_NAMES = {
     "DC": "Washington D.C."
 }
 
-# Dictionary to feed crazy, exaggerated pronunciations to the AI Announcer
-HYPE_NAMES = {
-    "Jalen Duren": "Jaaaaaaay-lin... Duuuur-ennnn",
-    "Cade Cunningham": "Caaaaaade... Cunn-ing-haaaam",
-    "Stephen Curry": "Steff-in... Cuuuuur-eeee",
-    "LeBron James": "Luh-broooon... Jaaaaaames"
-}
+
 
 # ==========================================
 # FUNCTIONS
 # ==========================================
-def auto_hype_name(name):
-    """Dynamically stretches the first vowel of each name for a stadium announcer effect."""
-    parts = name.split(" ")
-    hyped_parts = []
-    
-    for index, part in enumerate(parts):
-        # Look for the first vowel (a, e, i, o, u) and multiply it by 5
-        # Example: 'Duren' becomes 'Duuuuuren'
-        hyped_word = re.sub(r'([aeiouAEIOU])', r'\1\1\1\1\1', part, count=1)
-        hyped_parts.append(hyped_word)
-        
-    # Join the first and last name together with a massive dramatic pause
-    return "... ".join(hyped_parts)
+
 
 def normalize_name(name):
     """Matches the JavaScript text normalization to perfectly sync with your players.json"""
@@ -215,14 +197,6 @@ def generate_announcer_audio():
             print(f"⚠️ Could not locate ESPN ID for {raw_name} in players.json")
 
         
-        # 🚨 THE HYBRID HYPE SYSTEM
-        # 1. Check if we hand-crafted a perfect spelling in our dictionary
-        spoken_name = HYPE_NAMES.get(raw_name)
-        
-        # 2. If not, send them through the algorithmic Auto-Hyper!
-        if not spoken_name:
-            spoken_name = auto_hype_name(raw_name)
-
         script += f"At {spoken_pos}... "
         if spoken_height:
             script += f"standing at {spoken_height}... "
@@ -230,9 +204,7 @@ def generate_announcer_audio():
             script += f"out of {college_or_home}... "
         if jersey:
             script += f"number {jersey}... "
-        
-        # Feed the dynamically hyped name to ElevenLabs
-        script += f"{spoken_name}! "
+        script += f"{raw_name}! "
         
     print(f"📜 Final Script: {script}")
     
