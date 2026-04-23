@@ -239,7 +239,7 @@
             filter: grayscale(50%) brightness(80%); 
         }
 
-        /* --- NEW: DYNAMIC TRACKING SPOTLIGHT & LASERS --- */
+        /* --- NEW: DYNAMIC TRACKING SPOTLIGHT & STROBE --- */
 
         #spotlight-overlay {
             position: absolute;
@@ -256,7 +256,7 @@
             opacity: 1;
         }
 
-        #lasers-container {
+        #strobe-container {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
@@ -265,7 +265,7 @@
             transition: opacity 0.5s ease;
         }
         
-        .lasers-active {
+        .strobe-on {
             opacity: 1 !important;
         }
 
@@ -277,68 +277,7 @@
             mix-blend-mode: overlay;
         }
         @keyframes strobeFlash { 0%, 100% { opacity: 0; } 50% { opacity: 0.15; } }
-        .lasers-active .strobe { animation: strobeFlash 0.1s infinite; }
-
-        /* Lasers updated to look like beams shooting across */
-        .laser {
-            position: absolute;
-            width: 1500px; 
-            height: 8px;
-            border-radius: 4px;
-            opacity: 0;
-            mix-blend-mode: screen; 
-        }
-        
-        /* Added a white inner shadow for a "hot core" look */
-        .laser-primary { background: var(--team-primary); box-shadow: 0 0 25px 8px var(--team-primary), inset 0 0 10px white; }
-        .laser-secondary { background: var(--team-secondary); box-shadow: 0 0 25px 8px var(--team-secondary), inset 0 0 10px white; }
-        .laser-white { background: #fff; box-shadow: 0 0 20px 6px #fff; }
-
-        /* The 6 sweeping animations */
-        .laser-1 { animation: shoot1 1.2s infinite linear; animation-delay: 0.1s; }
-        .laser-2 { animation: shoot2 1.5s infinite linear; animation-delay: 0.4s; }
-        .laser-3 { animation: shoot3 1.1s infinite linear; animation-delay: 0.7s; }
-        .laser-4 { animation: shoot4 1.4s infinite linear; animation-delay: 0.2s; }
-        .laser-5 { animation: shoot5 1.7s infinite linear; animation-delay: 0.5s; }
-        .laser-6 { animation: shoot6 1.3s infinite linear; animation-delay: 0.8s; }
-
-        /* Intense translations to fly completely across the 1080px box */
-        @keyframes shoot1 {
-            0% { transform: translate(-1500px, -200px) rotate(25deg); opacity: 0; }
-            10% { opacity: 1; }
-            50% { transform: translate(1500px, 800px) rotate(25deg); opacity: 1; }
-            51%, 100% { opacity: 0; transform: translate(1500px, 800px); }
-        }
-        @keyframes shoot2 {
-            0% { transform: translate(1500px, -200px) rotate(-25deg); opacity: 0; }
-            10% { opacity: 1; }
-            50% { transform: translate(-1500px, 800px) rotate(-25deg); opacity: 1; }
-            51%, 100% { opacity: 0; transform: translate(-1500px, 800px); }
-        }
-        @keyframes shoot3 {
-            0% { transform: translate(-1500px, 500px) rotate(10deg); opacity: 0; }
-            10% { opacity: 1; }
-            50% { transform: translate(1500px, 200px) rotate(10deg); opacity: 1; }
-            51%, 100% { opacity: 0; transform: translate(1500px, 200px); }
-        }
-        @keyframes shoot4 {
-            0% { transform: translate(1500px, 800px) rotate(-10deg); opacity: 0; }
-            10% { opacity: 1; }
-            50% { transform: translate(-1500px, 500px) rotate(-10deg); opacity: 1; }
-            51%, 100% { opacity: 0; transform: translate(-1500px, 500px); }
-        }
-        @keyframes shoot5 {
-            0% { transform: translate(200px, -1500px) rotate(80deg); opacity: 0; }
-            10% { opacity: 1; }
-            50% { transform: translate(800px, 1500px) rotate(80deg); opacity: 1; }
-            51%, 100% { opacity: 0; transform: translate(800px, 1500px); }
-        }
-        @keyframes shoot6 {
-            0% { transform: translate(800px, 1500px) rotate(-80deg); opacity: 0; }
-            10% { opacity: 1; }
-            50% { transform: translate(200px, -1500px) rotate(-80deg); opacity: 1; }
-            51%, 100% { opacity: 0; transform: translate(200px, -1500px); }
-        }
+        .strobe-on .strobe { animation: strobeFlash 0.1s infinite; }
 
         /* ======================================================== */
 
@@ -588,14 +527,8 @@
         </div>
 
         <div id="spotlight-overlay"></div>
-        <div id="lasers-container">
+        <div id="strobe-container">
             <div id="strobe" class="strobe"></div>
-            <div class="laser laser-primary laser-1"></div>
-            <div class="laser laser-secondary laser-2"></div>
-            <div class="laser laser-primary laser-3"></div>
-            <div class="laser laser-secondary laser-4"></div>
-            <div class="laser laser-white laser-5"></div>
-            <div class="laser laser-white laser-6"></div>
         </div>
     </div>
 
@@ -842,9 +775,9 @@
             trackingSpotlight = false;
             activePlayerIndex = -1;
             const captureArea = document.getElementById('capture-area');
-            const lasers = document.getElementById('lasers-container');
+            const strobeCont = document.getElementById('strobe-container');
             if (captureArea) captureArea.classList.remove('lights-out-mode');
-            if (lasers) lasers.classList.remove('lasers-active');
+            if (strobeCont) strobeCont.classList.remove('strobe-on');
 
             const gameIdx = document.getElementById('game-selector').value;
             const side = document.getElementById('team-selector').value;
@@ -952,9 +885,9 @@
 
             // --- TRIGGER THE ARENA LIGHTS OFF AT 4.11s ---
             setTimeout(() => {
-                if (captureArea && lasers) {
+                if (captureArea && strobeCont) {
                     captureArea.classList.add('lights-out-mode');
-                    lasers.classList.add('lasers-active');
+                    strobeCont.classList.add('strobe-on');
                 }
                 trackingSpotlight = true;
                 trackSpotlight(); 
@@ -962,9 +895,9 @@
 
             // --- TRIGGER THE ARENA LIGHTS ON AT 42.5s (End of Intro) ---
             setTimeout(() => {
-                if (captureArea && lasers) {
+                if (captureArea && strobeCont) {
                     captureArea.classList.remove('lights-out-mode');
-                    lasers.classList.remove('lasers-active');
+                    strobeCont.classList.remove('strobe-on');
                 }
                 trackingSpotlight = false; // Turn off the heavy rendering loop
             }, 42500); 
