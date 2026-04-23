@@ -241,14 +241,12 @@
 
         /* --- NEW: DYNAMIC TRACKING SPOTLIGHT & LASERS --- */
 
-        /* The giant pitch-black overlay that blocks everything */
         #spotlight-overlay {
             position: absolute;
-            top: -100%; left: -100%; /* Move origin to create a giant 300% sheet */
+            top: -100%; left: -100%; 
             width: 300%; height: 300%;
-            /* The transparent hole acts as the spotlight */
             background: radial-gradient(circle at center, transparent 0px, transparent 150px, rgba(0,0,0,0.85) 300px, rgba(0,0,0,0.98) 400px, rgba(0,0,0,1) 500px);
-            z-index: 20; /* Sits completely ON TOP of all players */
+            z-index: 20; 
             opacity: 0;
             pointer-events: none;
             transition: opacity 1.5s ease;
@@ -258,12 +256,11 @@
             opacity: 1;
         }
 
-        /* 6 Lasers firing over the top of the spotlight */
         #lasers-container {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
-            z-index: 21; /* Sits above the darkness */
+            z-index: 21; 
             opacity: 0;
             transition: opacity 0.5s ease;
         }
@@ -282,34 +279,66 @@
         @keyframes strobeFlash { 0%, 100% { opacity: 0; } 50% { opacity: 0.15; } }
         .lasers-active .strobe { animation: strobeFlash 0.1s infinite; }
 
+        /* Lasers updated to look like beams shooting across */
         .laser {
             position: absolute;
-            width: 6px;
-            height: 200%;
-            top: -50%;
-            transform-origin: center;
-            opacity: 0.8;
+            width: 1500px; 
+            height: 8px;
+            border-radius: 4px;
+            opacity: 0;
             mix-blend-mode: screen; 
         }
         
-        .laser-primary { background: var(--team-primary); box-shadow: 0 0 25px 8px var(--team-primary); }
-        .laser-secondary { background: var(--team-secondary); box-shadow: 0 0 25px 8px var(--team-secondary); }
+        /* Added a white inner shadow for a "hot core" look */
+        .laser-primary { background: var(--team-primary); box-shadow: 0 0 25px 8px var(--team-primary), inset 0 0 10px white; }
+        .laser-secondary { background: var(--team-secondary); box-shadow: 0 0 25px 8px var(--team-secondary), inset 0 0 10px white; }
         .laser-white { background: #fff; box-shadow: 0 0 20px 6px #fff; }
 
         /* The 6 sweeping animations */
-        .laser-1 { left: 10%; animation: sweep1 1.2s infinite alternate ease-in-out; }
-        .laser-2 { left: 90%; animation: sweep2 1.5s infinite alternate ease-in-out; }
-        .laser-3 { left: 30%; animation: sweep3 1.1s infinite alternate ease-in-out; }
-        .laser-4 { left: 70%; animation: sweep4 1.4s infinite alternate ease-in-out; }
-        .laser-5 { left: 50%; top: -100%; height: 300%; transform-origin: top; animation: sweep5 1.7s infinite alternate ease-in-out; }
-        .laser-6 { left: 50%; top: 100%; height: 300%; transform-origin: bottom; animation: sweep6 1.3s infinite alternate ease-in-out; }
+        .laser-1 { animation: shoot1 1.2s infinite linear; animation-delay: 0.1s; }
+        .laser-2 { animation: shoot2 1.5s infinite linear; animation-delay: 0.4s; }
+        .laser-3 { animation: shoot3 1.1s infinite linear; animation-delay: 0.7s; }
+        .laser-4 { animation: shoot4 1.4s infinite linear; animation-delay: 0.2s; }
+        .laser-5 { animation: shoot5 1.7s infinite linear; animation-delay: 0.5s; }
+        .laser-6 { animation: shoot6 1.3s infinite linear; animation-delay: 0.8s; }
 
-        @keyframes sweep1 { 0% { transform: rotate(-40deg); } 100% { transform: rotate(70deg); } }
-        @keyframes sweep2 { 0% { transform: rotate(40deg); } 100% { transform: rotate(-70deg); } }
-        @keyframes sweep3 { 0% { transform: rotate(-60deg); } 100% { transform: rotate(30deg); } }
-        @keyframes sweep4 { 0% { transform: rotate(60deg); } 100% { transform: rotate(-30deg); } }
-        @keyframes sweep5 { 0% { transform: rotate(-30deg); } 100% { transform: rotate(30deg); } }
-        @keyframes sweep6 { 0% { transform: rotate(40deg); } 100% { transform: rotate(-40deg); } }
+        /* Intense translations to fly completely across the 1080px box */
+        @keyframes shoot1 {
+            0% { transform: translate(-1500px, -200px) rotate(25deg); opacity: 0; }
+            10% { opacity: 1; }
+            50% { transform: translate(1500px, 800px) rotate(25deg); opacity: 1; }
+            51%, 100% { opacity: 0; transform: translate(1500px, 800px); }
+        }
+        @keyframes shoot2 {
+            0% { transform: translate(1500px, -200px) rotate(-25deg); opacity: 0; }
+            10% { opacity: 1; }
+            50% { transform: translate(-1500px, 800px) rotate(-25deg); opacity: 1; }
+            51%, 100% { opacity: 0; transform: translate(-1500px, 800px); }
+        }
+        @keyframes shoot3 {
+            0% { transform: translate(-1500px, 500px) rotate(10deg); opacity: 0; }
+            10% { opacity: 1; }
+            50% { transform: translate(1500px, 200px) rotate(10deg); opacity: 1; }
+            51%, 100% { opacity: 0; transform: translate(1500px, 200px); }
+        }
+        @keyframes shoot4 {
+            0% { transform: translate(1500px, 800px) rotate(-10deg); opacity: 0; }
+            10% { opacity: 1; }
+            50% { transform: translate(-1500px, 500px) rotate(-10deg); opacity: 1; }
+            51%, 100% { opacity: 0; transform: translate(-1500px, 500px); }
+        }
+        @keyframes shoot5 {
+            0% { transform: translate(200px, -1500px) rotate(80deg); opacity: 0; }
+            10% { opacity: 1; }
+            50% { transform: translate(800px, 1500px) rotate(80deg); opacity: 1; }
+            51%, 100% { opacity: 0; transform: translate(800px, 1500px); }
+        }
+        @keyframes shoot6 {
+            0% { transform: translate(800px, 1500px) rotate(-80deg); opacity: 0; }
+            10% { opacity: 1; }
+            50% { transform: translate(200px, -1500px) rotate(-80deg); opacity: 1; }
+            51%, 100% { opacity: 0; transform: translate(200px, -1500px); }
+        }
 
         /* ======================================================== */
 
@@ -921,15 +950,24 @@
                 }, delay * 1000);
             });
 
-            // --- TRIGGER THE ARENA LIGHTS AT 4.11s ---
+            // --- TRIGGER THE ARENA LIGHTS OFF AT 4.11s ---
             setTimeout(() => {
                 if (captureArea && lasers) {
                     captureArea.classList.add('lights-out-mode');
                     lasers.classList.add('lasers-active');
                 }
                 trackingSpotlight = true;
-                trackSpotlight(); // Fire up the JS animation loop
+                trackSpotlight(); 
             }, 4110); 
+
+            // --- TRIGGER THE ARENA LIGHTS ON AT 42.5s (End of Intro) ---
+            setTimeout(() => {
+                if (captureArea && lasers) {
+                    captureArea.classList.remove('lights-out-mode');
+                    lasers.classList.remove('lasers-active');
+                }
+                trackingSpotlight = false; // Turn off the heavy rendering loop
+            }, 42500); 
         }
 
         function takeScreenshot() {
