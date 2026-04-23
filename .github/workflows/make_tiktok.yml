@@ -44,7 +44,7 @@ jobs:
           TARGET_TEAM: ${{ github.event.inputs.team }}
           TARGET_SIDE: ${{ github.event.inputs.side }}
           TARGET_DATE: ${{ github.event.inputs.date }}
-        run: python tiktok_engine_cli.py
+        run: python scripts/tiktok_engine_cli.py
 
       - name: Commit and Push Video
         run: |
