@@ -54,6 +54,11 @@ jobs:
           # Stage the new video
           git add data/lineup_videos/*.mp4
           
-          # Commit and push
+          # Commit the video
           git commit -m "🎬 Auto-generated TikTok video for ${{ github.event.inputs.team }}" || echo "No changes to commit"
+          
+          # Pull any new changes that happened while rendering to prevent conflicts
+          git pull --rebase origin main
+          
+          # Push it all back to the repo
           git push
