@@ -351,6 +351,44 @@
         }
 
         /* ========================================================
+           HEADER ENTRANCE ANIMATIONS (SYNCED TO ANNOUNCER)
+           ======================================================== */
+        
+        .anim-header-tag { 
+            animation: headerSlideDown 1s ease-out 0.5s forwards; 
+            opacity: 0; 
+        }
+        
+        .anim-team-name { 
+            animation: teamNameZoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.5s forwards; 
+            opacity: 0; 
+        }
+        
+        .anim-logo { 
+            animation: logoSpinIn 0.8s ease-out 2.5s forwards; 
+            opacity: 0; 
+        }
+
+        @keyframes headerSlideDown {
+            0% { opacity: 0; transform: translateY(-40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes teamNameZoom {
+            0% { opacity: 0; transform: scale(1.8) rotate(-3deg); filter: blur(8px); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); filter: blur(0); }
+        }
+
+        @keyframes logoSpinIn {
+            0% { opacity: 0; transform: translateX(100px) rotate(90deg) scale(0.2); }
+            100% { 
+                opacity: 1; 
+                transform: translateX(0) rotate(0) scale(1); 
+                filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); 
+            }
+        }
+
+        /* ========================================================
            PLAYER ENTRANCE ANIMATIONS
            ======================================================== */
         
@@ -429,11 +467,11 @@
         
         <div id="header">
             <div class="header-left">
-                <div id="starting-tag" class="starting-tag">Starting 5</div>
-                <h1 id="team-name" data-text="LOADING...">LOADING...</h1>
+                <div id="starting-tag" class="starting-tag anim-header-tag">Starting 5</div>
+                <h1 id="team-name" class="anim-team-name" data-text="LOADING...">LOADING...</h1>
                 <div id="matchup-info">FETCHING DATA...</div>
             </div>
-            <img id="team-logo" src="" alt="Team Logo">
+            <img id="team-logo" class="anim-logo" src="" alt="Team Logo">
         </div>
 
         <div id="court-scene">
@@ -635,8 +673,9 @@
             if (allGames.length > 0) {
                 renderCard();
             } else {
-                document.getElementById('team-name').textContent = "NO LINEUPS YET";
-                document.getElementById('team-name').setAttribute('data-text', "NO LINEUPS YET");
+                const teamNameEl = document.getElementById('team-name');
+                teamNameEl.textContent = "NO LINEUPS YET";
+                teamNameEl.setAttribute('data-text', "NO LINEUPS YET");
                 document.getElementById('matchup-info').textContent = "Check back closer to tipoff.";
             }
         }
@@ -699,10 +738,22 @@
             teamNameEl.textContent = teamNameStr;
             teamNameEl.setAttribute('data-text', teamNameStr);
 
+            // Re-trigger animation for Team Name
+            teamNameEl.classList.remove('anim-team-name');
+            void teamNameEl.offsetWidth; // Force CSS reflow
+            teamNameEl.classList.add('anim-team-name');
+
             document.getElementById('matchup-info').textContent = `${isHome ? 'VS' : '@'} ${oppData ? oppData.name : oppAbbr}  |  ${game.date}`;
             
             const logoUrl = getNbaLogo(targetAbbr);
-            document.getElementById('team-logo').src = logoUrl;
+            const logoEl = document.getElementById('team-logo');
+            logoEl.src = logoUrl;
+            
+            // Re-trigger animation for Logo
+            logoEl.classList.remove('anim-logo');
+            void logoEl.offsetWidth; // Force CSS reflow
+            logoEl.classList.add('anim-logo');
+            
             document.getElementById('watermark').src = logoUrl;
 
             const container = document.getElementById('players-container');
@@ -722,6 +773,11 @@
                 tagEl.style.color = "rgba(0,0,0,0.4)"; 
                 tagEl.style.textShadow = "none";
             }
+
+            // Re-trigger animation for Header Tag
+            tagEl.classList.remove('anim-header-tag');
+            void tagEl.offsetWidth; // Force CSS reflow
+            tagEl.classList.add('anim-header-tag');
 
             roster.forEach((player, index) => {
                 const pos = POSITIONS[index];
@@ -744,8 +800,8 @@
                 // Map each position (0-4) to a unique animation
                 const animations = ["anim-materialize", "anim-bounce", "anim-slide-slam", "anim-run", "anim-tornado"];
                 
-                // Stagger the entrances (1s, 4.5s, 8s, 11.5s, 15s) to match announcer audio
-                const delay = 1 + (index * 3.5); 
+                // Intro takes 5s. Stagger entrances (5s, 8.5s, 12s, 15.5s, 19s)
+                const delay = 5 + (index * 3.5); 
 
                 const html = `
                     <div class="player-node player-anim ${animations[index]}" style="left: ${coords.x}%; top: ${coords.y}%; animation-delay: ${delay}s;">
