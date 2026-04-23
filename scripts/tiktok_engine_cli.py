@@ -13,8 +13,8 @@ ELEVENLABS_API_KEY = os.environ.get("ELEVENLABS_API_KEY")
 TARGET_TEAM = os.environ.get("TARGET_TEAM")
 TARGET_SIDE = os.environ.get("TARGET_SIDE")
 TARGET_DATE = os.environ.get("TARGET_DATE")
-VOICE_ID = "JBFqnCBsd6RMkjVDRZzb" # Standard deep announcer voice
-
+#VOICE_ID = "JBFqnCBsd6RMkjVDRZzb" # Standard deep announcer voice
+VOICE_ID = "QvlD90AkjGTCqc9685Rq"
 OUTPUT_DIR = "data/lineup_videos"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
