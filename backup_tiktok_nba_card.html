@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA Starting 5 - Tactical Square</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&family=Oswald:wght@500;700&family=Montserrat:ital,wght@0,800;1,900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --team-primary: #17408B; 
+            --team-secondary: #C9082A;
+            --bg-wood: #eacc98; 
+            --text-dark: #111; 
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #050302; 
+            font-family: 'Oswald', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #controls {
+            margin-bottom: 20px;
+            background: #222;
+            padding: 15px 25px;
+            border-radius: 8px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.8);
+            z-index: 100;
+        }
+
+        select, button, input {
+            padding: 8px 16px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #555;
+            background: #333;
+            color: white;
+            cursor: pointer;
+            font-family: 'Oswald', sans-serif;
+        }
+
+        button:hover { background: #555; }
+
+        #capture-area {
+            width: 1080px;
+            height: 1080px; 
+            background-color: var(--bg-wood);
+            background-image: repeating-linear-gradient(
+                to right,
+                rgba(0, 0, 0, 0.05) 0px,
+                rgba(0, 0, 0, 0.05) 50px,
+                rgba(255, 255, 255, 0.05) 50px,
+                rgba(255, 255, 255, 0.05) 100px
+            );
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+            color: var(--text-dark);
+            border-top: 15px solid var(--team-primary);
+            border-bottom: 15px solid var(--team-primary);
+        }
+
+        .arena-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 350px;
+            background: radial-gradient(ellipse at top, var(--team-primary) 0%, transparent 70%);
+            opacity: 0.15; 
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        #header {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 30px 50px 10px; 
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header-left { display: flex; flex-direction: column; }
+
+        .starting-tag {
+            font-family: 'Teko', sans-serif;
+            font-size: 40px; 
+            color: var(--text-dark);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            line-height: 1;
+            text-shadow: 1px 1px 0px rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+        }
+
+        #team-name {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-style: italic;
+            font-size: 75px; 
+            margin: 0;
+            line-height: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--team-primary);
+            position: relative;
+            z-index: 1;
+        }
+
+        #team-name::before {
+            content: attr(data-text); 
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: -1;
+            -webkit-text-stroke: 6px #fff; 
+            text-shadow: 4px 4px 0px var(--team-secondary);
+        }
+
+        #matchup-info {
+            font-family: 'Oswald', sans-serif;
+            font-size: 24px;
+            color: #444;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        #team-logo {
+            width: 140px; 
+            height: 140px;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+        }
+
+        #court-scene {
+            width: 100%;
+            height: 850px; 
+            position: absolute;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        #court {
+            width: 960px; 
+            height: 800px; 
+            position: relative;
+            border: 4px solid var(--team-primary);
+            border-bottom: none;
+            border-radius: 10px 10px 0 0;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.1);
+        }
+
+        .paint-area {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 320px;
+            height: 350px; 
+            border: 4px solid var(--team-primary);
+            border-bottom: none;
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .free-throw-circle {
+            position: absolute;
+            bottom: 350px; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 60px; 
+            border: 4px solid var(--team-primary);
+            border-bottom: none; 
+            border-radius: 60px 60px 0 0; 
+            background: transparent; 
+            z-index: 1;
+        }
+
+        .three-point-arc {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 550px; 
+            border: 4px solid var(--team-primary);
+            border-radius: 50% 50% 0 0;
+            border-bottom: none;
+            clip-path: inset(0 0 80px 0); 
+            box-sizing: border-box; 
+        }
+
+        .corner-three-left { position: absolute; bottom: 0; left: 80px; width: 4px; height: 81px; background: var(--team-primary); }
+        .corner-three-right { position: absolute; bottom: 0; right: 80px; width: 4px; height: 81px; background: var(--team-primary); }
+
+        .half-court-circle {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 250px; 
+            height: 250px; 
+            border: 4px solid var(--team-primary);
+            border-radius: 50%;
+        }
+
+        .watermark-logo {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px; 
+            height: 500px; 
+            object-fit: contain;
+            opacity: 0.35; 
+            z-index: 0;
+            pointer-events: none;
+            filter: grayscale(50%) brightness(80%); 
+        }
+
+        .player-node {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+
+        .photo-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .player-photo-container {
+            width: 190px;  
+            height: 190px; 
+            border-radius: 50%;
+            border: 6px solid var(--team-secondary); 
+            background-color: #222; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4); 
+            z-index: 12;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; 
+            position: relative;
+        }
+
+        .player-photo { 
+            width: 115%; 
+            height: 115%; 
+            object-fit: cover; 
+            object-position: center 5px; 
+        }
+        
+        .fallback-silhouette {
+            width: 100%;
+            height: 100%;
+            background-color: #2b2b2b;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="%23666666" xmlns="http://www.w3.org/2000/svg"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
+            background-size: 90%;
+            background-position: center 20px;
+            background-repeat: no-repeat;
+        }
+
+        .player-position {
+            position: absolute;
+            top: -8px; 
+            left: -8px; 
+            background-color: var(--team-primary);
+            color: white;
+            border: 4px solid var(--team-secondary);
+            width: 58px; 
+            height: 58px; 
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Teko', sans-serif;
+            font-size: 28px; 
+            font-weight: bold;
+            z-index: 15;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .player-number {
+            position: absolute;
+            top: -8px; 
+            right: -8px; 
+            background-color: #fff;
+            color: var(--text-dark);
+            border: 4px solid var(--team-secondary);
+            width: 58px; 
+            height: 58px; 
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Teko', sans-serif;
+            font-size: 30px; 
+            font-weight: bold;
+            z-index: 15;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .nameplate-wrapper {
+            display: flex;
+            align-items: stretch;
+            margin-top: -24px; 
+            z-index: 14;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .player-nameplate {
+            background: #fff;
+            color: var(--text-dark);
+            padding: 8px 24px; 
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px; 
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        /* ========================================================
+           HEADER ENTRANCE ANIMATIONS (SYNCED TO ANNOUNCER)
+           ======================================================== */
+        
+        .anim-header-tag { 
+            animation: headerSlideDown 1s ease-out 0.5s forwards; 
+            opacity: 0; 
+        }
+        
+        .anim-team-name { 
+            animation: teamNameZoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.5s forwards; 
+            opacity: 0; 
+        }
+        
+        .anim-logo { 
+            animation: logoSpinIn 0.8s ease-out 2.5s forwards; 
+            opacity: 0; 
+        }
+
+        @keyframes headerSlideDown {
+            0% { opacity: 0; transform: translateY(-40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes teamNameZoom {
+            0% { opacity: 0; transform: scale(1.8) rotate(-3deg); filter: blur(8px); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); filter: blur(0); }
+        }
+
+        @keyframes logoSpinIn {
+            0% { opacity: 0; transform: translateX(100px) rotate(90deg) scale(0.2); }
+            100% { 
+                opacity: 1; 
+                transform: translateX(0) rotate(0) scale(1); 
+                filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); 
+            }
+        }
+
+        /* ========================================================
+           PLAYER ENTRANCE ANIMATIONS
+           ======================================================== */
+        
+        /* Ensures players are invisible before their delay finishes */
+        .player-anim {
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        /* 1. Materialize (Blur & Fade In) */
+        @keyframes materialize {
+            0% { opacity: 0; filter: blur(20px); transform: translate(-50%, -50%) scale(0.2); }
+            100% { opacity: 1; filter: blur(0); transform: translate(-50%, -50%) scale(1); }
+        }
+        .anim-materialize { animation: materialize 1.5s ease-out forwards; }
+
+        /* 2. Drop & Bounce */
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: translate(-50%, calc(-50% - 800px)); }
+            50% { opacity: 1; transform: translate(-50%, calc(-50% + 40px)); }
+            70% { transform: translate(-50%, calc(-50% - 20px)); }
+            85% { transform: translate(-50%, calc(-50% + 10px)); }
+            100% { opacity: 1; transform: translate(-50%, -50%); }
+        }
+        .anim-bounce { animation: bounceIn 1.2s ease-out forwards; }
+
+        /* 3. Slide & Slam */
+        @keyframes slideSlam {
+            0% { opacity: 0; transform: translate(calc(-50% + 800px), -50%) skewX(-20deg); }
+            70% { opacity: 1; transform: translate(calc(-50% - 30px), -50%) skewX(10deg); }
+            85% { transform: translate(calc(-50% + 15px), -50%) skewX(-5deg); }
+            100% { opacity: 1; transform: translate(-50%, -50%) skewX(0deg); }
+        }
+        .anim-slide-slam { animation: slideSlam 1s ease-out forwards; }
+
+        /* 4. The Warmup (Run Around the Court) */
+        @keyframes runAround {
+            0% { opacity: 0; transform: translate(-50%, calc(-50% + 600px)); } 
+            10% { opacity: 1; transform: translate(-50%, calc(-50% + 600px)); }
+            35% { transform: translate(calc(-50% + 300px), calc(-50% - 50px)) scale(0.85); } 
+            60% { transform: translate(calc(-50% - 50px), calc(-50% - 300px)) scale(0.9); } 
+            80% { transform: translate(calc(-50% - 250px), calc(-50% + 50px)) scale(1.1); } 
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 
+        }
+        .anim-run { animation: runAround 2.5s ease-in-out forwards; }
+
+        /* 5. The Tornado */
+        @keyframes tornadoDrop {
+            0% { opacity: 0; transform: translate(-50%, calc(-50% - 600px)) scale(0.1) rotate(1080deg); }
+            80% { opacity: 1; transform: translate(-50%, calc(-50% + 20px)) scale(1.1) rotate(20deg); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+        }
+        .anim-tornado { animation: tornadoDrop 1.5s ease-out forwards; }
+    </style>
+</head>
+<body>
+
+    <div id="controls">
+        <label>Date:</label>
+        <input type="text" id="date-indicator" readonly style="width: 100px; text-align: center; background: #444; border: 1px solid #555; color: #ccc;">
+        
+        <label>Game:</label>
+        <select id="game-selector"></select>
+        
+        <label>Team:</label>
+        <select id="team-selector">
+            <option value="home">Home Team</option>
+            <option value="away">Away Team</option>
+        </select>
+        
+        <button onclick="takeScreenshot()">Simulate Screenshot</button>
+    </div>
+
+    <div id="capture-area">
+        <div class="arena-glow"></div>
+        
+        <div id="header">
+            <div class="header-left">
+                <div id="starting-tag" class="starting-tag anim-header-tag">Starting 5</div>
+                <h1 id="team-name" class="anim-team-name" data-text="LOADING...">LOADING...</h1>
+                <div id="matchup-info">FETCHING DATA...</div>
+            </div>
+            <img id="team-logo" class="anim-logo" src="" alt="Team Logo">
+        </div>
+
+        <div id="court-scene">
+            <div id="court">
+                <div class="half-court-circle"></div>
+                <div class="three-point-arc"></div>
+                <div class="corner-three-left"></div>
+                <div class="corner-three-right"></div>
+                <div class="free-throw-circle"></div>
+                <div class="paint-area"></div>
+                
+                <img id="watermark" class="watermark-logo" src="" alt="">
+
+                <div id="players-container">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const NBA_TEAMS = {
+            "ATL": { name: "Hawks", primary: "#e03a3e", secondary: "#c1d32f", id: 1610612737 },
+            "BOS": { name: "Celtics", primary: "#007A33", secondary: "#ba9653", id: 1610612738 },
+            "BKN": { name: "Nets", primary: "#000000", secondary: "#ffffff", id: 1610612751 }, 
+            "CHA": { name: "Hornets", primary: "#1d1160", secondary: "#00788c", id: 1610612766 },
+            "CHI": { name: "Bulls", primary: "#ce1141", secondary: "#000000", id: 1610612741 },
+            "CLE": { name: "Cavaliers", primary: "#860038", secondary: "#041e42", id: 1610612739 },
+            "DAL": { name: "Mavericks", primary: "#00538c", secondary: "#002b5e", id: 1610612742 },
+            "DEN": { name: "Nuggets", primary: "#0e2240", secondary: "#fec524", id: 1610612743 },
+            "DET": { name: "Pistons", primary: "#c8102e", secondary: "#1d42ba", id: 1610612765 },
+            "GSW": { name: "Warriors", primary: "#1d428a", secondary: "#ffc72c", id: 1610612744 },
+            "HOU": { name: "Rockets", primary: "#ce1141", secondary: "#000000", id: 1610612745 },
+            "IND": { name: "Pacers", primary: "#002d62", secondary: "#fdbb30", id: 1610612754 },
+            "LAC": { name: "Clippers", primary: "#c8102e", secondary: "#1d428a", id: 1610612746 },
+            "LAL": { name: "Lakers", primary: "#552583", secondary: "#fdb927", id: 1610612747 },
+            "MEM": { name: "Grizzlies", primary: "#5d76a9", secondary: "#12173f", id: 1610612763 },
+            "MIA": { name: "Heat", primary: "#98002e", secondary: "#f9a01b", id: 1610612748 },
+            "MIL": { name: "Bucks", primary: "#00471b", secondary: "#eee1c6", id: 1610612749 },
+            "MIN": { name: "Timberwolves", primary: "#0c2340", secondary: "#236192", id: 1610612750 },
+            "NOP": { name: "Pelicans", primary: "#0c2340", secondary: "#c8102e", id: 1610612740 },
+            "NYK": { name: "Knicks", primary: "#006bb6", secondary: "#f58426", id: 1610612752 },
+            "OKC": { name: "Thunder", primary: "#007ac1", secondary: "#ef3b24", id: 1610612760 },
+            "ORL": { name: "Magic", primary: "#0077c0", secondary: "#c4ced4", id: 1610612753 },
+            "PHI": { name: "76ers", primary: "#006bb6", secondary: "#ed174c", id: 1610612755 },
+            "PHX": { name: "Suns", primary: "#1d1160", secondary: "#e56020", id: 1610612756 },
+            "POR": { name: "Trail Blazers", primary: "#e03a3e", secondary: "#000000", id: 1610612757 },
+            "SAC": { name: "Kings", primary: "#5a2d81", secondary: "#63727a", id: 1610612758 },
+            "SAS": { name: "Spurs", primary: "#c4ced4", secondary: "#000000", id: 1610612759 },
+            "TOR": { name: "Raptors", primary: "#ce1141", secondary: "#000000", id: 1610612761 },
+            "UTA": { name: "Jazz", primary: "#002b5c", secondary: "#00471b", id: 1610612762 },
+            "WAS": { name: "Wizards", primary: "#002b5c", secondary: "#e31837", id: 1610612764 }
+        };
+
+        const POSITIONS = ["PG", "SG", "SF", "PF", "C"];
+        
+        const COURT_COORDS = [
+            { x: 50, y: 17 }, // PG
+            { x: 19, y: 44 }, // SG
+            { x: 81, y: 44 }, // SF
+            { x: 33, y: 77 }, // PF
+            { x: 67, y: 77 }  // C
+        ];
+
+        let allGames = [];
+        let playerDatabase = {}; 
+
+        function getNbaLogo(abbr) {
+            if (!abbr) return '';
+            return `logos/${abbr}.svg`; 
+        }
+
+        function getPlayerData(playerName) {
+            if (!playerName) return null;
+        
+            const nicknames = {
+                "cam": "cameron", "cameron": "cam", "steph": "stephen", "stephen": "steph",
+                "trey": "trae", "mo": "mohamed", "mohamed": "mo", "nico": "nicolas", "nicolas": "nico"
+            };
+        
+            const normalize = (str) => {
+                return str.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\./g, ""); 
+            };
+        
+            const cleanInput = normalize(playerName);
+            const inputParts = cleanInput.split(" ");
+            const firstName = inputParts[0];
+            const lastName = inputParts.slice(1).join(" ");
+        
+            // PASS 1: Strict Exact Matches Only
+            for (const key in playerDatabase) {
+                const dbName = normalize(playerDatabase[key].name || "");
+                const dbShort = normalize(playerDatabase[key].short_name || "");
+                
+                if (dbName === cleanInput || dbShort === cleanInput) {
+                    return playerDatabase[key];
+                }
+            }
+            
+            // PASS 2: Nickname Matches
+            if (nicknames[firstName]) {
+                const nicknameVariant = nicknames[firstName] + " " + lastName;
+                for (const key in playerDatabase) {
+                    const dbName = normalize(playerDatabase[key].name || "");
+                    const dbShort = normalize(playerDatabase[key].short_name || "");
+                    
+                    if (dbName === nicknameVariant || dbShort === nicknameVariant) {
+                        return playerDatabase[key];
+                    }
+                }
+            }
+            
+            // PASS 3: Loose Match
+            if (lastName.length > 2) {
+                for (const key in playerDatabase) {
+                    const dbName = normalize(playerDatabase[key].name || "");
+                    if (dbName.includes(lastName) && dbName.startsWith(firstName.charAt(0))) {
+                        return playerDatabase[key];
+                    }
+                }
+            }
+            
+            return null; 
+        }
+
+        function handleImageError(img) {
+            const container = img.parentElement;
+            container.innerHTML = '<div class="fallback-silhouette"></div>';
+        }
+
+        async function loadData() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                let targetDate = urlParams.get('date');
+                
+                if (!targetDate) {
+                    const estDate = new Date(new Date().toLocaleString("en-US", {timeZone: "America/New_York"}));
+                    const yyyy = estDate.getFullYear();
+                    const mm = String(estDate.getMonth() + 1).padStart(2, '0');
+                    const dd = String(estDate.getDate()).padStart(2, '0');
+                    targetDate = `${yyyy}-${mm}-${dd}`;
+                }
+                
+                document.getElementById('date-indicator').value = targetDate;
+                
+                const timestamp = new Date().getTime();
+                const [nbaRes, playersRes] = await Promise.all([
+                    fetch(`https://nbastartingfive.com/data/${targetDate}.json?v=${timestamp}`),
+                    fetch(`data/players.json?v=${timestamp}`) 
+                ]);
+
+                if (nbaRes.ok) {
+                    const data = await nbaRes.json();
+                    
+                    allGames = data.games.filter(g => {
+                        if (g.date !== targetDate) return false;
+                        if (!g.teams || !g.rosters) return false;
+                        
+                        const t1 = g.teams[0];
+                        const t2 = g.teams[1];
+                        
+                        const hasRoster1 = g.rosters[t1] && g.rosters[t1].players && g.rosters[t1].players.length >= 5;
+                        const hasRoster2 = g.rosters[t2] && g.rosters[t2].players && g.rosters[t2].players.length >= 5;
+                        
+                        if (!hasRoster1 && !hasRoster2) return false;
+
+                        const t1Verified = g.rosters[t1].is_official === true || (hasRoster1 && g.rosters[t1].players.slice(0, 5).every(p => p.verified === true));
+                        const t2Verified = g.rosters[t2].is_official === true || (hasRoster2 && g.rosters[t2].players.slice(0, 5).every(p => p.verified === true));
+
+                        return t1Verified || t2Verified;
+                    });
+                }
+                
+                if (playersRes.ok) {
+                    playerDatabase = await playersRes.json();
+                    console.log("✅ Player Database loaded successfully!");
+                }
+
+            } catch (e) {
+                console.error("Failed to load data.", e);
+            }
+            
+            populateDropdown();
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const botTeam = urlParams.get('team');
+            const botSide = urlParams.get('side');
+
+            if (botTeam !== null) {
+                const foundIndex = allGames.findIndex(g => g.teams.includes(botTeam));
+                if (foundIndex !== -1) {
+                    document.getElementById('game-selector').value = foundIndex;
+                }
+            }
+            
+            if (botSide !== null) {
+                document.getElementById('team-selector').value = botSide;
+            }
+
+            if (allGames.length > 0) {
+                renderCard();
+            } else {
+                const teamNameEl = document.getElementById('team-name');
+                teamNameEl.textContent = "NO LINEUPS YET";
+                teamNameEl.setAttribute('data-text', "NO LINEUPS YET");
+                document.getElementById('matchup-info').textContent = "Check back closer to tipoff.";
+            }
+        }
+
+        function populateDropdown() {
+            const select = document.getElementById('game-selector');
+            select.innerHTML = '';
+            
+            allGames.forEach((g, idx) => {
+                const opt = document.createElement('option');
+                opt.value = idx;
+                
+                const t1 = g.teams[0];
+                const t2 = g.teams[1];
+                
+                const t1Verified = g.rosters[t1].is_official === true || (g.rosters[t1].players && g.rosters[t1].players.slice(0,5).every(p => p.verified === true));
+                const t2Verified = g.rosters[t2].is_official === true || (g.rosters[t2].players && g.rosters[t2].players.slice(0,5).every(p => p.verified === true));
+
+                const t1Label = t1Verified ? `${t1} (Confirmed)` : t1;
+                const t2Label = t2Verified ? `${t2} (Confirmed)` : t2;
+
+                opt.textContent = `${t1Label} @ ${t2Label}`;
+                select.appendChild(opt);
+            });
+            
+            select.addEventListener('change', () => renderCard());
+            document.getElementById('team-selector').addEventListener('change', () => renderCard());
+        }
+
+        function applyTeamTheme(abbr) {
+            const theme = NBA_TEAMS[abbr];
+            if (theme) {
+                let primaryColor = theme.primary === "#ffffff" ? theme.secondary : theme.primary;
+                document.documentElement.style.setProperty('--team-primary', primaryColor);
+                document.documentElement.style.setProperty('--team-secondary', theme.secondary);
+            }
+        }
+
+        function renderCard() {
+            if(allGames.length === 0) return;
+
+            const gameIdx = document.getElementById('game-selector').value;
+            const side = document.getElementById('team-selector').value;
+            const game = allGames[gameIdx];
+
+            const awayAbbr = game.teams[0];
+            const homeAbbr = game.teams[1];
+            
+            const targetAbbr = side === 'home' ? homeAbbr : awayAbbr;
+            const oppAbbr = side === 'home' ? awayAbbr : homeAbbr;
+            const isHome = side === 'home';
+
+            const targetData = NBA_TEAMS[targetAbbr];
+            const oppData = NBA_TEAMS[oppAbbr];
+
+            applyTeamTheme(targetAbbr);
+
+            const teamNameStr = targetData ? targetData.name : targetAbbr;
+            const teamNameEl = document.getElementById('team-name');
+            teamNameEl.textContent = teamNameStr;
+            teamNameEl.setAttribute('data-text', teamNameStr);
+
+            // Re-trigger animation for Team Name
+            teamNameEl.classList.remove('anim-team-name');
+            void teamNameEl.offsetWidth; // Force CSS reflow
+            teamNameEl.classList.add('anim-team-name');
+
+            document.getElementById('matchup-info').textContent = `${isHome ? 'VS' : '@'} ${oppData ? oppData.name : oppAbbr}  |  ${game.date}`;
+            
+            const logoUrl = getNbaLogo(targetAbbr);
+            const logoEl = document.getElementById('team-logo');
+            logoEl.src = logoUrl;
+            
+            // Re-trigger animation for Logo
+            logoEl.classList.remove('anim-logo');
+            void logoEl.offsetWidth; // Force CSS reflow
+            logoEl.classList.add('anim-logo');
+            
+            document.getElementById('watermark').src = logoUrl;
+
+            const container = document.getElementById('players-container');
+            container.innerHTML = '';
+
+            const roster = game.rosters[targetAbbr].players.slice(0, 5);
+
+            const isOfficial = game.rosters[targetAbbr].is_official === true || roster.every(p => p.verified === true);
+            const tagEl = document.getElementById('starting-tag');
+            
+            if (isOfficial) {
+                tagEl.textContent = "STARTING 5";
+                tagEl.style.color = "var(--text-dark)";
+                tagEl.style.textShadow = "1px 1px 0px rgba(255,255,255,0.5)";
+            } else {
+                tagEl.textContent = "PROJECTED 5";
+                tagEl.style.color = "rgba(0,0,0,0.4)"; 
+                tagEl.style.textShadow = "none";
+            }
+
+            // Re-trigger animation for Header Tag
+            tagEl.classList.remove('anim-header-tag');
+            void tagEl.offsetWidth; // Force CSS reflow
+            tagEl.classList.add('anim-header-tag');
+
+            roster.forEach((player, index) => {
+                const pos = POSITIONS[index];
+                const coords = COURT_COORDS[index];
+                
+                const dbPlayer = getPlayerData(player.name);
+                const photoUrl = dbPlayer ? dbPlayer.photo : null;
+                const jerseyNum = dbPlayer && dbPlayer.jersey ? dbPlayer.jersey : "";
+
+                let displayName = player.name;
+                
+                if (displayName.length > 18) {
+                    displayName = displayName.substring(0, 16) + '...';
+                }
+
+                const photoHtml = (photoUrl && photoUrl.trim() !== '') 
+                    ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` 
+                    : `<div class="fallback-silhouette"></div>`;
+
+                // Map each position (0-4) to a unique animation
+                const animations = ["anim-materialize", "anim-bounce", "anim-slide-slam", "anim-run", "anim-tornado"];
+                
+                
+                // Perfectly synced absolute timestamps for: [PG, SG, SF, PF, C]
+                const delays = [10.93, 18.15, 26.17, 31.72, 38.87]; 
+                const delay = delays[index]-0.8;
+
+                const html = `
+                    <div class="player-node player-anim ${animations[index]}" style="left: ${coords.x}%; top: ${coords.y}%; animation-delay: ${delay}s;">
+                        <div class="photo-wrapper">
+                            <div class="player-position">${pos}</div>
+                            ${jerseyNum ? `<div class="player-number">${jerseyNum}</div>` : ''}
+                            <div class="player-photo-container">
+                                ${photoHtml}
+                            </div>
+                        </div>
+                        <div class="nameplate-wrapper">
+                            <div class="player-nameplate">${displayName}</div>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+        }
+
+        function takeScreenshot() {
+            const capture = document.getElementById('capture-area');
+            capture.style.opacity = '0.5';
+            setTimeout(() => { capture.style.opacity = '1'; }, 100);
+            alert("Ready! Playwright will capture #capture-area as a 1080x1080 square.");
+        }
+
+        loadData();
+    </script>
+</body>
+</html>
