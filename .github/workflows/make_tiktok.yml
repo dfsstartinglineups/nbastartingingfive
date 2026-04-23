@@ -35,7 +35,7 @@ jobs:
 
       - name: Install Python Libraries
         run: |
-          pip install playwright moviepy elevenlabs requests
+          pip install playwright "moviepy<2.0.0" elevenlabs requests
           playwright install chromium --with-deps
 
       - name: Run TikTok Video Engine
