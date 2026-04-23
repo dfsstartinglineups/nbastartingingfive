@@ -803,7 +803,7 @@
                 
                 // Perfectly synced absolute timestamps for: [PG, SG, SF, PF, C]
                 const delays = [11.13, 18.65, 27.17, 33.42, 39.87]; 
-                const delay = delays[index];
+                const delay = delays[index]-0.3;
 
                 const html = `
                     <div class="player-node player-anim ${animations[index]}" style="left: ${coords.x}%; top: ${coords.y}%; animation-delay: ${delay}s;">
