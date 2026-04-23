@@ -69,61 +69,82 @@ def generate_announcer_audio():
         print(f"❌ Failed to fetch roster for audio script: {e}")
         return None
 
-    # 2. Fetch ESPN Roster to get Colleges and Jerseys
-    # ESPN uses slightly different abbreviations for a few teams, so we map them here
-    espn_abbr_map = {"GSW": "GS", "NOP": "NO", "NYK": "NY", "SAS": "SA", "UTA": "UTAH", "WAS": "WSH"}
-    espn_team = espn_abbr_map.get(TARGET_TEAM, TARGET_TEAM)
-    espn_url = f"http://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/{espn_team}/roster"
-    
-    player_info_db = {}
+    # 2. Fetch your players.json to get Jerseys and ESPN IDs
+    players_db = {}
     try:
-        espn_data = requests.get(espn_url).json()
-        athletes = espn_data.get('athletes', [])[0].get('items', [])
-        for item in athletes:
-            name_key = item.get('fullName', '').lower().replace('.', '').strip()
-            jersey = item.get('jersey', '')
-            college = item.get('college', {}).get('name', '')
-            
-            # Fallback for international players (e.g., Luka Doncic -> "from Slovenia")
-            if not college and 'birthPlace' in item:
-                college = item['birthPlace'].get('country', '')
-                if college == "USA": college = "" # Skip if just USA
-                
-            player_info_db[name_key] = {'jersey': jersey, 'college': college}
+        players_url = f"https://nbastartingfive.com/data/players.json?v={time.time()}"
+        players_db = requests.get(players_url).json()
     except Exception as e:
-        print(f"⚠️ Could not fetch ESPN data: {e}")
+        print(f"⚠️ Could not load players.json: {e}")
 
     # 3. Build the Ultimate Script
     full_name = NBA_NAMES.get(TARGET_TEAM, TARGET_TEAM)
     script = f"And now... the starting lineup for your... {full_name}! "
     
-    # Hardcoded full position names to match the 5 players perfectly
     SPOKEN_POSITIONS = ["Point Guard", "Shooting Guard", "Small Forward", "Power Forward", "Center"]
+    nicknames = {"cam": "cameron", "cameron": "cam", "steph": "stephen", "stephen": "steph", "trey": "trae", "mo": "mohamed", "mohamed": "mo", "nico": "nicolas", "nicolas": "nico"}
     
     for i, player in enumerate(roster):
         spoken_pos = SPOKEN_POSITIONS[i] if i < len(SPOKEN_POSITIONS) else "Flex"
-        name = player.get('name', 'Unknown')
-        search_name = name.lower().replace('.', '').strip()
+        raw_name = player.get('name', 'Unknown')
+        target_clean = normalize_name(raw_name)
         
-        # Try to find the player in our ESPN data
-        info = player_info_db.get(search_name, {})
-        if not info:
-            # Loose matching just in case (e.g., "Cam Thomas" vs "Cameron Thomas")
-            for espn_name, db_info in player_info_db.items():
-                if search_name in espn_name or espn_name in search_name:
-                    info = db_info
+        # Extract first and last name for nickname matching
+        parts = target_clean.split(" ")
+        first_name = parts[0]
+        last_name = " ".join(parts[1:])
+        
+        # Search players.json for a match
+        db_player = {}
+        for key, pdata in players_db.items():
+            db_name = normalize_name(pdata.get('name', ''))
+            db_short = normalize_name(pdata.get('short_name', ''))
+            
+            # Pass 1: Strict Match
+            if target_clean in [db_name, db_short]:
+                db_player = pdata
+                break
+            
+            # Pass 2: Nickname Match
+            if nicknames.get(first_name):
+                nick_variant = f"{nicknames[first_name]} {last_name}"
+                if nick_variant in [db_name, db_short]:
+                    db_player = pdata
                     break
                     
-        jersey = info.get('jersey', '')
-        college = info.get('college', '')
+        jersey = db_player.get('jersey', '')
+        espn_id = db_player.get('espn_id', '')
+        college_or_home = ""
+        spoken_height = ""
 
-        # Add to script with dynamic pauses (...)
+        # Hit ESPN specifically for this player's college and height using their exact ID
+        if espn_id:
+            try:
+                espn_url = f"http://site.api.espn.com/apis/common/v3/sports/basketball/nba/athletes/{espn_id}"
+                athlete_data = requests.get(espn_url).json().get('athlete', {})
+                
+                # Grab College or Birthplace
+                college_or_home = athlete_data.get('college', {}).get('name', '')
+                if not college_or_home:
+                    college_or_home = athlete_data.get('displayBirthPlace', '')
+                    
+                # Grab Height and format it for Text-to-Speech (e.g. 6' 9" -> 6 foot 9)
+                raw_height = athlete_data.get('displayHeight', '')
+                if raw_height:
+                    spoken_height = raw_height.replace("'", " foot").replace('"', '').strip()
+                    
+            except Exception as e:
+                print(f"⚠️ Could not fetch ESPN data for {raw_name}: {e}")
+
+        # Assemble the final string for this player
         script += f"At {spoken_pos}... "
-        if college:
-            script += f"from {college}... "
+        if spoken_height:
+            script += f"standing at {spoken_height}... "
+        if college_or_home:
+            script += f"out of {college_or_home}... "
         if jersey:
             script += f"number {jersey}... "
-        script += f"{name}! "
+        script += f"{raw_name}! "
         
     print(f"📜 Final Script: {script}")
     
