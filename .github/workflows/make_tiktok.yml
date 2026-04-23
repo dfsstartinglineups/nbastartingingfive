@@ -1,0 +1,59 @@
+name: Generate TikTok Lineup Video
+
+on:
+  workflow_dispatch:
+    inputs:
+      team:
+        description: 'Team Abbreviation (e.g., LAL)'
+        required: true
+      side:
+        description: 'home or away'
+        required: true
+      date:
+        description: 'Target Date (YYYY-MM-DD)'
+        required: true
+
+# Gives the Action permission to push the video back to your repo
+permissions:
+  contents: write
+
+jobs:
+  render_video:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install System Dependencies (FFmpeg)
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Install Python Libraries
+        run: |
+          pip install playwright moviepy elevenlabs requests
+          playwright install chromium --with-deps
+
+      - name: Run TikTok Video Engine
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          TARGET_TEAM: ${{ github.event.inputs.team }}
+          TARGET_SIDE: ${{ github.event.inputs.side }}
+          TARGET_DATE: ${{ github.event.inputs.date }}
+        run: python tiktok_engine_cli.py
+
+      - name: Commit and Push Video
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Stage the new video
+          git add data/lineup_videos/*.mp4
+          
+          # Commit and push
+          git commit -m "🎬 Auto-generated TikTok video for ${{ github.event.inputs.team }}" || echo "No changes to commit"
+          git push
