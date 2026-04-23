@@ -800,11 +800,10 @@
                 // Map each position (0-4) to a unique animation
                 const animations = ["anim-materialize", "anim-bounce", "anim-slide-slam", "anim-run", "anim-tornado"];
                 
-                // Intro takes 5s. Stagger entrances (5s, 8.5s, 12s, 15.5s, 19s)
-                // Custom delays in seconds for: [PG, SG, SF, PF, C]
-                // PG and SG are kept the same. SF, PF, and C are pushed back slightly.
-                const delays = [5.0, 8.5, 12.5, 17.0, 21.5]; 
-                const delay = delays[index]; 
+                
+                // Perfectly synced absolute timestamps for: [PG, SG, SF, PF, C]
+                const delays = [11.13, 18.65, 27.17, 33.42, 39.87]; 
+                const delay = delays[index];
 
                 const html = `
                     <div class="player-node player-anim ${animations[index]}" style="left: ${coords.x}%; top: ${coords.y}%; animation-delay: ${delay}s;">
