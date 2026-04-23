@@ -1,5 +1,5 @@
 {
-  "last_updated": "Apr 22, 11:42 PM ET",
+  "last_updated": "Apr 22, 11:44 PM ET",
   "player_news": [
     {
       "player_name": "Jalen Williams",
@@ -7,9 +7,9 @@
       "position": "SF",
       "status_badge": "QR",
       "description": "Questionable to return left hamstring strain.",
-      "time_elapsed": "3m",
+      "time_elapsed": "5m",
       "next_game": "Wednesday vs PHO",
-      "local_timestamp": 1776915812.6809208
+      "local_timestamp": 1776915940.5729966
     },
     {
       "player_name": "Grayson Allen",
@@ -19,7 +19,7 @@
       "description": "Playing left hamstring strain",
       "time_elapsed": "2.9h",
       "next_game": "Wednesday @OKC",
-      "local_timestamp": 1776915812.6789207
+      "local_timestamp": 1776915940.5709965
     },
     {
       "player_name": "Jordan Goodwin",
@@ -29,7 +29,7 @@
       "description": "Out left calf soreness",
       "time_elapsed": "3.2h",
       "next_game": "Wednesday @OKC",
-      "local_timestamp": 1776915812.6779208
+      "local_timestamp": 1776915940.5699966
     },
     {
       "player_name": "Mark Williams",
@@ -47,7 +47,7 @@
       "position": "PF",
       "status_badge": "OUT",
       "description": "Out left knee sprain",
-      "time_elapsed": "11.9h",
+      "time_elapsed": "12.0h",
       "next_game": "Wednesday @DET",
       "local_timestamp": 1776897201.7171605
     }
@@ -1769,7 +1769,7 @@
                   ],
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/okc.png"
                 },
-                "score": "100",
+                "score": "102",
                 "linescores": [
                   {
                     "value": 30.0,
@@ -1785,6 +1785,11 @@
                     "value": 35.0,
                     "displayValue": "35",
                     "period": 3
+                  },
+                  {
+                    "value": 2.0,
+                    "displayValue": "2",
+                    "period": 4
                   }
                 ],
                 "statistics": [
@@ -2134,6 +2139,11 @@
                     "value": 20.0,
                     "displayValue": "20",
                     "period": 3
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 4
                   }
                 ],
                 "statistics": [
@@ -2409,32 +2419,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401869368522",
+                "id": "401869368527",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "584",
+                  "text": "Substitution"
                 },
-                "text": "End of the 3rd Quarter",
+                "text": "Khaman Maluach enters the game for Oso Ighodaro",
                 "scoreValue": 0,
+                "team": {
+                  "id": "21"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
                   "homeWinPercentage": 0.998,
                   "awayWinPercentage": 0.0020000000000000018
-                }
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "5203685",
+                    "fullName": "Khaman Maluach",
+                    "displayName": "Khaman Maluach",
+                    "shortName": "K. Maluach",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/5203685/khaman-maluach"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/5203685.png",
+                    "jersey": "10",
+                    "position": "C",
+                    "team": {
+                      "id": "21"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 3,
+              "clock": 703.0,
+              "displayClock": "11:43",
+              "period": 4,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "End of Period",
-                "detail": "End of 3rd Quarter",
-                "shortDetail": "End of 3rd"
+                "description": "In Progress",
+                "detail": "11:43 - 4th Quarter",
+                "shortDetail": "11:43 - 4th"
               }
             },
             "broadcasts": [
@@ -2551,17 +2588,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 3,
+          "clock": 703.0,
+          "displayClock": "11:43",
+          "period": 4,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "End of Period",
-            "detail": "End of 3rd Quarter",
-            "shortDetail": "End of 3rd"
+            "description": "In Progress",
+            "detail": "11:43 - 4th Quarter",
+            "shortDetail": "11:43 - 4th"
           }
         }
       }
