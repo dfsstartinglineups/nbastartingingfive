@@ -2,6 +2,7 @@ import os
 import time
 import asyncio
 import requests
+import unicodedata
 from playwright.async_api import async_playwright
 from moviepy.editor import VideoFileClip, AudioFileClip
 
@@ -32,6 +33,13 @@ NBA_NAMES = {
 # ==========================================
 # FUNCTIONS
 # ==========================================
+
+def normalize_name(name):
+    """Matches the JavaScript text normalization to perfectly sync with your players.json"""
+    nfkd = unicodedata.normalize('NFKD', name)
+    clean = u"".join([c for c in nfkd if not unicodedata.combining(c)])
+    return clean.lower().replace('.', '').strip()
+
 async def record_nba_video():
     print(f"🎥 Recording NBA Intro for {TARGET_TEAM}...")
     async with async_playwright() as p:
