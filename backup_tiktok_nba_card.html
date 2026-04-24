@@ -239,6 +239,25 @@
             filter: grayscale(50%) brightness(80%); 
         }
 
+        /* --- NEW: DYNAMIC TRACKING SPOTLIGHT --- */
+
+        #spotlight-overlay {
+            position: absolute;
+            top: -100%; left: -100%; 
+            width: 300%; height: 300%;
+            background: radial-gradient(circle at center, transparent 0px, transparent 150px, rgba(0,0,0,0.85) 300px, rgba(0,0,0,0.98) 400px, rgba(0,0,0,1) 500px);
+            z-index: 20; 
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.5s ease;
+        }
+        
+        .lights-out-mode #spotlight-overlay {
+            opacity: 1;
+        }
+
+        /* ======================================================== */
+
         .player-node {
             position: absolute;
             display: flex;
@@ -392,20 +411,17 @@
            PLAYER ENTRANCE ANIMATIONS
            ======================================================== */
         
-        /* Ensures players are invisible before their delay finishes */
         .player-anim {
             opacity: 0;
             animation-fill-mode: forwards;
         }
 
-        /* 1. Materialize (Blur & Fade In) */
         @keyframes materialize {
             0% { opacity: 0; filter: blur(20px); transform: translate(-50%, -50%) scale(0.2); }
             100% { opacity: 1; filter: blur(0); transform: translate(-50%, -50%) scale(1); }
         }
         .anim-materialize { animation: materialize 1.5s ease-out forwards; }
 
-        /* 2. Drop & Bounce */
         @keyframes bounceIn {
             0% { opacity: 0; transform: translate(-50%, calc(-50% - 800px)); }
             50% { opacity: 1; transform: translate(-50%, calc(-50% + 40px)); }
@@ -415,7 +431,6 @@
         }
         .anim-bounce { animation: bounceIn 1.2s ease-out forwards; }
 
-        /* 3. Slide & Slam */
         @keyframes slideSlam {
             0% { opacity: 0; transform: translate(calc(-50% + 800px), -50%) skewX(-20deg); }
             70% { opacity: 1; transform: translate(calc(-50% - 30px), -50%) skewX(10deg); }
@@ -424,7 +439,6 @@
         }
         .anim-slide-slam { animation: slideSlam 1s ease-out forwards; }
 
-        /* 4. The Warmup (Run Around the Court) */
         @keyframes runAround {
             0% { opacity: 0; transform: translate(-50%, calc(-50% + 600px)); } 
             10% { opacity: 1; transform: translate(-50%, calc(-50% + 600px)); }
@@ -435,7 +449,6 @@
         }
         .anim-run { animation: runAround 2.5s ease-in-out forwards; }
 
-        /* 5. The Tornado */
         @keyframes tornadoDrop {
             0% { opacity: 0; transform: translate(-50%, calc(-50% - 600px)) scale(0.1) rotate(1080deg); }
             80% { opacity: 1; transform: translate(-50%, calc(-50% + 20px)) scale(1.1) rotate(20deg); }
@@ -476,6 +489,7 @@
 
         <div id="court-scene">
             <div id="court">
+
                 <div class="half-court-circle"></div>
                 <div class="three-point-arc"></div>
                 <div class="corner-three-left"></div>
@@ -485,10 +499,11 @@
                 
                 <img id="watermark" class="watermark-logo" src="" alt="">
 
-                <div id="players-container">
-                    </div>
+                <div id="players-container"></div>
             </div>
         </div>
+
+        <div id="spotlight-overlay"></div>
     </div>
 
     <script>
@@ -538,6 +553,47 @@
         let allGames = [];
         let playerDatabase = {}; 
 
+        // --- SPOTLIGHT TRACKING VARIABLES ---
+        let activePlayerIndex = -1;
+        let currentSpotX = 0;
+        let currentSpotY = 0;
+        let trackingSpotlight = false;
+
+        function trackSpotlight() {
+            if (!trackingSpotlight) return;
+            
+            const spotlight = document.getElementById('spotlight-overlay');
+            const players = document.querySelectorAll('.player-node');
+            
+            // Default center of the 1080x1080 card
+            let targetX = 540; 
+            let targetY = 540; 
+            
+            if (activePlayerIndex >= 0 && activePlayerIndex < players.length) {
+                const target = players[activePlayerIndex];
+                const captureArea = document.getElementById('capture-area').getBoundingClientRect();
+                const targetRect = target.getBoundingClientRect();
+                
+                // Get the exact center of whoever is currently animating
+                targetX = (targetRect.left + targetRect.width / 2) - captureArea.left;
+                targetY = (targetRect.top + targetRect.height / 2) - captureArea.top;
+            }
+            
+            // Calculate distance from the center
+            const transX = targetX - 540;
+            const transY = targetY - 540;
+            
+            // LERP for smooth, zooming "follow" cam
+            currentSpotX += (transX - currentSpotX) * 0.1;
+            currentSpotY += (transY - currentSpotY) * 0.1;
+            
+            if (spotlight) {
+                spotlight.style.transform = `translate(${currentSpotX}px, ${currentSpotY}px)`;
+            }
+            
+            requestAnimationFrame(trackSpotlight);
+        }
+
         function getNbaLogo(abbr) {
             if (!abbr) return '';
             return `logos/${abbr}.svg`; 
@@ -560,30 +616,21 @@
             const firstName = inputParts[0];
             const lastName = inputParts.slice(1).join(" ");
         
-            // PASS 1: Strict Exact Matches Only
             for (const key in playerDatabase) {
                 const dbName = normalize(playerDatabase[key].name || "");
                 const dbShort = normalize(playerDatabase[key].short_name || "");
-                
-                if (dbName === cleanInput || dbShort === cleanInput) {
-                    return playerDatabase[key];
-                }
+                if (dbName === cleanInput || dbShort === cleanInput) return playerDatabase[key];
             }
             
-            // PASS 2: Nickname Matches
             if (nicknames[firstName]) {
                 const nicknameVariant = nicknames[firstName] + " " + lastName;
                 for (const key in playerDatabase) {
                     const dbName = normalize(playerDatabase[key].name || "");
                     const dbShort = normalize(playerDatabase[key].short_name || "");
-                    
-                    if (dbName === nicknameVariant || dbShort === nicknameVariant) {
-                        return playerDatabase[key];
-                    }
+                    if (dbName === nicknameVariant || dbShort === nicknameVariant) return playerDatabase[key];
                 }
             }
             
-            // PASS 3: Loose Match
             if (lastName.length > 2) {
                 for (const key in playerDatabase) {
                     const dbName = normalize(playerDatabase[key].name || "");
@@ -624,31 +671,25 @@
 
                 if (nbaRes.ok) {
                     const data = await nbaRes.json();
-                    
                     allGames = data.games.filter(g => {
                         if (g.date !== targetDate) return false;
                         if (!g.teams || !g.rosters) return false;
-                        
                         const t1 = g.teams[0];
                         const t2 = g.teams[1];
-                        
                         const hasRoster1 = g.rosters[t1] && g.rosters[t1].players && g.rosters[t1].players.length >= 5;
                         const hasRoster2 = g.rosters[t2] && g.rosters[t2].players && g.rosters[t2].players.length >= 5;
                         
+                        // If neither team has at least 5 players loaded, skip this game
                         if (!hasRoster1 && !hasRoster2) return false;
-
-                        const t1Verified = g.rosters[t1].is_official === true || (hasRoster1 && g.rosters[t1].players.slice(0, 5).every(p => p.verified === true));
-                        const t2Verified = g.rosters[t2].is_official === true || (hasRoster2 && g.rosters[t2].players.slice(0, 5).every(p => p.verified === true));
-
-                        return t1Verified || t2Verified;
+                        
+                        // Otherwise, load the game! (Whether it's Official or Projected)
+                        return true; 
                     });
                 }
                 
                 if (playersRes.ok) {
                     playerDatabase = await playersRes.json();
-                    console.log("✅ Player Database loaded successfully!");
                 }
-
             } catch (e) {
                 console.error("Failed to load data.", e);
             }
@@ -661,18 +702,13 @@
 
             if (botTeam !== null) {
                 const foundIndex = allGames.findIndex(g => g.teams.includes(botTeam));
-                if (foundIndex !== -1) {
-                    document.getElementById('game-selector').value = foundIndex;
-                }
+                if (foundIndex !== -1) document.getElementById('game-selector').value = foundIndex;
             }
             
-            if (botSide !== null) {
-                document.getElementById('team-selector').value = botSide;
-            }
+            if (botSide !== null) document.getElementById('team-selector').value = botSide;
 
-            if (allGames.length > 0) {
-                renderCard();
-            } else {
+            if (allGames.length > 0) renderCard();
+            else {
                 const teamNameEl = document.getElementById('team-name');
                 teamNameEl.textContent = "NO LINEUPS YET";
                 teamNameEl.setAttribute('data-text', "NO LINEUPS YET");
@@ -687,17 +723,11 @@
             allGames.forEach((g, idx) => {
                 const opt = document.createElement('option');
                 opt.value = idx;
-                
                 const t1 = g.teams[0];
                 const t2 = g.teams[1];
-                
                 const t1Verified = g.rosters[t1].is_official === true || (g.rosters[t1].players && g.rosters[t1].players.slice(0,5).every(p => p.verified === true));
                 const t2Verified = g.rosters[t2].is_official === true || (g.rosters[t2].players && g.rosters[t2].players.slice(0,5).every(p => p.verified === true));
-
-                const t1Label = t1Verified ? `${t1} (Confirmed)` : t1;
-                const t2Label = t2Verified ? `${t2} (Confirmed)` : t2;
-
-                opt.textContent = `${t1Label} @ ${t2Label}`;
+                opt.textContent = `${t1Verified ? t1 + ' (Confirmed)' : t1} @ ${t2Verified ? t2 + ' (Confirmed)' : t2}`;
                 select.appendChild(opt);
             });
             
@@ -716,6 +746,12 @@
 
         function renderCard() {
             if(allGames.length === 0) return;
+
+            // --- Reset Spotlight System on Redraw ---
+            trackingSpotlight = false;
+            activePlayerIndex = -1;
+            const captureArea = document.getElementById('capture-area');
+            if (captureArea) captureArea.classList.remove('lights-out-mode');
 
             const gameIdx = document.getElementById('game-selector').value;
             const side = document.getElementById('team-selector').value;
@@ -738,9 +774,8 @@
             teamNameEl.textContent = teamNameStr;
             teamNameEl.setAttribute('data-text', teamNameStr);
 
-            // Re-trigger animation for Team Name
             teamNameEl.classList.remove('anim-team-name');
-            void teamNameEl.offsetWidth; // Force CSS reflow
+            void teamNameEl.offsetWidth; 
             teamNameEl.classList.add('anim-team-name');
 
             document.getElementById('matchup-info').textContent = `${isHome ? 'VS' : '@'} ${oppData ? oppData.name : oppAbbr}  |  ${game.date}`;
@@ -749,9 +784,8 @@
             const logoEl = document.getElementById('team-logo');
             logoEl.src = logoUrl;
             
-            // Re-trigger animation for Logo
             logoEl.classList.remove('anim-logo');
-            void logoEl.offsetWidth; // Force CSS reflow
+            void logoEl.offsetWidth; 
             logoEl.classList.add('anim-logo');
             
             document.getElementById('watermark').src = logoUrl;
@@ -761,22 +795,15 @@
 
             const roster = game.rosters[targetAbbr].players.slice(0, 5);
 
-            const isOfficial = game.rosters[targetAbbr].is_official === true || roster.every(p => p.verified === true);
             const tagEl = document.getElementById('starting-tag');
             
-            if (isOfficial) {
-                tagEl.textContent = "STARTING 5";
-                tagEl.style.color = "var(--text-dark)";
-                tagEl.style.textShadow = "1px 1px 0px rgba(255,255,255,0.5)";
-            } else {
-                tagEl.textContent = "PROJECTED 5";
-                tagEl.style.color = "rgba(0,0,0,0.4)"; 
-                tagEl.style.textShadow = "none";
-            }
+            // ALWAYS render "STARTING 5" so the draft video is perfectly ready to post
+            tagEl.textContent = "STARTING 5";
+            tagEl.style.color = "var(--text-dark)";
+            tagEl.style.textShadow = "1px 1px 0px rgba(255,255,255,0.5)";
 
-            // Re-trigger animation for Header Tag
             tagEl.classList.remove('anim-header-tag');
-            void tagEl.offsetWidth; // Force CSS reflow
+            void tagEl.offsetWidth; 
             tagEl.classList.add('anim-header-tag');
 
             roster.forEach((player, index) => {
@@ -797,11 +824,8 @@
                     ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` 
                     : `<div class="fallback-silhouette"></div>`;
 
-                // Map each position (0-4) to a unique animation
                 const animations = ["anim-materialize", "anim-bounce", "anim-slide-slam", "anim-run", "anim-tornado"];
                 
-                
-                // Perfectly synced absolute timestamps for: [PG, SG, SF, PF, C]
                 const delays = [10.93, 18.15, 26.17, 31.72, 38.87]; 
                 const delay = delays[index]-0.8;
 
@@ -820,7 +844,29 @@
                     </div>
                 `;
                 container.insertAdjacentHTML('beforeend', html);
+
+                // Tells the spotlight to snap to THIS player at the exact millisecond their CSS animation triggers
+                setTimeout(() => {
+                    activePlayerIndex = index;
+                }, delay * 1000);
             });
+
+            // --- TRIGGER THE ARENA LIGHTS OFF AT 4.11s ---
+            setTimeout(() => {
+                if (captureArea) {
+                    captureArea.classList.add('lights-out-mode');
+                }
+                trackingSpotlight = true;
+                trackSpotlight(); 
+            }, 4110); 
+
+            // --- TRIGGER THE ARENA LIGHTS ON AT 42.5s (End of Intro) ---
+            setTimeout(() => {
+                if (captureArea) {
+                    captureArea.classList.remove('lights-out-mode');
+                }
+                trackingSpotlight = false; // Turn off the heavy rendering loop
+            }, 42500); 
         }
 
         function takeScreenshot() {
