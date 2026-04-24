@@ -1,5 +1,5 @@
 {
-  "last_updated": "Apr 23, 10:32 PM ET",
+  "last_updated": "Apr 23, 10:34 PM ET",
   "player_news": [
     {
       "player_name": "Anthony Edwards",
@@ -7,9 +7,9 @@
       "position": "SG",
       "status_badge": "IN",
       "description": "Playing right knee injury management",
-      "time_elapsed": "2.2h",
+      "time_elapsed": "2.3h",
       "next_game": "Thursday vs DEN",
-      "local_timestamp": 1776998006.6785102
+      "local_timestamp": 1776998134.8299072
     },
     {
       "player_name": "Thomas Bryant",
@@ -19,7 +19,7 @@
       "description": "Playing left calf strain",
       "time_elapsed": "3.5h",
       "next_game": "Thursday @TOR",
-      "local_timestamp": 1776998006.6745102
+      "local_timestamp": 1776998134.8259072
     },
     {
       "player_name": "Jaylen Clark",
@@ -27,9 +27,9 @@
       "position": "SG",
       "status_badge": "OUT",
       "description": "Out illness",
-      "time_elapsed": "4.1h",
+      "time_elapsed": "4.2h",
       "next_game": "Thursday vs DEN",
-      "local_timestamp": 1776998006.67351
+      "local_timestamp": 1776998134.824907
     },
     {
       "player_name": "Terrence Shannon Jr.",
@@ -39,7 +39,7 @@
       "description": "Out illness",
       "time_elapsed": "4.2h",
       "next_game": "Thursday vs DEN",
-      "local_timestamp": 1776998006.6725101
+      "local_timestamp": 1776998134.8239071
     },
     {
       "player_name": "Aaron Gordon",
@@ -49,7 +49,7 @@
       "description": "Out left calf tightness",
       "time_elapsed": "4.7h",
       "next_game": "Thursday @MIN",
-      "local_timestamp": 1776998006.6685102
+      "local_timestamp": 1776998134.8199072
     },
     {
       "player_name": "Ja'Kobe Walter",
@@ -1735,6 +1735,7 @@
                 "type": "team",
                 "order": 0,
                 "homeAway": "home",
+                "winner": true,
                 "team": {
                   "id": "28",
                   "uid": "s:40~l:46~t:28",
@@ -2064,7 +2065,7 @@
                     ]
                   }
                 ],
-                "record": "0-2",
+                "record": "1-2",
                 "records": [
                   {
                     "name": "overall",
@@ -2090,6 +2091,7 @@
                 "type": "team",
                 "order": 1,
                 "homeAway": "away",
+                "winner": false,
                 "team": {
                   "id": "5",
                   "uid": "s:40~l:46~t:5",
@@ -2209,22 +2211,22 @@
                   {
                     "name": "freeThrowPct",
                     "abbreviation": "FT%",
-                    "displayValue": "77.3"
+                    "displayValue": "78.3"
                   },
                   {
                     "name": "freeThrowsAttempted",
                     "abbreviation": "FTA",
-                    "displayValue": "22"
+                    "displayValue": "23"
                   },
                   {
                     "name": "freeThrowsMade",
                     "abbreviation": "FTM",
-                    "displayValue": "17"
+                    "displayValue": "18"
                   },
                   {
                     "name": "points",
                     "abbreviation": "PTS",
-                    "displayValue": "103"
+                    "displayValue": "104"
                   },
                   {
                     "name": "threePointPct",
@@ -2244,7 +2246,7 @@
                   {
                     "name": "avgPoints",
                     "abbreviation": "PTS",
-                    "displayValue": "103.0"
+                    "displayValue": "104.0"
                   },
                   {
                     "name": "avgAssists",
@@ -2419,6 +2421,7 @@
                     ]
                   }
                 ],
+                "record": "2-1",
                 "records": [
                   {
                     "name": "overall",
@@ -2445,61 +2448,18 @@
                 "headline": "East 1st Round - Game 3"
               }
             ],
-            "situation": {
-              "lastPlay": {
-                "id": "401869375702",
-                "type": {
-                  "id": "44",
-                  "text": "Shooting Foul"
-                },
-                "text": "Jonathan Mogbo shooting foul",
-                "scoreValue": 0,
-                "team": {
-                  "id": "28"
-                },
-                "probability": {
-                  "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.999,
-                  "awayWinPercentage": 0.0010000000000000009
-                },
-                "athletesInvolved": [
-                  {
-                    "id": "5107897",
-                    "fullName": "Jonathan Mogbo",
-                    "displayName": "Jonathan Mogbo",
-                    "shortName": "J. Mogbo",
-                    "links": [
-                      {
-                        "rel": [
-                          "playercard",
-                          "desktop",
-                          "athlete"
-                        ],
-                        "href": "https://www.espn.com/nba/player/_/id/5107897/jonathan-mogbo"
-                      }
-                    ],
-                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/5107897.png",
-                    "jersey": "2",
-                    "position": "F",
-                    "team": {
-                      "id": "28"
-                    }
-                  }
-                ]
-              }
-            },
             "status": {
-              "clock": 30.3,
-              "displayClock": "30.3",
+              "clock": 0.0,
+              "displayClock": "0.0",
               "period": 4,
               "type": {
-                "id": "2",
-                "name": "STATUS_IN_PROGRESS",
-                "state": "in",
-                "completed": false,
-                "description": "In Progress",
-                "detail": "30.3 - 4th Quarter",
-                "shortDetail": "30.3 - 4th"
+                "id": "3",
+                "name": "STATUS_FINAL",
+                "state": "post",
+                "completed": true,
+                "description": "Final",
+                "detail": "Final",
+                "shortDetail": "Final"
               }
             },
             "broadcasts": [
@@ -2519,14 +2479,14 @@
             "series": {
               "type": "playoff",
               "title": "Playoff Series",
-              "summary": "CLE leads series 2-0",
+              "summary": "CLE leads series 2-1",
               "completed": false,
               "totalCompetitions": 7,
               "competitors": [
                 {
                   "id": "28",
                   "uid": "s:40~l:46~t:28",
-                  "wins": 0,
+                  "wins": 1,
                   "ties": 0,
                   "href": "http://sports.core.api.espn.pvt/v2/sports/basketball/leagues/nba/seasons/2026/teams/28?lang=en&region=us"
                 },
@@ -2564,11 +2524,11 @@
           {
             "language": "en-US",
             "rel": [
-              "live",
+              "summary",
               "desktop",
               "event"
             ],
-            "href": "https://www.espn.com/nba/game?gameId=401869375",
+            "href": "https://www.espn.com/nba/game/_/gameId/401869375/cavaliers-raptors",
             "text": "Gamecast",
             "shortText": "Gamecast",
             "isExternal": false,
@@ -2590,6 +2550,18 @@
           {
             "language": "en-US",
             "rel": [
+              "highlights",
+              "desktop"
+            ],
+            "href": "https://www.espn.com/nba/video?gameId=401869375",
+            "text": "Highlights",
+            "shortText": "Highlights",
+            "isExternal": false,
+            "isPremium": false
+          },
+          {
+            "language": "en-US",
+            "rel": [
               "pbp",
               "desktop",
               "event"
@@ -2602,17 +2574,17 @@
           }
         ],
         "status": {
-          "clock": 30.3,
-          "displayClock": "30.3",
+          "clock": 0.0,
+          "displayClock": "0.0",
           "period": 4,
           "type": {
-            "id": "2",
-            "name": "STATUS_IN_PROGRESS",
-            "state": "in",
-            "completed": false,
-            "description": "In Progress",
-            "detail": "30.3 - 4th Quarter",
-            "shortDetail": "30.3 - 4th"
+            "id": "3",
+            "name": "STATUS_FINAL",
+            "state": "post",
+            "completed": true,
+            "description": "Final",
+            "detail": "Final",
+            "shortDetail": "Final"
           }
         }
       },
@@ -3065,7 +3037,7 @@
                   ],
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/den.png"
                 },
-                "score": "25",
+                "score": "29",
                 "linescores": [
                   {
                     "value": 11.0,
@@ -3073,8 +3045,8 @@
                     "period": 1
                   },
                   {
-                    "value": 14.0,
-                    "displayValue": "14",
+                    "value": 18.0,
+                    "displayValue": "18",
                     "period": 2
                   }
                 ],
@@ -3092,22 +3064,22 @@
                   {
                     "name": "assists",
                     "abbreviation": "AST",
-                    "displayValue": "2"
+                    "displayValue": "3"
                   },
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "31"
+                    "displayValue": "32"
                   },
                   {
                     "name": "fieldGoalsMade",
                     "abbreviation": "FGM",
-                    "displayValue": "8"
+                    "displayValue": "9"
                   },
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "25.8"
+                    "displayValue": "28.1"
                   },
                   {
                     "name": "freeThrowPct",
@@ -3127,7 +3099,7 @@
                   {
                     "name": "points",
                     "abbreviation": "PTS",
-                    "displayValue": "25"
+                    "displayValue": "27"
                   },
                   {
                     "name": "threePointPct",
@@ -3147,12 +3119,12 @@
                   {
                     "name": "avgPoints",
                     "abbreviation": "PTS",
-                    "displayValue": "25.0"
+                    "displayValue": "27.0"
                   },
                   {
                     "name": "avgAssists",
                     "abbreviation": "AST",
-                    "displayValue": "2.0"
+                    "displayValue": "3.0"
                   },
                   {
                     "name": "threePointFieldGoalPct",
@@ -3168,8 +3140,8 @@
                     "abbreviation": "Pts",
                     "leaders": [
                       {
-                        "displayValue": "7",
-                        "value": 7.0,
+                        "displayValue": "9",
+                        "value": 9.0,
                         "athlete": {
                           "id": "3112335",
                           "fullName": "Nikola Jokic",
@@ -3251,10 +3223,10 @@
                         "displayValue": "1",
                         "value": 1.0,
                         "athlete": {
-                          "id": "3936299",
-                          "fullName": "Jamal Murray",
-                          "displayName": "Jamal Murray",
-                          "shortName": "J. Murray",
+                          "id": "3112335",
+                          "fullName": "Nikola Jokic",
+                          "displayName": "Nikola Jokic",
+                          "shortName": "N. Jokic",
                           "links": [
                             {
                               "rel": [
@@ -3262,13 +3234,13 @@
                                 "desktop",
                                 "athlete"
                               ],
-                              "href": "https://www.espn.com/nba/player/_/id/3936299/jamal-murray"
+                              "href": "https://www.espn.com/nba/player/_/id/3112335/nikola-jokic"
                             }
                           ],
-                          "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/3936299.png",
-                          "jersey": "27",
+                          "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/3112335.png",
+                          "jersey": "15",
                           "position": {
-                            "abbreviation": "G"
+                            "abbreviation": "C"
                           },
                           "team": {
                             "id": "7"
@@ -3288,13 +3260,13 @@
                     "abbreviation": "RAT",
                     "leaders": [
                       {
-                        "displayValue": "6 PTS",
-                        "value": 9.949999809265137,
+                        "displayValue": "9 PTS",
+                        "value": 13.399999618530273,
                         "athlete": {
-                          "id": "4431690",
-                          "fullName": "Zeke Nnaji",
-                          "displayName": "Zeke Nnaji",
-                          "shortName": "Z. Nnaji",
+                          "id": "3112335",
+                          "fullName": "Nikola Jokic",
+                          "displayName": "Nikola Jokic",
+                          "shortName": "N. Jokic",
                           "links": [
                             {
                               "rel": [
@@ -3302,13 +3274,13 @@
                                 "desktop",
                                 "athlete"
                               ],
-                              "href": "https://www.espn.com/nba/player/_/id/4431690/zeke-nnaji"
+                              "href": "https://www.espn.com/nba/player/_/id/3112335/nikola-jokic"
                             }
                           ],
-                          "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4431690.png",
-                          "jersey": "22",
+                          "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/3112335.png",
+                          "jersey": "15",
                           "position": {
-                            "abbreviation": "F"
+                            "abbreviation": "C"
                           },
                           "team": {
                             "id": "7"
@@ -3351,26 +3323,50 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401869398236",
+                "id": "401869398244",
                 "type": {
-                  "id": "16",
-                  "text": "Full Timeout"
+                  "id": "584",
+                  "text": "Substitution"
                 },
-                "text": "Nuggets Full timeout",
+                "text": "Julius Randle enters the game for Jaden McDaniels",
                 "scoreValue": 0,
                 "team": {
-                  "id": "7"
+                  "id": "16"
                 },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.911,
-                  "awayWinPercentage": 0.08899999999999997
-                }
+                  "homeWinPercentage": 0.885,
+                  "awayWinPercentage": 0.11499999999999999
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "3064514",
+                    "fullName": "Julius Randle",
+                    "displayName": "Julius Randle",
+                    "shortName": "J. Randle",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/3064514/julius-randle"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/3064514.png",
+                    "jersey": "30",
+                    "position": "F",
+                    "team": {
+                      "id": "16"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 400.0,
-              "displayClock": "6:40",
+              "clock": 344.0,
+              "displayClock": "5:44",
               "period": 2,
               "type": {
                 "id": "2",
@@ -3378,8 +3374,8 @@
                 "state": "in",
                 "completed": false,
                 "description": "In Progress",
-                "detail": "6:40 - 2nd Quarter",
-                "shortDetail": "6:40 - 2nd"
+                "detail": "5:44 - 2nd Quarter",
+                "shortDetail": "5:44 - 2nd"
               }
             },
             "broadcasts": [
@@ -3482,8 +3478,8 @@
           }
         ],
         "status": {
-          "clock": 400.0,
-          "displayClock": "6:40",
+          "clock": 344.0,
+          "displayClock": "5:44",
           "period": 2,
           "type": {
             "id": "2",
@@ -3491,8 +3487,8 @@
             "state": "in",
             "completed": false,
             "description": "In Progress",
-            "detail": "6:40 - 2nd Quarter",
-            "shortDetail": "6:40 - 2nd"
+            "detail": "5:44 - 2nd Quarter",
+            "shortDetail": "5:44 - 2nd"
           }
         }
       }
