@@ -49,18 +49,50 @@ STATE_NAMES = {
     "DC": "Washington D.C."
 }
 
-
-
 # ==========================================
 # FUNCTIONS
 # ==========================================
-
 
 def normalize_name(name):
     """Matches the JavaScript text normalization to perfectly sync with your players.json"""
     nfkd = unicodedata.normalize('NFKD', name)
     clean = u"".join([c for c in nfkd if not unicodedata.combining(c)])
     return clean.lower().replace('.', '').strip()
+
+def get_player_data(player_name, players_db):
+    """3-Pass Fuzzy Match logic, identical to your HTML file!"""
+    if not player_name: return {}
+    
+    nicknames = {"cam": "cameron", "cameron": "cam", "steph": "stephen", "stephen": "steph", "trey": "trae", "mo": "mohamed", "mohamed": "mo", "nico": "nicolas", "nicolas": "nico"}
+    target_clean = normalize_name(player_name)
+    parts = target_clean.split(" ")
+    first_name = parts[0]
+    last_name = " ".join(parts[1:])
+    
+    # PASS 1: Strict Exact Matches
+    for key, pdata in players_db.items():
+        db_name = normalize_name(pdata.get('name', ''))
+        db_short = normalize_name(pdata.get('short_name', ''))
+        if target_clean in [db_name, db_short]:
+            return pdata
+            
+    # PASS 2: Nicknames
+    if nicknames.get(first_name):
+        nick_variant = f"{nicknames[first_name]} {last_name}"
+        for key, pdata in players_db.items():
+            db_name = normalize_name(pdata.get('name', ''))
+            db_short = normalize_name(pdata.get('short_name', ''))
+            if nick_variant in [db_name, db_short]:
+                return pdata
+                
+    # PASS 3: Loose Match (The Kelly Oubre Fix!)
+    if len(last_name) > 2:
+        for key, pdata in players_db.items():
+            db_name = normalize_name(pdata.get('name', ''))
+            if last_name in db_name and db_name.startswith(first_name[0]):
+                return pdata
+                
+    return {}
 
 async def record_nba_video():
     print(f"🎥 Recording NBA Intro for {TARGET_TEAM}...")
@@ -76,7 +108,6 @@ async def record_nba_video():
         url = f"https://nbastartingfive.com/tiktok_nba_card.html?date={TARGET_DATE}&team={TARGET_TEAM}&side={TARGET_SIDE}"
         await page.goto(url, wait_until="networkidle")
         
-        # Hide the controls menu dynamically so the video only sees the court!
         await page.evaluate("""
             const controls = document.getElementById('controls');
             if(controls) {
@@ -84,7 +115,7 @@ async def record_nba_video():
             }
         """)
         
-        print("⏳ Waiting 26 seconds for CSS animations to finish...")
+        print("⏳ Waiting 46 seconds for CSS animations to finish...")
         await asyncio.sleep(46)
         
         video_path = await page.video.path()
@@ -115,40 +146,20 @@ def generate_announcer_audio():
     script = f"And now... the starting lineup for your... {full_name}! "
     
     SPOKEN_POSITIONS = ["Point Guard", "Shooting Guard", "Small Forward", "Power Forward", "Center"]
-    nicknames = {"cam": "cameron", "cameron": "cam", "steph": "stephen", "stephen": "steph", "trey": "trae", "mo": "mohamed", "mohamed": "mo", "nico": "nicolas", "nicolas": "nico"}
     
     for i, player in enumerate(roster):
         spoken_pos = SPOKEN_POSITIONS[i] if i < len(SPOKEN_POSITIONS) else "Flex"
         raw_name = player.get('name', 'Unknown')
-        target_clean = normalize_name(raw_name)
         
-        parts = target_clean.split(" ")
-        first_name = parts[0]
-        last_name = " ".join(parts[1:])
-        
-        db_player = {}
-        for key, pdata in players_db.items():
-            db_name = normalize_name(pdata.get('name', ''))
-            db_short = normalize_name(pdata.get('short_name', ''))
-            
-            if target_clean in [db_name, db_short]:
-                db_player = pdata
-                break
-            
-            if nicknames.get(first_name):
-                nick_variant = f"{nicknames[first_name]} {last_name}"
-                if nick_variant in [db_name, db_short]:
-                    db_player = pdata
-                    break
+        # 🚨 USE THE NEW FUZZY LOOKUP FUNCTION
+        db_player = get_player_data(raw_name, players_db)
                     
         jersey = db_player.get('jersey', '')
         
-        # 🚨 FIX: Dig directly into the nested 'athlete' dictionary to grab the 'id'
         espn_id = ""
         if 'athlete' in db_player and isinstance(db_player['athlete'], dict):
             espn_id = db_player['athlete'].get('id', '')
             
-        # Fallbacks just in case the structure varies
         if not espn_id:
             espn_id = db_player.get('espn_id') or db_player.get('id', '')
         
@@ -158,23 +169,18 @@ def generate_announcer_audio():
         if espn_id:
             try:
                 espn_url = f"http://site.api.espn.com/apis/common/v3/sports/basketball/nba/athletes/{espn_id}"
-                
                 espn_headers = {
                     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
                 }
-                
                 espn_response = requests.get(espn_url, headers=espn_headers)
                 
                 if espn_response.status_code == 200:
                     athlete_data = espn_response.json().get('athlete', {})
-                    
                     college_or_home = athlete_data.get('college', {}).get('name', '')
                     
-                    # 🚨 NEW: Extract birthplace and swap abbreviation for full state name
                     if not college_or_home:
                         raw_birth_place = athlete_data.get('displayBirthPlace', '')
                         if raw_birth_place:
-                            # Split "Akron, OH" into ["Akron", "OH"]
                             bp_parts = [p.strip() for p in raw_birth_place.split(',')]
                             if len(bp_parts) > 1:
                                 possible_state = bp_parts[-1].upper()
@@ -197,7 +203,10 @@ def generate_announcer_audio():
         else:
             print(f"⚠️ Could not locate ESPN ID for {raw_name} in players.json")
 
-        
+        # 🚨 THE HEIGHT FALLBACK: If ESPN failed, pull height straight from the players.json!
+        if not spoken_height and db_player.get('height'):
+            spoken_height = db_player.get('height').replace("'", " foot").replace('"', '').strip()
+
         script += f"At {spoken_pos}... "
         if spoken_height:
             script += f"standing at {spoken_height}... "
@@ -249,51 +258,33 @@ def create_final_tiktok(silent_video_path, voiceover_path):
         video_clip = VideoFileClip(silent_video_path)
         voice_clip = AudioFileClip(voiceover_path)
         
-        # This list will hold all our separate audio tracks
         audio_layers = [voice_clip]
-        
-        # --- DYNAMIC CROWD NOISE SYSTEM ---
         crowd_path = "data/crowd_cheer.mp3" 
         
         if os.path.exists(crowd_path):
             print("🏟️ Adding crowd noise swells...")
             raw_crowd = AudioFileClip(crowd_path)
-            
-            # Loop the crowd noise so it covers the entire 46-second video
             full_crowd = afx.audio_loop(raw_crowd, duration=video_clip.duration)
             
-            # LAYER 1: The constant quiet background hum (10% volume)
             base_crowd = full_crowd.volumex(0.1)
             audio_layers.append(base_crowd)
             
-            # LAYER 2: The Loud Swells (40% volume)
-            # These are the exact timestamps where the Team Name and Players drop
             swell_times = [4.11, 10.93, 18.15, 26.17, 31.72, 38.87]
             
             for swell in swell_times:
-                # Ensure we don't try to create a cheer that extends past the end of the video
                 end_time = min(swell + 3.0, video_clip.duration)
-                
                 if swell < video_clip.duration:
-                    # Snip a 3-second piece of the loud crowd
                     cheer = full_crowd.subclip(swell, end_time)
-                    # Pump volume to 40% and add smooth 0.5s fades so it doesn't "pop"
                     cheer = cheer.volumex(0.4).audio_fadein(0.5).audio_fadeout(0.5)
-                    # Align it to start exactly when the animation triggers!
                     cheer = cheer.set_start(swell)
-                    
                     audio_layers.append(cheer)
         else:
             print("⚠️ No crowd_cheer.mp3 found in data folder. Skipping crowd noise.")
         
-        # Mix the announcer, the base hum, and all 6 individual loud cheers into one master track
         final_audio = CompositeAudioClip(audio_layers)
-        
-        # Slap the master audio onto the video
         final_video = video_clip.set_audio(final_audio)
         final_video.write_videofile(final_output, codec="libx264", audio_codec="aac", fps=30, logger=None)
         
-        # Clean up memory
         video_clip.close()
         voice_clip.close()
         if 'raw_crowd' in locals():
