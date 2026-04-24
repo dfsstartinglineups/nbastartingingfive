@@ -4,6 +4,8 @@ import time
 import asyncio
 import requests
 import unicodedata
+import smtplib
+from email.message import EmailMessage
 from playwright.async_api import async_playwright
 from moviepy.editor import VideoFileClip, AudioFileClip, CompositeAudioClip
 import moviepy.audio.fx.all as afx
@@ -151,7 +153,6 @@ def generate_announcer_audio():
         spoken_pos = SPOKEN_POSITIONS[i] if i < len(SPOKEN_POSITIONS) else "Flex"
         raw_name = player.get('name', 'Unknown')
         
-        # 🚨 USE THE NEW FUZZY LOOKUP FUNCTION
         db_player = get_player_data(raw_name, players_db)
                     
         jersey = db_player.get('jersey', '')
@@ -203,7 +204,6 @@ def generate_announcer_audio():
         else:
             print(f"⚠️ Could not locate ESPN ID for {raw_name} in players.json")
 
-        # 🚨 THE HEIGHT FALLBACK: If ESPN failed, pull height straight from the players.json!
         if not spoken_height and db_player.get('height'):
             spoken_height = db_player.get('height').replace("'", " foot").replace('"', '').strip()
 
@@ -294,8 +294,45 @@ def create_final_tiktok(silent_video_path, voiceover_path):
         if os.path.exists(voiceover_path): os.remove(voiceover_path)
         
         print(f"🏆 Final Hype Video ready: {final_output}")
+        return final_output # <-- Important: Returns the path so we can email it!
     except Exception as e:
         print(f"❌ Video Stitching Failed: {e}")
+        return None
+
+def email_video(video_path):
+    print("📧 Attempting to email the video...")
+    
+    sender_email = os.environ.get("GMAIL_ADDRESS") 
+    app_password = os.environ.get("GMAIL_APP_PASSWORD")
+    target_email = os.environ.get("TARGET_EMAIL", sender_email) # Defaults to sending to yourself if TARGET_EMAIL isn't set
+
+    if not sender_email or not app_password:
+        print("⚠️ Missing GMAIL_ADDRESS or GMAIL_APP_PASSWORD. Skipping email delivery.")
+        return
+
+    msg = EmailMessage()
+    msg['Subject'] = f"🏀 Hype Video Ready: {TARGET_TEAM}"
+    msg['From'] = sender_email
+    msg['To'] = target_email
+    msg.set_content(f"Your TikTok draft video for {TARGET_TEAM} has been generated and is attached!")
+
+    try:
+        file_size_mb = os.path.getsize(video_path) / (1024 * 1024)
+        if file_size_mb > 25:
+            print(f"❌ Video is {file_size_mb:.1f}MB (over Gmail's 25MB limit). Cannot email.")
+            return
+
+        with open(video_path, 'rb') as f:
+            video_data = f.read()
+            msg.add_attachment(video_data, maintype='video', subtype='mp4', filename=os.path.basename(video_path))
+
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+            smtp.login(sender_email, app_password)
+            smtp.send_message(msg)
+            
+        print("✅ Email sent successfully!")
+    except Exception as e:
+        print(f"❌ Failed to send email: {e}")
 
 # ==========================================
 # EXECUTION
@@ -304,4 +341,6 @@ if __name__ == "__main__":
     raw_vid = asyncio.run(record_nba_video())
     audio_file = generate_announcer_audio()
     if raw_vid and audio_file:
-        create_final_tiktok(raw_vid, audio_file)
+        final_mp4 = create_final_tiktok(raw_vid, audio_file)
+        if final_mp4:
+            email_video(final_mp4)
