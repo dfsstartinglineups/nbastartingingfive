@@ -5,7 +5,8 @@ import asyncio
 import requests
 import unicodedata
 from playwright.async_api import async_playwright
-from moviepy.editor import VideoFileClip, AudioFileClip
+from moviepy.editor import VideoFileClip, AudioFileClip, CompositeAudioClip
+import moviepy.audio.fx.all as afx
 
 # ==========================================
 # CONFIGURATION & INPUTS
@@ -241,18 +242,62 @@ def generate_announcer_audio():
         return None
 
 def create_final_tiktok(silent_video_path, voiceover_path):
-    print("🎬 Stitching video and audio together...")
+    print("🎬 Stitching video and audio together with dynamic crowd noise...")
     final_output = os.path.join(OUTPUT_DIR, f"{TARGET_TEAM}_{TARGET_DATE}_hype.mp4")
     
     try:
         video_clip = VideoFileClip(silent_video_path)
         voice_clip = AudioFileClip(voiceover_path)
         
-        final_video = video_clip.set_audio(voice_clip)
+        # This list will hold all our separate audio tracks
+        audio_layers = [voice_clip]
+        
+        # --- DYNAMIC CROWD NOISE SYSTEM ---
+        crowd_path = "data/crowd_cheer.mp3" 
+        
+        if os.path.exists(crowd_path):
+            print("🏟️ Adding crowd noise swells...")
+            raw_crowd = AudioFileClip(crowd_path)
+            
+            # Loop the crowd noise so it covers the entire 46-second video
+            full_crowd = afx.audio_loop(raw_crowd, duration=video_clip.duration)
+            
+            # LAYER 1: The constant quiet background hum (10% volume)
+            base_crowd = full_crowd.volumex(0.1)
+            audio_layers.append(base_crowd)
+            
+            # LAYER 2: The Loud Swells (40% volume)
+            # These are the exact timestamps where the Team Name and Players drop
+            swell_times = [4.11, 10.93, 18.15, 26.17, 31.72, 38.87]
+            
+            for swell in swell_times:
+                # Ensure we don't try to create a cheer that extends past the end of the video
+                end_time = min(swell + 3.0, video_clip.duration)
+                
+                if swell < video_clip.duration:
+                    # Snip a 3-second piece of the loud crowd
+                    cheer = full_crowd.subclip(swell, end_time)
+                    # Pump volume to 40% and add smooth 0.5s fades so it doesn't "pop"
+                    cheer = cheer.volumex(0.4).audio_fadein(0.5).audio_fadeout(0.5)
+                    # Align it to start exactly when the animation triggers!
+                    cheer = cheer.set_start(swell)
+                    
+                    audio_layers.append(cheer)
+        else:
+            print("⚠️ No crowd_cheer.mp3 found in data folder. Skipping crowd noise.")
+        
+        # Mix the announcer, the base hum, and all 6 individual loud cheers into one master track
+        final_audio = CompositeAudioClip(audio_layers)
+        
+        # Slap the master audio onto the video
+        final_video = video_clip.set_audio(final_audio)
         final_video.write_videofile(final_output, codec="libx264", audio_codec="aac", fps=30, logger=None)
         
+        # Clean up memory
         video_clip.close()
         voice_clip.close()
+        if 'raw_crowd' in locals():
+            raw_crowd.close()
         
         if os.path.exists(silent_video_path): os.remove(silent_video_path)
         if os.path.exists(voiceover_path): os.remove(voiceover_path)
