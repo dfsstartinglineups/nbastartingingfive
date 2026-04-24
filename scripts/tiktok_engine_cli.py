@@ -263,7 +263,7 @@ def create_final_tiktok(silent_video_path, voiceover_path):
         
         if os.path.exists(crowd_path):
             print("🏟️ Adding crowd noise swells...")
-            raw_crowd = AudioFileClip(crowd_path)
+            raw_crowd = AudioFileClip(crowd_path).subclip(0, 20)
             full_crowd = afx.audio_loop(raw_crowd, duration=video_clip.duration)
             
             base_crowd = full_crowd.volumex(0.1)
