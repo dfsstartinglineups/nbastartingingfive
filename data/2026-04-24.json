@@ -1,5 +1,5 @@
 {
-  "last_updated": "Apr 24, 10:40 PM ET",
+  "last_updated": "Apr 24, 10:42 PM ET",
   "player_news": [
     {
       "player_name": "Victor Wembanyama",
@@ -7,9 +7,9 @@
       "position": "C",
       "status_badge": "OUT",
       "description": "Out concussion protocol",
-      "time_elapsed": "1.5h",
+      "time_elapsed": "1.6h",
       "next_game": "Friday @POR",
-      "local_timestamp": 1777084890.842513
+      "local_timestamp": 1777085021.1494193
     },
     {
       "player_name": "Kevin Durant",
@@ -19,7 +19,7 @@
       "description": "Out left ankle sprain",
       "time_elapsed": "4.1h",
       "next_game": "Friday vs LAL",
-      "local_timestamp": 1777084890.836513
+      "local_timestamp": 1777085021.1434193
     },
     {
       "player_name": "Luke Kornet",
@@ -1818,6 +1818,11 @@
                     "value": 26.0,
                     "displayValue": "26",
                     "period": 4
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 5
                   }
                 ],
                 "statistics": [
@@ -2173,6 +2178,11 @@
                     "value": 21.0,
                     "displayValue": "21",
                     "period": 4
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 5
                   }
                 ],
                 "statistics": [
@@ -2447,32 +2457,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401869400696",
+                "id": "401869400709",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "615",
+                  "text": "Jumpball"
                 },
-                "text": "End of the 4th Quarter",
+                "text": "Deandre Ayton vs. Alperen Sengun (LeBron James gains possession)",
                 "scoreValue": 0,
+                "team": {
+                  "id": "13"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.5,
-                  "awayWinPercentage": 0.5
-                }
+                  "homeWinPercentage": 0.465,
+                  "awayWinPercentage": 0.5349999999999999
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "4278129",
+                    "fullName": "Deandre Ayton",
+                    "displayName": "Deandre Ayton",
+                    "shortName": "D. Ayton",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/4278129/deandre-ayton"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4278129.png",
+                    "jersey": "5",
+                    "position": "C",
+                    "team": {
+                      "id": "13"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 4,
+              "clock": 265.0,
+              "displayClock": "4:25",
+              "period": 5,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "End of Period",
-                "detail": "End of 4th Quarter",
-                "shortDetail": "End of 4th"
+                "description": "In Progress",
+                "detail": "4:25 - OT",
+                "shortDetail": "4:25 - OT"
               }
             },
             "broadcasts": [
@@ -2575,17 +2612,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 4,
+          "clock": 265.0,
+          "displayClock": "4:25",
+          "period": 5,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "End of Period",
-            "detail": "End of 4th Quarter",
-            "shortDetail": "End of 4th"
+            "description": "In Progress",
+            "detail": "4:25 - OT",
+            "shortDetail": "4:25 - OT"
           }
         }
       },
