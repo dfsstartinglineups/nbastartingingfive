@@ -265,7 +265,7 @@
             filter: blur(60px);
             mix-blend-mode: screen; 
             opacity: 0.45; /* Soft, subtle concert tint */
-            transition: background 1.5s ease-in-out; /* Smooth 1.2s fade between colors */
+            transition: background 1.5s ease-in-out; /* Smooth 1.5s fade between colors */
         }
 
         .lights-out-mode #spotlight-overlay {
@@ -851,13 +851,6 @@
 
             const pulseColors = ["#ffffff", pColor, sColor];
             let pulseIndex = 0;
-            
-            // Safety Net: If a color is pure black, use white so we don't turn off the light!
-            if (pColor === "#000000") pColor = "#ffffff";
-            if (sColor === "#000000") sColor = "#ffffff";
-
-            // The Sequence: White -> Primary -> White -> Secondary -> Primary
-            const spotlightColors = ["#ffffff", pColor, "#ffffff", sColor, pColor];
 
             applyTeamTheme(targetAbbr);
 
@@ -952,13 +945,9 @@
                 `;
                 container.insertAdjacentHTML('beforeend', html);
 
-                // Tells the spotlight to snap to THIS player and change the gel color
+                // Tells the spotlight to snap to THIS player
                 setTimeout(() => {
                     activePlayerIndex = index;
-                    const spotOverlay = document.getElementById('spotlight-overlay');
-                    if (spotOverlay) {
-                        spotOverlay.style.setProperty('--spotlight-color', spotlightColors[index]);
-                    }
                 }, delay * 1000);
             });
 
