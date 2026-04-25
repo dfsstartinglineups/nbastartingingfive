@@ -4,8 +4,11 @@ import time
 import asyncio
 import requests
 import unicodedata
+import smtplib
+from email.message import EmailMessage
 from playwright.async_api import async_playwright
-from moviepy.editor import VideoFileClip, AudioFileClip
+from moviepy.editor import VideoFileClip, AudioFileClip, CompositeAudioClip
+import moviepy.audio.fx.all as afx
 
 # ==========================================
 # CONFIGURATION & INPUTS
@@ -48,18 +51,50 @@ STATE_NAMES = {
     "DC": "Washington D.C."
 }
 
-
-
 # ==========================================
 # FUNCTIONS
 # ==========================================
-
 
 def normalize_name(name):
     """Matches the JavaScript text normalization to perfectly sync with your players.json"""
     nfkd = unicodedata.normalize('NFKD', name)
     clean = u"".join([c for c in nfkd if not unicodedata.combining(c)])
     return clean.lower().replace('.', '').strip()
+
+def get_player_data(player_name, players_db):
+    """3-Pass Fuzzy Match logic, identical to your HTML file!"""
+    if not player_name: return {}
+    
+    nicknames = {"cam": "cameron", "cameron": "cam", "steph": "stephen", "stephen": "steph", "trey": "trae", "mo": "mohamed", "mohamed": "mo", "nico": "nicolas", "nicolas": "nico"}
+    target_clean = normalize_name(player_name)
+    parts = target_clean.split(" ")
+    first_name = parts[0]
+    last_name = " ".join(parts[1:])
+    
+    # PASS 1: Strict Exact Matches
+    for key, pdata in players_db.items():
+        db_name = normalize_name(pdata.get('name', ''))
+        db_short = normalize_name(pdata.get('short_name', ''))
+        if target_clean in [db_name, db_short]:
+            return pdata
+            
+    # PASS 2: Nicknames
+    if nicknames.get(first_name):
+        nick_variant = f"{nicknames[first_name]} {last_name}"
+        for key, pdata in players_db.items():
+            db_name = normalize_name(pdata.get('name', ''))
+            db_short = normalize_name(pdata.get('short_name', ''))
+            if nick_variant in [db_name, db_short]:
+                return pdata
+                
+    # PASS 3: Loose Match (The Kelly Oubre Fix!)
+    if len(last_name) > 2:
+        for key, pdata in players_db.items():
+            db_name = normalize_name(pdata.get('name', ''))
+            if last_name in db_name and db_name.startswith(first_name[0]):
+                return pdata
+                
+    return {}
 
 async def record_nba_video():
     print(f"🎥 Recording NBA Intro for {TARGET_TEAM}...")
@@ -75,7 +110,6 @@ async def record_nba_video():
         url = f"https://nbastartingfive.com/tiktok_nba_card.html?date={TARGET_DATE}&team={TARGET_TEAM}&side={TARGET_SIDE}"
         await page.goto(url, wait_until="networkidle")
         
-        # Hide the controls menu dynamically so the video only sees the court!
         await page.evaluate("""
             const controls = document.getElementById('controls');
             if(controls) {
@@ -83,7 +117,7 @@ async def record_nba_video():
             }
         """)
         
-        print("⏳ Waiting 26 seconds for CSS animations to finish...")
+        print("⏳ Waiting 46 seconds for CSS animations to finish...")
         await asyncio.sleep(46)
         
         video_path = await page.video.path()
@@ -114,40 +148,19 @@ def generate_announcer_audio():
     script = f"And now... the starting lineup for your... {full_name}! "
     
     SPOKEN_POSITIONS = ["Point Guard", "Shooting Guard", "Small Forward", "Power Forward", "Center"]
-    nicknames = {"cam": "cameron", "cameron": "cam", "steph": "stephen", "stephen": "steph", "trey": "trae", "mo": "mohamed", "mohamed": "mo", "nico": "nicolas", "nicolas": "nico"}
     
     for i, player in enumerate(roster):
         spoken_pos = SPOKEN_POSITIONS[i] if i < len(SPOKEN_POSITIONS) else "Flex"
         raw_name = player.get('name', 'Unknown')
-        target_clean = normalize_name(raw_name)
         
-        parts = target_clean.split(" ")
-        first_name = parts[0]
-        last_name = " ".join(parts[1:])
-        
-        db_player = {}
-        for key, pdata in players_db.items():
-            db_name = normalize_name(pdata.get('name', ''))
-            db_short = normalize_name(pdata.get('short_name', ''))
-            
-            if target_clean in [db_name, db_short]:
-                db_player = pdata
-                break
-            
-            if nicknames.get(first_name):
-                nick_variant = f"{nicknames[first_name]} {last_name}"
-                if nick_variant in [db_name, db_short]:
-                    db_player = pdata
-                    break
+        db_player = get_player_data(raw_name, players_db)
                     
         jersey = db_player.get('jersey', '')
         
-        # 🚨 FIX: Dig directly into the nested 'athlete' dictionary to grab the 'id'
         espn_id = ""
         if 'athlete' in db_player and isinstance(db_player['athlete'], dict):
             espn_id = db_player['athlete'].get('id', '')
             
-        # Fallbacks just in case the structure varies
         if not espn_id:
             espn_id = db_player.get('espn_id') or db_player.get('id', '')
         
@@ -157,23 +170,18 @@ def generate_announcer_audio():
         if espn_id:
             try:
                 espn_url = f"http://site.api.espn.com/apis/common/v3/sports/basketball/nba/athletes/{espn_id}"
-                
                 espn_headers = {
                     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
                 }
-                
                 espn_response = requests.get(espn_url, headers=espn_headers)
                 
                 if espn_response.status_code == 200:
                     athlete_data = espn_response.json().get('athlete', {})
-                    
                     college_or_home = athlete_data.get('college', {}).get('name', '')
                     
-                    # 🚨 NEW: Extract birthplace and swap abbreviation for full state name
                     if not college_or_home:
                         raw_birth_place = athlete_data.get('displayBirthPlace', '')
                         if raw_birth_place:
-                            # Split "Akron, OH" into ["Akron", "OH"]
                             bp_parts = [p.strip() for p in raw_birth_place.split(',')]
                             if len(bp_parts) > 1:
                                 possible_state = bp_parts[-1].upper()
@@ -196,7 +204,9 @@ def generate_announcer_audio():
         else:
             print(f"⚠️ Could not locate ESPN ID for {raw_name} in players.json")
 
-        
+        if not spoken_height and db_player.get('height'):
+            spoken_height = db_player.get('height').replace("'", " foot").replace('"', '').strip()
+
         script += f"At {spoken_pos}... "
         if spoken_height:
             script += f"standing at {spoken_height}... "
@@ -241,25 +251,88 @@ def generate_announcer_audio():
         return None
 
 def create_final_tiktok(silent_video_path, voiceover_path):
-    print("🎬 Stitching video and audio together...")
+    print("🎬 Stitching video and audio together with dynamic crowd noise...")
     final_output = os.path.join(OUTPUT_DIR, f"{TARGET_TEAM}_{TARGET_DATE}_hype.mp4")
     
     try:
         video_clip = VideoFileClip(silent_video_path)
         voice_clip = AudioFileClip(voiceover_path)
         
-        final_video = video_clip.set_audio(voice_clip)
+        audio_layers = [voice_clip]
+        crowd_path = "data/crowd_cheer.mp3" 
+        
+        if os.path.exists(crowd_path):
+            print("🏟️ Adding crowd noise swells...")
+            raw_crowd = AudioFileClip(crowd_path).subclip(0, 20)
+            full_crowd = afx.audio_loop(raw_crowd, duration=video_clip.duration)
+            
+            base_crowd = full_crowd.volumex(0.1)
+            audio_layers.append(base_crowd)
+            
+            swell_times = [4.11, 10.93, 18.15, 26.17, 31.72, 38.87]
+            
+            for swell in swell_times:
+                end_time = min(swell + 3.0, video_clip.duration)
+                if swell < video_clip.duration:
+                    cheer = full_crowd.subclip(swell, end_time)
+                    cheer = cheer.volumex(0.4).audio_fadein(0.5).audio_fadeout(0.5)
+                    cheer = cheer.set_start(swell)
+                    audio_layers.append(cheer)
+        else:
+            print("⚠️ No crowd_cheer.mp3 found in data folder. Skipping crowd noise.")
+        
+        final_audio = CompositeAudioClip(audio_layers)
+        final_video = video_clip.set_audio(final_audio)
         final_video.write_videofile(final_output, codec="libx264", audio_codec="aac", fps=30, logger=None)
         
         video_clip.close()
         voice_clip.close()
+        if 'raw_crowd' in locals():
+            raw_crowd.close()
         
         if os.path.exists(silent_video_path): os.remove(silent_video_path)
         if os.path.exists(voiceover_path): os.remove(voiceover_path)
         
         print(f"🏆 Final Hype Video ready: {final_output}")
+        return final_output # <-- Important: Returns the path so we can email it!
     except Exception as e:
         print(f"❌ Video Stitching Failed: {e}")
+        return None
+
+def email_video(video_path):
+    print("📧 Attempting to email the video...")
+    
+    sender_email = os.environ.get("GMAIL_ADDRESS") 
+    app_password = os.environ.get("GMAIL_APP_PASSWORD")
+    target_email = os.environ.get("TARGET_EMAIL", sender_email) # Defaults to sending to yourself if TARGET_EMAIL isn't set
+
+    if not sender_email or not app_password:
+        print("⚠️ Missing GMAIL_ADDRESS or GMAIL_APP_PASSWORD. Skipping email delivery.")
+        return
+
+    msg = EmailMessage()
+    msg['Subject'] = f"🏀 Hype Video Ready: {TARGET_TEAM}"
+    msg['From'] = sender_email
+    msg['To'] = target_email
+    msg.set_content(f"Your TikTok draft video for {TARGET_TEAM} has been generated and is attached!")
+
+    try:
+        file_size_mb = os.path.getsize(video_path) / (1024 * 1024)
+        if file_size_mb > 25:
+            print(f"❌ Video is {file_size_mb:.1f}MB (over Gmail's 25MB limit). Cannot email.")
+            return
+
+        with open(video_path, 'rb') as f:
+            video_data = f.read()
+            msg.add_attachment(video_data, maintype='video', subtype='mp4', filename=os.path.basename(video_path))
+
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+            smtp.login(sender_email, app_password)
+            smtp.send_message(msg)
+            
+        print("✅ Email sent successfully!")
+    except Exception as e:
+        print(f"❌ Failed to send email: {e}")
 
 # ==========================================
 # EXECUTION
@@ -268,4 +341,6 @@ if __name__ == "__main__":
     raw_vid = asyncio.run(record_nba_video())
     audio_file = generate_announcer_audio()
     if raw_vid and audio_file:
-        create_final_tiktok(raw_vid, audio_file)
+        final_mp4 = create_final_tiktok(raw_vid, audio_file)
+        if final_mp4:
+            email_video(final_mp4)
