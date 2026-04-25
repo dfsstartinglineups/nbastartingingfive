@@ -841,6 +841,16 @@
 
             const targetData = NBA_TEAMS[targetAbbr];
             const oppData = NBA_TEAMS[oppAbbr];
+            // --- NEW: SPOTLIGHT COLOR SEQUENCE ---
+            let pColor = targetData ? targetData.primary : "#ffffff";
+            let sColor = targetData ? targetData.secondary : "#ffffff";
+            
+            // Safety Net: If a color is pure black, use white so we don't turn off the light!
+            if (pColor === "#000000") pColor = "#ffffff";
+            if (sColor === "#000000") sColor = "#ffffff";
+
+            // The Sequence: White -> Primary -> White -> Secondary -> Primary
+            const spotlightColors = ["#ffffff", pColor, "#ffffff", sColor, pColor];
 
             applyTeamTheme(targetAbbr);
 
@@ -935,9 +945,13 @@
                 `;
                 container.insertAdjacentHTML('beforeend', html);
 
-                // Tells the spotlight to snap to THIS player at the exact millisecond their CSS animation triggers
+                // Tells the spotlight to snap to THIS player and change the gel color
                 setTimeout(() => {
                     activePlayerIndex = index;
+                    const spotOverlay = document.getElementById('spotlight-overlay');
+                    if (spotOverlay) {
+                        spotOverlay.style.setProperty('--spotlight-color', spotlightColors[index]);
+                    }
                 }, delay * 1000);
             });
 
