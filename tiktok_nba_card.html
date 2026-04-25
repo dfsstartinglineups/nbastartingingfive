@@ -250,24 +250,8 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 1.5s ease;
-            --spotlight-color: #ffffff; /* Default starting color */
         }
         
-        /* NEW: The Colored Light Gel */
-        #spotlight-overlay::after {
-            content: "";
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 350px; height: 350px;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            background: var(--spotlight-color);
-            filter: blur(60px);
-            mix-blend-mode: screen; 
-            opacity: 0.45; /* Soft, subtle concert tint */
-            transition: background 1.5s ease-in-out; /* Smooth 1.5s fade between colors */
-        }
-
         .lights-out-mode #spotlight-overlay {
             opacity: 1;
         }
@@ -636,7 +620,6 @@
         let currentSpotX = 0;
         let currentSpotY = 0;
         let trackingSpotlight = false;
-        let colorPulseInterval;
 
         function trackSpotlight() {
             if (!trackingSpotlight) return;
@@ -823,9 +806,9 @@
         function renderCard() {
             if(allGames.length === 0) return;
 
+            // --- Reset Spotlight System on Redraw ---
             trackingSpotlight = false;
             activePlayerIndex = -1;
-            if (colorPulseInterval) clearInterval(colorPulseInterval); // Stops the pulse on redraw
             const captureArea = document.getElementById('capture-area');
             if (captureArea) captureArea.classList.remove('lights-out-mode');
 
@@ -842,15 +825,6 @@
 
             const targetData = NBA_TEAMS[targetAbbr];
             const oppData = NBA_TEAMS[oppAbbr];
-            // --- SPOTLIGHT COLOR SETUP ---
-            let pColor = targetData ? targetData.primary : "#ffffff";
-            let sColor = targetData ? targetData.secondary : "#ffffff";
-            
-            if (pColor === "#000000") pColor = "#ffffff";
-            if (sColor === "#000000") sColor = "#ffffff";
-
-            const pulseColors = ["#ffffff", pColor, sColor];
-            let pulseIndex = 0;
 
             applyTeamTheme(targetAbbr);
 
@@ -945,7 +919,7 @@
                 `;
                 container.insertAdjacentHTML('beforeend', html);
 
-                // Tells the spotlight to snap to THIS player
+                // Tells the spotlight to snap to THIS player at the exact millisecond their CSS animation triggers
                 setTimeout(() => {
                     activePlayerIndex = index;
                 }, delay * 1000);
@@ -958,16 +932,6 @@
                 }
                 trackingSpotlight = true;
                 trackSpotlight(); 
-
-                // Start the continuous 1.5-second color pulse!
-                colorPulseInterval = setInterval(() => {
-                    pulseIndex = (pulseIndex + 1) % pulseColors.length;
-                    const spotOverlay = document.getElementById('spotlight-overlay');
-                    if (spotOverlay) {
-                        spotOverlay.style.setProperty('--spotlight-color', pulseColors[pulseIndex]);
-                    }
-                }, 1500); 
-
             }, 4110); 
 
             // --- TRIGGER THE ARENA LIGHTS ON AT 42.5s (End of Intro) ---
@@ -975,8 +939,7 @@
                 if (captureArea) {
                     captureArea.classList.remove('lights-out-mode');
                 }
-                trackingSpotlight = false; 
-                if (colorPulseInterval) clearInterval(colorPulseInterval); // Kill the pulse
+                trackingSpotlight = false; // Turn off the heavy rendering loop
             }, 42500); 
         }
 
