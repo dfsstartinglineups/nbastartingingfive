@@ -239,7 +239,7 @@
             filter: grayscale(50%) brightness(80%); 
         }
 
-        /* --- NEW: DYNAMIC TRACKING SPOTLIGHT --- */
+        /* --- DYNAMIC TRACKING SPOTLIGHT --- */
 
         #spotlight-overlay {
             position: absolute;
@@ -250,8 +250,24 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 1.5s ease;
+            --spotlight-color: #ffffff; /* Default starting color */
         }
         
+        /* NEW: The Colored Light Gel */
+        #spotlight-overlay::after {
+            content: "";
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 350px; height: 350px;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background: var(--spotlight-color);
+            filter: blur(60px);
+            mix-blend-mode: screen; 
+            opacity: 0.45; /* Soft, subtle concert tint */
+            transition: background 1.5s ease-in-out; /* Smooth 1.5s fade between colors */
+        }
+
         .lights-out-mode #spotlight-overlay {
             opacity: 1;
         }
@@ -408,7 +424,7 @@
         }
 
         /* ========================================================
-           PLAYER ENTRANCE ANIMATIONS
+           THE 12-PLAY CINEMATIC ANIMATION PLAYBOOK
            ======================================================== */
         
         .player-anim {
@@ -416,12 +432,14 @@
             animation-fill-mode: forwards;
         }
 
+        /* 1. Materialize */
         @keyframes materialize {
             0% { opacity: 0; filter: blur(20px); transform: translate(-50%, -50%) scale(0.2); }
             100% { opacity: 1; filter: blur(0); transform: translate(-50%, -50%) scale(1); }
         }
         .anim-materialize { animation: materialize 1.5s ease-out forwards; }
 
+        /* 2. Bounce In */
         @keyframes bounceIn {
             0% { opacity: 0; transform: translate(-50%, calc(-50% - 800px)); }
             50% { opacity: 1; transform: translate(-50%, calc(-50% + 40px)); }
@@ -431,6 +449,7 @@
         }
         .anim-bounce { animation: bounceIn 1.2s ease-out forwards; }
 
+        /* 3. Slide & Slam */
         @keyframes slideSlam {
             0% { opacity: 0; transform: translate(calc(-50% + 800px), -50%) skewX(-20deg); }
             70% { opacity: 1; transform: translate(calc(-50% - 30px), -50%) skewX(10deg); }
@@ -439,6 +458,7 @@
         }
         .anim-slide-slam { animation: slideSlam 1s ease-out forwards; }
 
+        /* 4. The Warmup Run */
         @keyframes runAround {
             0% { opacity: 0; transform: translate(-50%, calc(-50% + 600px)); } 
             10% { opacity: 1; transform: translate(-50%, calc(-50% + 600px)); }
@@ -449,12 +469,70 @@
         }
         .anim-run { animation: runAround 2.5s ease-in-out forwards; }
 
+        /* 5. Tornado Drop */
         @keyframes tornadoDrop {
             0% { opacity: 0; transform: translate(-50%, calc(-50% - 600px)) scale(0.1) rotate(1080deg); }
             80% { opacity: 1; transform: translate(-50%, calc(-50% + 20px)) scale(1.1) rotate(20deg); }
             100% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
         }
         .anim-tornado { animation: tornadoDrop 1.5s ease-out forwards; }
+
+        /* 6. The Elevator */
+        @keyframes elevatorLift {
+            0% { opacity: 0; transform: translate(-50%, calc(-50% + 800px)); }
+            100% { opacity: 1; transform: translate(-50%, -50%); }
+        }
+        .anim-elevator { animation: elevatorLift 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+
+        /* 7. The Crossover */
+        @keyframes crossover {
+            0% { opacity: 0; transform: translate(calc(-50% - 600px), -50%) scale(0.8); }
+            30% { opacity: 1; transform: translate(calc(-50% + 150px), calc(-50% - 100px)) scale(1.1) rotate(10deg); }
+            60% { transform: translate(calc(-50% - 150px), calc(-50% + 100px)) scale(0.9) rotate(-10deg); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+        }
+        .anim-crossover { animation: crossover 1.6s ease-in-out forwards; }
+
+        /* 8. The Shockwave */
+        @keyframes shockwave {
+            0% { opacity: 0; transform: translate(-50%, calc(-50% - 1000px)); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            70% { transform: translate(-50%, -50%) scale(1.3); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+        .anim-shockwave { animation: shockwave 1.1s ease-in forwards; }
+
+        /* 9. The Ghost */
+        @keyframes ghostFade {
+            0% { opacity: 0; filter: blur(15px); transform: translate(-50%, calc(-50% + 300px)); }
+            100% { opacity: 1; filter: blur(0); transform: translate(-50%, -50%); }
+        }
+        .anim-ghost { animation: ghostFade 2.5s ease-out forwards; }
+
+        /* 10. Spin Corner */
+        @keyframes spinCorner {
+            0% { opacity: 0; transform: translate(calc(-50% - 800px), calc(-50% + 800px)) rotate(-720deg) scale(0.3); }
+            100% { opacity: 1; transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+        }
+        .anim-spin-corner { animation: spinCorner 1.5s ease-out forwards; }
+
+        /* 11. The Backpedal */
+        @keyframes backpedal {
+            0% { opacity: 0; transform: translate(-50%, calc(-50% + 400px)) scale(2.5); filter: blur(5px); }
+            20% { opacity: 1; filter: blur(0); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+        .anim-backpedal { animation: backpedal 1.7s ease-out forwards; }
+
+        /* 12. The Matrix */
+        @keyframes matrixSlowMo {
+            0% { opacity: 0; transform: translate(-50%, calc(-50% - 500px)) rotate(45deg); }
+            40% { opacity: 1; transform: translate(-50%, calc(-50% - 150px)) rotate(-25deg); }
+            70% { transform: translate(-50%, calc(-50% - 50px)) rotate(10deg); }
+            100% { opacity: 1; transform: translate(-50%, -50%) rotate(0deg); }
+        }
+        .anim-matrix { animation: matrixSlowMo 2.2s ease-in-out forwards; }
+
     </style>
 </head>
 <body>
@@ -558,6 +636,7 @@
         let currentSpotX = 0;
         let currentSpotY = 0;
         let trackingSpotlight = false;
+        let colorPulseInterval;
 
         function trackSpotlight() {
             if (!trackingSpotlight) return;
@@ -678,10 +757,9 @@
                         const t2 = g.teams[1];
                         const hasRoster1 = g.rosters[t1] && g.rosters[t1].players && g.rosters[t1].players.length >= 5;
                         const hasRoster2 = g.rosters[t2] && g.rosters[t2].players && g.rosters[t2].players.length >= 5;
+                        
                         if (!hasRoster1 && !hasRoster2) return false;
-                        const t1Verified = g.rosters[t1].is_official === true || (hasRoster1 && g.rosters[t1].players.slice(0, 5).every(p => p.verified === true));
-                        const t2Verified = g.rosters[t2].is_official === true || (hasRoster2 && g.rosters[t2].players.slice(0, 5).every(p => p.verified === true));
-                        return t1Verified || t2Verified;
+                        return true; 
                     });
                 }
                 
@@ -745,9 +823,9 @@
         function renderCard() {
             if(allGames.length === 0) return;
 
-            // --- Reset Spotlight System on Redraw ---
             trackingSpotlight = false;
             activePlayerIndex = -1;
+            if (colorPulseInterval) clearInterval(colorPulseInterval); // Stops the pulse on redraw
             const captureArea = document.getElementById('capture-area');
             if (captureArea) captureArea.classList.remove('lights-out-mode');
 
@@ -764,6 +842,15 @@
 
             const targetData = NBA_TEAMS[targetAbbr];
             const oppData = NBA_TEAMS[oppAbbr];
+            // --- SPOTLIGHT COLOR SETUP ---
+            let pColor = targetData ? targetData.primary : "#ffffff";
+            let sColor = targetData ? targetData.secondary : "#ffffff";
+            
+            if (pColor === "#000000") pColor = "#ffffff";
+            if (sColor === "#000000") sColor = "#ffffff";
+
+            const pulseColors = ["#ffffff", pColor, sColor];
+            let pulseIndex = 0;
 
             applyTeamTheme(targetAbbr);
 
@@ -793,22 +880,30 @@
 
             const roster = game.rosters[targetAbbr].players.slice(0, 5);
 
-            const isOfficial = game.rosters[targetAbbr].is_official === true || roster.every(p => p.verified === true);
             const tagEl = document.getElementById('starting-tag');
             
-            if (isOfficial) {
-                tagEl.textContent = "STARTING 5";
-                tagEl.style.color = "var(--text-dark)";
-                tagEl.style.textShadow = "1px 1px 0px rgba(255,255,255,0.5)";
-            } else {
-                tagEl.textContent = "PROJECTED 5";
-                tagEl.style.color = "rgba(0,0,0,0.4)"; 
-                tagEl.style.textShadow = "none";
-            }
+            // ALWAYS render "STARTING 5" so the draft video is perfectly ready to post
+            tagEl.textContent = "STARTING 5";
+            tagEl.style.color = "var(--text-dark)";
+            tagEl.style.textShadow = "1px 1px 0px rgba(255,255,255,0.5)";
 
             tagEl.classList.remove('anim-header-tag');
             void tagEl.offsetWidth; 
             tagEl.classList.add('anim-header-tag');
+
+            // 🚨 NEW: THE 12-PLAY ANIMATION PLAYBOOK 🚨
+            const playbook = [
+                "anim-materialize", "anim-bounce", "anim-slide-slam", 
+                "anim-run", "anim-tornado", "anim-elevator", 
+                "anim-crossover", "anim-shockwave", "anim-ghost", 
+                "anim-spin-corner", "anim-backpedal", "anim-matrix"
+            ];
+
+            // Fisher-Yates Shuffle Algorithm (Shuffles the deck perfectly)
+            for (let i = playbook.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [playbook[i], playbook[j]] = [playbook[j], playbook[i]];
+            }
 
             roster.forEach((player, index) => {
                 const pos = POSITIONS[index];
@@ -828,13 +923,14 @@
                     ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` 
                     : `<div class="fallback-silhouette"></div>`;
 
-                const animations = ["anim-materialize", "anim-bounce", "anim-slide-slam", "anim-run", "anim-tornado"];
+                // "Deal" the first 5 unique animations from our freshly shuffled deck
+                const chosenAnimation = playbook[index];
                 
                 const delays = [10.93, 18.15, 26.17, 31.72, 38.87]; 
                 const delay = delays[index]-0.8;
 
                 const html = `
-                    <div class="player-node player-anim ${animations[index]}" style="left: ${coords.x}%; top: ${coords.y}%; animation-delay: ${delay}s;">
+                    <div class="player-node player-anim ${chosenAnimation}" style="left: ${coords.x}%; top: ${coords.y}%; animation-delay: ${delay}s;">
                         <div class="photo-wrapper">
                             <div class="player-position">${pos}</div>
                             ${jerseyNum ? `<div class="player-number">${jerseyNum}</div>` : ''}
@@ -849,7 +945,7 @@
                 `;
                 container.insertAdjacentHTML('beforeend', html);
 
-                // Tells the spotlight to snap to THIS player at the exact millisecond their CSS animation triggers
+                // Tells the spotlight to snap to THIS player
                 setTimeout(() => {
                     activePlayerIndex = index;
                 }, delay * 1000);
@@ -862,6 +958,16 @@
                 }
                 trackingSpotlight = true;
                 trackSpotlight(); 
+
+                // Start the continuous 1.5-second color pulse!
+                colorPulseInterval = setInterval(() => {
+                    pulseIndex = (pulseIndex + 1) % pulseColors.length;
+                    const spotOverlay = document.getElementById('spotlight-overlay');
+                    if (spotOverlay) {
+                        spotOverlay.style.setProperty('--spotlight-color', pulseColors[pulseIndex]);
+                    }
+                }, 1500); 
+
             }, 4110); 
 
             // --- TRIGGER THE ARENA LIGHTS ON AT 42.5s (End of Intro) ---
@@ -869,7 +975,8 @@
                 if (captureArea) {
                     captureArea.classList.remove('lights-out-mode');
                 }
-                trackingSpotlight = false; // Turn off the heavy rendering loop
+                trackingSpotlight = false; 
+                if (colorPulseInterval) clearInterval(colorPulseInterval); // Kill the pulse
             }, 42500); 
         }
 
