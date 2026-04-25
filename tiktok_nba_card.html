@@ -265,7 +265,7 @@
             filter: blur(60px);
             mix-blend-mode: screen; 
             opacity: 0.45; /* Soft, subtle concert tint */
-            transition: background 1.2s ease-in-out; /* Smooth 1.2s fade between colors */
+            transition: background 1.5s ease-in-out; /* Smooth 1.2s fade between colors */
         }
 
         .lights-out-mode #spotlight-overlay {
@@ -636,6 +636,7 @@
         let currentSpotX = 0;
         let currentSpotY = 0;
         let trackingSpotlight = false;
+        let colorPulseInterval;
 
         function trackSpotlight() {
             if (!trackingSpotlight) return;
@@ -822,9 +823,9 @@
         function renderCard() {
             if(allGames.length === 0) return;
 
-            // --- Reset Spotlight System on Redraw ---
             trackingSpotlight = false;
             activePlayerIndex = -1;
+            if (colorPulseInterval) clearInterval(colorPulseInterval); // Stops the pulse on redraw
             const captureArea = document.getElementById('capture-area');
             if (captureArea) captureArea.classList.remove('lights-out-mode');
 
@@ -841,9 +842,15 @@
 
             const targetData = NBA_TEAMS[targetAbbr];
             const oppData = NBA_TEAMS[oppAbbr];
-            // --- NEW: SPOTLIGHT COLOR SEQUENCE ---
+            // --- SPOTLIGHT COLOR SETUP ---
             let pColor = targetData ? targetData.primary : "#ffffff";
             let sColor = targetData ? targetData.secondary : "#ffffff";
+            
+            if (pColor === "#000000") pColor = "#ffffff";
+            if (sColor === "#000000") sColor = "#ffffff";
+
+            const pulseColors = ["#ffffff", pColor, sColor];
+            let pulseIndex = 0;
             
             // Safety Net: If a color is pure black, use white so we don't turn off the light!
             if (pColor === "#000000") pColor = "#ffffff";
@@ -962,6 +969,16 @@
                 }
                 trackingSpotlight = true;
                 trackSpotlight(); 
+
+                // Start the continuous 1.5-second color pulse!
+                colorPulseInterval = setInterval(() => {
+                    pulseIndex = (pulseIndex + 1) % pulseColors.length;
+                    const spotOverlay = document.getElementById('spotlight-overlay');
+                    if (spotOverlay) {
+                        spotOverlay.style.setProperty('--spotlight-color', pulseColors[pulseIndex]);
+                    }
+                }, 1500); 
+
             }, 4110); 
 
             // --- TRIGGER THE ARENA LIGHTS ON AT 42.5s (End of Intro) ---
@@ -969,7 +986,8 @@
                 if (captureArea) {
                     captureArea.classList.remove('lights-out-mode');
                 }
-                trackingSpotlight = false; // Turn off the heavy rendering loop
+                trackingSpotlight = false; 
+                if (colorPulseInterval) clearInterval(colorPulseInterval); // Kill the pulse
             }, 42500); 
         }
 
