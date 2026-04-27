@@ -266,7 +266,7 @@
 
         /* --- HYPED BENCH STYLING --- */
         .bench-node {
-            /* 75% Scale. Top alignment handled inline */
+            /* Handled inline: left %, top 2%, scale(0.75) */
             z-index: 5; 
         }
         
@@ -275,15 +275,14 @@
         }
 
         @keyframes benchJump {
-            0%, 100% { transform: translate(-50%, -10%) scale(0.75); }
-            50% { transform: translate(-50%, -25%) scale(0.75); }
+            0%, 100% { transform: translate(-50%, 0%) scale(0.75); }
+            50% { transform: translate(-50%, -15%) scale(0.75); }
         }
 
         /* --- STARTER BASE --- */
         .starter-node {
             opacity: 0; /* Hidden in the dark until their run triggers */
             z-index: 10;
-            /* The final-drop transition properties */
         }
 
         .photo-wrapper {
@@ -432,18 +431,15 @@
         
         @keyframes runGauntlet {
             0%   { left: 95%; top: 95%; opacity: 0; transform: translate(-50%, -50%); }
-            1%   { left: 95%; top: 95%; opacity: 1; transform: translate(-50%, -50%); } /* Appear Bottom Right */
-            25%  { left: 95%; top: 0%; opacity: 1; transform: translate(-50%, -50%); } /* Sprint up Sideline */
-            100% { left: var(--wait-x); top: 0%; opacity: 1; transform: translate(-50%, -50%); } /* Run full bench and wait */
+            2%   { left: 95%; top: 95%; opacity: 1; transform: translate(-50%, -50%); } /* Appear Bottom Right */
+            35%  { left: 95%; top: 8%; opacity: 1; transform: translate(-50%, -50%); } /* Sprint up Sideline */
+            75%  { left: 15%; top: 8%; opacity: 1; transform: translate(-50%, -50%); } /* High five across entire bench */
+            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); } /* Drop to final spot */
         }
 
         /* ========================================================
            THE FINAL DROP CINEMATIC PLAYBOOK
            ======================================================== */
-        
-        .cinematic-wrapper {
-            /* Handled entirely by animation delays now */
-        }
 
         @keyframes finalTornado {
             0% { transform: rotate(720deg) scale(0.6); }
@@ -895,7 +891,7 @@
             const starters = game.rosters[targetAbbr].players.slice(0, 5);
             const bench = (game.rosters[targetAbbr].bench || []).slice(0, 7);
 
-            // 1. RENDER THE HYPED BENCH (Up top, jumping around)
+            // 1. RENDER THE HYPED BENCH
             bench.forEach((player, index) => {
                 const dbPlayer = getPlayerData(player.name);
                 const photoUrl = dbPlayer ? dbPlayer.photo : null;
@@ -908,12 +904,11 @@
                 const benchSpacing = bench.length > 1 ? 60 / (bench.length - 1) : 0;
                 const benchX = 20 + (index * benchSpacing); 
                 
-                // Randomize their jump speed and offset so they look like a real rowdy bench
                 const jumpSpeed = (0.6 + Math.random() * 0.4).toFixed(2);
                 const jumpOffset = (Math.random() * -1).toFixed(2);
 
                 const html = `
-                    <div class="player-node bench-node" style="left: ${benchX}%; top: 0%; animation: benchJump ${jumpSpeed}s infinite ease-in-out; animation-delay: ${jumpOffset}s;">
+                    <div class="player-node bench-node" style="left: ${benchX}%; top: 2%; animation: benchJump ${jumpSpeed}s infinite ease-in-out; animation-delay: ${jumpOffset}s;">
                         <div class="photo-wrapper">
                             <div class="player-photo-container">
                                 ${photoHtml}
@@ -927,7 +922,7 @@
                 container.insertAdjacentHTML('beforeend', html);
             });
 
-            // 2. RENDER THE STARTERS (High-Five Gauntlet -> Wait -> Final Drop)
+            // 2. RENDER THE STARTERS
             const tagEl = document.getElementById('starting-tag');
             tagEl.textContent = "STARTING 5";
             tagEl.style.color = "var(--text-dark)";
@@ -963,15 +958,14 @@
                 
                 const delays = [10.93, 18.15, 26.17, 31.72, 38.87]; 
                 const baseDelay = delays[index] - 0.8; 
-                // Start run exactly 3 seconds before announcer calls their name
-                const runStart = baseDelay - 3; 
                 
-                // Calculates shoulder-to-shoulder waiting spots at the end of the bench
-                const waitX = 16 - (index * 4);
+                // Exactly 3 seconds. The drop happens at the 75% mark (2.25s in), 
+                // which perfectly hits the baseDelay when the announcer shouts their name.
+                const runStart = baseDelay - 2.25; 
 
                 const html = `
-                    <div class="player-node starter-node" style="animation: runGauntlet 3s linear forwards; animation-delay: ${runStart}s; --wait-x: ${waitX}%; --final-x: ${coords.x}%; --final-y: ${coords.y}%;">
-                        <div class="cinematic-wrapper ${chosenAnimation}" style="animation-delay: 40.5s;">
+                    <div class="player-node starter-node" style="animation: runGauntlet 3s forwards; animation-delay: ${runStart}s; --final-x: ${coords.x}%; --final-y: ${coords.y}%;">
+                        <div class="cinematic-wrapper ${chosenAnimation}" style="animation-delay: ${baseDelay}s;">
                             <div class="photo-wrapper">
                                 <div class="player-position">${pos}</div>
                                 ${jerseyNum ? `<div class="player-number">${jerseyNum}</div>` : ''}
@@ -987,7 +981,7 @@
                 `;
                 container.insertAdjacentHTML('beforeend', html);
 
-                // Spotlight tracks them right as they burst onto the screen
+                // Spotlight tracks them exactly as their run begins
                 setTimeout(() => {
                     activePlayerIndex = index;
                 }, runStart * 1000);
@@ -1011,23 +1005,10 @@
                 roamingInterval = setInterval(moveRoamingLights, 1500);
             }, 4110); 
 
-            // --- THE FINAL DROP (40.5s) ---
-            // After the 5th player runs the gauntlet, everyone breaks to their final spots!
+            // --- THE FINAL ARENA FLOODLIGHT (40.5s) ---
             setTimeout(() => {
-                const starterNodes = document.querySelectorAll('.starter-node');
-                starterNodes.forEach(node => {
-                    node.style.animation = 'none'; // Shatter the waiting lock
-                    void node.offsetWidth; // Force a CSS reflow
-                    
-                    node.style.transition = 'all 1s cubic-bezier(0.25, 1, 0.5, 1)';
-                    node.style.left = node.style.getPropertyValue('--final-x');
-                    node.style.top = node.style.getPropertyValue('--final-y');
-                });
-                
-                // Flood the court with the main spotlight
                 spotlightWiden = true;
                 activePlayerIndex = -1; 
-                
             }, 40500);
 
             // --- TRIGGER THE ARENA LIGHTS ON AT 42.5s ---
