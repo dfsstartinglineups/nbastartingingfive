@@ -647,15 +647,16 @@
                 targetY = (targetRect.top + targetRect.height / 2) - captureArea.top;
             }
             
-            // 2. Smooth LERP Movement for all 3 spots
+            // 2. Smooth LERP Movement for all 3 spots 
+            // Bumped LERP from 0.02 to 0.06 so they zip to their targets faster
             currentSpotX += (targetX - currentSpotX) * 0.1;
             currentSpotY += (targetY - currentSpotY) * 0.1;
             
-            roamSpot1.x += (roamSpot1.targetX - roamSpot1.x) * 0.02;
-            roamSpot1.y += (roamSpot1.targetY - roamSpot1.y) * 0.02;
+            roamSpot1.x += (roamSpot1.targetX - roamSpot1.x) * 0.06;
+            roamSpot1.y += (roamSpot1.targetY - roamSpot1.y) * 0.06;
             
-            roamSpot2.x += (roamSpot2.targetX - roamSpot2.x) * 0.02;
-            roamSpot2.y += (roamSpot2.targetY - roamSpot2.y) * 0.02;
+            roamSpot2.x += (roamSpot2.targetX - roamSpot2.x) * 0.06;
+            roamSpot2.y += (roamSpot2.targetY - roamSpot2.y) * 0.06;
 
             // 3. Clear previous frame
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -683,23 +684,43 @@
             // Draw Main Spot (Large)
             drawHole(currentSpotX, currentSpotY, 120, 480);
             
-            // Draw Roaming Spots (Smaller)
-            drawHole(roamSpot1.x, roamSpot1.y, 40, 280);
-            drawHole(roamSpot2.x, roamSpot2.y, 40, 280);
+            // Draw Roaming Spots (25% Smaller: inner 30, outer 210)
+            drawHole(roamSpot1.x, roamSpot1.y, 30, 210);
+            drawHole(roamSpot2.x, roamSpot2.y, 30, 210);
             
             requestAnimationFrame(renderSpotlights);
         }
 
         function moveRoamingLights() {
-            // Keep them from getting too close to the edges
-            const randomX = () => Math.floor(Math.random() * 880) + 100;
-            const randomY = () => Math.floor(Math.random() * 880) + 100;
+            // Helper function to pick a spot that stays away from the main player
+            function getEvasiveTarget() {
+                let rx, ry;
+                let attempts = 0;
+                let isValid = false;
+                
+                while (!isValid && attempts < 15) {
+                    rx = Math.floor(Math.random() * 880) + 100;
+                    ry = Math.floor(Math.random() * 880) + 100;
+                    
+                    // Math.hypot checks the direct distance between the random point and the main spotlight
+                    const distToMain = Math.hypot(rx - currentSpotX, ry - currentSpotY);
+                    
+                    // Keep the target at least 400px away from the main spot
+                    if (distToMain > 400) {
+                        isValid = true;
+                    }
+                    attempts++;
+                }
+                return { x: rx, y: ry };
+            }
 
-            roamSpot1.targetX = randomX();
-            roamSpot1.targetY = randomY();
+            const newSpot1 = getEvasiveTarget();
+            roamSpot1.targetX = newSpot1.x;
+            roamSpot1.targetY = newSpot1.y;
             
-            roamSpot2.targetX = randomX();
-            roamSpot2.targetY = randomY();
+            const newSpot2 = getEvasiveTarget();
+            roamSpot2.targetX = newSpot2.x;
+            roamSpot2.targetY = newSpot2.y;
         }
 
         // ========================================================
@@ -991,8 +1012,8 @@
 
                 renderSpotlights(); 
                 
-                // Sweep roaming lights to a new random spot every 2.5s
-                roamingInterval = setInterval(moveRoamingLights, 2500);
+                // Faster interval: Sweep roaming lights every 1.5s instead of 2.5s
+                roamingInterval = setInterval(moveRoamingLights, 1500);
             }, 4110); 
 
             // --- TRIGGER THE ARENA LIGHTS ON AT 42.5s (End of Intro) ---
