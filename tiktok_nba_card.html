@@ -264,21 +264,26 @@
             transform: translate(-50%, -50%);
         }
 
-        /* --- NEW BENCH STYLING --- */
+        /* --- HYPED BENCH STYLING --- */
         .bench-node {
-            transform: translate(-50%, -50%) scale(0.5); /* 50% smaller */
-            opacity: 1; /* Always visible in the background */
-            z-index: 5; /* Behind the starters and spot light */
+            /* 75% Scale. Top alignment handled inline */
+            z-index: 5; 
         }
         
         .bench-node .player-position, .bench-node .player-number {
-            display: none; /* Keep the bench line clean */
+            display: none; 
+        }
+
+        @keyframes benchJump {
+            0%, 100% { transform: translate(-50%, -10%) scale(0.75); }
+            50% { transform: translate(-50%, -25%) scale(0.75); }
         }
 
         /* --- STARTER BASE --- */
         .starter-node {
             opacity: 0; /* Hidden in the dark until their run triggers */
             z-index: 10;
+            /* The final-drop transition properties */
         }
 
         .photo-wrapper {
@@ -422,15 +427,14 @@
         }
 
         /* ========================================================
-           THE NEW HIGH-FIVE ENTRANCE PATH
+           THE GAUNTLET ENTRANCE PATH
            ======================================================== */
         
-        @keyframes entrancePath {
+        @keyframes runGauntlet {
             0%   { left: 95%; top: 95%; opacity: 0; transform: translate(-50%, -50%); }
-            2%   { left: 95%; top: 95%; opacity: 1; transform: translate(-50%, -50%); } /* Appear Bottom Right */
-            40%  { left: 95%; top: 10%; opacity: 1; transform: translate(-50%, -50%); } /* Run up Sideline */
-            75%  { left: var(--final-x); top: 10%; opacity: 1; transform: translate(-50%, -50%); } /* High five across bench */
-            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); } /* Drop to final spot */
+            1%   { left: 95%; top: 95%; opacity: 1; transform: translate(-50%, -50%); } /* Appear Bottom Right */
+            25%  { left: 95%; top: 0%; opacity: 1; transform: translate(-50%, -50%); } /* Sprint up Sideline */
+            100% { left: var(--wait-x); top: 0%; opacity: 1; transform: translate(-50%, -50%); } /* Run full bench and wait */
         }
 
         /* ========================================================
@@ -438,7 +442,7 @@
            ======================================================== */
         
         .cinematic-wrapper {
-            /* Defaults to normal styling during the run, overrides when animation triggers */
+            /* Handled entirely by animation delays now */
         }
 
         @keyframes finalTornado {
@@ -573,11 +577,14 @@
         // --- NEW SPOTLIGHT TRACKING VARIABLES ---
         let activePlayerIndex = -1;
         let trackingSpotlight = false;
+        let spotlightWiden = false; // Triggers the arena floodlight at the end
         let roamingInterval;
         
         // Spotlight Positions
         let currentSpotX = 540;
         let currentSpotY = 540;
+        let currentInnerR = 90;
+        let currentOuterR = 360;
         
         let roamSpot1 = { x: 200, y: 200, targetX: 200, targetY: 200 };
         let roamSpot2 = { x: 800, y: 800, targetX: 800, targetY: 800 };
@@ -590,7 +597,7 @@
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
             
-            // 1. Calculate Main Spotlight Target (Tracking only starters)
+            // 1. Calculate Main Spotlight Target
             const starters = document.querySelectorAll('.starter-node');
             let targetX = 540; 
             let targetY = 540; 
@@ -607,9 +614,14 @@
                 targetY = (targetRect.top + targetRect.height / 2) - captureArea.top;
             }
             
-            // 2. Smooth LERP Movement
+            // 2. Smooth LERP Movement for position and radius
             currentSpotX += (targetX - currentSpotX) * 0.1;
             currentSpotY += (targetY - currentSpotY) * 0.1;
+            
+            const targetInnerR = spotlightWiden ? 550 : 90;
+            const targetOuterR = spotlightWiden ? 1200 : 360;
+            currentInnerR += (targetInnerR - currentInnerR) * 0.05;
+            currentOuterR += (targetOuterR - currentOuterR) * 0.05;
             
             roamSpot1.x += (roamSpot1.targetX - roamSpot1.x) * 0.06;
             roamSpot1.y += (roamSpot1.targetY - roamSpot1.y) * 0.06;
@@ -640,12 +652,14 @@
                 ctx.fill();
             }
             
-            // Draw Main Spot (25% Smaller: inner 90, outer 360)
-            drawHole(currentSpotX, currentSpotY, 90, 360);
+            // Draw Main Spot
+            drawHole(currentSpotX, currentSpotY, currentInnerR, currentOuterR);
             
-            // Draw Roaming Spots (inner 30, outer 210)
-            drawHole(roamSpot1.x, roamSpot1.y, 30, 210);
-            drawHole(roamSpot2.x, roamSpot2.y, 30, 210);
+            // Draw Roaming Spots
+            if (!spotlightWiden) {
+                drawHole(roamSpot1.x, roamSpot1.y, 30, 210);
+                drawHole(roamSpot2.x, roamSpot2.y, 30, 210);
+            }
             
             requestAnimationFrame(renderSpotlights);
         }
@@ -830,10 +844,13 @@
 
             // --- Reset Spotlight System on Redraw ---
             trackingSpotlight = false;
+            spotlightWiden = false;
             activePlayerIndex = -1;
             if (roamingInterval) clearInterval(roamingInterval);
             const captureArea = document.getElementById('capture-area');
             if (captureArea) captureArea.classList.remove('lights-out-mode');
+            currentInnerR = 90;
+            currentOuterR = 360;
 
             const gameIdx = document.getElementById('game-selector').value;
             const side = document.getElementById('team-selector').value;
@@ -875,14 +892,10 @@
             const container = document.getElementById('players-container');
             container.innerHTML = '';
 
-            // 🚨 NEW: ISOLATING THE STARTING 5 VS BENCH MOB 🚨
-            // Pull the 5 starters directly from the 'players' array
             const starters = game.rosters[targetAbbr].players.slice(0, 5);
-            
-            // Pull up to 7 guys directly from the explicitly defined 'bench' array
             const bench = (game.rosters[targetAbbr].bench || []).slice(0, 7);
 
-            // 1. RENDER THE BENCH (Visible immediately, perfectly spaced at top: 10%)
+            // 1. RENDER THE HYPED BENCH (Up top, jumping around)
             bench.forEach((player, index) => {
                 const dbPlayer = getPlayerData(player.name);
                 const photoUrl = dbPlayer ? dbPlayer.photo : null;
@@ -893,10 +906,14 @@
                     : `<div class="fallback-silhouette"></div>`;
 
                 const benchSpacing = bench.length > 1 ? 60 / (bench.length - 1) : 0;
-                const benchX = 20 + (index * benchSpacing); // Spreads from 20% to 80%
+                const benchX = 20 + (index * benchSpacing); 
+                
+                // Randomize their jump speed and offset so they look like a real rowdy bench
+                const jumpSpeed = (0.6 + Math.random() * 0.4).toFixed(2);
+                const jumpOffset = (Math.random() * -1).toFixed(2);
 
                 const html = `
-                    <div class="player-node bench-node" style="left: ${benchX}%; top: 10%;">
+                    <div class="player-node bench-node" style="left: ${benchX}%; top: 0%; animation: benchJump ${jumpSpeed}s infinite ease-in-out; animation-delay: ${jumpOffset}s;">
                         <div class="photo-wrapper">
                             <div class="player-photo-container">
                                 ${photoHtml}
@@ -910,7 +927,7 @@
                 container.insertAdjacentHTML('beforeend', html);
             });
 
-            // 2. RENDER THE STARTERS (High-Five Entrance -> Cinematic Finish)
+            // 2. RENDER THE STARTERS (High-Five Gauntlet -> Wait -> Final Drop)
             const tagEl = document.getElementById('starting-tag');
             tagEl.textContent = "STARTING 5";
             tagEl.style.color = "var(--text-dark)";
@@ -922,7 +939,6 @@
 
             const playbook = ["anim-tornado", "anim-slam", "anim-matrix", "anim-crossover", "anim-ghost"];
             
-            // Fisher-Yates Shuffle
             for (let i = playbook.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [playbook[i], playbook[j]] = [playbook[j], playbook[i]];
@@ -946,14 +962,16 @@
                 const chosenAnimation = playbook[index];
                 
                 const delays = [10.93, 18.15, 26.17, 31.72, 38.87]; 
-                // The announcer shouts their name at `baseDelay`
                 const baseDelay = delays[index] - 0.8; 
-                // The 3-second High-Five run must start 2.25s earlier so they drop exactly on the shout
-                const runStart = baseDelay - 2.25;
+                // Start run exactly 3 seconds before announcer calls their name
+                const runStart = baseDelay - 3; 
+                
+                // Calculates shoulder-to-shoulder waiting spots at the end of the bench
+                const waitX = 16 - (index * 4);
 
                 const html = `
-                    <div class="player-node starter-node" style="animation: entrancePath 3s linear forwards; animation-delay: ${runStart}s; --final-x: ${coords.x}%; --final-y: ${coords.y}%;">
-                        <div class="cinematic-wrapper ${chosenAnimation}" style="animation-delay: ${baseDelay}s;">
+                    <div class="player-node starter-node" style="animation: runGauntlet 3s linear forwards; animation-delay: ${runStart}s; --wait-x: ${waitX}%; --final-x: ${coords.x}%; --final-y: ${coords.y}%;">
+                        <div class="cinematic-wrapper ${chosenAnimation}" style="animation-delay: 40.5s;">
                             <div class="photo-wrapper">
                                 <div class="player-position">${pos}</div>
                                 ${jerseyNum ? `<div class="player-number">${jerseyNum}</div>` : ''}
@@ -969,7 +987,7 @@
                 `;
                 container.insertAdjacentHTML('beforeend', html);
 
-                // Tells the Canvas Engine to start tracking THIS starter EXACTLY when they burst from the corner
+                // Spotlight tracks them right as they burst onto the screen
                 setTimeout(() => {
                     activePlayerIndex = index;
                 }, runStart * 1000);
@@ -993,6 +1011,26 @@
                 roamingInterval = setInterval(moveRoamingLights, 1500);
             }, 4110); 
 
+            // --- THE FINAL DROP (40.5s) ---
+            // After the 5th player runs the gauntlet, everyone breaks to their final spots!
+            setTimeout(() => {
+                const starterNodes = document.querySelectorAll('.starter-node');
+                starterNodes.forEach(node => {
+                    node.style.animation = 'none'; // Shatter the waiting lock
+                    void node.offsetWidth; // Force a CSS reflow
+                    
+                    node.style.transition = 'all 1s cubic-bezier(0.25, 1, 0.5, 1)';
+                    node.style.left = node.style.getPropertyValue('--final-x');
+                    node.style.top = node.style.getPropertyValue('--final-y');
+                });
+                
+                // Flood the court with the main spotlight
+                spotlightWiden = true;
+                activePlayerIndex = -1; 
+                
+            }, 40500);
+
+            // --- TRIGGER THE ARENA LIGHTS ON AT 42.5s ---
             setTimeout(() => {
                 if (captureArea) captureArea.classList.remove('lights-out-mode');
                 trackingSpotlight = false; 
