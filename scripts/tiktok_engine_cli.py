@@ -118,7 +118,7 @@ async def record_nba_video():
         """)
         
         print("⏳ Waiting 50 seconds for CSS animations to finish...")
-        await asyncio.sleep(50)
+        await asyncio.sleep(55)
         
         video_path = await page.video.path()
         await context.close()
