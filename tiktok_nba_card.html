@@ -256,6 +256,31 @@
             opacity: 1;
         }
 
+        /* --- NEW ROAMING COLORED SPOTLIGHTS --- */
+        .roaming-spotlight {
+            position: absolute;
+            top: -250px; left: -250px; /* Offset to perfectly center the 500x500 div */
+            width: 500px; height: 500px;
+            border-radius: 50%;
+            z-index: 25; /* Sits above the blackout mask */
+            pointer-events: none;
+            mix-blend-mode: screen; /* Forces them to act like real beams of light */
+            opacity: 0;
+            transition: transform 2.5s ease-in-out, opacity 1.5s ease;
+        }
+
+        .lights-out-mode .roaming-spotlight {
+            opacity: 0.65; /* Fades in smoothly when the arena goes dark */
+        }
+
+        #spotlight-primary {
+            background: radial-gradient(circle, var(--team-primary) 0%, transparent 65%);
+        }
+
+        #spotlight-secondary {
+            background: radial-gradient(circle, var(--team-secondary) 0%, transparent 65%);
+        }
+
         /* ======================================================== */
 
         .player-node {
@@ -566,6 +591,8 @@
         </div>
 
         <div id="spotlight-overlay"></div>
+        <div id="spotlight-primary" class="roaming-spotlight"></div>
+        <div id="spotlight-secondary" class="roaming-spotlight"></div>
     </div>
 
     <script>
@@ -620,6 +647,7 @@
         let currentSpotX = 0;
         let currentSpotY = 0;
         let trackingSpotlight = false;
+        let roamingInterval;
 
         function trackSpotlight() {
             if (!trackingSpotlight) return;
@@ -809,6 +837,7 @@
             // --- Reset Spotlight System on Redraw ---
             trackingSpotlight = false;
             activePlayerIndex = -1;
+            if (roamingInterval) clearInterval(roamingInterval);
             const captureArea = document.getElementById('capture-area');
             if (captureArea) captureArea.classList.remove('lights-out-mode');
 
@@ -932,6 +961,10 @@
                 }
                 trackingSpotlight = true;
                 trackSpotlight(); 
+
+                // Start the roaming colored spotlights
+                moveRoamingLights(); 
+                roamingInterval = setInterval(moveRoamingLights, 2500);
             }, 4110); 
 
             // --- TRIGGER THE ARENA LIGHTS ON AT 42.5s (End of Intro) ---
@@ -940,7 +973,20 @@
                     captureArea.classList.remove('lights-out-mode');
                 }
                 trackingSpotlight = false; // Turn off the heavy rendering loop
+                if (roamingInterval) clearInterval(roamingInterval); // Stop sweeping
             }, 42500); 
+        }
+
+        function moveRoamingLights() {
+            const spotP = document.getElementById('spotlight-primary');
+            const spotS = document.getElementById('spotlight-secondary');
+
+            // Generate random coordinates across the 1080x1080 canvas
+            const randomX = () => Math.floor(Math.random() * 880) + 100;
+            const randomY = () => Math.floor(Math.random() * 880) + 100;
+
+            if (spotP) spotP.style.transform = `translate(${randomX()}px, ${randomY()}px)`;
+            if (spotS) spotS.style.transform = `translate(${randomX()}px, ${randomY()}px)`;
         }
 
         function takeScreenshot() {
