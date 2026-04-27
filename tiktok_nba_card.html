@@ -584,7 +584,7 @@
         let currentSpotX = 540;
         let currentSpotY = 540;
         let currentInnerR = 90;
-        let currentOuterR = 180;
+        let currentOuterR = 215;
         
         let roamSpot1 = { x: 200, y: 200, targetX: 200, targetY: 200 };
         let roamSpot2 = { x: 800, y: 800, targetX: 800, targetY: 800 };
@@ -615,7 +615,7 @@
             currentSpotY += (targetY - currentSpotY) * 0.1;
             
             const targetInnerR = spotlightWiden ? 550 : 90;
-            const targetOuterR = spotlightWiden ? 1200 : 180;
+            const targetOuterR = spotlightWiden ? 1200 : 215;
             currentInnerR += (targetInnerR - currentInnerR) * 0.05;
             currentOuterR += (targetOuterR - currentOuterR) * 0.05;
             
