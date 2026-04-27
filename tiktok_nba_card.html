@@ -239,46 +239,19 @@
             filter: grayscale(50%) brightness(80%); 
         }
 
-        /* --- DYNAMIC TRACKING SPOTLIGHT --- */
-
-        #spotlight-overlay {
+        /* --- NEW CANVAS LIGHTING ENGINE --- */
+        #spotlight-canvas {
             position: absolute;
-            top: -100%; left: -100%; 
-            width: 300%; height: 300%;
-            background: radial-gradient(circle at center, transparent 0px, transparent 150px, rgba(0,0,0,0.85) 300px, rgba(0,0,0,0.98) 400px, rgba(0,0,0,1) 500px);
+            top: 0; left: 0; 
+            width: 1080px; height: 1080px;
             z-index: 20; 
             opacity: 0;
             pointer-events: none;
             transition: opacity 1.5s ease;
         }
         
-        .lights-out-mode #spotlight-overlay {
+        .lights-out-mode #spotlight-canvas {
             opacity: 1;
-        }
-
-        /* --- NEW ROAMING COLORED SPOTLIGHTS --- */
-        .roaming-spotlight {
-            position: absolute;
-            top: -250px; left: -250px; /* Offset to perfectly center the 500x500 div */
-            width: 500px; height: 500px;
-            border-radius: 50%;
-            z-index: 25; /* Sits above the blackout mask */
-            pointer-events: none;
-            mix-blend-mode: screen; /* Forces them to act like real beams of light */
-            opacity: 0;
-            transition: transform 2.5s ease-in-out, opacity 1.5s ease;
-        }
-
-        .lights-out-mode .roaming-spotlight {
-            opacity: 0.65; /* Fades in smoothly when the arena goes dark */
-        }
-
-        #spotlight-primary {
-            background: radial-gradient(circle, var(--team-primary) 0%, transparent 65%);
-        }
-
-        #spotlight-secondary {
-            background: radial-gradient(circle, var(--team-secondary) 0%, transparent 65%);
         }
 
         /* ======================================================== */
@@ -590,9 +563,7 @@
             </div>
         </div>
 
-        <div id="spotlight-overlay"></div>
-        <div id="spotlight-primary" class="roaming-spotlight"></div>
-        <div id="spotlight-secondary" class="roaming-spotlight"></div>
+        <canvas id="spotlight-canvas" width="1080" height="1080"></canvas>
     </div>
 
     <script>
@@ -642,20 +613,28 @@
         let allGames = [];
         let playerDatabase = {}; 
 
-        // --- SPOTLIGHT TRACKING VARIABLES ---
+        // --- NEW SPOTLIGHT TRACKING VARIABLES ---
         let activePlayerIndex = -1;
-        let currentSpotX = 0;
-        let currentSpotY = 0;
         let trackingSpotlight = false;
         let roamingInterval;
+        
+        // Spotlight Positions
+        let currentSpotX = 540;
+        let currentSpotY = 540;
+        
+        let roamSpot1 = { x: 200, y: 200, targetX: 200, targetY: 200 };
+        let roamSpot2 = { x: 800, y: 800, targetX: 800, targetY: 800 };
 
-        function trackSpotlight() {
+        // --- NEW CANVAS RENDERING ENGINE ---
+        function renderSpotlights() {
             if (!trackingSpotlight) return;
             
-            const spotlight = document.getElementById('spotlight-overlay');
-            const players = document.querySelectorAll('.player-node');
+            const canvas = document.getElementById('spotlight-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
             
-            // Default center of the 1080x1080 card
+            // 1. Calculate Main Spotlight Target
+            const players = document.querySelectorAll('.player-node');
             let targetX = 540; 
             let targetY = 540; 
             
@@ -664,25 +643,66 @@
                 const captureArea = document.getElementById('capture-area').getBoundingClientRect();
                 const targetRect = target.getBoundingClientRect();
                 
-                // Get the exact center of whoever is currently animating
                 targetX = (targetRect.left + targetRect.width / 2) - captureArea.left;
                 targetY = (targetRect.top + targetRect.height / 2) - captureArea.top;
             }
             
-            // Calculate distance from the center
-            const transX = targetX - 540;
-            const transY = targetY - 540;
+            // 2. Smooth LERP Movement for all 3 spots
+            currentSpotX += (targetX - currentSpotX) * 0.1;
+            currentSpotY += (targetY - currentSpotY) * 0.1;
             
-            // LERP for smooth, zooming "follow" cam
-            currentSpotX += (transX - currentSpotX) * 0.1;
-            currentSpotY += (transY - currentSpotY) * 0.1;
+            roamSpot1.x += (roamSpot1.targetX - roamSpot1.x) * 0.02;
+            roamSpot1.y += (roamSpot1.targetY - roamSpot1.y) * 0.02;
             
-            if (spotlight) {
-                spotlight.style.transform = `translate(${currentSpotX}px, ${currentSpotY}px)`;
+            roamSpot2.x += (roamSpot2.targetX - roamSpot2.x) * 0.02;
+            roamSpot2.y += (roamSpot2.targetY - roamSpot2.y) * 0.02;
+
+            // 3. Clear previous frame
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // 4. Fill Arena with Darkness
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.94)'; 
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // 5. Punch 3 Holes through the Darkness
+            ctx.globalCompositeOperation = 'destination-out';
+            
+            function drawHole(x, y, innerR, outerR) {
+                const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
+                grad.addColorStop(0, 'rgba(0, 0, 0, 1)');       // Pure transparent hole
+                grad.addColorStop(0.3, 'rgba(0, 0, 0, 0.85)'); 
+                grad.addColorStop(0.6, 'rgba(0, 0, 0, 0.4)');
+                grad.addColorStop(1, 'rgba(0, 0, 0, 0)');       // Fades into darkness
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(x, y, outerR, 0, Math.PI * 2);
+                ctx.fill();
             }
             
-            requestAnimationFrame(trackSpotlight);
+            // Draw Main Spot (Large)
+            drawHole(currentSpotX, currentSpotY, 120, 480);
+            
+            // Draw Roaming Spots (Smaller)
+            drawHole(roamSpot1.x, roamSpot1.y, 40, 280);
+            drawHole(roamSpot2.x, roamSpot2.y, 40, 280);
+            
+            requestAnimationFrame(renderSpotlights);
         }
+
+        function moveRoamingLights() {
+            // Keep them from getting too close to the edges
+            const randomX = () => Math.floor(Math.random() * 880) + 100;
+            const randomY = () => Math.floor(Math.random() * 880) + 100;
+
+            roamSpot1.targetX = randomX();
+            roamSpot1.targetY = randomY();
+            
+            roamSpot2.targetX = randomX();
+            roamSpot2.targetY = randomY();
+        }
+
+        // ========================================================
 
         function getNbaLogo(abbr) {
             if (!abbr) return '';
@@ -960,10 +980,18 @@
                     captureArea.classList.add('lights-out-mode');
                 }
                 trackingSpotlight = true;
-                trackSpotlight(); 
+                
+                // Jump-start the Canvas lighting loop
+                currentSpotX = 540; currentSpotY = 540;
+                moveRoamingLights();
+                
+                // Snap roaming lights to their first target so they don't drag from 0,0
+                roamSpot1.x = roamSpot1.targetX; roamSpot1.y = roamSpot1.targetY;
+                roamSpot2.x = roamSpot2.targetX; roamSpot2.y = roamSpot2.targetY;
 
-                // Start the roaming colored spotlights
-                moveRoamingLights(); 
+                renderSpotlights(); 
+                
+                // Sweep roaming lights to a new random spot every 2.5s
                 roamingInterval = setInterval(moveRoamingLights, 2500);
             }, 4110); 
 
@@ -972,21 +1000,9 @@
                 if (captureArea) {
                     captureArea.classList.remove('lights-out-mode');
                 }
-                trackingSpotlight = false; // Turn off the heavy rendering loop
-                if (roamingInterval) clearInterval(roamingInterval); // Stop sweeping
+                trackingSpotlight = false; // Kill the 60fps canvas loop
+                if (roamingInterval) clearInterval(roamingInterval); // Stop roaming
             }, 42500); 
-        }
-
-        function moveRoamingLights() {
-            const spotP = document.getElementById('spotlight-primary');
-            const spotS = document.getElementById('spotlight-secondary');
-
-            // Generate random coordinates across the 1080x1080 canvas
-            const randomX = () => Math.floor(Math.random() * 880) + 100;
-            const randomY = () => Math.floor(Math.random() * 880) + 100;
-
-            if (spotP) spotP.style.transform = `translate(${randomX()}px, ${randomY()}px)`;
-            if (spotS) spotS.style.transform = `translate(${randomX()}px, ${randomY()}px)`;
         }
 
         function takeScreenshot() {
