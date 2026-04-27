@@ -266,7 +266,6 @@
 
         /* --- HYPED BENCH STYLING --- */
         .bench-node {
-            /* Handled inline: left %, top 2%, scale(0.75) */
             z-index: 5; 
         }
         
@@ -432,8 +431,8 @@
         @keyframes runGauntlet {
             0%   { left: 95%; top: 95%; opacity: 0; transform: translate(-50%, -50%); }
             2%   { left: 95%; top: 95%; opacity: 1; transform: translate(-50%, -50%); } /* Appear Bottom Right */
-            35%  { left: 95%; top: 8%; opacity: 1; transform: translate(-50%, -50%); } /* Sprint up Sideline */
-            75%  { left: 15%; top: 8%; opacity: 1; transform: translate(-50%, -50%); } /* High five across entire bench */
+            35%  { left: 95%; top: -2%; opacity: 1; transform: translate(-50%, -50%); } /* Sprint up Sideline (match bench height) */
+            75%  { left: 15%; top: -2%; opacity: 1; transform: translate(-50%, -50%); } /* High five across entire bench */
             100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); } /* Drop to final spot */
         }
 
@@ -908,7 +907,7 @@
                 const jumpOffset = (Math.random() * -1).toFixed(2);
 
                 const html = `
-                    <div class="player-node bench-node" style="left: ${benchX}%; top: 2%; animation: benchJump ${jumpSpeed}s infinite ease-in-out; animation-delay: ${jumpOffset}s;">
+                    <div class="player-node bench-node" style="left: ${benchX}%; top: -8%; animation: benchJump ${jumpSpeed}s infinite ease-in-out; animation-delay: ${jumpOffset}s;">
                         <div class="photo-wrapper">
                             <div class="player-photo-container">
                                 ${photoHtml}
