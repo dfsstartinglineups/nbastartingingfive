@@ -876,11 +876,11 @@
             container.innerHTML = '';
 
             // 🚨 NEW: ISOLATING THE STARTING 5 VS BENCH MOB 🚨
-            const allPlayers = game.rosters[targetAbbr].players;
-            const starters = allPlayers.slice(0, 5);
+            // Pull the 5 starters directly from the 'players' array
+            const starters = game.rosters[targetAbbr].players.slice(0, 5);
             
-            // Grab up to 7 non-starters to fill the bench line
-            const bench = allPlayers.filter(p => !starters.some(s => s.name === p.name)).slice(0, 7);
+            // Pull up to 7 guys directly from the explicitly defined 'bench' array
+            const bench = (game.rosters[targetAbbr].bench || []).slice(0, 7);
 
             // 1. RENDER THE BENCH (Visible immediately, perfectly spaced at top: 10%)
             bench.forEach((player, index) => {
