@@ -950,7 +950,7 @@
 
                 const chosenAnimation = playbook[index];
                 
-                const delays = [10.93, 18.15, 26.17, 31.72, 38.87]; 
+                const delays = [10.93, 18.15, 26.17, 32.72, 39.87]; 
                 const baseDelay = delays[index]; 
                 
                 const runStart = baseDelay - 2.25; 
@@ -1000,7 +1000,7 @@
             setTimeout(() => {
                 spotlightWiden = true;
                 activePlayerIndex = -1; 
-            }, 40500);
+            }, 42500);
 
             // --- THE BENCH SCATTERS OFF SCREEN (41.2s) ---
             setTimeout(() => {
@@ -1014,14 +1014,14 @@
                     node.style.transition = `left 0.8s cubic-bezier(0.5, 0, 0.1, 1) ${idx * 0.08}s`;
                     node.style.left = '150%'; 
                 });
-            }, 41200); 
+            }, 43200); 
 
             // --- TRIGGER THE ARENA LIGHTS ON AT 42.5s ---
             setTimeout(() => {
                 if (captureArea) captureArea.classList.remove('lights-out-mode');
                 trackingSpotlight = false; 
                 if (roamingInterval) clearInterval(roamingInterval); 
-            }, 42500); 
+            }, 43500); 
         }
 
         function takeScreenshot() {
