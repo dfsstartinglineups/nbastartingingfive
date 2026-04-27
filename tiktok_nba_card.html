@@ -280,8 +280,14 @@
 
         /* --- STARTER BASE --- */
         .starter-node {
-            opacity: 0; /* Hidden in the dark until their run triggers */
+            opacity: 0; 
             z-index: 10;
+        }
+
+        .cinematic-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .photo-wrapper {
@@ -367,6 +373,7 @@
             align-items: stretch;
             margin-top: -24px; 
             z-index: 14;
+            position: relative; /* Fixed layering issue */
             box-shadow: 0 5px 10px rgba(0,0,0,0.3);
             border-radius: 8px;
             overflow: hidden;
@@ -430,10 +437,10 @@
         
         @keyframes runGauntlet {
             0%   { left: 95%; top: 95%; opacity: 0; transform: translate(-50%, -50%); }
-            2%   { left: 95%; top: 95%; opacity: 1; transform: translate(-50%, -50%); } /* Appear Bottom Right */
-            35%  { left: 95%; top: -2%; opacity: 1; transform: translate(-50%, -50%); } /* Sprint up Sideline (match bench height) */
-            75%  { left: 15%; top: -2%; opacity: 1; transform: translate(-50%, -50%); } /* High five across entire bench */
-            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); } /* Drop to final spot */
+            2%   { left: 95%; top: 95%; opacity: 1; transform: translate(-50%, -50%); } 
+            35%  { left: 95%; top: -2%; opacity: 1; transform: translate(-50%, -50%); } 
+            75%  { left: 15%; top: -2%; opacity: 1; transform: translate(-50%, -50%); } 
+            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); } 
         }
 
         /* ========================================================
@@ -559,23 +566,21 @@
         const POSITIONS = ["PG", "SG", "SF", "PF", "C"];
         
         const COURT_COORDS = [
-            { x: 50, y: 17 }, // PG
-            { x: 19, y: 44 }, // SG
-            { x: 81, y: 44 }, // SF
-            { x: 33, y: 77 }, // PF
-            { x: 67, y: 77 }  // C
+            { x: 50, y: 17 }, 
+            { x: 19, y: 44 }, 
+            { x: 81, y: 44 }, 
+            { x: 33, y: 77 }, 
+            { x: 67, y: 77 }  
         ];
 
         let allGames = [];
         let playerDatabase = {}; 
 
-        // --- NEW SPOTLIGHT TRACKING VARIABLES ---
         let activePlayerIndex = -1;
         let trackingSpotlight = false;
-        let spotlightWiden = false; // Triggers the arena floodlight at the end
+        let spotlightWiden = false; 
         let roamingInterval;
         
-        // Spotlight Positions
         let currentSpotX = 540;
         let currentSpotY = 540;
         let currentInnerR = 90;
@@ -584,7 +589,6 @@
         let roamSpot1 = { x: 200, y: 200, targetX: 200, targetY: 200 };
         let roamSpot2 = { x: 800, y: 800, targetX: 800, targetY: 800 };
 
-        // --- NEW CANVAS RENDERING ENGINE ---
         function renderSpotlights() {
             if (!trackingSpotlight) return;
             
@@ -592,7 +596,6 @@
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
             
-            // 1. Calculate Main Spotlight Target
             const starters = document.querySelectorAll('.starter-node');
             let targetX = 540; 
             let targetY = 540; 
@@ -601,7 +604,6 @@
                 const target = starters[activePlayerIndex];
                 const captureArea = document.getElementById('capture-area').getBoundingClientRect();
                 
-                // Track the actual photo-container inside the moving wrapper
                 const photoWrap = target.querySelector('.photo-wrapper');
                 const targetRect = photoWrap.getBoundingClientRect();
                 
@@ -609,7 +611,6 @@
                 targetY = (targetRect.top + targetRect.height / 2) - captureArea.top;
             }
             
-            // 2. Smooth LERP Movement for position and radius
             currentSpotX += (targetX - currentSpotX) * 0.1;
             currentSpotY += (targetY - currentSpotY) * 0.1;
             
@@ -624,15 +625,12 @@
             roamSpot2.x += (roamSpot2.targetX - roamSpot2.x) * 0.06;
             roamSpot2.y += (roamSpot2.targetY - roamSpot2.y) * 0.06;
 
-            // 3. Clear previous frame
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // 4. Fill Arena with Darkness
             ctx.globalCompositeOperation = 'source-over';
             ctx.fillStyle = 'rgba(0, 0, 0, 0.94)'; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // 5. Punch 3 Holes through the Darkness
             ctx.globalCompositeOperation = 'destination-out';
             
             function drawHole(x, y, innerR, outerR) {
@@ -647,10 +645,8 @@
                 ctx.fill();
             }
             
-            // Draw Main Spot
             drawHole(currentSpotX, currentSpotY, currentInnerR, currentOuterR);
             
-            // Draw Roaming Spots
             if (!spotlightWiden) {
                 drawHole(roamSpot1.x, roamSpot1.y, 30, 210);
                 drawHole(roamSpot2.x, roamSpot2.y, 30, 210);
@@ -684,8 +680,6 @@
             roamSpot2.targetX = newSpot2.x;
             roamSpot2.targetY = newSpot2.y;
         }
-
-        // ========================================================
 
         function getNbaLogo(abbr) {
             if (!abbr) return '';
@@ -837,7 +831,6 @@
         function renderCard() {
             if(allGames.length === 0) return;
 
-            // --- Reset Spotlight System on Redraw ---
             trackingSpotlight = false;
             spotlightWiden = false;
             activePlayerIndex = -1;
@@ -908,13 +901,15 @@
 
                 const html = `
                     <div class="player-node bench-node" style="left: ${benchX}%; top: -8%; animation: benchJump ${jumpSpeed}s infinite ease-in-out; animation-delay: ${jumpOffset}s;">
-                        <div class="photo-wrapper">
-                            <div class="player-photo-container">
-                                ${photoHtml}
+                        <div class="cinematic-wrapper">
+                            <div class="photo-wrapper">
+                                <div class="player-photo-container">
+                                    ${photoHtml}
+                                </div>
                             </div>
-                        </div>
-                        <div class="nameplate-wrapper">
-                            <div class="player-nameplate">${lastName}</div>
+                            <div class="nameplate-wrapper">
+                                <div class="player-nameplate">${lastName}</div>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -958,8 +953,6 @@
                 const delays = [10.93, 18.15, 26.17, 31.72, 38.87]; 
                 const baseDelay = delays[index] - 0.8; 
                 
-                // Exactly 3 seconds. The drop happens at the 75% mark (2.25s in), 
-                // which perfectly hits the baseDelay when the announcer shouts their name.
                 const runStart = baseDelay - 2.25; 
 
                 const html = `
@@ -980,7 +973,6 @@
                 `;
                 container.insertAdjacentHTML('beforeend', html);
 
-                // Spotlight tracks them exactly as their run begins
                 setTimeout(() => {
                     activePlayerIndex = index;
                 }, runStart * 1000);
@@ -1011,18 +1003,16 @@
             }, 40500);
 
             // --- THE BENCH SCATTERS OFF SCREEN (41.2s) ---
-            // Gives the starters a beat to land, then the bench physically runs off stage right!
             setTimeout(() => {
                 const benchNodes = document.querySelectorAll('.bench-node');
                 
-                // Reversing the array ensures the player closest to the tunnel (the right) leaves first!
                 Array.from(benchNodes).reverse().forEach((node, idx) => {
-                    node.style.animation = 'none'; // Stop the jumping
-                    node.style.transform = 'translate(-50%, 0%) scale(0.75)'; // Lock scale so they don't blow up
-                    void node.offsetWidth; // Force CSS reflow
+                    node.style.animation = 'none'; 
+                    node.style.transform = 'translate(-50%, 0%) scale(0.75)'; 
+                    void node.offsetWidth; 
                     
                     node.style.transition = `left 0.8s cubic-bezier(0.5, 0, 0.1, 1) ${idx * 0.08}s`;
-                    node.style.left = '150%'; // Sprint off screen
+                    node.style.left = '150%'; 
                 });
             }, 41200); 
 
