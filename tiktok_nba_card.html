@@ -1010,6 +1010,22 @@
                 activePlayerIndex = -1; 
             }, 40500);
 
+            // --- THE BENCH SCATTERS OFF SCREEN (41.2s) ---
+            // Gives the starters a beat to land, then the bench physically runs off stage right!
+            setTimeout(() => {
+                const benchNodes = document.querySelectorAll('.bench-node');
+                
+                // Reversing the array ensures the player closest to the tunnel (the right) leaves first!
+                Array.from(benchNodes).reverse().forEach((node, idx) => {
+                    node.style.animation = 'none'; // Stop the jumping
+                    node.style.transform = 'translate(-50%, 0%) scale(0.75)'; // Lock scale so they don't blow up
+                    void node.offsetWidth; // Force CSS reflow
+                    
+                    node.style.transition = `left 0.8s cubic-bezier(0.5, 0, 0.1, 1) ${idx * 0.08}s`;
+                    node.style.left = '150%'; // Sprint off screen
+                });
+            }, 41200); 
+
             // --- TRIGGER THE ARENA LIGHTS ON AT 42.5s ---
             setTimeout(() => {
                 if (captureArea) captureArea.classList.remove('lights-out-mode');
