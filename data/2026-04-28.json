@@ -1,5 +1,5 @@
 {
-  "last_updated": "Apr 28, 11:40 PM ET",
+  "last_updated": "Apr 28, 11:42 PM ET",
   "player_news": [
     {
       "player_name": "Joel Embiid",
@@ -7,9 +7,9 @@
       "position": "C",
       "status_badge": "RET",
       "description": "Has Returned",
-      "time_elapsed": "2.7h",
+      "time_elapsed": "2.8h",
       "next_game": "Tuesday @BOS",
-      "local_timestamp": 1777434108.5802355
+      "local_timestamp": 1777434231.0255501
     },
     {
       "player_name": "Tyrese Maxey",
@@ -3121,6 +3121,11 @@
                     "value": 21.0,
                     "displayValue": "21",
                     "period": 3
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 4
                   }
                 ],
                 "statistics": [
@@ -3471,6 +3476,11 @@
                     "value": 20.0,
                     "displayValue": "20",
                     "period": 3
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 4
                   }
                 ],
                 "statistics": [
@@ -3746,32 +3756,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401869386534",
+                "id": "401869386546",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "45",
+                  "text": "Personal Foul"
                 },
-                "text": "End of the 3rd Quarter",
+                "text": "Vit Krejci personal foul",
                 "scoreValue": 0,
+                "team": {
+                  "id": "22"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.997,
-                  "awayWinPercentage": 0.0030000000000000027
-                }
+                  "homeWinPercentage": 0.998,
+                  "awayWinPercentage": 0.0020000000000000018
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "4578893",
+                    "fullName": "Vit Krejci",
+                    "displayName": "Vit Krejci",
+                    "shortName": "V. Krejci",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/4578893/vit-krejci"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4578893.png",
+                    "jersey": "27",
+                    "position": "G",
+                    "team": {
+                      "id": "22"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 3,
+              "clock": 705.0,
+              "displayClock": "11:45",
+              "period": 4,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "End of Period",
-                "detail": "End of 3rd Quarter",
-                "shortDetail": "End of 3rd"
+                "description": "In Progress",
+                "detail": "11:45 - 4th Quarter",
+                "shortDetail": "11:45 - 4th"
               }
             },
             "broadcasts": [
@@ -3888,17 +3925,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 3,
+          "clock": 705.0,
+          "displayClock": "11:45",
+          "period": 4,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "End of Period",
-            "detail": "End of 3rd Quarter",
-            "shortDetail": "End of 3rd"
+            "description": "In Progress",
+            "detail": "11:45 - 4th Quarter",
+            "shortDetail": "11:45 - 4th"
           }
         }
       }
