@@ -1,5 +1,5 @@
 {
-  "last_updated": "Apr 28, 09:36 PM ET",
+  "last_updated": "Apr 28, 09:38 PM ET",
   "player_news": [
     {
       "player_name": "Joel Embiid",
@@ -7,9 +7,9 @@
       "position": "C",
       "status_badge": "RET",
       "description": "Has Returned",
-      "time_elapsed": "40m",
+      "time_elapsed": "43m",
       "next_game": "Tuesday @BOS",
-      "local_timestamp": 1777426657.9813745
+      "local_timestamp": 1777426776.3694978
     },
     {
       "player_name": "Tyrese Maxey",
@@ -1295,6 +1295,11 @@
                     "value": 29.0,
                     "displayValue": "29",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -1640,6 +1645,11 @@
                     "value": 26.0,
                     "displayValue": "26",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -1915,32 +1925,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401869392345",
+                "id": "401869392348",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "584",
+                  "text": "Substitution"
                 },
-                "text": "End of the 2nd Quarter",
+                "text": "Mikal Bridges enters the game for Landry Shamet",
                 "scoreValue": 0,
+                "team": {
+                  "id": "18"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
                   "homeWinPercentage": 0.959,
                   "awayWinPercentage": 0.041000000000000036
-                }
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "3147657",
+                    "fullName": "Mikal Bridges",
+                    "displayName": "Mikal Bridges",
+                    "shortName": "M. Bridges",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/3147657/mikal-bridges"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/3147657.png",
+                    "jersey": "25",
+                    "position": "G",
+                    "team": {
+                      "id": "18"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 2,
+              "clock": 720.0,
+              "displayClock": "12:00",
+              "period": 3,
               "type": {
-                "id": "23",
-                "name": "STATUS_HALFTIME",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "Halftime",
-                "detail": "Halftime",
-                "shortDetail": "Halftime"
+                "description": "In Progress",
+                "detail": "12:00 - 3rd Quarter",
+                "shortDetail": "12:00 - 3rd"
               }
             },
             "broadcasts": [
@@ -2059,17 +2096,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 2,
+          "clock": 720.0,
+          "displayClock": "12:00",
+          "period": 3,
           "type": {
-            "id": "23",
-            "name": "STATUS_HALFTIME",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "Halftime",
-            "detail": "Halftime",
-            "shortDetail": "Halftime"
+            "description": "In Progress",
+            "detail": "12:00 - 3rd Quarter",
+            "shortDetail": "12:00 - 3rd"
           }
         }
       },
