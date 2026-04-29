@@ -588,6 +588,58 @@
         
         let roamSpot1 = { x: 200, y: 200, targetX: 200, targetY: 200 };
         let roamSpot2 = { x: 800, y: 800, targetX: 800, targetY: 800 };
+        
+        // Dynamic hex trackers for the Canvas Engine
+        let activePrimaryHex = '#ffffff';
+        let activeSecondaryHex = '#ffffff';
+
+        // Helper to convert hex colors to RGBA so we can dynamically fade the lighting gels
+        function hexToRgba(hex, alpha) {
+            hex = hex.replace('#', '');
+            let r = parseInt(hex.length === 3 ? hex.slice(0, 1).repeat(2) : hex.slice(0, 2), 16);
+            let g = parseInt(hex.length === 3 ? hex.slice(1, 2).repeat(2) : hex.slice(2, 4), 16);
+            let b = parseInt(hex.length === 3 ? hex.slice(2, 3).repeat(2) : hex.slice(4, 6), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+
+        // Draws the pure transparent hole to reveal the court underneath
+        function drawHole(ctx, x, y, innerR, outerR) {
+            const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
+            grad.addColorStop(0, 'rgba(0, 0, 0, 1)');       
+            grad.addColorStop(0.3, 'rgba(0, 0, 0, 0.85)'); 
+            grad.addColorStop(0.6, 'rgba(0, 0, 0, 0.4)');
+            grad.addColorStop(1, 'rgba(0, 0, 0, 0)');       
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.arc(x, y, outerR, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Overlays a rich, solid colored tint directly inside the roaming holes
+        function drawColoredTint(ctx, x, y, innerR, outerR, hex) {
+            const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
+            grad.addColorStop(0, hexToRgba(hex, 0.65));       
+            grad.addColorStop(0.3, hexToRgba(hex, 0.45)); 
+            grad.addColorStop(0.6, hexToRgba(hex, 0.15));
+            grad.addColorStop(1, hexToRgba(hex, 0));       
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.arc(x, y, outerR, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Puts a beautiful, two-tone colored halo exactly on the soft shadow of the main spotlight
+        function drawMainHalo(ctx, x, y, innerR, outerR, color1, color2) {
+            const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
+            grad.addColorStop(0, 'rgba(0, 0, 0, 0)'); // Inner core stays totally clear       
+            grad.addColorStop(0.15, hexToRgba(color1, 0.65)); // Bright primary edge
+            grad.addColorStop(0.6, hexToRgba(color2, 0.45)); // Transitions to secondary
+            grad.addColorStop(1, 'rgba(0, 0, 0, 0)'); // Fades cleanly into the darkness
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.arc(x, y, outerR, 0, Math.PI * 2);
+            ctx.fill();
+        }
 
         function renderSpotlights() {
             if (!trackingSpotlight) return;
@@ -634,55 +686,21 @@
             
             // 2. Punch the completely clear holes out of the darkness
             ctx.globalCompositeOperation = 'destination-out';
-            
-            function drawHole(x, y, innerR, outerR) {
-                const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
-                grad.addColorStop(0, 'rgba(0, 0, 0, 1)');       
-                grad.addColorStop(0.3, 'rgba(0, 0, 0, 0.85)'); 
-                grad.addColorStop(0.6, 'rgba(0, 0, 0, 0.4)');
-                grad.addColorStop(1, 'rgba(0, 0, 0, 0)');       
-                ctx.fillStyle = grad;
-                ctx.beginPath();
-                ctx.arc(x, y, outerR, 0, Math.PI * 2);
-                ctx.fill();
-            }
-            
-            drawHole(currentSpotX, currentSpotY, currentInnerR, currentOuterR);
-            
+            drawHole(ctx, currentSpotX, currentSpotY, currentInnerR, currentOuterR);
             if (!spotlightWiden) {
-                drawHole(roamSpot1.x, roamSpot1.y, 30, 210);
-                drawHole(roamSpot2.x, roamSpot2.y, 30, 210);
-                
-                // 3. Add colored "lighting gels" back into the roaming holes
-                ctx.globalCompositeOperation = 'source-over';
-                
-                const rootStyles = getComputedStyle(document.documentElement);
-                const primaryHex = rootStyles.getPropertyValue('--team-primary').trim() || '#ffffff';
-                const secondaryHex = rootStyles.getPropertyValue('--team-secondary').trim() || '#ffffff';
-                
-                function hexToRgba(hex, alpha) {
-                    hex = hex.replace('#', '');
-                    let r = parseInt(hex.length === 3 ? hex.slice(0, 1).repeat(2) : hex.slice(0, 2), 16);
-                    let g = parseInt(hex.length === 3 ? hex.slice(1, 2).repeat(2) : hex.slice(2, 4), 16);
-                    let b = parseInt(hex.length === 3 ? hex.slice(2, 3).repeat(2) : hex.slice(4, 6), 16);
-                    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-                }
-                
-                function drawColoredTint(x, y, innerR, outerR, hex) {
-                    const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
-                    grad.addColorStop(0, hexToRgba(hex, 0.65)); // Rich color in the center      
-                    grad.addColorStop(0.3, hexToRgba(hex, 0.45)); 
-                    grad.addColorStop(0.6, hexToRgba(hex, 0.15));
-                    grad.addColorStop(1, hexToRgba(hex, 0));       
-                    ctx.fillStyle = grad;
-                    ctx.beginPath();
-                    ctx.arc(x, y, outerR, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-                
-                drawColoredTint(roamSpot1.x, roamSpot1.y, 30, 210, primaryHex);
-                drawColoredTint(roamSpot2.x, roamSpot2.y, 30, 210, secondaryHex);
+                drawHole(ctx, roamSpot1.x, roamSpot1.y, 30, 210);
+                drawHole(ctx, roamSpot2.x, roamSpot2.y, 30, 210);
             }
+            
+            // 3. Add colored "lighting gels" back over the holes
+            ctx.globalCompositeOperation = 'source-over';
+            if (!spotlightWiden) {
+                drawColoredTint(ctx, roamSpot1.x, roamSpot1.y, 30, 210, activePrimaryHex);
+                drawColoredTint(ctx, roamSpot2.x, roamSpot2.y, 30, 210, activeSecondaryHex);
+            }
+            
+            // Apply the two-tone glow to the edges of the main tracking spotlight
+            drawMainHalo(ctx, currentSpotX, currentSpotY, currentInnerR, currentOuterR, activePrimaryHex, activeSecondaryHex);
             
             requestAnimationFrame(renderSpotlights);
         }
@@ -857,6 +875,10 @@
                 let primaryColor = theme.primary === "#ffffff" ? theme.secondary : theme.primary;
                 document.documentElement.style.setProperty('--team-primary', primaryColor);
                 document.documentElement.style.setProperty('--team-secondary', theme.secondary);
+                
+                // Track colors for the Canvas Lighting Engine
+                activePrimaryHex = primaryColor;
+                activeSecondaryHex = theme.secondary;
             }
         }
 
@@ -869,8 +891,6 @@
             if (roamingInterval) clearInterval(roamingInterval);
             const captureArea = document.getElementById('capture-area');
             if (captureArea) captureArea.classList.remove('lights-out-mode');
-            
-            // Adjust the size of the tracking spotlight here (Inner R, Outer R)
             currentInnerR = 90;
             currentOuterR = 360;
 
