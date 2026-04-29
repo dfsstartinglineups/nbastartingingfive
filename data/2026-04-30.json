@@ -1,5 +1,5 @@
 {
-  "last_updated": "Apr 29, 12:38 AM ET",
+  "last_updated": "Apr 29, 12:40 AM ET",
   "player_news": [],
   "espn_schedule": {
     "leagues": [
@@ -2154,8 +2154,8 @@
                 "state": "pre",
                 "completed": false,
                 "description": "Scheduled",
-                "detail": "4/30 - TBD",
-                "shortDetail": "TBD"
+                "detail": "Thu, April 30th at 8:00 PM EDT",
+                "shortDetail": "4/30 - 8:00 PM EDT"
               }
             },
             "broadcasts": [
@@ -2570,8 +2570,8 @@
             "state": "pre",
             "completed": false,
             "description": "Scheduled",
-            "detail": "4/30 - TBD",
-            "shortDetail": "TBD"
+            "detail": "Thu, April 30th at 8:00 PM EDT",
+            "shortDetail": "4/30 - 8:00 PM EDT"
           }
         }
       },
@@ -3321,7 +3321,14 @@
                 "shortDetail": "4/30 - 9:30 PM EDT"
               }
             },
-            "broadcasts": [],
+            "broadcasts": [
+              {
+                "market": "national",
+                "names": [
+                  "ESPN"
+                ]
+              }
+            ],
             "format": {
               "regulation": {
                 "periods": 4
@@ -3365,8 +3372,26 @@
                 }
               ]
             },
-            "broadcast": "",
-            "geoBroadcasts": [],
+            "broadcast": "ESPN",
+            "geoBroadcasts": [
+              {
+                "type": {
+                  "id": "1",
+                  "shortName": "TV"
+                },
+                "market": {
+                  "id": "1",
+                  "type": "National"
+                },
+                "media": {
+                  "shortName": "ESPN",
+                  "logo": "https://a.espncdn.com/guid/335fd2d2-97b9-336b-81ee-573eb6bdcffc/logos/default.png",
+                  "darkLogo": ""
+                },
+                "lang": "en",
+                "region": "us"
+              }
+            ],
             "odds": [
               {
                 "provider": {
