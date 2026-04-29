@@ -1,5 +1,5 @@
 {
-  "last_updated": "Apr 28, 10:10 PM ET",
+  "last_updated": "Apr 28, 10:12 PM ET",
   "player_news": [
     {
       "player_name": "Joel Embiid",
@@ -7,9 +7,9 @@
       "position": "C",
       "status_badge": "RET",
       "description": "Has Returned",
-      "time_elapsed": "1.2h",
+      "time_elapsed": "1.3h",
       "next_game": "Tuesday @BOS",
-      "local_timestamp": 1777428714.483897
+      "local_timestamp": 1777428828.0747185
     },
     {
       "player_name": "Tyrese Maxey",
@@ -1651,7 +1651,7 @@
             "id": "401869392",
             "uid": "s:40~l:46~e:401869392~c:401869392",
             "date": "2026-04-29T00:00Z",
-            "attendance": 0,
+            "attendance": 19812,
             "type": {
               "id": "14",
               "abbreviation": "RD16"
@@ -2380,45 +2380,18 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401869392517",
+                "id": "401869392520",
                 "type": {
-                  "id": "84",
-                  "text": "Offensive Foul Turnover"
+                  "id": "412",
+                  "text": "End Period"
                 },
-                "text": "Jordan Clarkson offensive foul turnover",
+                "text": "End of the 3rd Quarter",
                 "scoreValue": 0,
-                "team": {
-                  "id": "18"
-                },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.991,
-                  "awayWinPercentage": 0.009000000000000008
-                },
-                "athletesInvolved": [
-                  {
-                    "id": "2528426",
-                    "fullName": "Jordan Clarkson",
-                    "displayName": "Jordan Clarkson",
-                    "shortName": "J. Clarkson",
-                    "links": [
-                      {
-                        "rel": [
-                          "playercard",
-                          "desktop",
-                          "athlete"
-                        ],
-                        "href": "https://www.espn.com/nba/player/_/id/2528426/jordan-clarkson"
-                      }
-                    ],
-                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/2528426.png",
-                    "jersey": "00",
-                    "position": "G",
-                    "team": {
-                      "id": "18"
-                    }
-                  }
-                ]
+                  "homeWinPercentage": 0.992,
+                  "awayWinPercentage": 0.008000000000000007
+                }
               }
             },
             "status": {
@@ -2426,13 +2399,13 @@
               "displayClock": "0.0",
               "period": 3,
               "type": {
-                "id": "2",
-                "name": "STATUS_IN_PROGRESS",
+                "id": "22",
+                "name": "STATUS_END_PERIOD",
                 "state": "in",
                 "completed": false,
-                "description": "In Progress",
-                "detail": "0.0 - 3rd Quarter",
-                "shortDetail": "0.0 - 3rd"
+                "description": "End of Period",
+                "detail": "End of 3rd Quarter",
+                "shortDetail": "End of 3rd"
               }
             },
             "broadcasts": [
@@ -2555,13 +2528,13 @@
           "displayClock": "0.0",
           "period": 3,
           "type": {
-            "id": "2",
-            "name": "STATUS_IN_PROGRESS",
+            "id": "22",
+            "name": "STATUS_END_PERIOD",
             "state": "in",
             "completed": false,
-            "description": "In Progress",
-            "detail": "0.0 - 3rd Quarter",
-            "shortDetail": "0.0 - 3rd"
+            "description": "End of Period",
+            "detail": "End of 3rd Quarter",
+            "shortDetail": "End of 3rd"
           }
         }
       },
@@ -2669,11 +2642,11 @@
                   ],
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/sa.png"
                 },
-                "score": "34",
+                "score": "36",
                 "linescores": [
                   {
-                    "value": 34.0,
-                    "displayValue": "34",
+                    "value": 36.0,
+                    "displayValue": "36",
                     "period": 1
                   }
                 ],
@@ -2681,12 +2654,12 @@
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "10"
+                    "displayValue": "11"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "10.0"
+                    "displayValue": "11.0"
                   },
                   {
                     "name": "assists",
@@ -2696,17 +2669,17 @@
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "22"
+                    "displayValue": "24"
                   },
                   {
                     "name": "fieldGoalsMade",
                     "abbreviation": "FGM",
-                    "displayValue": "14"
+                    "displayValue": "15"
                   },
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "63.6"
+                    "displayValue": "62.5"
                   },
                   {
                     "name": "freeThrowPct",
@@ -2726,17 +2699,17 @@
                   {
                     "name": "points",
                     "abbreviation": "PTS",
-                    "displayValue": "34"
+                    "displayValue": "36"
                   },
                   {
                     "name": "threePointPct",
                     "abbreviation": "3P%",
-                    "displayValue": "44.4"
+                    "displayValue": "40.0"
                   },
                   {
                     "name": "threePointFieldGoalsAttempted",
                     "abbreviation": "3PA",
-                    "displayValue": "9"
+                    "displayValue": "10"
                   },
                   {
                     "name": "threePointFieldGoalsMade",
@@ -2746,7 +2719,7 @@
                   {
                     "name": "avgPoints",
                     "abbreviation": "PTS",
-                    "displayValue": "34.0"
+                    "displayValue": "36.0"
                   },
                   {
                     "name": "avgAssists",
@@ -2756,7 +2729,7 @@
                   {
                     "name": "threePointFieldGoalPct",
                     "abbreviation": "3P%",
-                    "displayValue": "44.4"
+                    "displayValue": "40.0"
                   }
                 ],
                 "leaders": [
@@ -3009,11 +2982,11 @@
                   ],
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/por.png"
                 },
-                "score": "21",
+                "score": "24",
                 "linescores": [
                   {
-                    "value": 21.0,
-                    "displayValue": "21",
+                    "value": 24.0,
+                    "displayValue": "24",
                     "period": 1
                   }
                 ],
@@ -3031,22 +3004,22 @@
                   {
                     "name": "assists",
                     "abbreviation": "AST",
-                    "displayValue": "4"
+                    "displayValue": "5"
                   },
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "30"
+                    "displayValue": "31"
                   },
                   {
                     "name": "fieldGoalsMade",
                     "abbreviation": "FGM",
-                    "displayValue": "10"
+                    "displayValue": "11"
                   },
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "33.3"
+                    "displayValue": "35.5"
                   },
                   {
                     "name": "freeThrowPct",
@@ -3066,37 +3039,37 @@
                   {
                     "name": "points",
                     "abbreviation": "PTS",
-                    "displayValue": "21"
+                    "displayValue": "24"
                   },
                   {
                     "name": "threePointPct",
                     "abbreviation": "3P%",
-                    "displayValue": "9.1"
+                    "displayValue": "16.7"
                   },
                   {
                     "name": "threePointFieldGoalsAttempted",
                     "abbreviation": "3PA",
-                    "displayValue": "11"
+                    "displayValue": "12"
                   },
                   {
                     "name": "threePointFieldGoalsMade",
                     "abbreviation": "3PM",
-                    "displayValue": "1"
+                    "displayValue": "2"
                   },
                   {
                     "name": "avgPoints",
                     "abbreviation": "PTS",
-                    "displayValue": "21.0"
+                    "displayValue": "24.0"
                   },
                   {
                     "name": "avgAssists",
                     "abbreviation": "AST",
-                    "displayValue": "4.0"
+                    "displayValue": "5.0"
                   },
                   {
                     "name": "threePointFieldGoalPct",
                     "abbreviation": "3P%",
-                    "displayValue": "9.1"
+                    "displayValue": "16.7"
                   }
                 ],
                 "leaders": [
@@ -3290,35 +3263,32 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401869386160",
+                "id": "401869386172",
                 "type": {
-                  "id": "155",
-                  "text": "Defensive Rebound"
+                  "id": "412",
+                  "text": "End Period"
                 },
-                "text": "Spurs defensive team rebound",
+                "text": "End of the 1st Quarter",
                 "scoreValue": 0,
-                "team": {
-                  "id": "24"
-                },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.949,
-                  "awayWinPercentage": 0.051000000000000045
+                  "homeWinPercentage": 0.939,
+                  "awayWinPercentage": 0.061000000000000054
                 }
               }
             },
             "status": {
-              "clock": 62.0,
-              "displayClock": "1:02",
+              "clock": 0.0,
+              "displayClock": "0.0",
               "period": 1,
               "type": {
-                "id": "2",
-                "name": "STATUS_IN_PROGRESS",
+                "id": "22",
+                "name": "STATUS_END_PERIOD",
                 "state": "in",
                 "completed": false,
-                "description": "In Progress",
-                "detail": "1:02 - 1st Quarter",
-                "shortDetail": "1:02 - 1st"
+                "description": "End of Period",
+                "detail": "End of 1st Quarter",
+                "shortDetail": "End of 1st"
               }
             },
             "broadcasts": [
@@ -3435,17 +3405,17 @@
           }
         ],
         "status": {
-          "clock": 62.0,
-          "displayClock": "1:02",
+          "clock": 0.0,
+          "displayClock": "0.0",
           "period": 1,
           "type": {
-            "id": "2",
-            "name": "STATUS_IN_PROGRESS",
+            "id": "22",
+            "name": "STATUS_END_PERIOD",
             "state": "in",
             "completed": false,
-            "description": "In Progress",
-            "detail": "1:02 - 1st Quarter",
-            "shortDetail": "1:02 - 1st"
+            "description": "End of Period",
+            "detail": "End of 1st Quarter",
+            "shortDetail": "End of 1st"
           }
         }
       }
