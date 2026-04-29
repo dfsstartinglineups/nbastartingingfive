@@ -373,7 +373,7 @@
             align-items: stretch;
             margin-top: -24px; 
             z-index: 14;
-            position: relative; /* Fixed layering issue */
+            position: relative; 
             box-shadow: 0 5px 10px rgba(0,0,0,0.3);
             border-radius: 8px;
             overflow: hidden;
@@ -438,8 +438,8 @@
         @keyframes runGauntlet {
             0%   { left: 95%; top: 95%; opacity: 0; transform: translate(-50%, -50%); }
             2%   { left: 95%; top: 95%; opacity: 1; transform: translate(-50%, -50%); } 
-            35%  { left: 95%; top: -2%; opacity: 1; transform: translate(-50%, -50%); } 
-            75%  { left: 15%; top: -2%; opacity: 1; transform: translate(-50%, -50%); } 
+            35%  { left: 95%; top: -9%; opacity: 1; transform: translate(-50%, -50%); } 
+            75%  { left: 15%; top: -9%; opacity: 1; transform: translate(-50%, -50%); } 
             100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); } 
         }
 
@@ -584,7 +584,7 @@
         let currentSpotX = 540;
         let currentSpotY = 540;
         let currentInnerR = 90;
-        let currentOuterR = 215;
+        let currentOuterR = 360;
         
         let roamSpot1 = { x: 200, y: 200, targetX: 200, targetY: 200 };
         let roamSpot2 = { x: 800, y: 800, targetX: 800, targetY: 800 };
@@ -615,7 +615,7 @@
             currentSpotY += (targetY - currentSpotY) * 0.1;
             
             const targetInnerR = spotlightWiden ? 550 : 90;
-            const targetOuterR = spotlightWiden ? 1200 : 215;
+            const targetOuterR = spotlightWiden ? 1200 : 360;
             currentInnerR += (targetInnerR - currentInnerR) * 0.05;
             currentOuterR += (targetOuterR - currentOuterR) * 0.05;
             
@@ -627,10 +627,12 @@
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
+            // 1. Draw solid darkness over the whole court
             ctx.globalCompositeOperation = 'source-over';
             ctx.fillStyle = 'rgba(0, 0, 0, 0.94)'; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
+            // 2. Punch the completely clear holes out of the darkness
             ctx.globalCompositeOperation = 'destination-out';
             
             function drawHole(x, y, innerR, outerR) {
@@ -650,6 +652,36 @@
             if (!spotlightWiden) {
                 drawHole(roamSpot1.x, roamSpot1.y, 30, 210);
                 drawHole(roamSpot2.x, roamSpot2.y, 30, 210);
+                
+                // 3. Add colored "lighting gels" back into the roaming holes
+                ctx.globalCompositeOperation = 'source-over';
+                
+                const rootStyles = getComputedStyle(document.documentElement);
+                const primaryHex = rootStyles.getPropertyValue('--team-primary').trim() || '#ffffff';
+                const secondaryHex = rootStyles.getPropertyValue('--team-secondary').trim() || '#ffffff';
+                
+                function hexToRgba(hex, alpha) {
+                    hex = hex.replace('#', '');
+                    let r = parseInt(hex.length === 3 ? hex.slice(0, 1).repeat(2) : hex.slice(0, 2), 16);
+                    let g = parseInt(hex.length === 3 ? hex.slice(1, 2).repeat(2) : hex.slice(2, 4), 16);
+                    let b = parseInt(hex.length === 3 ? hex.slice(2, 3).repeat(2) : hex.slice(4, 6), 16);
+                    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+                }
+                
+                function drawColoredTint(x, y, innerR, outerR, hex) {
+                    const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
+                    grad.addColorStop(0, hexToRgba(hex, 0.65)); // Rich color in the center      
+                    grad.addColorStop(0.3, hexToRgba(hex, 0.45)); 
+                    grad.addColorStop(0.6, hexToRgba(hex, 0.15));
+                    grad.addColorStop(1, hexToRgba(hex, 0));       
+                    ctx.fillStyle = grad;
+                    ctx.beginPath();
+                    ctx.arc(x, y, outerR, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                
+                drawColoredTint(roamSpot1.x, roamSpot1.y, 30, 210, primaryHex);
+                drawColoredTint(roamSpot2.x, roamSpot2.y, 30, 210, secondaryHex);
             }
             
             requestAnimationFrame(renderSpotlights);
@@ -837,6 +869,8 @@
             if (roamingInterval) clearInterval(roamingInterval);
             const captureArea = document.getElementById('capture-area');
             if (captureArea) captureArea.classList.remove('lights-out-mode');
+            
+            // Adjust the size of the tracking spotlight here (Inner R, Outer R)
             currentInnerR = 90;
             currentOuterR = 360;
 
