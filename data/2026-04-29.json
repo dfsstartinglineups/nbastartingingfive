@@ -1,5 +1,5 @@
 {
-  "last_updated": "Apr 30, 12:46 AM ET",
+  "last_updated": "Apr 30, 12:48 AM ET",
   "player_news": [
     {
       "player_name": "Ausar Thompson",
@@ -9,7 +9,7 @@
       "description": "Has Returned",
       "time_elapsed": "3.9h",
       "next_game": "Wednesday vs ORL",
-      "local_timestamp": 1777524441.2869284
+      "local_timestamp": 1777524559.6041121
     },
     {
       "player_name": "Brandon Ingram",
@@ -19,7 +19,7 @@
       "description": "Will not return right heel inflammation",
       "time_elapsed": "4.1h",
       "next_game": "Wednesday @CLE",
-      "local_timestamp": 1777524441.2849283
+      "local_timestamp": 1777524559.602112
     },
     {
       "player_name": "Franz Wagner",
@@ -29,7 +29,7 @@
       "description": "Out right calf strain",
       "time_elapsed": "7.2h",
       "next_game": "Wednesday @DET",
-      "local_timestamp": 1777524441.2739284
+      "local_timestamp": 1777524559.5911121
     },
     {
       "player_name": "Dean Wade",
@@ -37,9 +37,9 @@
       "position": "PF",
       "status_badge": "B",
       "description": "Off the ench",
-      "time_elapsed": "5.6h",
+      "time_elapsed": "5.7h",
       "next_game": "Wednesday vs TOR",
-      "local_timestamp": 1777524441.2829285
+      "local_timestamp": 1777524559.6001122
     },
     {
       "player_name": "Austin Reaves",
@@ -77,7 +77,7 @@
       "position": "PF",
       "status_badge": "S",
       "description": "tarting",
-      "time_elapsed": "5.6h",
+      "time_elapsed": "5.7h",
       "next_game": "Wednesday vs TOR",
       "local_timestamp": 1777504177.4668944
     },
@@ -97,7 +97,7 @@
       "position": "SF",
       "status_badge": "S",
       "description": "tarting",
-      "time_elapsed": "6.2h",
+      "time_elapsed": "6.3h",
       "next_game": "Wednesday @DET",
       "local_timestamp": 1777502143.4195886
     }
@@ -3107,6 +3107,7 @@
                 "type": "team",
                 "order": 0,
                 "homeAway": "home",
+                "winner": false,
                 "team": {
                   "id": "13",
                   "uid": "s:40~l:46~t:13",
@@ -3436,7 +3437,7 @@
                     ]
                   }
                 ],
-                "record": "3-1",
+                "record": "3-2",
                 "records": [
                   {
                     "name": "overall",
@@ -3462,6 +3463,7 @@
                 "type": "team",
                 "order": 1,
                 "homeAway": "away",
+                "winner": true,
                 "team": {
                   "id": "10",
                   "uid": "s:40~l:46~t:10",
@@ -3791,7 +3793,7 @@
                     ]
                   }
                 ],
-                "record": "1-3",
+                "record": "2-3",
                 "records": [
                   {
                     "name": "overall",
@@ -3818,37 +3820,18 @@
                 "headline": "West 1st Round - Game 5"
               }
             ],
-            "situation": {
-              "lastPlay": {
-                "id": "401869407641",
-                "type": {
-                  "id": "155",
-                  "text": "Defensive Rebound"
-                },
-                "text": "Rockets defensive team rebound",
-                "scoreValue": 0,
-                "team": {
-                  "id": "10"
-                },
-                "probability": {
-                  "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.002,
-                  "awayWinPercentage": 0.998
-                }
-              }
-            },
             "status": {
               "clock": 0.0,
               "displayClock": "0.0",
               "period": 4,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
-                "state": "in",
-                "completed": false,
-                "description": "End of Period",
-                "detail": "End of 4th Quarter",
-                "shortDetail": "End of 4th"
+                "id": "3",
+                "name": "STATUS_FINAL",
+                "state": "post",
+                "completed": true,
+                "description": "Final",
+                "detail": "Final",
+                "shortDetail": "Final"
               }
             },
             "broadcasts": [
@@ -3868,7 +3851,7 @@
             "series": {
               "type": "playoff",
               "title": "Playoff Series",
-              "summary": "LAL lead series 3-1",
+              "summary": "LAL lead series 3-2",
               "completed": false,
               "totalCompetitions": 7,
               "competitors": [
@@ -3882,7 +3865,7 @@
                 {
                   "id": "10",
                   "uid": "s:40~l:46~t:10",
-                  "wins": 1,
+                  "wins": 2,
                   "ties": 0,
                   "href": "http://sports.core.api.espn.pvt/v2/sports/basketball/leagues/nba/seasons/2026/teams/10?lang=en&region=us"
                 }
@@ -3915,11 +3898,11 @@
           {
             "language": "en-US",
             "rel": [
-              "live",
+              "summary",
               "desktop",
               "event"
             ],
-            "href": "https://www.espn.com/nba/game?gameId=401869407",
+            "href": "https://www.espn.com/nba/game/_/gameId/401869407/rockets-lakers",
             "text": "Gamecast",
             "shortText": "Gamecast",
             "isExternal": false,
@@ -3969,13 +3952,13 @@
           "displayClock": "0.0",
           "period": 4,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
-            "state": "in",
-            "completed": false,
-            "description": "End of Period",
-            "detail": "End of 4th Quarter",
-            "shortDetail": "End of 4th"
+            "id": "3",
+            "name": "STATUS_FINAL",
+            "state": "post",
+            "completed": true,
+            "description": "Final",
+            "detail": "Final",
+            "shortDetail": "Final"
           }
         }
       }
