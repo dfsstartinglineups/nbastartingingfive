@@ -1228,6 +1228,13 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
 function routeToCorrectTab(targetId) {
     const localId = targetId.replace('game-', '');
     
+    // 🚨 NEW: Explicitly force the Play-By-Play to be expanded for the linked game
+    if (!window.CARD_STATE[localId]) {
+        window.CARD_STATE[localId] = { baseBenchOpen: false, liveBenchOpen: false, pbpOpen: true };
+    } else {
+        window.CARD_STATE[localId].pbpOpen = true;
+    }
+
     // Find the game in the static JSON data loaded during init()
     const targetGame = ALL_GAMES_DATA.find(g => g.localId === localId);
     if (!targetGame) return;
