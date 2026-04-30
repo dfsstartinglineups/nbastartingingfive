@@ -10,6 +10,7 @@ let PLAYERS_DB = {}; // Holds our player database
 window.LEADERBOARD_SEARCH_TEXT = ''; // Holds the live leaderboard search state
 window.TOP_PLAYS_SEARCH_TEXT = '';
 window.HAS_SCROLLED_TO_HASH = false;
+window.HAS_ROUTED_SMARTLY = false;
 window.ACTIVE_GLOW_ID = null;
 
 // NEW GLOBALS FOR TOP PLAYS & NEWS
@@ -1222,42 +1223,41 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
 }
 
 // ==========================================
-// SMART LINK ROUTER
+// SMART LINK ROUTER (JSON-DRIVEN)
 // ==========================================
 function routeToCorrectTab(targetId) {
-    // The targetId looks like "game-HOU-LAL-2026-04-29". 
-    // We strip "game-" to get the raw localId.
     const localId = targetId.replace('game-', '');
+    
+    // Find the game in the static JSON data loaded during init()
+    const targetGame = ALL_GAMES_DATA.find(g => g.localId === localId);
+    if (!targetGame) return;
 
-    let shouldBeLive = false;
+    // ESPN's status state strings are always 'pre', 'in', or 'post'
+    const gameState = targetGame.gameRaw?.status?.type?.state || 'pre';
+    
+    // Simple Rule: If it's pre-game, go to lineups. Else, go to live.
+    const targetTab = (gameState === 'pre') ? 'lineups' : 'live';
 
-    // Check if the game exists in our live data memory AND has an active status
-    if (LIVE_GAMES_DATA[localId]) {
-        const status = LIVE_GAMES_DATA[localId].status;
-        if (status === 'in' || status === 'post') {
-            shouldBeLive = true;
-        }
-    }
-
-    // Determine the correct tab
-    const targetTab = shouldBeLive ? 'live' : 'lineups';
-
-    // If we are already on the correct tab, do nothing
     if (window.MASTER_TAB === targetTab) return;
 
     // Override the global state
     window.MASTER_TAB = targetTab;
 
-    // Physically update the UI radio buttons so the user sees the switch
+    // Physically update the UI radio buttons
     const radioBtn = document.getElementById(`tab-${targetTab}`);
-    if (radioBtn) {
-        radioBtn.checked = true;
-    }
+    if (radioBtn) radioBtn.checked = true;
 }
 
 function renderGames(isSilentRefresh = false) {
     const container = document.getElementById('games-container');
     if (!container) return;
+
+    // 🚨 ROUTE BEFORE WE RENDER
+    if (!window.HAS_ROUTED_SMARTLY && window.location.hash) {
+        window.HAS_ROUTED_SMARTLY = true;
+        const targetId = window.location.hash.substring(1); 
+        routeToCorrectTab(targetId);
+    }
 
     let activeTopPlaysTab = 'value'; // Default fallback
     const activeTabEl = document.querySelector('.leaderboard-tab.active');
@@ -1931,6 +1931,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Reset the scroll lock and handle manual URL changes
     window.addEventListener('hashchange', () => {
         window.HAS_SCROLLED_TO_HASH = false;
+        window.HAS_ROUTED_SMARTLY = false; // 🚨 Reset the router
         window.ACTIVE_GLOW_ID = null; 
         
         const newHashDate = getDateFromHash();
@@ -1939,11 +1940,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (newHashDate && newHashDate !== currentPickerDate) {
             init(newHashDate);
         } else {
-            // 🚨 Re-evaluate the smart route if the hash changes on the same day!
-            if (window.location.hash) {
-                 const targetId = window.location.hash.substring(1);
-                 routeToCorrectTab(targetId);
-            }
             renderGames(); 
         }
     });
