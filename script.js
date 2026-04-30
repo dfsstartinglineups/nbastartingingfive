@@ -1221,6 +1221,40 @@ function buildLiveLeaderboardCard(filteredGames, platform) {
     </div>`;
 }
 
+// ==========================================
+// SMART LINK ROUTER
+// ==========================================
+function routeToCorrectTab(targetId) {
+    // The targetId looks like "game-HOU-LAL-2026-04-29". 
+    // We strip "game-" to get the raw localId.
+    const localId = targetId.replace('game-', '');
+
+    let shouldBeLive = false;
+
+    // Check if the game exists in our live data memory AND has an active status
+    if (LIVE_GAMES_DATA[localId]) {
+        const status = LIVE_GAMES_DATA[localId].status;
+        if (status === 'in' || status === 'post') {
+            shouldBeLive = true;
+        }
+    }
+
+    // Determine the correct tab
+    const targetTab = shouldBeLive ? 'live' : 'lineups';
+
+    // If we are already on the correct tab, do nothing
+    if (window.MASTER_TAB === targetTab) return;
+
+    // Override the global state
+    window.MASTER_TAB = targetTab;
+
+    // Physically update the UI radio buttons so the user sees the switch
+    const radioBtn = document.getElementById(`tab-${targetTab}`);
+    if (radioBtn) {
+        radioBtn.checked = true;
+    }
+}
+
 function renderGames(isSilentRefresh = false) {
     const container = document.getElementById('games-container');
     if (!container) return;
@@ -1371,6 +1405,10 @@ function renderGames(isSilentRefresh = false) {
     if (!window.HAS_SCROLLED_TO_HASH && window.location.hash) {
         window.HAS_SCROLLED_TO_HASH = true;
         const targetId = window.location.hash.substring(1); 
+        
+        // 🚨 SMART ROUTE: Check if the game is live before we start hunting for it!
+        routeToCorrectTab(targetId);
+
         window.ACTIVE_GLOW_ID = targetId; 
 
         let attempts = 0;
@@ -1901,6 +1939,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (newHashDate && newHashDate !== currentPickerDate) {
             init(newHashDate);
         } else {
+            // 🚨 Re-evaluate the smart route if the hash changes on the same day!
+            if (window.location.hash) {
+                 const targetId = window.location.hash.substring(1);
+                 routeToCorrectTab(targetId);
+            }
             renderGames(); 
         }
     });
