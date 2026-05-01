@@ -1,5 +1,5 @@
 {
-  "last_updated": "Apr 30, 10:58 PM ET",
+  "last_updated": "Apr 30, 11:00 PM ET",
   "player_news": [
     {
       "player_name": "Aaron Gordon",
@@ -9,7 +9,7 @@
       "description": "Out left calf tightness",
       "time_elapsed": "2.5h",
       "next_game": "Thursday @MIN",
-      "local_timestamp": 1777604376.697245
+      "local_timestamp": 1777604519.952024
     },
     {
       "player_name": "Mitchell Robinson",
@@ -19,7 +19,7 @@
       "description": "Ejected",
       "time_elapsed": "2.8h",
       "next_game": "Thursday @ATL",
-      "local_timestamp": 1777604376.696245
+      "local_timestamp": 1777604519.951024
     },
     {
       "player_name": "Ayo Dosunmu",
@@ -29,7 +29,7 @@
       "description": "Out right calf soreness",
       "time_elapsed": "3.1h",
       "next_game": "Thursday vs DEN",
-      "local_timestamp": 1777604376.692245
+      "local_timestamp": 1777604519.947024
     },
     {
       "player_name": "Kyle Anderson",
@@ -39,7 +39,7 @@
       "description": "Out illness",
       "time_elapsed": "3.2h",
       "next_game": "Thursday vs DEN",
-      "local_timestamp": 1777604376.691245
+      "local_timestamp": 1777604519.9460242
     },
     {
       "player_name": "Terrence Shannon Jr.",
@@ -2873,7 +2873,7 @@
             "id": "401869402",
             "uid": "s:40~l:46~e:401869402~c:401869402",
             "date": "2026-05-01T01:30Z",
-            "attendance": 0,
+            "attendance": 18978,
             "type": {
               "id": "14",
               "abbreviation": "RD16"
@@ -2972,6 +2972,11 @@
                     "value": 28.0,
                     "displayValue": "28",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -3306,7 +3311,7 @@
                   ],
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/den.png"
                 },
-                "score": "50",
+                "score": "52",
                 "linescores": [
                   {
                     "value": 30.0,
@@ -3317,6 +3322,11 @@
                     "value": 20.0,
                     "displayValue": "20",
                     "period": 2
+                  },
+                  {
+                    "value": 2.0,
+                    "displayValue": "2",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -3592,32 +3602,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401869402344",
+                "id": "401869402346",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "584",
+                  "text": "Substitution"
                 },
-                "text": "End of the 2nd Quarter",
+                "text": "Spencer Jones enters the game for Tim Hardaway Jr.",
                 "scoreValue": 0,
+                "team": {
+                  "id": "7"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
                   "homeWinPercentage": 0.727,
                   "awayWinPercentage": 0.273
-                }
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "4592427",
+                    "fullName": "Spencer Jones",
+                    "displayName": "Spencer Jones",
+                    "shortName": "S. Jones",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/4592427/spencer-jones"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4592427.png",
+                    "jersey": "21",
+                    "position": "F",
+                    "team": {
+                      "id": "7"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 2,
+              "clock": 720.0,
+              "displayClock": "12:00",
+              "period": 3,
               "type": {
-                "id": "23",
-                "name": "STATUS_HALFTIME",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "Halftime",
-                "detail": "Halftime",
-                "shortDetail": "Halftime"
+                "description": "In Progress",
+                "detail": "12:00 - 3rd Quarter",
+                "shortDetail": "12:00 - 3rd"
               }
             },
             "broadcasts": [
@@ -3734,17 +3771,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 2,
+          "clock": 720.0,
+          "displayClock": "12:00",
+          "period": 3,
           "type": {
-            "id": "23",
-            "name": "STATUS_HALFTIME",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "Halftime",
-            "detail": "Halftime",
-            "shortDetail": "Halftime"
+            "description": "In Progress",
+            "detail": "12:00 - 3rd Quarter",
+            "shortDetail": "12:00 - 3rd"
           }
         }
       }
