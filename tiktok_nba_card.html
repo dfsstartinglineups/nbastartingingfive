@@ -412,6 +412,12 @@
             opacity: 0; 
         }
 
+        .anim-watermark {
+            animation: watermarkDropBounce 1.2s forwards;
+            animation-delay: 2.5s; /* perfectly synced to the team name */
+            opacity: 0; 
+        }
+
         @keyframes headerSlideDown {
             0% { opacity: 0; transform: translateY(-40px); }
             100% { opacity: 1; transform: translateY(0); }
@@ -429,6 +435,15 @@
                 transform: translateX(0) rotate(0) scale(1); 
                 filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); 
             }
+        }
+
+        @keyframes watermarkDropBounce {
+            0% { opacity: 0; transform: translate(-50%, -1000px); animation-timing-function: ease-in; }
+            30% { opacity: 0.35; transform: translate(-50%, -50%); animation-timing-function: ease-out; }
+            55% { transform: translate(-50%, -200px); animation-timing-function: ease-in; }
+            75% { transform: translate(-50%, -50%); animation-timing-function: ease-out; }
+            88% { transform: translate(-50%, -100px); animation-timing-function: ease-in; }
+            100% { opacity: 0.35; transform: translate(-50%, -50%); }
         }
 
         /* ========================================================
@@ -929,7 +944,13 @@
             void logoEl.offsetWidth; 
             logoEl.classList.add('anim-logo');
             
-            document.getElementById('watermark').src = logoUrl;
+            const watermarkEl = document.getElementById('watermark');
+            watermarkEl.src = logoUrl;
+            
+            // Retrigger the bouncing court watermark
+            watermarkEl.classList.remove('anim-watermark');
+            void watermarkEl.offsetWidth; 
+            watermarkEl.classList.add('anim-watermark');
 
             const container = document.getElementById('players-container');
             container.innerHTML = '';
