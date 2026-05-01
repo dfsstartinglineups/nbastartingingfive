@@ -1,5 +1,5 @@
 {
-  "last_updated": "Apr 30, 11:32 PM ET",
+  "last_updated": "Apr 30, 11:34 PM ET",
   "player_news": [
     {
       "player_name": "Aaron Gordon",
@@ -7,9 +7,9 @@
       "position": "PF",
       "status_badge": "OUT",
       "description": "Out left calf tightness",
-      "time_elapsed": "3.0h",
+      "time_elapsed": "3.1h",
       "next_game": "Thursday @MIN",
-      "local_timestamp": 1777606424.6060545
+      "local_timestamp": 1777606546.7332976
     },
     {
       "player_name": "Mitchell Robinson",
@@ -17,9 +17,9 @@
       "position": "C",
       "status_badge": "EJECT",
       "description": "Ejected",
-      "time_elapsed": "3.3h",
+      "time_elapsed": "3.4h",
       "next_game": "Thursday @ATL",
-      "local_timestamp": 1777606424.6050546
+      "local_timestamp": 1777606546.7322977
     },
     {
       "player_name": "Ayo Dosunmu",
@@ -29,7 +29,7 @@
       "description": "Out right calf soreness",
       "time_elapsed": "3.7h",
       "next_game": "Thursday vs DEN",
-      "local_timestamp": 1777606424.6010547
+      "local_timestamp": 1777606546.7282977
     },
     {
       "player_name": "Kyle Anderson",
@@ -39,7 +39,7 @@
       "description": "Out illness",
       "time_elapsed": "3.8h",
       "next_game": "Thursday vs DEN",
-      "local_timestamp": 1777606424.6000547
+      "local_timestamp": 1777606546.7272978
     },
     {
       "player_name": "Terrence Shannon Jr.",
@@ -57,7 +57,7 @@
       "position": "PG",
       "status_badge": "EJECT",
       "description": "Ejected",
-      "time_elapsed": "3.3h",
+      "time_elapsed": "3.4h",
       "next_game": "Thursday vs NYK",
       "local_timestamp": 1777594403.6728253
     },
@@ -67,7 +67,7 @@
       "position": "C",
       "status_badge": "IN",
       "description": "Playing post appendectomy surgery recovery",
-      "time_elapsed": "4.0h",
+      "time_elapsed": "4.1h",
       "next_game": "Thursday vs BOS",
       "local_timestamp": 1777591896.009223
     },
@@ -87,7 +87,7 @@
       "position": "SF",
       "status_badge": "IN",
       "description": "Playing lower back contusion",
-      "time_elapsed": "5.9h",
+      "time_elapsed": "6.0h",
       "next_game": "Thursday @ATL",
       "local_timestamp": 1777585058.14813
     },
@@ -97,7 +97,7 @@
       "position": "PG",
       "status_badge": "IN",
       "description": "Playing left knee soreness",
-      "time_elapsed": "9.1h",
+      "time_elapsed": "9.2h",
       "next_game": "Thursday vs DEN",
       "local_timestamp": 1777579295.0597837
     }
@@ -3209,6 +3209,11 @@
                     "value": 25.0,
                     "displayValue": "25",
                     "period": 3
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 4
                   }
                 ],
                 "statistics": [
@@ -3543,7 +3548,7 @@
                   ],
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/den.png"
                 },
-                "score": "74",
+                "score": "77",
                 "linescores": [
                   {
                     "value": 30.0,
@@ -3559,6 +3564,11 @@
                     "value": 24.0,
                     "displayValue": "24",
                     "period": 3
+                  },
+                  {
+                    "value": 3.0,
+                    "displayValue": "3",
+                    "period": 4
                   }
                 ],
                 "statistics": [
@@ -3834,32 +3844,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401869402514",
+                "id": "401869402522",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "62",
+                  "text": "Bad Pass\nTurnover"
                 },
-                "text": "End of the 3rd Quarter",
+                "text": "Mike Conley bad pass\nturnover (Tyus Jones steals)",
                 "scoreValue": 0,
+                "team": {
+                  "id": "16"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.846,
-                  "awayWinPercentage": 0.15400000000000003
-                }
+                  "homeWinPercentage": 0.831,
+                  "awayWinPercentage": 0.16900000000000004
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "3195",
+                    "fullName": "Mike Conley",
+                    "displayName": "Mike Conley",
+                    "shortName": "M. Conley",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/3195/mike-conley"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/3195.png",
+                    "jersey": "10",
+                    "position": "G",
+                    "team": {
+                      "id": "16"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 3,
+              "clock": 689.0,
+              "displayClock": "11:29",
+              "period": 4,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "End of Period",
-                "detail": "End of 3rd Quarter",
-                "shortDetail": "End of 3rd"
+                "description": "In Progress",
+                "detail": "11:29 - 4th Quarter",
+                "shortDetail": "11:29 - 4th"
               }
             },
             "broadcasts": [
@@ -3976,17 +4013,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 3,
+          "clock": 689.0,
+          "displayClock": "11:29",
+          "period": 4,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "End of Period",
-            "detail": "End of 3rd Quarter",
-            "shortDetail": "End of 3rd"
+            "description": "In Progress",
+            "detail": "11:29 - 4th Quarter",
+            "shortDetail": "11:29 - 4th"
           }
         }
       }
