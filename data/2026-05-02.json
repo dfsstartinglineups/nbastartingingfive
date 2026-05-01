@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 01, 12:34 AM ET",
+  "last_updated": "May 01, 12:36 AM ET",
   "player_news": [],
   "espn_schedule": {
     "leagues": [
@@ -1017,7 +1017,15 @@
                 "shortDetail": "5/2 - 7:30 PM EDT"
               }
             },
-            "broadcasts": [],
+            "broadcasts": [
+              {
+                "market": "national",
+                "names": [
+                  "NBC",
+                  "Peacock"
+                ]
+              }
+            ],
             "format": {
               "regulation": {
                 "periods": 4
@@ -1061,8 +1069,39 @@
                 }
               ]
             },
-            "broadcast": "",
-            "geoBroadcasts": [],
+            "broadcast": "NBC/Peacock",
+            "geoBroadcasts": [
+              {
+                "type": {
+                  "id": "1",
+                  "shortName": "TV"
+                },
+                "market": {
+                  "id": "1",
+                  "type": "National"
+                },
+                "media": {
+                  "shortName": "NBC"
+                },
+                "lang": "en",
+                "region": "us"
+              },
+              {
+                "type": {
+                  "id": "4",
+                  "shortName": "Streaming"
+                },
+                "market": {
+                  "id": "1",
+                  "type": "National"
+                },
+                "media": {
+                  "shortName": "Peacock"
+                },
+                "lang": "en",
+                "region": "us"
+              }
+            ],
             "odds": [
               {
                 "provider": {
