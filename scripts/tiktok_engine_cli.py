@@ -152,9 +152,10 @@ def generate_announcer_audio():
     for i, player in enumerate(roster):
         spoken_pos = SPOKEN_POSITIONS[i] if i < len(SPOKEN_POSITIONS) else "Flex"
         raw_name = player.get('name', 'Unknown')
-        raw_name = raw_name.replace("Shead","Shed")
+        
         
         db_player = get_player_data(raw_name, players_db)
+        raw_name = raw_name.replace("Shead","Shed")
                     
         jersey = db_player.get('jersey', '')
         
