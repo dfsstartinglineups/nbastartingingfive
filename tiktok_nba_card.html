@@ -297,7 +297,6 @@
                 opacity: 0.9;
                 transform: scale(1);
                 color: #050302; /* Charred wood */
-                /* Buggy text-stroke removed. Replaced with sharp outer ember shadows! */
                 text-shadow: 
                     -2px -2px 0 var(--team-secondary),
                      2px -2px 0 var(--team-secondary),
@@ -307,6 +306,27 @@
                      0 0 50px var(--team-primary);
             }
         }
+
+        /* --- THE GAME 7 EXIT FLIGHT --- */
+        @keyframes game7Exit {
+            0% { 
+                transform: translate(-50%, -50%) rotate(-3deg) scale(1); 
+            }
+            30% { 
+                transform: translate(-50%, -150px) rotate(10deg) scale(1.25); 
+                filter: brightness(2) drop-shadow(0 0 20px var(--team-secondary));
+            }
+            100% { 
+                transform: translate(-50%, -1500px) rotate(720deg) scale(0.2); 
+                opacity: 0; 
+                filter: brightness(3);
+            }
+        }
+        .anim-game7-exit {
+            /* Gives it a slight dip before it rockets upwards */
+            animation: game7Exit 2s cubic-bezier(0.5, -0.2, 0.2, 1) forwards !important;
+        }
+
 
         /* --- CANVAS LIGHTING ENGINE --- */
         #spotlight-canvas {
@@ -673,6 +693,7 @@
                 <div class="paint-area"></div>
                 
                 <img id="watermark" class="watermark-logo" src="" alt="">
+                
                 <div id="game7-watermark"></div>
 
                 <div id="players-container"></div>
@@ -1089,6 +1110,8 @@
             // --- THE GAME 7 BRANDING IRON BUILDER ---
             const game7Container = document.getElementById('game7-watermark');
             game7Container.innerHTML = '';
+            game7Container.classList.remove('anim-game7-exit'); // Reset flight animation
+            
             const g7Text = "GAME 7";
             let g7Html = '';
             
@@ -1260,11 +1283,16 @@
                 });
             }, 44200); 
 
-            // --- TRIGGER THE ARENA LIGHTS ON AT 44.5s ---
+            // --- THE GAME 7 BRANDING IRON FLIES AWAY & ARENA LIGHTS ON (44.5s) ---
             setTimeout(() => {
                 if (captureArea) captureArea.classList.remove('lights-out-mode');
                 trackingSpotlight = false; 
                 if (roamingInterval) clearInterval(roamingInterval); 
+
+                // Ignite the branding iron and rocket it into the ceiling!
+                if (game7Container) {
+                    game7Container.classList.add('anim-game7-exit');
+                }
             }, 44500); 
         }
 
