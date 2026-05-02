@@ -252,6 +252,56 @@
             filter: grayscale(50%) brightness(80%); 
         }
 
+        /* --- GAME 7 BURN-IN TEXT --- */
+        #game7-watermark {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-3deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-style: italic;
+            font-size: 160px;
+            letter-spacing: 5px;
+            z-index: 2; 
+            pointer-events: none;
+        }
+
+        .burn-letter {
+            opacity: 0;
+            display: inline-block;
+            animation: burnIn 1.5s forwards;
+        }
+
+        @keyframes burnIn {
+            0% {
+                opacity: 0;
+                transform: scale(2.5) translateY(-50px);
+                color: #fff;
+                text-shadow: 0 0 30px #fff, 0 0 60px #ffaa00, 0 0 100px #ff0000;
+                filter: blur(12px);
+                animation-timing-function: ease-in;
+            }
+            15% {
+                opacity: 1;
+                transform: scale(0.9);
+                color: #fffacd; /* White hot */
+                text-shadow: 0 0 20px #ff8800, 0 0 50px #ff2200;
+                filter: blur(0px);
+                animation-timing-function: ease-out;
+            }
+            100% {
+                opacity: 0.9;
+                transform: scale(1);
+                color: #050302; /* Charred wood */
+                -webkit-text-stroke: 4px var(--team-secondary); /* Embers in team color */
+                text-shadow: 0 0 25px var(--team-secondary), 0 0 50px var(--team-primary);
+            }
+        }
+
         /* --- CANVAS LIGHTING ENGINE --- */
         #spotlight-canvas {
             position: absolute;
@@ -617,6 +667,7 @@
                 <div class="paint-area"></div>
                 
                 <img id="watermark" class="watermark-logo" src="" alt="">
+                <div id="game7-watermark"></div>
 
                 <div id="players-container"></div>
             </div>
@@ -1028,6 +1079,26 @@
             watermarkEl.classList.remove('anim-watermark');
             void watermarkEl.offsetWidth; 
             watermarkEl.classList.add('anim-watermark');
+
+            // --- THE GAME 7 BRANDING IRON BUILDER ---
+            const game7Container = document.getElementById('game7-watermark');
+            game7Container.innerHTML = '';
+            const g7Text = "GAME 7";
+            let g7Html = '';
+            
+            // The watermark finishes its bounce at 3.7s. 
+            // We start the burns here so they perfectly slam through the blackout at 4.11s.
+            let burnDelay = 3.6; 
+            for (let i = 0; i < g7Text.length; i++) {
+                if (g7Text[i] === ' ') {
+                    g7Html += `<span style="width: 35px;"></span>`;
+                } else {
+                    g7Html += `<span class="burn-letter" style="animation-delay: ${burnDelay}s;">${g7Text[i]}</span>`;
+                    burnDelay += 0.18; // Stagger letters
+                    if (g7Text[i] === 'E') burnDelay += 0.35; // Dramatic pause before 7!
+                }
+            }
+            game7Container.innerHTML = g7Html;
 
             const container = document.getElementById('players-container');
             container.innerHTML = '';
