@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NBA Starting 5 - Tactical Square</title>
+    <title>NBA Starting 5 - Game 7 Edition</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&family=Oswald:wght@500;700&family=Montserrat:ital,wght@0,800;1,900&display=swap" rel="stylesheet">
@@ -72,6 +72,19 @@
             color: var(--text-dark);
             border-top: 15px solid var(--team-primary);
             border-bottom: 15px solid var(--team-primary);
+        }
+
+        /* --- THE QUAKE EFFECT --- */
+        @keyframes arenaQuake {
+            0% { transform: translate(0, 0) scale(1); }
+            20% { transform: translate(-15px, 15px) scale(1.02); }
+            40% { transform: translate(15px, -15px) scale(1.02); }
+            60% { transform: translate(-15px, -5px) scale(1.02); }
+            80% { transform: translate(15px, 5px) scale(1.02); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        .quake-active { 
+            animation: arenaQuake 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97); 
         }
 
         .arena-glow {
@@ -296,6 +309,25 @@
             justify-content: center;
         }
 
+        /* --- SHOCKWAVE RING FOR THE SLAM --- */
+        .shockwave-ring {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 200px; height: 200px;
+            border-radius: 50%;
+            border: 12px solid var(--team-primary);
+            transform: translate(-50%, -50%) scale(0.5);
+            opacity: 0;
+            z-index: 11;
+            pointer-events: none;
+        }
+        
+        @keyframes ringExplode {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(3.5); opacity: 0; border-width: 2px; }
+        }
+        .anim-shockwave { animation: ringExplode 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
+
         .player-photo-container {
             width: 190px;  
             height: 190px; 
@@ -414,7 +446,7 @@
 
         .anim-watermark {
             animation: watermarkDropBounce 1.2s forwards;
-            animation-delay: 2.5s; /* perfectly synced to the team name */
+            animation-delay: 2.5s; 
             opacity: 0; 
         }
 
@@ -437,7 +469,6 @@
             }
         }
 
-        /* The 3D Z-Axis Drop & Bounce */
         @keyframes watermarkDropBounce {
             0% { 
                 opacity: 0; 
@@ -480,6 +511,27 @@
             35%  { left: 95%; top: -9%; opacity: 1; transform: translate(-50%, -50%); } 
             75%  { left: 15%; top: -9%; opacity: 1; transform: translate(-50%, -50%); } 
             100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); } 
+        }
+
+        /* ========================================================
+           THE GHOST EXIT (GAME 7 BENCH)
+           ======================================================== */
+           
+        @keyframes ghostExit {
+            0% { 
+                transform: translate(-50%, -15%) scale(0.75); 
+                filter: none; 
+                opacity: 1; 
+            }
+            20% { 
+                filter: grayscale(100%) sepia(100%) hue-rotate(150deg) brightness(1.5) blur(2px); 
+                opacity: 0.8; 
+            }
+            100% { 
+                transform: translate(-50%, -300px) scale(0.75); 
+                filter: grayscale(100%) sepia(100%) hue-rotate(150deg) brightness(2) blur(10px); 
+                opacity: 0; 
+            }
         }
 
         /* ========================================================
@@ -631,8 +683,10 @@
         // Dynamic hex trackers for the Canvas Engine
         let activePrimaryHex = '#ffffff';
         let activeSecondaryHex = '#ffffff';
+        
+        // 🚨 Particle Trail Memory
+        let particles = []; 
 
-        // Helper to convert hex colors to RGBA so we can dynamically fade the lighting gels
         function hexToRgba(hex, alpha) {
             hex = hex.replace('#', '');
             let r = parseInt(hex.length === 3 ? hex.slice(0, 1).repeat(2) : hex.slice(0, 2), 16);
@@ -641,7 +695,6 @@
             return `rgba(${r}, ${g}, ${b}, ${alpha})`;
         }
 
-        // Draws the pure transparent hole to reveal the court underneath
         function drawHole(ctx, x, y, innerR, outerR) {
             const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
             grad.addColorStop(0, 'rgba(0, 0, 0, 1)');       
@@ -654,7 +707,6 @@
             ctx.fill();
         }
 
-        // Overlays a rich, solid colored tint directly inside the roaming holes
         function drawColoredTint(ctx, x, y, innerR, outerR, hex) {
             const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
             grad.addColorStop(0, hexToRgba(hex, 0.65));       
@@ -667,13 +719,12 @@
             ctx.fill();
         }
 
-        // Puts a beautiful, two-tone colored halo exactly on the soft shadow of the main spotlight
         function drawMainHalo(ctx, x, y, innerR, outerR, color1, color2) {
             const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
-            grad.addColorStop(0, 'rgba(0, 0, 0, 0)'); // Inner core stays totally clear       
-            grad.addColorStop(0.15, hexToRgba(color1, 0.65)); // Bright primary edge
-            grad.addColorStop(0.6, hexToRgba(color2, 0.45)); // Transitions to secondary
-            grad.addColorStop(1, 'rgba(0, 0, 0, 0)'); // Fades cleanly into the darkness
+            grad.addColorStop(0, 'rgba(0, 0, 0, 0)'); 
+            grad.addColorStop(0.15, hexToRgba(color1, 0.65)); 
+            grad.addColorStop(0.6, hexToRgba(color2, 0.45)); 
+            grad.addColorStop(1, 'rgba(0, 0, 0, 0)'); 
             ctx.fillStyle = grad;
             ctx.beginPath();
             ctx.arc(x, y, outerR, 0, Math.PI * 2);
@@ -700,6 +751,20 @@
                 
                 targetX = (targetRect.left + targetRect.width / 2) - captureArea.left;
                 targetY = (targetRect.top + targetRect.height / 2) - captureArea.top;
+                
+                // 🚨 Spawn Fire Particles while running the gauntlet
+                if (Math.random() > 0.2) {
+                    for(let i=0; i<3; i++) {
+                        particles.push({
+                            x: targetX + (Math.random() * 80 - 40), // Spawns around the player
+                            y: targetY + (Math.random() * 80 - 40),
+                            vx: (Math.random() * 3 - 1.5), // Drifts left/right
+                            vy: (Math.random() * -3) - 1, // Drifts up like smoke
+                            life: 1.0,
+                            color: Math.random() > 0.5 ? activePrimaryHex : activeSecondaryHex
+                        });
+                    }
+                }
             }
             
             currentSpotX += (targetX - currentSpotX) * 0.1;
@@ -741,6 +806,23 @@
             // Apply the two-tone glow to the edges of the main tracking spotlight
             drawMainHalo(ctx, currentSpotX, currentSpotY, currentInnerR, currentOuterR, activePrimaryHex, activeSecondaryHex);
             
+            // 🚨 4. Paint the glowing particle trails over top
+            ctx.globalCompositeOperation = 'screen';
+            for (let i = particles.length - 1; i >= 0; i--) {
+                let p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.life -= 0.02; // Fade out slowly
+                if (p.life <= 0) {
+                    particles.splice(i, 1);
+                    continue;
+                }
+                ctx.fillStyle = hexToRgba(p.color, p.life * 0.85); // Glow gets dimmer
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 5 + (p.life * 8), 0, Math.PI * 2); // Shrink as they die
+                ctx.fill();
+            }
+
             requestAnimationFrame(renderSpotlights);
         }
 
@@ -927,6 +1009,7 @@
             trackingSpotlight = false;
             spotlightWiden = false;
             activePlayerIndex = -1;
+            particles = []; // Wipe the embers on reset
             if (roamingInterval) clearInterval(roamingInterval);
             const captureArea = document.getElementById('capture-area');
             if (captureArea) captureArea.classList.remove('lights-out-mode');
@@ -1058,6 +1141,7 @@
                     <div class="player-node starter-node" style="animation: runGauntlet 3s forwards; animation-delay: ${runStart}s; --final-x: ${coords.x}%; --final-y: ${coords.y}%;">
                         <div class="cinematic-wrapper ${chosenAnimation}" style="animation-delay: ${baseDelay}s;">
                             <div class="photo-wrapper">
+                                <div id="shockwave-${index}" class="shockwave-ring"></div>
                                 <div class="player-position">${pos}</div>
                                 ${jerseyNum ? `<div class="player-number">${jerseyNum}</div>` : ''}
                                 <div class="player-photo-container">
@@ -1072,9 +1156,23 @@
                 `;
                 container.insertAdjacentHTML('beforeend', html);
 
+                // --- TRACKING & SHOCKWAVE TRIGGERS ---
+                // Spotlight tracks them exactly as their run begins
                 setTimeout(() => {
                     activePlayerIndex = index;
                 }, runStart * 1000);
+                
+                // Trigger the Quake and Shockwave exactly when their cinematic slam hits the floor
+                setTimeout(() => {
+                    const captureArea = document.getElementById('capture-area');
+                    captureArea.classList.remove('quake-active');
+                    void captureArea.offsetWidth;
+                    captureArea.classList.add('quake-active');
+
+                    const shockwave = document.getElementById(`shockwave-${index}`);
+                    if (shockwave) shockwave.classList.add('anim-shockwave');
+                }, (baseDelay + 0.75) * 1000); // 0.75s is the duration of the cinematic animations
+
             });
 
             // --- TRIGGER THE ARENA LIGHTS OFF AT 4.11s ---
@@ -1101,21 +1199,21 @@
                 activePlayerIndex = -1; 
             }, 43500);
 
-            // --- THE BENCH SCATTERS OFF SCREEN (41.2s) ---
+            // --- THE GAME 7 GHOST EXIT (44.2s) ---
             setTimeout(() => {
                 const benchNodes = document.querySelectorAll('.bench-node');
                 
-                Array.from(benchNodes).reverse().forEach((node, idx) => {
+                Array.from(benchNodes).forEach((node, idx) => {
                     node.style.animation = 'none'; 
-                    node.style.transform = 'translate(-50%, 0%) scale(0.75)'; 
+                    node.style.transform = 'translate(-50%, -15%) scale(0.75)'; 
                     void node.offsetWidth; 
                     
-                    node.style.transition = `left 0.8s cubic-bezier(0.5, 0, 0.1, 1) ${idx * 0.08}s`;
-                    node.style.left = '150%'; 
+                    // The bench players dissolve into cyan ghosts and float away
+                    node.style.animation = `ghostExit 2.5s ease-in ${idx * 0.15}s forwards`;
                 });
             }, 44200); 
 
-            // --- TRIGGER THE ARENA LIGHTS ON AT 42.5s ---
+            // --- TRIGGER THE ARENA LIGHTS ON AT 44.5s ---
             setTimeout(() => {
                 if (captureArea) captureArea.classList.remove('lights-out-mode');
                 trackingSpotlight = false; 
