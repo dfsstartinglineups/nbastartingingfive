@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 02, 12:24 AM ET",
+  "last_updated": "May 02, 12:26 AM ET",
   "player_news": [],
   "espn_schedule": {
     "leagues": [
@@ -1431,7 +1431,7 @@
       {
         "id": "401869384",
         "uid": "s:40~l:46~e:401869384",
-        "date": "2026-05-03T04:00Z",
+        "date": "2026-05-03T23:30Z",
         "name": "Toronto Raptors at Cleveland Cavaliers",
         "shortName": "TOR @ CLE",
         "season": {
@@ -1443,13 +1443,13 @@
           {
             "id": "401869384",
             "uid": "s:40~l:46~e:401869384~c:401869384",
-            "date": "2026-05-03T04:00Z",
+            "date": "2026-05-03T23:30Z",
             "attendance": 0,
             "type": {
               "id": "14",
               "abbreviation": "RD16"
             },
-            "timeValid": false,
+            "timeValid": true,
             "neutralSite": false,
             "conferenceCompetition": false,
             "playByPlayAvailable": false,
@@ -1628,6 +1628,24 @@
                   }
                 ],
                 "record": "3-3",
+                "records": [
+                  {
+                    "name": "overall",
+                    "abbreviation": "Total",
+                    "type": "total",
+                    "summary": "52-30"
+                  },
+                  {
+                    "name": "Home",
+                    "type": "home",
+                    "summary": "27-14"
+                  },
+                  {
+                    "name": "Road",
+                    "type": "road",
+                    "summary": "25-16"
+                  }
+                ],
                 "leaders": [
                   {
                     "name": "pointsPerGame",
@@ -1788,24 +1806,6 @@
                         }
                       }
                     ]
-                  }
-                ],
-                "records": [
-                  {
-                    "name": "overall",
-                    "abbreviation": "Total",
-                    "type": "total",
-                    "summary": "52-30"
-                  },
-                  {
-                    "name": "Home",
-                    "type": "home",
-                    "summary": "27-14"
-                  },
-                  {
-                    "name": "Road",
-                    "type": "road",
-                    "summary": "25-16"
                   }
                 ]
               },
@@ -2175,7 +2175,15 @@
                 "shortDetail": "5/3 - 7:30 PM EDT"
               }
             },
-            "broadcasts": [],
+            "broadcasts": [
+              {
+                "market": "national",
+                "names": [
+                  "NBC",
+                  "Peacock"
+                ]
+              }
+            ],
             "format": {
               "regulation": {
                 "periods": 4
@@ -2183,8 +2191,8 @@
             },
             "tickets": [
               {
-                "summary": "Tickets as low as $72",
-                "numberAvailable": 1178,
+                "summary": "Tickets as low as $76",
+                "numberAvailable": 1623,
                 "links": [
                   {
                     "href": "https://www.vividseats.com/cleveland-cavaliers-tickets-cleveland-rocket-arena-5-2-2026/production/6647089?wsUser=717"
@@ -2195,7 +2203,7 @@
                 ]
               }
             ],
-            "startDate": "2026-05-03T04:00Z",
+            "startDate": "2026-05-03T23:30Z",
             "series": {
               "type": "playoff",
               "title": "Playoff Series",
@@ -2219,8 +2227,39 @@
                 }
               ]
             },
-            "broadcast": "",
-            "geoBroadcasts": [],
+            "broadcast": "NBC/Peacock",
+            "geoBroadcasts": [
+              {
+                "type": {
+                  "id": "1",
+                  "shortName": "TV"
+                },
+                "market": {
+                  "id": "1",
+                  "type": "National"
+                },
+                "media": {
+                  "shortName": "NBC"
+                },
+                "lang": "en",
+                "region": "us"
+              },
+              {
+                "type": {
+                  "id": "4",
+                  "shortName": "Streaming"
+                },
+                "market": {
+                  "id": "1",
+                  "type": "National"
+                },
+                "media": {
+                  "shortName": "Peacock"
+                },
+                "lang": "en",
+                "region": "us"
+              }
+            ],
             "odds": [
               {
                 "provider": {
