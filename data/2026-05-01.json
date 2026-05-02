@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 01, 10:28 PM ET",
+  "last_updated": "May 01, 10:30 PM ET",
   "player_news": [
     {
       "player_name": "Tobias Harris",
@@ -9,7 +9,7 @@
       "description": "Playing left ankle sprain",
       "time_elapsed": "4.5h",
       "next_game": "Friday @ORL",
-      "local_timestamp": 1777688975.2712028
+      "local_timestamp": 1777689093.5009313
     },
     {
       "player_name": "Brandon Ingram",
@@ -17,9 +17,9 @@
       "position": "SF",
       "status_badge": "OUT",
       "description": "Out right heel inflammation",
-      "time_elapsed": "4.5h",
+      "time_elapsed": "4.6h",
       "next_game": "Friday vs CLE",
-      "local_timestamp": 1777688975.2702029
+      "local_timestamp": 1777689093.4999313
     },
     {
       "player_name": "Luke Kennard",
@@ -27,7 +27,7 @@
       "position": "SG",
       "status_badge": "B",
       "description": "Off the ench",
-      "time_elapsed": "1.2h",
+      "time_elapsed": "1.3h",
       "next_game": "Friday @HOU",
       "local_timestamp": 1777684541.5433364
     },
@@ -37,7 +37,7 @@
       "position": "SG",
       "status_badge": "S",
       "description": "tarting",
-      "time_elapsed": "1.2h",
+      "time_elapsed": "1.3h",
       "next_game": "Friday @HOU",
       "local_timestamp": 1777684541.5423365
     },
@@ -47,7 +47,7 @@
       "position": "PF",
       "status_badge": "OUT",
       "description": "Out left knee sprain",
-      "time_elapsed": "5.7h",
+      "time_elapsed": "5.8h",
       "next_game": "Friday vs DET",
       "local_timestamp": 1777675072.069429
     },
@@ -1723,6 +1723,7 @@
                 "type": "team",
                 "order": 0,
                 "homeAway": "home",
+                "winner": true,
                 "team": {
                   "id": "28",
                   "uid": "s:40~l:46~t:28",
@@ -2057,7 +2058,7 @@
                     ]
                   }
                 ],
-                "record": "2-3",
+                "record": "3-3",
                 "records": [
                   {
                     "name": "overall",
@@ -2083,6 +2084,7 @@
                 "type": "team",
                 "order": 1,
                 "homeAway": "away",
+                "winner": false,
                 "team": {
                   "id": "5",
                   "uid": "s:40~l:46~t:5",
@@ -2417,7 +2419,7 @@
                     ]
                   }
                 ],
-                "record": "3-2",
+                "record": "3-3",
                 "records": [
                   {
                     "name": "overall",
@@ -2444,34 +2446,19 @@
                 "headline": "East 1st Round - Game 6"
               }
             ],
-            "situation": {
-              "lastPlay": {
-                "id": "401869381767",
-                "type": {
-                  "id": "412",
-                  "text": "End Period"
-                },
-                "text": "End of the 1st  Overtime",
-                "scoreValue": 0,
-                "probability": {
-                  "tiePercentage": 0.0,
-                  "homeWinPercentage": 1.0,
-                  "awayWinPercentage": 0.0
-                }
-              }
-            },
             "status": {
               "clock": 0.0,
               "displayClock": "0.0",
               "period": 5,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
-                "state": "in",
-                "completed": false,
-                "description": "End of Period",
-                "detail": "End of OT",
-                "shortDetail": "End of OT"
+                "id": "3",
+                "name": "STATUS_FINAL",
+                "state": "post",
+                "completed": true,
+                "description": "Final",
+                "detail": "Final/OT",
+                "shortDetail": "Final/OT",
+                "altDetail": "OT"
               }
             },
             "broadcasts": [
@@ -2491,14 +2478,14 @@
             "series": {
               "type": "playoff",
               "title": "Playoff Series",
-              "summary": "CLE leads series 3-2",
+              "summary": "Series tied 3-3",
               "completed": false,
               "totalCompetitions": 7,
               "competitors": [
                 {
                   "id": "28",
                   "uid": "s:40~l:46~t:28",
-                  "wins": 2,
+                  "wins": 3,
                   "ties": 0,
                   "href": "http://sports.core.api.espn.pvt/v2/sports/basketball/leagues/nba/seasons/2026/teams/28?lang=en&region=us"
                 },
@@ -2536,11 +2523,11 @@
           {
             "language": "en-US",
             "rel": [
-              "live",
+              "summary",
               "desktop",
               "event"
             ],
-            "href": "https://www.espn.com/nba/game?gameId=401869381",
+            "href": "https://www.espn.com/nba/game/_/gameId/401869381/cavaliers-raptors",
             "text": "Gamecast",
             "shortText": "Gamecast",
             "isExternal": false,
@@ -2556,6 +2543,18 @@
             "href": "https://www.espn.com/nba/boxscore/_/gameId/401869381",
             "text": "Box Score",
             "shortText": "Box Score",
+            "isExternal": false,
+            "isPremium": false
+          },
+          {
+            "language": "en-US",
+            "rel": [
+              "highlights",
+              "desktop"
+            ],
+            "href": "https://www.espn.com/nba/video?gameId=401869381",
+            "text": "Highlights",
+            "shortText": "Highlights",
             "isExternal": false,
             "isPremium": false
           },
@@ -2578,13 +2577,14 @@
           "displayClock": "0.0",
           "period": 5,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
-            "state": "in",
-            "completed": false,
-            "description": "End of Period",
-            "detail": "End of OT",
-            "shortDetail": "End of OT"
+            "id": "3",
+            "name": "STATUS_FINAL",
+            "state": "post",
+            "completed": true,
+            "description": "Final",
+            "detail": "Final/OT",
+            "shortDetail": "Final/OT",
+            "altDetail": "OT"
           }
         }
       },
@@ -2692,7 +2692,7 @@
                   ],
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/hou.png"
                 },
-                "score": "19",
+                "score": "21",
                 "linescores": [
                   {
                     "value": 18.0,
@@ -2724,7 +2724,7 @@
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "28"
+                    "displayValue": "30"
                   },
                   {
                     "name": "fieldGoalsMade",
@@ -2734,7 +2734,7 @@
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "25.0"
+                    "displayValue": "23.3"
                   },
                   {
                     "name": "freeThrowPct",
@@ -2915,13 +2915,13 @@
                     "abbreviation": "RAT",
                     "leaders": [
                       {
-                        "displayValue": "7 PTS",
-                        "value": 10.899999618530273,
+                        "displayValue": "6 REB",
+                        "value": 10.199999809265137,
                         "athlete": {
-                          "id": "4433192",
-                          "fullName": "Tari Eason",
-                          "displayName": "Tari Eason",
-                          "shortName": "T. Eason",
+                          "id": "4871144",
+                          "fullName": "Alperen Sengun",
+                          "displayName": "Alperen Sengun",
+                          "shortName": "A. Sengun",
                           "links": [
                             {
                               "rel": [
@@ -2929,13 +2929,13 @@
                                 "desktop",
                                 "athlete"
                               ],
-                              "href": "https://www.espn.com/nba/player/_/id/4433192/tari-eason"
+                              "href": "https://www.espn.com/nba/player/_/id/4871144/alperen-sengun"
                             }
                           ],
-                          "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4433192.png",
-                          "jersey": "17",
+                          "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4871144.png",
+                          "jersey": "28",
                           "position": {
-                            "abbreviation": "F"
+                            "abbreviation": "C"
                           },
                           "team": {
                             "id": "10"
@@ -3054,12 +3054,12 @@
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "20"
+                    "displayValue": "22"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "20.0"
+                    "displayValue": "22.0"
                   },
                   {
                     "name": "assists",
@@ -3069,17 +3069,17 @@
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "31"
+                    "displayValue": "32"
                   },
                   {
                     "name": "fieldGoalsMade",
                     "abbreviation": "FGM",
-                    "displayValue": "14"
+                    "displayValue": "15"
                   },
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "45.2"
+                    "displayValue": "46.9"
                   },
                   {
                     "name": "freeThrowPct",
@@ -3099,7 +3099,7 @@
                   {
                     "name": "points",
                     "abbreviation": "PTS",
-                    "displayValue": "36"
+                    "displayValue": "38"
                   },
                   {
                     "name": "threePointPct",
@@ -3119,7 +3119,7 @@
                   {
                     "name": "avgPoints",
                     "abbreviation": "PTS",
-                    "displayValue": "36.0"
+                    "displayValue": "38.0"
                   },
                   {
                     "name": "avgAssists",
@@ -3140,8 +3140,8 @@
                     "abbreviation": "Pts",
                     "leaders": [
                       {
-                        "displayValue": "11",
-                        "value": 11.0,
+                        "displayValue": "13",
+                        "value": 13.0,
                         "athlete": {
                           "id": "1966",
                           "fullName": "LeBron James",
@@ -3180,8 +3180,8 @@
                     "abbreviation": "Reb",
                     "leaders": [
                       {
-                        "displayValue": "4",
-                        "value": 4.0,
+                        "displayValue": "5",
+                        "value": 5.0,
                         "athlete": {
                           "id": "4278129",
                           "fullName": "Deandre Ayton",
@@ -3260,8 +3260,8 @@
                     "abbreviation": "RAT",
                     "leaders": [
                       {
-                        "displayValue": "11 PTS",
-                        "value": 21.899999618530273,
+                        "displayValue": "13 PTS",
+                        "value": 24.200000762939453,
                         "athlete": {
                           "id": "1966",
                           "fullName": "LeBron James",
@@ -3323,27 +3323,27 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401869409220",
+                "id": "401869409232",
                 "type": {
-                  "id": "155",
-                  "text": "Defensive Rebound"
+                  "id": "45",
+                  "text": "Personal Foul"
                 },
-                "text": "LeBron James defensive rebound",
+                "text": "Deandre Ayton personal foul",
                 "scoreValue": 0,
                 "team": {
                   "id": "13"
                 },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.134,
-                  "awayWinPercentage": 0.866
+                  "homeWinPercentage": 0.112,
+                  "awayWinPercentage": 0.888
                 },
                 "athletesInvolved": [
                   {
-                    "id": "1966",
-                    "fullName": "LeBron James",
-                    "displayName": "LeBron James",
-                    "shortName": "L. James",
+                    "id": "4278129",
+                    "fullName": "Deandre Ayton",
+                    "displayName": "Deandre Ayton",
+                    "shortName": "D. Ayton",
                     "links": [
                       {
                         "rel": [
@@ -3351,12 +3351,12 @@
                           "desktop",
                           "athlete"
                         ],
-                        "href": "https://www.espn.com/nba/player/_/id/1966/lebron-james"
+                        "href": "https://www.espn.com/nba/player/_/id/4278129/deandre-ayton"
                       }
                     ],
-                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/1966.png",
-                    "jersey": "23",
-                    "position": "F",
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4278129.png",
+                    "jersey": "5",
+                    "position": "C",
                     "team": {
                       "id": "13"
                     }
@@ -3365,8 +3365,8 @@
               }
             },
             "status": {
-              "clock": 479.0,
-              "displayClock": "7:59",
+              "clock": 422.0,
+              "displayClock": "7:02",
               "period": 2,
               "type": {
                 "id": "2",
@@ -3374,8 +3374,8 @@
                 "state": "in",
                 "completed": false,
                 "description": "In Progress",
-                "detail": "7:59 - 2nd Quarter",
-                "shortDetail": "7:59 - 2nd"
+                "detail": "7:02 - 2nd Quarter",
+                "shortDetail": "7:02 - 2nd"
               }
             },
             "broadcasts": [
@@ -3478,8 +3478,8 @@
           }
         ],
         "status": {
-          "clock": 479.0,
-          "displayClock": "7:59",
+          "clock": 422.0,
+          "displayClock": "7:02",
           "period": 2,
           "type": {
             "id": "2",
@@ -3487,8 +3487,8 @@
             "state": "in",
             "completed": false,
             "description": "In Progress",
-            "detail": "7:59 - 2nd Quarter",
-            "shortDetail": "7:59 - 2nd"
+            "detail": "7:02 - 2nd Quarter",
+            "shortDetail": "7:02 - 2nd"
           }
         }
       }
