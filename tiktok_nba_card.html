@@ -297,8 +297,14 @@
                 opacity: 0.9;
                 transform: scale(1);
                 color: #050302; /* Charred wood */
-                -webkit-text-stroke: 4px var(--team-secondary); /* Embers in team color */
-                text-shadow: 0 0 25px var(--team-secondary), 0 0 50px var(--team-primary);
+                /* Buggy text-stroke removed. Replaced with sharp outer ember shadows! */
+                text-shadow: 
+                    -2px -2px 0 var(--team-secondary),
+                     2px -2px 0 var(--team-secondary),
+                    -2px  2px 0 var(--team-secondary),
+                     2px  2px 0 var(--team-secondary),
+                     0 0 25px var(--team-secondary), 
+                     0 0 50px var(--team-primary);
             }
         }
 
