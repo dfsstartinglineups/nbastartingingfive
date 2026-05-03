@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 02, 08:51 PM ET",
+  "last_updated": "May 02, 08:54 PM ET",
   "player_news": [
     {
       "player_name": "Joel Embiid",
@@ -7,9 +7,9 @@
       "position": "C",
       "status_badge": "IN",
       "description": "Playing post appendectomy surgery recovery",
-      "time_elapsed": "1.9h",
+      "time_elapsed": "2.0h",
       "next_game": "Saturday @BOS",
-      "local_timestamp": 1777769542.8308804
+      "local_timestamp": 1777769726.750808
     },
     {
       "player_name": "Paul George",
@@ -17,9 +17,9 @@
       "position": "SF",
       "status_badge": "IN",
       "description": "Playing illness",
-      "time_elapsed": "2.1h",
+      "time_elapsed": "2.2h",
       "next_game": "Saturday @BOS",
-      "local_timestamp": 1777769542.8298805
+      "local_timestamp": 1777769726.749808
     },
     {
       "player_name": "Jayson Tatum",
@@ -27,9 +27,9 @@
       "position": "PF",
       "status_badge": "OUT",
       "description": "Out left knee stiffness",
-      "time_elapsed": "3.1h",
+      "time_elapsed": "3.2h",
       "next_game": "Saturday vs PHI",
-      "local_timestamp": 1777769542.8288803
+      "local_timestamp": 1777769726.748808
     },
     {
       "player_name": "Tyrese Maxey",
@@ -422,7 +422,7 @@
                   ],
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/bos.png"
                 },
-                "score": "50",
+                "score": "52",
                 "linescores": [
                   {
                     "value": 19.0,
@@ -433,6 +433,11 @@
                     "value": 31.0,
                     "displayValue": "31",
                     "period": 2
+                  },
+                  {
+                    "value": 2.0,
+                    "displayValue": "2",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -778,6 +783,11 @@
                     "value": 23.0,
                     "displayValue": "23",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -991,7 +1001,7 @@
                     "leaders": [
                       {
                         "displayValue": "19 PTS",
-                        "value": 35.650001525878906,
+                        "value": 34.25,
                         "athlete": {
                           "id": "3059318",
                           "fullName": "Joel Embiid",
@@ -1053,32 +1063,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401869412318",
+                "id": "401869412323",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "584",
+                  "text": "Substitution"
                 },
-                "text": "End of the 2nd Quarter",
+                "text": "Kelly Oubre Jr. enters the game for Quentin Grimes",
                 "scoreValue": 0,
+                "team": {
+                  "id": "20"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
                   "homeWinPercentage": 0.516,
                   "awayWinPercentage": 0.484
-                }
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "3133603",
+                    "fullName": "Kelly Oubre Jr.",
+                    "displayName": "Kelly Oubre Jr.",
+                    "shortName": "K. Oubre Jr.",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/3133603/kelly-oubre-jr"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/3133603.png",
+                    "jersey": "9",
+                    "position": "G",
+                    "team": {
+                      "id": "20"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 2,
+              "clock": 697.0,
+              "displayClock": "11:37",
+              "period": 3,
               "type": {
-                "id": "23",
-                "name": "STATUS_HALFTIME",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "Halftime",
-                "detail": "Halftime",
-                "shortDetail": "Halftime"
+                "description": "In Progress",
+                "detail": "11:37 - 3rd Quarter",
+                "shortDetail": "11:37 - 3rd"
               }
             },
             "broadcasts": [
@@ -1197,17 +1234,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 2,
+          "clock": 697.0,
+          "displayClock": "11:37",
+          "period": 3,
           "type": {
-            "id": "23",
-            "name": "STATUS_HALFTIME",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "Halftime",
-            "detail": "Halftime",
-            "shortDetail": "Halftime"
+            "description": "In Progress",
+            "detail": "11:37 - 3rd Quarter",
+            "shortDetail": "11:37 - 3rd"
           }
         }
       }
