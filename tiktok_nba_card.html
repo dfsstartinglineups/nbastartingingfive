@@ -274,11 +274,16 @@
             font-weight: 900;
             font-style: italic;
             font-size: 110px;
-            color: #FFE81F; /* Star Wars Yellow */
-            -webkit-text-stroke: 3px #cfa800;
+            color: #FFE81F; 
             letter-spacing: 10px;
             margin-top: 10px;
-            text-shadow: 0 0 30px rgba(255, 232, 31, 0.8);
+            /* Bug-free crisp outline faked via multi-shadows! */
+            text-shadow: 
+                -3px -3px 0 #cfa800,
+                 3px -3px 0 #cfa800,
+                -3px  3px 0 #cfa800,
+                 3px  3px 0 #cfa800,
+                 0 0 30px rgba(255, 232, 31, 0.8);
         }
 
         @keyframes starWarsCrawl {
@@ -338,24 +343,21 @@
         }
 
         /* Lightsaber CSS */
-        .lightsaber {
+        .saber-blue { background: #fff; box-shadow: 0 0 10px #00aaff, 0 0 20px #00aaff, 0 0 30px #00aaff; }
+        .saber-red { background: #fff; box-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000; }
+        .saber-yellow { background: #fff; box-shadow: 0 0 10px #ffea00, 0 0 20px #ffea00, 0 0 30px #ffea00; }
+        .saber-purple { background: #fff; box-shadow: 0 0 10px #aa00ff, 0 0 20px #aa00ff, 0 0 30px #aa00ff; }
+        
+        .lightsaber-bench {
             position: absolute;
-            top: 20px;
+            bottom: -24px; /* Perfectly aligned to center-top of nameplate */
+            left: 50%;
             width: 6px;
-            height: 90px;
+            height: 150px; 
             border-radius: 4px;
             transform-origin: bottom center;
-            z-index: 15; /* Front of player */
-        }
-        .saber-left { left: -5px; }
-        .saber-right { right: -5px; }
-        .saber-blue { 
-            background: #fff; 
-            box-shadow: 0 0 10px #00aaff, 0 0 20px #00aaff, 0 0 30px #00aaff; 
-        }
-        .saber-red { 
-            background: #fff; 
-            box-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000; 
+            z-index: 15; 
+            margin-left: -3px; /* Center perfectly horizontally */
         }
         
         @keyframes saberDuelLeft {
@@ -367,10 +369,36 @@
             50% { transform: rotate(-70deg); }
         }
 
+        /* Starter Sabers (Ignite smoothly after materialization) */
+        .lightsaber-starter {
+            position: absolute;
+            bottom: -24px;
+            left: 50%;
+            width: 8px;
+            height: 170px;
+            border-radius: 4px;
+            transform-origin: bottom center;
+            z-index: 15;
+            margin-left: -4px;
+            transform: scaleY(0) rotate(25deg); /* Default off and permanently tilted */
+            opacity: 0;
+        }
+
+        @keyframes igniteSaber {
+            0% { transform: scaleY(0) rotate(25deg); opacity: 0; }
+            5% { opacity: 1; }
+            100% { transform: scaleY(1) rotate(25deg); opacity: 1; }
+        }
+        .anim-ignite {
+            animation: igniteSaber 0.4s ease-out forwards;
+        }
+
         /* --- STARTER BASE --- */
         .starter-node {
             opacity: 0; 
             z-index: 10;
+            left: var(--final-x); 
+            top: var(--final-y);
         }
 
         .cinematic-wrapper {
@@ -385,14 +413,22 @@
             justify-content: center;
         }
 
-        /* --- JEDI HOLOGRAM FILTER --- */
+        /* --- JEDI HOLOGRAM FILTER & R2 SCANLINES --- */
+        @keyframes glitchIn {
+            0% { opacity: 0; filter: blur(15px) contrast(2); transform: scale(1.1); }
+            10% { opacity: 1; filter: blur(5px) contrast(3); transform: scale(1.05); }
+            20% { opacity: 0.5; filter: blur(8px) contrast(1.5); }
+            30% { opacity: 1; filter: blur(2px) contrast(2); transform: scale(1); }
+            100% { opacity: 1; filter: blur(0) contrast(1); transform: scale(1); }
+        }
+        .anim-glitch-in {
+            animation: glitchIn 0.8s steps(8) forwards; 
+        }
+
         .hologram-fx {
             filter: sepia(100%) hue-rotate(150deg) saturate(300%) brightness(1.5) contrast(1.2);
-            opacity: 0.8;
             position: relative;
-            transition: all 0.5s ease;
         }
-        /* The Hologram Scanlines */
         .hologram-fx::after {
             content: "";
             position: absolute;
@@ -407,35 +443,42 @@
             );
             pointer-events: none;
             z-index: 15;
-            transition: opacity 0.5s ease;
         }
 
-        .hologram-resolved {
-            filter: none !important;
-            opacity: 1 !important;
-        }
-        .hologram-resolved::after {
-            opacity: 0 !important;
-        }
-
-        /* --- SHOCKWAVE RING FOR THE SLAM --- */
-        .shockwave-ring {
+        /* The Full Color Overlay - Masked out until wipe */
+        .reveal-mask {
             position: absolute;
-            top: 50%; left: 50%;
-            width: 200px; height: 200px;
-            border-radius: 50%;
-            border: 12px solid var(--team-primary);
-            transform: translate(-50%, -50%) scale(0.5);
+            top: 0; left: 0;
+            clip-path: inset(0 0 100% 0);
+            z-index: 13;
+        }
+        @keyframes wipeDown {
+            0% { clip-path: inset(0 0 100% 0); }
+            100% { clip-path: inset(0 0 0 0); }
+        }
+        .anim-wipe {
+            animation: wipeDown 1.5s linear forwards;
+        }
+
+        /* The Neon R2-D2 Sweep Line */
+        .artoo-scanline {
+            position: absolute;
+            top: 0; left: 0; 
+            width: 100%; height: 6px;
+            background: #fff;
+            box-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 30px #0ff;
+            z-index: 14;
             opacity: 0;
-            z-index: 11;
-            pointer-events: none;
+            border-radius: 50%; /* Curve the edges over the circular photo */
         }
-        
-        @keyframes ringExplode {
-            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(3.5); opacity: 0; border-width: 2px; }
+        @keyframes scanBar {
+            0% { top: 0%; opacity: 1; }
+            95% { top: 100%; opacity: 1; }
+            100% { top: 100%; opacity: 0; }
         }
-        .anim-shockwave { animation: ringExplode 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
+        .anim-scan {
+            animation: scanBar 1.5s linear forwards;
+        }
 
         .player-photo-container {
             width: 190px;  
@@ -485,7 +528,7 @@
             font-family: 'Teko', sans-serif;
             font-size: 28px; 
             font-weight: bold;
-            z-index: 15;
+            z-index: 16; /* Pushed up over lightsabers */
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
 
@@ -505,7 +548,7 @@
             font-family: 'Teko', sans-serif;
             font-size: 30px; 
             font-weight: bold;
-            z-index: 15;
+            z-index: 16;
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
 
@@ -585,36 +628,6 @@
             0% { transform: translate(-50%, -15%) rotate(0deg) scale(0.75); opacity: 1; }
             100% { transform: translate(150%, -50%) rotate(720deg) scale(0.5); opacity: 0; }
         }
-
-        /* ========================================================
-           THE HYPERSPACE ENTRANCE
-           ======================================================== */
-
-        @keyframes hyperspaceDrop {
-            0% { 
-                left: 50%; top: 50%;
-                transform: translate(-50%, -50%) scale(0.01); 
-                filter: blur(20px) brightness(4); 
-                opacity: 0; 
-            }
-            15% { 
-                left: 50%; top: 50%;
-                transform: translate(-50%, -50%) scale(2.5) scaleY(4); 
-                filter: blur(5px) brightness(3); 
-                opacity: 1; 
-            }
-            20% {
-                left: var(--final-x); top: var(--final-y);
-                transform: translate(-50%, -50%) scale(1.2);
-                filter: blur(0) brightness(2);
-            }
-            100% { 
-                left: var(--final-x); top: var(--final-y);
-                transform: translate(-50%, -50%) scale(1); 
-                opacity: 1; 
-            }
-        }
-        .anim-hyperspace { animation: hyperspaceDrop 1s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
 
     </style>
 </head>
@@ -1119,7 +1132,6 @@
                 
                 // Jedi vs Sith assignments
                 const saberColor = index % 2 === 0 ? 'saber-blue' : 'saber-red';
-                const saberPosClass = index % 2 === 0 ? 'saber-left' : 'saber-right';
                 const saberAnim = index % 2 === 0 ? 'saberDuelLeft' : 'saberDuelRight';
                 const saberSpeed = (0.5 + Math.random() * 0.5).toFixed(2);
 
@@ -1127,7 +1139,7 @@
                     <div class="player-node bench-node" style="left: ${benchX}%; top: -15%; animation: benchJump ${jumpSpeed}s infinite ease-in-out; animation-delay: ${jumpOffset}s;">
                         <div class="cinematic-wrapper">
                             <div class="photo-wrapper">
-                                <div class="lightsaber ${saberColor} ${saberPosClass}" style="animation: ${saberAnim} ${saberSpeed}s infinite alternate ease-in-out;"></div>
+                                <div class="lightsaber-bench ${saberColor}" style="animation: ${saberAnim} ${saberSpeed}s infinite alternate ease-in-out;"></div>
                                 
                                 <div class="player-photo-container">
                                     ${photoHtml}
@@ -1142,7 +1154,7 @@
                 container.insertAdjacentHTML('beforeend', html);
             });
 
-            // 2. RENDER THE STARTERS VIA HYPERSPACE
+            // 2. RENDER THE STARTERS VIA GLITCH AND SCAN
             const tagEl = document.getElementById('starting-tag');
             tagEl.textContent = "STARTING 5";
             tagEl.style.color = "var(--text-dark)";
@@ -1151,6 +1163,8 @@
             tagEl.classList.remove('anim-header-tag');
             void tagEl.offsetWidth; 
             tagEl.classList.add('anim-header-tag');
+
+            const STARTER_SABERS = ['saber-red', 'saber-blue', 'saber-yellow', 'saber-red', 'saber-purple'];
 
             starters.forEach((player, index) => {
                 const pos = POSITIONS[index];
@@ -1169,20 +1183,26 @@
 
                 const delays = [10.93, 18.15, 26.17, 33.72, 40.87]; 
                 const baseDelay = delays[index]; 
-                
-                const runStart = baseDelay - 0.95; // Takes roughly 1 second to drop out of hyperspace
 
                 const html = `
-                    <div class="player-node starter-node anim-hyperspace" style="animation-delay: ${runStart}s; --final-x: ${coords.x}%; --final-y: ${coords.y}%;">
+                    <div class="player-node starter-node anim-glitch-in" style="animation-delay: ${baseDelay - 0.8}s; --final-x: ${coords.x}%; --final-y: ${coords.y}%;">
                         <div class="cinematic-wrapper">
                             <div class="photo-wrapper">
-                                <div id="shockwave-${index}" class="shockwave-ring"></div>
+                                
+                                <div id="saber-${index}" class="lightsaber-starter ${STARTER_SABERS[index]}"></div>
+
                                 <div class="player-position">${pos}</div>
                                 ${jerseyNum ? `<div class="player-number">${jerseyNum}</div>` : ''}
                                 
-                                <div id="starter-photo-${index}" class="player-photo-container hologram-fx">
+                                <div class="player-photo-container hologram-fx">
                                     ${photoHtml}
                                 </div>
+
+                                <div id="reveal-${index}" class="player-photo-container reveal-mask">
+                                    ${photoHtml}
+                                </div>
+                                
+                                <div id="scanline-${index}" class="artoo-scanline"></div>
                             </div>
                             <div class="nameplate-wrapper">
                                 <div class="player-nameplate">${displayName}</div>
@@ -1192,28 +1212,32 @@
                 `;
                 container.insertAdjacentHTML('beforeend', html);
 
-                // --- TRACKING & SHOCKWAVE TRIGGERS ---
-                // Spotlight tracks them right as they hit the ground
+                // --- TRACKING & TIMING TRIGGERS ---
+                // Spotlight hits them exactly on their mark
                 setTimeout(() => {
                     activePlayerIndex = index;
-                }, (runStart + 1) * 1000);
-                
-                // Trigger the Quake exactly when they drop out of hyperspace
-                setTimeout(() => {
-                    const captureArea = document.getElementById('capture-area');
-                    captureArea.classList.remove('quake-active');
-                    void captureArea.offsetWidth;
-                    captureArea.classList.add('quake-active');
 
-                    const shockwave = document.getElementById(`shockwave-${index}`);
-                    if (shockwave) shockwave.classList.add('anim-shockwave');
+                    // Trigger the Scanline Reveal exactly when the spotlight arrives!
+                    const reveal = document.getElementById(`reveal-${index}`);
+                    const scan = document.getElementById(`scanline-${index}`);
+                    if(reveal) reveal.classList.add('anim-wipe');
+                    if(scan) scan.classList.add('anim-scan');
+
+                }, baseDelay * 1000);
+                
+                // Exactly 1.5 seconds later, the scanline finishes. Trigger the Saber!
+                setTimeout(() => {
+                    const saber = document.getElementById(`saber-${index}`);
+                    if(saber) saber.classList.add('anim-ignite');
                     
-                    // Resolve the hologram cleanly back to a solid photo
-                    const photoContainer = document.getElementById(`starter-photo-${index}`);
-                    if (photoContainer) {
-                        photoContainer.classList.add('hologram-resolved');
+                    // Minor screen shake as the saber ignites!
+                    const captureArea = document.getElementById('capture-area');
+                    if(captureArea) {
+                        captureArea.classList.remove('quake-active');
+                        void captureArea.offsetWidth;
+                        captureArea.classList.add('quake-active');
                     }
-                }, (runStart + 1) * 1000); 
+                }, (baseDelay + 1.5) * 1000);
 
             });
 
@@ -1250,7 +1274,7 @@
                     node.style.transform = 'translate(-50%, -15%) scale(0.75)'; 
                     void node.offsetWidth; 
                     
-                    // Throw them left or right off the screen!
+                    // Throw them left or right off the screen in slow motion!
                     const pushDir = idx % 2 === 0 ? 'forcePushLeft' : 'forcePushRight';
                     node.style.animation = `${pushDir} 3s cubic-bezier(0.1, 0.8, 0.3, 1) forwards`;
                 });
