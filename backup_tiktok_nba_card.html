@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NBA Starting 5 - Tactical Square</title>
+    <title>NBA Starting 5 - Game 7 Edition</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&family=Oswald:wght@500;700&family=Montserrat:ital,wght@0,800;1,900&display=swap" rel="stylesheet">
@@ -72,6 +72,19 @@
             color: var(--text-dark);
             border-top: 15px solid var(--team-primary);
             border-bottom: 15px solid var(--team-primary);
+        }
+
+        /* --- THE QUAKE EFFECT --- */
+        @keyframes arenaQuake {
+            0% { transform: translate(0, 0) scale(1); }
+            20% { transform: translate(-15px, 15px) scale(1.02); }
+            40% { transform: translate(15px, -15px) scale(1.02); }
+            60% { transform: translate(-15px, -5px) scale(1.02); }
+            80% { transform: translate(15px, 5px) scale(1.02); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        .quake-active { 
+            animation: arenaQuake 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97); 
         }
 
         .arena-glow {
@@ -239,6 +252,94 @@
             filter: grayscale(50%) brightness(80%); 
         }
 
+        /* --- GAME 7 BURN-IN TEXT --- */
+        #game7-watermark {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-3deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-style: italic;
+            font-size: 160px;
+            letter-spacing: 5px;
+            z-index: 2; 
+            pointer-events: none;
+        }
+
+        .burn-letter {
+            opacity: 0;
+            display: inline-block;
+            animation: burnIn 1.5s forwards;
+        }
+
+        @keyframes burnIn {
+            0% {
+                opacity: 0;
+                transform: scale(2.5) translateY(-50px);
+                color: #fff;
+                text-shadow: 0 0 30px #fff, 0 0 60px #ffaa00, 0 0 100px #ff0000;
+                filter: blur(12px);
+                animation-timing-function: ease-in;
+            }
+            15% {
+                opacity: 1;
+                transform: scale(0.9);
+                color: #fffacd; /* White hot */
+                text-shadow: 0 0 20px #ff8800, 0 0 50px #ff2200;
+                filter: blur(0px);
+                animation-timing-function: ease-out;
+            }
+            100% {
+                opacity: 0.9;
+                transform: scale(1);
+                color: #050302; /* Charred wood */
+                text-shadow: 
+                    -2px -2px 0 var(--team-secondary),
+                     2px -2px 0 var(--team-secondary),
+                    -2px  2px 0 var(--team-secondary),
+                     2px  2px 0 var(--team-secondary),
+                     0 0 25px var(--team-secondary), 
+                     0 0 50px var(--team-primary);
+            }
+        }
+
+        /* --- THE GAME 7 POUND SLAM --- */
+        @keyframes game7Pound {
+            0% { 
+                transform: translate(-50%, -50%) rotate(-3deg) scale(1); 
+                animation-timing-function: ease-out;
+            }
+            50% { 
+                /* Rise high into the camera */
+                transform: translate(-50%, -750px) rotate(5deg) scale(1.6); 
+                filter: brightness(1.5) drop-shadow(0 50px 50px rgba(0,0,0,0.5));
+                animation-timing-function: cubic-bezier(0.8, 0, 1, 1); 
+            }
+            85% { 
+                /* Slam down higher than the bench */
+                transform: translate(-50%, -540px) rotate(0deg) scale(0.65); 
+                filter: brightness(1);
+                animation-timing-function: ease-out; 
+            }
+            92% {
+                /* Recoil bounce */
+                transform: translate(-50%, -560px) rotate(0deg) scale(0.65); 
+                animation-timing-function: ease-in;
+            }
+            100% { 
+                /* Settle */
+                transform: translate(-50%, -540px) rotate(0deg) scale(0.65); 
+            }
+        }
+        .anim-game7-pound {
+            animation: game7Pound 1.2s forwards !important;
+        }
+
+
         /* --- CANVAS LIGHTING ENGINE --- */
         #spotlight-canvas {
             position: absolute;
@@ -295,6 +396,25 @@
             display: flex;
             justify-content: center;
         }
+
+        /* --- SHOCKWAVE RING FOR THE SLAM --- */
+        .shockwave-ring {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 200px; height: 200px;
+            border-radius: 50%;
+            border: 12px solid var(--team-primary);
+            transform: translate(-50%, -50%) scale(0.5);
+            opacity: 0;
+            z-index: 11;
+            pointer-events: none;
+        }
+        
+        @keyframes ringExplode {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(3.5); opacity: 0; border-width: 2px; }
+        }
+        .anim-shockwave { animation: ringExplode 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
 
         .player-photo-container {
             width: 190px;  
@@ -414,7 +534,7 @@
 
         .anim-watermark {
             animation: watermarkDropBounce 1.2s forwards;
-            animation-delay: 2.5s; /* perfectly synced to the team name */
+            animation-delay: 2.5s; 
             opacity: 0; 
         }
 
@@ -437,7 +557,6 @@
             }
         }
 
-        /* The 3D Z-Axis Drop & Bounce */
         @keyframes watermarkDropBounce {
             0% { 
                 opacity: 0; 
@@ -483,39 +602,65 @@
         }
 
         /* ========================================================
-           THE FINAL DROP CINEMATIC PLAYBOOK
+           THE GHOST EXIT (GAME 7 BENCH)
+           ======================================================== */
+           
+        @keyframes ghostExit {
+            0% { 
+                transform: translate(-50%, -15%) scale(0.75); 
+                filter: none; 
+                opacity: 1; 
+            }
+            20% { 
+                filter: grayscale(100%) sepia(100%) hue-rotate(150deg) brightness(1.5) blur(2px); 
+                opacity: 0.8; 
+            }
+            100% { 
+                transform: translate(-50%, -300px) scale(0.75); 
+                filter: grayscale(100%) sepia(100%) hue-rotate(150deg) brightness(2) blur(10px); 
+                opacity: 0; 
+            }
+        }
+
+        /* ========================================================
+           THE AIRBORNE JUMP PLAYBOOK
            ======================================================== */
 
-        @keyframes finalTornado {
-            0% { transform: rotate(720deg) scale(0.6); }
-            100% { transform: rotate(0deg) scale(1); }
+        @keyframes jumpSpin {
+            0% { transform: perspective(1000px) translateY(0) scale(1) rotateY(0deg); animation-timing-function: ease-out; }
+            50% { transform: perspective(1000px) translateY(-300px) scale(2.2) rotateY(360deg); animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translateY(0) scale(1) rotateY(720deg); }
         }
-        .anim-tornado { animation: finalTornado 0.75s ease-out forwards; }
+        .anim-jump-spin { animation: jumpSpin 0.75s forwards; }
 
-        @keyframes finalSlam {
-            0% { transform: translateY(-120px) scale(1.3); }
-            100% { transform: translateY(0) scale(1); }
+        @keyframes jumpFlip {
+            0% { transform: perspective(1000px) translateY(0) scale(1) rotateX(0deg); animation-timing-function: ease-out; }
+            50% { transform: perspective(1000px) translateY(-300px) scale(2.2) rotateX(180deg); animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translateY(0) scale(1) rotateX(360deg); }
         }
-        .anim-slam { animation: finalSlam 0.75s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        .anim-jump-flip { animation: jumpFlip 0.75s forwards; }
 
-        @keyframes finalMatrix {
-            0% { transform: rotate(30deg) scale(1.2); filter: blur(4px); }
-            100% { transform: rotate(0deg) scale(1); filter: blur(0); }
+        @keyframes jumpCartwheel {
+            0% { transform: perspective(1000px) translateY(0) scale(1) rotateZ(0deg); animation-timing-function: ease-out; }
+            50% { transform: perspective(1000px) translateY(-300px) scale(2.2) rotateZ(180deg); animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translateY(0) scale(1) rotateZ(360deg); }
         }
-        .anim-matrix { animation: finalMatrix 0.75s ease-in-out forwards; }
+        .anim-jump-cartwheel { animation: jumpCartwheel 0.75s forwards; }
 
-        @keyframes finalCrossover {
-            0% { transform: translateX(50px) rotate(15deg); }
-            50% { transform: translateX(-30px) rotate(-10deg); }
-            100% { transform: translateX(0) rotate(0deg); }
+        @keyframes jumpHangtime {
+            0% { transform: perspective(1000px) translateY(0) scale(1) rotate(0deg); animation-timing-function: ease-out; }
+            30% { transform: perspective(1000px) translateY(-300px) scale(2.2) rotate(-15deg); animation-timing-function: linear; }
+            70% { transform: perspective(1000px) translateY(-300px) scale(2.2) rotate(10deg); animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translateY(0) scale(1) rotate(0deg); }
         }
-        .anim-crossover { animation: finalCrossover 0.75s ease-in-out forwards; }
+        .anim-jump-hangtime { animation: jumpHangtime 0.75s forwards; }
 
-        @keyframes finalGhost {
-            0% { filter: blur(10px) brightness(2); transform: scale(1.1); }
-            100% { filter: blur(0) brightness(1); transform: scale(1); }
+        @keyframes jumpCorkscrew {
+            0% { transform: perspective(1000px) translateY(0) scale(1) rotate3d(1, 1, 1, 0deg); animation-timing-function: ease-out; }
+            50% { transform: perspective(1000px) translateY(-300px) scale(2.2) rotate3d(1, 1, 1, 180deg); animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translateY(0) scale(1) rotate3d(1, 1, 1, 360deg); }
         }
-        .anim-ghost { animation: finalGhost 0.75s ease-out forwards; }
+        .anim-jump-corkscrew { animation: jumpCorkscrew 0.75s forwards; }
 
     </style>
 </head>
@@ -560,6 +705,8 @@
                 <div class="paint-area"></div>
                 
                 <img id="watermark" class="watermark-logo" src="" alt="">
+                
+                <div id="game7-watermark"></div>
 
                 <div id="players-container"></div>
             </div>
@@ -632,7 +779,6 @@
         let activePrimaryHex = '#ffffff';
         let activeSecondaryHex = '#ffffff';
 
-        // Helper to convert hex colors to RGBA so we can dynamically fade the lighting gels
         function hexToRgba(hex, alpha) {
             hex = hex.replace('#', '');
             let r = parseInt(hex.length === 3 ? hex.slice(0, 1).repeat(2) : hex.slice(0, 2), 16);
@@ -641,7 +787,6 @@
             return `rgba(${r}, ${g}, ${b}, ${alpha})`;
         }
 
-        // Draws the pure transparent hole to reveal the court underneath
         function drawHole(ctx, x, y, innerR, outerR) {
             const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
             grad.addColorStop(0, 'rgba(0, 0, 0, 1)');       
@@ -654,7 +799,6 @@
             ctx.fill();
         }
 
-        // Overlays a rich, solid colored tint directly inside the roaming holes
         function drawColoredTint(ctx, x, y, innerR, outerR, hex) {
             const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
             grad.addColorStop(0, hexToRgba(hex, 0.65));       
@@ -667,7 +811,6 @@
             ctx.fill();
         }
 
-        // Puts a beautiful, two-tone colored halo exactly on the soft shadow of the main spotlight
         function drawMainHalo(ctx, x, y, innerR, outerR, color1, color2) {
             const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
             grad.addColorStop(0, 'rgba(0, 0, 0, 0)'); // Inner core stays totally clear       
@@ -976,6 +1119,28 @@
             void watermarkEl.offsetWidth; 
             watermarkEl.classList.add('anim-watermark');
 
+            // --- THE GAME 7 BRANDING IRON BUILDER ---
+            const game7Container = document.getElementById('game7-watermark');
+            game7Container.innerHTML = '';
+            game7Container.classList.remove('anim-game7-pound'); // Reset flight animation
+            
+            const g7Text = "GAME 7";
+            let g7Html = '';
+            
+            // The watermark finishes its bounce at 3.7s. 
+            // We start the burns here so they perfectly slam through the blackout at 4.11s.
+            let burnDelay = 3.6; 
+            for (let i = 0; i < g7Text.length; i++) {
+                if (g7Text[i] === ' ') {
+                    g7Html += `<span style="width: 35px;"></span>`;
+                } else {
+                    g7Html += `<span class="burn-letter" style="animation-delay: ${burnDelay}s;">${g7Text[i]}</span>`;
+                    burnDelay += 0.18; // Stagger letters
+                    if (g7Text[i] === 'E') burnDelay += 0.35; // Dramatic pause before 7!
+                }
+            }
+            game7Container.innerHTML = g7Html;
+
             const container = document.getElementById('players-container');
             container.innerHTML = '';
 
@@ -1025,7 +1190,7 @@
             void tagEl.offsetWidth; 
             tagEl.classList.add('anim-header-tag');
 
-            const playbook = ["anim-tornado", "anim-slam", "anim-matrix", "anim-crossover", "anim-ghost"];
+            const playbook = ["anim-jump-spin", "anim-jump-flip", "anim-jump-cartwheel", "anim-jump-hangtime", "anim-jump-corkscrew"];
             
             for (let i = playbook.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -1058,6 +1223,7 @@
                     <div class="player-node starter-node" style="animation: runGauntlet 3s forwards; animation-delay: ${runStart}s; --final-x: ${coords.x}%; --final-y: ${coords.y}%;">
                         <div class="cinematic-wrapper ${chosenAnimation}" style="animation-delay: ${baseDelay}s;">
                             <div class="photo-wrapper">
+                                <div id="shockwave-${index}" class="shockwave-ring"></div>
                                 <div class="player-position">${pos}</div>
                                 ${jerseyNum ? `<div class="player-number">${jerseyNum}</div>` : ''}
                                 <div class="player-photo-container">
@@ -1072,9 +1238,23 @@
                 `;
                 container.insertAdjacentHTML('beforeend', html);
 
+                // --- TRACKING & SHOCKWAVE TRIGGERS ---
+                // Spotlight tracks them exactly as their run begins
                 setTimeout(() => {
                     activePlayerIndex = index;
                 }, runStart * 1000);
+                
+                // Trigger the Quake and Shockwave exactly when their cinematic slam hits the floor
+                setTimeout(() => {
+                    const captureArea = document.getElementById('capture-area');
+                    captureArea.classList.remove('quake-active');
+                    void captureArea.offsetWidth;
+                    captureArea.classList.add('quake-active');
+
+                    const shockwave = document.getElementById(`shockwave-${index}`);
+                    if (shockwave) shockwave.classList.add('anim-shockwave');
+                }, (baseDelay + 0.75) * 1000); // 0.75s is the duration of the cinematic animations
+
             });
 
             // --- TRIGGER THE ARENA LIGHTS OFF AT 4.11s ---
@@ -1101,26 +1281,40 @@
                 activePlayerIndex = -1; 
             }, 43500);
 
-            // --- THE BENCH SCATTERS OFF SCREEN (41.2s) ---
+            // --- THE GAME 7 GHOST EXIT (44.2s) ---
             setTimeout(() => {
                 const benchNodes = document.querySelectorAll('.bench-node');
                 
-                Array.from(benchNodes).reverse().forEach((node, idx) => {
+                Array.from(benchNodes).forEach((node, idx) => {
                     node.style.animation = 'none'; 
-                    node.style.transform = 'translate(-50%, 0%) scale(0.75)'; 
+                    node.style.transform = 'translate(-50%, -15%) scale(0.75)'; 
                     void node.offsetWidth; 
                     
-                    node.style.transition = `left 0.8s cubic-bezier(0.5, 0, 0.1, 1) ${idx * 0.08}s`;
-                    node.style.left = '150%'; 
+                    // The bench players dissolve into cyan ghosts and float away
+                    node.style.animation = `ghostExit 2.5s ease-in ${idx * 0.15}s forwards`;
                 });
             }, 44200); 
 
-            // --- TRIGGER THE ARENA LIGHTS ON AT 42.5s ---
+            // --- THE GAME 7 BRANDING IRON FLIES AWAY & ARENA LIGHTS ON (44.5s) ---
             setTimeout(() => {
                 if (captureArea) captureArea.classList.remove('lights-out-mode');
                 trackingSpotlight = false; 
                 if (roamingInterval) clearInterval(roamingInterval); 
+
+                // Rise up and slam down!
+                if (game7Container) {
+                    game7Container.classList.add('anim-game7-pound');
+                }
             }, 44500); 
+
+            // --- TRIGGER THE FINAL QUAKE ON IMPACT (45.52s) ---
+            setTimeout(() => {
+                if (captureArea) {
+                    captureArea.classList.remove('quake-active');
+                    void captureArea.offsetWidth;
+                    captureArea.classList.add('quake-active');
+                }
+            }, 45520);
         }
 
         function takeScreenshot() {
