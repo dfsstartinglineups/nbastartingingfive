@@ -241,17 +241,25 @@
         /* --- STAR WARS OPENING CRAWL --- */
         #star-wars-crawl {
             position: absolute;
-            top: 60%;
+            top: 50%;
             left: 50%;
-            transform-origin: 50% 100%;
+            transform: translate(-50%, -50%);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 2;
             pointer-events: none;
-            perspective: 600px;
+            perspective: 800px;
+            width: 100%;
+        }
+
+        .crawl-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             opacity: 0;
+            transform-origin: bottom center;
         }
 
         #crawl-logo {
@@ -276,17 +284,17 @@
         @keyframes starWarsCrawl {
             0% { 
                 opacity: 0; 
-                transform: translateX(-50%) rotateX(55deg) translateZ(0) translateY(400px) scale(1.5); 
+                transform: rotateX(50deg) translateY(300px) scale(1.2); 
             }
-            5% { opacity: 1; }
+            10% { opacity: 1; }
             80% { opacity: 1; }
             100% { 
                 opacity: 0; 
-                transform: translateX(-50%) rotateX(55deg) translateZ(-1000px) translateY(-1000px) scale(0.2); 
+                transform: rotateX(50deg) translateY(-800px) scale(0.3); 
             }
         }
         .anim-crawl {
-            animation: starWarsCrawl 15s linear forwards;
+            animation: starWarsCrawl 12s linear forwards;
             animation-delay: 2.5s; 
         }
 
@@ -332,14 +340,15 @@
         /* Lightsaber CSS */
         .lightsaber {
             position: absolute;
-            top: -30px;
-            left: 50%;
-            width: 4px;
-            height: 80px;
+            top: 20px;
+            width: 6px;
+            height: 90px;
             border-radius: 4px;
             transform-origin: bottom center;
-            z-index: -1; /* Behind the player */
+            z-index: 15; /* Front of player */
         }
+        .saber-left { left: -5px; }
+        .saber-right { right: -5px; }
         .saber-blue { 
             background: #fff; 
             box-shadow: 0 0 10px #00aaff, 0 0 20px #00aaff, 0 0 30px #00aaff; 
@@ -350,12 +359,12 @@
         }
         
         @keyframes saberDuelLeft {
-            0%, 100% { transform: rotate(-45deg); }
-            50% { transform: rotate(50deg); }
+            0%, 100% { transform: rotate(30deg); }
+            50% { transform: rotate(70deg); }
         }
         @keyframes saberDuelRight {
-            0%, 100% { transform: rotate(45deg); }
-            50% { transform: rotate(-50deg); }
+            0%, 100% { transform: rotate(-30deg); }
+            50% { transform: rotate(-70deg); }
         }
 
         /* --- STARTER BASE --- */
@@ -377,13 +386,14 @@
         }
 
         /* --- JEDI HOLOGRAM FILTER --- */
-        .hologram-mode {
+        .hologram-fx {
             filter: sepia(100%) hue-rotate(150deg) saturate(300%) brightness(1.5) contrast(1.2);
-            opacity: 0.7;
+            opacity: 0.8;
             position: relative;
+            transition: all 0.5s ease;
         }
         /* The Hologram Scanlines */
-        .hologram-mode::after {
+        .hologram-fx::after {
             content: "";
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -397,22 +407,15 @@
             );
             pointer-events: none;
             z-index: 15;
+            transition: opacity 0.5s ease;
         }
 
-        @keyframes hologramFadeToNormal {
-            0%, 60% { 
-                filter: sepia(100%) hue-rotate(150deg) saturate(300%) brightness(1.5) contrast(1.2); 
-                opacity: 0.7; 
-            }
-            100% { 
-                filter: none; 
-                opacity: 1; 
-            }
+        .hologram-resolved {
+            filter: none !important;
+            opacity: 1 !important;
         }
-        /* Need to hide the scanline pseudo element too when fading to normal */
-        @keyframes hideScanlines {
-            0%, 60% { opacity: 1; }
-            100% { opacity: 0; }
+        .hologram-resolved::after {
+            opacity: 0 !important;
         }
 
         /* --- SHOCKWAVE RING FOR THE SLAM --- */
@@ -575,12 +578,12 @@
            
         @keyframes forcePushLeft {
             0% { transform: translate(-50%, -15%) rotate(0deg) scale(0.75); opacity: 1; }
-            100% { transform: translate(-1500%, -50%) rotate(-1080deg) scale(0.75); opacity: 0; }
+            100% { transform: translate(-250%, -50%) rotate(-720deg) scale(0.5); opacity: 0; }
         }
 
         @keyframes forcePushRight {
             0% { transform: translate(-50%, -15%) rotate(0deg) scale(0.75); opacity: 1; }
-            100% { transform: translate(1500%, -50%) rotate(1080deg) scale(0.75); opacity: 0; }
+            100% { transform: translate(150%, -50%) rotate(720deg) scale(0.5); opacity: 0; }
         }
 
         /* ========================================================
@@ -656,8 +659,10 @@
                 <div class="paint-area"></div>
                 
                 <div id="star-wars-crawl">
-                    <img id="crawl-logo" src="" alt="">
-                    <div class="crawl-text">GAME 1</div>
+                    <div class="crawl-wrapper" id="crawl-wrapper">
+                        <img id="crawl-logo" src="" alt="">
+                        <div class="crawl-text">GAME 1</div>
+                    </div>
                 </div>
 
                 <div id="players-container"></div>
@@ -1083,7 +1088,7 @@
             logoEl.classList.add('anim-logo');
             
             // Retrigger the Opening Crawl
-            const crawlContainer = document.getElementById('star-wars-crawl');
+            const crawlContainer = document.getElementById('crawl-wrapper');
             const crawlLogo = document.getElementById('crawl-logo');
             crawlLogo.src = logoUrl;
             crawlContainer.classList.remove('anim-crawl');
@@ -1114,6 +1119,7 @@
                 
                 // Jedi vs Sith assignments
                 const saberColor = index % 2 === 0 ? 'saber-blue' : 'saber-red';
+                const saberPosClass = index % 2 === 0 ? 'saber-left' : 'saber-right';
                 const saberAnim = index % 2 === 0 ? 'saberDuelLeft' : 'saberDuelRight';
                 const saberSpeed = (0.5 + Math.random() * 0.5).toFixed(2);
 
@@ -1121,7 +1127,7 @@
                     <div class="player-node bench-node" style="left: ${benchX}%; top: -15%; animation: benchJump ${jumpSpeed}s infinite ease-in-out; animation-delay: ${jumpOffset}s;">
                         <div class="cinematic-wrapper">
                             <div class="photo-wrapper">
-                                <div class="lightsaber ${saberColor}" style="animation: ${saberAnim} ${saberSpeed}s infinite alternate ease-in-out;"></div>
+                                <div class="lightsaber ${saberColor} ${saberPosClass}" style="animation: ${saberAnim} ${saberSpeed}s infinite alternate ease-in-out;"></div>
                                 
                                 <div class="player-photo-container">
                                     ${photoHtml}
@@ -1174,7 +1180,7 @@
                                 <div class="player-position">${pos}</div>
                                 ${jerseyNum ? `<div class="player-number">${jerseyNum}</div>` : ''}
                                 
-                                <div class="player-photo-container hologram-mode" style="animation: hologramFadeToNormal 2.5s forwards; animation-delay: ${runStart + 1.5}s;">
+                                <div id="starter-photo-${index}" class="player-photo-container hologram-fx">
                                     ${photoHtml}
                                 </div>
                             </div>
@@ -1202,11 +1208,10 @@
                     const shockwave = document.getElementById(`shockwave-${index}`);
                     if (shockwave) shockwave.classList.add('anim-shockwave');
                     
-                    // Remove scanlines from hologram
-                    const photoContainer = document.querySelectorAll('.player-photo-container')[index + bench.length];
+                    // Resolve the hologram cleanly back to a solid photo
+                    const photoContainer = document.getElementById(`starter-photo-${index}`);
                     if (photoContainer) {
-                        photoContainer.style.animationName = 'hologramFadeToNormal, hideScanlines';
-                        photoContainer.style.animationDuration = '2.5s, 2.5s';
+                        photoContainer.classList.add('hologram-resolved');
                     }
                 }, (runStart + 1) * 1000); 
 
@@ -1247,7 +1252,7 @@
                     
                     // Throw them left or right off the screen!
                     const pushDir = idx % 2 === 0 ? 'forcePushLeft' : 'forcePushRight';
-                    node.style.animation = `${pushDir} 1.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards`;
+                    node.style.animation = `${pushDir} 3s cubic-bezier(0.1, 0.8, 0.3, 1) forwards`;
                 });
             }, 44200); 
 
