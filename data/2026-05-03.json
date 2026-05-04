@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 03, 10:24 PM ET",
+  "last_updated": "May 03, 10:27 PM ET",
   "player_news": [
     {
       "player_name": "Brandon Ingram",
@@ -9,7 +9,7 @@
       "description": "Out right heel inflammation",
       "time_elapsed": "4.3h",
       "next_game": "Sunday @CLE",
-      "local_timestamp": 1777861525.3557944
+      "local_timestamp": 1777861704.3735695
     },
     {
       "player_name": "Kevin Huerter",
@@ -19,7 +19,7 @@
       "description": "Out left adductor strain",
       "time_elapsed": "7.4h",
       "next_game": "Sunday vs ORL",
-      "local_timestamp": 1777861525.3477945
+      "local_timestamp": 1777861704.3655696
     },
     {
       "player_name": "Jonathan Isaac",
@@ -27,9 +27,9 @@
       "position": "PF",
       "status_badge": "OUT",
       "description": "Out left knee sprain",
-      "time_elapsed": "8.9h",
+      "time_elapsed": "9.0h",
       "next_game": "Sunday @DET",
-      "local_timestamp": 1777861525.3467946
+      "local_timestamp": 1777861704.3645697
     }
   ],
   "espn_schedule": {
@@ -1470,6 +1470,7 @@
                 "type": "team",
                 "order": 0,
                 "homeAway": "home",
+                "winner": true,
                 "team": {
                   "id": "5",
                   "uid": "s:40~l:46~t:5",
@@ -1799,7 +1800,7 @@
                     ]
                   }
                 ],
-                "record": "3-3",
+                "record": "4-3",
                 "records": [
                   {
                     "name": "overall",
@@ -1825,6 +1826,7 @@
                 "type": "team",
                 "order": 1,
                 "homeAway": "away",
+                "winner": false,
                 "team": {
                   "id": "28",
                   "uid": "s:40~l:46~t:28",
@@ -1944,22 +1946,22 @@
                   {
                     "name": "freeThrowPct",
                     "abbreviation": "FT%",
-                    "displayValue": "70.4"
+                    "displayValue": "69.2"
                   },
                   {
                     "name": "freeThrowsAttempted",
                     "abbreviation": "FTA",
-                    "displayValue": "27"
+                    "displayValue": "26"
                   },
                   {
                     "name": "freeThrowsMade",
                     "abbreviation": "FTM",
-                    "displayValue": "19"
+                    "displayValue": "18"
                   },
                   {
                     "name": "points",
                     "abbreviation": "PTS",
-                    "displayValue": "103"
+                    "displayValue": "102"
                   },
                   {
                     "name": "threePointPct",
@@ -1979,7 +1981,7 @@
                   {
                     "name": "avgPoints",
                     "abbreviation": "PTS",
-                    "displayValue": "103.0"
+                    "displayValue": "102.0"
                   },
                   {
                     "name": "avgAssists",
@@ -2154,7 +2156,7 @@
                     ]
                   }
                 ],
-                "record": "3-3",
+                "record": "3-4",
                 "records": [
                   {
                     "name": "overall",
@@ -2181,37 +2183,18 @@
                 "headline": "East 1st Round - Game 7"
               }
             ],
-            "situation": {
-              "lastPlay": {
-                "id": "401869384755",
-                "type": {
-                  "id": "16",
-                  "text": "Full Timeout"
-                },
-                "text": "Cavaliers Full timeout",
-                "scoreValue": 0,
-                "team": {
-                  "id": "5"
-                },
-                "probability": {
-                  "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.999,
-                  "awayWinPercentage": 0.0010000000000000009
-                }
-              }
-            },
             "status": {
-              "clock": 25.3,
-              "displayClock": "25.3",
+              "clock": 0.0,
+              "displayClock": "0.0",
               "period": 4,
               "type": {
-                "id": "2",
-                "name": "STATUS_IN_PROGRESS",
-                "state": "in",
-                "completed": false,
-                "description": "In Progress",
-                "detail": "25.3 - 4th Quarter",
-                "shortDetail": "25.3 - 4th"
+                "id": "3",
+                "name": "STATUS_FINAL",
+                "state": "post",
+                "completed": true,
+                "description": "Final",
+                "detail": "Final",
+                "shortDetail": "Final"
               }
             },
             "broadcasts": [
@@ -2232,14 +2215,14 @@
             "series": {
               "type": "playoff",
               "title": "Playoff Series",
-              "summary": "Series tied 3-3",
-              "completed": false,
+              "summary": "CLE wins series 4-3",
+              "completed": true,
               "totalCompetitions": 7,
               "competitors": [
                 {
                   "id": "5",
                   "uid": "s:40~l:46~t:5",
-                  "wins": 3,
+                  "wins": 4,
                   "ties": 0,
                   "href": "http://sports.core.api.espn.pvt/v2/sports/basketball/leagues/nba/seasons/2026/teams/5?lang=en&region=us"
                 },
@@ -2292,11 +2275,11 @@
           {
             "language": "en-US",
             "rel": [
-              "live",
+              "summary",
               "desktop",
               "event"
             ],
-            "href": "https://www.espn.com/nba/game?gameId=401869384",
+            "href": "https://www.espn.com/nba/game/_/gameId/401869384/raptors-cavaliers",
             "text": "Gamecast",
             "shortText": "Gamecast",
             "isExternal": false,
@@ -2330,17 +2313,17 @@
           }
         ],
         "status": {
-          "clock": 25.3,
-          "displayClock": "25.3",
+          "clock": 0.0,
+          "displayClock": "0.0",
           "period": 4,
           "type": {
-            "id": "2",
-            "name": "STATUS_IN_PROGRESS",
-            "state": "in",
-            "completed": false,
-            "description": "In Progress",
-            "detail": "25.3 - 4th Quarter",
-            "shortDetail": "25.3 - 4th"
+            "id": "3",
+            "name": "STATUS_FINAL",
+            "state": "post",
+            "completed": true,
+            "description": "Final",
+            "detail": "Final",
+            "shortDetail": "Final"
           }
         }
       }
