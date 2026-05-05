@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 04, 10:56 PM ET",
+  "last_updated": "May 04, 10:58 PM ET",
   "player_news": [
     {
       "player_name": "Anthony Edwards",
@@ -7,9 +7,9 @@
       "position": "SG",
       "status_badge": "IN",
       "description": "Playing left knee hyperextension/bone bruise",
-      "time_elapsed": "2.9h",
+      "time_elapsed": "3.0h",
       "next_game": "Monday @SAS",
-      "local_timestamp": 1777949851.4098935
+      "local_timestamp": 1777949971.7395504
     },
     {
       "player_name": "Carter Bryant",
@@ -17,9 +17,9 @@
       "position": "SF",
       "status_badge": "OUT",
       "description": "Out right foot sprain",
-      "time_elapsed": "3.2h",
+      "time_elapsed": "3.3h",
       "next_game": "Monday vs MIN",
-      "local_timestamp": 1777949851.4088933
+      "local_timestamp": 1777949971.7385502
     },
     {
       "player_name": "Joel Embiid",
@@ -27,9 +27,9 @@
       "position": "C",
       "status_badge": "IN",
       "description": "Playing right hip contusion.",
-      "time_elapsed": "3.4h",
+      "time_elapsed": "3.5h",
       "next_game": "Monday @NYK",
-      "local_timestamp": 1777949851.4078934
+      "local_timestamp": 1777949971.7375503
     },
     {
       "player_name": "Jeremy Sochan",
@@ -39,7 +39,7 @@
       "description": "Playing left hamstring tightness",
       "time_elapsed": "4.2h",
       "next_game": "Monday vs PHI",
-      "local_timestamp": 1777949851.4068935
+      "local_timestamp": 1777949971.7365503
     },
     {
       "player_name": "Ayo Dosunmu",
@@ -49,7 +49,7 @@
       "description": "Out right calf soreness",
       "time_elapsed": "7.9h",
       "next_game": "Monday @SAS",
-      "local_timestamp": 1777949851.4048934
+      "local_timestamp": 1777949971.7345502
     },
     {
       "player_name": "Terrence Shannon Jr.",
@@ -57,7 +57,7 @@
       "position": "SG",
       "status_badge": "S",
       "description": "tarting",
-      "time_elapsed": "1.8h",
+      "time_elapsed": "1.9h",
       "next_game": "Monday @SAS",
       "local_timestamp": 1777943255.0864046
     },
@@ -1197,7 +1197,14 @@
                 "region": "us"
               }
             ],
-            "highlights": []
+            "highlights": [],
+            "headlines": [
+              {
+                "type": "Recap",
+                "description": "\u2014 Jalen Brunson scored 27 of his 35 points in the first half and the New York Knicks emphatically added to a historic postseason roll by overwhelming the Philadelphia 76ers 137-98 on Monday night in Game 1 of the Eastern Conference semifinals.",
+                "shortLinkText": "Knicks crush the 76ers 137-98 to start the second round and keep up a historic postseason roll"
+              }
+            ]
           }
         ],
         "links": [
@@ -1249,6 +1256,19 @@
             "href": "https://www.espn.com/nba/playbyplay/_/gameId/401871159",
             "text": "Play-by-Play",
             "shortText": "Play-by-Play",
+            "isExternal": false,
+            "isPremium": false
+          },
+          {
+            "language": "en-US",
+            "rel": [
+              "recap",
+              "desktop",
+              "event"
+            ],
+            "href": "https://www.espn.com/nba/recap?gameId=401871159",
+            "text": "Recap",
+            "shortText": "Recap",
             "isExternal": false,
             "isPremium": false
           }
@@ -1372,7 +1392,7 @@
                   ],
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/sa.png"
                 },
-                "score": "45",
+                "score": "47",
                 "linescores": [
                   {
                     "value": 23.0,
@@ -1383,6 +1403,11 @@
                     "value": 22.0,
                     "displayValue": "22",
                     "period": 2
+                  },
+                  {
+                    "value": 2.0,
+                    "displayValue": "2",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -1727,6 +1752,11 @@
                     "value": 21.0,
                     "displayValue": "21",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -2001,32 +2031,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401871152333",
+                "id": "401871152336",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "584",
+                  "text": "Substitution"
                 },
-                "text": "End of the 2nd Quarter",
+                "text": "Terrence Shannon Jr. enters the game for Jaylen Clark",
                 "scoreValue": 0,
+                "team": {
+                  "id": "16"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
                   "homeWinPercentage": 0.694,
                   "awayWinPercentage": 0.30600000000000005
-                }
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "4432847",
+                    "fullName": "Terrence Shannon Jr.",
+                    "displayName": "Terrence Shannon Jr.",
+                    "shortName": "T. Shannon Jr.",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/4432847/terrence-shannon-jr"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4432847.png",
+                    "jersey": "1",
+                    "position": "G",
+                    "team": {
+                      "id": "16"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 2,
+              "clock": 703.0,
+              "displayClock": "11:43",
+              "period": 3,
               "type": {
-                "id": "23",
-                "name": "STATUS_HALFTIME",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "Halftime",
-                "detail": "Halftime",
-                "shortDetail": "Halftime"
+                "description": "In Progress",
+                "detail": "11:43 - 3rd Quarter",
+                "shortDetail": "11:43 - 3rd"
               }
             },
             "broadcasts": [
@@ -2145,17 +2202,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 2,
+          "clock": 703.0,
+          "displayClock": "11:43",
+          "period": 3,
           "type": {
-            "id": "23",
-            "name": "STATUS_HALFTIME",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "Halftime",
-            "detail": "Halftime",
-            "shortDetail": "Halftime"
+            "description": "In Progress",
+            "detail": "11:43 - 3rd Quarter",
+            "shortDetail": "11:43 - 3rd"
           }
         }
       }
