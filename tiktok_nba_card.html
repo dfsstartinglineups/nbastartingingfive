@@ -86,16 +86,8 @@
             transform-origin: top center;
             animation: sway 4s infinite alternate ease-in-out;
         }
-        .papel-1 {
-            background-color: var(--team-primary);
-            top: -5px;
-            animation-delay: 0s;
-        }
-        .papel-2 {
-            background-color: var(--team-secondary);
-            top: 15px; left: 60px;
-            animation-delay: -2s;
-        }
+        .papel-1 { background-color: var(--team-primary); top: -5px; animation-delay: 0s; }
+        .papel-2 { background-color: var(--team-secondary); top: 15px; left: 60px; animation-delay: -2s; }
 
         @keyframes sway {
             0% { transform: skewX(-4deg) rotate(-1deg); }
@@ -111,470 +103,208 @@
             80% { transform: translate(15px, 5px) scale(1.02); }
             100% { transform: translate(0, 0) scale(1); }
         }
-        .quake-active { 
-            animation: arenaQuake 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97); 
-        }
+        .quake-active { animation: arenaQuake 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97); }
 
         .arena-glow {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 350px;
+            top: 0; left: 0; width: 100%; height: 350px;
             background: radial-gradient(ellipse at top, var(--team-primary) 0%, transparent 70%);
-            opacity: 0.15; 
-            z-index: 1;
-            pointer-events: none;
+            opacity: 0.15; z-index: 1; pointer-events: none;
         }
 
         #header {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 30px 50px 10px; 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-            z-index: 10;
+            width: 100%; box-sizing: border-box; padding: 30px 50px 10px; 
+            display: flex; align-items: center; justify-content: space-between;
+            position: relative; z-index: 10;
         }
 
         .header-left { display: flex; flex-direction: column; }
 
         .starting-tag {
-            font-family: 'Teko', sans-serif;
-            font-size: 40px; 
-            color: var(--text-dark);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            line-height: 1;
-            text-shadow: 1px 1px 0px rgba(255,255,255,0.5);
-            transition: all 0.3s ease;
+            font-family: 'Teko', sans-serif; font-size: 40px; color: var(--text-dark);
+            text-transform: uppercase; letter-spacing: 3px; line-height: 1;
+            text-shadow: 1px 1px 0px rgba(255,255,255,0.5); transition: all 0.3s ease;
         }
 
         #team-name {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 900;
-            font-style: italic;
-            font-size: 75px; 
-            margin: 0;
-            line-height: 0.9;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--team-primary);
-            position: relative;
-            z-index: 1;
+            font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; font-size: 75px; 
+            margin: 0; line-height: 0.9; text-transform: uppercase; letter-spacing: 1px;
+            color: var(--team-primary); position: relative; z-index: 1;
         }
 
         #team-name::before {
-            content: attr(data-text); 
-            position: absolute;
-            left: 0;
-            top: 0;
-            z-index: -1;
-            -webkit-text-stroke: 6px #fff; 
-            text-shadow: 4px 4px 0px var(--team-secondary);
+            content: attr(data-text); position: absolute; left: 0; top: 0; z-index: -1;
+            -webkit-text-stroke: 6px #fff; text-shadow: 4px 4px 0px var(--team-secondary);
         }
 
         #matchup-info {
-            font-family: 'Oswald', sans-serif;
-            font-size: 24px;
-            color: #444;
-            margin-top: 10px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: bold;
+            font-family: 'Oswald', sans-serif; font-size: 24px; color: #444; margin-top: 10px;
+            text-transform: uppercase; letter-spacing: 2px; font-weight: bold;
         }
 
-        #team-logo {
-            width: 140px; 
-            height: 140px;
-            object-fit: contain;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
-        }
+        #team-logo { width: 140px; height: 140px; object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); }
 
         #court-scene {
-            width: 100%;
-            height: 850px; 
-            position: absolute;
-            bottom: 0;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
+            width: 100%; height: 850px; position: absolute; bottom: 0;
+            display: flex; justify-content: center; align-items: flex-end;
         }
 
         #court {
-            width: 960px; 
-            height: 800px; 
-            position: relative;
-            border: 4px solid var(--team-primary);
-            border-bottom: none;
-            border-radius: 10px 10px 0 0;
+            width: 960px; height: 800px; position: relative;
+            border: 4px solid var(--team-primary); border-bottom: none; border-radius: 10px 10px 0 0;
             box-shadow: inset 0 0 50px rgba(0,0,0,0.1);
         }
 
         .paint-area {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 320px;
-            height: 350px; 
-            border: 4px solid var(--team-primary);
-            border-bottom: none;
+            position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 320px; height: 350px; border: 4px solid var(--team-primary); border-bottom: none;
             background: rgba(0, 0, 0, 0.05);
         }
 
         .free-throw-circle {
-            position: absolute;
-            bottom: 350px; 
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 60px; 
-            border: 4px solid var(--team-primary);
-            border-bottom: none; 
-            border-radius: 60px 60px 0 0; 
-            background: transparent; 
-            z-index: 1;
+            position: absolute; bottom: 350px; left: 50%; transform: translateX(-50%);
+            width: 120px; height: 60px; border: 4px solid var(--team-primary); border-bottom: none; 
+            border-radius: 60px 60px 0 0; background: transparent; z-index: 1;
         }
 
         .three-point-arc {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 800px;
-            height: 550px; 
-            border: 4px solid var(--team-primary);
-            border-radius: 50% 50% 0 0;
-            border-bottom: none;
-            clip-path: inset(0 0 80px 0); 
-            box-sizing: border-box; 
+            position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 800px; height: 550px; border: 4px solid var(--team-primary); border-radius: 50% 50% 0 0;
+            border-bottom: none; clip-path: inset(0 0 80px 0); box-sizing: border-box; 
         }
 
         .corner-three-left { position: absolute; bottom: 0; left: 80px; width: 4px; height: 81px; background: var(--team-primary); }
         .corner-three-right { position: absolute; bottom: 0; right: 80px; width: 4px; height: 81px; background: var(--team-primary); }
 
         .half-court-circle {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 250px; 
-            height: 250px; 
-            border: 4px solid var(--team-primary);
-            border-radius: 50%;
+            position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%);
+            width: 250px; height: 250px; border: 4px solid var(--team-primary); border-radius: 50%;
         }
 
         /* --- NEON TEAM WATERMARK --- */
         #fiesta-watermark {
-            position: absolute;
-            top: 45%; left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 2;
-            pointer-events: none;
+            position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 2; pointer-events: none;
         }
 
         .fiesta-logo {
-            width: 350px; height: 350px;
-            object-fit: contain;
+            width: 350px; height: 350px; object-fit: contain;
             filter: drop-shadow(0 0 30px rgba(255, 120, 0, 0.7)) sepia(0.3) hue-rotate(-20deg) saturate(1.5);
-            opacity: 0.4;
-            position: relative;
-            z-index: 2; 
+            opacity: 0.4; position: relative; z-index: 2; 
         }
 
         /* Game 1 text firmly locked back at 45% (center court) */
         #game1-text {
-            position: absolute; 
-            top: 45%; 
-            left: 50%; 
-            transform: translate(-50%, -50%); 
-            z-index: 100; 
-            pointer-events: none;
+            position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); 
+            z-index: 100; pointer-events: none;
         }
 
         .neon-game-text {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 900;
-            font-style: italic;
-            font-size: 90px; 
-            white-space: nowrap; 
-            color: #fff;
-            margin-top: -10px;
-            letter-spacing: 5px;
+            font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic;
+            font-size: 90px; white-space: nowrap; color: #fff; margin-top: -10px; letter-spacing: 5px;
             position: relative;
-            text-shadow: 
-                0 0 10px var(--team-primary), 0 0 20px var(--team-primary), 0 0 40px var(--team-primary),
-                6px 6px 0px var(--team-secondary), -6px -6px 0px #fff;
+            text-shadow: 0 0 10px var(--team-primary), 0 0 20px var(--team-primary), 0 0 40px var(--team-primary), 6px 6px 0px var(--team-secondary), -6px -6px 0px #fff;
         }
 
         /* --- CANVAS LIGHTING ENGINE --- */
-        #spotlight-canvas {
-            position: absolute;
-            top: 0; left: 0; 
-            width: 1080px; height: 1080px;
-            z-index: 20; 
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 1.5s ease;
-        }
-        
-        .lights-out-mode #spotlight-canvas {
-            opacity: 1;
-        }
+        #spotlight-canvas { position: absolute; top: 0; left: 0; width: 1080px; height: 1080px; z-index: 20; opacity: 0; pointer-events: none; transition: opacity 1.5s ease; }
+        .lights-out-mode #spotlight-canvas { opacity: 1; }
 
         /* ======================================================== */
 
-        .player-node {
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transform: translate(-50%, -50%);
-        }
+        .player-node { position: absolute; display: flex; flex-direction: column; align-items: center; transform: translate(-50%, -50%); }
 
         /* --- HYPED BENCH STYLING & WEAPONS --- */
         .bench-node { z-index: 5; }
         .bench-node .player-position, .bench-node .player-number { display: none; }
 
-        @keyframes benchJump {
-            0%, 100% { transform: translate(-50%, 0%) scale(0.75); }
-            50% { transform: translate(-50%, -15%) scale(0.75); }
-        }
+        @keyframes benchJump { 0%, 100% { transform: translate(-50%, 0%) scale(0.75); } 50% { transform: translate(-50%, -15%) scale(0.75); } }
 
-        .maraca {
-            position: absolute;
-            font-size: 55px;
-            z-index: 15;
-            bottom: -15px;
-            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));
-        }
-        .maraca-left {
-            left: -35px;
-            animation: shakeMaracaLeft 0.15s infinite alternate ease-in-out;
-        }
-        .maraca-right {
-            right: -35px;
-            animation: shakeMaracaRight 0.15s infinite alternate ease-in-out;
-        }
+        .maraca { position: absolute; font-size: 55px; z-index: 15; bottom: -15px; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5)); }
+        .maraca-left { left: -35px; animation: shakeMaracaLeft 0.15s infinite alternate ease-in-out; }
+        .maraca-right { right: -35px; animation: shakeMaracaRight 0.15s infinite alternate ease-in-out; }
 
-        @keyframes shakeMaracaLeft {
-            0% { transform: rotate(-25deg) translateY(0); }
-            100% { transform: rotate(15deg) translateY(-5px); }
-        }
-        @keyframes shakeMaracaRight {
-            0% { transform: scaleX(-1) rotate(-25deg) translateY(0); }
-            100% { transform: scaleX(-1) rotate(15deg) translateY(-5px); }
-        }
+        @keyframes shakeMaracaLeft { 0% { transform: rotate(-25deg) translateY(0); } 100% { transform: rotate(15deg) translateY(-5px); } }
+        @keyframes shakeMaracaRight { 0% { transform: scaleX(-1) rotate(-25deg) translateY(0); } 100% { transform: scaleX(-1) rotate(15deg) translateY(-5px); } }
 
-        /* The Piñata Stick (Hit Squad Only) using Team Colors */
+        /* The Piñata Stick (Hit Squad Only) */
         .pinata-stick {
-            position: absolute;
-            bottom: 20px;
-            left: -30px; 
-            width: 14px;
-            height: 120px;
+            position: absolute; bottom: 20px; left: -30px; width: 14px; height: 120px;
             background: repeating-linear-gradient(45deg, var(--team-primary), var(--team-primary) 10px, var(--team-secondary) 10px, var(--team-secondary) 20px);
-            border-radius: 6px;
-            transform-origin: bottom center;
-            transform: rotate(-30deg);
-            z-index: 26; 
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-            border: 2px solid #fff;
+            border-radius: 6px; transform-origin: bottom center; transform: rotate(-30deg);
+            z-index: 26; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); border: 2px solid #fff;
         }
 
-        @keyframes swingStick {
-            0% { transform: rotate(-30deg); }
-            40% { transform: rotate(-100deg); } 
-            100% { transform: rotate(70deg); } 
-        }
-        .anim-swing { 
-            animation: swingStick 0.25s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; 
-        }
+        @keyframes swingStick { 0% { transform: rotate(-30deg); } 40% { transform: rotate(-100deg); } 100% { transform: rotate(70deg); } }
+        .anim-swing { animation: swingStick 0.25s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
 
         /* --- STARTER BASE --- */
-        .starter-node {
-            opacity: 0; 
-            z-index: 10;
+        .starter-node { opacity: 0; z-index: 10; }
+        .cinematic-wrapper { display: flex; flex-direction: column; align-items: center; }
+        .photo-wrapper { position: relative; width: 190px; height: 190px; }
+
+        /* --- THE DONKEY PIÑATA ON A STRING --- */
+        .pinata-wrapper {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 20; display: flex; flex-direction: column; align-items: center;
+            transform-origin: 50% -400px; /* Swing from the ceiling! */
+            animation: pinataSway 2.5s infinite alternate ease-in-out;
+        }
+        
+        .pinata-string {
+            position: absolute; bottom: 85%; width: 3px; height: 600px;
+            background: linear-gradient(to top, rgba(255,255,255,0.9), rgba(255,255,255,0));
         }
 
-        .cinematic-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .pinata-emoji {
+            font-size: 160px; filter: drop-shadow(0 15px 15px rgba(0,0,0,0.6)); line-height: 1;
         }
-
-        .photo-wrapper {
-            position: relative;
-            width: 190px;
-            height: 190px;
-        }
-
-        /* --- THE CLASSIC PINK DONKEY PIÑATA MASK --- */
-        .pinata-mask {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 220px; height: 220px; /* Oversized to fully eclipse the photo */
-            z-index: 14;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 160px; /* Massive Donkey Emoji! */
-            pointer-events: none;
-        }
-        .pinata-mask::after { 
-            content: "🪅"; 
-            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.7)); 
-        }
+        
+        @keyframes pinataSway { 0% { transform: translate(-50%, -50%) rotate(-6deg); } 100% { transform: translate(-50%, -50%) rotate(6deg); } }
         
         .shatter { animation: pinataShatter 0.4s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
-        
-        @keyframes pinataShatter {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(2.5) rotate(45deg); opacity: 0; visibility: hidden; }
-        }
+        @keyframes pinataShatter { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(2.5) rotate(45deg); opacity: 0; visibility: hidden; } }
 
         /* --- CSS CONFETTI ENGINE --- */
-        .confetti-container {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 15;
-            pointer-events: none;
-        }
-        .confetti-piece {
-            position: absolute;
-            width: 12px; height: 12px;
-            opacity: 0;
-            animation: popConfetti 1.5s cubic-bezier(0.2, 1, 0.3, 1) forwards;
-        }
-        @keyframes popConfetti {
-            0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
-            80% { opacity: 1; }
-            100% { transform: translate(var(--vx), var(--vy)) rotate(720deg) scale(0.5); opacity: 0; }
-        }
+        .confetti-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 15; pointer-events: none; }
+        .confetti-piece { position: absolute; width: 12px; height: 12px; opacity: 0; animation: popConfetti 1.5s cubic-bezier(0.2, 1, 0.3, 1) forwards; }
+        @keyframes popConfetti { 0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; } 80% { opacity: 1; } 100% { transform: translate(var(--vx), var(--vy)) rotate(720deg) scale(0.5); opacity: 0; } }
 
         /* --- SHOCKWAVE RING FOR THE LANDING --- */
         .shockwave-ring {
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 200px; height: 200px;
-            border-radius: 50%;
-            border: 12px solid var(--team-primary);
-            transform: translate(-50%, -50%) scale(0.5);
-            opacity: 0;
-            z-index: 11;
-            pointer-events: none;
+            position: absolute; top: 50%; left: 50%; width: 200px; height: 200px; border-radius: 50%;
+            border: 12px solid var(--team-primary); transform: translate(-50%, -50%) scale(0.5); opacity: 0; z-index: 11; pointer-events: none;
         }
-        
-        @keyframes ringExplode {
-            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 1; border-color: var(--team-primary); }
-            100% { transform: translate(-50%, -50%) scale(3.5); opacity: 0; border-width: 2px; border-color: var(--team-secondary); }
-        }
+        @keyframes ringExplode { 0% { transform: translate(-50%, -50%) scale(0.8); opacity: 1; border-color: var(--team-primary); } 100% { transform: translate(-50%, -50%) scale(3.5); opacity: 0; border-width: 2px; border-color: var(--team-secondary); } }
         .anim-shockwave { animation: ringExplode 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
 
         .player-photo-container {
-            width: 190px;  
-            height: 190px; 
-            border-radius: 50%;
-            border: 6px solid #fff; 
-            background-color: #222; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4); 
-            z-index: 12;
-            overflow: hidden;
-            position: absolute;
-            top: 0; left: 0;
-            box-sizing: border-box;
+            width: 190px; height: 190px; border-radius: 50%; border: 6px solid #fff; background-color: #222; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4); z-index: 12; overflow: hidden; position: absolute; top: 0; left: 0; box-sizing: border-box;
         }
 
-        .player-photo { 
-            display: block;
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            object-position: center top; 
-            transform: scale(1.15) translateY(5px);
-        }
-        
-        .fallback-silhouette {
-            width: 100%;
-            height: 100%;
-            background-color: #2b2b2b;
-            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="%23666666" xmlns="http://www.w3.org/2000/svg"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
-            background-size: 90%;
-            background-position: center 20px;
-            background-repeat: no-repeat;
-        }
+        .player-photo { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top; transform: scale(1.15) translateY(5px); }
+        .fallback-silhouette { width: 100%; height: 100%; background-color: #2b2b2b; background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="%23666666" xmlns="http://www.w3.org/2000/svg"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>'); background-size: 90%; background-position: center 20px; background-repeat: no-repeat; }
 
         .player-position {
-            position: absolute;
-            top: -8px; 
-            left: -8px; 
-            background-color: var(--team-primary);
-            color: #fff;
-            border: 4px solid var(--team-secondary);
-            width: 58px; 
-            height: 58px; 
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Teko', sans-serif;
-            font-size: 28px; 
-            font-weight: bold;
-            z-index: 16; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            position: absolute; top: -8px; left: -8px; background-color: var(--team-primary); color: #fff;
+            border: 4px solid var(--team-secondary); width: 58px; height: 58px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; font-family: 'Teko', sans-serif; font-size: 28px; font-weight: bold; z-index: 16; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
 
         .player-number {
-            position: absolute;
-            top: -8px; 
-            right: -8px; 
-            background-color: var(--team-secondary);
-            color: #fff;
-            border: 4px solid var(--team-primary);
-            width: 58px; 
-            height: 58px; 
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Teko', sans-serif;
-            font-size: 30px; 
-            font-weight: bold;
-            z-index: 16;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            position: absolute; top: -8px; right: -8px; background-color: var(--team-secondary); color: #fff;
+            border: 4px solid var(--team-primary); width: 58px; height: 58px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; font-family: 'Teko', sans-serif; font-size: 30px; font-weight: bold; z-index: 16; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
 
         .nameplate-wrapper {
-            display: flex;
-            align-items: stretch;
-            margin-top: 10px; 
-            z-index: 14;
-            position: relative; 
-            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-            border-radius: 8px;
-            overflow: hidden;
-            border: 2px solid var(--team-secondary);
+            display: flex; align-items: stretch; margin-top: 10px; z-index: 14; position: relative; 
+            box-shadow: 0 5px 10px rgba(0,0,0,0.3); border-radius: 8px; overflow: hidden; border: 2px solid var(--team-secondary);
         }
 
-        .player-nameplate {
-            background: #fff;
-            color: var(--text-dark);
-            padding: 8px 24px; 
-            font-family: 'Montserrat', sans-serif;
-            font-size: 24px; 
-            font-weight: 900;
-            font-style: italic;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            white-space: nowrap;
-        }
+        .player-nameplate { background: #fff; color: var(--text-dark); padding: 8px 24px; font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
 
         /* ========================================================
            HEADER ENTRANCE ANIMATIONS
@@ -583,69 +313,25 @@
         .anim-team-name { animation: teamNameZoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.5s forwards; opacity: 0; }
         .anim-logo { animation: logoSpinIn 0.8s ease-out 2.5s forwards; opacity: 0; }
 
-        @keyframes headerSlideDown {
-            0% { opacity: 0; transform: translateY(-40px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes teamNameZoom {
-            0% { opacity: 0; transform: scale(1.8) rotate(-3deg); filter: blur(8px); }
-            100% { opacity: 1; transform: scale(1) rotate(0deg); filter: blur(0); }
-        }
-        @keyframes logoSpinIn {
-            0% { opacity: 0; transform: translateX(100px) rotate(90deg) scale(0.2); }
-            100% { opacity: 1; transform: translateX(0) rotate(0) scale(1); filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); }
-        }
+        @keyframes headerSlideDown { 0% { opacity: 0; transform: translateY(-40px); } 100% { opacity: 1; transform: translateY(0); } }
+        @keyframes teamNameZoom { 0% { opacity: 0; transform: scale(1.8) rotate(-3deg); filter: blur(8px); } 100% { opacity: 1; transform: scale(1) rotate(0deg); filter: blur(0); } }
+        @keyframes logoSpinIn { 0% { opacity: 0; transform: translateX(100px) rotate(90deg) scale(0.2); } 100% { opacity: 1; transform: translateX(0) rotate(0) scale(1); filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); } }
 
         /* ========================================================
            THE FIESTA SALSA EXIT (BENCH)
            ======================================================== */
-        @keyframes fiestaExitLeft {
-            0% { transform: translate(-50%, -15%) rotate(0deg) scale(0.75); opacity: 1; }
-            100% { transform: translate(-250%, -50%) rotate(-720deg) scale(0.5); opacity: 0; }
-        }
-        @keyframes fiestaExitRight {
-            0% { transform: translate(-50%, -15%) rotate(0deg) scale(0.75); opacity: 1; }
-            100% { transform: translate(150%, -50%) rotate(720deg) scale(0.5); opacity: 0; }
-        }
+        @keyframes fiestaExitLeft { 0% { transform: translate(-50%, -15%) rotate(0deg) scale(0.75); opacity: 1; } 100% { transform: translate(-250%, -50%) rotate(-720deg) scale(0.5); opacity: 0; } }
+        @keyframes fiestaExitRight { 0% { transform: translate(-50%, -15%) rotate(0deg) scale(0.75); opacity: 1; } 100% { transform: translate(150%, -50%) rotate(720deg) scale(0.5); opacity: 0; } }
 
         /* ========================================================
-           THE AIRBORNE JUMP PLAYBOOK
+           NEW ENTRANCE: THE PIÑATA CEILING DROP!
            ======================================================== */
-           
-        @keyframes jumpSpin {
-            0% { transform: perspective(1000px) translate(-50%, -50%) rotateY(0deg); opacity: 0; animation-timing-function: ease-out; }
+        @keyframes pinataDrop {
+            0% { transform: translateY(-1200px); opacity: 0; animation-timing-function: ease-in; }
             5% { opacity: 1; }
-            50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotateY(360deg); opacity: 1; animation-timing-function: ease-in; }
-            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotateY(720deg); opacity: 1; }
-        }
-
-        @keyframes jumpFlip {
-            0% { transform: perspective(1000px) translate(-50%, -50%) rotateX(0deg); opacity: 0; animation-timing-function: ease-out; }
-            5% { opacity: 1; }
-            50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotateX(180deg); opacity: 1; animation-timing-function: ease-in; }
-            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotateX(360deg); opacity: 1; }
-        }
-
-        @keyframes jumpCartwheel {
-            0% { transform: perspective(1000px) translate(-50%, -50%) rotateZ(0deg); opacity: 0; animation-timing-function: ease-out; }
-            5% { opacity: 1; }
-            50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotateZ(180deg); opacity: 1; animation-timing-function: ease-in; }
-            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotateZ(360deg); opacity: 1; }
-        }
-
-        @keyframes jumpHangtime {
-            0% { transform: perspective(1000px) translate(-50%, -50%) rotate(0deg); opacity: 0; animation-timing-function: ease-out; }
-            5% { opacity: 1; }
-            30% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotate(-15deg); opacity: 1; animation-timing-function: linear; }
-            70% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotate(10deg); opacity: 1; animation-timing-function: ease-in; }
-            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
-        }
-
-        @keyframes jumpCorkscrew {
-            0% { transform: perspective(1000px) translate(-50%, -50%) rotate3d(1, 1, 1, 0deg); opacity: 0; animation-timing-function: ease-out; }
-            5% { opacity: 1; }
-            50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotate3d(1, 1, 1, 180deg); opacity: 1; animation-timing-function: ease-in; }
-            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotate3d(1, 1, 1, 360deg); opacity: 1; }
+            60% { transform: translateY(40px); opacity: 1; animation-timing-function: ease-out; }
+            80% { transform: translateY(-15px); opacity: 1; animation-timing-function: ease-in-out; }
+            100% { transform: translateY(0); opacity: 1; }
         }
 
     </style>
@@ -670,7 +356,6 @@
 
     <div id="capture-area">
         <div class="arena-glow"></div>
-        
         <div class="papel-picado papel-1"></div>
         <div class="papel-picado papel-2"></div>
         
@@ -685,7 +370,6 @@
 
         <div id="court-scene">
             <div id="court">
-
                 <div class="half-court-circle"></div>
                 <div class="three-point-arc"></div>
                 <div class="corner-three-left"></div>
@@ -697,7 +381,7 @@
                     <img id="crawl-logo" class="fiesta-logo" src="" alt="">
                 </div>
                 
-                <div id="game1-text" class="neon-game-text" style="position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); z-index: 100; pointer-events: none;">GAME 1</div>
+                <div id="game1-text" class="neon-game-text">GAME 1</div>
 
                 <div id="players-container"></div>
             </div>
@@ -864,7 +548,6 @@
             
             ctx.globalCompositeOperation = 'source-over';
             if (!spotlightWiden) {
-                // Team Colors dynamically injected into the spotlights!
                 drawColoredTint(ctx, roamSpot1.x, roamSpot1.y, 30, 210, activePrimaryHex); 
                 drawColoredTint(ctx, roamSpot2.x, roamSpot2.y, 30, 210, activeSecondaryHex); 
             }
@@ -1121,6 +804,7 @@
                 const jumpSpeed = (0.6 + Math.random() * 0.4).toFixed(2);
                 const jumpOffset = (Math.random() * -1).toFixed(2);
                 
+                // First 5 bench players are the Hit Squad!
                 let weaponHtml = '';
                 if (index < 5) {
                     weaponHtml = `<div id="stick-${index}" class="pinata-stick"></div>`;
@@ -1151,7 +835,7 @@
                 container.insertAdjacentHTML('beforeend', html);
             });
 
-            // 2. RENDER THE STARTERS VIA JUMP PLAYBOOK
+            // 2. RENDER THE STARTERS VIA PIÑATA DROP
             const tagEl = document.getElementById('starting-tag');
             tagEl.textContent = "STARTING 5";
             tagEl.style.color = "var(--text-dark)";
@@ -1160,13 +844,6 @@
             tagEl.classList.remove('anim-header-tag');
             void tagEl.offsetWidth; 
             tagEl.classList.add('anim-header-tag');
-
-            const playbook = ["jumpSpin", "jumpFlip", "jumpCartwheel", "jumpHangtime", "jumpCorkscrew"];
-            
-            for (let i = playbook.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [playbook[i], playbook[j]] = [playbook[j], playbook[i]];
-            }
 
             starters.forEach((player, index) => {
                 const pos = POSITIONS[index];
@@ -1183,7 +860,6 @@
                     ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` 
                     : `<div class="fallback-silhouette"></div>`;
 
-                const chosenAnimation = playbook[index];
                 const delays = [10.93, 18.15, 26.17, 33.72, 40.87]; 
                 const baseDelay = delays[index]; 
                 
@@ -1195,18 +871,23 @@
                 const tResume = baseDelay + 1.2;
 
                 const html = `
-                    <div class="player-node starter-node" style="animation: ${chosenAnimation} 0.75s forwards; animation-delay: ${tJumpStart}s; left: ${coords.x}%; top: ${coords.y}%;">
-                        <div class="cinematic-wrapper">
+                    <div class="player-node starter-node" style="left: ${coords.x}%; top: ${coords.y}%;">
+                        <div class="cinematic-wrapper" style="animation: pinataDrop 0.75s forwards; animation-delay: ${tJumpStart}s;">
                             <div class="photo-wrapper">
                                 <div id="shockwave-${index}" class="shockwave-ring"></div>
-                                <div class="player-position">${pos}</div>
-                                ${jerseyNum ? `<div class="player-number">${jerseyNum}</div>` : ''}
                                 
-                                <div class="player-photo-container">
-                                    ${photoHtml}
+                                <div id="player-assets-${index}" style="opacity: 0; transform: scale(0.5); transition: all 0.4s cubic-bezier(0.1, 0.8, 0.3, 1); width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+                                    <div class="player-position">${pos}</div>
+                                    ${jerseyNum ? `<div class="player-number">${jerseyNum}</div>` : ''}
+                                    <div class="player-photo-container">
+                                        ${photoHtml}
+                                    </div>
                                 </div>
 
-                                <div id="pinata-${index}" class="pinata-mask"></div>
+                                <div id="pinata-${index}" class="pinata-wrapper" style="animation-delay: -${Math.random() * 2}s;">
+                                    <div class="pinata-string"></div>
+                                    <div class="pinata-emoji">🪅</div>
+                                </div>
                                 
                                 <div id="confetti-${index}" class="confetti-container"></div>
                             </div>
@@ -1221,15 +902,14 @@
                 // --- 🚨 THE PIÑATA CHOREOGRAPHY TIMING 🚨 ---
                 setTimeout(() => { activePlayerIndex = index; }, tJumpStart * 1000); 
                 
-                // FIXED: Handle short benches by reusing players!
                 let hitterIndex = index;
                 if (hitterIndex >= bench.length) {
-                    hitterIndex = bench.length - 1; // 4th bench player goes twice if there are only 4!
+                    hitterIndex = bench.length - 1; 
                 }
                 const hitSquadNode = document.getElementById(`bench-node-${hitterIndex}`);
                 const stick = document.getElementById(`stick-${hitterIndex}`);
 
-                // Starter Lands!
+                // Piñata Drops from Ceiling and Lands!
                 setTimeout(() => {
                     const captureArea = document.getElementById('capture-area');
                     captureArea.classList.remove('quake-active');
@@ -1257,15 +937,24 @@
 
                 // CRACK! Piñata breaks exactly at baseDelay!
                 setTimeout(() => {
+                    // Shatter the Donkey
                     const pinata = document.getElementById(`pinata-${index}`);
                     if (pinata) pinata.classList.add('shatter');
 
+                    // REVEAL THE PLAYER PHOTO
+                    const assets = document.getElementById(`player-assets-${index}`);
+                    if(assets) {
+                        assets.style.opacity = '1';
+                        assets.style.transform = 'scale(1)';
+                    }
+
+                    // Second Quake
                     const captureArea = document.getElementById('capture-area');
                     captureArea.classList.remove('quake-active');
                     void captureArea.offsetWidth;
                     captureArea.classList.add('quake-active');
 
-                    // Fire Confetti!
+                    // Fire Confetti using Team Colors!
                     const confCont = document.getElementById(`confetti-${index}`);
                     if (confCont) {
                         const colors = [activePrimaryHex, activeSecondaryHex, '#ffffff', '#eacc98'];
