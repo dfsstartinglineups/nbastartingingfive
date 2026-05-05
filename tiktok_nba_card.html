@@ -207,16 +207,16 @@
             text-shadow: 0 0 10px var(--team-primary), 0 0 20px var(--team-primary), 0 0 40px var(--team-primary), 6px 6px 0px var(--team-secondary), -6px -6px 0px #fff;
         }
 
-        /* --- CANVAS LIGHTING ENGINE --- */
+        /* CANVAS LIGHTING ENGINE */
         #spotlight-canvas { position: absolute; top: 0; left: 0; width: 1080px; height: 1080px; z-index: 20; opacity: 0; pointer-events: none; transition: opacity 1.5s ease; }
         .lights-out-mode #spotlight-canvas { opacity: 1; }
 
         /* ======================================================== */
 
-        .player-node { position: absolute; display: flex; flex-direction: column; align-items: center; transform: translate(-50%, -50%); }
+        .player-node { position: absolute; display: flex; flex-direction: column; align-items: center; }
 
         /* --- HYPED BENCH STYLING & WEAPONS --- */
-        .bench-node { z-index: 5; }
+        .bench-node { z-index: 5; transform: translate(-50%, -50%); }
         .bench-node .player-position, .bench-node .player-number { display: none; }
 
         @keyframes benchJump { 0%, 100% { transform: translate(-50%, 0%) scale(0.75); } 50% { transform: translate(-50%, -15%) scale(0.75); } }
@@ -263,7 +263,7 @@
         
         @keyframes pinataSway { 0% { transform: translate(-50%, -50%) rotate(-6deg); } 100% { transform: translate(-50%, -50%) rotate(6deg); } }
         
-        .shatter { animation: pinataShatter 0.4s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
+        .shatter { animation: pinataShatter 0.4s cubic-bezier(0.1, 0.8, 0.3, 1) forwards !important; }
         @keyframes pinataShatter { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(2.5) rotate(45deg); opacity: 0; visibility: hidden; } }
 
         /* --- CSS CONFETTI ENGINE --- */
@@ -326,12 +326,13 @@
         /* ========================================================
            NEW ENTRANCE: THE PIÑATA CEILING DROP!
            ======================================================== */
+        /* FIXED: Added translate(-50%, ...) so the nodes center themselves on their court coordinates! */
         @keyframes pinataDrop {
-            0% { transform: translateY(-1200px); opacity: 0; animation-timing-function: ease-in; }
-            5% { opacity: 1; }
-            60% { transform: translateY(40px); opacity: 1; animation-timing-function: ease-out; }
-            80% { transform: translateY(-15px); opacity: 1; animation-timing-function: ease-in-out; }
-            100% { transform: translateY(0); opacity: 1; }
+            0% { transform: translate(-50%, -1200px); opacity: 0; animation-timing-function: ease-in; }
+            5% { transform: translate(-50%, -1200px); opacity: 1; }
+            60% { transform: translate(-50%, calc(-50% + 40px)); opacity: 1; animation-timing-function: ease-out; }
+            80% { transform: translate(-50%, calc(-50% - 15px)); opacity: 1; animation-timing-function: ease-in-out; }
+            100% { transform: translate(-50%, -50%); opacity: 1; }
         }
 
     </style>
@@ -548,8 +549,8 @@
             
             ctx.globalCompositeOperation = 'source-over';
             if (!spotlightWiden) {
-                drawColoredTint(ctx, roamSpot1.x, roamSpot1.y, 30, 210, activePrimaryHex); 
-                drawColoredTint(ctx, roamSpot2.x, roamSpot2.y, 30, 210, activeSecondaryHex); 
+                drawColoredTint(ctx, roamSpot1.x, roamSpot1.y, 30, 210, '#ff007a'); 
+                drawColoredTint(ctx, roamSpot2.x, roamSpot2.y, 30, 210, '#00e5ff'); 
             }
             
             drawMainHalo(ctx, currentSpotX, currentSpotY, currentInnerR, currentOuterR, activePrimaryHex, activeSecondaryHex);
@@ -804,7 +805,6 @@
                 const jumpSpeed = (0.6 + Math.random() * 0.4).toFixed(2);
                 const jumpOffset = (Math.random() * -1).toFixed(2);
                 
-                // First 5 bench players are the Hit Squad!
                 let weaponHtml = '';
                 if (index < 5) {
                     weaponHtml = `<div id="stick-${index}" class="pinata-stick"></div>`;
@@ -870,9 +870,10 @@
                 const tRetreat = baseDelay + 0.8;
                 const tResume = baseDelay + 1.2;
 
+                // FIXED: Placed pinataDrop animation properly on the starter-node so it is visible!
                 const html = `
-                    <div class="player-node starter-node" style="left: ${coords.x}%; top: ${coords.y}%;">
-                        <div class="cinematic-wrapper" style="animation: pinataDrop 0.75s forwards; animation-delay: ${tJumpStart}s;">
+                    <div class="player-node starter-node" style="left: ${coords.x}%; top: ${coords.y}%; animation: pinataDrop 0.75s forwards; animation-delay: ${tJumpStart}s;">
+                        <div class="cinematic-wrapper">
                             <div class="photo-wrapper">
                                 <div id="shockwave-${index}" class="shockwave-ring"></div>
                                 
