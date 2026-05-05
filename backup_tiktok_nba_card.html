@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NBA Starting 5 - Game 2 Trading Cards</title>
+    <title>NBA Starting 5 - Game 2 Trading Cards (TikTok Vertical)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&family=Oswald:wght@500;700&family=Montserrat:ital,wght@0,800;1,900&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --team-primary: #17408B; 
-            --team-secondary: #C9082A;
+            --team-primary: #007ac1; 
+            --team-secondary: #ef3b24;
             --bg-wood: #eacc98; 
             --text-dark: #111; 
         }
@@ -52,9 +52,10 @@
 
         button:hover { background: #555; }
 
+        /* --- TIKTOK VERTICAL FORMAT: 1080 x 1920 --- */
         #capture-area {
             width: 1080px;
-            height: 1080px; 
+            height: 1920px; 
             background-color: var(--bg-wood);
             background-image: repeating-linear-gradient(
                 to right,
@@ -70,8 +71,8 @@
             align-items: center;
             box-shadow: 0 20px 50px rgba(0,0,0,0.9);
             color: var(--text-dark);
-            border-top: 15px solid var(--team-primary);
-            border-bottom: 15px solid var(--team-primary);
+            border-top: 20px solid var(--team-primary);
+            border-bottom: 20px solid var(--team-primary);
         }
 
         /* --- THE QUAKE EFFECT --- */
@@ -92,7 +93,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 350px;
+            height: 600px;
             background: radial-gradient(ellipse at top, var(--team-primary) 0%, transparent 70%);
             opacity: 0.15; 
             z-index: 1;
@@ -102,7 +103,7 @@
         #header {
             width: 100%;
             box-sizing: border-box;
-            padding: 30px 50px 10px; 
+            padding: 50px 60px 10px; 
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -114,7 +115,7 @@
 
         .starting-tag {
             font-family: 'Teko', sans-serif;
-            font-size: 40px; 
+            font-size: 45px; 
             color: var(--text-dark);
             text-transform: uppercase;
             letter-spacing: 3px;
@@ -127,7 +128,7 @@
             font-family: 'Montserrat', sans-serif;
             font-weight: 900;
             font-style: italic;
-            font-size: 75px; 
+            font-size: 90px; 
             margin: 0;
             line-height: 0.9;
             text-transform: uppercase;
@@ -143,30 +144,31 @@
             left: 0;
             top: 0;
             z-index: -1;
-            -webkit-text-stroke: 6px #fff; 
-            text-shadow: 4px 4px 0px var(--team-secondary);
+            -webkit-text-stroke: 8px #fff; 
+            text-shadow: 5px 5px 0px var(--team-secondary);
         }
 
         #matchup-info {
             font-family: 'Oswald', sans-serif;
-            font-size: 24px;
+            font-size: 28px;
             color: #444;
-            margin-top: 10px;
+            margin-top: 15px;
             text-transform: uppercase;
             letter-spacing: 2px;
             font-weight: bold;
         }
 
         #team-logo {
-            width: 140px; 
-            height: 140px;
+            width: 180px; 
+            height: 180px;
             object-fit: contain;
             filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
         }
 
+        /* --- THE VERTICAL COURT --- */
         #court-scene {
             width: 100%;
-            height: 850px; 
+            height: 1550px; 
             position: absolute;
             bottom: 0;
             display: flex;
@@ -176,7 +178,7 @@
 
         #court {
             width: 960px; 
-            height: 800px; 
+            height: 1400px; 
             position: relative;
             border: 4px solid var(--team-primary);
             border-bottom: none;
@@ -190,7 +192,7 @@
             left: 50%;
             transform: translateX(-50%);
             width: 320px;
-            height: 350px; 
+            height: 450px; 
             border: 4px solid var(--team-primary);
             border-bottom: none;
             background: rgba(0, 0, 0, 0.05);
@@ -198,7 +200,7 @@
 
         .free-throw-circle {
             position: absolute;
-            bottom: 350px; 
+            bottom: 450px; 
             left: 50%;
             transform: translateX(-50%);
             width: 120px;
@@ -216,24 +218,24 @@
             left: 50%;
             transform: translateX(-50%);
             width: 800px;
-            height: 550px; 
+            height: 650px; 
             border: 4px solid var(--team-primary);
             border-radius: 50% 50% 0 0;
             border-bottom: none;
-            clip-path: inset(0 0 80px 0); 
+            clip-path: inset(0 0 100px 0); 
             box-sizing: border-box; 
         }
 
-        .corner-three-left { position: absolute; bottom: 0; left: 80px; width: 4px; height: 81px; background: var(--team-primary); }
-        .corner-three-right { position: absolute; bottom: 0; right: 80px; width: 4px; height: 81px; background: var(--team-primary); }
+        .corner-three-left { position: absolute; bottom: 0; left: 80px; width: 4px; height: 101px; background: var(--team-primary); }
+        .corner-three-right { position: absolute; bottom: 0; right: 80px; width: 4px; height: 101px; background: var(--team-primary); }
 
         .half-court-circle {
             position: absolute;
             top: 0;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 250px; 
-            height: 250px; 
+            width: 300px; 
+            height: 300px; 
             border: 4px solid var(--team-primary);
             border-radius: 50%;
         }
@@ -243,10 +245,10 @@
             top: 45%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 500px; 
-            height: 500px; 
+            width: 600px; 
+            height: 600px; 
             object-fit: contain;
-            opacity: 0.35; 
+            opacity: 0.25; 
             z-index: 0;
             pointer-events: none;
             filter: grayscale(50%) brightness(80%); 
@@ -255,19 +257,18 @@
         /* --- GAME 2 BROADCAST TEXT --- */
         #game2-text {
             position: absolute;
-            top: 45%; left: 50%;
+            top: 38%; left: 50%;
             transform: translate(-50%, -50%);
             font-family: 'Montserrat', sans-serif;
             font-weight: 900;
             font-style: italic;
-            font-size: 110px;
+            font-size: 140px;
             color: #fff;
             letter-spacing: 5px;
             text-transform: uppercase;
             z-index: 2; 
             white-space: nowrap;
-            /* Sleek sports network drop shadow layering */
-            text-shadow: 0 5px 15px rgba(0,0,0,0.5), 0 0 0 6px var(--team-primary), 4px 4px 0 var(--team-secondary);
+            text-shadow: 0 5px 15px rgba(0,0,0,0.5), 0 0 0 8px var(--team-primary), 5px 5px 0 var(--team-secondary);
             opacity: 0;
             animation: slideInText 1s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
             animation-delay: 2.5s;
@@ -283,7 +284,7 @@
         #spotlight-canvas {
             position: absolute;
             top: 0; left: 0; 
-            width: 1080px; height: 1080px;
+            width: 1080px; height: 1920px;
             z-index: 20; 
             opacity: 0;
             pointer-events: none;
@@ -314,18 +315,18 @@
         }
 
         @keyframes benchJump {
-            0%, 100% { transform: translate(-50%, 0%) scale(0.75); }
-            50% { transform: translate(-50%, -15%) scale(0.75); }
+            0%, 100% { transform: translate(-50%, 0%) scale(0.85); }
+            50% { transform: translate(-50%, -15%) scale(0.85); }
         }
 
         .rally-towel {
             position: absolute;
             bottom: -5px; 
             left: -15px;
-            width: 25px; 
-            height: 45px;
+            width: 35px; 
+            height: 60px;
             background: #fff;
-            border-radius: 4px;
+            border-radius: 6px;
             transform-origin: top center;
             animation: waveTowel 0.4s infinite alternate ease-in-out;
             z-index: 15;
@@ -339,10 +340,10 @@
         }
 
         .player-photo-container {
-            width: 150px;  
-            height: 150px; 
+            width: 180px;  
+            height: 180px; 
             border-radius: 50%;
-            border: 6px solid var(--team-secondary); 
+            border: 8px solid var(--team-secondary); 
             background-color: #222; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.4); 
             z-index: 12;
@@ -367,9 +368,9 @@
 
         .card-wrapper {
             position: relative;
-            width: 180px;
-            height: 250px; /* Rectangular aspect ratio */
-            perspective: 1000px; /* 3D Camera depth for the flip */
+            width: 220px;
+            height: 310px; /* Scaled up for vertical space! */
+            perspective: 1000px;
         }
 
         .player-card-inner {
@@ -380,7 +381,7 @@
             transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             transform: rotateY(180deg); /* Starts face down! */
             box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            border-radius: 12px;
+            border-radius: 16px;
         }
 
         .player-card-front, .player-card-back {
@@ -388,12 +389,12 @@
             height: 100%;
             position: absolute;
             backface-visibility: hidden;
-            border-radius: 12px;
+            border-radius: 16px;
             box-sizing: border-box;
-            border: 6px solid var(--team-primary);
+            border: 8px solid var(--team-primary);
         }
 
-        /* The back of the card (visible during deal) */
+        /* The back of the card */
         .player-card-back {
             background-color: var(--team-secondary);
             background-image: repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(0,0,0,0.15) 15px, rgba(0,0,0,0.15) 30px);
@@ -404,20 +405,20 @@
         }
 
         .card-back-logo {
-            width: 90px; height: 90px;
+            width: 120px; height: 120px;
             object-fit: contain;
             opacity: 0.6;
             filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
         }
 
-        /* The front of the card (photo inside) */
+        /* The front of the card */
         .player-card-front {
             background-color: #222;
         }
 
         .card-photo-clip {
             width: 100%; height: 100%;
-            border-radius: 6px;
+            border-radius: 8px;
             overflow: hidden;
             position: relative;
         }
@@ -451,41 +452,41 @@
 
         .player-position {
             position: absolute;
-            top: -12px; left: -12px; 
+            top: -15px; left: -15px; 
             background-color: var(--team-primary);
             color: white; border: 4px solid var(--team-secondary);
-            width: 58px; height: 58px; border-radius: 50%;
+            width: 70px; height: 70px; border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
-            font-family: 'Teko', sans-serif; font-size: 28px; font-weight: bold;
+            font-family: 'Teko', sans-serif; font-size: 34px; font-weight: bold;
             z-index: 15; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
 
         .player-number {
             position: absolute;
-            top: -12px; right: -12px; 
+            top: -15px; right: -15px; 
             background-color: #fff;
             color: var(--text-dark); border: 4px solid var(--team-secondary);
-            width: 58px; height: 58px; border-radius: 50%;
+            width: 70px; height: 70px; border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
-            font-family: 'Teko', sans-serif; font-size: 30px; font-weight: bold;
+            font-family: 'Teko', sans-serif; font-size: 36px; font-weight: bold;
             z-index: 15; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
 
         .nameplate-wrapper {
-            display: flex; align-items: stretch; margin-top: 15px; 
+            display: flex; align-items: stretch; margin-top: 20px; 
             z-index: 14; position: relative; box-shadow: 0 5px 10px rgba(0,0,0,0.3);
             border-radius: 8px; overflow: hidden; border: 1px solid rgba(0,0,0,0.1);
         }
 
         .player-nameplate {
-            background: #fff; color: var(--text-dark); padding: 8px 24px; 
-            font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 900;
+            background: #fff; color: var(--text-dark); padding: 10px 30px; 
+            font-family: 'Montserrat', sans-serif; font-size: 28px; font-weight: 900;
             font-style: italic; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
         }
 
         /* --- THE CARD DEALING ANIMATION --- */
         @keyframes dealCard {
-            0%   { transform: translate(-50%, -1500px) rotateZ(45deg) scale(0.2); opacity: 0; }
+            0%   { transform: translate(-50%, -2000px) rotateZ(45deg) scale(0.2); opacity: 0; }
             50%  { transform: translate(-50%, -50%) rotateZ(-10deg) scale(1.1); opacity: 1; }
             100% { transform: translate(-50%, -50%) rotateZ(0deg) scale(1); opacity: 1; }
         }
@@ -518,8 +519,8 @@
         /* ========================================================
            THE CLEAN BENCH EXIT
            ======================================================== */
-        @keyframes slideOffRight { 0% { transform: translate(-50%, -15%) scale(0.75); opacity: 1; } 100% { transform: translate(1500%, -15%) scale(0.75); opacity: 0; } }
-        @keyframes slideOffLeft { 0% { transform: translate(-50%, -15%) scale(0.75); opacity: 1; } 100% { transform: translate(-1500%, -15%) scale(0.75); opacity: 0; } }
+        @keyframes slideOffRight { 0% { transform: translate(-50%, -15%) scale(0.85); opacity: 1; } 100% { transform: translate(1500%, -15%) scale(0.85); opacity: 0; } }
+        @keyframes slideOffLeft { 0% { transform: translate(-50%, -15%) scale(0.85); opacity: 1; } 100% { transform: translate(-1500%, -15%) scale(0.85); opacity: 0; } }
 
     </style>
 </head>
@@ -571,7 +572,7 @@
             </div>
         </div>
 
-        <canvas id="spotlight-canvas" width="1080" height="1080"></canvas>
+        <canvas id="spotlight-canvas" width="1080" height="1920"></canvas>
     </div>
 
     <script>
@@ -610,12 +611,14 @@
 
         const POSITIONS = ["PG", "SG", "SF", "PF", "C"];
         
+        // --- NEW VERTICAL COURT MAPPING ---
+        // Giving the players maximum breathing room vertically!
         const COURT_COORDS = [
-            { x: 50, y: 17 }, 
-            { x: 19, y: 44 }, 
-            { x: 81, y: 44 }, 
-            { x: 33, y: 77 }, 
-            { x: 67, y: 77 }  
+            { x: 50, y: 15 }, // PG - Top Center
+            { x: 20, y: 38 }, // SG - Mid Left
+            { x: 80, y: 38 }, // SF - Mid Right
+            { x: 30, y: 68 }, // PF - Bottom Left
+            { x: 70, y: 68 }  // C  - Bottom Right
         ];
 
         let allGames = [];
@@ -627,13 +630,14 @@
         let roamingInterval;
         
         let currentSpotX = 540;
-        let currentSpotY = 540;
+        let currentSpotY = 960;
         let currentInnerR = 90;
         let currentOuterR = 360;
         
         let roamSpot1 = { x: 200, y: 200, targetX: 200, targetY: 200 };
-        let roamSpot2 = { x: 800, y: 800, targetX: 800, targetY: 800 };
+        let roamSpot2 = { x: 800, y: 1600, targetX: 800, targetY: 1600 };
         
+        // Dynamic hex trackers for the Canvas Engine
         let activePrimaryHex = '#ffffff';
         let activeSecondaryHex = '#ffffff';
 
@@ -671,10 +675,10 @@
 
         function drawMainHalo(ctx, x, y, innerR, outerR, color1, color2) {
             const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
-            grad.addColorStop(0, 'rgba(0, 0, 0, 0)');      
-            grad.addColorStop(0.15, hexToRgba(color1, 0.65)); 
-            grad.addColorStop(0.6, hexToRgba(color2, 0.45)); 
-            grad.addColorStop(1, 'rgba(0, 0, 0, 0)'); 
+            grad.addColorStop(0, 'rgba(0, 0, 0, 0)'); // Inner core stays totally clear       
+            grad.addColorStop(0.15, hexToRgba(color1, 0.65)); // Bright primary edge
+            grad.addColorStop(0.6, hexToRgba(color2, 0.45)); // Transitions to secondary
+            grad.addColorStop(1, 'rgba(0, 0, 0, 0)'); // Fades cleanly into the darkness
             ctx.fillStyle = grad;
             ctx.beginPath();
             ctx.arc(x, y, outerR, 0, Math.PI * 2);
@@ -690,7 +694,7 @@
             
             const starters = document.querySelectorAll('.starter-node');
             let targetX = 540; 
-            let targetY = 540; 
+            let targetY = 960; 
             
             if (activePlayerIndex >= 0 && activePlayerIndex < starters.length) {
                 const target = starters[activePlayerIndex];
@@ -706,8 +710,8 @@
             currentSpotX += (targetX - currentSpotX) * 0.1;
             currentSpotY += (targetY - currentSpotY) * 0.1;
             
-            const targetInnerR = spotlightWiden ? 550 : 90;
-            const targetOuterR = spotlightWiden ? 1200 : 360;
+            const targetInnerR = spotlightWiden ? 800 : 120;
+            const targetOuterR = spotlightWiden ? 1800 : 450;
             currentInnerR += (targetInnerR - currentInnerR) * 0.05;
             currentOuterR += (targetOuterR - currentOuterR) * 0.05;
             
@@ -719,10 +723,12 @@
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
+            // 1. Draw solid darkness over the whole court
             ctx.globalCompositeOperation = 'source-over';
             ctx.fillStyle = 'rgba(0, 0, 0, 0.94)'; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
+            // 2. Punch the completely clear holes out of the darkness
             ctx.globalCompositeOperation = 'destination-out';
             drawHole(ctx, currentSpotX, currentSpotY, currentInnerR, currentOuterR);
             if (!spotlightWiden) {
@@ -730,12 +736,14 @@
                 drawHole(ctx, roamSpot2.x, roamSpot2.y, 30, 210);
             }
             
+            // 3. Add colored "lighting gels" back over the holes
             ctx.globalCompositeOperation = 'source-over';
             if (!spotlightWiden) {
                 drawColoredTint(ctx, roamSpot1.x, roamSpot1.y, 30, 210, activePrimaryHex);
                 drawColoredTint(ctx, roamSpot2.x, roamSpot2.y, 30, 210, activeSecondaryHex);
             }
             
+            // Apply the two-tone glow to the edges of the main tracking spotlight
             drawMainHalo(ctx, currentSpotX, currentSpotY, currentInnerR, currentOuterR, activePrimaryHex, activeSecondaryHex);
             
             requestAnimationFrame(renderSpotlights);
@@ -749,7 +757,7 @@
                 
                 while (!isValid && attempts < 15) {
                     rx = Math.floor(Math.random() * 880) + 100;
-                    ry = Math.floor(Math.random() * 880) + 100;
+                    ry = Math.floor(Math.random() * 1600) + 100; // Updated for taller space
                     
                     const distToMain = Math.hypot(rx - currentSpotX, ry - currentSpotY);
                     if (distToMain > 400) isValid = true;
@@ -912,6 +920,7 @@
                 document.documentElement.style.setProperty('--team-primary', primaryColor);
                 document.documentElement.style.setProperty('--team-secondary', theme.secondary);
                 
+                // Track colors for the Canvas Lighting Engine
                 activePrimaryHex = primaryColor;
                 activeSecondaryHex = theme.secondary;
             }
@@ -994,7 +1003,7 @@
                 const jumpOffset = (Math.random() * -1).toFixed(2);
 
                 const html = `
-                    <div class="player-node bench-node" style="left: ${benchX}%; top: -15%; animation: benchJump ${jumpSpeed}s infinite ease-in-out; animation-delay: ${jumpOffset}s;">
+                    <div class="player-node bench-node" style="left: ${benchX}%; top: -8%; animation: benchJump ${jumpSpeed}s infinite ease-in-out; animation-delay: ${jumpOffset}s;">
                         <div class="cinematic-wrapper">
                             <div class="photo-wrapper" style="width: 150px; height: 150px; border-radius: 50%; overflow: visible;">
                                 <div class="rally-towel"></div>
@@ -1102,7 +1111,7 @@
                 }
                 trackingSpotlight = true;
                 
-                currentSpotX = 540; currentSpotY = 540;
+                currentSpotX = 540; currentSpotY = 960; // Adjusted for taller court
                 moveRoamingLights();
                 
                 roamSpot1.x = roamSpot1.targetX; roamSpot1.y = roamSpot1.targetY;
@@ -1125,7 +1134,7 @@
                 
                 Array.from(benchNodes).forEach((node, idx) => {
                     node.style.animation = 'none'; 
-                    node.style.transform = 'translate(-50%, -15%) scale(0.75)'; 
+                    node.style.transform = 'translate(-50%, -15%) scale(0.85)'; 
                     void node.offsetWidth; 
                     
                     const pushDir = idx % 2 === 0 ? 'slideOffLeft' : 'slideOffRight';
@@ -1145,7 +1154,7 @@
             const capture = document.getElementById('capture-area');
             capture.style.opacity = '0.5';
             setTimeout(() => { capture.style.opacity = '1'; }, 100);
-            alert("Ready! Playwright will capture #capture-area as a 1080x1080 square.");
+            alert("Ready! Playwright will capture #capture-area as a 1080x1920 vertical video format.");
         }
 
         loadData();
