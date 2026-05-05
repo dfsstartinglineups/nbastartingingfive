@@ -284,20 +284,20 @@
         .fiesta-logo {
             width: 350px; height: 350px;
             object-fit: contain;
-            /* Warm sunset/orange filter for the logo */
             filter: drop-shadow(0 0 30px rgba(255, 120, 0, 0.7)) sepia(0.3) hue-rotate(-20deg) saturate(1.5);
             opacity: 0.4;
         }
 
+        /* FIXED: Shrink font size and add white-space: nowrap to prevent broken lines */
         .neon-game-text {
             font-family: 'Montserrat', sans-serif;
             font-weight: 900;
             font-style: italic;
-            font-size: 140px;
+            font-size: 90px; 
+            white-space: nowrap; 
             color: #fff;
-            margin-top: -30px;
+            margin-top: -10px;
             letter-spacing: 5px;
-            /* Overlapping neon party shadows */
             text-shadow: 
                 0 0 10px var(--fiesta-pink), 0 0 20px var(--fiesta-pink), 0 0 40px var(--fiesta-pink),
                 6px 6px 0px var(--fiesta-cyan), -6px -6px 0px var(--fiesta-lime);
@@ -378,8 +378,6 @@
         .starter-node {
             opacity: 0; 
             z-index: 10;
-            left: var(--final-x); 
-            top: var(--final-y);
         }
 
         .cinematic-wrapper {
@@ -388,34 +386,11 @@
             align-items: center;
         }
 
+        /* FIXED: Hardcoded dimensions to guarantee perfect absolute positioning overlap */
         .photo-wrapper {
             position: relative;
             width: 190px;
             height: 190px;
-        }
-
-        /* --- PIÑATA MASK & SHATTER --- */
-        .pinata-mask {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--fiesta-pink), var(--fiesta-cyan), var(--fiesta-lime), var(--fiesta-yellow));
-            z-index: 14;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 90px;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
-            border: 4px solid #fff;
-            box-sizing: border-box;
-        }
-        .pinata-mask::after { content: "🪅"; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.4)); }
-        
-        .shatter { animation: pinataShatter 0.4s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
-        
-        @keyframes pinataShatter {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(2.5) rotate(45deg); opacity: 0; visibility: hidden; }
         }
 
         /* --- CSS CONFETTI ENGINE --- */
@@ -456,11 +431,12 @@
         }
         .anim-shockwave { animation: ringExplode 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
 
+        /* FIXED: Added positioning resets so images do not slide off center */
         .player-photo-container {
             width: 190px;  
             height: 190px; 
             border-radius: 50%;
-            border: 6px solid #fff; /* Crisp white border for fiesta */
+            border: 6px solid #fff; 
             background-color: #222; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.4); 
             z-index: 12;
@@ -532,7 +508,7 @@
         .nameplate-wrapper {
             display: flex;
             align-items: stretch;
-            margin-top: 10px; 
+            margin-top: 10px; /* Offset adjusted since photo-wrapper is fixed 190px height */
             z-index: 14;
             position: relative; 
             box-shadow: 0 5px 10px rgba(0,0,0,0.3);
@@ -575,6 +551,18 @@
         }
 
         /* ========================================================
+           THE GAUNTLET ENTRANCE PATH
+           ======================================================== */
+        
+        @keyframes runGauntlet {
+            0%   { left: 95%; top: 95%; opacity: 0; transform: translate(-50%, -50%); }
+            2%   { left: 95%; top: 95%; opacity: 1; transform: translate(-50%, -50%); } 
+            35%  { left: 95%; top: -9%; opacity: 1; transform: translate(-50%, -50%); } 
+            75%  { left: 15%; top: -9%; opacity: 1; transform: translate(-50%, -50%); } 
+            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); } 
+        }
+
+        /* ========================================================
            THE FIESTA SALSA EXIT (BENCH)
            ======================================================== */
         @keyframes fiestaExitLeft {
@@ -589,39 +577,41 @@
         /* ========================================================
            THE AIRBORNE JUMP PLAYBOOK
            ======================================================== */
+           
+        /* FIXED: Removed bad translate Math that offset the jumps */
         @keyframes jumpSpin {
-            0% { transform: perspective(1000px) translate(-50%, -50%) rotateY(0deg); animation-timing-function: ease-out; }
-            50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotateY(360deg); animation-timing-function: ease-in; }
-            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotateY(720deg); }
+            0% { transform: perspective(1000px) translateY(0) rotateY(0deg); animation-timing-function: ease-out; }
+            50% { transform: perspective(1000px) translateY(-350px) scale(2.2) rotateY(360deg); animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translateY(0) scale(1) rotateY(720deg); }
         }
         .anim-jump-spin { animation: jumpSpin 0.75s forwards; }
 
         @keyframes jumpFlip {
-            0% { transform: perspective(1000px) translate(-50%, -50%) rotateX(0deg); animation-timing-function: ease-out; }
-            50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotateX(180deg); animation-timing-function: ease-in; }
-            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotateX(360deg); }
+            0% { transform: perspective(1000px) translateY(0) rotateX(0deg); animation-timing-function: ease-out; }
+            50% { transform: perspective(1000px) translateY(-350px) scale(2.2) rotateX(180deg); animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translateY(0) scale(1) rotateX(360deg); }
         }
         .anim-jump-flip { animation: jumpFlip 0.75s forwards; }
 
         @keyframes jumpCartwheel {
-            0% { transform: perspective(1000px) translate(-50%, -50%) rotateZ(0deg); animation-timing-function: ease-out; }
-            50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotateZ(180deg); animation-timing-function: ease-in; }
-            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotateZ(360deg); }
+            0% { transform: perspective(1000px) translateY(0) rotateZ(0deg); animation-timing-function: ease-out; }
+            50% { transform: perspective(1000px) translateY(-350px) scale(2.2) rotateZ(180deg); animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translateY(0) scale(1) rotateZ(360deg); }
         }
         .anim-jump-cartwheel { animation: jumpCartwheel 0.75s forwards; }
 
         @keyframes jumpHangtime {
-            0% { transform: perspective(1000px) translate(-50%, -50%) rotate(0deg); animation-timing-function: ease-out; }
-            30% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotate(-15deg); animation-timing-function: linear; }
-            70% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotate(10deg); animation-timing-function: ease-in; }
-            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotate(0deg); }
+            0% { transform: perspective(1000px) translateY(0) rotate(0deg); animation-timing-function: ease-out; }
+            30% { transform: perspective(1000px) translateY(-350px) scale(2.2) rotate(-15deg); animation-timing-function: linear; }
+            70% { transform: perspective(1000px) translateY(-350px) scale(2.2) rotate(10deg); animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translateY(0) scale(1) rotate(0deg); }
         }
         .anim-jump-hangtime { animation: jumpHangtime 0.75s forwards; }
 
         @keyframes jumpCorkscrew {
-            0% { transform: perspective(1000px) translate(-50%, -50%) rotate3d(1, 1, 1, 0deg); animation-timing-function: ease-out; }
-            50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotate3d(1, 1, 1, 180deg); animation-timing-function: ease-in; }
-            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotate3d(1, 1, 1, 360deg); }
+            0% { transform: perspective(1000px) translateY(0) rotate3d(1, 1, 1, 0deg); animation-timing-function: ease-out; }
+            50% { transform: perspective(1000px) translateY(-350px) scale(2.2) rotate3d(1, 1, 1, 180deg); animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translateY(0) scale(1) rotate3d(1, 1, 1, 360deg); }
         }
         .anim-jump-corkscrew { animation: jumpCorkscrew 0.75s forwards; }
 
@@ -1120,7 +1110,7 @@
                 container.insertAdjacentHTML('beforeend', html);
             });
 
-            // 2. RENDER THE STARTERS VIA JUMP PLAYBOOK & PIÑATAS
+            // 2. RENDER THE STARTERS VIA JUMP PLAYBOOK
             const tagEl = document.getElementById('starting-tag');
             tagEl.textContent = "STARTING 5";
             tagEl.style.color = "var(--text-dark)";
@@ -1170,11 +1160,8 @@
                                 <div class="player-photo-container">
                                     ${photoHtml}
                                 </div>
-
-                                <div id="pinata-${index}" class="pinata-mask"></div>
                                 
                                 <div id="confetti-${index}" class="confetti-container"></div>
-
                             </div>
                             <div class="nameplate-wrapper">
                                 <div class="player-nameplate">${displayName}</div>
@@ -1201,10 +1188,6 @@
                     const shockwave = document.getElementById(`shockwave-${index}`);
                     if (shockwave) shockwave.classList.add('anim-shockwave');
 
-                    // Shatter the Piñata Mask!
-                    const pinata = document.getElementById(`pinata-${index}`);
-                    if (pinata) pinata.classList.add('shatter');
-
                     // Explode the JS Confetti!
                     const confCont = document.getElementById(`confetti-${index}`);
                     if (confCont) {
@@ -1213,8 +1196,8 @@
                             let conf = document.createElement('div');
                             conf.className = 'confetti-piece';
                             conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                            conf.style.left = '90px'; // Dead center of 190px wrapper
-                            conf.style.top = '90px';
+                            conf.style.left = '89px'; // Dead center of 190px wrapper
+                            conf.style.top = '89px';
                             // Blast outward in a full circle
                             const angle = Math.random() * Math.PI * 2;
                             const velocity = 80 + Math.random() * 120;
