@@ -277,7 +277,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            z-index: 2;
+            /* REMOVED z-index so the children can dictate their own depth! */
             pointer-events: none;
         }
 
@@ -286,6 +286,8 @@
             object-fit: contain;
             filter: drop-shadow(0 0 30px rgba(255, 120, 0, 0.7)) sepia(0.3) hue-rotate(-20deg) saturate(1.5);
             opacity: 0.4;
+            position: relative;
+            z-index: 2; /* Locked below the players */
         }
 
         .neon-game-text {
@@ -297,6 +299,8 @@
             color: #fff;
             margin-top: -10px;
             letter-spacing: 5px;
+            position: relative;
+            z-index: 50; /* Unlocked and flying in FRONT of the players! */
             text-shadow: 
                 0 0 10px var(--fiesta-pink), 0 0 20px var(--fiesta-pink), 0 0 40px var(--fiesta-pink),
                 6px 6px 0px var(--fiesta-cyan), -6px -6px 0px var(--fiesta-lime);
@@ -314,32 +318,32 @@
             }
         }
 
-        /* NEW: Text-Only Crash Down Animation */
+        /* NEW: Aggressive High-Clearance Pound Animation */
         @keyframes neonTextPound {
             0% { 
                 transform: translateY(0) scale(1); 
                 animation-timing-function: ease-out;
             }
             50% { 
-                /* Rise high into the camera */
-                transform: translateY(-600px) scale(1.6); 
+                /* Rise very high into the camera */
+                transform: translateY(-650px) scale(1.6); 
                 filter: brightness(1.5);
                 animation-timing-function: cubic-bezier(0.8, 0, 1, 1); 
             }
             85% { 
-                /* Slam down above the Point Guard */
-                transform: translateY(-380px) scale(0.7); 
+                /* Slam down at -480px cleanly above the PG */
+                transform: translateY(-480px) scale(0.7); 
                 filter: brightness(1);
                 animation-timing-function: ease-out; 
             }
             92% {
                 /* Recoil bounce */
-                transform: translateY(-400px) scale(0.7); 
+                transform: translateY(-500px) scale(0.7); 
                 animation-timing-function: ease-in;
             }
             100% { 
                 /* Settle */
-                transform: translateY(-380px) scale(0.7); 
+                transform: translateY(-480px) scale(0.7); 
             }
         }
         .anim-neon-pound {
@@ -727,8 +731,10 @@
                 
                 <div id="fiesta-watermark">
                     <img id="crawl-logo" class="fiesta-logo" src="" alt="">
-                    <div class="neon-game-text">GAME 1</div>
+                    <div class="neon-game-text" id="neon-text-placeholder" style="visibility: hidden;">GAME 1</div>
                 </div>
+                
+                <div id="game1-text" class="neon-game-text" style="position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); z-index: 50; pointer-events: none;">GAME 1</div>
 
                 <div id="players-container"></div>
             </div>
@@ -797,6 +803,7 @@
         let roamSpot1 = { x: 200, y: 200, targetX: 200, targetY: 200 };
         let roamSpot2 = { x: 800, y: 800, targetX: 800, targetY: 800 };
         
+        // Dynamic hex trackers for the Canvas Engine
         let activePrimaryHex = '#ffffff';
         let activeSecondaryHex = '#ffffff';
 
@@ -834,10 +841,10 @@
 
         function drawMainHalo(ctx, x, y, innerR, outerR, color1, color2) {
             const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
-            grad.addColorStop(0, 'rgba(0, 0, 0, 0)');     
-            grad.addColorStop(0.15, hexToRgba(color1, 0.65)); 
-            grad.addColorStop(0.6, hexToRgba(color2, 0.45)); 
-            grad.addColorStop(1, 'rgba(0, 0, 0, 0)'); 
+            grad.addColorStop(0, 'rgba(0, 0, 0, 0)'); // Inner core stays totally clear       
+            grad.addColorStop(0.15, hexToRgba(color1, 0.65)); // Bright primary edge
+            grad.addColorStop(0.6, hexToRgba(color2, 0.45)); // Transitions to secondary
+            grad.addColorStop(1, 'rgba(0, 0, 0, 0)'); // Fades cleanly into the darkness
             ctx.fillStyle = grad;
             ctx.beginPath();
             ctx.arc(x, y, outerR, 0, Math.PI * 2);
@@ -882,10 +889,12 @@
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
+            // 1. Draw solid darkness over the whole court
             ctx.globalCompositeOperation = 'source-over';
             ctx.fillStyle = 'rgba(30, 10, 0, 0.85)'; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
+            // 2. Punch the completely clear holes out of the darkness
             ctx.globalCompositeOperation = 'destination-out';
             drawHole(ctx, currentSpotX, currentSpotY, currentInnerR, currentOuterR);
             if (!spotlightWiden) {
@@ -893,12 +902,14 @@
                 drawHole(ctx, roamSpot2.x, roamSpot2.y, 30, 210);
             }
             
+            // 3. Add colored "lighting gels" back over the holes
             ctx.globalCompositeOperation = 'source-over';
             if (!spotlightWiden) {
-                drawColoredTint(ctx, roamSpot1.x, roamSpot1.y, 30, 210, '#ff007a'); 
-                drawColoredTint(ctx, roamSpot2.x, roamSpot2.y, 30, 210, '#00e5ff'); 
+                drawColoredTint(ctx, roamSpot1.x, roamSpot1.y, 30, 210, '#ff007a');
+                drawColoredTint(ctx, roamSpot2.x, roamSpot2.y, 30, 210, '#00e5ff');
             }
             
+            // Apply the two-tone glow to the edges of the main tracking spotlight
             drawMainHalo(ctx, currentSpotX, currentSpotY, currentInnerR, currentOuterR, activePrimaryHex, activeSecondaryHex);
             
             requestAnimationFrame(renderSpotlights);
@@ -1129,7 +1140,7 @@
             
             document.getElementById('crawl-logo').src = logoUrl;
             
-            const gameText = document.querySelector('.neon-game-text');
+            const gameText = document.getElementById('game1-text');
             if (gameText) gameText.classList.remove('anim-neon-pound'); // Reset text flight!
 
             const container = document.getElementById('players-container');
@@ -1382,7 +1393,7 @@
                 if (roamingInterval) clearInterval(roamingInterval); 
 
                 // Ignite and launch ONLY the neon sign up and pound it down!
-                const gameText = document.querySelector('.neon-game-text');
+                const gameText = document.getElementById('game1-text');
                 if (gameText) gameText.classList.add('anim-neon-pound');
 
             }, 44500); 
