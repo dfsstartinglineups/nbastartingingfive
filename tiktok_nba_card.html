@@ -284,17 +284,21 @@
             object-fit: contain;
             filter: drop-shadow(0 0 30px rgba(255, 120, 0, 0.7)) sepia(0.3) hue-rotate(-20deg) saturate(1.5);
             opacity: 0.4;
+            position: relative;
+            z-index: 2; /* Locked below the players */
         }
 
         /* Game 1 text perfectly locked into position */
         #game1-text {
             position: absolute; 
-            top: 45%; left: 50%; 
+            top: 2%; /* Land at top, above PG */
+            left: 50%; 
             transform: translate(-50%, -50%); 
-            z-index: 50; 
+            z-index: 100; /* Flying in FRONT of everything! */
             pointer-events: none;
         }
 
+        /* FIXED: Removed flicker animation for a solid glow */
         .neon-game-text {
             font-family: 'Montserrat', sans-serif;
             font-weight: 900;
@@ -304,18 +308,10 @@
             color: #fff;
             margin-top: -10px;
             letter-spacing: 5px;
-            animation: neonFlicker 2s infinite alternate;
-        }
-
-        @keyframes neonFlicker {
-            0%, 18%, 22%, 25%, 53%, 57%, 100% {
-                text-shadow: 0 0 10px var(--team-primary), 0 0 20px var(--team-primary), 0 0 40px var(--team-primary), 6px 6px 0px var(--team-secondary), -6px -6px 0px #fff;
-                color: #fff;
-            }
-            20%, 24%, 55% {
-                text-shadow: none;
-                color: rgba(255,255,255,0.2);
-            }
+            position: relative;
+            text-shadow: 
+                0 0 10px var(--team-primary), 0 0 20px var(--team-primary), 0 0 40px var(--team-primary),
+                6px 6px 0px var(--team-secondary), -6px -6px 0px #fff;
         }
 
         /* --- CANVAS LIGHTING ENGINE --- */
@@ -377,11 +373,11 @@
             100% { transform: scaleX(-1) rotate(15deg) translateY(-5px); }
         }
 
-        /* The Piñata Stick (Hit Squad Only) using Team Colors */
+        /* FIXED: Moved piñata sticks closer to the actual photo wrapper edges */
         .pinata-stick {
             position: absolute;
-            bottom: 20px;
-            left: -30px; 
+            bottom: 15px;
+            left: -5px; 
             width: 14px;
             height: 120px;
             background: repeating-linear-gradient(45deg, var(--team-primary), var(--team-primary) 10px, var(--team-secondary) 10px, var(--team-secondary) 20px);
@@ -486,7 +482,7 @@
             width: 190px;  
             height: 190px; 
             border-radius: 50%;
-            border: 6px solid var(--team-secondary); 
+            border: 6px solid #fff; 
             background-color: #222; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.4); 
             z-index: 12;
@@ -701,7 +697,7 @@
                     <img id="crawl-logo" class="fiesta-logo" src="" alt="">
                 </div>
                 
-                <div id="game1-text" class="neon-game-text" style="position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); z-index: 50; pointer-events: none;">GAME 1</div>
+                <div id="game1-text" class="neon-game-text" style="position: absolute; top: 2%; left: 50%; transform: translate(-50%, -50%); z-index: 100; pointer-events: none;">GAME 1</div>
 
                 <div id="players-container"></div>
             </div>
@@ -1125,7 +1121,6 @@
                 const jumpSpeed = (0.6 + Math.random() * 0.4).toFixed(2);
                 const jumpOffset = (Math.random() * -1).toFixed(2);
                 
-                // First 5 bench players are the Hit Squad!
                 let weaponHtml = '';
                 if (index < 5) {
                     weaponHtml = `<div id="stick-${index}" class="pinata-stick"></div>`;
@@ -1192,7 +1187,6 @@
                 const delays = [10.93, 18.15, 26.17, 33.72, 40.87]; 
                 const baseDelay = delays[index]; 
                 
-                // Exactly synchronize the timing to the announcer
                 const tJumpStart = baseDelay - 1.4;
                 const tLand = baseDelay - 0.65;
                 const tSwing = baseDelay - 0.25;
@@ -1256,7 +1250,7 @@
                     if (stick) stick.classList.add('anim-swing');
                 }, tSwing * 1000);
 
-                // CRACK! Piñata breaks exactly at baseDelay!
+                // CRACK!
                 setTimeout(() => {
                     const pinata = document.getElementById(`pinata-${index}`);
                     if (pinata) pinata.classList.add('shatter');
@@ -1267,7 +1261,7 @@
                     void captureArea.offsetWidth;
                     captureArea.classList.add('quake-active');
 
-                    // Fire Confetti using Team Colors!
+                    // Fire Confetti!
                     const confCont = document.getElementById(`confetti-${index}`);
                     if (confCont) {
                         const colors = [activePrimaryHex, activeSecondaryHex, '#ffffff', '#eacc98'];
