@@ -74,7 +74,7 @@
             border-bottom: 15px solid var(--team-primary);
         }
 
-        /* --- PAPEL PICADO BANNERS (Using CSS Masking for Team Colors) --- */
+        /* --- PAPEL PICADO BANNERS --- */
         .papel-picado {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 60px;
@@ -285,7 +285,7 @@
             filter: drop-shadow(0 0 30px rgba(255, 120, 0, 0.7)) sepia(0.3) hue-rotate(-20deg) saturate(1.5);
             opacity: 0.4;
             position: relative;
-            z-index: 2; /* Locked below the players */
+            z-index: 2; 
         }
 
         /* Game 1 text firmly locked back at 45% (center court) */
@@ -294,7 +294,7 @@
             top: 45%; 
             left: 50%; 
             transform: translate(-50%, -50%); 
-            z-index: 100; /* Flying in FRONT of everything! */
+            z-index: 100; 
             pointer-events: none;
         }
 
@@ -415,28 +415,29 @@
             height: 190px;
         }
 
-        /* --- PIÑATA MASK & SHATTER --- */
+        /* --- THE CLASSIC PINK DONKEY PIÑATA MASK --- */
         .pinata-mask {
             position: absolute;
-            top: 0; left: 0; width: 190px; height: 190px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--team-primary), var(--team-secondary), #fff, var(--team-primary));
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 220px; height: 220px; /* Oversized to fully eclipse the photo */
             z-index: 14;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 90px;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
-            border: 4px solid #fff;
-            box-sizing: border-box;
+            font-size: 160px; /* Massive Donkey Emoji! */
+            pointer-events: none;
         }
-        .pinata-mask::after { content: "🪅"; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.4)); }
+        .pinata-mask::after { 
+            content: "🪅"; 
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.7)); 
+        }
         
         .shatter { animation: pinataShatter 0.4s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
         
         @keyframes pinataShatter {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(2.5) rotate(45deg); opacity: 0; visibility: hidden; }
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(2.5) rotate(45deg); opacity: 0; visibility: hidden; }
         }
 
         /* --- CSS CONFETTI ENGINE --- */
@@ -481,7 +482,7 @@
             width: 190px;  
             height: 190px; 
             border-radius: 50%;
-            border: 6px solid var(--team-secondary); 
+            border: 6px solid #fff; 
             background-color: #222; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.4); 
             z-index: 12;
@@ -1097,9 +1098,6 @@
             logoEl.classList.add('anim-logo');
             
             document.getElementById('crawl-logo').src = logoUrl;
-            
-            const gameText = document.getElementById('game1-text');
-            if (gameText) gameText.classList.remove('anim-neon-pound'); // Reset text flight!
 
             const container = document.getElementById('players-container');
             container.innerHTML = '';
@@ -1123,7 +1121,6 @@
                 const jumpSpeed = (0.6 + Math.random() * 0.4).toFixed(2);
                 const jumpOffset = (Math.random() * -1).toFixed(2);
                 
-                // First 5 bench players are the Hit Squad!
                 let weaponHtml = '';
                 if (index < 5) {
                     weaponHtml = `<div id="stick-${index}" class="pinata-stick"></div>`;
@@ -1190,7 +1187,6 @@
                 const delays = [10.93, 18.15, 26.17, 33.72, 40.87]; 
                 const baseDelay = delays[index]; 
                 
-                // Exactly synchronize the timing to the announcer
                 const tJumpStart = baseDelay - 1.4;
                 const tLand = baseDelay - 0.65;
                 const tSwing = baseDelay - 0.25;
@@ -1225,8 +1221,13 @@
                 // --- 🚨 THE PIÑATA CHOREOGRAPHY TIMING 🚨 ---
                 setTimeout(() => { activePlayerIndex = index; }, tJumpStart * 1000); 
                 
-                const hitSquadNode = document.getElementById(`bench-node-${index}`);
-                const stick = document.getElementById(`stick-${index}`);
+                // FIXED: Handle short benches by reusing players!
+                let hitterIndex = index;
+                if (hitterIndex >= bench.length) {
+                    hitterIndex = bench.length - 1; // 4th bench player goes twice if there are only 4!
+                }
+                const hitSquadNode = document.getElementById(`bench-node-${hitterIndex}`);
+                const stick = document.getElementById(`stick-${hitterIndex}`);
 
                 // Starter Lands!
                 setTimeout(() => {
@@ -1240,11 +1241,11 @@
 
                     // Release the Hit Squad!
                     if (hitSquadNode && stick) {
-                        hitSquadNode.style.animation = 'none'; // Stop bouncing
+                        hitSquadNode.style.animation = 'none'; 
                         hitSquadNode.style.transition = 'left 0.4s linear, top 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
                         hitSquadNode.style.transform = 'translate(-50%, -50%) scale(0.85)';
-                        hitSquadNode.style.zIndex = '25'; // Run in front of starter
-                        hitSquadNode.style.left = (coords.x + 12) + '%'; // Stand slightly right
+                        hitSquadNode.style.zIndex = '25'; 
+                        hitSquadNode.style.left = (coords.x + 12) + '%'; 
                         hitSquadNode.style.top = (coords.y - 2) + '%';
                     }
                 }, tLand * 1000); 
@@ -1259,13 +1260,12 @@
                     const pinata = document.getElementById(`pinata-${index}`);
                     if (pinata) pinata.classList.add('shatter');
 
-                    // Second Quake
                     const captureArea = document.getElementById('capture-area');
                     captureArea.classList.remove('quake-active');
                     void captureArea.offsetWidth;
                     captureArea.classList.add('quake-active');
 
-                    // Fire Confetti using Team Colors!
+                    // Fire Confetti!
                     const confCont = document.getElementById(`confetti-${index}`);
                     if (confCont) {
                         const colors = [activePrimaryHex, activeSecondaryHex, '#ffffff', '#eacc98'];
