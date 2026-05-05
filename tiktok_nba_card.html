@@ -314,14 +314,14 @@
             }
         }
 
-        /* NEW: Neon Fly-Away Animation */
-        @keyframes neonFlyAway {
+        /* NEW: Spinning Ceiling Fly-Away Animation */
+        @keyframes spinToCeiling {
             0% { transform: translate(-50%, -50%) rotate(-3deg) scale(1); opacity: 1; }
-            30% { transform: translate(-50%, -100px) rotate(5deg) scale(1.2); filter: brightness(1.5); }
-            100% { transform: translate(-50%, -1500px) rotate(-10deg) scale(0.2); opacity: 0; }
+            20% { transform: translate(-50%, -100px) rotate(5deg) scale(1.2); filter: brightness(1.5); opacity: 1; }
+            100% { transform: translate(-50%, -1500px) rotate(1080deg) scale(0.2); opacity: 0; }
         }
-        .anim-neon-fly {
-            animation: neonFlyAway 1.5s cubic-bezier(0.5, -0.2, 0.2, 1) forwards !important;
+        .anim-spin-ceiling {
+            animation: spinToCeiling 2s cubic-bezier(0.5, -0.2, 0.2, 1) forwards !important;
         }
 
         /* --- CANVAS LIGHTING ENGINE --- */
@@ -387,22 +387,22 @@
         .pinata-stick {
             position: absolute;
             bottom: 20px;
-            left: -20px; /* Held in the left hand */
-            width: 12px;
+            left: -30px; 
+            width: 14px;
             height: 120px;
             background: repeating-linear-gradient(45deg, var(--fiesta-pink), var(--fiesta-pink) 10px, var(--fiesta-cyan) 10px, var(--fiesta-cyan) 20px);
             border-radius: 6px;
             transform-origin: bottom center;
             transform: rotate(-30deg);
-            z-index: 16;
+            z-index: 26; 
             box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
             border: 2px solid #fff;
         }
 
         @keyframes swingStick {
             0% { transform: rotate(-30deg); }
-            40% { transform: rotate(-80deg); } /* Violent wind up */
-            100% { transform: rotate(60deg); } /* CRACK! */
+            40% { transform: rotate(-100deg); } 
+            100% { transform: rotate(70deg); } 
         }
         .anim-swing { 
             animation: swingStick 0.25s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; 
@@ -429,7 +429,7 @@
         /* --- PIÑATA MASK & SHATTER --- */
         .pinata-mask {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0; left: 0; width: 190px; height: 190px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--fiesta-pink), var(--fiesta-cyan), var(--fiesta-lime), var(--fiesta-yellow));
             z-index: 14;
@@ -621,39 +621,45 @@
         /* ========================================================
            THE AIRBORNE JUMP PLAYBOOK
            ======================================================== */
+           
         @keyframes jumpSpin {
-            0% { transform: perspective(1000px) translate(-50%, -50%) rotateY(0deg); animation-timing-function: ease-out; }
-            50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotateY(360deg); animation-timing-function: ease-in; }
-            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotateY(720deg); }
+            0% { transform: perspective(1000px) translate(-50%, -50%) rotateY(0deg); opacity: 0; animation-timing-function: ease-out; }
+            5% { opacity: 1; }
+            50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotateY(360deg); opacity: 1; animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotateY(720deg); opacity: 1; }
         }
         .anim-jump-spin { animation: jumpSpin 0.75s forwards; }
 
         @keyframes jumpFlip {
-            0% { transform: perspective(1000px) translate(-50%, -50%) rotateX(0deg); animation-timing-function: ease-out; }
-            50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotateX(180deg); animation-timing-function: ease-in; }
-            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotateX(360deg); }
+            0% { transform: perspective(1000px) translate(-50%, -50%) rotateX(0deg); opacity: 0; animation-timing-function: ease-out; }
+            5% { opacity: 1; }
+            50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotateX(180deg); opacity: 1; animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotateX(360deg); opacity: 1; }
         }
         .anim-jump-flip { animation: jumpFlip 0.75s forwards; }
 
         @keyframes jumpCartwheel {
-            0% { transform: perspective(1000px) translate(-50%, -50%) rotateZ(0deg); animation-timing-function: ease-out; }
-            50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotateZ(180deg); animation-timing-function: ease-in; }
-            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotateZ(360deg); }
+            0% { transform: perspective(1000px) translate(-50%, -50%) rotateZ(0deg); opacity: 0; animation-timing-function: ease-out; }
+            5% { opacity: 1; }
+            50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotateZ(180deg); opacity: 1; animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotateZ(360deg); opacity: 1; }
         }
         .anim-jump-cartwheel { animation: jumpCartwheel 0.75s forwards; }
 
         @keyframes jumpHangtime {
-            0% { transform: perspective(1000px) translate(-50%, -50%) rotate(0deg); animation-timing-function: ease-out; }
-            30% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotate(-15deg); animation-timing-function: linear; }
-            70% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotate(10deg); animation-timing-function: ease-in; }
-            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotate(0deg); }
+            0% { transform: perspective(1000px) translate(-50%, -50%) rotate(0deg); opacity: 0; animation-timing-function: ease-out; }
+            5% { opacity: 1; }
+            30% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotate(-15deg); opacity: 1; animation-timing-function: linear; }
+            70% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotate(10deg); opacity: 1; animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
         }
         .anim-jump-hangtime { animation: jumpHangtime 0.75s forwards; }
 
         @keyframes jumpCorkscrew {
-            0% { transform: perspective(1000px) translate(-50%, -50%) rotate3d(1, 1, 1, 0deg); animation-timing-function: ease-out; }
-            50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotate3d(1, 1, 1, 180deg); animation-timing-function: ease-in; }
-            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotate3d(1, 1, 1, 360deg); }
+            0% { transform: perspective(1000px) translate(-50%, -50%) rotate3d(1, 1, 1, 0deg); opacity: 0; animation-timing-function: ease-out; }
+            5% { opacity: 1; }
+            50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotate3d(1, 1, 1, 180deg); opacity: 1; animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotate3d(1, 1, 1, 360deg); opacity: 1; }
         }
         .anim-jump-corkscrew { animation: jumpCorkscrew 0.75s forwards; }
 
@@ -1107,7 +1113,7 @@
             document.getElementById('crawl-logo').src = logoUrl;
             
             const fiestaWatermark = document.getElementById('fiesta-watermark');
-            if (fiestaWatermark) fiestaWatermark.classList.remove('anim-neon-fly'); // Reset flight!
+            if (fiestaWatermark) fiestaWatermark.classList.remove('anim-spin-ceiling'); // Reset flight!
 
             const container = document.getElementById('players-container');
             container.innerHTML = '';
@@ -1115,7 +1121,7 @@
             const starters = game.rosters[targetAbbr].players.slice(0, 5);
             const bench = (game.rosters[targetAbbr].bench || []).slice(0, 7);
 
-            // 1. THE HIT SQUAD OR MARACA CREW
+            // 1. RENDER THE HIT SQUAD AND THE MARACA CHEERLEADERS
             bench.forEach((player, index) => {
                 const dbPlayer = getPlayerData(player.name);
                 const photoUrl = dbPlayer ? dbPlayer.photo : null;
@@ -1131,11 +1137,10 @@
                 const jumpSpeed = (0.6 + Math.random() * 0.4).toFixed(2);
                 const jumpOffset = (Math.random() * -1).toFixed(2);
                 
-                // First 5 bench players are the Hit Squad!
                 let weaponHtml = '';
-                if (index < 5) {
+                if (index < 5) { // The Hit Squad!
                     weaponHtml = `<div id="stick-${index}" class="pinata-stick"></div>`;
-                } else {
+                } else { // The Cheerleaders
                     weaponHtml = `
                         <div class="maraca maraca-left">🪇</div>
                         <div class="maraca maraca-right">🪇</div>
@@ -1197,11 +1202,18 @@
                 const chosenAnimation = playbook[index];
                 const delays = [10.93, 18.15, 26.17, 33.72, 40.87]; 
                 const baseDelay = delays[index]; 
-                const runStart = baseDelay - 2.25; 
+                
+                // Exactly synchronize the timing to the announcer
+                const tJumpStart = baseDelay - 1.4;
+                const tLand = baseDelay - 0.65;
+                const tSwing = baseDelay - 0.25;
+                const tShatter = baseDelay;
+                const tRetreat = baseDelay + 0.8;
+                const tResume = baseDelay + 1.2;
 
                 const html = `
-                    <div class="player-node starter-node" style="animation: runGauntlet 3s forwards; animation-delay: ${runStart}s; --final-x: ${coords.x}%; --final-y: ${coords.y}%;">
-                        <div class="cinematic-wrapper ${chosenAnimation}" style="animation-delay: ${baseDelay}s;">
+                    <div class="player-node starter-node" style="animation: ${chosenAnimation} 0.75s forwards; animation-delay: ${tJumpStart}s; left: ${coords.x}%; top: ${coords.y}%;">
+                        <div class="cinematic-wrapper">
                             <div class="photo-wrapper">
                                 <div id="shockwave-${index}" class="shockwave-ring"></div>
                                 <div class="player-position">${pos}</div>
@@ -1224,12 +1236,12 @@
                 container.insertAdjacentHTML('beforeend', html);
 
                 // --- 🚨 THE PIÑATA CHOREOGRAPHY TIMING 🚨 ---
-                setTimeout(() => { activePlayerIndex = index; }, runStart * 1000); // Spotlight Tracking
+                setTimeout(() => { activePlayerIndex = index; }, tJumpStart * 1000); 
                 
                 const hitSquadNode = document.getElementById(`bench-node-${index}`);
                 const stick = document.getElementById(`stick-${index}`);
 
-                // Starter Lands! (BaseDelay + 0.75s)
+                // Starter Lands!
                 setTimeout(() => {
                     const captureArea = document.getElementById('capture-area');
                     captureArea.classList.remove('quake-active');
@@ -1242,27 +1254,25 @@
                     // Release the Hit Squad!
                     if (hitSquadNode && stick) {
                         hitSquadNode.style.animation = 'none'; // Stop bouncing
-                        hitSquadNode.style.transition = 'left 0.4s cubic-bezier(0.25, 1, 0.5, 1), top 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
-                        hitSquadNode.style.transform = 'translate(-50%, -50%) scale(0.8)';
+                        hitSquadNode.style.transition = 'left 0.4s linear, top 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+                        hitSquadNode.style.transform = 'translate(-50%, -50%) scale(0.85)';
                         hitSquadNode.style.zIndex = '25'; // Run in front of starter
-                        
-                        // Run exactly to the starter's coordinate (offset slightly right)
-                        hitSquadNode.style.left = (coords.x + 10) + '%'; 
-                        hitSquadNode.style.top = (coords.y - 5) + '%';
+                        hitSquadNode.style.left = (coords.x + 12) + '%'; // Stand slightly right
+                        hitSquadNode.style.top = (coords.y - 2) + '%';
                     }
-                }, (baseDelay + 0.75) * 1000); 
+                }, tLand * 1000); 
 
-                // Hit Squad Arrives and Swings!
+                // Hit Squad Swings!
                 setTimeout(() => {
                     if (stick) stick.classList.add('anim-swing');
-                }, (baseDelay + 1.15) * 1000);
+                }, tSwing * 1000);
 
-                // CRACK! Piñata breaks!
+                // CRACK! Piñata breaks exactly at baseDelay!
                 setTimeout(() => {
                     const pinata = document.getElementById(`pinata-${index}`);
                     if (pinata) pinata.classList.add('shatter');
 
-                    // Trigger the second Quake to emphasize the hit!
+                    // Second Quake
                     const captureArea = document.getElementById('capture-area');
                     captureArea.classList.remove('quake-active');
                     void captureArea.offsetWidth;
@@ -1285,16 +1295,17 @@
                             confCont.appendChild(conf);
                         }
                     }
-                }, (baseDelay + 1.35) * 1000);
+                }, tShatter * 1000);
 
                 // Hit Squad retreats!
                 setTimeout(() => {
                     if (hitSquadNode) {
+                        hitSquadNode.style.transition = 'left 0.4s ease-out, top 0.4s ease-out';
                         hitSquadNode.style.left = hitSquadNode.dataset.origX + '%';
                         hitSquadNode.style.top = '-15%';
                         if (stick) stick.classList.remove('anim-swing');
                     }
-                }, (baseDelay + 2.0) * 1000);
+                }, tRetreat * 1000);
 
                 // Hit Squad resumes cheering!
                 setTimeout(() => {
@@ -1305,7 +1316,7 @@
                         hitSquadNode.style.animation = `benchJump ${hitSquadNode.dataset.jumpSpeed}s infinite ease-in-out`;
                         hitSquadNode.style.animationDelay = `${hitSquadNode.dataset.jumpOffset}s`;
                     }
-                }, (baseDelay + 2.5) * 1000);
+                }, tResume * 1000);
             });
 
             // --- TRIGGER THE ARENA LIGHTS OFF AT 4.11s ---
@@ -1352,9 +1363,9 @@
                 trackingSpotlight = false; 
                 if (roamingInterval) clearInterval(roamingInterval); 
 
-                // Ignite and launch the neon sign!
+                // Ignite and launch the neon sign up to the ceiling!
                 const fiestaWatermark = document.getElementById('fiesta-watermark');
-                if (fiestaWatermark) fiestaWatermark.classList.add('anim-neon-fly');
+                if (fiestaWatermark) fiestaWatermark.classList.add('anim-spin-ceiling');
 
             }, 44500); 
         }
