@@ -288,7 +288,6 @@
             opacity: 0.4;
         }
 
-        /* FIXED: Shrink font size and add white-space: nowrap to prevent broken lines */
         .neon-game-text {
             font-family: 'Montserrat', sans-serif;
             font-weight: 900;
@@ -313,6 +312,16 @@
                 text-shadow: none;
                 color: rgba(255,255,255,0.2);
             }
+        }
+
+        /* NEW: Neon Fly-Away Animation */
+        @keyframes neonFlyAway {
+            0% { transform: translate(-50%, -50%) rotate(-3deg) scale(1); opacity: 1; }
+            30% { transform: translate(-50%, -100px) rotate(5deg) scale(1.2); filter: brightness(1.5); }
+            100% { transform: translate(-50%, -1500px) rotate(-10deg) scale(0.2); opacity: 0; }
+        }
+        .anim-neon-fly {
+            animation: neonFlyAway 1.5s cubic-bezier(0.5, -0.2, 0.2, 1) forwards !important;
         }
 
         /* --- CANVAS LIGHTING ENGINE --- */
@@ -340,7 +349,7 @@
             transform: translate(-50%, -50%);
         }
 
-        /* --- HYPED BENCH STYLING & MARACAS --- */
+        /* --- HYPED BENCH STYLING & WEAPONS --- */
         .bench-node { z-index: 5; }
         .bench-node .player-position, .bench-node .player-number { display: none; }
 
@@ -374,6 +383,31 @@
             100% { transform: scaleX(-1) rotate(15deg) translateY(-5px); }
         }
 
+        /* The Piñata Stick (Hit Squad Only) */
+        .pinata-stick {
+            position: absolute;
+            bottom: 20px;
+            left: -20px; /* Held in the left hand */
+            width: 12px;
+            height: 120px;
+            background: repeating-linear-gradient(45deg, var(--fiesta-pink), var(--fiesta-pink) 10px, var(--fiesta-cyan) 10px, var(--fiesta-cyan) 20px);
+            border-radius: 6px;
+            transform-origin: bottom center;
+            transform: rotate(-30deg);
+            z-index: 16;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+            border: 2px solid #fff;
+        }
+
+        @keyframes swingStick {
+            0% { transform: rotate(-30deg); }
+            40% { transform: rotate(-80deg); } /* Violent wind up */
+            100% { transform: rotate(60deg); } /* CRACK! */
+        }
+        .anim-swing { 
+            animation: swingStick 0.25s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; 
+        }
+
         /* --- STARTER BASE --- */
         .starter-node {
             opacity: 0; 
@@ -386,11 +420,34 @@
             align-items: center;
         }
 
-        /* FIXED: Hardcoded dimensions to guarantee perfect absolute positioning overlap */
         .photo-wrapper {
             position: relative;
             width: 190px;
             height: 190px;
+        }
+
+        /* --- PIÑATA MASK & SHATTER --- */
+        .pinata-mask {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--fiesta-pink), var(--fiesta-cyan), var(--fiesta-lime), var(--fiesta-yellow));
+            z-index: 14;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 90px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
+            border: 4px solid #fff;
+            box-sizing: border-box;
+        }
+        .pinata-mask::after { content: "🪅"; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.4)); }
+        
+        .shatter { animation: pinataShatter 0.4s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
+        
+        @keyframes pinataShatter {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2.5) rotate(45deg); opacity: 0; visibility: hidden; }
         }
 
         /* --- CSS CONFETTI ENGINE --- */
@@ -431,7 +488,6 @@
         }
         .anim-shockwave { animation: ringExplode 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
 
-        /* FIXED: Added positioning resets so images do not slide off center */
         .player-photo-container {
             width: 190px;  
             height: 190px; 
@@ -508,7 +564,7 @@
         .nameplate-wrapper {
             display: flex;
             align-items: stretch;
-            margin-top: 10px; /* Offset adjusted since photo-wrapper is fixed 190px height */
+            margin-top: 10px; 
             z-index: 14;
             position: relative; 
             box-shadow: 0 5px 10px rgba(0,0,0,0.3);
@@ -551,18 +607,6 @@
         }
 
         /* ========================================================
-           THE GAUNTLET ENTRANCE PATH
-           ======================================================== */
-        
-        @keyframes runGauntlet {
-            0%   { left: 95%; top: 95%; opacity: 0; transform: translate(-50%, -50%); }
-            2%   { left: 95%; top: 95%; opacity: 1; transform: translate(-50%, -50%); } 
-            35%  { left: 95%; top: -9%; opacity: 1; transform: translate(-50%, -50%); } 
-            75%  { left: 15%; top: -9%; opacity: 1; transform: translate(-50%, -50%); } 
-            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); } 
-        }
-
-        /* ========================================================
            THE FIESTA SALSA EXIT (BENCH)
            ======================================================== */
         @keyframes fiestaExitLeft {
@@ -577,41 +621,39 @@
         /* ========================================================
            THE AIRBORNE JUMP PLAYBOOK
            ======================================================== */
-           
-        /* FIXED: Removed bad translate Math that offset the jumps */
         @keyframes jumpSpin {
-            0% { transform: perspective(1000px) translateY(0) rotateY(0deg); animation-timing-function: ease-out; }
-            50% { transform: perspective(1000px) translateY(-350px) scale(2.2) rotateY(360deg); animation-timing-function: ease-in; }
-            100% { transform: perspective(1000px) translateY(0) scale(1) rotateY(720deg); }
+            0% { transform: perspective(1000px) translate(-50%, -50%) rotateY(0deg); animation-timing-function: ease-out; }
+            50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotateY(360deg); animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotateY(720deg); }
         }
         .anim-jump-spin { animation: jumpSpin 0.75s forwards; }
 
         @keyframes jumpFlip {
-            0% { transform: perspective(1000px) translateY(0) rotateX(0deg); animation-timing-function: ease-out; }
-            50% { transform: perspective(1000px) translateY(-350px) scale(2.2) rotateX(180deg); animation-timing-function: ease-in; }
-            100% { transform: perspective(1000px) translateY(0) scale(1) rotateX(360deg); }
+            0% { transform: perspective(1000px) translate(-50%, -50%) rotateX(0deg); animation-timing-function: ease-out; }
+            50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotateX(180deg); animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotateX(360deg); }
         }
         .anim-jump-flip { animation: jumpFlip 0.75s forwards; }
 
         @keyframes jumpCartwheel {
-            0% { transform: perspective(1000px) translateY(0) rotateZ(0deg); animation-timing-function: ease-out; }
-            50% { transform: perspective(1000px) translateY(-350px) scale(2.2) rotateZ(180deg); animation-timing-function: ease-in; }
-            100% { transform: perspective(1000px) translateY(0) scale(1) rotateZ(360deg); }
+            0% { transform: perspective(1000px) translate(-50%, -50%) rotateZ(0deg); animation-timing-function: ease-out; }
+            50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotateZ(180deg); animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotateZ(360deg); }
         }
         .anim-jump-cartwheel { animation: jumpCartwheel 0.75s forwards; }
 
         @keyframes jumpHangtime {
-            0% { transform: perspective(1000px) translateY(0) rotate(0deg); animation-timing-function: ease-out; }
-            30% { transform: perspective(1000px) translateY(-350px) scale(2.2) rotate(-15deg); animation-timing-function: linear; }
-            70% { transform: perspective(1000px) translateY(-350px) scale(2.2) rotate(10deg); animation-timing-function: ease-in; }
-            100% { transform: perspective(1000px) translateY(0) scale(1) rotate(0deg); }
+            0% { transform: perspective(1000px) translate(-50%, -50%) rotate(0deg); animation-timing-function: ease-out; }
+            30% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotate(-15deg); animation-timing-function: linear; }
+            70% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotate(10deg); animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotate(0deg); }
         }
         .anim-jump-hangtime { animation: jumpHangtime 0.75s forwards; }
 
         @keyframes jumpCorkscrew {
-            0% { transform: perspective(1000px) translateY(0) rotate3d(1, 1, 1, 0deg); animation-timing-function: ease-out; }
-            50% { transform: perspective(1000px) translateY(-350px) scale(2.2) rotate3d(1, 1, 1, 180deg); animation-timing-function: ease-in; }
-            100% { transform: perspective(1000px) translateY(0) scale(1) rotate3d(1, 1, 1, 360deg); }
+            0% { transform: perspective(1000px) translate(-50%, -50%) rotate3d(1, 1, 1, 0deg); animation-timing-function: ease-out; }
+            50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotate3d(1, 1, 1, 180deg); animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotate3d(1, 1, 1, 360deg); }
         }
         .anim-jump-corkscrew { animation: jumpCorkscrew 0.75s forwards; }
 
@@ -817,7 +859,6 @@
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // 🚨 FIESTA MODE: Warm Amber Darkness instead of pitch black
             ctx.globalCompositeOperation = 'source-over';
             ctx.fillStyle = 'rgba(30, 10, 0, 0.85)'; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -831,12 +872,10 @@
             
             ctx.globalCompositeOperation = 'source-over';
             if (!spotlightWiden) {
-                // 🚨 FIESTA MODE: Roaming party lights (Magenta & Cyan)
                 drawColoredTint(ctx, roamSpot1.x, roamSpot1.y, 30, 210, '#ff007a'); 
                 drawColoredTint(ctx, roamSpot2.x, roamSpot2.y, 30, 210, '#00e5ff'); 
             }
             
-            // Main tracker still uses team colors
             drawMainHalo(ctx, currentSpotX, currentSpotY, currentInnerR, currentOuterR, activePrimaryHex, activeSecondaryHex);
             
             requestAnimationFrame(renderSpotlights);
@@ -1065,8 +1104,10 @@
             void logoEl.offsetWidth; 
             logoEl.classList.add('anim-logo');
             
-            // Pop the Fiesta Watermark
             document.getElementById('crawl-logo').src = logoUrl;
+            
+            const fiestaWatermark = document.getElementById('fiesta-watermark');
+            if (fiestaWatermark) fiestaWatermark.classList.remove('anim-neon-fly'); // Reset flight!
 
             const container = document.getElementById('players-container');
             container.innerHTML = '';
@@ -1074,7 +1115,7 @@
             const starters = game.rosters[targetAbbr].players.slice(0, 5);
             const bench = (game.rosters[targetAbbr].bench || []).slice(0, 7);
 
-            // 1. RENDER THE HYPED BENCH WITH MARACAS
+            // 1. THE HIT SQUAD OR MARACA CREW
             bench.forEach((player, index) => {
                 const dbPlayer = getPlayerData(player.name);
                 const photoUrl = dbPlayer ? dbPlayer.photo : null;
@@ -1089,14 +1130,25 @@
                 
                 const jumpSpeed = (0.6 + Math.random() * 0.4).toFixed(2);
                 const jumpOffset = (Math.random() * -1).toFixed(2);
+                
+                // First 5 bench players are the Hit Squad!
+                let weaponHtml = '';
+                if (index < 5) {
+                    weaponHtml = `<div id="stick-${index}" class="pinata-stick"></div>`;
+                } else {
+                    weaponHtml = `
+                        <div class="maraca maraca-left">🪇</div>
+                        <div class="maraca maraca-right">🪇</div>
+                    `;
+                }
 
                 const html = `
-                    <div class="player-node bench-node" style="left: ${benchX}%; top: -15%; animation: benchJump ${jumpSpeed}s infinite ease-in-out; animation-delay: ${jumpOffset}s;">
+                    <div id="bench-node-${index}" class="player-node bench-node" 
+                         data-orig-x="${benchX}" data-jump-speed="${jumpSpeed}" data-jump-offset="${jumpOffset}"
+                         style="left: ${benchX}%; top: -15%; animation: benchJump ${jumpSpeed}s infinite ease-in-out; animation-delay: ${jumpOffset}s;">
                         <div class="cinematic-wrapper">
                             <div class="photo-wrapper">
-                                <div class="maraca maraca-left">🪇</div>
-                                <div class="maraca maraca-right">🪇</div>
-                                
+                                ${weaponHtml}
                                 <div class="player-photo-container">
                                     ${photoHtml}
                                 </div>
@@ -1143,10 +1195,8 @@
                     : `<div class="fallback-silhouette"></div>`;
 
                 const chosenAnimation = playbook[index];
-                
                 const delays = [10.93, 18.15, 26.17, 33.72, 40.87]; 
                 const baseDelay = delays[index]; 
-                
                 const runStart = baseDelay - 2.25; 
 
                 const html = `
@@ -1160,6 +1210,8 @@
                                 <div class="player-photo-container">
                                     ${photoHtml}
                                 </div>
+
+                                <div id="pinata-${index}" class="pinata-mask"></div>
                                 
                                 <div id="confetti-${index}" class="confetti-container"></div>
                             </div>
@@ -1171,24 +1223,52 @@
                 `;
                 container.insertAdjacentHTML('beforeend', html);
 
-                // --- TRACKING & SHOCKWAVE/CONFETTI TRIGGERS ---
-                setTimeout(() => {
-                    activePlayerIndex = index;
-                }, runStart * 1000);
+                // --- 🚨 THE PIÑATA CHOREOGRAPHY TIMING 🚨 ---
+                setTimeout(() => { activePlayerIndex = index; }, runStart * 1000); // Spotlight Tracking
                 
-                // Exactly when their cinematic jump hits the floor!
+                const hitSquadNode = document.getElementById(`bench-node-${index}`);
+                const stick = document.getElementById(`stick-${index}`);
+
+                // Starter Lands! (BaseDelay + 0.75s)
                 setTimeout(() => {
-                    // Screen Shake
                     const captureArea = document.getElementById('capture-area');
                     captureArea.classList.remove('quake-active');
                     void captureArea.offsetWidth;
                     captureArea.classList.add('quake-active');
 
-                    // Shockwave
                     const shockwave = document.getElementById(`shockwave-${index}`);
                     if (shockwave) shockwave.classList.add('anim-shockwave');
 
-                    // Explode the JS Confetti!
+                    // Release the Hit Squad!
+                    if (hitSquadNode && stick) {
+                        hitSquadNode.style.animation = 'none'; // Stop bouncing
+                        hitSquadNode.style.transition = 'left 0.4s cubic-bezier(0.25, 1, 0.5, 1), top 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+                        hitSquadNode.style.transform = 'translate(-50%, -50%) scale(0.8)';
+                        hitSquadNode.style.zIndex = '25'; // Run in front of starter
+                        
+                        // Run exactly to the starter's coordinate (offset slightly right)
+                        hitSquadNode.style.left = (coords.x + 10) + '%'; 
+                        hitSquadNode.style.top = (coords.y - 5) + '%';
+                    }
+                }, (baseDelay + 0.75) * 1000); 
+
+                // Hit Squad Arrives and Swings!
+                setTimeout(() => {
+                    if (stick) stick.classList.add('anim-swing');
+                }, (baseDelay + 1.15) * 1000);
+
+                // CRACK! Piñata breaks!
+                setTimeout(() => {
+                    const pinata = document.getElementById(`pinata-${index}`);
+                    if (pinata) pinata.classList.add('shatter');
+
+                    // Trigger the second Quake to emphasize the hit!
+                    const captureArea = document.getElementById('capture-area');
+                    captureArea.classList.remove('quake-active');
+                    void captureArea.offsetWidth;
+                    captureArea.classList.add('quake-active');
+
+                    // Fire Confetti!
                     const confCont = document.getElementById(`confetti-${index}`);
                     if (confCont) {
                         const colors = ['#ff007a', '#00e5ff', '#39ff14', '#ffea00'];
@@ -1196,20 +1276,36 @@
                             let conf = document.createElement('div');
                             conf.className = 'confetti-piece';
                             conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                            conf.style.left = '89px'; // Dead center of 190px wrapper
+                            conf.style.left = '89px'; 
                             conf.style.top = '89px';
-                            // Blast outward in a full circle
                             const angle = Math.random() * Math.PI * 2;
                             const velocity = 80 + Math.random() * 120;
-                            const vx = Math.cos(angle) * velocity;
-                            const vy = Math.sin(angle) * velocity - 100; // Push trajectory slightly upward
-                            conf.style.setProperty('--vx', `${vx}px`);
-                            conf.style.setProperty('--vy', `${vy}px`);
+                            conf.style.setProperty('--vx', `${Math.cos(angle) * velocity}px`);
+                            conf.style.setProperty('--vy', `${Math.sin(angle) * velocity - 100}px`);
                             confCont.appendChild(conf);
                         }
                     }
+                }, (baseDelay + 1.35) * 1000);
 
-                }, (baseDelay + 0.75) * 1000); 
+                // Hit Squad retreats!
+                setTimeout(() => {
+                    if (hitSquadNode) {
+                        hitSquadNode.style.left = hitSquadNode.dataset.origX + '%';
+                        hitSquadNode.style.top = '-15%';
+                        if (stick) stick.classList.remove('anim-swing');
+                    }
+                }, (baseDelay + 2.0) * 1000);
+
+                // Hit Squad resumes cheering!
+                setTimeout(() => {
+                    if (hitSquadNode) {
+                        hitSquadNode.style.transition = 'none';
+                        hitSquadNode.style.transform = ''; 
+                        hitSquadNode.style.zIndex = '5';
+                        hitSquadNode.style.animation = `benchJump ${hitSquadNode.dataset.jumpSpeed}s infinite ease-in-out`;
+                        hitSquadNode.style.animationDelay = `${hitSquadNode.dataset.jumpOffset}s`;
+                    }
+                }, (baseDelay + 2.5) * 1000);
             });
 
             // --- TRIGGER THE ARENA LIGHTS OFF AT 4.11s ---
@@ -1250,11 +1346,16 @@
                 });
             }, 44200); 
 
-            // --- TRIGGER THE ARENA LIGHTS ON AT 44.5s ---
+            // --- THE NEON FLY AWAY & ARENA LIGHTS ON AT 44.5s ---
             setTimeout(() => {
                 if (captureArea) captureArea.classList.remove('lights-out-mode');
                 trackingSpotlight = false; 
                 if (roamingInterval) clearInterval(roamingInterval); 
+
+                // Ignite and launch the neon sign!
+                const fiestaWatermark = document.getElementById('fiesta-watermark');
+                if (fiestaWatermark) fiestaWatermark.classList.add('anim-neon-fly');
+
             }, 44500); 
         }
 
