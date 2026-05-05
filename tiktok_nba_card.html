@@ -314,7 +314,7 @@
             }
         }
 
-        /* NEW: Spinning Ceiling Fly-Away Animation */
+        /* Spinning Ceiling Fly-Away Animation */
         @keyframes spinToCeiling {
             0% { transform: translate(-50%, -50%) rotate(-3deg) scale(1); opacity: 1; }
             20% { transform: translate(-50%, -100px) rotate(5deg) scale(1.2); filter: brightness(1.5); opacity: 1; }
@@ -619,16 +619,14 @@
         }
 
         /* ========================================================
-           THE AIRBORNE JUMP PLAYBOOK
+           THE AIRBORNE JUMP PLAYBOOK (FIXED)
            ======================================================== */
-           
         @keyframes jumpSpin {
             0% { transform: perspective(1000px) translate(-50%, -50%) rotateY(0deg); opacity: 0; animation-timing-function: ease-out; }
             5% { opacity: 1; }
             50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotateY(360deg); opacity: 1; animation-timing-function: ease-in; }
             100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotateY(720deg); opacity: 1; }
         }
-        .anim-jump-spin { animation: jumpSpin 0.75s forwards; }
 
         @keyframes jumpFlip {
             0% { transform: perspective(1000px) translate(-50%, -50%) rotateX(0deg); opacity: 0; animation-timing-function: ease-out; }
@@ -636,7 +634,6 @@
             50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotateX(180deg); opacity: 1; animation-timing-function: ease-in; }
             100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotateX(360deg); opacity: 1; }
         }
-        .anim-jump-flip { animation: jumpFlip 0.75s forwards; }
 
         @keyframes jumpCartwheel {
             0% { transform: perspective(1000px) translate(-50%, -50%) rotateZ(0deg); opacity: 0; animation-timing-function: ease-out; }
@@ -644,7 +641,6 @@
             50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotateZ(180deg); opacity: 1; animation-timing-function: ease-in; }
             100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotateZ(360deg); opacity: 1; }
         }
-        .anim-jump-cartwheel { animation: jumpCartwheel 0.75s forwards; }
 
         @keyframes jumpHangtime {
             0% { transform: perspective(1000px) translate(-50%, -50%) rotate(0deg); opacity: 0; animation-timing-function: ease-out; }
@@ -653,7 +649,6 @@
             70% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotate(10deg); opacity: 1; animation-timing-function: ease-in; }
             100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
         }
-        .anim-jump-hangtime { animation: jumpHangtime 0.75s forwards; }
 
         @keyframes jumpCorkscrew {
             0% { transform: perspective(1000px) translate(-50%, -50%) rotate3d(1, 1, 1, 0deg); opacity: 0; animation-timing-function: ease-out; }
@@ -661,7 +656,6 @@
             50% { transform: perspective(1000px) translate(-50%, -350px) scale(2.2) rotate3d(1, 1, 1, 180deg); opacity: 1; animation-timing-function: ease-in; }
             100% { transform: perspective(1000px) translate(-50%, -50%) scale(1) rotate3d(1, 1, 1, 360deg); opacity: 1; }
         }
-        .anim-jump-corkscrew { animation: jumpCorkscrew 0.75s forwards; }
 
     </style>
 </head>
@@ -1137,10 +1131,11 @@
                 const jumpSpeed = (0.6 + Math.random() * 0.4).toFixed(2);
                 const jumpOffset = (Math.random() * -1).toFixed(2);
                 
+                // First 5 bench players are the Hit Squad!
                 let weaponHtml = '';
-                if (index < 5) { // The Hit Squad!
+                if (index < 5) {
                     weaponHtml = `<div id="stick-${index}" class="pinata-stick"></div>`;
-                } else { // The Cheerleaders
+                } else {
                     weaponHtml = `
                         <div class="maraca maraca-left">🪇</div>
                         <div class="maraca maraca-right">🪇</div>
@@ -1177,7 +1172,8 @@
             void tagEl.offsetWidth; 
             tagEl.classList.add('anim-header-tag');
 
-            const playbook = ["anim-jump-spin", "anim-jump-flip", "anim-jump-cartwheel", "anim-jump-hangtime", "anim-jump-corkscrew"];
+            // 🚨 FIXED: Used the exact CSS Keyframe names so the inline style tag doesn't break!
+            const playbook = ["jumpSpin", "jumpFlip", "jumpCartwheel", "jumpHangtime", "jumpCorkscrew"];
             
             for (let i = playbook.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
