@@ -314,14 +314,36 @@
             }
         }
 
-        /* Spinning Ceiling Fly-Away Animation */
-        @keyframes spinToCeiling {
-            0% { transform: translate(-50%, -50%) rotate(-3deg) scale(1); opacity: 1; }
-            20% { transform: translate(-50%, -100px) rotate(5deg) scale(1.2); filter: brightness(1.5); opacity: 1; }
-            100% { transform: translate(-50%, -1500px) rotate(1080deg) scale(0.2); opacity: 0; }
+        /* NEW: Text-Only Crash Down Animation */
+        @keyframes neonTextPound {
+            0% { 
+                transform: translateY(0) scale(1); 
+                animation-timing-function: ease-out;
+            }
+            50% { 
+                /* Rise high into the camera */
+                transform: translateY(-600px) scale(1.6); 
+                filter: brightness(1.5);
+                animation-timing-function: cubic-bezier(0.8, 0, 1, 1); 
+            }
+            85% { 
+                /* Slam down above the Point Guard */
+                transform: translateY(-380px) scale(0.7); 
+                filter: brightness(1);
+                animation-timing-function: ease-out; 
+            }
+            92% {
+                /* Recoil bounce */
+                transform: translateY(-400px) scale(0.7); 
+                animation-timing-function: ease-in;
+            }
+            100% { 
+                /* Settle */
+                transform: translateY(-380px) scale(0.7); 
+            }
         }
-        .anim-spin-ceiling {
-            animation: spinToCeiling 2s cubic-bezier(0.5, -0.2, 0.2, 1) forwards !important;
+        .anim-neon-pound {
+            animation: neonTextPound 1.2s forwards !important;
         }
 
         /* --- CANVAS LIGHTING ENGINE --- */
@@ -619,8 +641,9 @@
         }
 
         /* ========================================================
-           THE AIRBORNE JUMP PLAYBOOK (FIXED)
+           THE AIRBORNE JUMP PLAYBOOK
            ======================================================== */
+           
         @keyframes jumpSpin {
             0% { transform: perspective(1000px) translate(-50%, -50%) rotateY(0deg); opacity: 0; animation-timing-function: ease-out; }
             5% { opacity: 1; }
@@ -1106,8 +1129,8 @@
             
             document.getElementById('crawl-logo').src = logoUrl;
             
-            const fiestaWatermark = document.getElementById('fiesta-watermark');
-            if (fiestaWatermark) fiestaWatermark.classList.remove('anim-spin-ceiling'); // Reset flight!
+            const gameText = document.querySelector('.neon-game-text');
+            if (gameText) gameText.classList.remove('anim-neon-pound'); // Reset text flight!
 
             const container = document.getElementById('players-container');
             container.innerHTML = '';
@@ -1172,7 +1195,6 @@
             void tagEl.offsetWidth; 
             tagEl.classList.add('anim-header-tag');
 
-            // 🚨 FIXED: Used the exact CSS Keyframe names so the inline style tag doesn't break!
             const playbook = ["jumpSpin", "jumpFlip", "jumpCartwheel", "jumpHangtime", "jumpCorkscrew"];
             
             for (let i = playbook.length - 1; i > 0; i--) {
@@ -1353,17 +1375,27 @@
                 });
             }, 44200); 
 
-            // --- THE NEON FLY AWAY & ARENA LIGHTS ON AT 44.5s ---
+            // --- THE NEON SLAM DOWN & ARENA LIGHTS ON AT 44.5s ---
             setTimeout(() => {
                 if (captureArea) captureArea.classList.remove('lights-out-mode');
                 trackingSpotlight = false; 
                 if (roamingInterval) clearInterval(roamingInterval); 
 
-                // Ignite and launch the neon sign up to the ceiling!
-                const fiestaWatermark = document.getElementById('fiesta-watermark');
-                if (fiestaWatermark) fiestaWatermark.classList.add('anim-spin-ceiling');
+                // Ignite and launch ONLY the neon sign up and pound it down!
+                const gameText = document.querySelector('.neon-game-text');
+                if (gameText) gameText.classList.add('anim-neon-pound');
 
             }, 44500); 
+
+            // --- TRIGGER THE FINAL QUAKE ON IMPACT (45.52s) ---
+            setTimeout(() => {
+                const captureArea = document.getElementById('capture-area');
+                if (captureArea) {
+                    captureArea.classList.remove('quake-active');
+                    void captureArea.offsetWidth;
+                    captureArea.classList.add('quake-active');
+                }
+            }, 45520);
         }
 
         function takeScreenshot() {
