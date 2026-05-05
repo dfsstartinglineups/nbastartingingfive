@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NBA Starting 5 - Star Wars Edition</title>
+    <title>NBA Starting 5 - Game 7 Edition</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Teko:wght@600&family=Oswald:wght@500;700&family=Montserrat:ital,wght@0,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&family=Oswald:wght@500;700&family=Montserrat:ital,wght@0,800;1,900&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -20,7 +20,7 @@
             margin: 0;
             padding: 20px;
             background-color: #050302; 
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Oswald', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -47,8 +47,7 @@
             background: #333;
             color: white;
             cursor: pointer;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: bold;
+            font-family: 'Oswald', sans-serif;
         }
 
         button:hover { background: #555; }
@@ -114,25 +113,25 @@
         .header-left { display: flex; flex-direction: column; }
 
         .starting-tag {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            font-size: 34px; 
+            font-family: 'Teko', sans-serif;
+            font-size: 40px; 
             color: var(--text-dark);
             text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             line-height: 1;
             text-shadow: 1px 1px 0px rgba(255,255,255,0.5);
             transition: all 0.3s ease;
         }
 
         #team-name {
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             font-weight: 900;
-            font-size: 65px; 
+            font-style: italic;
+            font-size: 75px; 
             margin: 0;
-            line-height: 1;
+            line-height: 0.9;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             color: var(--team-primary);
             position: relative;
             z-index: 1;
@@ -149,8 +148,8 @@
         }
 
         #matchup-info {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 22px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 24px;
             color: #444;
             margin-top: 10px;
             text-transform: uppercase;
@@ -239,69 +238,107 @@
             border-radius: 50%;
         }
 
-        /* --- STAR WARS OPENING CRAWL --- */
-        #star-wars-crawl {
+        .watermark-logo {
             position: absolute;
-            top: 50%;
+            top: 45%;
             left: 50%;
             transform: translate(-50%, -50%);
+            width: 500px; 
+            height: 500px; 
+            object-fit: contain;
+            opacity: 0.35; 
+            z-index: 0;
+            pointer-events: none;
+            filter: grayscale(50%) brightness(80%); 
+        }
+
+        /* --- GAME 7 BURN-IN TEXT --- */
+        #game7-watermark {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-3deg);
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            z-index: 2;
-            pointer-events: none;
-            perspective: 800px;
-            width: 100%;
-        }
-
-        .crawl-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            opacity: 0;
-            transform-origin: bottom center;
-        }
-
-        #crawl-logo {
-            width: 350px;
-            height: 350px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 20px rgba(255, 232, 31, 0.4));
-        }
-
-        .crawl-text {
             font-family: 'Montserrat', sans-serif;
             font-weight: 900;
             font-style: italic;
-            font-size: 110px;
-            color: #FFE81F; 
-            letter-spacing: 10px;
-            margin-top: 10px;
-            text-shadow: 
-                -3px -3px 0 #cfa800,
-                 3px -3px 0 #cfa800,
-                -3px  3px 0 #cfa800,
-                 3px  3px 0 #cfa800,
-                 0 0 30px rgba(255, 232, 31, 0.8);
+            font-size: 160px;
+            letter-spacing: 5px;
+            z-index: 2; 
+            pointer-events: none;
         }
 
-        @keyframes starWarsCrawl {
+        .burn-letter {
+            opacity: 0;
+            display: inline-block;
+            animation: burnIn 1.5s forwards;
+        }
+
+        @keyframes burnIn {
+            0% {
+                opacity: 0;
+                transform: scale(2.5) translateY(-50px);
+                color: #fff;
+                text-shadow: 0 0 30px #fff, 0 0 60px #ffaa00, 0 0 100px #ff0000;
+                filter: blur(12px);
+                animation-timing-function: ease-in;
+            }
+            15% {
+                opacity: 1;
+                transform: scale(0.9);
+                color: #fffacd; /* White hot */
+                text-shadow: 0 0 20px #ff8800, 0 0 50px #ff2200;
+                filter: blur(0px);
+                animation-timing-function: ease-out;
+            }
+            100% {
+                opacity: 0.9;
+                transform: scale(1);
+                color: #050302; /* Charred wood */
+                text-shadow: 
+                    -2px -2px 0 var(--team-secondary),
+                     2px -2px 0 var(--team-secondary),
+                    -2px  2px 0 var(--team-secondary),
+                     2px  2px 0 var(--team-secondary),
+                     0 0 25px var(--team-secondary), 
+                     0 0 50px var(--team-primary);
+            }
+        }
+
+        /* --- THE GAME 7 POUND SLAM --- */
+        @keyframes game7Pound {
             0% { 
-                opacity: 0; 
-                transform: rotateX(50deg) translateY(300px) scale(1.2); 
+                transform: translate(-50%, -50%) rotate(-3deg) scale(1); 
+                animation-timing-function: ease-out;
             }
-            10% { opacity: 1; }
-            80% { opacity: 1; }
+            50% { 
+                /* Rise high into the camera */
+                transform: translate(-50%, -750px) rotate(5deg) scale(1.6); 
+                filter: brightness(1.5) drop-shadow(0 50px 50px rgba(0,0,0,0.5));
+                animation-timing-function: cubic-bezier(0.8, 0, 1, 1); 
+            }
+            85% { 
+                /* Slam down higher than the bench */
+                transform: translate(-50%, -540px) rotate(0deg) scale(0.65); 
+                filter: brightness(1);
+                animation-timing-function: ease-out; 
+            }
+            92% {
+                /* Recoil bounce */
+                transform: translate(-50%, -560px) rotate(0deg) scale(0.65); 
+                animation-timing-function: ease-in;
+            }
             100% { 
-                opacity: 0; 
-                transform: rotateX(50deg) translateY(-800px) scale(0.3); 
+                /* Settle */
+                transform: translate(-50%, -540px) rotate(0deg) scale(0.65); 
             }
         }
-        .anim-crawl {
-            animation: starWarsCrawl 12s linear forwards;
-            animation-delay: 2.5s; 
+        .anim-game7-pound {
+            animation: game7Pound 1.2s forwards !important;
         }
+
 
         /* --- CANVAS LIGHTING ENGINE --- */
         #spotlight-canvas {
@@ -328,7 +365,7 @@
             transform: translate(-50%, -50%);
         }
 
-        /* --- HYPED BENCH STYLING & LIGHTSABERS --- */
+        /* --- HYPED BENCH STYLING --- */
         .bench-node {
             z-index: 5; 
         }
@@ -342,64 +379,10 @@
             50% { transform: translate(-50%, -15%) scale(0.75); }
         }
 
-        /* Lightsaber CSS */
-        .saber-blue { background: #fff; box-shadow: 0 0 10px #00aaff, 0 0 20px #00aaff, 0 0 30px #00aaff; }
-        .saber-red { background: #fff; box-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000; }
-        .saber-yellow { background: #fff; box-shadow: 0 0 10px #ffea00, 0 0 20px #ffea00, 0 0 30px #ffea00; }
-        .saber-purple { background: #fff; box-shadow: 0 0 10px #aa00ff, 0 0 20px #aa00ff, 0 0 30px #aa00ff; }
-        .saber-green { background: #fff; box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00; }
-        
-        .lightsaber-bench {
-            position: absolute;
-            bottom: -24px; 
-            left: 50%;
-            width: 6px;
-            height: 150px; 
-            border-radius: 4px;
-            transform-origin: bottom center;
-            z-index: 15; 
-            margin-left: -3px; 
-        }
-        
-        @keyframes saberDuelLeft {
-            0%, 100% { transform: rotate(30deg); }
-            50% { transform: rotate(70deg); }
-        }
-        @keyframes saberDuelRight {
-            0%, 100% { transform: rotate(-30deg); }
-            50% { transform: rotate(-70deg); }
-        }
-
-        /* Starter Sabers */
-        .lightsaber-starter {
-            position: absolute;
-            bottom: -24px;
-            left: 50%;
-            width: 8px;
-            height: 170px;
-            border-radius: 4px;
-            transform-origin: bottom center;
-            z-index: 15;
-            margin-left: -4px;
-            transform: scaleY(0) rotate(25deg); 
-            opacity: 0;
-        }
-
-        @keyframes igniteSaber {
-            0% { transform: scaleY(0) rotate(25deg); opacity: 0; }
-            5% { opacity: 1; }
-            100% { transform: scaleY(1) rotate(25deg); opacity: 1; }
-        }
-        .anim-ignite {
-            animation: igniteSaber 0.4s ease-out forwards;
-        }
-
         /* --- STARTER BASE --- */
         .starter-node {
             opacity: 0; 
             z-index: 10;
-            left: var(--final-x); 
-            top: var(--final-y);
         }
 
         .cinematic-wrapper {
@@ -410,87 +393,28 @@
 
         .photo-wrapper {
             position: relative;
-            width: 190px;
-            height: 190px;
+            display: flex;
+            justify-content: center;
         }
 
-        /* --- JEDI HOLOGRAM FILTER & R2 SCANLINES --- */
-        /* FIXED: Re-added translate(-50%, -50%) so nodes stay centered on their coordinates! */
-        @keyframes glitchIn {
-            0% { opacity: 0; filter: blur(15px) contrast(2); transform: translate(-50%, -50%) scale(1.1); }
-            10% { opacity: 1; filter: blur(5px) contrast(3); transform: translate(-50%, -50%) scale(1.05); }
-            20% { opacity: 0.5; filter: blur(8px) contrast(1.5); transform: translate(-50%, -50%) scale(1.02); }
-            30% { opacity: 1; filter: blur(2px) contrast(2); transform: translate(-50%, -50%) scale(1); }
-            100% { opacity: 1; filter: blur(0) contrast(1); transform: translate(-50%, -50%) scale(1); }
-        }
-        .anim-glitch-in {
-            animation: glitchIn 0.8s steps(8) forwards; 
-        }
-
-        .hologram-fx {
-            filter: sepia(100%) hue-rotate(150deg) saturate(300%) brightness(1.5) contrast(1.2);
+        /* --- SHOCKWAVE RING FOR THE SLAM --- */
+        .shockwave-ring {
             position: absolute;
-            top: 0; left: 0;
-        }
-        .hologram-fx::after {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
+            top: 50%; left: 50%;
+            width: 200px; height: 200px;
             border-radius: 50%;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(0, 255, 255, 0.2) 3px,
-                rgba(0, 255, 255, 0.2) 4px
-            );
-            pointer-events: none;
-            z-index: 15;
-            transition: opacity 0.5s ease;
-        }
-
-        .hologram-resolved {
-            filter: none !important;
-            opacity: 1 !important;
-        }
-        .hologram-resolved::after {
-            opacity: 0 !important;
-        }
-
-        /* The Full Color Overlay */
-        .reveal-mask {
-            position: absolute;
-            top: 0; left: 0;
-            clip-path: inset(0 0 100% 0);
-            z-index: 13;
-        }
-        @keyframes wipeDown {
-            0% { clip-path: inset(0 0 100% 0); }
-            100% { clip-path: inset(0 0 0 0); }
-        }
-        .anim-wipe {
-            animation: wipeDown 1.5s linear forwards;
-        }
-
-        /* The Neon R2-D2 Sweep Line */
-        .artoo-scanline {
-            position: absolute;
-            top: 0; left: 0; 
-            width: 100%; height: 6px;
-            background: #fff;
-            box-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 30px #0ff;
-            z-index: 14;
+            border: 12px solid var(--team-primary);
+            transform: translate(-50%, -50%) scale(0.5);
             opacity: 0;
-            border-radius: 50%;
+            z-index: 11;
+            pointer-events: none;
         }
-        @keyframes scanBar {
-            0% { top: 0%; opacity: 1; }
-            95% { top: 100%; opacity: 1; }
-            100% { top: 100%; opacity: 0; }
+        
+        @keyframes ringExplode {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(3.5); opacity: 0; border-width: 2px; }
         }
-        .anim-scan {
-            animation: scanBar 1.5s linear forwards;
-        }
+        .anim-shockwave { animation: ringExplode 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
 
         .player-photo-container {
             width: 190px;  
@@ -501,19 +425,17 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.4); 
             z-index: 12;
             overflow: hidden;
-            position: absolute;
-            top: 0; left: 0;
-            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; 
+            position: relative;
         }
 
-        /* FIXED: Using object-fit with 100% width cleanly centers the image while the scale acts as the zoom */
         .player-photo { 
-            display: block;
-            width: 100%; 
-            height: 100%; 
+            width: 115%; 
+            height: 115%; 
             object-fit: cover; 
-            object-position: center top; 
-            transform: scale(1.15) translateY(5px);
+            object-position: center 5px; 
         }
         
         .fallback-silhouette {
@@ -539,10 +461,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 20px; 
+            font-family: 'Teko', sans-serif;
+            font-size: 28px; 
             font-weight: bold;
-            z-index: 16; 
+            z-index: 15;
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
 
@@ -559,17 +481,17 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 22px; 
+            font-family: 'Teko', sans-serif;
+            font-size: 30px; 
             font-weight: bold;
-            z-index: 16;
+            z-index: 15;
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
 
         .nameplate-wrapper {
             display: flex;
             align-items: stretch;
-            margin-top: 10px; 
+            margin-top: -24px; 
             z-index: 14;
             position: relative; 
             box-shadow: 0 5px 10px rgba(0,0,0,0.3);
@@ -582,9 +504,10 @@
             background: #fff;
             color: var(--text-dark);
             padding: 8px 24px; 
-            font-family: 'Orbitron', sans-serif;
-            font-size: 20px; 
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px; 
             font-weight: 900;
+            font-style: italic;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             white-space: nowrap;
@@ -609,6 +532,12 @@
             opacity: 0; 
         }
 
+        .anim-watermark {
+            animation: watermarkDropBounce 1.2s forwards;
+            animation-delay: 2.5s; 
+            opacity: 0; 
+        }
+
         @keyframes headerSlideDown {
             0% { opacity: 0; transform: translateY(-40px); }
             100% { opacity: 1; transform: translateY(0); }
@@ -628,19 +557,110 @@
             }
         }
 
-        /* ========================================================
-           THE FORCE PUSH EXIT (STAR WARS BENCH)
-           ======================================================== */
-           
-        @keyframes forcePushLeft {
-            0% { transform: translate(-50%, -15%) rotate(0deg) scale(0.75); opacity: 1; }
-            100% { transform: translate(-250%, -50%) rotate(-720deg) scale(0.5); opacity: 0; }
+        @keyframes watermarkDropBounce {
+            0% { 
+                opacity: 0; 
+                transform: translate(-50%, -50%) scale(4); 
+                filter: blur(12px); 
+                animation-timing-function: ease-in; 
+            }
+            30% { 
+                opacity: 0.35; 
+                transform: translate(-50%, -50%) scale(1); 
+                filter: blur(0); 
+                animation-timing-function: ease-out; 
+            }
+            55% { 
+                transform: translate(-50%, -50%) scale(1.4); 
+                animation-timing-function: ease-in; 
+            }
+            75% { 
+                transform: translate(-50%, -50%) scale(1); 
+                animation-timing-function: ease-out; 
+            }
+            88% { 
+                transform: translate(-50%, -50%) scale(1.15); 
+                animation-timing-function: ease-in; 
+            }
+            100% { 
+                opacity: 0.35; 
+                transform: translate(-50%, -50%) scale(1); 
+                filter: blur(0); 
+            }
         }
 
-        @keyframes forcePushRight {
-            0% { transform: translate(-50%, -15%) rotate(0deg) scale(0.75); opacity: 1; }
-            100% { transform: translate(150%, -50%) rotate(720deg) scale(0.5); opacity: 0; }
+        /* ========================================================
+           THE GAUNTLET ENTRANCE PATH
+           ======================================================== */
+        
+        @keyframes runGauntlet {
+            0%   { left: 95%; top: 95%; opacity: 0; transform: translate(-50%, -50%); }
+            2%   { left: 95%; top: 95%; opacity: 1; transform: translate(-50%, -50%); } 
+            35%  { left: 95%; top: -9%; opacity: 1; transform: translate(-50%, -50%); } 
+            75%  { left: 15%; top: -9%; opacity: 1; transform: translate(-50%, -50%); } 
+            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); } 
         }
+
+        /* ========================================================
+           THE GHOST EXIT (GAME 7 BENCH)
+           ======================================================== */
+           
+        @keyframes ghostExit {
+            0% { 
+                transform: translate(-50%, -15%) scale(0.75); 
+                filter: none; 
+                opacity: 1; 
+            }
+            20% { 
+                filter: grayscale(100%) sepia(100%) hue-rotate(150deg) brightness(1.5) blur(2px); 
+                opacity: 0.8; 
+            }
+            100% { 
+                transform: translate(-50%, -300px) scale(0.75); 
+                filter: grayscale(100%) sepia(100%) hue-rotate(150deg) brightness(2) blur(10px); 
+                opacity: 0; 
+            }
+        }
+
+        /* ========================================================
+           THE AIRBORNE JUMP PLAYBOOK
+           ======================================================== */
+
+        @keyframes jumpSpin {
+            0% { transform: perspective(1000px) translateY(0) scale(1) rotateY(0deg); animation-timing-function: ease-out; }
+            50% { transform: perspective(1000px) translateY(-300px) scale(2.2) rotateY(360deg); animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translateY(0) scale(1) rotateY(720deg); }
+        }
+        .anim-jump-spin { animation: jumpSpin 0.75s forwards; }
+
+        @keyframes jumpFlip {
+            0% { transform: perspective(1000px) translateY(0) scale(1) rotateX(0deg); animation-timing-function: ease-out; }
+            50% { transform: perspective(1000px) translateY(-300px) scale(2.2) rotateX(180deg); animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translateY(0) scale(1) rotateX(360deg); }
+        }
+        .anim-jump-flip { animation: jumpFlip 0.75s forwards; }
+
+        @keyframes jumpCartwheel {
+            0% { transform: perspective(1000px) translateY(0) scale(1) rotateZ(0deg); animation-timing-function: ease-out; }
+            50% { transform: perspective(1000px) translateY(-300px) scale(2.2) rotateZ(180deg); animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translateY(0) scale(1) rotateZ(360deg); }
+        }
+        .anim-jump-cartwheel { animation: jumpCartwheel 0.75s forwards; }
+
+        @keyframes jumpHangtime {
+            0% { transform: perspective(1000px) translateY(0) scale(1) rotate(0deg); animation-timing-function: ease-out; }
+            30% { transform: perspective(1000px) translateY(-300px) scale(2.2) rotate(-15deg); animation-timing-function: linear; }
+            70% { transform: perspective(1000px) translateY(-300px) scale(2.2) rotate(10deg); animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translateY(0) scale(1) rotate(0deg); }
+        }
+        .anim-jump-hangtime { animation: jumpHangtime 0.75s forwards; }
+
+        @keyframes jumpCorkscrew {
+            0% { transform: perspective(1000px) translateY(0) scale(1) rotate3d(1, 1, 1, 0deg); animation-timing-function: ease-out; }
+            50% { transform: perspective(1000px) translateY(-300px) scale(2.2) rotate3d(1, 1, 1, 180deg); animation-timing-function: ease-in; }
+            100% { transform: perspective(1000px) translateY(0) scale(1) rotate3d(1, 1, 1, 360deg); }
+        }
+        .anim-jump-corkscrew { animation: jumpCorkscrew 0.75s forwards; }
 
     </style>
 </head>
@@ -684,12 +704,9 @@
                 <div class="free-throw-circle"></div>
                 <div class="paint-area"></div>
                 
-                <div id="star-wars-crawl">
-                    <div class="crawl-wrapper" id="crawl-wrapper">
-                        <img id="crawl-logo" src="" alt="">
-                        <div class="crawl-text">GAME 1</div>
-                    </div>
-                </div>
+                <img id="watermark" class="watermark-logo" src="" alt="">
+                
+                <div id="game7-watermark"></div>
 
                 <div id="players-container"></div>
             </div>
@@ -867,25 +884,6 @@
             // Apply the two-tone glow to the edges of the main tracking spotlight
             drawMainHalo(ctx, currentSpotX, currentSpotY, currentInnerR, currentOuterR, activePrimaryHex, activeSecondaryHex);
             
-            // 🚨 TRACTOR BEAM TARGETING CROSSHAIR
-            if (!spotlightWiden && trackingSpotlight) {
-                ctx.strokeStyle = 'rgba(255, 0, 0, 0.5)'; // Sith Red Crosshairs
-                ctx.lineWidth = 2;
-                
-                ctx.beginPath();
-                ctx.moveTo(currentSpotX - 50, currentSpotY);
-                ctx.lineTo(currentSpotX + 50, currentSpotY);
-                ctx.moveTo(currentSpotX, currentSpotY - 50);
-                ctx.lineTo(currentSpotX, currentSpotY + 50);
-                ctx.stroke();
-
-                ctx.beginPath();
-                ctx.arc(currentSpotX, currentSpotY, currentInnerR + 15, 0, Math.PI * 2);
-                ctx.setLineDash([8, 12]);
-                ctx.stroke();
-                ctx.setLineDash([]);
-            }
-
             requestAnimationFrame(renderSpotlights);
         }
 
@@ -1113,13 +1111,35 @@
             void logoEl.offsetWidth; 
             logoEl.classList.add('anim-logo');
             
-            // Retrigger the Opening Crawl
-            const crawlContainer = document.getElementById('crawl-wrapper');
-            const crawlLogo = document.getElementById('crawl-logo');
-            crawlLogo.src = logoUrl;
-            crawlContainer.classList.remove('anim-crawl');
-            void crawlContainer.offsetWidth; 
-            crawlContainer.classList.add('anim-crawl');
+            const watermarkEl = document.getElementById('watermark');
+            watermarkEl.src = logoUrl;
+            
+            // Retrigger the bouncing court watermark
+            watermarkEl.classList.remove('anim-watermark');
+            void watermarkEl.offsetWidth; 
+            watermarkEl.classList.add('anim-watermark');
+
+            // --- THE GAME 7 BRANDING IRON BUILDER ---
+            const game7Container = document.getElementById('game7-watermark');
+            game7Container.innerHTML = '';
+            game7Container.classList.remove('anim-game7-pound'); // Reset flight animation
+            
+            const g7Text = "GAME 7";
+            let g7Html = '';
+            
+            // The watermark finishes its bounce at 3.7s. 
+            // We start the burns here so they perfectly slam through the blackout at 4.11s.
+            let burnDelay = 3.6; 
+            for (let i = 0; i < g7Text.length; i++) {
+                if (g7Text[i] === ' ') {
+                    g7Html += `<span style="width: 35px;"></span>`;
+                } else {
+                    g7Html += `<span class="burn-letter" style="animation-delay: ${burnDelay}s;">${g7Text[i]}</span>`;
+                    burnDelay += 0.18; // Stagger letters
+                    if (g7Text[i] === 'E') burnDelay += 0.35; // Dramatic pause before 7!
+                }
+            }
+            game7Container.innerHTML = g7Html;
 
             const container = document.getElementById('players-container');
             container.innerHTML = '';
@@ -1127,7 +1147,7 @@
             const starters = game.rosters[targetAbbr].players.slice(0, 5);
             const bench = (game.rosters[targetAbbr].bench || []).slice(0, 7);
 
-            // 1. RENDER THE HYPED BENCH WITH LIGHTSABERS
+            // 1. RENDER THE HYPED BENCH
             bench.forEach((player, index) => {
                 const dbPlayer = getPlayerData(player.name);
                 const photoUrl = dbPlayer ? dbPlayer.photo : null;
@@ -1142,18 +1162,11 @@
                 
                 const jumpSpeed = (0.6 + Math.random() * 0.4).toFixed(2);
                 const jumpOffset = (Math.random() * -1).toFixed(2);
-                
-                // Jedi vs Sith assignments
-                const saberColor = index % 2 === 0 ? 'saber-blue' : 'saber-red';
-                const saberAnim = index % 2 === 0 ? 'saberDuelLeft' : 'saberDuelRight';
-                const saberSpeed = (0.5 + Math.random() * 0.5).toFixed(2);
 
                 const html = `
                     <div class="player-node bench-node" style="left: ${benchX}%; top: -15%; animation: benchJump ${jumpSpeed}s infinite ease-in-out; animation-delay: ${jumpOffset}s;">
                         <div class="cinematic-wrapper">
                             <div class="photo-wrapper">
-                                <div class="lightsaber-bench ${saberColor}" style="animation: ${saberAnim} ${saberSpeed}s infinite alternate ease-in-out;"></div>
-                                
                                 <div class="player-photo-container">
                                     ${photoHtml}
                                 </div>
@@ -1167,7 +1180,7 @@
                 container.insertAdjacentHTML('beforeend', html);
             });
 
-            // 2. RENDER THE STARTERS VIA GLITCH AND SCAN
+            // 2. RENDER THE STARTERS
             const tagEl = document.getElementById('starting-tag');
             tagEl.textContent = "STARTING 5";
             tagEl.style.color = "var(--text-dark)";
@@ -1177,8 +1190,12 @@
             void tagEl.offsetWidth; 
             tagEl.classList.add('anim-header-tag');
 
-            // Include the new Green saber here!
-            const STARTER_SABERS = ['saber-red', 'saber-blue', 'saber-yellow', 'saber-green', 'saber-purple'];
+            const playbook = ["anim-jump-spin", "anim-jump-flip", "anim-jump-cartwheel", "anim-jump-hangtime", "anim-jump-corkscrew"];
+            
+            for (let i = playbook.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [playbook[i], playbook[j]] = [playbook[j], playbook[i]];
+            }
 
             starters.forEach((player, index) => {
                 const pos = POSITIONS[index];
@@ -1195,29 +1212,23 @@
                     ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` 
                     : `<div class="fallback-silhouette"></div>`;
 
+                const chosenAnimation = playbook[index];
+                
                 const delays = [10.93, 18.15, 26.17, 33.72, 40.87]; 
                 const baseDelay = delays[index]; 
+                
+                const runStart = baseDelay - 2.25; 
 
                 const html = `
-                    <div class="player-node starter-node anim-glitch-in" style="animation-delay: ${baseDelay - 0.8}s; --final-x: ${coords.x}%; --final-y: ${coords.y}%;">
-                        <div class="cinematic-wrapper">
+                    <div class="player-node starter-node" style="animation: runGauntlet 3s forwards; animation-delay: ${runStart}s; --final-x: ${coords.x}%; --final-y: ${coords.y}%;">
+                        <div class="cinematic-wrapper ${chosenAnimation}" style="animation-delay: ${baseDelay}s;">
                             <div class="photo-wrapper">
-                                
-                                <div id="saber-${index}" class="lightsaber-starter ${STARTER_SABERS[index]}"></div>
-
+                                <div id="shockwave-${index}" class="shockwave-ring"></div>
                                 <div class="player-position">${pos}</div>
                                 ${jerseyNum ? `<div class="player-number">${jerseyNum}</div>` : ''}
-                                <div id="shockwave-${index}" class="shockwave-ring"></div>
-                                
-                                <div id="starter-photo-${index}" class="player-photo-container hologram-fx">
+                                <div class="player-photo-container">
                                     ${photoHtml}
                                 </div>
-
-                                <div id="reveal-${index}" class="player-photo-container reveal-mask">
-                                    ${photoHtml}
-                                </div>
-                                
-                                <div id="scanline-${index}" class="artoo-scanline"></div>
                             </div>
                             <div class="nameplate-wrapper">
                                 <div class="player-nameplate">${displayName}</div>
@@ -1227,32 +1238,22 @@
                 `;
                 container.insertAdjacentHTML('beforeend', html);
 
-                // --- TRACKING & TIMING TRIGGERS ---
-                // Spotlight hits them exactly on their mark
+                // --- TRACKING & SHOCKWAVE TRIGGERS ---
+                // Spotlight tracks them exactly as their run begins
                 setTimeout(() => {
                     activePlayerIndex = index;
-
-                    // Trigger the Scanline Reveal exactly when the spotlight arrives!
-                    const reveal = document.getElementById(`reveal-${index}`);
-                    const scan = document.getElementById(`scanline-${index}`);
-                    if(reveal) reveal.classList.add('anim-wipe');
-                    if(scan) scan.classList.add('anim-scan');
-
-                }, baseDelay * 1000);
+                }, runStart * 1000);
                 
-                // Exactly 1.5 seconds later, the scanline finishes. Trigger the Saber!
+                // Trigger the Quake and Shockwave exactly when their cinematic slam hits the floor
                 setTimeout(() => {
-                    const saber = document.getElementById(`saber-${index}`);
-                    if(saber) saber.classList.add('anim-ignite');
-                    
-                    // Minor screen shake as the saber ignites!
                     const captureArea = document.getElementById('capture-area');
-                    if(captureArea) {
-                        captureArea.classList.remove('quake-active');
-                        void captureArea.offsetWidth;
-                        captureArea.classList.add('quake-active');
-                    }
-                }, (baseDelay + 1.5) * 1000);
+                    captureArea.classList.remove('quake-active');
+                    void captureArea.offsetWidth;
+                    captureArea.classList.add('quake-active');
+
+                    const shockwave = document.getElementById(`shockwave-${index}`);
+                    if (shockwave) shockwave.classList.add('anim-shockwave');
+                }, (baseDelay + 0.75) * 1000); // 0.75s is the duration of the cinematic animations
 
             });
 
@@ -1280,7 +1281,7 @@
                 activePlayerIndex = -1; 
             }, 43500);
 
-            // --- THE FORCE PUSH BENCH EXIT (44.2s) ---
+            // --- THE GAME 7 GHOST EXIT (44.2s) ---
             setTimeout(() => {
                 const benchNodes = document.querySelectorAll('.bench-node');
                 
@@ -1289,18 +1290,31 @@
                     node.style.transform = 'translate(-50%, -15%) scale(0.75)'; 
                     void node.offsetWidth; 
                     
-                    // Throw them left or right off the screen in slow motion!
-                    const pushDir = idx % 2 === 0 ? 'forcePushLeft' : 'forcePushRight';
-                    node.style.animation = `${pushDir} 3s cubic-bezier(0.1, 0.8, 0.3, 1) forwards`;
+                    // The bench players dissolve into cyan ghosts and float away
+                    node.style.animation = `ghostExit 2.5s ease-in ${idx * 0.15}s forwards`;
                 });
             }, 44200); 
 
-            // --- TRIGGER THE ARENA LIGHTS ON AT 44.5s ---
+            // --- THE GAME 7 BRANDING IRON FLIES AWAY & ARENA LIGHTS ON (44.5s) ---
             setTimeout(() => {
                 if (captureArea) captureArea.classList.remove('lights-out-mode');
                 trackingSpotlight = false; 
                 if (roamingInterval) clearInterval(roamingInterval); 
+
+                // Rise up and slam down!
+                if (game7Container) {
+                    game7Container.classList.add('anim-game7-pound');
+                }
             }, 44500); 
+
+            // --- TRIGGER THE FINAL QUAKE ON IMPACT (45.52s) ---
+            setTimeout(() => {
+                if (captureArea) {
+                    captureArea.classList.remove('quake-active');
+                    void captureArea.offsetWidth;
+                    captureArea.classList.add('quake-active');
+                }
+            }, 45520);
         }
 
         function takeScreenshot() {
