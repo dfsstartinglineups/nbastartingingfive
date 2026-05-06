@@ -337,7 +337,6 @@
             animation: ripBody 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s forwards;
         }
 
-        /* NEW: Official Pack Branding Text */
         .pack-sub-text {
             font-family: 'Oswald', sans-serif;
             font-weight: 700; font-size: 24px; color: #ffea00;
@@ -415,6 +414,14 @@
         }
 
         /* ======================================================== */
+        /* FIXED: Locks all players above watermarks but below spotlights */
+        #players-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 15; 
+            pointer-events: none;
+        }
 
         .player-node {
             position: absolute;
@@ -484,6 +491,23 @@
             position: relative;
         }
 
+        /* NEW: Team Logo displayed on the card front */
+        .card-front-team-logo {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+            z-index: 15;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+        }
+        
+        .bench-node .card-front-team-logo {
+            width: 35px; height: 35px; top: 5px;
+        }
+
         .player-card-photo {
             width: 100%;
             height: 100%;
@@ -491,7 +515,6 @@
             object-position: center top;
         }
 
-        /* NEW: In-Card Text Styling */
         .card-info-overlay {
             position: absolute;
             bottom: 0; left: 0; width: 100%;
@@ -564,21 +587,21 @@
         }
 
         /* --- THE PACK BURST ANIMATION (Shared Logic) --- */
+        /* FIXED: Set animation-fill-mode to "both" to prevent the 0,0 rogue card bug during delay */
         @keyframes cardBurst {
-            0%   { left: 50%; top: 15%; transform: translate(-50%, -50%) scale(0.1) rotateZ(0deg); opacity: 0; }
-            5%   { left: 50%; top: 15%; transform: translate(-50%, -50%) scale(0.5) rotateZ(15deg); opacity: 1; }
+            0%   { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.1) rotateZ(0deg); opacity: 0; }
+            5%   { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.5) rotateZ(15deg); opacity: 1; }
             100% { left: var(--target-x); top: var(--target-y); transform: translate(-50%, -50%) scale(1) rotateZ(0deg); opacity: 1; }
         }
         
-        .anim-burst { animation: cardBurst 1s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s forwards; }
+        .anim-burst { animation: cardBurst 1s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s both; }
 
-        /* Bench has a slightly longer flight path to top of screen and flips face up upon landing */
         @keyframes benchBurst {
-            0%   { left: 50%; top: 15%; transform: translate(-50%, -50%) scale(0.1) rotateZ(0deg); opacity: 0; }
-            5%   { left: 50%; top: 15%; transform: translate(-50%, -50%) scale(0.5) rotateZ(-35deg); opacity: 1; }
+            0%   { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.1) rotateZ(0deg); opacity: 0; }
+            5%   { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.5) rotateZ(-35deg); opacity: 1; }
             100% { left: var(--target-x); top: var(--target-y); transform: translate(-50%, -50%) scale(1) rotateZ(0deg); opacity: 1; }
         }
-        .anim-bench-burst { animation: benchBurst 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s forwards; }
+        .anim-bench-burst { animation: benchBurst 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s both; }
 
         @keyframes benchInnerFlip {
             0%, 50% { transform: rotateY(180deg); }
@@ -1077,7 +1100,6 @@
             const logos = document.querySelectorAll('.court-logo');
             logos.forEach(logo => logo.src = logoUrl);
             
-            // Set the dynamic logo on the Foil Pack
             const packLogo = document.getElementById('pack-logo-img');
             if (packLogo) packLogo.src = logoUrl;
             
@@ -1133,6 +1155,7 @@
                                 </div>
                                 <div class="player-card-front">
                                     <div class="card-photo-clip">
+                                        <img src="${logoUrl}" class="card-front-team-logo">
                                         ${photoHtml}
                                         <div class="card-info-overlay">
                                             <div class="card-name">${lastName}</div>
@@ -1190,6 +1213,7 @@
                                     </div>
                                     <div class="player-card-front">
                                         <div class="card-photo-clip">
+                                            <img src="${logoUrl}" class="card-front-team-logo">
                                             ${photoHtml}
                                             <div class="card-info-overlay">
                                                 <div class="card-name">${displayName}</div>
@@ -1208,13 +1232,12 @@
                 `;
                 container.insertAdjacentHTML('beforeend', html);
 
-                // --- TRACKING & EVENTS ---
                 // Spotlight tracks the specific player 0.5s before they are revealed
                 setTimeout(() => {
                     activePlayerIndex = index;
                 }, (baseDelay - 0.5) * 1000);
                 
-                // Announcer calls name - FLIP THE CARD AND QUAKE
+                // Announcer calls name - FLIP THE CARD, TRIGGER GLARE, AND QUAKE
                 setTimeout(() => {
                     document.getElementById(`card-inner-${index}`).style.transform = 'rotateY(0deg)';
                     document.getElementById(`glare-${index}`).classList.add('anim-glare');
