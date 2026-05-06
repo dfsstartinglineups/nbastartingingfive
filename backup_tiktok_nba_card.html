@@ -319,10 +319,11 @@
             50% { transform: translate(-50%, -15%) scale(0.85); }
         }
 
+        /* FIXED: Added a subtle stripe texture to the rally towel */
         .rally-towel {
             position: absolute;
-            bottom: -5px; 
-            left: -15px;
+            bottom: 0px; 
+            left: -10px;
             width: 35px; 
             height: 60px;
             background: #fff;
@@ -332,6 +333,7 @@
             z-index: 15;
             box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
             border: 2px solid #ddd;
+            background-image: repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(0,0,0,0.05) 4px, rgba(0,0,0,0.05) 8px);
         }
 
         @keyframes waveTowel {
@@ -339,19 +341,28 @@
             100% { transform: rotate(50deg) skewX(-15deg); }
         }
 
-        .player-photo-container {
-            width: 180px;  
-            height: 180px; 
+        /* FIXED: True 1:1 Aspect Ratio container for the bench photos */
+        .bench-photo-container {
+            width: 140px;  
+            height: 140px; 
             border-radius: 50%;
-            border: 8px solid var(--team-secondary); 
+            border: 6px solid var(--team-secondary); 
             background-color: #222; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.4); 
             z-index: 12;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start; 
-            position: relative;
+            position: absolute;
+            top: 0; left: 0;
+            box-sizing: border-box;
+        }
+
+        .bench-photo { 
+            display: block;
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            object-position: center top; 
+            transform: scale(1.15) translateY(5px);
         }
 
         /* --- TRADING CARD STARTER SYSTEM --- */
@@ -369,7 +380,7 @@
         .card-wrapper {
             position: relative;
             width: 220px;
-            height: 310px; /* Scaled up for vertical space! */
+            height: 310px; 
             perspective: 1000px;
         }
 
@@ -379,7 +390,7 @@
             position: absolute;
             transform-style: preserve-3d;
             transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform: rotateY(180deg); /* Starts face down! */
+            transform: rotateY(180deg); 
             box-shadow: 0 15px 35px rgba(0,0,0,0.6);
             border-radius: 16px;
         }
@@ -394,7 +405,6 @@
             border: 8px solid var(--team-primary);
         }
 
-        /* The back of the card */
         .player-card-back {
             background-color: var(--team-secondary);
             background-image: repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(0,0,0,0.15) 15px, rgba(0,0,0,0.15) 30px);
@@ -411,7 +421,6 @@
             filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
         }
 
-        /* The front of the card */
         .player-card-front {
             background-color: #222;
         }
@@ -431,7 +440,6 @@
             transform: scale(1.15) translateY(5px);
         }
 
-        /* The Holographic Foil Glare */
         .holo-glare {
             position: absolute;
             top: -50%; left: -50%; width: 200%; height: 200%;
@@ -473,7 +481,7 @@
         }
 
         .nameplate-wrapper {
-            display: flex; align-items: stretch; margin-top: 20px; 
+            display: flex; align-items: stretch; 
             z-index: 14; position: relative; box-shadow: 0 5px 10px rgba(0,0,0,0.3);
             border-radius: 8px; overflow: hidden; border: 1px solid rgba(0,0,0,0.1);
         }
@@ -611,14 +619,13 @@
 
         const POSITIONS = ["PG", "SG", "SF", "PF", "C"];
         
-        // --- NEW VERTICAL COURT MAPPING ---
-        // Giving the players maximum breathing room vertically!
+        // --- VERTICAL COURT MAPPING ---
         const COURT_COORDS = [
-            { x: 50, y: 15 }, // PG - Top Center
-            { x: 20, y: 38 }, // SG - Mid Left
-            { x: 80, y: 38 }, // SF - Mid Right
-            { x: 30, y: 68 }, // PF - Bottom Left
-            { x: 70, y: 68 }  // C  - Bottom Right
+            { x: 50, y: 15 }, 
+            { x: 20, y: 38 }, 
+            { x: 80, y: 38 }, 
+            { x: 30, y: 68 }, 
+            { x: 70, y: 68 }  
         ];
 
         let allGames = [];
@@ -723,12 +730,10 @@
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // 1. Draw solid darkness over the whole court
             ctx.globalCompositeOperation = 'source-over';
             ctx.fillStyle = 'rgba(0, 0, 0, 0.94)'; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // 2. Punch the completely clear holes out of the darkness
             ctx.globalCompositeOperation = 'destination-out';
             drawHole(ctx, currentSpotX, currentSpotY, currentInnerR, currentOuterR);
             if (!spotlightWiden) {
@@ -736,14 +741,12 @@
                 drawHole(ctx, roamSpot2.x, roamSpot2.y, 30, 210);
             }
             
-            // 3. Add colored "lighting gels" back over the holes
             ctx.globalCompositeOperation = 'source-over';
             if (!spotlightWiden) {
                 drawColoredTint(ctx, roamSpot1.x, roamSpot1.y, 30, 210, activePrimaryHex);
                 drawColoredTint(ctx, roamSpot2.x, roamSpot2.y, 30, 210, activeSecondaryHex);
             }
             
-            // Apply the two-tone glow to the edges of the main tracking spotlight
             drawMainHalo(ctx, currentSpotX, currentSpotY, currentInnerR, currentOuterR, activePrimaryHex, activeSecondaryHex);
             
             requestAnimationFrame(renderSpotlights);
@@ -757,7 +760,7 @@
                 
                 while (!isValid && attempts < 15) {
                     rx = Math.floor(Math.random() * 880) + 100;
-                    ry = Math.floor(Math.random() * 1600) + 100; // Updated for taller space
+                    ry = Math.floor(Math.random() * 1600) + 100; 
                     
                     const distToMain = Math.hypot(rx - currentSpotX, ry - currentSpotY);
                     if (distToMain > 400) isValid = true;
@@ -920,7 +923,6 @@
                 document.documentElement.style.setProperty('--team-primary', primaryColor);
                 document.documentElement.style.setProperty('--team-secondary', theme.secondary);
                 
-                // Track colors for the Canvas Lighting Engine
                 activePrimaryHex = primaryColor;
                 activeSecondaryHex = theme.secondary;
             }
@@ -976,10 +978,6 @@
             const watermarkEl = document.getElementById('watermark');
             watermarkEl.src = logoUrl;
             
-            watermarkEl.classList.remove('anim-watermark');
-            void watermarkEl.offsetWidth; 
-            watermarkEl.classList.add('anim-watermark');
-
             const container = document.getElementById('players-container');
             container.innerHTML = '';
 
@@ -993,7 +991,7 @@
                 const lastName = player.name.split(' ').pop().substring(0, 10); 
 
                 const photoHtml = (photoUrl && photoUrl.trim() !== '') 
-                    ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` 
+                    ? `<img src="${photoUrl}" class="bench-photo" crossorigin="anonymous" onerror="handleImageError(this)">` 
                     : `<div class="fallback-silhouette"></div>`;
 
                 const benchSpacing = bench.length > 1 ? 60 / (bench.length - 1) : 0;
@@ -1002,16 +1000,17 @@
                 const jumpSpeed = (0.6 + Math.random() * 0.4).toFixed(2);
                 const jumpOffset = (Math.random() * -1).toFixed(2);
 
+                // FIXED: Pushed bench higher up (top: -14%) and added dedicated bench-photo-container to fix squishing
                 const html = `
-                    <div class="player-node bench-node" style="left: ${benchX}%; top: -8%; animation: benchJump ${jumpSpeed}s infinite ease-in-out; animation-delay: ${jumpOffset}s;">
+                    <div class="player-node bench-node" style="left: ${benchX}%; top: -14%; animation: benchJump ${jumpSpeed}s infinite ease-in-out; animation-delay: ${jumpOffset}s;">
                         <div class="cinematic-wrapper">
-                            <div class="photo-wrapper" style="width: 150px; height: 150px; border-radius: 50%; overflow: visible;">
+                            <div class="photo-wrapper" style="width: 140px; height: 140px; position: relative;">
                                 <div class="rally-towel"></div>
-                                <div class="player-photo-container">
+                                <div class="bench-photo-container">
                                     ${photoHtml}
                                 </div>
                             </div>
-                            <div class="nameplate-wrapper">
+                            <div class="nameplate-wrapper" style="margin-top: 10px; z-index: 14;">
                                 <div class="player-nameplate" style="font-size: 20px; padding: 4px 16px;">${lastName}</div>
                             </div>
                         </div>
@@ -1048,7 +1047,6 @@
                 const delays = [10.93, 18.15, 26.17, 33.72, 40.87]; 
                 const baseDelay = delays[index]; 
                 
-                // Timing for the Card Deal and Reveal
                 const tDeal = baseDelay - 1.5; 
                 const tLand = baseDelay - 0.7; 
                 const tFlip = baseDelay; 
@@ -1080,12 +1078,10 @@
                 `;
                 container.insertAdjacentHTML('beforeend', html);
 
-                // Spotlight tracks deal
                 setTimeout(() => {
                     activePlayerIndex = index;
                 }, tDeal * 1000);
                 
-                // Card Lands - Quake and Shockwave
                 setTimeout(() => {
                     const captureArea = document.getElementById('capture-area');
                     captureArea.classList.remove('quake-active');
@@ -1096,7 +1092,6 @@
                     if (shockwave) shockwave.classList.add('anim-shockwave');
                 }, tLand * 1000); 
 
-                // Announcer calls name - FLIP THE CARD and trigger GLARE
                 setTimeout(() => {
                     document.getElementById(`card-inner-${index}`).style.transform = 'rotateY(0deg)';
                     document.getElementById(`glare-${index}`).classList.add('anim-glare');
@@ -1111,7 +1106,7 @@
                 }
                 trackingSpotlight = true;
                 
-                currentSpotX = 540; currentSpotY = 960; // Adjusted for taller court
+                currentSpotX = 540; currentSpotY = 960; 
                 moveRoamingLights();
                 
                 roamSpot1.x = roamSpot1.targetX; roamSpot1.y = roamSpot1.targetY;
