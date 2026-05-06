@@ -101,9 +101,11 @@ async def record_nba_video():
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         context = await browser.new_context(
-            viewport={'width': 1080, 'height': 1080},
+            # UPDATED: Set viewport to the new TikTok Vertical dimensions
+            viewport={'width': 1080, 'height': 1920},
             record_video_dir=OUTPUT_DIR,
-            record_video_size={"width": 1080, "height": 1080}
+            # UPDATED: Tell Playwright to record a vertical video
+            record_video_size={"width": 1080, "height": 1920}
         )
         page = await context.new_page()
         
