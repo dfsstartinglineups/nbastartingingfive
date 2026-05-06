@@ -1,6 +1,16 @@
 {
-  "last_updated": "May 05, 10:00 PM ET",
+  "last_updated": "May 05, 10:02 PM ET",
   "player_news": [
+    {
+      "player_name": "Jarred Vanderbilt",
+      "team": "LAL",
+      "position": "PF",
+      "status_badge": "OUT",
+      "description": "Will not return finger",
+      "time_elapsed": "1m",
+      "next_game": "Tuesday @OKC",
+      "local_timestamp": 1778033016.3504214
+    },
     {
       "player_name": "Kevin Huerter",
       "team": "DET",
@@ -9,17 +19,7 @@
       "description": "Out left adductor strain",
       "time_elapsed": "3.8h",
       "next_game": "Tuesday vs CLE",
-      "local_timestamp": 1778032899.0749335
-    },
-    {
-      "player_name": "Jarred Vanderbilt",
-      "team": "LAL",
-      "position": "PF",
-      "status_badge": "LR",
-      "description": "In the Locker Room",
-      "time_elapsed": "30m",
-      "next_game": "Tuesday @OKC",
-      "local_timestamp": 1778031095.7553585
+      "local_timestamp": 1778033016.3474214
     },
     {
       "player_name": "Sam Merrill",
@@ -1777,7 +1777,7 @@
                   ],
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/okc.png"
                 },
-                "score": "61",
+                "score": "63",
                 "linescores": [
                   {
                     "value": 31.0,
@@ -1788,6 +1788,11 @@
                     "value": 30.0,
                     "displayValue": "30",
                     "period": 2
+                  },
+                  {
+                    "value": 2.0,
+                    "displayValue": "2",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -1804,7 +1809,7 @@
                   {
                     "name": "assists",
                     "abbreviation": "AST",
-                    "displayValue": "16"
+                    "displayValue": "15"
                   },
                   {
                     "name": "fieldGoalsAttempted",
@@ -1864,7 +1869,7 @@
                   {
                     "name": "avgAssists",
                     "abbreviation": "AST",
-                    "displayValue": "16.0"
+                    "displayValue": "15.0"
                   },
                   {
                     "name": "threePointFieldGoalPct",
@@ -2132,6 +2137,11 @@
                     "value": 27.0,
                     "displayValue": "27",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -2406,32 +2416,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401871326340",
+                "id": "401871326344",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "584",
+                  "text": "Substitution"
                 },
-                "text": "End of the 2nd Quarter",
+                "text": "Deandre Ayton enters the game for Luke Kennard",
                 "scoreValue": 0,
+                "team": {
+                  "id": "13"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
                   "homeWinPercentage": 0.891,
                   "awayWinPercentage": 0.10899999999999999
-                }
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "4278129",
+                    "fullName": "Deandre Ayton",
+                    "displayName": "Deandre Ayton",
+                    "shortName": "D. Ayton",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/4278129/deandre-ayton"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4278129.png",
+                    "jersey": "5",
+                    "position": "C",
+                    "team": {
+                      "id": "13"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 2,
+              "clock": 693.0,
+              "displayClock": "11:33",
+              "period": 3,
               "type": {
-                "id": "23",
-                "name": "STATUS_HALFTIME",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "Halftime",
-                "detail": "Halftime",
-                "shortDetail": "Halftime"
+                "description": "In Progress",
+                "detail": "11:33 - 3rd Quarter",
+                "shortDetail": "11:33 - 3rd"
               }
             },
             "broadcasts": [
@@ -2550,17 +2587,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 2,
+          "clock": 693.0,
+          "displayClock": "11:33",
+          "period": 3,
           "type": {
-            "id": "23",
-            "name": "STATUS_HALFTIME",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "Halftime",
-            "detail": "Halftime",
-            "shortDetail": "Halftime"
+            "description": "In Progress",
+            "detail": "11:33 - 3rd Quarter",
+            "shortDetail": "11:33 - 3rd"
           }
         }
       }
