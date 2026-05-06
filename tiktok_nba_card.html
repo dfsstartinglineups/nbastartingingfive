@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NBA Starting 5 - Cinco de Mayo Fiesta</title>
+    <title>NBA Starting 5 - Game 2 Trading Cards (TikTok Vertical)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&family=Oswald:wght@500;700&family=Montserrat:ital,wght@0,800;1,900&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --team-primary: #17408B; 
-            --team-secondary: #C9082A;
+            --team-primary: #007ac1; 
+            --team-secondary: #ef3b24;
             --bg-wood: #eacc98; 
             --text-dark: #111; 
         }
@@ -52,9 +52,10 @@
 
         button:hover { background: #555; }
 
+        /* --- TIKTOK VERTICAL FORMAT: 1080 x 1920 --- */
         #capture-area {
             width: 1080px;
-            height: 1080px; 
+            height: 1920px; 
             background-color: var(--bg-wood);
             background-image: repeating-linear-gradient(
                 to right,
@@ -70,246 +71,592 @@
             align-items: center;
             box-shadow: 0 20px 50px rgba(0,0,0,0.9);
             color: var(--text-dark);
-            border-top: 15px solid var(--team-primary);
-            border-bottom: 15px solid var(--team-primary);
-        }
-
-        /* --- PAPEL PICADO BANNERS --- */
-        .papel-picado {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 60px;
-            z-index: 11;
-            -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg"><path d="M0,0 L120,0 L120,50 L105,30 L90,50 L75,30 L60,50 L45,30 L30,50 L15,30 L0,50 Z" fill="black"/></svg>');
-            -webkit-mask-size: 120px 100%;
-            mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg"><path d="M0,0 L120,0 L120,50 L105,30 L90,50 L75,30 L60,50 L45,30 L30,50 L15,30 L0,50 Z" fill="black"/></svg>');
-            mask-size: 120px 100%;
-            transform-origin: top center;
-            animation: sway 4s infinite alternate ease-in-out;
-        }
-        .papel-1 { background-color: var(--team-primary); top: -5px; animation-delay: 0s; }
-        .papel-2 { background-color: var(--team-secondary); top: 15px; left: 60px; animation-delay: -2s; }
-
-        @keyframes sway {
-            0% { transform: skewX(-4deg) rotate(-1deg); }
-            100% { transform: skewX(4deg) rotate(1deg); }
+            border-top: 20px solid var(--team-primary);
+            border-bottom: 20px solid var(--team-primary);
         }
 
         /* --- THE QUAKE EFFECT --- */
         @keyframes arenaQuake {
             0% { transform: translate(0, 0) scale(1); }
-            20% { transform: translate(-15px, 15px) scale(1.02); }
-            40% { transform: translate(15px, -15px) scale(1.02); }
-            60% { transform: translate(-15px, -5px) scale(1.02); }
-            80% { transform: translate(15px, 5px) scale(1.02); }
+            20% { transform: translate(-10px, 10px) scale(1.02); }
+            40% { transform: translate(10px, -10px) scale(1.02); }
+            60% { transform: translate(-10px, -5px) scale(1.02); }
+            80% { transform: translate(10px, 5px) scale(1.02); }
             100% { transform: translate(0, 0) scale(1); }
         }
-        .quake-active { animation: arenaQuake 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97); }
+        .quake-active { 
+            animation: arenaQuake 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97); 
+        }
 
         .arena-glow {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 350px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 600px;
             background: radial-gradient(ellipse at top, var(--team-primary) 0%, transparent 70%);
-            opacity: 0.15; z-index: 1; pointer-events: none;
+            opacity: 0.15; 
+            z-index: 1;
+            pointer-events: none;
         }
 
         #header {
-            width: 100%; box-sizing: border-box; padding: 30px 50px 10px; 
-            display: flex; align-items: center; justify-content: space-between;
-            position: relative; z-index: 10;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 50px 60px 10px; 
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 10;
         }
 
         .header-left { display: flex; flex-direction: column; }
 
         .starting-tag {
-            font-family: 'Teko', sans-serif; font-size: 40px; color: var(--text-dark);
-            text-transform: uppercase; letter-spacing: 3px; line-height: 1;
-            text-shadow: 1px 1px 0px rgba(255,255,255,0.5); transition: all 0.3s ease;
+            font-family: 'Teko', sans-serif;
+            font-size: 45px; 
+            color: var(--text-dark);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            line-height: 1;
+            text-shadow: 1px 1px 0px rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
         }
 
         #team-name {
-            font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; font-size: 75px; 
-            margin: 0; line-height: 0.9; text-transform: uppercase; letter-spacing: 1px;
-            color: var(--team-primary); position: relative; z-index: 1;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-style: italic;
+            font-size: 90px; 
+            margin: 0;
+            line-height: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--team-primary);
+            position: relative;
+            z-index: 1;
         }
 
         #team-name::before {
-            content: attr(data-text); position: absolute; left: 0; top: 0; z-index: -1;
-            -webkit-text-stroke: 6px #fff; text-shadow: 4px 4px 0px var(--team-secondary);
+            content: attr(data-text); 
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: -1;
+            -webkit-text-stroke: 8px #fff; 
+            text-shadow: 5px 5px 0px var(--team-secondary);
         }
 
         #matchup-info {
-            font-family: 'Oswald', sans-serif; font-size: 24px; color: #444; margin-top: 10px;
-            text-transform: uppercase; letter-spacing: 2px; font-weight: bold;
+            font-family: 'Oswald', sans-serif;
+            font-size: 28px;
+            color: #444;
+            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
         }
 
-        #team-logo { width: 140px; height: 140px; object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); }
+        #team-logo {
+            width: 180px; 
+            height: 180px;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+        }
 
+        /* --- THE VERTICAL COURT --- */
         #court-scene {
-            width: 100%; height: 850px; position: absolute; bottom: 0;
-            display: flex; justify-content: center; align-items: flex-end;
+            width: 100%;
+            height: 1550px; 
+            position: absolute;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
         }
 
         #court {
-            width: 960px; height: 800px; position: relative;
-            border: 4px solid var(--team-primary); border-bottom: none; border-radius: 10px 10px 0 0;
+            width: 960px; 
+            height: 1400px; 
+            position: relative;
+            border: 4px solid var(--team-primary);
+            border-bottom: none;
+            border-radius: 10px 10px 0 0;
             box-shadow: inset 0 0 50px rgba(0,0,0,0.1);
         }
 
         .paint-area {
-            position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-            width: 320px; height: 350px; border: 4px solid var(--team-primary); border-bottom: none;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 320px;
+            height: 450px; 
+            border: 4px solid var(--team-primary);
+            border-bottom: none;
             background: rgba(0, 0, 0, 0.05);
         }
 
         .free-throw-circle {
-            position: absolute; bottom: 350px; left: 50%; transform: translateX(-50%);
-            width: 120px; height: 60px; border: 4px solid var(--team-primary); border-bottom: none; 
-            border-radius: 60px 60px 0 0; background: transparent; z-index: 1;
+            position: absolute;
+            bottom: 450px; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 60px; 
+            border: 4px solid var(--team-primary);
+            border-bottom: none; 
+            border-radius: 60px 60px 0 0; 
+            background: transparent; 
+            z-index: 1;
         }
 
         .three-point-arc {
-            position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-            width: 800px; height: 550px; border: 4px solid var(--team-primary); border-radius: 50% 50% 0 0;
-            border-bottom: none; clip-path: inset(0 0 80px 0); box-sizing: border-box; 
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 650px; 
+            border: 4px solid var(--team-primary);
+            border-radius: 50% 50% 0 0;
+            border-bottom: none;
+            clip-path: inset(0 0 100px 0); 
+            box-sizing: border-box; 
         }
 
-        .corner-three-left { position: absolute; bottom: 0; left: 80px; width: 4px; height: 81px; background: var(--team-primary); }
-        .corner-three-right { position: absolute; bottom: 0; right: 80px; width: 4px; height: 81px; background: var(--team-primary); }
+        .corner-three-left { position: absolute; bottom: 0; left: 80px; width: 4px; height: 101px; background: var(--team-primary); }
+        .corner-three-right { position: absolute; bottom: 0; right: 80px; width: 4px; height: 101px; background: var(--team-primary); }
 
         .half-court-circle {
-            position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%);
-            width: 250px; height: 250px; border: 4px solid var(--team-primary); border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px; 
+            height: 300px; 
+            border: 4px solid var(--team-primary);
+            border-radius: 50%;
         }
 
-        /* --- NEON TEAM WATERMARK --- */
-        #fiesta-watermark {
-            position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 2; pointer-events: none;
+        /* --- DOUBLE WATERMARK LOGOS --- */
+        .broadcast-watermark {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0; 
         }
 
-        .fiesta-logo {
-            width: 350px; height: 350px; object-fit: contain;
+        .court-logo {
+            width: 380px; height: 380px;
+            object-fit: contain;
             filter: drop-shadow(0 0 30px rgba(255, 120, 0, 0.7)) sepia(0.3) hue-rotate(-20deg) saturate(1.5);
-            opacity: 0.4; position: relative; z-index: 2; 
         }
 
-        /* Game 1 text firmly locked back at 45% (center court) */
-        #game1-text {
-            position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); 
-            z-index: 100; pointer-events: none;
+        .anim-watermark-drop {
+            animation: watermarkDrop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.5s forwards;
         }
 
-        .neon-game-text {
-            font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic;
-            font-size: 90px; white-space: nowrap; color: #fff; margin-top: -10px; letter-spacing: 5px;
+        @keyframes watermarkDrop {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); filter: blur(8px); }
+            100% { opacity: 0.35; transform: translate(-50%, -50%) scale(1); filter: blur(0px); }
+        }
+
+        /* --- GAME 2 BROADCAST TEXT FIXED --- */
+        #game2-text {
+            position: absolute;
+            top: 0%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-style: italic;
+            font-size: 140px;
+            color: var(--team-primary);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            z-index: 18; 
+            white-space: nowrap;
+            opacity: 0;
+            animation: slideInText 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            animation-delay: 3.4s; 
+            pointer-events: none;
+        }
+        
+        #game2-text::before {
+            content: attr(data-text);
+            position: absolute;
+            left: 0; top: 0;
+            z-index: -1;
+            -webkit-text-stroke: 12px #fff; 
+            text-shadow: 6px 6px 0 var(--team-secondary), 0 15px 25px rgba(0,0,0,0.5);
+        }
+
+        @keyframes slideInText {
+            0% { opacity: 0; transform: translate(-50%, -300px); filter: blur(10px); }
+            100% { opacity: 1; transform: translate(-50%, -50%); filter: blur(0px); }
+        }
+
+        /* --- THE VIRAL FOIL PACK RIP --- */
+        #foil-pack-wrapper {
+            position: absolute;
+            top: 38%; left: 50%;
+            width: 400px;
+            height: 600px;
+            transform: translate(-50%, -50%);
+            z-index: 150; 
+            animation: packFloat 1.5s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        .foil-top {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(135deg, #eee, #999, #fff, #999);
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), 75% 100%, 50% calc(100% - 20px), 25% 100%, 0 calc(100% - 20px));
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+            animation: ripTop 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s forwards;
+        }
+
+        .foil-body {
+            position: absolute;
+            top: 100px; 
+            left: 0;
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(135deg, var(--team-primary), var(--team-secondary), var(--team-primary));
+            clip-path: polygon(0 20px, 25% 0, 50% 20px, 75% 0, 100% 20px, 100% 100%, 0 100%);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            overflow: hidden;
+            animation: ripBody 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s forwards;
+        }
+
+        .pack-sub-text {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700; font-size: 24px; color: #ffea00;
+            text-transform: uppercase; letter-spacing: 2px;
+            margin-bottom: 5px; z-index: 2;
+            text-shadow: 1px 1px 0 #000;
+        }
+        
+        .pack-bonus-text {
+            font-family: 'Teko', sans-serif;
+            font-weight: 600; font-size: 28px; color: #fff;
+            text-transform: uppercase; letter-spacing: 1px;
+            margin-top: 15px; background: #111; padding: 2px 10px; border-radius: 4px;
+            border: 2px solid var(--team-primary); z-index: 2;
+        }
+
+        .pack-logo-img {
+            width: 200px; height: 200px;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+            margin-top: 10px;
+        }
+
+        /* FIXED PACK TEXT STROKE BLEED */
+        .pack-text-label {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900; font-size: 50px; font-style: italic;
+            line-height: 0.9; margin-top: 15px;
+            text-align: center; text-transform: uppercase;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .pack-text-line {
             position: relative;
-            text-shadow: 0 0 10px var(--team-primary), 0 0 20px var(--team-primary), 0 0 40px var(--team-primary), 6px 6px 0px var(--team-secondary), -6px -6px 0px #fff;
+            color: var(--team-primary);
+            z-index: 1;
         }
 
-        /* CANVAS LIGHTING ENGINE */
-        #spotlight-canvas { position: absolute; top: 0; left: 0; width: 1080px; height: 1080px; z-index: 20; opacity: 0; pointer-events: none; transition: opacity 1.5s ease; }
-        .lights-out-mode #spotlight-canvas { opacity: 1; }
+        .pack-text-line::before {
+            content: attr(data-text);
+            position: absolute;
+            left: 0; top: 0;
+            z-index: -1;
+            -webkit-text-stroke: 8px #fff;
+            text-shadow: 4px 4px 0 var(--team-secondary), 0 10px 15px rgba(0,0,0,0.5);
+        }
+
+        .foil-sheen {
+            position: absolute;
+            top: 0; left: -150%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+            transform: skewX(-25deg);
+            animation: sheenSweep 2s infinite;
+        }
+
+        @keyframes packFloat {
+            0% { transform: translate(-50%, -50%) translateY(0); }
+            100% { transform: translate(-50%, -50%) translateY(-25px); }
+        }
+
+        @keyframes sheenSweep {
+            0% { left: -150%; }
+            50%, 100% { left: 150%; }
+        }
+
+        @keyframes ripTop {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-1000px) rotate(35deg); opacity: 0; display: none; }
+        }
+
+        @keyframes ripBody {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(1000px) rotate(-20deg); opacity: 0; display: none; }
+        }
+
+        /* --- CANVAS LIGHTING ENGINE --- */
+        #spotlight-canvas {
+            position: absolute;
+            top: 0; left: 0; 
+            width: 1080px; height: 1920px;
+            z-index: 20; 
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.5s ease;
+        }
+        
+        .lights-out-mode #spotlight-canvas {
+            opacity: 1;
+        }
 
         /* ======================================================== */
-
-        .player-node { position: absolute; display: flex; flex-direction: column; align-items: center; }
-
-        /* --- HYPED BENCH STYLING & WEAPONS --- */
-        .bench-node { z-index: 5; transform: translate(-50%, -50%); }
-        .bench-node .player-position, .bench-node .player-number { display: none; }
-
-        @keyframes benchJump { 0%, 100% { transform: translate(-50%, 0%) scale(0.75); } 50% { transform: translate(-50%, -15%) scale(0.75); } }
-
-        .maraca { position: absolute; font-size: 55px; z-index: 15; bottom: -15px; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5)); }
-        .maraca-left { left: -35px; animation: shakeMaracaLeft 0.15s infinite alternate ease-in-out; }
-        .maraca-right { right: -35px; animation: shakeMaracaRight 0.15s infinite alternate ease-in-out; }
-
-        @keyframes shakeMaracaLeft { 0% { transform: rotate(-25deg) translateY(0); } 100% { transform: rotate(15deg) translateY(-5px); } }
-        @keyframes shakeMaracaRight { 0% { transform: scaleX(-1) rotate(-25deg) translateY(0); } 100% { transform: scaleX(-1) rotate(15deg) translateY(-5px); } }
-
-        /* The Piñata Stick (Hit Squad Only) */
-        .pinata-stick {
-            position: absolute; bottom: 20px; left: -30px; width: 14px; height: 120px;
-            background: repeating-linear-gradient(45deg, var(--team-primary), var(--team-primary) 10px, var(--team-secondary) 10px, var(--team-secondary) 20px);
-            border-radius: 6px; transform-origin: bottom center; transform: rotate(-30deg);
-            z-index: 26; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); border: 2px solid #fff;
+        #players-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 15; 
+            pointer-events: none;
         }
 
-        @keyframes swingStick { 0% { transform: rotate(-30deg); } 40% { transform: rotate(-100deg); } 100% { transform: rotate(70deg); } }
-        .anim-swing { animation: swingStick 0.25s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
+        .player-node {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-        /* --- STARTER BASE --- */
-        .starter-node { opacity: 0; z-index: 10; }
-        .cinematic-wrapper { display: flex; flex-direction: column; align-items: center; }
-        .photo-wrapper { position: relative; width: 190px; height: 190px; }
+        /* --- TRADING CARD SYSTEM (SHARED FOR STARTERS & BENCH) --- */
+        .card-wrapper {
+            position: relative;
+            width: 220px;
+            height: 310px; 
+            perspective: 1000px;
+        }
 
-        /* --- THE DONKEY PIÑATA ON A STRING --- */
-        .pinata-wrapper {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            z-index: 20; display: flex; flex-direction: column; align-items: center;
-            transform-origin: 50% -400px; /* Swing from the ceiling! */
-            animation: pinataSway 2.5s infinite alternate ease-in-out;
+        .bench-node .card-wrapper {
+            width: 140px; 
+            height: 195px; 
+        }
+
+        .player-card-inner {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: rotateY(180deg); 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            border-radius: 12px;
+        }
+
+        .player-card-front, .player-card-back {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            box-sizing: border-box;
+            border: 6px solid var(--team-primary);
+        }
+
+        .player-card-back {
+            background-color: var(--team-secondary);
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(0,0,0,0.15) 15px, rgba(0,0,0,0.15) 30px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: rotateY(180deg); 
+        }
+
+        .card-back-logo {
+            width: 60%; height: 60%;
+            object-fit: contain;
+            opacity: 0.6;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
+        }
+
+        .player-card-front {
+            background-color: #222;
+        }
+
+        .card-photo-clip {
+            width: 100%; height: 100%;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-logo-left {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            z-index: 15;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+        }
+
+        .card-logo-right {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            z-index: 15;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
         }
         
-        .pinata-string {
-            position: absolute; bottom: 85%; width: 3px; height: 600px;
-            background: linear-gradient(to top, rgba(255,255,255,0.9), rgba(255,255,255,0));
+        .bench-node .card-logo-left,
+        .bench-node .card-logo-right {
+            width: 30px; height: 30px; top: 8px;
+        }
+        .bench-node .card-logo-left { left: 8px; }
+        .bench-node .card-logo-right { right: 8px; }
+
+        .player-card-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
         }
 
-        .pinata-emoji {
-            font-size: 160px; filter: drop-shadow(0 15px 15px rgba(0,0,0,0.6)); line-height: 1;
+        .card-info-overlay {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 50%, transparent 100%);
+            padding: 30px 5px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .card-name {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 26px;
+            color: #fff;
+            text-align: center;
+            line-height: 1;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0 var(--team-primary);
+        }
+
+        .bench-node .card-name {
+            font-size: 16px;
+            text-shadow: 1px 1px 0 var(--team-primary);
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .card-pos, .card-num {
+            font-family: 'Teko', sans-serif;
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--text-dark);
+            background: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 2px solid var(--team-secondary);
+            line-height: 1.1;
+            box-shadow: 2px 2px 0 var(--team-primary);
+        }
+
+        .bench-node .card-pos, .bench-node .card-num {
+            font-size: 14px;
+            padding: 1px 5px;
+            border-width: 1px;
+            box-shadow: 1px 1px 0 var(--team-primary);
+        }
+
+        .holo-glare {
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(45deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0) 70%);
+            transform: translateX(-100%);
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        .anim-glare {
+            animation: cardGlare 1.2s ease-in-out forwards;
+        }
+
+        @keyframes cardGlare {
+            0% { transform: translateX(-100%) rotate(0deg); }
+            100% { transform: translateX(100%) rotate(0deg); }
+        }
+
+        /* --- THE PACK BURST ANIMATION (Shared Logic) --- */
+        @keyframes cardBurst {
+            0%   { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.1) rotateZ(0deg); opacity: 0; }
+            5%   { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.5) rotateZ(15deg); opacity: 1; }
+            100% { left: var(--target-x); top: var(--target-y); transform: translate(-50%, -50%) scale(1) rotateZ(0deg); opacity: 1; }
         }
         
-        @keyframes pinataSway { 0% { transform: translate(-50%, -50%) rotate(-6deg); } 100% { transform: translate(-50%, -50%) rotate(6deg); } }
-        
-        .shatter { animation: pinataShatter 0.4s cubic-bezier(0.1, 0.8, 0.3, 1) forwards !important; }
-        @keyframes pinataShatter { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(2.5) rotate(45deg); opacity: 0; visibility: hidden; } }
+        .anim-burst { animation: cardBurst 1s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s both; }
 
-        /* --- CSS CONFETTI ENGINE --- */
-        .confetti-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 15; pointer-events: none; }
-        .confetti-piece { position: absolute; width: 12px; height: 12px; opacity: 0; animation: popConfetti 1.5s cubic-bezier(0.2, 1, 0.3, 1) forwards; }
-        @keyframes popConfetti { 0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; } 80% { opacity: 1; } 100% { transform: translate(var(--vx), var(--vy)) rotate(720deg) scale(0.5); opacity: 0; } }
+        @keyframes benchBurst {
+            0%   { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.1) rotateZ(0deg); opacity: 0; }
+            5%   { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.5) rotateZ(-35deg); opacity: 1; }
+            100% { left: var(--target-x); top: var(--target-y); transform: translate(-50%, -50%) scale(1) rotateZ(0deg); opacity: 1; }
+        }
+        .anim-bench-burst { animation: benchBurst 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s both; }
 
-        /* --- SHOCKWAVE RING FOR THE LANDING --- */
+        @keyframes benchInnerFlip {
+            0%, 50% { transform: rotateY(180deg); }
+            100% { transform: rotateY(0deg); }
+        }
+        .bench-inner-flip { animation: benchInnerFlip 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.2s forwards; }
+
+        /* --- SHOCKWAVE RING --- */
         .shockwave-ring {
             position: absolute; top: 50%; left: 50%; width: 200px; height: 200px; border-radius: 50%;
             border: 12px solid var(--team-primary); transform: translate(-50%, -50%) scale(0.5); opacity: 0; z-index: 11; pointer-events: none;
         }
-        @keyframes ringExplode { 0% { transform: translate(-50%, -50%) scale(0.8); opacity: 1; border-color: var(--team-primary); } 100% { transform: translate(-50%, -50%) scale(3.5); opacity: 0; border-width: 2px; border-color: var(--team-secondary); } }
+        @keyframes ringExplode { 0% { transform: translate(-50%, -50%) scale(0.8); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(3.5); opacity: 0; border-width: 2px; } }
         .anim-shockwave { animation: ringExplode 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
-
-        .player-photo-container {
-            width: 190px; height: 190px; border-radius: 50%; border: 6px solid #fff; background-color: #222; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4); z-index: 12; overflow: hidden; position: absolute; top: 0; left: 0; box-sizing: border-box;
-        }
-
-        .player-photo { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top; transform: scale(1.15) translateY(5px); }
-        .fallback-silhouette { width: 100%; height: 100%; background-color: #2b2b2b; background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="%23666666" xmlns="http://www.w3.org/2000/svg"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>'); background-size: 90%; background-position: center 20px; background-repeat: no-repeat; }
-
-        .player-position {
-            position: absolute; top: -8px; left: -8px; background-color: var(--team-primary); color: #fff;
-            border: 4px solid var(--team-secondary); width: 58px; height: 58px; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center; font-family: 'Teko', sans-serif; font-size: 28px; font-weight: bold; z-index: 16; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        }
-
-        .player-number {
-            position: absolute; top: -8px; right: -8px; background-color: var(--team-secondary); color: #fff;
-            border: 4px solid var(--team-primary); width: 58px; height: 58px; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center; font-family: 'Teko', sans-serif; font-size: 30px; font-weight: bold; z-index: 16; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        }
-
-        .nameplate-wrapper {
-            display: flex; align-items: stretch; margin-top: 10px; z-index: 14; position: relative; 
-            box-shadow: 0 5px 10px rgba(0,0,0,0.3); border-radius: 8px; overflow: hidden; border: 2px solid var(--team-secondary);
-        }
-
-        .player-nameplate { background: #fff; color: var(--text-dark); padding: 8px 24px; font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
 
         /* ========================================================
            HEADER ENTRANCE ANIMATIONS
            ======================================================== */
-        .anim-header-tag { animation: headerSlideDown 1s ease-out 0.5s forwards; opacity: 0; }
+        .anim-header-tag { animation: headerSlideDown 1s ease-out 2.5s forwards; opacity: 0; }
         .anim-team-name { animation: teamNameZoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.5s forwards; opacity: 0; }
         .anim-logo { animation: logoSpinIn 0.8s ease-out 2.5s forwards; opacity: 0; }
 
@@ -318,22 +665,10 @@
         @keyframes logoSpinIn { 0% { opacity: 0; transform: translateX(100px) rotate(90deg) scale(0.2); } 100% { opacity: 1; transform: translateX(0) rotate(0) scale(1); filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); } }
 
         /* ========================================================
-           THE FIESTA SALSA EXIT (BENCH)
+           THE CLEAN BENCH EXIT
            ======================================================== */
-        @keyframes fiestaExitLeft { 0% { transform: translate(-50%, -15%) rotate(0deg) scale(0.75); opacity: 1; } 100% { transform: translate(-250%, -50%) rotate(-720deg) scale(0.5); opacity: 0; } }
-        @keyframes fiestaExitRight { 0% { transform: translate(-50%, -15%) rotate(0deg) scale(0.75); opacity: 1; } 100% { transform: translate(150%, -50%) rotate(720deg) scale(0.5); opacity: 0; } }
-
-        /* ========================================================
-           NEW ENTRANCE: THE PIÑATA CEILING DROP!
-           ======================================================== */
-        /* FIXED: Added translate(-50%, ...) so the nodes center themselves on their court coordinates! */
-        @keyframes pinataDrop {
-            0% { transform: translate(-50%, -1200px); opacity: 0; animation-timing-function: ease-in; }
-            5% { transform: translate(-50%, -1200px); opacity: 1; }
-            60% { transform: translate(-50%, calc(-50% + 40px)); opacity: 1; animation-timing-function: ease-out; }
-            80% { transform: translate(-50%, calc(-50% - 15px)); opacity: 1; animation-timing-function: ease-in-out; }
-            100% { transform: translate(-50%, -50%); opacity: 1; }
-        }
+        @keyframes slideOffRight { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(1500%, -50%) scale(1); opacity: 0; } }
+        @keyframes slideOffLeft { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(-1500%, -50%) scale(1); opacity: 0; } }
 
     </style>
 </head>
@@ -357,8 +692,6 @@
 
     <div id="capture-area">
         <div class="arena-glow"></div>
-        <div class="papel-picado papel-1"></div>
-        <div class="papel-picado papel-2"></div>
         
         <div id="header">
             <div class="header-left">
@@ -371,6 +704,7 @@
 
         <div id="court-scene">
             <div id="court">
+
                 <div class="half-court-circle"></div>
                 <div class="three-point-arc"></div>
                 <div class="corner-three-left"></div>
@@ -378,17 +712,37 @@
                 <div class="free-throw-circle"></div>
                 <div class="paint-area"></div>
                 
-                <div id="fiesta-watermark">
-                    <img id="crawl-logo" class="fiesta-logo" src="" alt="">
+                <div id="center-watermark" class="broadcast-watermark" style="top: 0%;">
+                    <img class="court-logo" src="" alt="">
                 </div>
                 
-                <div id="game1-text" class="neon-game-text">GAME 1</div>
+                <div id="paint-watermark" class="broadcast-watermark" style="top: 82%;">
+                    <img class="court-logo" src="" alt="">
+                </div>
+                
+                <div id="foil-pack-wrapper" class="foil-pack-wrapper">
+                    <div id="foil-top" class="foil-top">
+                        <div class="foil-sheen"></div>
+                    </div>
+                    <div id="foil-body" class="foil-body">
+                        <div class="pack-sub-text">Official Starter Pack</div>
+                        <img id="pack-logo-img" class="pack-logo-img" src="" alt="">
+                        <div class="pack-text-label">
+                            <div class="pack-text-line" data-text="PLAYOFFS">PLAYOFFS</div>
+                            <div class="pack-text-line" data-text="GAME 2">GAME 2</div>
+                        </div>
+                        <div class="pack-bonus-text">+ BONUS BENCH CARDS</div>
+                        <div class="foil-sheen"></div>
+                    </div>
+                </div>
+
+                <div id="game2-text" class="neon-game-text" data-text="GAME 2">GAME 2</div>
 
                 <div id="players-container"></div>
             </div>
         </div>
 
-        <canvas id="spotlight-canvas" width="1080" height="1080"></canvas>
+        <canvas id="spotlight-canvas" width="1080" height="1920"></canvas>
     </div>
 
     <script>
@@ -427,12 +781,13 @@
 
         const POSITIONS = ["PG", "SG", "SF", "PF", "C"];
         
+        // --- SPREAD COURT MAPPING FOR VERTICAL FORMAT ---
         const COURT_COORDS = [
-            { x: 50, y: 17 }, 
-            { x: 19, y: 44 }, 
-            { x: 81, y: 44 }, 
-            { x: 33, y: 77 }, 
-            { x: 67, y: 77 }  
+            { x: 50, y: 25 }, // PG
+            { x: 20, y: 50 }, // SG
+            { x: 80, y: 50 }, // SF
+            { x: 30, y: 83 }, // PF
+            { x: 70, y: 83 }  // C
         ];
 
         let allGames = [];
@@ -444,12 +799,12 @@
         let roamingInterval;
         
         let currentSpotX = 540;
-        let currentSpotY = 540;
+        let currentSpotY = 960;
         let currentInnerR = 90;
         let currentOuterR = 360;
         
         let roamSpot1 = { x: 200, y: 200, targetX: 200, targetY: 200 };
-        let roamSpot2 = { x: 800, y: 800, targetX: 800, targetY: 800 };
+        let roamSpot2 = { x: 800, y: 1600, targetX: 800, targetY: 1600 };
         
         let activePrimaryHex = '#ffffff';
         let activeSecondaryHex = '#ffffff';
@@ -488,7 +843,7 @@
 
         function drawMainHalo(ctx, x, y, innerR, outerR, color1, color2) {
             const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
-            grad.addColorStop(0, 'rgba(0, 0, 0, 0)');     
+            grad.addColorStop(0, 'rgba(0, 0, 0, 0)');      
             grad.addColorStop(0.15, hexToRgba(color1, 0.65)); 
             grad.addColorStop(0.6, hexToRgba(color2, 0.45)); 
             grad.addColorStop(1, 'rgba(0, 0, 0, 0)'); 
@@ -507,13 +862,13 @@
             
             const starters = document.querySelectorAll('.starter-node');
             let targetX = 540; 
-            let targetY = 540; 
+            let targetY = 960; 
             
             if (activePlayerIndex >= 0 && activePlayerIndex < starters.length) {
                 const target = starters[activePlayerIndex];
                 const captureArea = document.getElementById('capture-area').getBoundingClientRect();
                 
-                const photoWrap = target.querySelector('.photo-wrapper');
+                const photoWrap = target.querySelector('.card-wrapper');
                 const targetRect = photoWrap.getBoundingClientRect();
                 
                 targetX = (targetRect.left + targetRect.width / 2) - captureArea.left;
@@ -523,8 +878,8 @@
             currentSpotX += (targetX - currentSpotX) * 0.1;
             currentSpotY += (targetY - currentSpotY) * 0.1;
             
-            const targetInnerR = spotlightWiden ? 550 : 90;
-            const targetOuterR = spotlightWiden ? 1200 : 360;
+            const targetInnerR = spotlightWiden ? 800 : 120;
+            const targetOuterR = spotlightWiden ? 1800 : 450;
             currentInnerR += (targetInnerR - currentInnerR) * 0.05;
             currentOuterR += (targetOuterR - currentOuterR) * 0.05;
             
@@ -537,7 +892,7 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
             ctx.globalCompositeOperation = 'source-over';
-            ctx.fillStyle = 'rgba(30, 10, 0, 0.85)'; 
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.94)'; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
             ctx.globalCompositeOperation = 'destination-out';
@@ -549,8 +904,8 @@
             
             ctx.globalCompositeOperation = 'source-over';
             if (!spotlightWiden) {
-                drawColoredTint(ctx, roamSpot1.x, roamSpot1.y, 30, 210, '#ff007a'); 
-                drawColoredTint(ctx, roamSpot2.x, roamSpot2.y, 30, 210, '#00e5ff'); 
+                drawColoredTint(ctx, roamSpot1.x, roamSpot1.y, 30, 210, activePrimaryHex);
+                drawColoredTint(ctx, roamSpot2.x, roamSpot2.y, 30, 210, activeSecondaryHex);
             }
             
             drawMainHalo(ctx, currentSpotX, currentSpotY, currentInnerR, currentOuterR, activePrimaryHex, activeSecondaryHex);
@@ -566,7 +921,7 @@
                 
                 while (!isValid && attempts < 15) {
                     rx = Math.floor(Math.random() * 880) + 100;
-                    ry = Math.floor(Math.random() * 880) + 100;
+                    ry = Math.floor(Math.random() * 1600) + 100; 
                     
                     const distToMain = Math.hypot(rx - currentSpotX, ry - currentSpotY);
                     if (distToMain > 400) isValid = true;
@@ -781,7 +1136,33 @@
             void logoEl.offsetWidth; 
             logoEl.classList.add('anim-logo');
             
-            document.getElementById('crawl-logo').src = logoUrl;
+            const logos = document.querySelectorAll('.court-logo');
+            logos.forEach(logo => logo.src = logoUrl);
+            
+            const packLogo = document.getElementById('pack-logo-img');
+            if (packLogo) packLogo.src = logoUrl;
+            
+            // Re-trigger Watermark Animations
+            const watermarks = document.querySelectorAll('.broadcast-watermark');
+            watermarks.forEach(wm => {
+                wm.classList.remove('anim-watermark-drop');
+                void wm.offsetWidth;
+                wm.classList.add('anim-watermark-drop');
+            });
+            
+            // Re-trigger Game 2 Text Animation
+            const gameText = document.getElementById('game2-text');
+            if (gameText) {
+                gameText.style.animation = 'none';
+                void gameText.offsetWidth;
+                gameText.style.animation = ''; 
+            }
+            
+            // Re-trigger Foil Pack Rip Animations
+            const foilTop = document.getElementById('foil-top');
+            const foilBody = document.getElementById('foil-body');
+            if (foilTop) { foilTop.style.animation = 'none'; void foilTop.offsetWidth; foilTop.style.animation = ''; }
+            if (foilBody) { foilBody.style.animation = 'none'; void foilBody.offsetWidth; foilBody.style.animation = ''; }
 
             const container = document.getElementById('players-container');
             container.innerHTML = '';
@@ -789,45 +1170,43 @@
             const starters = game.rosters[targetAbbr].players.slice(0, 5);
             const bench = (game.rosters[targetAbbr].bench || []).slice(0, 7);
 
-            // 1. RENDER THE HIT SQUAD AND THE MARACA CHEERLEADERS
+            // 1. RENDER THE BONUS BENCH CARDS (Burst from center pack!)
             bench.forEach((player, index) => {
                 const dbPlayer = getPlayerData(player.name);
                 const photoUrl = dbPlayer ? dbPlayer.photo : null;
+                const jerseyNum = dbPlayer && dbPlayer.jersey ? dbPlayer.jersey : "";
+                const pos = dbPlayer && dbPlayer.position ? dbPlayer.position : "RES";
                 const lastName = player.name.split(' ').pop().substring(0, 10); 
 
                 const photoHtml = (photoUrl && photoUrl.trim() !== '') 
-                    ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` 
+                    ? `<img src="${photoUrl}" class="player-card-photo" crossorigin="anonymous" onerror="handleImageError(this)">` 
                     : `<div class="fallback-silhouette"></div>`;
 
-                const benchSpacing = bench.length > 1 ? 60 / (bench.length - 1) : 0;
-                const benchX = 20 + (index * benchSpacing); 
-                
-                const jumpSpeed = (0.6 + Math.random() * 0.4).toFixed(2);
-                const jumpOffset = (Math.random() * -1).toFixed(2);
-                
-                let weaponHtml = '';
-                if (index < 5) {
-                    weaponHtml = `<div id="stick-${index}" class="pinata-stick"></div>`;
-                } else {
-                    weaponHtml = `
-                        <div class="maraca maraca-left">🪇</div>
-                        <div class="maraca maraca-right">🪇</div>
-                    `;
-                }
+                const benchSpacing = bench.length > 1 ? 75 / (bench.length - 1) : 0;
+                const benchX = 12.5 + (index * benchSpacing); 
 
                 const html = `
-                    <div id="bench-node-${index}" class="player-node bench-node" 
-                         data-orig-x="${benchX}" data-jump-speed="${jumpSpeed}" data-jump-offset="${jumpOffset}"
-                         style="left: ${benchX}%; top: -15%; animation: benchJump ${jumpSpeed}s infinite ease-in-out; animation-delay: ${jumpOffset}s;">
-                        <div class="cinematic-wrapper">
-                            <div class="photo-wrapper">
-                                ${weaponHtml}
-                                <div class="player-photo-container">
-                                    ${photoHtml}
+                    <div id="bench-node-${index}" class="player-node bench-node anim-bench-burst" style="--target-x: ${benchX}%; --target-y: -12%;">
+                        <div class="card-wrapper">
+                            <div id="card-inner-bench-${index}" class="player-card-inner bench-inner-flip">
+                                <div class="player-card-back">
+                                    <img src="${logoUrl}" class="card-back-logo">
                                 </div>
-                            </div>
-                            <div class="nameplate-wrapper">
-                                <div class="player-nameplate">${lastName}</div>
+                                <div class="player-card-front">
+                                    <div class="card-photo-clip">
+                                        <img src="${logoUrl}" class="card-logo-left">
+                                        <img src="${logoUrl}" class="card-logo-right">
+                                        ${photoHtml}
+                                        <div class="card-info-overlay">
+                                            <div class="card-name">${lastName}</div>
+                                            <div class="card-meta">
+                                                <span class="card-pos">${pos}</span>
+                                                ${jerseyNum ? `<span class="card-num">#${jerseyNum}</span>` : ''}
+                                            </div>
+                                        </div>
+                                        <div class="holo-glare anim-glare" style="animation-delay: 2s;"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -835,7 +1214,7 @@
                 container.insertAdjacentHTML('beforeend', html);
             });
 
-            // 2. RENDER THE STARTERS VIA PIÑATA DROP
+            // 2. RENDER THE STARTER TRADING CARDS (All Burst from Center at 1.5s!)
             const tagEl = document.getElementById('starting-tag');
             tagEl.textContent = "STARTING 5";
             tagEl.style.color = "var(--text-dark)";
@@ -857,144 +1236,73 @@
                 if (displayName.length > 18) displayName = displayName.substring(0, 16) + '...';
 
                 const photoHtml = (photoUrl && photoUrl.trim() !== '') 
-                    ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` 
+                    ? `<img src="${photoUrl}" class="player-card-photo" crossorigin="anonymous" onerror="handleImageError(this)">` 
                     : `<div class="fallback-silhouette"></div>`;
 
                 const delays = [10.93, 18.15, 26.17, 33.72, 40.87]; 
                 const baseDelay = delays[index]; 
-                
-                const tJumpStart = baseDelay - 1.4;
-                const tLand = baseDelay - 0.65;
-                const tSwing = baseDelay - 0.25;
-                const tShatter = baseDelay;
-                const tRetreat = baseDelay + 0.8;
-                const tResume = baseDelay + 1.2;
 
-                // FIXED: Placed pinataDrop animation properly on the starter-node so it is visible!
                 const html = `
-                    <div class="player-node starter-node" style="left: ${coords.x}%; top: ${coords.y}%; animation: pinataDrop 0.75s forwards; animation-delay: ${tJumpStart}s;">
+                    <div class="player-node starter-node anim-burst" style="--target-x: ${coords.x}%; --target-y: ${coords.y}%;">
                         <div class="cinematic-wrapper">
-                            <div class="photo-wrapper">
+                            <div class="card-wrapper">
                                 <div id="shockwave-${index}" class="shockwave-ring"></div>
-                                
-                                <div id="player-assets-${index}" style="opacity: 0; transform: scale(0.5); transition: all 0.4s cubic-bezier(0.1, 0.8, 0.3, 1); width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
-                                    <div class="player-position">${pos}</div>
-                                    ${jerseyNum ? `<div class="player-number">${jerseyNum}</div>` : ''}
-                                    <div class="player-photo-container">
-                                        ${photoHtml}
+                                <div id="card-inner-${index}" class="player-card-inner">
+                                    <div class="player-card-back">
+                                        <img src="${logoUrl}" class="card-back-logo">
+                                    </div>
+                                    <div class="player-card-front">
+                                        <div class="card-photo-clip">
+                                            <img src="${logoUrl}" class="card-logo-left">
+                                            <img src="${logoUrl}" class="card-logo-right">
+                                            ${photoHtml}
+                                            <div class="card-info-overlay">
+                                                <div class="card-name">${displayName}</div>
+                                                <div class="card-meta">
+                                                    <span class="card-pos">${pos}</span>
+                                                    ${jerseyNum ? `<span class="card-num">#${jerseyNum}</span>` : ''}
+                                                </div>
+                                            </div>
+                                            <div id="glare-${index}" class="holo-glare"></div>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div id="pinata-${index}" class="pinata-wrapper" style="animation-delay: -${Math.random() * 2}s;">
-                                    <div class="pinata-string"></div>
-                                    <div class="pinata-emoji">🪅</div>
-                                </div>
-                                
-                                <div id="confetti-${index}" class="confetti-container"></div>
-                            </div>
-                            <div class="nameplate-wrapper">
-                                <div class="player-nameplate">${displayName}</div>
                             </div>
                         </div>
                     </div>
                 `;
                 container.insertAdjacentHTML('beforeend', html);
 
-                // --- 🚨 THE PIÑATA CHOREOGRAPHY TIMING 🚨 ---
-                setTimeout(() => { activePlayerIndex = index; }, tJumpStart * 1000); 
+                // Spotlight tracks the specific player 0.5s before they are revealed
+                setTimeout(() => {
+                    activePlayerIndex = index;
+                }, (baseDelay - 0.5) * 1000);
                 
-                let hitterIndex = index;
-                if (hitterIndex >= bench.length) {
-                    hitterIndex = bench.length - 1; 
-                }
-                const hitSquadNode = document.getElementById(`bench-node-${hitterIndex}`);
-                const stick = document.getElementById(`stick-${hitterIndex}`);
-
-                // Piñata Drops from Ceiling and Lands!
+                // Announcer calls name - FLIP THE CARD AND QUAKE
                 setTimeout(() => {
+                    document.getElementById(`card-inner-${index}`).style.transform = 'rotateY(0deg)';
+                    document.getElementById(`glare-${index}`).classList.add('anim-glare');
+                    
                     const captureArea = document.getElementById('capture-area');
                     captureArea.classList.remove('quake-active');
                     void captureArea.offsetWidth;
                     captureArea.classList.add('quake-active');
+                }, baseDelay * 1000);
 
-                    const shockwave = document.getElementById(`shockwave-${index}`);
-                    if (shockwave) shockwave.classList.add('anim-shockwave');
-
-                    // Release the Hit Squad!
-                    if (hitSquadNode && stick) {
-                        hitSquadNode.style.animation = 'none'; 
-                        hitSquadNode.style.transition = 'left 0.4s linear, top 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
-                        hitSquadNode.style.transform = 'translate(-50%, -50%) scale(0.85)';
-                        hitSquadNode.style.zIndex = '25'; 
-                        hitSquadNode.style.left = (coords.x + 12) + '%'; 
-                        hitSquadNode.style.top = (coords.y - 2) + '%';
-                    }
-                }, tLand * 1000); 
-
-                // Hit Squad Swings!
-                setTimeout(() => {
-                    if (stick) stick.classList.add('anim-swing');
-                }, tSwing * 1000);
-
-                // CRACK! Piñata breaks exactly at baseDelay!
-                setTimeout(() => {
-                    // Shatter the Donkey
-                    const pinata = document.getElementById(`pinata-${index}`);
-                    if (pinata) pinata.classList.add('shatter');
-
-                    // REVEAL THE PLAYER PHOTO
-                    const assets = document.getElementById(`player-assets-${index}`);
-                    if(assets) {
-                        assets.style.opacity = '1';
-                        assets.style.transform = 'scale(1)';
-                    }
-
-                    // Second Quake
-                    const captureArea = document.getElementById('capture-area');
-                    captureArea.classList.remove('quake-active');
-                    void captureArea.offsetWidth;
-                    captureArea.classList.add('quake-active');
-
-                    // Fire Confetti using Team Colors!
-                    const confCont = document.getElementById(`confetti-${index}`);
-                    if (confCont) {
-                        const colors = [activePrimaryHex, activeSecondaryHex, '#ffffff', '#eacc98'];
-                        for(let i=0; i<25; i++) {
-                            let conf = document.createElement('div');
-                            conf.className = 'confetti-piece';
-                            conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                            conf.style.left = '89px'; 
-                            conf.style.top = '89px';
-                            const angle = Math.random() * Math.PI * 2;
-                            const velocity = 80 + Math.random() * 120;
-                            conf.style.setProperty('--vx', `${Math.cos(angle) * velocity}px`);
-                            conf.style.setProperty('--vy', `${Math.sin(angle) * velocity - 100}px`);
-                            confCont.appendChild(conf);
-                        }
-                    }
-                }, tShatter * 1000);
-
-                // Hit Squad retreats!
-                setTimeout(() => {
-                    if (hitSquadNode) {
-                        hitSquadNode.style.transition = 'left 0.4s ease-out, top 0.4s ease-out';
-                        hitSquadNode.style.left = hitSquadNode.dataset.origX + '%';
-                        hitSquadNode.style.top = '-15%';
-                        if (stick) stick.classList.remove('anim-swing');
-                    }
-                }, tRetreat * 1000);
-
-                // Hit Squad resumes cheering!
-                setTimeout(() => {
-                    if (hitSquadNode) {
-                        hitSquadNode.style.transition = 'none';
-                        hitSquadNode.style.transform = ''; 
-                        hitSquadNode.style.zIndex = '5';
-                        hitSquadNode.style.animation = `benchJump ${hitSquadNode.dataset.jumpSpeed}s infinite ease-in-out`;
-                        hitSquadNode.style.animationDelay = `${hitSquadNode.dataset.jumpOffset}s`;
-                    }
-                }, tResume * 1000);
             });
+
+            // --- MASSIVE GLOBAL QUAKE WHEN ALL CARDS LAND AT 2.5s ---
+            setTimeout(() => {
+                const captureArea = document.getElementById('capture-area');
+                captureArea.classList.remove('quake-active');
+                void captureArea.offsetWidth;
+                captureArea.classList.add('quake-active');
+                
+                for(let i = 0; i < 5; i++) {
+                    const shockwave = document.getElementById(`shockwave-${i}`);
+                    if (shockwave) shockwave.classList.add('anim-shockwave');
+                }
+            }, 2500); 
 
             // --- TRIGGER THE ARENA LIGHTS OFF AT 4.11s ---
             setTimeout(() => {
@@ -1003,7 +1311,7 @@
                 }
                 trackingSpotlight = true;
                 
-                currentSpotX = 540; currentSpotY = 540;
+                currentSpotX = 540; currentSpotY = 960; 
                 moveRoamingLights();
                 
                 roamSpot1.x = roamSpot1.targetX; roamSpot1.y = roamSpot1.targetY;
@@ -1020,21 +1328,24 @@
                 activePlayerIndex = -1; 
             }, 43500);
 
-            // --- THE SALSA SPIN EXIT (BENCH) AT 44.2s ---
+            // --- THE CLEAN BENCH EXIT (44.2s) ---
             setTimeout(() => {
                 const benchNodes = document.querySelectorAll('.bench-node');
                 
                 Array.from(benchNodes).forEach((node, idx) => {
                     node.style.animation = 'none'; 
-                    node.style.transform = 'translate(-50%, -15%) scale(0.75)'; 
+                    const innerWrap = node.querySelector('.cinematic-wrapper');
+                    if (innerWrap) innerWrap.style.animation = 'none';
+
+                    node.style.transform = 'translate(-50%, -50%) scale(1)'; 
                     void node.offsetWidth; 
                     
-                    const pushDir = idx % 2 === 0 ? 'fiestaExitLeft' : 'fiestaExitRight';
-                    node.style.animation = `${pushDir} 3s cubic-bezier(0.1, 0.8, 0.3, 1) forwards`;
+                    const pushDir = idx % 2 === 0 ? 'slideOffLeft' : 'slideOffRight';
+                    node.style.animation = `${pushDir} 1.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards`;
                 });
             }, 44200); 
 
-            // --- THE ARENA LIGHTS ON AT 44.5s ---
+            // --- ARENA LIGHTS ON (44.5s) ---
             setTimeout(() => {
                 if (captureArea) captureArea.classList.remove('lights-out-mode');
                 trackingSpotlight = false; 
@@ -1046,7 +1357,7 @@
             const capture = document.getElementById('capture-area');
             capture.style.opacity = '0.5';
             setTimeout(() => { capture.style.opacity = '1'; }, 100);
-            alert("Ready! Playwright will capture #capture-area as a 1080x1080 square.");
+            alert("Ready! Playwright will capture #capture-area as a 1080x1920 vertical video format.");
         }
 
         loadData();
