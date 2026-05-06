@@ -308,7 +308,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* Handled in jump/drop keyframes */
         }
 
         /* --- DELAYED BENCH DROP & STYLING --- */
@@ -565,7 +564,7 @@
                     <img class="court-logo" src="" alt="">
                 </div>
                 
-                <div id="paint-watermark" class="broadcast-watermark" style="top: 75%;">
+                <div id="paint-watermark" class="broadcast-watermark" style="top: 82%;">
                     <img class="court-logo" src="" alt="">
                 </div>
                 
@@ -619,8 +618,8 @@
             { x: 50, y: 25 }, // PG - Top
             { x: 20, y: 50 }, // SG - Mid Left
             { x: 80, y: 50 }, // SF - Mid Right
-            { x: 30, y: 78 }, // PF - Bottom Left
-            { x: 70, y: 78 }  // C  - Bottom Right
+            { x: 30, y: 83 }, // PF - Bottom Left (Pushed Deeper)
+            { x: 70, y: 83 }  // C  - Bottom Right (Pushed Deeper)
         ];
 
         let allGames = [];
@@ -677,10 +676,10 @@
 
         function drawMainHalo(ctx, x, y, innerR, outerR, color1, color2) {
             const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
-            grad.addColorStop(0, 'rgba(0, 0, 0, 0)');      
-            grad.addColorStop(0.15, hexToRgba(color1, 0.65)); 
-            grad.addColorStop(0.6, hexToRgba(color2, 0.45)); 
-            grad.addColorStop(1, 'rgba(0, 0, 0, 0)'); 
+            grad.addColorStop(0, 'rgba(0, 0, 0, 0)'); // Inner core stays totally clear       
+            grad.addColorStop(0.15, hexToRgba(color1, 0.65)); // Bright primary edge
+            grad.addColorStop(0.6, hexToRgba(color2, 0.45)); // Transitions to secondary
+            grad.addColorStop(1, 'rgba(0, 0, 0, 0)'); // Fades cleanly into the darkness
             ctx.fillStyle = grad;
             ctx.beginPath();
             ctx.arc(x, y, outerR, 0, Math.PI * 2);
@@ -725,10 +724,12 @@
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
+            // 1. Draw solid darkness over the whole court
             ctx.globalCompositeOperation = 'source-over';
             ctx.fillStyle = 'rgba(0, 0, 0, 0.94)'; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
+            // 2. Punch the completely clear holes out of the darkness
             ctx.globalCompositeOperation = 'destination-out';
             drawHole(ctx, currentSpotX, currentSpotY, currentInnerR, currentOuterR);
             if (!spotlightWiden) {
@@ -736,12 +737,14 @@
                 drawHole(ctx, roamSpot2.x, roamSpot2.y, 30, 210);
             }
             
+            // 3. Add colored "lighting gels" back over the holes
             ctx.globalCompositeOperation = 'source-over';
             if (!spotlightWiden) {
                 drawColoredTint(ctx, roamSpot1.x, roamSpot1.y, 30, 210, activePrimaryHex);
                 drawColoredTint(ctx, roamSpot2.x, roamSpot2.y, 30, 210, activeSecondaryHex);
             }
             
+            // Apply the two-tone glow to the edges of the main tracking spotlight
             drawMainHalo(ctx, currentSpotX, currentSpotY, currentInnerR, currentOuterR, activePrimaryHex, activeSecondaryHex);
             
             requestAnimationFrame(renderSpotlights);
@@ -970,7 +973,6 @@
             void logoEl.offsetWidth; 
             logoEl.classList.add('anim-logo');
             
-            // Pop the logos to the dual watermarks
             const logos = document.querySelectorAll('.court-logo');
             logos.forEach(logo => logo.src = logoUrl);
 
@@ -1003,7 +1005,7 @@
                             <div class="bench-photo-container">
                                 ${photoHtml}
                             </div>
-                            <div class="nameplate-wrapper" style="margin-top: 10px;">
+                            <div class="nameplate-wrapper" style="margin-top: 10px; z-index: 14;">
                                 <div class="player-nameplate" style="font-size: 24px; padding: 6px 20px;">${lastName}</div>
                             </div>
                         </div>
@@ -1040,7 +1042,6 @@
                 const delays = [10.93, 18.15, 26.17, 33.72, 40.87]; 
                 const baseDelay = delays[index]; 
                 
-                // Timing for the Card Deal and Reveal
                 const tDeal = baseDelay - 1.5; 
                 const tLand = baseDelay - 0.7; 
                 const tFlip = baseDelay; 
@@ -1072,12 +1073,10 @@
                 `;
                 container.insertAdjacentHTML('beforeend', html);
 
-                // Spotlight tracks deal
                 setTimeout(() => {
                     activePlayerIndex = index;
                 }, tDeal * 1000);
                 
-                // Card Lands - Quake and Shockwave
                 setTimeout(() => {
                     const captureArea = document.getElementById('capture-area');
                     captureArea.classList.remove('quake-active');
@@ -1088,7 +1087,6 @@
                     if (shockwave) shockwave.classList.add('anim-shockwave');
                 }, tLand * 1000); 
 
-                // Announcer calls name - FLIP THE CARD and trigger GLARE
                 setTimeout(() => {
                     document.getElementById(`card-inner-${index}`).style.transform = 'rotateY(0deg)';
                     document.getElementById(`glare-${index}`).classList.add('anim-glare');
@@ -1103,7 +1101,7 @@
                 }
                 trackingSpotlight = true;
                 
-                currentSpotX = 540; currentSpotY = 960; // Adjusted for taller court
+                currentSpotX = 540; currentSpotY = 960; 
                 moveRoamingLights();
                 
                 roamSpot1.x = roamSpot1.targetX; roamSpot1.y = roamSpot1.targetY;
@@ -1126,7 +1124,6 @@
                 
                 Array.from(benchNodes).forEach((node, idx) => {
                     node.style.animation = 'none'; 
-                    // Stop Jump and prepare for exit
                     const innerWrap = node.querySelector('.cinematic-wrapper');
                     if (innerWrap) innerWrap.style.animation = 'none';
 
