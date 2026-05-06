@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NBA Starting 5 - Pack Rip Trading Cards (TikTok Vertical)</title>
+    <title>NBA Starting 5 - Game 2 Trading Cards (TikTok Vertical)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&family=Oswald:wght@500;700&family=Montserrat:ital,wght@0,800;1,900&display=swap" rel="stylesheet">
@@ -302,7 +302,7 @@
             width: 400px;
             height: 600px;
             transform: translate(-50%, -50%);
-            z-index: 150; /* Hovers over the entire court */
+            z-index: 150; 
             animation: packFloat 1.5s ease-in-out infinite alternate;
             pointer-events: none;
         }
@@ -313,7 +313,6 @@
             width: 100%;
             height: 120px;
             background: linear-gradient(135deg, #eee, #999, #fff, #999);
-            /* Jagged rip edge pointing down */
             clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), 75% 100%, 50% calc(100% - 20px), 25% 100%, 0 calc(100% - 20px));
             border-top-left-radius: 20px;
             border-top-right-radius: 20px;
@@ -324,12 +323,11 @@
 
         .foil-body {
             position: absolute;
-            top: 100px; /* Snaps perfectly into the jagged edge above */
+            top: 100px; 
             left: 0;
             width: 100%;
             height: 500px;
             background: linear-gradient(135deg, var(--team-primary), var(--team-secondary), var(--team-primary));
-            /* Jagged rip edge pointing up */
             clip-path: polygon(0 20px, 25% 0, 50% 20px, 75% 0, 100% 20px, 100% 100%, 0 100%);
             border-bottom-left-radius: 20px;
             border-bottom-right-radius: 20px;
@@ -339,19 +337,37 @@
             animation: ripBody 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s forwards;
         }
 
+        /* NEW: Official Pack Branding Text */
+        .pack-sub-text {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700; font-size: 24px; color: #ffea00;
+            text-transform: uppercase; letter-spacing: 2px;
+            margin-bottom: 5px; z-index: 2;
+            text-shadow: 1px 1px 0 #000;
+        }
+        
+        .pack-bonus-text {
+            font-family: 'Teko', sans-serif;
+            font-weight: 600; font-size: 28px; color: #fff;
+            text-transform: uppercase; letter-spacing: 1px;
+            margin-top: 15px; background: #111; padding: 2px 10px; border-radius: 4px;
+            border: 2px solid var(--team-primary); z-index: 2;
+        }
+
         .pack-logo-img {
-            width: 220px; height: 220px;
+            width: 200px; height: 200px;
             object-fit: contain;
             filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
-            margin-top: 30px;
+            margin-top: 10px;
         }
 
         .pack-text-label {
             font-family: 'Montserrat', sans-serif;
             font-weight: 900; font-size: 50px; font-style: italic;
-            color: #fff; line-height: 0.9; margin-top: 20px;
+            color: #fff; line-height: 0.9; margin-top: 15px;
             text-align: center; text-transform: uppercase;
             text-shadow: 3px 3px 0 var(--team-secondary);
+            z-index: 2;
         }
 
         .foil-sheen {
@@ -407,66 +423,17 @@
             align-items: center;
         }
 
-        /* --- DELAYED BENCH DROP & STYLING --- */
-        .bench-node {
-            z-index: 5; 
-            opacity: 0; 
-        }
-        
-        .bench-node .player-position, .bench-node .player-number {
-            display: none; 
-        }
-
-        @keyframes benchDropIn {
-            0% { opacity: 0; transform: translate(-50%, -400px) scale(0.85); }
-            10% { opacity: 1; }
-            100% { opacity: 1; transform: translate(-50%, -50%) scale(0.85); }
-        }
-
-        @keyframes benchJump {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        .bench-photo-container {
-            width: 170px;  
-            height: 170px; 
-            border-radius: 50%;
-            border: 6px solid var(--team-secondary); 
-            background-color: #222; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4); 
-            z-index: 12;
-            overflow: hidden;
-            position: relative;
-            box-sizing: border-box;
-        }
-
-        .bench-photo { 
-            display: block;
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            object-position: center top; 
-            transform: scale(1.15) translateY(5px);
-        }
-
-        /* --- TRADING CARD STARTER SYSTEM --- */
-        .starter-node {
-            opacity: 0; 
-            z-index: 10;
-        }
-
-        .cinematic-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
+        /* --- TRADING CARD SYSTEM (SHARED FOR STARTERS & BENCH) --- */
         .card-wrapper {
             position: relative;
             width: 220px;
             height: 310px; 
             perspective: 1000px;
+        }
+
+        .bench-node .card-wrapper {
+            width: 140px; 
+            height: 195px; /* Smaller scaled down layout for the bonus cards */
         }
 
         .player-card-inner {
@@ -475,9 +442,9 @@
             position: absolute;
             transform-style: preserve-3d;
             transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform: rotateY(180deg); 
+            transform: rotateY(180deg); /* Starts face down! */
             box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            border-radius: 16px;
+            border-radius: 12px;
         }
 
         .player-card-front, .player-card-back {
@@ -485,9 +452,9 @@
             height: 100%;
             position: absolute;
             backface-visibility: hidden;
-            border-radius: 16px;
+            border-radius: 12px;
             box-sizing: border-box;
-            border: 8px solid var(--team-primary);
+            border: 6px solid var(--team-primary);
         }
 
         .player-card-back {
@@ -500,7 +467,7 @@
         }
 
         .card-back-logo {
-            width: 120px; height: 120px;
+            width: 60%; height: 60%;
             object-fit: contain;
             opacity: 0.6;
             filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
@@ -512,7 +479,7 @@
 
         .card-photo-clip {
             width: 100%; height: 100%;
-            border-radius: 8px;
+            border-radius: 6px;
             overflow: hidden;
             position: relative;
         }
@@ -522,7 +489,60 @@
             height: 100%;
             object-fit: cover;
             object-position: center top;
-            transform: scale(1.15) translateY(5px);
+        }
+
+        /* NEW: In-Card Text Styling */
+        .card-info-overlay {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 50%, transparent 100%);
+            padding: 30px 5px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .card-name {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 26px;
+            color: #fff;
+            text-align: center;
+            line-height: 1;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0 var(--team-primary);
+        }
+
+        .bench-node .card-name {
+            font-size: 16px;
+            text-shadow: 1px 1px 0 var(--team-primary);
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .card-pos, .card-num {
+            font-family: 'Teko', sans-serif;
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--text-dark);
+            background: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 2px solid var(--team-secondary);
+            line-height: 1.1;
+            box-shadow: 2px 2px 0 var(--team-primary);
+        }
+
+        .bench-node .card-pos, .bench-node .card-num {
+            font-size: 14px;
+            padding: 1px 5px;
+            border-width: 1px;
+            box-shadow: 1px 1px 0 var(--team-primary);
         }
 
         .holo-glare {
@@ -543,63 +563,34 @@
             100% { transform: translateX(100%) rotate(0deg); }
         }
 
-        .player-position {
-            position: absolute;
-            top: -15px; left: -15px; 
-            background-color: var(--team-primary);
-            color: white; border: 4px solid var(--team-secondary);
-            width: 70px; height: 70px; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            font-family: 'Teko', sans-serif; font-size: 34px; font-weight: bold;
-            z-index: 15; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        }
-
-        .player-number {
-            position: absolute;
-            top: -15px; right: -15px; 
-            background-color: #fff;
-            color: var(--text-dark); border: 4px solid var(--team-secondary);
-            width: 70px; height: 70px; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            font-family: 'Teko', sans-serif; font-size: 36px; font-weight: bold;
-            z-index: 15; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        }
-
-        /* The Nameplate is hidden initially so it doesn't ruin the flip surprise! */
-        .nameplate-wrapper {
-            display: flex; align-items: stretch; margin-top: 20px; 
-            z-index: 14; position: relative; box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-            border-radius: 8px; overflow: hidden; border: 1px solid rgba(0,0,0,0.1);
-            opacity: 0; transform: translateY(-30px);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .nameplate-reveal {
-            opacity: 1 !important;
-            transform: translateY(0) !important;
-        }
-
-        .player-nameplate {
-            background: #fff; color: var(--text-dark); padding: 10px 30px; 
-            font-family: 'Montserrat', sans-serif; font-size: 28px; font-weight: 900;
-            font-style: italic; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
-        }
-
-        /* --- THE PACK BURST ANIMATION --- */
-        /* All cards blast out of the center pack at 1.5 seconds */
+        /* --- THE PACK BURST ANIMATION (Shared Logic) --- */
         @keyframes cardBurst {
-            0%   { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.1) rotateZ(0deg); opacity: 0; }
-            5%   { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.5) rotateZ(15deg); opacity: 1; }
+            0%   { left: 50%; top: 15%; transform: translate(-50%, -50%) scale(0.1) rotateZ(0deg); opacity: 0; }
+            5%   { left: 50%; top: 15%; transform: translate(-50%, -50%) scale(0.5) rotateZ(15deg); opacity: 1; }
             100% { left: var(--target-x); top: var(--target-y); transform: translate(-50%, -50%) scale(1) rotateZ(0deg); opacity: 1; }
         }
+        
         .anim-burst { animation: cardBurst 1s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s forwards; }
 
-        /* --- SHOCKWAVE RING FOR THE DEAL --- */
+        /* Bench has a slightly longer flight path to top of screen and flips face up upon landing */
+        @keyframes benchBurst {
+            0%   { left: 50%; top: 15%; transform: translate(-50%, -50%) scale(0.1) rotateZ(0deg); opacity: 0; }
+            5%   { left: 50%; top: 15%; transform: translate(-50%, -50%) scale(0.5) rotateZ(-35deg); opacity: 1; }
+            100% { left: var(--target-x); top: var(--target-y); transform: translate(-50%, -50%) scale(1) rotateZ(0deg); opacity: 1; }
+        }
+        .anim-bench-burst { animation: benchBurst 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s forwards; }
+
+        @keyframes benchInnerFlip {
+            0%, 50% { transform: rotateY(180deg); }
+            100% { transform: rotateY(0deg); }
+        }
+        .bench-inner-flip { animation: benchInnerFlip 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.2s forwards; }
+
+        /* --- SHOCKWAVE RING --- */
         .shockwave-ring {
             position: absolute; top: 50%; left: 50%; width: 200px; height: 200px; border-radius: 50%;
             border: 12px solid var(--team-primary); transform: translate(-50%, -50%) scale(0.5); opacity: 0; z-index: 11; pointer-events: none;
         }
-        
         @keyframes ringExplode { 0% { transform: translate(-50%, -50%) scale(0.8); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(3.5); opacity: 0; border-width: 2px; } }
         .anim-shockwave { animation: ringExplode 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
 
@@ -617,8 +608,8 @@
         /* ========================================================
            THE CLEAN BENCH EXIT
            ======================================================== */
-        @keyframes slideOffRight { 0% { transform: translate(-50%, -50%) scale(0.85); opacity: 1; } 100% { transform: translate(1500%, -50%) scale(0.85); opacity: 0; } }
-        @keyframes slideOffLeft { 0% { transform: translate(-50%, -50%) scale(0.85); opacity: 1; } 100% { transform: translate(-1500%, -50%) scale(0.85); opacity: 0; } }
+        @keyframes slideOffRight { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(1500%, -50%) scale(1); opacity: 0; } }
+        @keyframes slideOffLeft { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(-1500%, -50%) scale(1); opacity: 0; } }
 
     </style>
 </head>
@@ -675,8 +666,10 @@
                         <div class="foil-sheen"></div>
                     </div>
                     <div id="foil-body" class="foil-body">
+                        <div class="pack-sub-text">Official Starter Pack</div>
                         <img id="pack-logo-img" class="pack-logo-img" src="" alt="">
                         <div class="pack-text-label">PLAYOFFS<br>GAME 2</div>
+                        <div class="pack-bonus-text">+ BONUS BENCH CARDS</div>
                         <div class="foil-sheen"></div>
                     </div>
                 </div>
@@ -1116,31 +1109,41 @@
             const starters = game.rosters[targetAbbr].players.slice(0, 5);
             const bench = (game.rosters[targetAbbr].bench || []).slice(0, 7);
 
-            // 1. RENDER THE BENCH
+            // 1. RENDER THE BONUS BENCH CARDS (Burst from center pack!)
             bench.forEach((player, index) => {
                 const dbPlayer = getPlayerData(player.name);
                 const photoUrl = dbPlayer ? dbPlayer.photo : null;
+                const jerseyNum = dbPlayer && dbPlayer.jersey ? dbPlayer.jersey : "";
+                const pos = dbPlayer && dbPlayer.position ? dbPlayer.position : "RES";
                 const lastName = player.name.split(' ').pop().substring(0, 10); 
 
                 const photoHtml = (photoUrl && photoUrl.trim() !== '') 
-                    ? `<img src="${photoUrl}" class="bench-photo" crossorigin="anonymous" onerror="handleImageError(this)">` 
+                    ? `<img src="${photoUrl}" class="player-card-photo" crossorigin="anonymous" onerror="handleImageError(this)">` 
                     : `<div class="fallback-silhouette"></div>`;
 
-                const benchSpacing = bench.length > 1 ? 60 / (bench.length - 1) : 0;
-                const benchX = 20 + (index * benchSpacing); 
-                
-                const jumpSpeed = (0.6 + Math.random() * 0.4).toFixed(2);
-                const jumpOffset = (Math.random() * -1).toFixed(2);
+                const benchSpacing = bench.length > 1 ? 75 / (bench.length - 1) : 0;
+                const benchX = 12.5 + (index * benchSpacing); 
 
                 const html = `
-                    <div id="bench-node-${index}" class="player-node bench-node" 
-                         style="left: ${benchX}%; top: -20%; animation: benchDropIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) ${3.5 + index * 0.1}s forwards;">
-                        <div class="cinematic-wrapper" style="animation: benchJump ${jumpSpeed}s infinite ease-in-out ${jumpOffset}s;">
-                            <div class="bench-photo-container">
-                                ${photoHtml}
-                            </div>
-                            <div class="nameplate-wrapper" style="margin-top: 10px; z-index: 14; opacity: 1; transform: translateY(0);">
-                                <div class="player-nameplate" style="font-size: 24px; padding: 6px 20px;">${lastName}</div>
+                    <div id="bench-node-${index}" class="player-node bench-node anim-bench-burst" style="--target-x: ${benchX}%; --target-y: -12%;">
+                        <div class="card-wrapper">
+                            <div id="card-inner-bench-${index}" class="player-card-inner bench-inner-flip">
+                                <div class="player-card-back">
+                                    <img src="${logoUrl}" class="card-back-logo">
+                                </div>
+                                <div class="player-card-front">
+                                    <div class="card-photo-clip">
+                                        ${photoHtml}
+                                        <div class="card-info-overlay">
+                                            <div class="card-name">${lastName}</div>
+                                            <div class="card-meta">
+                                                <span class="card-pos">${pos}</span>
+                                                ${jerseyNum ? `<span class="card-num">#${jerseyNum}</span>` : ''}
+                                            </div>
+                                        </div>
+                                        <div class="holo-glare anim-glare" style="animation-delay: 2s;"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1176,7 +1179,6 @@
                 const delays = [10.93, 18.15, 26.17, 33.72, 40.87]; 
                 const baseDelay = delays[index]; 
 
-                // Inject Custom Properties for the dynamic card burst trajectory
                 const html = `
                     <div class="player-node starter-node anim-burst" style="--target-x: ${coords.x}%; --target-y: ${coords.y}%;">
                         <div class="cinematic-wrapper">
@@ -1189,15 +1191,17 @@
                                     <div class="player-card-front">
                                         <div class="card-photo-clip">
                                             ${photoHtml}
+                                            <div class="card-info-overlay">
+                                                <div class="card-name">${displayName}</div>
+                                                <div class="card-meta">
+                                                    <span class="card-pos">${pos}</span>
+                                                    ${jerseyNum ? `<span class="card-num">#${jerseyNum}</span>` : ''}
+                                                </div>
+                                            </div>
                                             <div id="glare-${index}" class="holo-glare"></div>
                                         </div>
-                                        <div class="player-position">${pos}</div>
-                                        ${jerseyNum ? `<div class="player-number">${jerseyNum}</div>` : ''}
                                     </div>
                                 </div>
-                            </div>
-                            <div id="nameplate-${index}" class="nameplate-wrapper">
-                                <div class="player-nameplate">${displayName}</div>
                             </div>
                         </div>
                     </div>
@@ -1210,11 +1214,10 @@
                     activePlayerIndex = index;
                 }, (baseDelay - 0.5) * 1000);
                 
-                // Announcer calls name - FLIP THE CARD, TRIGGER GLARE, DROP NAMEPLATE, AND QUAKE
+                // Announcer calls name - FLIP THE CARD AND QUAKE
                 setTimeout(() => {
                     document.getElementById(`card-inner-${index}`).style.transform = 'rotateY(0deg)';
                     document.getElementById(`glare-${index}`).classList.add('anim-glare');
-                    document.getElementById(`nameplate-${index}`).classList.add('nameplate-reveal');
                     
                     const captureArea = document.getElementById('capture-area');
                     captureArea.classList.remove('quake-active');
