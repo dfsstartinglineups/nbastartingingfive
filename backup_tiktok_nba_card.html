@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NBA Starting 5 - Game 1 Trading Cards (TikTok Vertical)</title>
+    <title>NBA Starting 5 - Game 2 Trading Cards (TikTok Vertical)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&family=Oswald:wght@500;700&family=Montserrat:ital,wght@0,800;1,900&display=swap" rel="stylesheet">
@@ -260,8 +260,9 @@
             opacity: 0.35;
         }
 
-        /* Game 1 text firmly locked to Center Court (top: 0%) */
-        #game1-text {
+        /* --- GAME 2 TEXT FIXED --- */
+        /* Z-index dropped to 18 so it sits perfectly behind the Spotlight Canvas (20) */
+        #game2-text {
             position: absolute;
             top: 0%; left: 50%;
             transform: translate(-50%, -50%);
@@ -272,7 +273,7 @@
             color: #fff;
             letter-spacing: 5px;
             text-transform: uppercase;
-            z-index: 100; 
+            z-index: 18; /* Puts it below the darkness, but above the PG */
             white-space: nowrap;
             text-shadow: 0 5px 15px rgba(0,0,0,0.5), 0 0 0 8px var(--team-primary), 5px 5px 0 var(--team-secondary);
             opacity: 0;
@@ -568,7 +569,7 @@
                     <img class="court-logo" src="" alt="">
                 </div>
                 
-                <div id="game1-text" class="neon-game-text">GAME 2</div>
+                <div id="game2-text" class="neon-game-text">GAME 2</div>
 
                 <div id="players-container"></div>
             </div>
@@ -724,12 +725,10 @@
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // 1. Draw solid darkness over the whole court
             ctx.globalCompositeOperation = 'source-over';
             ctx.fillStyle = 'rgba(0, 0, 0, 0.94)'; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // 2. Punch the completely clear holes out of the darkness
             ctx.globalCompositeOperation = 'destination-out';
             drawHole(ctx, currentSpotX, currentSpotY, currentInnerR, currentOuterR);
             if (!spotlightWiden) {
@@ -737,14 +736,12 @@
                 drawHole(ctx, roamSpot2.x, roamSpot2.y, 30, 210);
             }
             
-            // 3. Add colored "lighting gels" back over the holes
             ctx.globalCompositeOperation = 'source-over';
             if (!spotlightWiden) {
                 drawColoredTint(ctx, roamSpot1.x, roamSpot1.y, 30, 210, activePrimaryHex);
                 drawColoredTint(ctx, roamSpot2.x, roamSpot2.y, 30, 210, activeSecondaryHex);
             }
             
-            // Apply the two-tone glow to the edges of the main tracking spotlight
             drawMainHalo(ctx, currentSpotX, currentSpotY, currentInnerR, currentOuterR, activePrimaryHex, activeSecondaryHex);
             
             requestAnimationFrame(renderSpotlights);
