@@ -269,7 +269,7 @@
             100% { opacity: 0.35; transform: translate(-50%, -50%) scale(1); filter: blur(0px); }
         }
 
-        /* --- GAME 2 BROADCAST TEXT --- */
+        /* --- GAME 2 BROADCAST TEXT FIXED --- */
         #game2-text {
             position: absolute;
             top: 0%; left: 50%;
@@ -278,10 +278,7 @@
             font-weight: 900;
             font-style: italic;
             font-size: 140px;
-            /* Updated to use primary/secondary team colors */
             color: var(--team-primary);
-            -webkit-text-stroke: 6px #fff;
-            text-shadow: 6px 6px 0 var(--team-secondary), 0 15px 25px rgba(0,0,0,0.5);
             letter-spacing: 5px;
             text-transform: uppercase;
             z-index: 18; 
@@ -290,6 +287,15 @@
             animation: slideInText 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             animation-delay: 3.4s; 
             pointer-events: none;
+        }
+        
+        #game2-text::before {
+            content: attr(data-text);
+            position: absolute;
+            left: 0; top: 0;
+            z-index: -1;
+            -webkit-text-stroke: 12px #fff; 
+            text-shadow: 6px 6px 0 var(--team-secondary), 0 15px 25px rgba(0,0,0,0.5);
         }
 
         @keyframes slideInText {
@@ -362,16 +368,31 @@
             margin-top: 10px;
         }
 
+        /* FIXED PACK TEXT STROKE BLEED */
         .pack-text-label {
             font-family: 'Montserrat', sans-serif;
             font-weight: 900; font-size: 50px; font-style: italic;
-            /* Updated pack label colors */
-            color: var(--team-primary);
-            -webkit-text-stroke: 3px #fff;
-            text-shadow: 4px 4px 0 var(--team-secondary), 0 10px 15px rgba(0,0,0,0.5);
             line-height: 0.9; margin-top: 15px;
             text-align: center; text-transform: uppercase;
             z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .pack-text-line {
+            position: relative;
+            color: var(--team-primary);
+            z-index: 1;
+        }
+
+        .pack-text-line::before {
+            content: attr(data-text);
+            position: absolute;
+            left: 0; top: 0;
+            z-index: -1;
+            -webkit-text-stroke: 8px #fff;
+            text-shadow: 4px 4px 0 var(--team-secondary), 0 10px 15px rgba(0,0,0,0.5);
         }
 
         .foil-sheen {
@@ -495,7 +516,6 @@
             position: relative;
         }
 
-        /* NEW: Dual Team Logos on the card front */
         .card-logo-left {
             position: absolute;
             top: 12px;
@@ -603,7 +623,7 @@
             100% { transform: translateX(100%) rotate(0deg); }
         }
 
-        /* --- THE PACK BURST ANIMATION --- */
+        /* --- THE PACK BURST ANIMATION (Shared Logic) --- */
         @keyframes cardBurst {
             0%   { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.1) rotateZ(0deg); opacity: 0; }
             5%   { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.5) rotateZ(15deg); opacity: 1; }
@@ -707,13 +727,16 @@
                     <div id="foil-body" class="foil-body">
                         <div class="pack-sub-text">Official Starter Pack</div>
                         <img id="pack-logo-img" class="pack-logo-img" src="" alt="">
-                        <div class="pack-text-label">PLAYOFFS<br>GAME 2</div>
+                        <div class="pack-text-label">
+                            <div class="pack-text-line" data-text="PLAYOFFS">PLAYOFFS</div>
+                            <div class="pack-text-line" data-text="GAME 2">GAME 2</div>
+                        </div>
                         <div class="pack-bonus-text">+ BONUS BENCH CARDS</div>
                         <div class="foil-sheen"></div>
                     </div>
                 </div>
 
-                <div id="game2-text" class="neon-game-text">GAME 2</div>
+                <div id="game2-text" class="neon-game-text" data-text="GAME 2">GAME 2</div>
 
                 <div id="players-container"></div>
             </div>
