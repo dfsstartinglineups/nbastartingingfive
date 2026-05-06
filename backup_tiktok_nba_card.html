@@ -278,12 +278,14 @@
             font-weight: 900;
             font-style: italic;
             font-size: 140px;
-            color: #fff;
+            /* Updated to use primary/secondary team colors */
+            color: var(--team-primary);
+            -webkit-text-stroke: 6px #fff;
+            text-shadow: 6px 6px 0 var(--team-secondary), 0 15px 25px rgba(0,0,0,0.5);
             letter-spacing: 5px;
             text-transform: uppercase;
             z-index: 18; 
             white-space: nowrap;
-            text-shadow: 0 5px 15px rgba(0,0,0,0.5), 0 0 0 8px var(--team-primary), 5px 5px 0 var(--team-secondary);
             opacity: 0;
             animation: slideInText 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             animation-delay: 3.4s; 
@@ -363,9 +365,12 @@
         .pack-text-label {
             font-family: 'Montserrat', sans-serif;
             font-weight: 900; font-size: 50px; font-style: italic;
-            color: #fff; line-height: 0.9; margin-top: 15px;
+            /* Updated pack label colors */
+            color: var(--team-primary);
+            -webkit-text-stroke: 3px #fff;
+            text-shadow: 4px 4px 0 var(--team-secondary), 0 10px 15px rgba(0,0,0,0.5);
+            line-height: 0.9; margin-top: 15px;
             text-align: center; text-transform: uppercase;
-            text-shadow: 3px 3px 0 var(--team-secondary);
             z-index: 2;
         }
 
@@ -414,7 +419,6 @@
         }
 
         /* ======================================================== */
-        /* FIXED: Locks all players above watermarks but below spotlights */
         #players-container {
             position: absolute;
             top: 0; left: 0;
@@ -440,7 +444,7 @@
 
         .bench-node .card-wrapper {
             width: 140px; 
-            height: 195px; /* Smaller scaled down layout for the bonus cards */
+            height: 195px; 
         }
 
         .player-card-inner {
@@ -449,7 +453,7 @@
             position: absolute;
             transform-style: preserve-3d;
             transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform: rotateY(180deg); /* Starts face down! */
+            transform: rotateY(180deg); 
             box-shadow: 0 15px 35px rgba(0,0,0,0.6);
             border-radius: 12px;
         }
@@ -491,22 +495,35 @@
             position: relative;
         }
 
-        /* NEW: Team Logo displayed on the card front */
-        .card-front-team-logo {
+        /* NEW: Dual Team Logos on the card front */
+        .card-logo-left {
             position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 55px;
-            height: 55px;
+            top: 12px;
+            left: 12px;
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            z-index: 15;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+        }
+
+        .card-logo-right {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 45px;
+            height: 45px;
             object-fit: contain;
             z-index: 15;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
         }
         
-        .bench-node .card-front-team-logo {
-            width: 35px; height: 35px; top: 5px;
+        .bench-node .card-logo-left,
+        .bench-node .card-logo-right {
+            width: 30px; height: 30px; top: 8px;
         }
+        .bench-node .card-logo-left { left: 8px; }
+        .bench-node .card-logo-right { right: 8px; }
 
         .player-card-photo {
             width: 100%;
@@ -586,8 +603,7 @@
             100% { transform: translateX(100%) rotate(0deg); }
         }
 
-        /* --- THE PACK BURST ANIMATION (Shared Logic) --- */
-        /* FIXED: Set animation-fill-mode to "both" to prevent the 0,0 rogue card bug during delay */
+        /* --- THE PACK BURST ANIMATION --- */
         @keyframes cardBurst {
             0%   { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.1) rotateZ(0deg); opacity: 0; }
             5%   { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.5) rotateZ(15deg); opacity: 1; }
@@ -1155,7 +1171,8 @@
                                 </div>
                                 <div class="player-card-front">
                                     <div class="card-photo-clip">
-                                        <img src="${logoUrl}" class="card-front-team-logo">
+                                        <img src="${logoUrl}" class="card-logo-left">
+                                        <img src="${logoUrl}" class="card-logo-right">
                                         ${photoHtml}
                                         <div class="card-info-overlay">
                                             <div class="card-name">${lastName}</div>
@@ -1213,7 +1230,8 @@
                                     </div>
                                     <div class="player-card-front">
                                         <div class="card-photo-clip">
-                                            <img src="${logoUrl}" class="card-front-team-logo">
+                                            <img src="${logoUrl}" class="card-logo-left">
+                                            <img src="${logoUrl}" class="card-logo-right">
                                             ${photoHtml}
                                             <div class="card-info-overlay">
                                                 <div class="card-name">${displayName}</div>
@@ -1237,7 +1255,7 @@
                     activePlayerIndex = index;
                 }, (baseDelay - 0.5) * 1000);
                 
-                // Announcer calls name - FLIP THE CARD, TRIGGER GLARE, AND QUAKE
+                // Announcer calls name - FLIP THE CARD AND QUAKE
                 setTimeout(() => {
                     document.getElementById(`card-inner-${index}`).style.transform = 'rotateY(0deg)';
                     document.getElementById(`glare-${index}`).classList.add('anim-glare');
