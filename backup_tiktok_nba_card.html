@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NBA Starting 5 - Game 2 Trading Cards (TikTok Vertical)</title>
+    <title>NBA Starting 5 - Pack Rip Trading Cards (TikTok Vertical)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&family=Oswald:wght@500;700&family=Montserrat:ital,wght@0,800;1,900&display=swap" rel="stylesheet">
@@ -251,17 +251,15 @@
             justify-content: center;
             z-index: 2;
             pointer-events: none;
-            opacity: 0; /* Starts completely hidden */
+            opacity: 0; 
         }
 
         .court-logo {
             width: 380px; height: 380px;
             object-fit: contain;
             filter: drop-shadow(0 0 30px rgba(255, 120, 0, 0.7)) sepia(0.3) hue-rotate(-20deg) saturate(1.5);
-            /* Opacity handled by the wrapper animation now */
         }
 
-        /* New Watermark Entrance matched to the Team Name */
         .anim-watermark-drop {
             animation: watermarkDrop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.5s forwards;
         }
@@ -288,13 +286,101 @@
             text-shadow: 0 5px 15px rgba(0,0,0,0.5), 0 0 0 8px var(--team-primary), 5px 5px 0 var(--team-secondary);
             opacity: 0;
             animation: slideInText 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            animation-delay: 3.4s; /* Drops just a fraction of a second before the bench starts */
+            animation-delay: 3.4s; 
             pointer-events: none;
         }
 
         @keyframes slideInText {
             0% { opacity: 0; transform: translate(-50%, -300px); filter: blur(10px); }
             100% { opacity: 1; transform: translate(-50%, -50%); filter: blur(0px); }
+        }
+
+        /* --- THE VIRAL FOIL PACK RIP --- */
+        #foil-pack-wrapper {
+            position: absolute;
+            top: 38%; left: 50%;
+            width: 400px;
+            height: 600px;
+            transform: translate(-50%, -50%);
+            z-index: 150; /* Hovers over the entire court */
+            animation: packFloat 1.5s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        .foil-top {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(135deg, #eee, #999, #fff, #999);
+            /* Jagged rip edge pointing down */
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), 75% 100%, 50% calc(100% - 20px), 25% 100%, 0 calc(100% - 20px));
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+            animation: ripTop 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s forwards;
+        }
+
+        .foil-body {
+            position: absolute;
+            top: 100px; /* Snaps perfectly into the jagged edge above */
+            left: 0;
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(135deg, var(--team-primary), var(--team-secondary), var(--team-primary));
+            /* Jagged rip edge pointing up */
+            clip-path: polygon(0 20px, 25% 0, 50% 20px, 75% 0, 100% 20px, 100% 100%, 0 100%);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            overflow: hidden;
+            animation: ripBody 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s forwards;
+        }
+
+        .pack-logo-img {
+            width: 220px; height: 220px;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+            margin-top: 30px;
+        }
+
+        .pack-text-label {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900; font-size: 50px; font-style: italic;
+            color: #fff; line-height: 0.9; margin-top: 20px;
+            text-align: center; text-transform: uppercase;
+            text-shadow: 3px 3px 0 var(--team-secondary);
+        }
+
+        .foil-sheen {
+            position: absolute;
+            top: 0; left: -150%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+            transform: skewX(-25deg);
+            animation: sheenSweep 2s infinite;
+        }
+
+        @keyframes packFloat {
+            0% { transform: translate(-50%, -50%) translateY(0); }
+            100% { transform: translate(-50%, -50%) translateY(-25px); }
+        }
+
+        @keyframes sheenSweep {
+            0% { left: -150%; }
+            50%, 100% { left: 150%; }
+        }
+
+        @keyframes ripTop {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-1000px) rotate(35deg); opacity: 0; display: none; }
+        }
+
+        @keyframes ripBody {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(1000px) rotate(-20deg); opacity: 0; display: none; }
         }
 
         /* --- CANVAS LIGHTING ENGINE --- */
@@ -324,7 +410,7 @@
         /* --- DELAYED BENCH DROP & STYLING --- */
         .bench-node {
             z-index: 5; 
-            opacity: 0; /* Starts completely invisible! */
+            opacity: 0; 
         }
         
         .bench-node .player-position, .bench-node .player-number {
@@ -342,7 +428,6 @@
             50% { transform: translateY(-15px); }
         }
 
-        /* FIXED: Absolute positioning removed so nameplates don't overlap faces */
         .bench-photo-container {
             width: 170px;  
             height: 170px; 
@@ -352,7 +437,7 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.4); 
             z-index: 12;
             overflow: hidden;
-            position: relative; /* Now correctly pushes the nameplate down */
+            position: relative;
             box-sizing: border-box;
         }
 
@@ -480,10 +565,18 @@
             z-index: 15; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
 
+        /* The Nameplate is hidden initially so it doesn't ruin the flip surprise! */
         .nameplate-wrapper {
             display: flex; align-items: stretch; margin-top: 20px; 
             z-index: 14; position: relative; box-shadow: 0 5px 10px rgba(0,0,0,0.3);
             border-radius: 8px; overflow: hidden; border: 1px solid rgba(0,0,0,0.1);
+            opacity: 0; transform: translateY(-30px);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .nameplate-reveal {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
         }
 
         .player-nameplate {
@@ -492,13 +585,14 @@
             font-style: italic; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
         }
 
-        /* --- THE CARD DEALING ANIMATION --- */
-        @keyframes dealCard {
-            0%   { transform: translate(-50%, -2000px) rotateZ(45deg) scale(0.2); opacity: 0; }
-            50%  { transform: translate(-50%, -50%) rotateZ(-10deg) scale(1.1); opacity: 1; }
-            100% { transform: translate(-50%, -50%) rotateZ(0deg) scale(1); opacity: 1; }
+        /* --- THE PACK BURST ANIMATION --- */
+        /* All cards blast out of the center pack at 1.5 seconds */
+        @keyframes cardBurst {
+            0%   { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.1) rotateZ(0deg); opacity: 0; }
+            5%   { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.5) rotateZ(15deg); opacity: 1; }
+            100% { left: var(--target-x); top: var(--target-y); transform: translate(-50%, -50%) scale(1) rotateZ(0deg); opacity: 1; }
         }
-        .anim-deal { animation: dealCard 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        .anim-burst { animation: cardBurst 1s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s forwards; }
 
         /* --- SHOCKWAVE RING FOR THE DEAL --- */
         .shockwave-ring {
@@ -509,12 +603,10 @@
         @keyframes ringExplode { 0% { transform: translate(-50%, -50%) scale(0.8); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(3.5); opacity: 0; border-width: 2px; } }
         .anim-shockwave { animation: ringExplode 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
 
-
         /* ========================================================
-           HEADER ENTRANCE ANIMATIONS (SYNCED TO ANNOUNCER)
+           HEADER ENTRANCE ANIMATIONS
            ======================================================== */
-        
-        .anim-header-tag { animation: headerSlideDown 1s ease-out 0.5s forwards; opacity: 0; }
+        .anim-header-tag { animation: headerSlideDown 1s ease-out 2.5s forwards; opacity: 0; }
         .anim-team-name { animation: teamNameZoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.5s forwards; opacity: 0; }
         .anim-logo { animation: logoSpinIn 0.8s ease-out 2.5s forwards; opacity: 0; }
 
@@ -578,6 +670,17 @@
                     <img class="court-logo" src="" alt="">
                 </div>
                 
+                <div id="foil-pack-wrapper" class="foil-pack-wrapper">
+                    <div id="foil-top" class="foil-top">
+                        <div class="foil-sheen"></div>
+                    </div>
+                    <div id="foil-body" class="foil-body">
+                        <img id="pack-logo-img" class="pack-logo-img" src="" alt="">
+                        <div class="pack-text-label">PLAYOFFS<br>GAME 2</div>
+                        <div class="foil-sheen"></div>
+                    </div>
+                </div>
+
                 <div id="game2-text" class="neon-game-text">GAME 2</div>
 
                 <div id="players-container"></div>
@@ -623,13 +726,13 @@
 
         const POSITIONS = ["PG", "SG", "SF", "PF", "C"];
         
-        // --- NEW SPREAD COURT MAPPING FOR VERTICAL FORMAT ---
+        // --- SPREAD COURT MAPPING FOR VERTICAL FORMAT ---
         const COURT_COORDS = [
-            { x: 50, y: 25 }, // PG - Top
-            { x: 20, y: 50 }, // SG - Mid Left
-            { x: 80, y: 50 }, // SF - Mid Right
-            { x: 30, y: 83 }, // PF - Bottom Left (Pushed Deeper)
-            { x: 70, y: 83 }  // C  - Bottom Right (Pushed Deeper)
+            { x: 50, y: 25 }, // PG
+            { x: 20, y: 50 }, // SG
+            { x: 80, y: 50 }, // SF
+            { x: 30, y: 83 }, // PF
+            { x: 70, y: 83 }  // C
         ];
 
         let allGames = [];
@@ -648,7 +751,6 @@
         let roamSpot1 = { x: 200, y: 200, targetX: 200, targetY: 200 };
         let roamSpot2 = { x: 800, y: 1600, targetX: 800, targetY: 1600 };
         
-        // Dynamic hex trackers for the Canvas Engine
         let activePrimaryHex = '#ffffff';
         let activeSecondaryHex = '#ffffff';
 
@@ -686,10 +788,10 @@
 
         function drawMainHalo(ctx, x, y, innerR, outerR, color1, color2) {
             const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
-            grad.addColorStop(0, 'rgba(0, 0, 0, 0)'); // Inner core stays totally clear       
-            grad.addColorStop(0.15, hexToRgba(color1, 0.65)); // Bright primary edge
-            grad.addColorStop(0.6, hexToRgba(color2, 0.45)); // Transitions to secondary
-            grad.addColorStop(1, 'rgba(0, 0, 0, 0)'); // Fades cleanly into the darkness
+            grad.addColorStop(0, 'rgba(0, 0, 0, 0)');      
+            grad.addColorStop(0.15, hexToRgba(color1, 0.65)); 
+            grad.addColorStop(0.6, hexToRgba(color2, 0.45)); 
+            grad.addColorStop(1, 'rgba(0, 0, 0, 0)'); 
             ctx.fillStyle = grad;
             ctx.beginPath();
             ctx.arc(x, y, outerR, 0, Math.PI * 2);
@@ -982,6 +1084,10 @@
             const logos = document.querySelectorAll('.court-logo');
             logos.forEach(logo => logo.src = logoUrl);
             
+            // Set the dynamic logo on the Foil Pack
+            const packLogo = document.getElementById('pack-logo-img');
+            if (packLogo) packLogo.src = logoUrl;
+            
             // Re-trigger Watermark Animations
             const watermarks = document.querySelectorAll('.broadcast-watermark');
             watermarks.forEach(wm => {
@@ -995,8 +1101,14 @@
             if (gameText) {
                 gameText.style.animation = 'none';
                 void gameText.offsetWidth;
-                gameText.style.animation = ''; // Let CSS take over again
+                gameText.style.animation = ''; 
             }
+            
+            // Re-trigger Foil Pack Rip Animations
+            const foilTop = document.getElementById('foil-top');
+            const foilBody = document.getElementById('foil-body');
+            if (foilTop) { foilTop.style.animation = 'none'; void foilTop.offsetWidth; foilTop.style.animation = ''; }
+            if (foilBody) { foilBody.style.animation = 'none'; void foilBody.offsetWidth; foilBody.style.animation = ''; }
 
             const container = document.getElementById('players-container');
             container.innerHTML = '';
@@ -1027,7 +1139,7 @@
                             <div class="bench-photo-container">
                                 ${photoHtml}
                             </div>
-                            <div class="nameplate-wrapper" style="margin-top: 10px; z-index: 14;">
+                            <div class="nameplate-wrapper" style="margin-top: 10px; z-index: 14; opacity: 1; transform: translateY(0);">
                                 <div class="player-nameplate" style="font-size: 24px; padding: 6px 20px;">${lastName}</div>
                             </div>
                         </div>
@@ -1036,7 +1148,7 @@
                 container.insertAdjacentHTML('beforeend', html);
             });
 
-            // 2. RENDER THE STARTER TRADING CARDS
+            // 2. RENDER THE STARTER TRADING CARDS (All Burst from Center at 1.5s!)
             const tagEl = document.getElementById('starting-tag');
             tagEl.textContent = "STARTING 5";
             tagEl.style.color = "var(--text-dark)";
@@ -1063,13 +1175,10 @@
 
                 const delays = [10.93, 18.15, 26.17, 33.72, 40.87]; 
                 const baseDelay = delays[index]; 
-                
-                const tDeal = baseDelay - 1.5; 
-                const tLand = baseDelay - 0.7; 
-                const tFlip = baseDelay; 
 
+                // Inject Custom Properties for the dynamic card burst trajectory
                 const html = `
-                    <div class="player-node starter-node" style="left: ${coords.x}%; top: ${coords.y}%; animation: dealCard 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; animation-delay: ${tDeal}s;">
+                    <div class="player-node starter-node anim-burst" style="--target-x: ${coords.x}%; --target-y: ${coords.y}%;">
                         <div class="cinematic-wrapper">
                             <div class="card-wrapper">
                                 <div id="shockwave-${index}" class="shockwave-ring"></div>
@@ -1087,7 +1196,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="nameplate-wrapper">
+                            <div id="nameplate-${index}" class="nameplate-wrapper">
                                 <div class="player-nameplate">${displayName}</div>
                             </div>
                         </div>
@@ -1095,26 +1204,38 @@
                 `;
                 container.insertAdjacentHTML('beforeend', html);
 
+                // --- TRACKING & EVENTS ---
+                // Spotlight tracks the specific player 0.5s before they are revealed
                 setTimeout(() => {
                     activePlayerIndex = index;
-                }, tDeal * 1000);
+                }, (baseDelay - 0.5) * 1000);
                 
+                // Announcer calls name - FLIP THE CARD, TRIGGER GLARE, DROP NAMEPLATE, AND QUAKE
                 setTimeout(() => {
+                    document.getElementById(`card-inner-${index}`).style.transform = 'rotateY(0deg)';
+                    document.getElementById(`glare-${index}`).classList.add('anim-glare');
+                    document.getElementById(`nameplate-${index}`).classList.add('nameplate-reveal');
+                    
                     const captureArea = document.getElementById('capture-area');
                     captureArea.classList.remove('quake-active');
                     void captureArea.offsetWidth;
                     captureArea.classList.add('quake-active');
-
-                    const shockwave = document.getElementById(`shockwave-${index}`);
-                    if (shockwave) shockwave.classList.add('anim-shockwave');
-                }, tLand * 1000); 
-
-                setTimeout(() => {
-                    document.getElementById(`card-inner-${index}`).style.transform = 'rotateY(0deg)';
-                    document.getElementById(`glare-${index}`).classList.add('anim-glare');
-                }, tFlip * 1000);
+                }, baseDelay * 1000);
 
             });
+
+            // --- MASSIVE GLOBAL QUAKE WHEN ALL CARDS LAND AT 2.5s ---
+            setTimeout(() => {
+                const captureArea = document.getElementById('capture-area');
+                captureArea.classList.remove('quake-active');
+                void captureArea.offsetWidth;
+                captureArea.classList.add('quake-active');
+                
+                for(let i = 0; i < 5; i++) {
+                    const shockwave = document.getElementById(`shockwave-${i}`);
+                    if (shockwave) shockwave.classList.add('anim-shockwave');
+                }
+            }, 2500); 
 
             // --- TRIGGER THE ARENA LIGHTS OFF AT 4.11s ---
             setTimeout(() => {
