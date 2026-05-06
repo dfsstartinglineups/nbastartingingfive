@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NBA Starting 5 - Game 2 Trading Cards (TikTok Vertical)</title>
+    <title>NBA Starting 5 - Game 1 Trading Cards (TikTok Vertical)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&family=Oswald:wght@500;700&family=Montserrat:ital,wght@0,800;1,900&display=swap" rel="stylesheet">
@@ -240,24 +240,30 @@
             border-radius: 50%;
         }
 
-        .watermark-logo {
+        /* --- DOUBLE WATERMARK LOGOS --- */
+        .broadcast-watermark {
             position: absolute;
-            top: 45%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 600px; 
-            height: 600px; 
-            object-fit: contain;
-            opacity: 0.25; 
-            z-index: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
             pointer-events: none;
-            filter: grayscale(50%) brightness(80%); 
         }
 
-        /* --- GAME 2 BROADCAST TEXT --- */
-        #game2-text {
+        .court-logo {
+            width: 380px; height: 380px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 30px rgba(255, 120, 0, 0.7)) sepia(0.3) hue-rotate(-20deg) saturate(1.5);
+            opacity: 0.35;
+        }
+
+        /* Game 1 text firmly locked to Center Court (top: 0%) */
+        #game1-text {
             position: absolute;
-            top: 38%; left: 50%;
+            top: 0%; left: 50%;
             transform: translate(-50%, -50%);
             font-family: 'Montserrat', sans-serif;
             font-weight: 900;
@@ -266,7 +272,7 @@
             color: #fff;
             letter-spacing: 5px;
             text-transform: uppercase;
-            z-index: 2; 
+            z-index: 100; 
             white-space: nowrap;
             text-shadow: 0 5px 15px rgba(0,0,0,0.5), 0 0 0 8px var(--team-primary), 5px 5px 0 var(--team-secondary);
             opacity: 0;
@@ -276,7 +282,7 @@
         }
 
         @keyframes slideInText {
-            0% { opacity: 0; transform: translate(-50%, 0%); filter: blur(10px); }
+            0% { opacity: 0; transform: translate(-50%, -500px); filter: blur(10px); }
             100% { opacity: 1; transform: translate(-50%, -50%); filter: blur(0px); }
         }
 
@@ -302,49 +308,34 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            transform: translate(-50%, -50%);
+            /* Handled in jump/drop keyframes */
         }
 
-        /* --- BENCH STYLING & RALLY TOWELS --- */
+        /* --- DELAYED BENCH DROP & STYLING --- */
         .bench-node {
             z-index: 5; 
+            opacity: 0; /* Starts completely invisible! */
         }
         
         .bench-node .player-position, .bench-node .player-number {
             display: none; 
         }
 
+        @keyframes benchDropIn {
+            0% { opacity: 0; transform: translate(-50%, -400px) scale(0.85); }
+            10% { opacity: 1; }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(0.85); }
+        }
+
         @keyframes benchJump {
-            0%, 100% { transform: translate(-50%, 0%) scale(0.85); }
-            50% { transform: translate(-50%, -15%) scale(0.85); }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
         }
 
-        /* FIXED: Added a subtle stripe texture to the rally towel */
-        .rally-towel {
-            position: absolute;
-            bottom: 0px; 
-            left: -10px;
-            width: 35px; 
-            height: 60px;
-            background: #fff;
-            border-radius: 6px;
-            transform-origin: top center;
-            animation: waveTowel 0.4s infinite alternate ease-in-out;
-            z-index: 15;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-            border: 2px solid #ddd;
-            background-image: repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(0,0,0,0.05) 4px, rgba(0,0,0,0.05) 8px);
-        }
-
-        @keyframes waveTowel {
-            0% { transform: rotate(-20deg) skewX(15deg); }
-            100% { transform: rotate(50deg) skewX(-15deg); }
-        }
-
-        /* FIXED: True 1:1 Aspect Ratio container for the bench photos */
+        /* Upscaled Bench Photo Container */
         .bench-photo-container {
-            width: 140px;  
-            height: 140px; 
+            width: 170px;  
+            height: 170px; 
             border-radius: 50%;
             border: 6px solid var(--team-secondary); 
             background-color: #222; 
@@ -481,7 +472,7 @@
         }
 
         .nameplate-wrapper {
-            display: flex; align-items: stretch; 
+            display: flex; align-items: stretch; margin-top: 20px; 
             z-index: 14; position: relative; box-shadow: 0 5px 10px rgba(0,0,0,0.3);
             border-radius: 8px; overflow: hidden; border: 1px solid rgba(0,0,0,0.1);
         }
@@ -517,18 +508,16 @@
         .anim-header-tag { animation: headerSlideDown 1s ease-out 0.5s forwards; opacity: 0; }
         .anim-team-name { animation: teamNameZoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.5s forwards; opacity: 0; }
         .anim-logo { animation: logoSpinIn 0.8s ease-out 2.5s forwards; opacity: 0; }
-        .anim-watermark { animation: watermarkFadeIn 1.5s ease-out 2.5s forwards; opacity: 0; }
 
         @keyframes headerSlideDown { 0% { opacity: 0; transform: translateY(-40px); } 100% { opacity: 1; transform: translateY(0); } }
         @keyframes teamNameZoom { 0% { opacity: 0; transform: scale(1.8) rotate(-3deg); filter: blur(8px); } 100% { opacity: 1; transform: scale(1) rotate(0deg); filter: blur(0); } }
         @keyframes logoSpinIn { 0% { opacity: 0; transform: translateX(100px) rotate(90deg) scale(0.2); } 100% { opacity: 1; transform: translateX(0) rotate(0) scale(1); filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); } }
-        @keyframes watermarkFadeIn { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); filter: blur(10px); } 100% { opacity: 0.35; transform: translate(-50%, -50%) scale(1); filter: blur(0); } }
 
         /* ========================================================
            THE CLEAN BENCH EXIT
            ======================================================== */
-        @keyframes slideOffRight { 0% { transform: translate(-50%, -15%) scale(0.85); opacity: 1; } 100% { transform: translate(1500%, -15%) scale(0.85); opacity: 0; } }
-        @keyframes slideOffLeft { 0% { transform: translate(-50%, -15%) scale(0.85); opacity: 1; } 100% { transform: translate(-1500%, -15%) scale(0.85); opacity: 0; } }
+        @keyframes slideOffRight { 0% { transform: translate(-50%, -50%) scale(0.85); opacity: 1; } 100% { transform: translate(1500%, -50%) scale(0.85); opacity: 0; } }
+        @keyframes slideOffLeft { 0% { transform: translate(-50%, -50%) scale(0.85); opacity: 1; } 100% { transform: translate(-1500%, -50%) scale(0.85); opacity: 0; } }
 
     </style>
 </head>
@@ -572,9 +561,15 @@
                 <div class="free-throw-circle"></div>
                 <div class="paint-area"></div>
                 
-                <img id="watermark" class="watermark-logo" src="" alt="">
+                <div id="center-watermark" class="broadcast-watermark" style="top: 0%;">
+                    <img class="court-logo" src="" alt="">
+                </div>
                 
-                <div id="game2-text">GAME 2</div>
+                <div id="paint-watermark" class="broadcast-watermark" style="top: 75%;">
+                    <img class="court-logo" src="" alt="">
+                </div>
+                
+                <div id="game1-text" class="neon-game-text">GAME 1</div>
 
                 <div id="players-container"></div>
             </div>
@@ -619,13 +614,13 @@
 
         const POSITIONS = ["PG", "SG", "SF", "PF", "C"];
         
-        // --- VERTICAL COURT MAPPING ---
+        // --- NEW SPREAD COURT MAPPING FOR VERTICAL FORMAT ---
         const COURT_COORDS = [
-            { x: 50, y: 15 }, 
-            { x: 20, y: 38 }, 
-            { x: 80, y: 38 }, 
-            { x: 30, y: 68 }, 
-            { x: 70, y: 68 }  
+            { x: 50, y: 25 }, // PG - Top
+            { x: 20, y: 50 }, // SG - Mid Left
+            { x: 80, y: 50 }, // SF - Mid Right
+            { x: 30, y: 78 }, // PF - Bottom Left
+            { x: 70, y: 78 }  // C  - Bottom Right
         ];
 
         let allGames = [];
@@ -682,10 +677,10 @@
 
         function drawMainHalo(ctx, x, y, innerR, outerR, color1, color2) {
             const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
-            grad.addColorStop(0, 'rgba(0, 0, 0, 0)'); // Inner core stays totally clear       
-            grad.addColorStop(0.15, hexToRgba(color1, 0.65)); // Bright primary edge
-            grad.addColorStop(0.6, hexToRgba(color2, 0.45)); // Transitions to secondary
-            grad.addColorStop(1, 'rgba(0, 0, 0, 0)'); // Fades cleanly into the darkness
+            grad.addColorStop(0, 'rgba(0, 0, 0, 0)');      
+            grad.addColorStop(0.15, hexToRgba(color1, 0.65)); 
+            grad.addColorStop(0.6, hexToRgba(color2, 0.45)); 
+            grad.addColorStop(1, 'rgba(0, 0, 0, 0)'); 
             ctx.fillStyle = grad;
             ctx.beginPath();
             ctx.arc(x, y, outerR, 0, Math.PI * 2);
@@ -975,16 +970,17 @@
             void logoEl.offsetWidth; 
             logoEl.classList.add('anim-logo');
             
-            const watermarkEl = document.getElementById('watermark');
-            watermarkEl.src = logoUrl;
-            
+            // Pop the logos to the dual watermarks
+            const logos = document.querySelectorAll('.court-logo');
+            logos.forEach(logo => logo.src = logoUrl);
+
             const container = document.getElementById('players-container');
             container.innerHTML = '';
 
             const starters = game.rosters[targetAbbr].players.slice(0, 5);
             const bench = (game.rosters[targetAbbr].bench || []).slice(0, 7);
 
-            // 1. RENDER THE BENCH WITH RALLY TOWELS
+            // 1. RENDER THE BENCH
             bench.forEach((player, index) => {
                 const dbPlayer = getPlayerData(player.name);
                 const photoUrl = dbPlayer ? dbPlayer.photo : null;
@@ -1000,18 +996,15 @@
                 const jumpSpeed = (0.6 + Math.random() * 0.4).toFixed(2);
                 const jumpOffset = (Math.random() * -1).toFixed(2);
 
-                // FIXED: Pushed bench higher up (top: -14%) and added dedicated bench-photo-container to fix squishing
                 const html = `
-                    <div class="player-node bench-node" style="left: ${benchX}%; top: -14%; animation: benchJump ${jumpSpeed}s infinite ease-in-out; animation-delay: ${jumpOffset}s;">
-                        <div class="cinematic-wrapper">
-                            <div class="photo-wrapper" style="width: 140px; height: 140px; position: relative;">
-                                <div class="rally-towel"></div>
-                                <div class="bench-photo-container">
-                                    ${photoHtml}
-                                </div>
+                    <div id="bench-node-${index}" class="player-node bench-node" 
+                         style="left: ${benchX}%; top: -20%; animation: benchDropIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) ${3.5 + index * 0.1}s forwards;">
+                        <div class="cinematic-wrapper" style="animation: benchJump ${jumpSpeed}s infinite ease-in-out ${jumpOffset}s;">
+                            <div class="bench-photo-container">
+                                ${photoHtml}
                             </div>
-                            <div class="nameplate-wrapper" style="margin-top: 10px; z-index: 14;">
-                                <div class="player-nameplate" style="font-size: 20px; padding: 4px 16px;">${lastName}</div>
+                            <div class="nameplate-wrapper" style="margin-top: 10px;">
+                                <div class="player-nameplate" style="font-size: 24px; padding: 6px 20px;">${lastName}</div>
                             </div>
                         </div>
                     </div>
@@ -1047,6 +1040,7 @@
                 const delays = [10.93, 18.15, 26.17, 33.72, 40.87]; 
                 const baseDelay = delays[index]; 
                 
+                // Timing for the Card Deal and Reveal
                 const tDeal = baseDelay - 1.5; 
                 const tLand = baseDelay - 0.7; 
                 const tFlip = baseDelay; 
@@ -1078,10 +1072,12 @@
                 `;
                 container.insertAdjacentHTML('beforeend', html);
 
+                // Spotlight tracks deal
                 setTimeout(() => {
                     activePlayerIndex = index;
                 }, tDeal * 1000);
                 
+                // Card Lands - Quake and Shockwave
                 setTimeout(() => {
                     const captureArea = document.getElementById('capture-area');
                     captureArea.classList.remove('quake-active');
@@ -1092,6 +1088,7 @@
                     if (shockwave) shockwave.classList.add('anim-shockwave');
                 }, tLand * 1000); 
 
+                // Announcer calls name - FLIP THE CARD and trigger GLARE
                 setTimeout(() => {
                     document.getElementById(`card-inner-${index}`).style.transform = 'rotateY(0deg)';
                     document.getElementById(`glare-${index}`).classList.add('anim-glare');
@@ -1106,7 +1103,7 @@
                 }
                 trackingSpotlight = true;
                 
-                currentSpotX = 540; currentSpotY = 960; 
+                currentSpotX = 540; currentSpotY = 960; // Adjusted for taller court
                 moveRoamingLights();
                 
                 roamSpot1.x = roamSpot1.targetX; roamSpot1.y = roamSpot1.targetY;
@@ -1129,7 +1126,11 @@
                 
                 Array.from(benchNodes).forEach((node, idx) => {
                     node.style.animation = 'none'; 
-                    node.style.transform = 'translate(-50%, -15%) scale(0.85)'; 
+                    // Stop Jump and prepare for exit
+                    const innerWrap = node.querySelector('.cinematic-wrapper');
+                    if (innerWrap) innerWrap.style.animation = 'none';
+
+                    node.style.transform = 'translate(-50%, -50%) scale(1)'; 
                     void node.offsetWidth; 
                     
                     const pushDir = idx % 2 === 0 ? 'slideOffLeft' : 'slideOffRight';
