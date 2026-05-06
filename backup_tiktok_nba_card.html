@@ -251,17 +251,27 @@
             justify-content: center;
             z-index: 2;
             pointer-events: none;
+            opacity: 0; /* Starts completely hidden */
         }
 
         .court-logo {
             width: 380px; height: 380px;
             object-fit: contain;
             filter: drop-shadow(0 0 30px rgba(255, 120, 0, 0.7)) sepia(0.3) hue-rotate(-20deg) saturate(1.5);
-            opacity: 0.35;
+            /* Opacity handled by the wrapper animation now */
         }
 
-        /* --- GAME 2 TEXT FIXED --- */
-        /* Z-index dropped to 18 so it sits perfectly behind the Spotlight Canvas (20) */
+        /* New Watermark Entrance matched to the Team Name */
+        .anim-watermark-drop {
+            animation: watermarkDrop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.5s forwards;
+        }
+
+        @keyframes watermarkDrop {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); filter: blur(8px); }
+            100% { opacity: 0.35; transform: translate(-50%, -50%) scale(1); filter: blur(0px); }
+        }
+
+        /* --- GAME 2 BROADCAST TEXT --- */
         #game2-text {
             position: absolute;
             top: 0%; left: 50%;
@@ -273,17 +283,17 @@
             color: #fff;
             letter-spacing: 5px;
             text-transform: uppercase;
-            z-index: 18; /* Puts it below the darkness, but above the PG */
+            z-index: 18; 
             white-space: nowrap;
             text-shadow: 0 5px 15px rgba(0,0,0,0.5), 0 0 0 8px var(--team-primary), 5px 5px 0 var(--team-secondary);
             opacity: 0;
-            animation: slideInText 1s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
-            animation-delay: 2.5s;
+            animation: slideInText 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            animation-delay: 3.4s; /* Drops just a fraction of a second before the bench starts */
             pointer-events: none;
         }
 
         @keyframes slideInText {
-            0% { opacity: 0; transform: translate(-50%, -500px); filter: blur(10px); }
+            0% { opacity: 0; transform: translate(-50%, -300px); filter: blur(10px); }
             100% { opacity: 1; transform: translate(-50%, -50%); filter: blur(0px); }
         }
 
@@ -332,7 +342,7 @@
             50% { transform: translateY(-15px); }
         }
 
-        /* Upscaled Bench Photo Container */
+        /* FIXED: Absolute positioning removed so nameplates don't overlap faces */
         .bench-photo-container {
             width: 170px;  
             height: 170px; 
@@ -342,8 +352,7 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.4); 
             z-index: 12;
             overflow: hidden;
-            position: absolute;
-            top: 0; left: 0;
+            position: relative; /* Now correctly pushes the nameplate down */
             box-sizing: border-box;
         }
 
@@ -972,6 +981,22 @@
             
             const logos = document.querySelectorAll('.court-logo');
             logos.forEach(logo => logo.src = logoUrl);
+            
+            // Re-trigger Watermark Animations
+            const watermarks = document.querySelectorAll('.broadcast-watermark');
+            watermarks.forEach(wm => {
+                wm.classList.remove('anim-watermark-drop');
+                void wm.offsetWidth;
+                wm.classList.add('anim-watermark-drop');
+            });
+            
+            // Re-trigger Game 2 Text Animation
+            const gameText = document.getElementById('game2-text');
+            if (gameText) {
+                gameText.style.animation = 'none';
+                void gameText.offsetWidth;
+                gameText.style.animation = ''; // Let CSS take over again
+            }
 
             const container = document.getElementById('players-container');
             container.innerHTML = '';
