@@ -82,7 +82,7 @@
         .lights-out-mode #spotlight-canvas { opacity: 1; }
 
         /* ========================================================
-           THE TRANSPARENT PNG & TIGHT HUD SYSTEM 
+           THE TRANSPARENT PNG & TIGHT HUD SYSTEM
            ======================================================== */
         #players-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 15; pointer-events: none; }
         
@@ -114,7 +114,6 @@
         }
         .hud-reveal { opacity: 1; }
 
-        /* FIXED: Pushed up to the ears, pulled inward tightly to bracket the head */
         .hud-pos, .hud-num {
             position: absolute; 
             bottom: 190px; 
@@ -134,7 +133,6 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.6), 4px 4px 0 var(--team-secondary);
         }
 
-        /* FIXED: Restored explicit width/height to Bench so they center mathematically */
         .bench-node { 
             z-index: 5; 
             width: 150px; height: 200px; 
@@ -317,7 +315,7 @@
         
         // --- SPREAD COURT MAPPING FOR 1250px VERTICAL COURT ---
         const COURT_COORDS = [
-            { x: 50, y: 25 }, 
+            { x: 50, y: 18 }, // PG adjusted up from 25% to 18% 
             { x: 20, y: 48 }, 
             { x: 80, y: 48 }, 
             { x: 30, y: 78 }, 
@@ -586,7 +584,7 @@
             const container = document.getElementById('players-container'); container.innerHTML = '';
             const starters = game.rosters[targetAbbr].players.slice(0, 5); const bench = (game.rosters[targetAbbr].bench || []).slice(0, 7);
 
-            // FIXED: Mathematically Centered Bench Spacing
+            // RENDER BENCH
             const benchSpacing = bench.length > 1 ? 80 / (bench.length - 1) : 0; 
             
             bench.forEach((player, index) => {
@@ -597,7 +595,7 @@
                 const benchX = 10 + (index * benchSpacing); 
 
                 const html = `
-                    <div id="bench-node-${index}" class="player-node bench-node" style="left: ${benchX}%; top: -24%; --entrance-delay: ${3.5 + index * 0.1}s;">
+                    <div id="bench-node-${index}" class="player-node bench-node" style="left: ${benchX}%; top: -18%; --entrance-delay: ${3.5 + index * 0.1}s;">
                         <div class="player-cutout-wrapper">
                             ${photoHtml}
                             <div class="player-hud hud-reveal">
