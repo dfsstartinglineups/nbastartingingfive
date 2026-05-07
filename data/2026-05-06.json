@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 06, 10:16 PM ET",
+  "last_updated": "May 06, 10:18 PM ET",
   "player_news": [
     {
       "player_name": "Josh Hart",
@@ -7,9 +7,9 @@
       "position": "SF",
       "status_badge": "RET",
       "description": "Has Returned",
-      "time_elapsed": "57m",
+      "time_elapsed": "59m",
       "next_game": "Wednesday vs PHI",
-      "local_timestamp": 1778120278.8942106
+      "local_timestamp": 1778120394.1504586
     },
     {
       "player_name": "Carter Bryant",
@@ -19,7 +19,7 @@
       "description": "Playing",
       "time_elapsed": "1.6h",
       "next_game": "Wednesday vs MIN",
-      "local_timestamp": 1778120278.8922107
+      "local_timestamp": 1778120394.1484587
     },
     {
       "player_name": "Anthony Edwards",
@@ -29,7 +29,7 @@
       "description": "Playing knee",
       "time_elapsed": "2.2h",
       "next_game": "Wednesday @SAS",
-      "local_timestamp": 1778120278.8912106
+      "local_timestamp": 1778120394.1474586
     },
     {
       "player_name": "Mitchell Robinson",
@@ -37,9 +37,9 @@
       "position": "C",
       "status_badge": "OUT",
       "description": "Out illness",
-      "time_elapsed": "3.6h",
+      "time_elapsed": "3.7h",
       "next_game": "Wednesday vs PHI",
-      "local_timestamp": 1778120278.8902106
+      "local_timestamp": 1778120394.1464586
     },
     {
       "player_name": "Ayo Dosunmu",
@@ -49,7 +49,7 @@
       "description": "Playing right calf soreness",
       "time_elapsed": "9.8h",
       "next_game": "Wednesday @SAS",
-      "local_timestamp": 1778120278.8802106
+      "local_timestamp": 1778120394.1364586
     },
     {
       "player_name": "Joel Embiid",
@@ -1809,6 +1809,11 @@
                     "value": 24.0,
                     "displayValue": "24",
                     "period": 1
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 2
                   }
                 ],
                 "statistics": [
@@ -2149,6 +2154,11 @@
                     "value": 17.0,
                     "displayValue": "17",
                     "period": 1
+                  },
+                  {
+                    "value": 2.0,
+                    "displayValue": "2",
+                    "period": 2
                   }
                 ],
                 "statistics": [
@@ -2362,7 +2372,7 @@
                     "leaders": [
                       {
                         "displayValue": "6 REB",
-                        "value": 8.199999809265137,
+                        "value": 9.0,
                         "athlete": {
                           "id": "3032976",
                           "fullName": "Rudy Gobert",
@@ -2423,32 +2433,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401871153174",
+                "id": "401871153179",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "584",
+                  "text": "Substitution"
                 },
-                "text": "End of the 1st Quarter",
+                "text": "Mike Conley enters the game for Terrence Shannon Jr.",
                 "scoreValue": 0,
+                "team": {
+                  "id": "16"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
                   "homeWinPercentage": 0.858,
                   "awayWinPercentage": 0.14200000000000002
-                }
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "3195",
+                    "fullName": "Mike Conley",
+                    "displayName": "Mike Conley",
+                    "shortName": "M. Conley",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/3195/mike-conley"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/3195.png",
+                    "jersey": "10",
+                    "position": "G",
+                    "team": {
+                      "id": "16"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 1,
+              "clock": 720.0,
+              "displayClock": "12:00",
+              "period": 2,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "End of Period",
-                "detail": "End of 1st Quarter",
-                "shortDetail": "End of 1st"
+                "description": "In Progress",
+                "detail": "12:00 - 2nd Quarter",
+                "shortDetail": "12:00 - 2nd"
               }
             },
             "broadcasts": [
@@ -2565,17 +2602,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 1,
+          "clock": 720.0,
+          "displayClock": "12:00",
+          "period": 2,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "End of Period",
-            "detail": "End of 1st Quarter",
-            "shortDetail": "End of 1st"
+            "description": "In Progress",
+            "detail": "12:00 - 2nd Quarter",
+            "shortDetail": "12:00 - 2nd"
           }
         }
       }
