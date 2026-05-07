@@ -62,10 +62,33 @@
             position: absolute; top: 0%; left: 50%; transform: translate(-50%, -50%);
             font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; font-size: 140px;
             color: var(--team-primary); letter-spacing: 5px; text-transform: uppercase;
-            z-index: 18; white-space: nowrap; opacity: 0; animation: slideInText 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; animation-delay: 3.4s; pointer-events: none;
+            z-index: 18; white-space: nowrap; opacity: 0;
+            animation: slideInText 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; animation-delay: 3.4s; pointer-events: none;
         }
         #game2-text::before { content: attr(data-text); position: absolute; left: 0; top: 0; z-index: -1; -webkit-text-stroke: 12px #fff; text-shadow: 6px 6px 0 var(--team-secondary), 0 15px 25px rgba(0,0,0,0.5); }
         @keyframes slideInText { 0% { opacity: 0; transform: translate(-50%, -300px); filter: blur(10px); } 100% { opacity: 1; transform: translate(-50%, -50%); filter: blur(0px); } }
+
+        /* --- THE NEW BOTTOM BANNER (AD ZONE) --- */
+        #bottom-banner {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%; height: 120px;
+            background-color: var(--team-primary);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 40px; box-sizing: border-box;
+            border-top: 6px solid var(--team-secondary);
+            z-index: 100; /* Stays above the darkness */
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+        }
+        .banner-left {
+            font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic;
+            font-size: 45px; color: #fff; text-transform: uppercase;
+            text-shadow: 3px 3px 0 var(--team-secondary); letter-spacing: 1px;
+        }
+        .banner-right {
+            font-family: 'Teko', sans-serif; font-weight: 600; font-size: 50px;
+            color: #fff; text-transform: uppercase; letter-spacing: 3px;
+            text-shadow: 2px 2px 0 var(--team-secondary); padding-top: 10px;
+        }
 
         /* --- CANVAS LIGHTING ENGINE --- */
         #spotlight-canvas { position: absolute; top: 0; left: 0; width: 1080px; height: 1920px; z-index: 20; opacity: 0; pointer-events: none; transition: opacity 1.5s ease; }
@@ -76,10 +99,9 @@
            ======================================================== */
         #players-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 15; pointer-events: none; }
         
-        /* FIXED: Master container has fixed height so HUD anchors perfectly to feet */
         .player-node { 
             position: absolute; 
-            width: 300px; height: 350px; /* Fixed block for alignment */
+            width: 300px; height: 350px; 
             transform: translate(-50%, -50%); 
         }
         
@@ -94,7 +116,6 @@
             filter: drop-shadow(0 20px 15px rgba(0,0,0,0.7)); transition: all 0.4s ease;
         }
 
-        /* Makes the active player pop brilliantly in the dark */
         .player-highlight .player-photo {
             transform: scale(1.15) translateY(-10px);
             filter: brightness(1.2) drop-shadow(0 0 25px var(--team-primary)) drop-shadow(0 20px 15px rgba(0,0,0,0.9));
@@ -109,7 +130,7 @@
         .hud-reveal { opacity: 1; transform: translateX(-50%) scale(1); }
 
         .hud-pos, .hud-num {
-            position: absolute; top: 0px; 
+            position: absolute; top: 40px; 
             font-family: 'Teko', sans-serif; font-size: 30px; font-weight: bold; color: var(--text-dark);
             background: #fff; padding: 2px 14px; border-radius: 6px; border: 4px solid var(--team-secondary);
             line-height: 1.1; box-shadow: 3px 3px 0 var(--team-primary);
@@ -130,49 +151,40 @@
            THE 9-PLAY RANDOMIZED ENTRANCE ANIMATIONS 
            ======================================================== */
         
-        /* 1. Hero Drop */
         .anim-hero-drop { animation: heroDrop 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) var(--entrance-delay) both; }
         @keyframes heroDrop { 0% { transform: translate(-50%, -50%) scale(4); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
 
-        /* 2. Speed Dash */
         .anim-speed-dash { animation: speedDash 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) var(--entrance-delay) both; }
         @keyframes speedDash { 0% { transform: translate(-500%, -50%) skewX(-30deg); opacity: 0; filter: blur(10px); } 100% { transform: translate(-50%, -50%) skewX(0); opacity: 1; filter: blur(0); } }
 
-        /* 3. Cyber Scan */
         .anim-cyber-scan { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
         .anim-cyber-scan .player-photo { animation: cyberScan 1.2s ease-in-out var(--entrance-delay) both; }
         .anim-cyber-scan::after { content:''; position:absolute; bottom:50px; left:-10%; width:120%; height:4px; background:cyan; box-shadow:0 0 15px cyan; animation: scanLine 1.2s linear var(--entrance-delay) both; z-index:25; }
         @keyframes cyberScan { 0% { clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%); } 100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); } }
         @keyframes scanLine { 0% { bottom: 50px; opacity:1; } 95% { bottom: 330px; opacity:1; } 100% { bottom: 330px; opacity:0; display:none;} }
 
-        /* 4. Silhouette Riser */
         .anim-silhouette { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
         .anim-silhouette .player-photo { animation: silRise 1.2s ease-out var(--entrance-delay) both; }
         @keyframes silRise { 0% { filter: brightness(0) drop-shadow(0 0 0 transparent); transform: translateY(30px); } 100% { filter: brightness(1) drop-shadow(0 20px 15px rgba(0,0,0,0.6)); transform: translateY(0); } }
 
-        /* 5. Arcade Spin */
         .anim-arcade-spin { animation: arcadeSpin 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) var(--entrance-delay) both; }
         @keyframes arcadeSpin { 0% { transform: translate(-50%, -50%) rotateY(1080deg) scale(2); opacity: 0; } 100% { transform: translate(-50%, -50%) rotateY(0deg) scale(1); opacity: 1; } }
 
-        /* 6. Dimensional Rift */
         .anim-rift { animation: riftPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) var(--entrance-delay) both; }
         .anim-rift::after { content: ''; position: absolute; top: 50%; left: 50%; width: 300px; height: 400px; background: radial-gradient(circle, #0ff 0%, transparent 60%); transform: translate(-50%, -50%); mix-blend-mode: screen; animation: riftFlash 0.8s ease-out var(--entrance-delay) both; z-index:-1; }
         @keyframes riftPop { 0% { transform: translate(-50%, -50%) scale(0.3); filter: grayscale(1) contrast(3) blur(10px); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); filter: grayscale(0) contrast(1) blur(0); opacity: 1; } }
         @keyframes riftFlash { 0% { transform: translate(-50%, -50%) scale(0); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(2); opacity: 0; display: none; } }
 
-        /* 7. Taz Tornado Spin (With Dust Cloud!) */
         .anim-taz-spin { animation: tazSpin 1s cubic-bezier(0.1, 0.8, 0.3, 1) var(--entrance-delay) both; }
         .anim-taz-spin::before { content: ''; position: absolute; bottom: 30px; left: 50%; width: 200px; height: 50px; background: radial-gradient(ellipse, rgba(200,200,200,0.8), transparent 70%); filter: blur(4px); animation: dustCloud 1s ease-out var(--entrance-delay) both; z-index: 25; }
         @keyframes tazSpin { 0% { transform: translate(300%, -200%) rotateY(3600deg); filter: blur(6px); opacity: 0; } 10% { opacity: 1; } 100% { transform: translate(-50%, -50%) rotateY(0deg); filter: blur(0); opacity: 1; } }
         @keyframes dustCloud { 0% { transform: translateX(-50%) scale(0.2); opacity: 1; } 80% { transform: translateX(-50%) scale(1.5); opacity: 0.8; } 100% { transform: translateX(-50%) scale(2.5); opacity: 0; display: none; } }
 
-        /* 8. Zipline (With Cable!) */
         .anim-zipline { animation: zipline 1s cubic-bezier(0.1, 0.8, 0.3, 1) var(--entrance-delay) both; }
         .anim-zipline::after { content:''; position: absolute; top: -1500px; left: 50%; width: 2px; height: 1500px; background: #fff; transform-origin: bottom center; transform: rotate(-25deg); animation: cableSnap 1s var(--entrance-delay) both; z-index: -1; }
         @keyframes zipline { 0% { transform: translate(-200%, -500%) rotateZ(-15deg); opacity: 0; } 10% { opacity: 1; } 80% { transform: translate(-45%, -45%) rotateZ(5deg); } 100% { transform: translate(-50%, -50%) rotateZ(0deg); opacity: 1; } }
         @keyframes cableSnap { 0% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; display: none; } }
 
-        /* 9. Ice Breaker (With Melting Block & Fire!) */
         .anim-ice-breaker { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
         .anim-ice-breaker .player-photo { animation: iceMelt 1.5s ease-in var(--entrance-delay) both; }
         .anim-ice-breaker::after { content: ''; position: absolute; bottom: 40px; left: 50%; width: 250px; height: 300px; background: rgba(150, 220, 255, 0.3); border: 2px solid rgba(255,255,255,0.5); border-radius: 10px; backdrop-filter: blur(2px); transform-origin: bottom; transform: translateX(-50%); animation: blockMelt 1.5s ease-in var(--entrance-delay) both; z-index: 25; }
@@ -187,7 +199,6 @@
         .bench-node { z-index: 5; width: 150px; height: 200px; }
         .bench-node .player-cutout-wrapper { height: 150px; bottom: 30px; }
         .bench-node .hud-name { font-size: 16px; padding: 4px 12px; bottom: 0px; }
-        .bench-node .hud-pos, .bench-node .hud-num { font-size: 18px; top: 15px; padding: 2px 8px; border-width: 2px; }
         @keyframes benchDropIn { 0% { transform: translate(-50%, -400px); opacity: 0; } 100% { transform: translate(-50%, -50%); opacity: 1; } }
 
         /* --- SHOCKWAVE RING --- */
@@ -269,6 +280,11 @@
         </div>
 
         <canvas id="spotlight-canvas" width="1080" height="1920"></canvas>
+
+        <div id="bottom-banner">
+            <div id="banner-team-name" class="banner-left">LOADING...</div>
+            <div class="banner-right">NBASTARTINGFIVE.COM</div>
+        </div>
     </div>
 
     <script>
@@ -396,7 +412,6 @@
                 targetY = (targetRect.top + targetRect.height / 2) - captureArea.top;
             }
             
-            // MAIN SPOTLIGHT TRACKS MUCH FASTER NOW (0.3)
             currentSpotX += (targetX - currentSpotX) * 0.3;
             currentSpotY += (targetY - currentSpotY) * 0.3;
             
@@ -405,7 +420,6 @@
             currentInnerR += (targetInnerR - currentInnerR) * 0.05;
             currentOuterR += (targetOuterR - currentOuterR) * 0.05;
             
-            // Party Spotlights Smooth Tracking
             roamSpot1.x += (roamSpot1.targetX - roamSpot1.x) * 0.07; roamSpot1.y += (roamSpot1.targetY - roamSpot1.y) * 0.07;
             roamSpot2.x += (roamSpot2.targetX - roamSpot2.x) * 0.07; roamSpot2.y += (roamSpot2.targetY - roamSpot2.y) * 0.07;
             roamSpot3.x += (roamSpot3.targetX - roamSpot3.x) * 0.07; roamSpot3.y += (roamSpot3.targetY - roamSpot3.y) * 0.07;
@@ -561,6 +575,10 @@
             const teamNameStr = targetData ? targetData.name : targetAbbr; const teamNameEl = document.getElementById('team-name');
             teamNameEl.textContent = teamNameStr; teamNameEl.setAttribute('data-text', teamNameStr);
             teamNameEl.classList.remove('anim-team-name'); void teamNameEl.offsetWidth; teamNameEl.classList.add('anim-team-name');
+            
+            // Set Bottom Banner Name
+            document.getElementById('banner-team-name').textContent = teamNameStr;
+
             document.getElementById('matchup-info').textContent = `${isHome ? 'VS' : '@'} ${oppData ? oppData.name : oppAbbr}  |  ${game.date}`;
             
             const logoUrl = getNbaLogo(targetAbbr); const logoEl = document.getElementById('team-logo'); logoEl.src = logoUrl;
@@ -577,11 +595,9 @@
             const container = document.getElementById('players-container'); container.innerHTML = '';
             const starters = game.rosters[targetAbbr].players.slice(0, 5); const bench = (game.rosters[targetAbbr].bench || []).slice(0, 7);
 
-            // RENDER BENCH
+            // RENDER BENCH (No cards! Just mini holograms dropping in)
             bench.forEach((player, index) => {
                 const dbPlayer = getPlayerData(player.name); const photoUrl = dbPlayer ? dbPlayer.photo : null;
-                const jerseyNum = dbPlayer && dbPlayer.jersey ? dbPlayer.jersey : "";
-                const pos = dbPlayer && dbPlayer.position ? dbPlayer.position : "RES";
                 const lastName = player.name.split(' ').pop().substring(0, 10); 
                 
                 const photoHtml = (photoUrl && photoUrl.trim() !== '') ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` : `<div class="fallback-silhouette"></div>`;
@@ -589,12 +605,10 @@
 
                 const html = `
                     <div id="bench-node-${index}" class="player-node bench-node" style="left: ${benchX}%; top: -12%; animation: benchDropIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) ${3.5 + index * 0.1}s both;">
-                        <div class="player-cutout-wrapper">
+                        <div class="player-cutout-wrapper" style="transform: scale(0.55);">
                             ${photoHtml}
                         </div>
-                        <div class="player-hud hud-reveal">
-                            <div class="hud-pos">${pos}</div>
-                            ${jerseyNum ? `<div class="hud-num">#${jerseyNum}</div>` : ''}
+                        <div class="player-hud hud-reveal" style="transform: translate(-50%, -50%) scale(0.65); top: 50%;">
                             <div class="hud-name">${lastName}</div>
                         </div>
                     </div>
@@ -607,7 +621,6 @@
             tagEl.style.color = "var(--text-dark)"; tagEl.style.textShadow = "1px 1px 0px rgba(255,255,255,0.5)";
             tagEl.classList.remove('anim-header-tag'); void tagEl.offsetWidth; tagEl.classList.add('anim-header-tag');
 
-            // Shuffle the 9 animations
             let shuffledAnims = ENTRANCE_STYLES.sort(() => 0.5 - Math.random());
 
             starters.forEach((player, index) => {
@@ -636,7 +649,7 @@
                 `;
                 container.insertAdjacentHTML('beforeend', html);
 
-                // FIXED: Tracking Spotlight Pre-emptively locks on BEFORE they drop!
+                // Tracking Spotlight Pre-emptively locks on BEFORE they drop
                 setTimeout(() => { activePlayerIndex = index; }, (baseDelay - 1.5) * 1000);
                 
                 // Announcer Pop & HUD Reveal
@@ -661,7 +674,6 @@
                 roamSpot2.x = roamSpot2.targetX; roamSpot2.y = roamSpot2.targetY;
                 roamSpot3.x = roamSpot3.targetX; roamSpot3.y = roamSpot3.targetY;
                 roamSpot4.x = roamSpot4.targetX; roamSpot4.y = roamSpot4.targetY;
-                // SLOWED the roaming spotlight updates down to 1.2s for a smoother aesthetic
                 renderSpotlights(); roamingInterval = setInterval(moveRoamingLights, 1200); 
             }, 4110); 
 
