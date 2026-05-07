@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NBA Starting 5 - Game 2 Trading Cards (TikTok Vertical)</title>
+    <title>NBA Starting 5 - Game 2 Transparent Holograms</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&family=Oswald:wght@500;700&family=Montserrat:ital,wght@0,800;1,900&display=swap" rel="stylesheet">
@@ -75,7 +75,6 @@
             border-bottom: 20px solid var(--team-primary);
         }
 
-        /* --- THE QUAKE EFFECT --- */
         @keyframes arenaQuake {
             0% { transform: translate(0, 0) scale(1); }
             20% { transform: translate(-10px, 10px) scale(1.02); }
@@ -84,93 +83,53 @@
             80% { transform: translate(10px, 5px) scale(1.02); }
             100% { transform: translate(0, 0) scale(1); }
         }
-        .quake-active { 
-            animation: arenaQuake 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97); 
-        }
+        .quake-active { animation: arenaQuake 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97); }
 
         .arena-glow {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 600px;
+            top: 0; left: 0; width: 100%; height: 600px;
             background: radial-gradient(ellipse at top, var(--team-primary) 0%, transparent 70%);
-            opacity: 0.15; 
-            z-index: 1;
-            pointer-events: none;
+            opacity: 0.15; z-index: 1; pointer-events: none;
         }
 
         #header {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 50px 60px 10px; 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-            z-index: 10;
+            width: 100%; box-sizing: border-box; padding: 50px 60px 10px; 
+            display: flex; align-items: center; justify-content: space-between;
+            position: relative; z-index: 10;
         }
 
         .header-left { display: flex; flex-direction: column; }
 
         .starting-tag {
-            font-family: 'Teko', sans-serif;
-            font-size: 45px; 
-            color: var(--text-dark);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            line-height: 1;
+            font-family: 'Teko', sans-serif; font-size: 45px; color: var(--text-dark);
+            text-transform: uppercase; letter-spacing: 3px; line-height: 1;
             text-shadow: 1px 1px 0px rgba(255,255,255,0.5);
-            transition: all 0.3s ease;
         }
 
         #team-name {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 900;
-            font-style: italic;
-            font-size: 90px; 
-            margin: 0;
-            line-height: 0.9;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--team-primary);
-            position: relative;
-            z-index: 1;
+            font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic;
+            font-size: 90px; margin: 0; line-height: 0.9; text-transform: uppercase;
+            letter-spacing: 1px; color: var(--team-primary); position: relative; z-index: 1;
         }
 
         #team-name::before {
-            content: attr(data-text); 
-            position: absolute;
-            left: 0;
-            top: 0;
-            z-index: -1;
-            -webkit-text-stroke: 8px #fff; 
-            text-shadow: 5px 5px 0px var(--team-secondary);
+            content: attr(data-text); position: absolute; left: 0; top: 0; z-index: -1;
+            -webkit-text-stroke: 8px #fff; text-shadow: 5px 5px 0px var(--team-secondary);
         }
 
         #matchup-info {
-            font-family: 'Oswald', sans-serif;
-            font-size: 28px;
-            color: #444;
-            margin-top: 15px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: bold;
+            font-family: 'Oswald', sans-serif; font-size: 28px; color: #444; margin-top: 15px;
+            text-transform: uppercase; letter-spacing: 2px; font-weight: bold;
         }
 
-        #team-logo {
-            width: 180px; 
-            height: 180px;
-            object-fit: contain;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
-        }
+        #team-logo { width: 180px; height: 180px; object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); }
 
-        /* --- THE VERTICAL COURT --- */
+        /* --- REDUCED VERTICAL COURT HEIGHT TO DODGE TIKTOK UI --- */
         #court-scene {
             width: 100%;
-            height: 1550px; 
+            height: 1400px; /* Reduced from 1550px */
             position: absolute;
-            bottom: 0;
+            bottom: 120px; /* Pulled up 120px above the safe zone */
             display: flex;
             justify-content: center;
             align-items: flex-end;
@@ -178,7 +137,7 @@
 
         #court {
             width: 960px; 
-            height: 1400px; 
+            height: 1250px; /* Reduced from 1400px */
             position: relative;
             border: 4px solid var(--team-primary);
             border-bottom: none;
@@ -187,486 +146,210 @@
         }
 
         .paint-area {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 320px;
-            height: 450px; 
-            border: 4px solid var(--team-primary);
-            border-bottom: none;
+            position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 320px; height: 450px; border: 4px solid var(--team-primary); border-bottom: none;
             background: rgba(0, 0, 0, 0.05);
         }
 
         .free-throw-circle {
-            position: absolute;
-            bottom: 450px; 
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 60px; 
-            border: 4px solid var(--team-primary);
-            border-bottom: none; 
-            border-radius: 60px 60px 0 0; 
-            background: transparent; 
-            z-index: 1;
+            position: absolute; bottom: 450px; left: 50%; transform: translateX(-50%);
+            width: 120px; height: 60px; border: 4px solid var(--team-primary); border-bottom: none; 
+            border-radius: 60px 60px 0 0; background: transparent; z-index: 1;
         }
 
         .three-point-arc {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 800px;
-            height: 650px; 
-            border: 4px solid var(--team-primary);
-            border-radius: 50% 50% 0 0;
-            border-bottom: none;
-            clip-path: inset(0 0 100px 0); 
-            box-sizing: border-box; 
+            position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 800px; height: 650px; border: 4px solid var(--team-primary); border-radius: 50% 50% 0 0;
+            border-bottom: none; clip-path: inset(0 0 100px 0); box-sizing: border-box; 
         }
 
         .corner-three-left { position: absolute; bottom: 0; left: 80px; width: 4px; height: 101px; background: var(--team-primary); }
         .corner-three-right { position: absolute; bottom: 0; right: 80px; width: 4px; height: 101px; background: var(--team-primary); }
 
         .half-court-circle {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px; 
-            height: 300px; 
-            border: 4px solid var(--team-primary);
-            border-radius: 50%;
+            position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%);
+            width: 300px; height: 300px; border: 4px solid var(--team-primary); border-radius: 50%;
         }
 
-        /* --- DOUBLE WATERMARK LOGOS --- */
         .broadcast-watermark {
-            position: absolute;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 2;
-            pointer-events: none;
-            opacity: 0; 
+            position: absolute; left: 50%; transform: translate(-50%, -50%); display: flex;
+            flex-direction: column; align-items: center; justify-content: center; z-index: 2; pointer-events: none; opacity: 0; 
         }
 
-        .court-logo {
-            width: 380px; height: 380px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 30px rgba(255, 120, 0, 0.7)) sepia(0.3) hue-rotate(-20deg) saturate(1.5);
-        }
+        .court-logo { width: 380px; height: 380px; object-fit: contain; filter: drop-shadow(0 0 30px rgba(255, 120, 0, 0.7)) sepia(0.3) hue-rotate(-20deg) saturate(1.5); }
+        .anim-watermark-drop { animation: watermarkDrop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.5s forwards; }
+        @keyframes watermarkDrop { 0% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); filter: blur(8px); } 100% { opacity: 0.35; transform: translate(-50%, -50%) scale(1); filter: blur(0px); } }
 
-        .anim-watermark-drop {
-            animation: watermarkDrop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.5s forwards;
-        }
-
-        @keyframes watermarkDrop {
-            0% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); filter: blur(8px); }
-            100% { opacity: 0.35; transform: translate(-50%, -50%) scale(1); filter: blur(0px); }
-        }
-
-        /* --- GAME 2 BROADCAST TEXT FIXED --- */
         #game2-text {
-            position: absolute;
-            top: 0%; left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 900;
-            font-style: italic;
-            font-size: 140px;
-            color: var(--team-primary);
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            z-index: 18; 
-            white-space: nowrap;
-            opacity: 0;
-            animation: slideInText 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            animation-delay: 3.4s; 
-            pointer-events: none;
+            position: absolute; top: 0%; left: 50%; transform: translate(-50%, -50%);
+            font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; font-size: 140px;
+            color: var(--team-primary); letter-spacing: 5px; text-transform: uppercase;
+            z-index: 18; white-space: nowrap; opacity: 0;
+            animation: slideInText 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; animation-delay: 3.4s; pointer-events: none;
         }
-        
         #game2-text::before {
-            content: attr(data-text);
-            position: absolute;
-            left: 0; top: 0;
-            z-index: -1;
-            -webkit-text-stroke: 12px #fff; 
-            text-shadow: 6px 6px 0 var(--team-secondary), 0 15px 25px rgba(0,0,0,0.5);
+            content: attr(data-text); position: absolute; left: 0; top: 0; z-index: -1;
+            -webkit-text-stroke: 12px #fff; text-shadow: 6px 6px 0 var(--team-secondary), 0 15px 25px rgba(0,0,0,0.5);
         }
-
-        @keyframes slideInText {
-            0% { opacity: 0; transform: translate(-50%, -300px); filter: blur(10px); }
-            100% { opacity: 1; transform: translate(-50%, -50%); filter: blur(0px); }
-        }
+        @keyframes slideInText { 0% { opacity: 0; transform: translate(-50%, -300px); filter: blur(10px); } 100% { opacity: 1; transform: translate(-50%, -50%); filter: blur(0px); } }
 
         /* --- THE VIRAL FOIL PACK RIP --- */
         #foil-pack-wrapper {
-            position: absolute;
-            top: 38%; left: 50%;
-            width: 400px;
-            height: 600px;
-            transform: translate(-50%, -50%);
-            z-index: 150; 
-            animation: packFloat 1.5s ease-in-out infinite alternate;
-            pointer-events: none;
+            position: absolute; top: 38%; left: 50%; width: 400px; height: 600px;
+            transform: translate(-50%, -50%); z-index: 150; animation: packFloat 1.5s ease-in-out infinite alternate; pointer-events: none;
         }
-
         .foil-top {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%;
-            height: 120px;
-            background: linear-gradient(135deg, #eee, #999, #fff, #999);
+            position: absolute; top: 0; left: 0; width: 100%; height: 120px; background: linear-gradient(135deg, #eee, #999, #fff, #999);
             clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), 75% 100%, 50% calc(100% - 20px), 25% 100%, 0 calc(100% - 20px));
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            overflow: hidden;
+            border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); overflow: hidden;
             animation: ripTop 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s forwards;
         }
-
         .foil-body {
-            position: absolute;
-            top: 100px; 
-            left: 0;
-            width: 100%;
-            height: 500px;
-            background: linear-gradient(135deg, var(--team-primary), var(--team-secondary), var(--team-primary));
+            position: absolute; top: 100px; left: 0; width: 100%; height: 500px; background: linear-gradient(135deg, var(--team-primary), var(--team-secondary), var(--team-primary));
             clip-path: polygon(0 20px, 25% 0, 50% 20px, 75% 0, 100% 20px, 100% 100%, 0 100%);
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            overflow: hidden;
+            border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden;
             animation: ripBody 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s forwards;
         }
-
-        .pack-sub-text {
-            font-family: 'Oswald', sans-serif;
-            font-weight: 700; font-size: 24px; color: #ffea00;
-            text-transform: uppercase; letter-spacing: 2px;
-            margin-bottom: 5px; z-index: 2;
-            text-shadow: 1px 1px 0 #000;
-        }
+        .pack-sub-text { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 24px; color: #ffea00; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; z-index: 2; text-shadow: 1px 1px 0 #000; }
+        .pack-bonus-text { font-family: 'Teko', sans-serif; font-weight: 600; font-size: 28px; color: #fff; text-transform: uppercase; letter-spacing: 1px; margin-top: 15px; background: #111; padding: 2px 10px; border-radius: 4px; border: 2px solid var(--team-primary); z-index: 2; }
+        .pack-logo-img { width: 200px; height: 200px; object-fit: contain; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5)); margin-top: 10px; }
+        .pack-text-label { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 50px; font-style: italic; line-height: 0.9; margin-top: 15px; text-align: center; text-transform: uppercase; z-index: 2; display: flex; flex-direction: column; align-items: center; }
+        .pack-text-line { position: relative; color: var(--team-primary); z-index: 1; }
+        .pack-text-line::before { content: attr(data-text); position: absolute; left: 0; top: 0; z-index: -1; -webkit-text-stroke: 8px #fff; text-shadow: 4px 4px 0 var(--team-secondary), 0 10px 15px rgba(0,0,0,0.5); }
+        .foil-sheen { position: absolute; top: 0; left: -150%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent); transform: skewX(-25deg); animation: sheenSweep 2s infinite; }
         
-        .pack-bonus-text {
-            font-family: 'Teko', sans-serif;
-            font-weight: 600; font-size: 28px; color: #fff;
-            text-transform: uppercase; letter-spacing: 1px;
-            margin-top: 15px; background: #111; padding: 2px 10px; border-radius: 4px;
-            border: 2px solid var(--team-primary); z-index: 2;
+        @keyframes packFloat { 0% { transform: translate(-50%, -50%) translateY(0); } 100% { transform: translate(-50%, -50%) translateY(-25px); } }
+        @keyframes sheenSweep { 0% { left: -150%; } 50%, 100% { left: 150%; } }
+        @keyframes ripTop { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-1000px) rotate(35deg); opacity: 0; display: none; } }
+        @keyframes ripBody { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(1000px) rotate(-20deg); opacity: 0; display: none; } }
+
+        #spotlight-canvas { position: absolute; top: 0; left: 0; width: 1080px; height: 1920px; z-index: 20; opacity: 0; pointer-events: none; transition: opacity 1.5s ease; }
+        .lights-out-mode #spotlight-canvas { opacity: 1; }
+
+        /* ========================================================
+           THE NEW TRANSPARENT PNG & HUD SYSTEM
+           ======================================================== */
+        #players-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 15; pointer-events: none; }
+        .player-node { position: absolute; }
+        
+        /* The player cutout container (animated during entrance) */
+        .player-cutout-wrapper {
+            position: absolute;
+            bottom: 0; 
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex; justify-content: center; align-items: flex-end;
+            transition: all 0.4s ease;
         }
 
-        .pack-logo-img {
-            width: 200px; height: 200px;
+        .player-photo {
+            height: 280px; /* Massive AR Hologram scale */
+            width: auto;
             object-fit: contain;
-            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
-            margin-top: 10px;
+            object-position: bottom center;
+            filter: drop-shadow(0 20px 15px rgba(0,0,0,0.7));
+            transition: all 0.4s ease;
         }
 
-        /* FIXED PACK TEXT STROKE BLEED */
-        .pack-text-label {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 900; font-size: 50px; font-style: italic;
-            line-height: 0.9; margin-top: 15px;
-            text-align: center; text-transform: uppercase;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .pack-text-line {
-            position: relative;
-            color: var(--team-primary);
-            z-index: 1;
+        /* The Announcer Pop */
+        .player-highlight .player-photo {
+            transform: scale(1.15) translateY(-10px);
+            filter: drop-shadow(0 0 25px var(--team-primary)) drop-shadow(0 20px 15px rgba(0,0,0,0.9));
         }
 
-        .pack-text-line::before {
-            content: attr(data-text);
+        /* The Floating HUD Setup (Top L, Top R, Bottom) */
+        .player-hud {
             position: absolute;
-            left: 0; top: 0;
-            z-index: -1;
-            -webkit-text-stroke: 8px #fff;
-            text-shadow: 4px 4px 0 var(--team-secondary), 0 10px 15px rgba(0,0,0,0.5);
+            top: 50%; left: 50%;
+            width: 250px; height: 300px;
+            transform: translate(-50%, -50%) scale(0.9);
+            opacity: 0; pointer-events: none; z-index: 30;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .foil-sheen {
-            position: absolute;
-            top: 0; left: -150%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
-            transform: skewX(-25deg);
-            animation: sheenSweep 2s infinite;
+        .hud-reveal { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+
+        .hud-pos, .hud-num {
+            position: absolute; top: 20px;
+            font-family: 'Teko', sans-serif; font-size: 32px; font-weight: bold; color: var(--text-dark);
+            background: #fff; padding: 2px 14px; border-radius: 6px; border: 4px solid var(--team-secondary);
+            line-height: 1.1; box-shadow: 3px 3px 0 var(--team-primary);
+        }
+        .hud-pos { left: -30px; }
+        .hud-num { right: -30px; }
+
+        .hud-name {
+            position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+            font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 28px; color: #fff;
+            text-align: center; white-space: nowrap; text-transform: uppercase;
+            background: var(--team-primary); padding: 8px 24px; border-radius: 8px; border: 3px solid #fff;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.6), 4px 4px 0 var(--team-secondary);
         }
 
-        @keyframes packFloat {
-            0% { transform: translate(-50%, -50%) translateY(0); }
-            100% { transform: translate(-50%, -50%) translateY(-25px); }
-        }
+        /* --- THE 9-PLAY RANDOMIZED ENTRANCE ANIMATIONS --- */
+        /* 1. Hero Drop (Z-axis scale) */
+        .anim-hero-drop { animation: heroDrop 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s both; }
+        @keyframes heroDrop { 0% { transform: translate(-50%, -50%) scale(4); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
 
-        @keyframes sheenSweep {
-            0% { left: -150%; }
-            50%, 100% { left: 150%; }
-        }
+        /* 2. Speed Dash */
+        .anim-speed-dash { animation: speedDash 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s both; }
+        @keyframes speedDash { 0% { transform: translate(-500%, -50%) skewX(-30deg); opacity: 0; filter: blur(10px); } 100% { transform: translate(-50%, -50%) skewX(0); opacity: 1; filter: blur(0); } }
 
-        @keyframes ripTop {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-1000px) rotate(35deg); opacity: 0; display: none; }
-        }
+        /* 3. Cyber Scan (Image mask + Laser) */
+        .anim-cyber-scan { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s 1.5s both; }
+        .anim-cyber-scan .player-photo { animation: cyberScan 1.2s ease-in-out 1.5s both; }
+        .anim-cyber-scan::after { content:''; position:absolute; bottom:0; left:-10%; width:120%; height:4px; background:cyan; box-shadow:0 0 15px cyan; animation: scanLine 1.2s linear 1.5s both; z-index:25; }
+        @keyframes cyberScan { 0% { clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%); } 100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); } }
+        @keyframes scanLine { 0% { bottom: 0%; opacity:1; } 95% { bottom: 100%; opacity:1; } 100% { bottom: 100%; opacity:0; display:none;} }
 
-        @keyframes ripBody {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(1000px) rotate(-20deg); opacity: 0; display: none; }
-        }
+        /* 4. Silhouette Riser */
+        .anim-silhouette { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s 1.5s both; }
+        .anim-silhouette .player-photo { animation: silRise 1.2s ease-out 1.5s both; }
+        @keyframes silRise { 0% { filter: brightness(0) drop-shadow(0 0 0 transparent); transform: translateY(30px); } 100% { filter: brightness(1) drop-shadow(0 20px 15px rgba(0,0,0,0.6)); transform: translateY(0); } }
 
-        /* --- CANVAS LIGHTING ENGINE --- */
-        #spotlight-canvas {
-            position: absolute;
-            top: 0; left: 0; 
-            width: 1080px; height: 1920px;
-            z-index: 20; 
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 1.5s ease;
-        }
-        
-        .lights-out-mode #spotlight-canvas {
-            opacity: 1;
-        }
+        /* 5. Arcade Spin */
+        .anim-arcade-spin { animation: arcadeSpin 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s both; }
+        @keyframes arcadeSpin { 0% { transform: translate(-50%, -50%) rotateY(1080deg) scale(2); opacity: 0; } 100% { transform: translate(-50%, -50%) rotateY(0deg) scale(1); opacity: 1; } }
 
-        /* ======================================================== */
-        #players-container {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 15; 
-            pointer-events: none;
-        }
+        /* 6. Dimensional Rift */
+        .anim-rift { animation: riftPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.5s both; }
+        @keyframes riftPop { 0% { transform: translate(-50%, -50%) scale(0.3); filter: grayscale(1) contrast(3) blur(10px); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); filter: grayscale(0) contrast(1) blur(0); opacity: 1; } }
 
-        .player-node {
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        /* 7. Taz Tornado Spin */
+        .anim-taz-spin { animation: tazSpin 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s both; }
+        @keyframes tazSpin { 0% { transform: translate(-50%, -300%) rotateY(2000deg); opacity: 0; filter: blur(5px); } 100% { transform: translate(-50%, -50%) rotateY(0deg); opacity: 1; filter: blur(0); } }
 
-        /* --- TRADING CARD SYSTEM (SHARED FOR STARTERS & BENCH) --- */
-        .card-wrapper {
-            position: relative;
-            width: 220px;
-            height: 310px; 
-            perspective: 1000px;
-        }
+        /* 8. Zipline */
+        .anim-zipline { animation: zipline 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s both; }
+        @keyframes zipline { 0% { transform: translate(-300%, -300%) rotateZ(-25deg); opacity: 0; } 80% { transform: translate(-40%, -40%) rotateZ(10deg); opacity: 1; } 100% { transform: translate(-50%, -50%) rotateZ(0deg); opacity: 1; } }
 
-        .bench-node .card-wrapper {
-            width: 140px; 
-            height: 195px; 
-        }
+        /* 9. Ice Breaker */
+        .anim-ice-breaker { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s 1.5s both; }
+        .anim-ice-breaker .player-photo { animation: iceMelt 1.5s ease-in 1.5s both; }
+        .anim-ice-breaker::before { content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:100px; height:10px; background:radial-gradient(ellipse, #ff4500, transparent); filter:blur(5px); animation: fireBurn 1.5s 1.5s both; z-index:25; }
+        @keyframes iceMelt { 0% { filter: sepia(1) hue-rotate(180deg) saturate(3) brightness(1.5); } 100% { filter: sepia(0) hue-rotate(0) saturate(1) brightness(1) drop-shadow(0 20px 20px rgba(0,0,0,0.7)); } }
+        @keyframes fireBurn { 0% { height: 10px; opacity:0; } 20% { height: 60px; opacity:1; } 90% { height: 60px; opacity:1; } 100% { height: 10px; opacity:0; } }
 
-        .player-card-inner {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform: rotateY(180deg); 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            border-radius: 12px;
-        }
-
-        .player-card-front, .player-card-back {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            backface-visibility: hidden;
-            border-radius: 12px;
-            box-sizing: border-box;
-            border: 6px solid var(--team-primary);
-        }
-
-        .player-card-back {
-            background-color: var(--team-secondary);
-            background-image: repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(0,0,0,0.15) 15px, rgba(0,0,0,0.15) 30px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transform: rotateY(180deg); 
-        }
-
-        .card-back-logo {
-            width: 60%; height: 60%;
-            object-fit: contain;
-            opacity: 0.6;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
-        }
-
-        .player-card-front {
-            background-color: #222;
-        }
-
-        .card-photo-clip {
-            width: 100%; height: 100%;
-            border-radius: 6px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .card-logo-left {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            width: 45px;
-            height: 45px;
-            object-fit: contain;
-            z-index: 15;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
-        }
-
-        .card-logo-right {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            width: 45px;
-            height: 45px;
-            object-fit: contain;
-            z-index: 15;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
-        }
-        
-        .bench-node .card-logo-left,
-        .bench-node .card-logo-right {
-            width: 30px; height: 30px; top: 8px;
-        }
-        .bench-node .card-logo-left { left: 8px; }
-        .bench-node .card-logo-right { right: 8px; }
-
-        .player-card-photo {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center top;
-        }
-
-        .card-info-overlay {
-            position: absolute;
-            bottom: 0; left: 0; width: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 50%, transparent 100%);
-            padding: 30px 5px 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-sizing: border-box;
-        }
-
-        .card-name {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 900;
-            font-size: 26px;
-            color: #fff;
-            text-align: center;
-            line-height: 1;
-            text-transform: uppercase;
-            text-shadow: 2px 2px 0 var(--team-primary);
-        }
-
-        .bench-node .card-name {
-            font-size: 16px;
-            text-shadow: 1px 1px 0 var(--team-primary);
-        }
-
-        .card-meta {
-            display: flex;
-            gap: 8px;
-            margin-top: 5px;
-        }
-
-        .card-pos, .card-num {
-            font-family: 'Teko', sans-serif;
-            font-size: 22px;
-            font-weight: bold;
-            color: var(--text-dark);
-            background: #fff;
-            padding: 2px 8px;
-            border-radius: 4px;
-            border: 2px solid var(--team-secondary);
-            line-height: 1.1;
-            box-shadow: 2px 2px 0 var(--team-primary);
-        }
-
-        .bench-node .card-pos, .bench-node .card-num {
-            font-size: 14px;
-            padding: 1px 5px;
-            border-width: 1px;
-            box-shadow: 1px 1px 0 var(--team-primary);
-        }
-
-        .holo-glare {
-            position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(45deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0) 70%);
-            transform: translateX(-100%);
-            z-index: 20;
-            pointer-events: none;
-        }
-
-        .anim-glare {
-            animation: cardGlare 1.2s ease-in-out forwards;
-        }
-
-        @keyframes cardGlare {
-            0% { transform: translateX(-100%) rotate(0deg); }
-            100% { transform: translateX(100%) rotate(0deg); }
-        }
-
-        /* --- THE PACK BURST ANIMATION (Shared Logic) --- */
-        @keyframes cardBurst {
-            0%   { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.1) rotateZ(0deg); opacity: 0; }
-            5%   { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.5) rotateZ(15deg); opacity: 1; }
-            100% { left: var(--target-x); top: var(--target-y); transform: translate(-50%, -50%) scale(1) rotateZ(0deg); opacity: 1; }
-        }
-        
-        .anim-burst { animation: cardBurst 1s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s both; }
-
-        @keyframes benchBurst {
-            0%   { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.1) rotateZ(0deg); opacity: 0; }
-            5%   { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.5) rotateZ(-35deg); opacity: 1; }
-            100% { left: var(--target-x); top: var(--target-y); transform: translate(-50%, -50%) scale(1) rotateZ(0deg); opacity: 1; }
-        }
+        @keyframes fadeIn { to { opacity: 1; } }
         .anim-bench-burst { animation: benchBurst 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s both; }
+        @keyframes benchBurst { 0% { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.1) rotateZ(0deg); opacity: 0; } 5% { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.5) rotateZ(-35deg); opacity: 1; } 100% { left: var(--target-x); top: var(--target-y); transform: translate(-50%, -50%) scale(1) rotateZ(0deg); opacity: 1; } }
 
-        @keyframes benchInnerFlip {
-            0%, 50% { transform: rotateY(180deg); }
-            100% { transform: rotateY(0deg); }
-        }
-        .bench-inner-flip { animation: benchInnerFlip 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.2s forwards; }
+        .bench-node { z-index: 5; }
+        .bench-photo-container { width: 140px; height: 140px; border-radius: 50%; border: 4px solid var(--team-secondary); background-color: #222; box-shadow: 0 10px 25px rgba(0,0,0,0.4); z-index: 12; overflow: hidden; position: relative; box-sizing: border-box; }
+        .bench-photo { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top; transform: scale(1.15) translateY(5px); }
+        .bench-nameplate { background: #fff; color: var(--text-dark); padding: 4px 16px; font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 900; font-style: italic; text-transform: uppercase; white-space: nowrap; border-radius: 6px; border: 1px solid rgba(0,0,0,0.1); margin-top: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
 
-        /* --- SHOCKWAVE RING --- */
-        .shockwave-ring {
-            position: absolute; top: 50%; left: 50%; width: 200px; height: 200px; border-radius: 50%;
-            border: 12px solid var(--team-primary); transform: translate(-50%, -50%) scale(0.5); opacity: 0; z-index: 11; pointer-events: none;
-        }
+        .shockwave-ring { position: absolute; top: 50%; left: 50%; width: 200px; height: 200px; border-radius: 50%; border: 12px solid var(--team-primary); transform: translate(-50%, -50%) scale(0.5); opacity: 0; z-index: 11; pointer-events: none; }
         @keyframes ringExplode { 0% { transform: translate(-50%, -50%) scale(0.8); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(3.5); opacity: 0; border-width: 2px; } }
         .anim-shockwave { animation: ringExplode 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
 
-        /* ========================================================
-           HEADER ENTRANCE ANIMATIONS
-           ======================================================== */
         .anim-header-tag { animation: headerSlideDown 1s ease-out 2.5s forwards; opacity: 0; }
         .anim-team-name { animation: teamNameZoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.5s forwards; opacity: 0; }
         .anim-logo { animation: logoSpinIn 0.8s ease-out 2.5s forwards; opacity: 0; }
-
         @keyframes headerSlideDown { 0% { opacity: 0; transform: translateY(-40px); } 100% { opacity: 1; transform: translateY(0); } }
         @keyframes teamNameZoom { 0% { opacity: 0; transform: scale(1.8) rotate(-3deg); filter: blur(8px); } 100% { opacity: 1; transform: scale(1) rotate(0deg); filter: blur(0); } }
         @keyframes logoSpinIn { 0% { opacity: 0; transform: translateX(100px) rotate(90deg) scale(0.2); } 100% { opacity: 1; transform: translateX(0) rotate(0) scale(1); filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); } }
-
-        /* ========================================================
-           THE CLEAN BENCH EXIT
-           ======================================================== */
         @keyframes slideOffRight { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(1500%, -50%) scale(1); opacity: 0; } }
         @keyframes slideOffLeft { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(-1500%, -50%) scale(1); opacity: 0; } }
 
@@ -721,9 +404,7 @@
                 </div>
                 
                 <div id="foil-pack-wrapper" class="foil-pack-wrapper">
-                    <div id="foil-top" class="foil-top">
-                        <div class="foil-sheen"></div>
-                    </div>
+                    <div id="foil-top" class="foil-top"><div class="foil-sheen"></div></div>
                     <div id="foil-body" class="foil-body">
                         <div class="pack-sub-text">Official Starter Pack</div>
                         <img id="pack-logo-img" class="pack-logo-img" src="" alt="">
@@ -781,13 +462,20 @@
 
         const POSITIONS = ["PG", "SG", "SF", "PF", "C"];
         
-        // --- SPREAD COURT MAPPING FOR VERTICAL FORMAT ---
+        // --- SPREAD COURT MAPPING FOR 1250px VERTICAL COURT ---
         const COURT_COORDS = [
-            { x: 50, y: 25 }, // PG
-            { x: 20, y: 50 }, // SG
-            { x: 80, y: 50 }, // SF
-            { x: 30, y: 83 }, // PF
-            { x: 70, y: 83 }  // C
+            { x: 50, y: 25 }, 
+            { x: 20, y: 48 }, 
+            { x: 80, y: 48 }, 
+            { x: 30, y: 78 }, 
+            { x: 70, y: 78 }  
+        ];
+
+        // --- THE 9-PLAY RANDOMIZED ENTRANCE ENGINE ---
+        const ENTRANCE_STYLES = [
+            "anim-hero-drop", "anim-speed-dash", "anim-cyber-scan",
+            "anim-silhouette", "anim-arcade-spin", "anim-rift",
+            "anim-taz-spin", "anim-zipline", "anim-ice-breaker"
         ];
 
         let allGames = [];
@@ -823,10 +511,7 @@
             grad.addColorStop(0.3, 'rgba(0, 0, 0, 0.85)'); 
             grad.addColorStop(0.6, 'rgba(0, 0, 0, 0.4)');
             grad.addColorStop(1, 'rgba(0, 0, 0, 0)');       
-            ctx.fillStyle = grad;
-            ctx.beginPath();
-            ctx.arc(x, y, outerR, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(x, y, outerR, 0, Math.PI * 2); ctx.fill();
         }
 
         function drawColoredTint(ctx, x, y, innerR, outerR, hex) {
@@ -835,10 +520,7 @@
             grad.addColorStop(0.3, hexToRgba(hex, 0.45)); 
             grad.addColorStop(0.6, hexToRgba(hex, 0.15));
             grad.addColorStop(1, hexToRgba(hex, 0));       
-            ctx.fillStyle = grad;
-            ctx.beginPath();
-            ctx.arc(x, y, outerR, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(x, y, outerR, 0, Math.PI * 2); ctx.fill();
         }
 
         function drawMainHalo(ctx, x, y, innerR, outerR, color1, color2) {
@@ -847,30 +529,23 @@
             grad.addColorStop(0.15, hexToRgba(color1, 0.65)); 
             grad.addColorStop(0.6, hexToRgba(color2, 0.45)); 
             grad.addColorStop(1, 'rgba(0, 0, 0, 0)'); 
-            ctx.fillStyle = grad;
-            ctx.beginPath();
-            ctx.arc(x, y, outerR, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(x, y, outerR, 0, Math.PI * 2); ctx.fill();
         }
 
         function renderSpotlights() {
             if (!trackingSpotlight) return;
-            
             const canvas = document.getElementById('spotlight-canvas');
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
             
             const starters = document.querySelectorAll('.starter-node');
-            let targetX = 540; 
-            let targetY = 960; 
+            let targetX = 540; let targetY = 960; 
             
             if (activePlayerIndex >= 0 && activePlayerIndex < starters.length) {
                 const target = starters[activePlayerIndex];
                 const captureArea = document.getElementById('capture-area').getBoundingClientRect();
-                
-                const photoWrap = target.querySelector('.card-wrapper');
+                const photoWrap = target.querySelector('.player-cutout-wrapper');
                 const targetRect = photoWrap.getBoundingClientRect();
-                
                 targetX = (targetRect.left + targetRect.width / 2) - captureArea.left;
                 targetY = (targetRect.top + targetRect.height / 2) - captureArea.top;
             }
@@ -885,29 +560,19 @@
             
             roamSpot1.x += (roamSpot1.targetX - roamSpot1.x) * 0.06;
             roamSpot1.y += (roamSpot1.targetY - roamSpot1.y) * 0.06;
-            
             roamSpot2.x += (roamSpot2.targetX - roamSpot2.x) * 0.06;
             roamSpot2.y += (roamSpot2.targetY - roamSpot2.y) * 0.06;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
             ctx.globalCompositeOperation = 'source-over';
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.94)'; 
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.94)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
             
             ctx.globalCompositeOperation = 'destination-out';
             drawHole(ctx, currentSpotX, currentSpotY, currentInnerR, currentOuterR);
-            if (!spotlightWiden) {
-                drawHole(ctx, roamSpot1.x, roamSpot1.y, 30, 210);
-                drawHole(ctx, roamSpot2.x, roamSpot2.y, 30, 210);
-            }
+            if (!spotlightWiden) { drawHole(ctx, roamSpot1.x, roamSpot1.y, 30, 210); drawHole(ctx, roamSpot2.x, roamSpot2.y, 30, 210); }
             
             ctx.globalCompositeOperation = 'source-over';
-            if (!spotlightWiden) {
-                drawColoredTint(ctx, roamSpot1.x, roamSpot1.y, 30, 210, activePrimaryHex);
-                drawColoredTint(ctx, roamSpot2.x, roamSpot2.y, 30, 210, activeSecondaryHex);
-            }
-            
+            if (!spotlightWiden) { drawColoredTint(ctx, roamSpot1.x, roamSpot1.y, 30, 210, activePrimaryHex); drawColoredTint(ctx, roamSpot2.x, roamSpot2.y, 30, 210, activeSecondaryHex); }
             drawMainHalo(ctx, currentSpotX, currentSpotY, currentInnerR, currentOuterR, activePrimaryHex, activeSecondaryHex);
             
             requestAnimationFrame(renderSpotlights);
@@ -915,166 +580,97 @@
 
         function moveRoamingLights() {
             function getEvasiveTarget() {
-                let rx, ry;
-                let attempts = 0;
-                let isValid = false;
-                
+                let rx, ry; let attempts = 0; let isValid = false;
                 while (!isValid && attempts < 15) {
-                    rx = Math.floor(Math.random() * 880) + 100;
-                    ry = Math.floor(Math.random() * 1600) + 100; 
-                    
+                    rx = Math.floor(Math.random() * 880) + 100; ry = Math.floor(Math.random() * 1600) + 100; 
                     const distToMain = Math.hypot(rx - currentSpotX, ry - currentSpotY);
-                    if (distToMain > 400) isValid = true;
-                    attempts++;
+                    if (distToMain > 400) isValid = true; attempts++;
                 }
                 return { x: rx, y: ry };
             }
-
-            const newSpot1 = getEvasiveTarget();
-            roamSpot1.targetX = newSpot1.x;
-            roamSpot1.targetY = newSpot1.y;
-            
-            const newSpot2 = getEvasiveTarget();
-            roamSpot2.targetX = newSpot2.x;
-            roamSpot2.targetY = newSpot2.y;
+            const newSpot1 = getEvasiveTarget(); roamSpot1.targetX = newSpot1.x; roamSpot1.targetY = newSpot1.y;
+            const newSpot2 = getEvasiveTarget(); roamSpot2.targetX = newSpot2.x; roamSpot2.targetY = newSpot2.y;
         }
 
-        function getNbaLogo(abbr) {
-            if (!abbr) return '';
-            return `logos/${abbr}.svg`; 
-        }
+        function getNbaLogo(abbr) { if (!abbr) return ''; return `logos/${abbr}.svg`; }
 
         function getPlayerData(playerName) {
             if (!playerName) return null;
-        
-            const nicknames = {
-                "cam": "cameron", "cameron": "cam", "steph": "stephen", "stephen": "steph",
-                "trey": "trae", "mo": "mohamed", "mohamed": "mo", "nico": "nicolas", "nicolas": "nico"
-            };
-        
-            const normalize = (str) => {
-                return str.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\./g, ""); 
-            };
-        
-            const cleanInput = normalize(playerName);
-            const inputParts = cleanInput.split(" ");
-            const firstName = inputParts[0];
-            const lastName = inputParts.slice(1).join(" ");
-        
+            const nicknames = { "cam": "cameron", "cameron": "cam", "steph": "stephen", "stephen": "steph", "trey": "trae", "mo": "mohamed", "mohamed": "mo", "nico": "nicolas", "nicolas": "nico" };
+            const normalize = (str) => { return str.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\./g, ""); };
+            const cleanInput = normalize(playerName); const inputParts = cleanInput.split(" "); const firstName = inputParts[0]; const lastName = inputParts.slice(1).join(" ");
+            
             for (const key in playerDatabase) {
-                const dbName = normalize(playerDatabase[key].name || "");
-                const dbShort = normalize(playerDatabase[key].short_name || "");
+                const dbName = normalize(playerDatabase[key].name || ""); const dbShort = normalize(playerDatabase[key].short_name || "");
                 if (dbName === cleanInput || dbShort === cleanInput) return playerDatabase[key];
             }
-            
             if (nicknames[firstName]) {
                 const nicknameVariant = nicknames[firstName] + " " + lastName;
                 for (const key in playerDatabase) {
-                    const dbName = normalize(playerDatabase[key].name || "");
-                    const dbShort = normalize(playerDatabase[key].short_name || "");
+                    const dbName = normalize(playerDatabase[key].name || ""); const dbShort = normalize(playerDatabase[key].short_name || "");
                     if (dbName === nicknameVariant || dbShort === nicknameVariant) return playerDatabase[key];
                 }
             }
-            
             if (lastName.length > 2) {
                 for (const key in playerDatabase) {
                     const dbName = normalize(playerDatabase[key].name || "");
-                    if (dbName.includes(lastName) && dbName.startsWith(firstName.charAt(0))) {
-                        return playerDatabase[key];
-                    }
+                    if (dbName.includes(lastName) && dbName.startsWith(firstName.charAt(0))) return playerDatabase[key];
                 }
             }
-            
             return null; 
         }
 
-        function handleImageError(img) {
-            const container = img.parentElement;
-            container.innerHTML = '<div class="fallback-silhouette"></div>';
-        }
+        function handleImageError(img) { const container = img.parentElement; container.innerHTML = '<div class="fallback-silhouette"></div>'; }
 
         async function loadData() {
             try {
                 const urlParams = new URLSearchParams(window.location.search);
                 let targetDate = urlParams.get('date');
-                
                 if (!targetDate) {
                     const estDate = new Date(new Date().toLocaleString("en-US", {timeZone: "America/New_York"}));
-                    const yyyy = estDate.getFullYear();
-                    const mm = String(estDate.getMonth() + 1).padStart(2, '0');
-                    const dd = String(estDate.getDate()).padStart(2, '0');
+                    const yyyy = estDate.getFullYear(); const mm = String(estDate.getMonth() + 1).padStart(2, '0'); const dd = String(estDate.getDate()).padStart(2, '0');
                     targetDate = `${yyyy}-${mm}-${dd}`;
                 }
-                
                 document.getElementById('date-indicator').value = targetDate;
                 
                 const timestamp = new Date().getTime();
-                const [nbaRes, playersRes] = await Promise.all([
-                    fetch(`https://nbastartingfive.com/data/${targetDate}.json?v=${timestamp}`),
-                    fetch(`data/players.json?v=${timestamp}`) 
-                ]);
+                const [nbaRes, playersRes] = await Promise.all([ fetch(`https://nbastartingfive.com/data/${targetDate}.json?v=${timestamp}`), fetch(`data/players.json?v=${timestamp}`) ]);
 
                 if (nbaRes.ok) {
                     const data = await nbaRes.json();
                     allGames = data.games.filter(g => {
                         if (g.date !== targetDate) return false;
                         if (!g.teams || !g.rosters) return false;
-                        const t1 = g.teams[0];
-                        const t2 = g.teams[1];
+                        const t1 = g.teams[0]; const t2 = g.teams[1];
                         const hasRoster1 = g.rosters[t1] && g.rosters[t1].players && g.rosters[t1].players.length >= 5;
                         const hasRoster2 = g.rosters[t2] && g.rosters[t2].players && g.rosters[t2].players.length >= 5;
-                        
-                        if (!hasRoster1 && !hasRoster2) return false;
-                        return true; 
+                        if (!hasRoster1 && !hasRoster2) return false; return true; 
                     });
                 }
-                
-                if (playersRes.ok) {
-                    playerDatabase = await playersRes.json();
-                }
-            } catch (e) {
-                console.error("Failed to load data.", e);
-            }
+                if (playersRes.ok) playerDatabase = await playersRes.json();
+            } catch (e) { console.error("Failed to load data.", e); }
             
             populateDropdown();
             
             const urlParams = new URLSearchParams(window.location.search);
-            const botTeam = urlParams.get('team');
-            const botSide = urlParams.get('side');
-
-            if (botTeam !== null) {
-                const foundIndex = allGames.findIndex(g => g.teams.includes(botTeam));
-                if (foundIndex !== -1) document.getElementById('game-selector').value = foundIndex;
-            }
-            
+            const botTeam = urlParams.get('team'); const botSide = urlParams.get('side');
+            if (botTeam !== null) { const foundIndex = allGames.findIndex(g => g.teams.includes(botTeam)); if (foundIndex !== -1) document.getElementById('game-selector').value = foundIndex; }
             if (botSide !== null) document.getElementById('team-selector').value = botSide;
 
             if (allGames.length > 0) renderCard();
-            else {
-                const teamNameEl = document.getElementById('team-name');
-                teamNameEl.textContent = "NO LINEUPS YET";
-                teamNameEl.setAttribute('data-text', "NO LINEUPS YET");
-                document.getElementById('matchup-info').textContent = "Check back closer to tipoff.";
-            }
+            else { document.getElementById('team-name').textContent = "NO LINEUPS YET"; document.getElementById('team-name').setAttribute('data-text', "NO LINEUPS YET"); document.getElementById('matchup-info').textContent = "Check back closer to tipoff."; }
         }
 
         function populateDropdown() {
-            const select = document.getElementById('game-selector');
-            select.innerHTML = '';
-            
+            const select = document.getElementById('game-selector'); select.innerHTML = '';
             allGames.forEach((g, idx) => {
-                const opt = document.createElement('option');
-                opt.value = idx;
-                const t1 = g.teams[0];
-                const t2 = g.teams[1];
+                const opt = document.createElement('option'); opt.value = idx;
+                const t1 = g.teams[0]; const t2 = g.teams[1];
                 const t1Verified = g.rosters[t1].is_official === true || (g.rosters[t1].players && g.rosters[t1].players.slice(0,5).every(p => p.verified === true));
                 const t2Verified = g.rosters[t2].is_official === true || (g.rosters[t2].players && g.rosters[t2].players.slice(0,5).every(p => p.verified === true));
-                opt.textContent = `${t1Verified ? t1 + ' (Confirmed)' : t1} @ ${t2Verified ? t2 + ' (Confirmed)' : t2}`;
-                select.appendChild(opt);
+                opt.textContent = `${t1Verified ? t1 + ' (Confirmed)' : t1} @ ${t2Verified ? t2 + ' (Confirmed)' : t2}`; select.appendChild(opt);
             });
-            
-            select.addEventListener('change', () => renderCard());
-            document.getElementById('team-selector').addEventListener('change', () => renderCard());
+            select.addEventListener('change', () => renderCard()); document.getElementById('team-selector').addEventListener('change', () => renderCard());
         }
 
         function applyTeamTheme(abbr) {
@@ -1083,279 +679,145 @@
                 let primaryColor = theme.primary === "#ffffff" ? theme.secondary : theme.primary;
                 document.documentElement.style.setProperty('--team-primary', primaryColor);
                 document.documentElement.style.setProperty('--team-secondary', theme.secondary);
-                
-                activePrimaryHex = primaryColor;
-                activeSecondaryHex = theme.secondary;
+                activePrimaryHex = primaryColor; activeSecondaryHex = theme.secondary;
             }
         }
 
         function renderCard() {
             if(allGames.length === 0) return;
-
-            trackingSpotlight = false;
-            spotlightWiden = false;
-            activePlayerIndex = -1;
+            trackingSpotlight = false; spotlightWiden = false; activePlayerIndex = -1;
             if (roamingInterval) clearInterval(roamingInterval);
             const captureArea = document.getElementById('capture-area');
             if (captureArea) captureArea.classList.remove('lights-out-mode');
-            currentInnerR = 90;
-            currentOuterR = 360;
+            currentInnerR = 90; currentOuterR = 360;
 
-            const gameIdx = document.getElementById('game-selector').value;
-            const side = document.getElementById('team-selector').value;
-            const game = allGames[gameIdx];
-
-            const awayAbbr = game.teams[0];
-            const homeAbbr = game.teams[1];
-            
-            const targetAbbr = side === 'home' ? homeAbbr : awayAbbr;
-            const oppAbbr = side === 'home' ? awayAbbr : homeAbbr;
-            const isHome = side === 'home';
-
-            const targetData = NBA_TEAMS[targetAbbr];
-            const oppData = NBA_TEAMS[oppAbbr];
+            const gameIdx = document.getElementById('game-selector').value; const side = document.getElementById('team-selector').value; const game = allGames[gameIdx];
+            const awayAbbr = game.teams[0]; const homeAbbr = game.teams[1];
+            const targetAbbr = side === 'home' ? homeAbbr : awayAbbr; const oppAbbr = side === 'home' ? awayAbbr : homeAbbr; const isHome = side === 'home';
+            const targetData = NBA_TEAMS[targetAbbr]; const oppData = NBA_TEAMS[oppAbbr];
 
             applyTeamTheme(targetAbbr);
 
-            const teamNameStr = targetData ? targetData.name : targetAbbr;
-            const teamNameEl = document.getElementById('team-name');
-            teamNameEl.textContent = teamNameStr;
-            teamNameEl.setAttribute('data-text', teamNameStr);
-
-            teamNameEl.classList.remove('anim-team-name');
-            void teamNameEl.offsetWidth; 
-            teamNameEl.classList.add('anim-team-name');
-
+            const teamNameStr = targetData ? targetData.name : targetAbbr; const teamNameEl = document.getElementById('team-name');
+            teamNameEl.textContent = teamNameStr; teamNameEl.setAttribute('data-text', teamNameStr);
+            teamNameEl.classList.remove('anim-team-name'); void teamNameEl.offsetWidth; teamNameEl.classList.add('anim-team-name');
             document.getElementById('matchup-info').textContent = `${isHome ? 'VS' : '@'} ${oppData ? oppData.name : oppAbbr}  |  ${game.date}`;
             
-            const logoUrl = getNbaLogo(targetAbbr);
-            const logoEl = document.getElementById('team-logo');
-            logoEl.src = logoUrl;
+            const logoUrl = getNbaLogo(targetAbbr); const logoEl = document.getElementById('team-logo'); logoEl.src = logoUrl;
+            logoEl.classList.remove('anim-logo'); void logoEl.offsetWidth; logoEl.classList.add('anim-logo');
             
-            logoEl.classList.remove('anim-logo');
-            void logoEl.offsetWidth; 
-            logoEl.classList.add('anim-logo');
+            const logos = document.querySelectorAll('.court-logo'); logos.forEach(logo => logo.src = logoUrl);
+            const packLogo = document.getElementById('pack-logo-img'); if (packLogo) packLogo.src = logoUrl;
             
-            const logos = document.querySelectorAll('.court-logo');
-            logos.forEach(logo => logo.src = logoUrl);
-            
-            const packLogo = document.getElementById('pack-logo-img');
-            if (packLogo) packLogo.src = logoUrl;
-            
-            // Re-trigger Watermark Animations
             const watermarks = document.querySelectorAll('.broadcast-watermark');
-            watermarks.forEach(wm => {
-                wm.classList.remove('anim-watermark-drop');
-                void wm.offsetWidth;
-                wm.classList.add('anim-watermark-drop');
-            });
+            watermarks.forEach(wm => { wm.classList.remove('anim-watermark-drop'); void wm.offsetWidth; wm.classList.add('anim-watermark-drop'); });
             
-            // Re-trigger Game 2 Text Animation
             const gameText = document.getElementById('game2-text');
-            if (gameText) {
-                gameText.style.animation = 'none';
-                void gameText.offsetWidth;
-                gameText.style.animation = ''; 
-            }
+            if (gameText) { gameText.style.animation = 'none'; void gameText.offsetWidth; gameText.style.animation = ''; }
             
-            // Re-trigger Foil Pack Rip Animations
-            const foilTop = document.getElementById('foil-top');
-            const foilBody = document.getElementById('foil-body');
+            const foilTop = document.getElementById('foil-top'); const foilBody = document.getElementById('foil-body');
             if (foilTop) { foilTop.style.animation = 'none'; void foilTop.offsetWidth; foilTop.style.animation = ''; }
             if (foilBody) { foilBody.style.animation = 'none'; void foilBody.offsetWidth; foilBody.style.animation = ''; }
 
-            const container = document.getElementById('players-container');
-            container.innerHTML = '';
+            const container = document.getElementById('players-container'); container.innerHTML = '';
+            const starters = game.rosters[targetAbbr].players.slice(0, 5); const bench = (game.rosters[targetAbbr].bench || []).slice(0, 7);
 
-            const starters = game.rosters[targetAbbr].players.slice(0, 5);
-            const bench = (game.rosters[targetAbbr].bench || []).slice(0, 7);
-
-            // 1. RENDER THE BONUS BENCH CARDS (Burst from center pack!)
+            // RENDER BENCH (Bonus Cards!)
             bench.forEach((player, index) => {
-                const dbPlayer = getPlayerData(player.name);
-                const photoUrl = dbPlayer ? dbPlayer.photo : null;
-                const jerseyNum = dbPlayer && dbPlayer.jersey ? dbPlayer.jersey : "";
-                const pos = dbPlayer && dbPlayer.position ? dbPlayer.position : "RES";
+                const dbPlayer = getPlayerData(player.name); const photoUrl = dbPlayer ? dbPlayer.photo : null;
                 const lastName = player.name.split(' ').pop().substring(0, 10); 
-
-                const photoHtml = (photoUrl && photoUrl.trim() !== '') 
-                    ? `<img src="${photoUrl}" class="player-card-photo" crossorigin="anonymous" onerror="handleImageError(this)">` 
-                    : `<div class="fallback-silhouette"></div>`;
-
-                const benchSpacing = bench.length > 1 ? 75 / (bench.length - 1) : 0;
-                const benchX = 12.5 + (index * benchSpacing); 
+                const photoHtml = (photoUrl && photoUrl.trim() !== '') ? `<img src="${photoUrl}" class="bench-photo" crossorigin="anonymous" onerror="handleImageError(this)">` : `<div class="fallback-silhouette"></div>`;
+                const benchSpacing = bench.length > 1 ? 75 / (bench.length - 1) : 0; const benchX = 12.5 + (index * benchSpacing); 
 
                 const html = `
                     <div id="bench-node-${index}" class="player-node bench-node anim-bench-burst" style="--target-x: ${benchX}%; --target-y: -12%;">
-                        <div class="card-wrapper">
-                            <div id="card-inner-bench-${index}" class="player-card-inner bench-inner-flip">
-                                <div class="player-card-back">
-                                    <img src="${logoUrl}" class="card-back-logo">
-                                </div>
-                                <div class="player-card-front">
-                                    <div class="card-photo-clip">
-                                        <img src="${logoUrl}" class="card-logo-left">
-                                        <img src="${logoUrl}" class="card-logo-right">
-                                        ${photoHtml}
-                                        <div class="card-info-overlay">
-                                            <div class="card-name">${lastName}</div>
-                                            <div class="card-meta">
-                                                <span class="card-pos">${pos}</span>
-                                                ${jerseyNum ? `<span class="card-num">#${jerseyNum}</span>` : ''}
-                                            </div>
-                                        </div>
-                                        <div class="holo-glare anim-glare" style="animation-delay: 2s;"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="bench-photo-container">${photoHtml}</div>
+                        <div class="bench-nameplate">${lastName}</div>
                     </div>
                 `;
                 container.insertAdjacentHTML('beforeend', html);
             });
 
-            // 2. RENDER THE STARTER TRADING CARDS (All Burst from Center at 1.5s!)
-            const tagEl = document.getElementById('starting-tag');
-            tagEl.textContent = "STARTING 5";
-            tagEl.style.color = "var(--text-dark)";
-            tagEl.style.textShadow = "1px 1px 0px rgba(255,255,255,0.5)";
+            // RENDER STARTERS (Transparent PNGs with Randomized Animations!)
+            const tagEl = document.getElementById('starting-tag'); tagEl.textContent = "STARTING 5";
+            tagEl.style.color = "var(--text-dark)"; tagEl.style.textShadow = "1px 1px 0px rgba(255,255,255,0.5)";
+            tagEl.classList.remove('anim-header-tag'); void tagEl.offsetWidth; tagEl.classList.add('anim-header-tag');
 
-            tagEl.classList.remove('anim-header-tag');
-            void tagEl.offsetWidth; 
-            tagEl.classList.add('anim-header-tag');
+            // Shuffle the 9 animations
+            let shuffledAnims = ENTRANCE_STYLES.sort(() => 0.5 - Math.random());
 
             starters.forEach((player, index) => {
-                const pos = POSITIONS[index];
-                const coords = COURT_COORDS[index];
-                
-                const dbPlayer = getPlayerData(player.name);
-                const photoUrl = dbPlayer ? dbPlayer.photo : null;
+                const pos = POSITIONS[index]; const coords = COURT_COORDS[index];
+                const dbPlayer = getPlayerData(player.name); const photoUrl = dbPlayer ? dbPlayer.photo : null;
                 const jerseyNum = dbPlayer && dbPlayer.jersey ? dbPlayer.jersey : "";
+                let displayName = player.name; if (displayName.length > 18) displayName = displayName.substring(0, 16) + '...';
 
-                let displayName = player.name;
-                if (displayName.length > 18) displayName = displayName.substring(0, 16) + '...';
-
-                const photoHtml = (photoUrl && photoUrl.trim() !== '') 
-                    ? `<img src="${photoUrl}" class="player-card-photo" crossorigin="anonymous" onerror="handleImageError(this)">` 
-                    : `<div class="fallback-silhouette"></div>`;
-
-                const delays = [10.93, 18.15, 26.17, 33.72, 40.87]; 
-                const baseDelay = delays[index]; 
+                const photoHtml = (photoUrl && photoUrl.trim() !== '') ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` : `<div class="fallback-silhouette"></div>`;
+                const delays = [10.93, 18.15, 26.17, 33.72, 40.87]; const baseDelay = delays[index]; 
+                
+                // Get unique random animation for this player
+                const randomAnimClass = shuffledAnims[index % shuffledAnims.length];
 
                 const html = `
-                    <div class="player-node starter-node anim-burst" style="--target-x: ${coords.x}%; --target-y: ${coords.y}%;">
-                        <div class="cinematic-wrapper">
-                            <div class="card-wrapper">
-                                <div id="shockwave-${index}" class="shockwave-ring"></div>
-                                <div id="card-inner-${index}" class="player-card-inner">
-                                    <div class="player-card-back">
-                                        <img src="${logoUrl}" class="card-back-logo">
-                                    </div>
-                                    <div class="player-card-front">
-                                        <div class="card-photo-clip">
-                                            <img src="${logoUrl}" class="card-logo-left">
-                                            <img src="${logoUrl}" class="card-logo-right">
-                                            ${photoHtml}
-                                            <div class="card-info-overlay">
-                                                <div class="card-name">${displayName}</div>
-                                                <div class="card-meta">
-                                                    <span class="card-pos">${pos}</span>
-                                                    ${jerseyNum ? `<span class="card-num">#${jerseyNum}</span>` : ''}
-                                                </div>
-                                            </div>
-                                            <div id="glare-${index}" class="holo-glare"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="player-node starter-node ${randomAnimClass}" style="left: ${coords.x}%; top: ${coords.y}%;">
+                        <div id="shockwave-${index}" class="shockwave-ring"></div>
+                        <div id="player-wrap-${index}" class="player-cutout-wrapper">
+                            ${photoHtml}
+                        </div>
+                        <div id="hud-${index}" class="player-hud">
+                            <div class="hud-pos">${pos}</div>
+                            ${jerseyNum ? `<div class="hud-num">#${jerseyNum}</div>` : ''}
+                            <div class="hud-name">${displayName}</div>
                         </div>
                     </div>
                 `;
                 container.insertAdjacentHTML('beforeend', html);
 
-                // Spotlight tracks the specific player 0.5s before they are revealed
-                setTimeout(() => {
-                    activePlayerIndex = index;
-                }, (baseDelay - 0.5) * 1000);
+                // Tracking Spotlight Prep
+                setTimeout(() => { activePlayerIndex = index; }, (baseDelay - 0.5) * 1000);
                 
-                // Announcer calls name - FLIP THE CARD AND QUAKE
+                // Announcer Pop & HUD Reveal
                 setTimeout(() => {
-                    document.getElementById(`card-inner-${index}`).style.transform = 'rotateY(0deg)';
-                    document.getElementById(`glare-${index}`).classList.add('anim-glare');
+                    document.getElementById(`player-wrap-${index}`).classList.add('player-highlight');
+                    document.getElementById(`hud-${index}`).classList.add('hud-reveal');
                     
                     const captureArea = document.getElementById('capture-area');
-                    captureArea.classList.remove('quake-active');
-                    void captureArea.offsetWidth;
-                    captureArea.classList.add('quake-active');
+                    captureArea.classList.remove('quake-active'); void captureArea.offsetWidth; captureArea.classList.add('quake-active');
+                    
+                    const shock = document.getElementById(`shockwave-${index}`);
+                    if(shock) { shock.classList.remove('anim-shockwave'); void shock.offsetWidth; shock.classList.add('anim-shockwave'); }
                 }, baseDelay * 1000);
-
             });
 
-            // --- MASSIVE GLOBAL QUAKE WHEN ALL CARDS LAND AT 2.5s ---
+            // Lights out at 4.11s
             setTimeout(() => {
-                const captureArea = document.getElementById('capture-area');
-                captureArea.classList.remove('quake-active');
-                void captureArea.offsetWidth;
-                captureArea.classList.add('quake-active');
-                
-                for(let i = 0; i < 5; i++) {
-                    const shockwave = document.getElementById(`shockwave-${i}`);
-                    if (shockwave) shockwave.classList.add('anim-shockwave');
-                }
-            }, 2500); 
-
-            // --- TRIGGER THE ARENA LIGHTS OFF AT 4.11s ---
-            setTimeout(() => {
-                if (captureArea) {
-                    captureArea.classList.add('lights-out-mode');
-                }
-                trackingSpotlight = true;
-                
-                currentSpotX = 540; currentSpotY = 960; 
-                moveRoamingLights();
-                
-                roamSpot1.x = roamSpot1.targetX; roamSpot1.y = roamSpot1.targetY;
-                roamSpot2.x = roamSpot2.targetX; roamSpot2.y = roamSpot2.targetY;
-
-                renderSpotlights(); 
-                
-                roamingInterval = setInterval(moveRoamingLights, 1500);
+                if (captureArea) captureArea.classList.add('lights-out-mode');
+                trackingSpotlight = true; currentSpotX = 540; currentSpotY = 960; 
+                moveRoamingLights(); roamSpot1.x = roamSpot1.targetX; roamSpot1.y = roamSpot1.targetY; roamSpot2.x = roamSpot2.targetX; roamSpot2.y = roamSpot2.targetY;
+                renderSpotlights(); roamingInterval = setInterval(moveRoamingLights, 1500);
             }, 4110); 
 
-            // --- THE FINAL ARENA FLOODLIGHT (40.5s) ---
-            setTimeout(() => {
-                spotlightWiden = true;
-                activePlayerIndex = -1; 
-            }, 43500);
+            // Floodlight Finale
+            setTimeout(() => { spotlightWiden = true; activePlayerIndex = -1; }, 43500);
 
-            // --- THE CLEAN BENCH EXIT (44.2s) ---
+            // Clean exit
             setTimeout(() => {
                 const benchNodes = document.querySelectorAll('.bench-node');
-                
                 Array.from(benchNodes).forEach((node, idx) => {
-                    node.style.animation = 'none'; 
-                    const innerWrap = node.querySelector('.cinematic-wrapper');
-                    if (innerWrap) innerWrap.style.animation = 'none';
-
-                    node.style.transform = 'translate(-50%, -50%) scale(1)'; 
-                    void node.offsetWidth; 
-                    
+                    node.style.animation = 'none'; node.style.transform = 'translate(-50%, -50%) scale(1)'; void node.offsetWidth; 
                     const pushDir = idx % 2 === 0 ? 'slideOffLeft' : 'slideOffRight';
                     node.style.animation = `${pushDir} 1.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards`;
                 });
             }, 44200); 
 
-            // --- ARENA LIGHTS ON (44.5s) ---
             setTimeout(() => {
                 if (captureArea) captureArea.classList.remove('lights-out-mode');
-                trackingSpotlight = false; 
-                if (roamingInterval) clearInterval(roamingInterval); 
+                trackingSpotlight = false; if (roamingInterval) clearInterval(roamingInterval); 
             }, 44500); 
         }
 
         function takeScreenshot() {
-            const capture = document.getElementById('capture-area');
-            capture.style.opacity = '0.5';
+            const capture = document.getElementById('capture-area'); capture.style.opacity = '0.5';
             setTimeout(() => { capture.style.opacity = '1'; }, 100);
             alert("Ready! Playwright will capture #capture-area as a 1080x1920 vertical video format.");
         }
