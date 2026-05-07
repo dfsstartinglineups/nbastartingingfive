@@ -62,8 +62,7 @@
             position: absolute; top: 0%; left: 50%; transform: translate(-50%, -50%);
             font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; font-size: 140px;
             color: var(--team-primary); letter-spacing: 5px; text-transform: uppercase;
-            z-index: 18; white-space: nowrap; opacity: 0;
-            animation: slideInText 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; animation-delay: 3.4s; pointer-events: none;
+            z-index: 18; white-space: nowrap; opacity: 0; animation: slideInText 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; animation-delay: 3.4s; pointer-events: none;
         }
         #game2-text::before { content: attr(data-text); position: absolute; left: 0; top: 0; z-index: -1; -webkit-text-stroke: 12px #fff; text-shadow: 6px 6px 0 var(--team-secondary), 0 15px 25px rgba(0,0,0,0.5); }
         @keyframes slideInText { 0% { opacity: 0; transform: translate(-50%, -300px); filter: blur(10px); } 100% { opacity: 1; transform: translate(-50%, -50%); filter: blur(0px); } }
@@ -95,14 +94,13 @@
         .lights-out-mode #spotlight-canvas { opacity: 1; }
 
         /* ========================================================
-           THE TRANSPARENT PNG & TIGHT HUD SYSTEM
+           THE TRANSPARENT PNG & TIGHT HUD SYSTEM (REVERTED TO PERFECT LAYOUT)
            ======================================================== */
         #players-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 15; pointer-events: none; }
         
         .player-node { 
             position: absolute; 
-            width: 300px; height: 350px; 
-            transform: translate(-50%, -50%); 
+            display: flex; flex-direction: column; align-items: center;
         }
         
         .player-cutout-wrapper {
@@ -121,27 +119,25 @@
             filter: brightness(1.2) drop-shadow(0 0 25px var(--team-primary)) drop-shadow(0 20px 15px rgba(0,0,0,0.9));
         }
 
-        /* --- TIGHTENED HUD POSITIONING --- */
         .player-hud {
-            position: absolute; bottom: 0px; left: 50%; transform: translateX(-50%) scale(0.9);
-            width: 250px; height: 100px; opacity: 0; pointer-events: none; z-index: 30;
+            position: absolute; top: 50%; left: 50%; width: 250px; height: 300px;
+            transform: translate(-50%, -50%) scale(0.9); opacity: 0; pointer-events: none; z-index: 30;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .hud-reveal { opacity: 1; transform: translateX(-50%) scale(1); }
+        .hud-reveal { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
         .hud-pos, .hud-num {
             position: absolute; top: 40px; 
-            font-family: 'Teko', sans-serif; font-size: 30px; font-weight: bold; color: var(--text-dark);
+            font-family: 'Teko', sans-serif; font-size: 32px; font-weight: bold; color: var(--text-dark);
             background: #fff; padding: 2px 14px; border-radius: 6px; border: 4px solid var(--team-secondary);
             line-height: 1.1; box-shadow: 3px 3px 0 var(--team-primary);
         }
-        .hud-pos { left: -5px; } 
-        .hud-num { right: -5px; } 
+        .hud-pos { left: -15px; } 
+        .hud-num { right: -15px; } 
 
         .hud-name {
-            position: absolute; bottom: 0px; 
-            left: 50%; transform: translateX(-50%);
-            font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 26px; color: #fff;
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 28px; color: #fff;
             text-align: center; white-space: nowrap; text-transform: uppercase;
             background: var(--team-primary); padding: 8px 24px; border-radius: 8px; border: 3px solid #fff;
             box-shadow: 0 10px 20px rgba(0,0,0,0.6), 4px 4px 0 var(--team-secondary);
@@ -196,9 +192,8 @@
         @keyframes fadeIn { to { opacity: 1; } }
 
         /* BENCH DROPS */
-        .bench-node { z-index: 5; width: 150px; height: 200px; }
-        .bench-node .player-cutout-wrapper { height: 150px; bottom: 30px; }
-        .bench-node .hud-name { font-size: 16px; padding: 4px 12px; bottom: 0px; }
+        .bench-node { z-index: 5; }
+        .bench-node .hud-name { font-size: 16px; padding: 4px 12px; }
         @keyframes benchDropIn { 0% { transform: translate(-50%, -400px); opacity: 0; } 100% { transform: translate(-50%, -50%); opacity: 1; } }
 
         /* --- SHOCKWAVE RING --- */
@@ -576,7 +571,6 @@
             teamNameEl.textContent = teamNameStr; teamNameEl.setAttribute('data-text', teamNameStr);
             teamNameEl.classList.remove('anim-team-name'); void teamNameEl.offsetWidth; teamNameEl.classList.add('anim-team-name');
             
-            // Set Bottom Banner Name
             document.getElementById('banner-team-name').textContent = teamNameStr;
 
             document.getElementById('matchup-info').textContent = `${isHome ? 'VS' : '@'} ${oppData ? oppData.name : oppAbbr}  |  ${game.date}`;
@@ -595,7 +589,7 @@
             const container = document.getElementById('players-container'); container.innerHTML = '';
             const starters = game.rosters[targetAbbr].players.slice(0, 5); const bench = (game.rosters[targetAbbr].bench || []).slice(0, 7);
 
-            // RENDER BENCH (No cards! Just mini holograms dropping in)
+            // RENDER BENCH
             bench.forEach((player, index) => {
                 const dbPlayer = getPlayerData(player.name); const photoUrl = dbPlayer ? dbPlayer.photo : null;
                 const lastName = player.name.split(' ').pop().substring(0, 10); 
@@ -649,10 +643,8 @@
                 `;
                 container.insertAdjacentHTML('beforeend', html);
 
-                // Tracking Spotlight Pre-emptively locks on BEFORE they drop
                 setTimeout(() => { activePlayerIndex = index; }, (baseDelay - 1.5) * 1000);
                 
-                // Announcer Pop & HUD Reveal
                 setTimeout(() => {
                     document.getElementById(`player-wrap-${index}`).classList.add('player-highlight');
                     document.getElementById(`hud-${index}`).classList.add('hud-reveal');
