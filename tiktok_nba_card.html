@@ -124,24 +124,15 @@
 
         #team-logo { width: 180px; height: 180px; object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); }
 
-        /* --- REDUCED VERTICAL COURT HEIGHT TO DODGE TIKTOK UI --- */
+        /* --- COURT SETUP --- */
         #court-scene {
-            width: 100%;
-            height: 1400px; /* Reduced from 1550px */
-            position: absolute;
-            bottom: 120px; /* Pulled up 120px above the safe zone */
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
+            width: 100%; height: 1400px; position: absolute; bottom: 120px; 
+            display: flex; justify-content: center; align-items: flex-end;
         }
 
         #court {
-            width: 960px; 
-            height: 1250px; /* Reduced from 1400px */
-            position: relative;
-            border: 4px solid var(--team-primary);
-            border-bottom: none;
-            border-radius: 10px 10px 0 0;
+            width: 960px; height: 1250px; position: relative;
+            border: 4px solid var(--team-primary); border-bottom: none; border-radius: 10px 10px 0 0;
             box-shadow: inset 0 0 50px rgba(0,0,0,0.1);
         }
 
@@ -193,94 +184,54 @@
         }
         @keyframes slideInText { 0% { opacity: 0; transform: translate(-50%, -300px); filter: blur(10px); } 100% { opacity: 1; transform: translate(-50%, -50%); filter: blur(0px); } }
 
-        /* --- THE VIRAL FOIL PACK RIP --- */
-        #foil-pack-wrapper {
-            position: absolute; top: 38%; left: 50%; width: 400px; height: 600px;
-            transform: translate(-50%, -50%); z-index: 150; animation: packFloat 1.5s ease-in-out infinite alternate; pointer-events: none;
+        /* --- CANVAS LIGHTING ENGINE --- */
+        #spotlight-canvas {
+            position: absolute; top: 0; left: 0; width: 1080px; height: 1920px;
+            z-index: 20; opacity: 0; pointer-events: none; transition: opacity 1.5s ease;
         }
-        .foil-top {
-            position: absolute; top: 0; left: 0; width: 100%; height: 120px; background: linear-gradient(135deg, #eee, #999, #fff, #999);
-            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), 75% 100%, 50% calc(100% - 20px), 25% 100%, 0 calc(100% - 20px));
-            border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); overflow: hidden;
-            animation: ripTop 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s forwards;
-        }
-        .foil-body {
-            position: absolute; top: 100px; left: 0; width: 100%; height: 500px; background: linear-gradient(135deg, var(--team-primary), var(--team-secondary), var(--team-primary));
-            clip-path: polygon(0 20px, 25% 0, 50% 20px, 75% 0, 100% 20px, 100% 100%, 0 100%);
-            border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-            display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden;
-            animation: ripBody 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s forwards;
-        }
-        .pack-sub-text { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 24px; color: #ffea00; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; z-index: 2; text-shadow: 1px 1px 0 #000; }
-        .pack-bonus-text { font-family: 'Teko', sans-serif; font-weight: 600; font-size: 28px; color: #fff; text-transform: uppercase; letter-spacing: 1px; margin-top: 15px; background: #111; padding: 2px 10px; border-radius: 4px; border: 2px solid var(--team-primary); z-index: 2; }
-        .pack-logo-img { width: 200px; height: 200px; object-fit: contain; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5)); margin-top: 10px; }
-        .pack-text-label { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 50px; font-style: italic; line-height: 0.9; margin-top: 15px; text-align: center; text-transform: uppercase; z-index: 2; display: flex; flex-direction: column; align-items: center; }
-        .pack-text-line { position: relative; color: var(--team-primary); z-index: 1; }
-        .pack-text-line::before { content: attr(data-text); position: absolute; left: 0; top: 0; z-index: -1; -webkit-text-stroke: 8px #fff; text-shadow: 4px 4px 0 var(--team-secondary), 0 10px 15px rgba(0,0,0,0.5); }
-        .foil-sheen { position: absolute; top: 0; left: -150%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent); transform: skewX(-25deg); animation: sheenSweep 2s infinite; }
-        
-        @keyframes packFloat { 0% { transform: translate(-50%, -50%) translateY(0); } 100% { transform: translate(-50%, -50%) translateY(-25px); } }
-        @keyframes sheenSweep { 0% { left: -150%; } 50%, 100% { left: 150%; } }
-        @keyframes ripTop { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-1000px) rotate(35deg); opacity: 0; display: none; } }
-        @keyframes ripBody { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(1000px) rotate(-20deg); opacity: 0; display: none; } }
-
-        #spotlight-canvas { position: absolute; top: 0; left: 0; width: 1080px; height: 1920px; z-index: 20; opacity: 0; pointer-events: none; transition: opacity 1.5s ease; }
         .lights-out-mode #spotlight-canvas { opacity: 1; }
 
         /* ========================================================
-           THE NEW TRANSPARENT PNG & HUD SYSTEM
+           THE TRANSPARENT PNG & TIGHT HUD SYSTEM
            ======================================================== */
         #players-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 15; pointer-events: none; }
         .player-node { position: absolute; }
         
-        /* The player cutout container (animated during entrance) */
         .player-cutout-wrapper {
-            position: absolute;
-            bottom: 0; 
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex; justify-content: center; align-items: flex-end;
-            transition: all 0.4s ease;
+            position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            display: flex; justify-content: center; align-items: flex-end; transition: all 0.4s ease;
         }
 
         .player-photo {
-            height: 280px; /* Massive AR Hologram scale */
-            width: auto;
-            object-fit: contain;
-            object-position: bottom center;
-            filter: drop-shadow(0 20px 15px rgba(0,0,0,0.7));
-            transition: all 0.4s ease;
+            height: 280px; width: auto; object-fit: contain; object-position: bottom center;
+            filter: drop-shadow(0 20px 15px rgba(0,0,0,0.7)); transition: all 0.4s ease;
         }
 
-        /* The Announcer Pop */
         .player-highlight .player-photo {
             transform: scale(1.15) translateY(-10px);
             filter: drop-shadow(0 0 25px var(--team-primary)) drop-shadow(0 20px 15px rgba(0,0,0,0.9));
         }
 
-        /* The Floating HUD Setup (Top L, Top R, Bottom) */
+        /* --- TIGHTENED HUD POSITIONING --- */
         .player-hud {
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 250px; height: 300px;
-            transform: translate(-50%, -50%) scale(0.9);
-            opacity: 0; pointer-events: none; z-index: 30;
+            position: absolute; top: 50%; left: 50%; width: 250px; height: 300px;
+            transform: translate(-50%, -50%) scale(0.9); opacity: 0; pointer-events: none; z-index: 30;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-
         .hud-reveal { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
         .hud-pos, .hud-num {
-            position: absolute; top: 20px;
+            position: absolute; top: 40px; /* Pulled down closer to shoulders */
             font-family: 'Teko', sans-serif; font-size: 32px; font-weight: bold; color: var(--text-dark);
             background: #fff; padding: 2px 14px; border-radius: 6px; border: 4px solid var(--team-secondary);
             line-height: 1.1; box-shadow: 3px 3px 0 var(--team-primary);
         }
-        .hud-pos { left: -30px; }
-        .hud-num { right: -30px; }
+        .hud-pos { left: -15px; } /* Pulled inward */
+        .hud-num { right: -15px; } /* Pulled inward */
 
         .hud-name {
-            position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+            position: absolute; bottom: 30px; /* Pulled UP drastically to sit on the chest */
+            left: 50%; transform: translateX(-50%);
             font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 28px; color: #fff;
             text-align: center; white-space: nowrap; text-transform: uppercase;
             background: var(--team-primary); padding: 8px 24px; border-radius: 8px; border: 3px solid #fff;
@@ -288,68 +239,65 @@
         }
 
         /* --- THE 9-PLAY RANDOMIZED ENTRANCE ANIMATIONS --- */
-        /* 1. Hero Drop (Z-axis scale) */
-        .anim-hero-drop { animation: heroDrop 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s both; }
+        /* Dynamic var(--entrance-delay) allows each player to sync perfectly with announcer */
+        .anim-hero-drop { animation: heroDrop 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) var(--entrance-delay) both; }
         @keyframes heroDrop { 0% { transform: translate(-50%, -50%) scale(4); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
 
-        /* 2. Speed Dash */
-        .anim-speed-dash { animation: speedDash 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s both; }
+        .anim-speed-dash { animation: speedDash 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) var(--entrance-delay) both; }
         @keyframes speedDash { 0% { transform: translate(-500%, -50%) skewX(-30deg); opacity: 0; filter: blur(10px); } 100% { transform: translate(-50%, -50%) skewX(0); opacity: 1; filter: blur(0); } }
 
-        /* 3. Cyber Scan (Image mask + Laser) */
-        .anim-cyber-scan { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s 1.5s both; }
-        .anim-cyber-scan .player-photo { animation: cyberScan 1.2s ease-in-out 1.5s both; }
-        .anim-cyber-scan::after { content:''; position:absolute; bottom:0; left:-10%; width:120%; height:4px; background:cyan; box-shadow:0 0 15px cyan; animation: scanLine 1.2s linear 1.5s both; z-index:25; }
+        .anim-cyber-scan { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
+        .anim-cyber-scan .player-photo { animation: cyberScan 1.2s ease-in-out var(--entrance-delay) both; }
+        .anim-cyber-scan::after { content:''; position:absolute; bottom:0; left:-10%; width:120%; height:4px; background:cyan; box-shadow:0 0 15px cyan; animation: scanLine 1.2s linear var(--entrance-delay) both; z-index:25; }
         @keyframes cyberScan { 0% { clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%); } 100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); } }
         @keyframes scanLine { 0% { bottom: 0%; opacity:1; } 95% { bottom: 100%; opacity:1; } 100% { bottom: 100%; opacity:0; display:none;} }
 
-        /* 4. Silhouette Riser */
-        .anim-silhouette { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s 1.5s both; }
-        .anim-silhouette .player-photo { animation: silRise 1.2s ease-out 1.5s both; }
+        .anim-silhouette { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
+        .anim-silhouette .player-photo { animation: silRise 1.2s ease-out var(--entrance-delay) both; }
         @keyframes silRise { 0% { filter: brightness(0) drop-shadow(0 0 0 transparent); transform: translateY(30px); } 100% { filter: brightness(1) drop-shadow(0 20px 15px rgba(0,0,0,0.6)); transform: translateY(0); } }
 
-        /* 5. Arcade Spin */
-        .anim-arcade-spin { animation: arcadeSpin 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s both; }
+        .anim-arcade-spin { animation: arcadeSpin 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) var(--entrance-delay) both; }
         @keyframes arcadeSpin { 0% { transform: translate(-50%, -50%) rotateY(1080deg) scale(2); opacity: 0; } 100% { transform: translate(-50%, -50%) rotateY(0deg) scale(1); opacity: 1; } }
 
-        /* 6. Dimensional Rift */
-        .anim-rift { animation: riftPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.5s both; }
+        .anim-rift { animation: riftPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) var(--entrance-delay) both; }
         @keyframes riftPop { 0% { transform: translate(-50%, -50%) scale(0.3); filter: grayscale(1) contrast(3) blur(10px); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); filter: grayscale(0) contrast(1) blur(0); opacity: 1; } }
 
-        /* 7. Taz Tornado Spin */
-        .anim-taz-spin { animation: tazSpin 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s both; }
+        .anim-taz-spin { animation: tazSpin 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) var(--entrance-delay) both; }
         @keyframes tazSpin { 0% { transform: translate(-50%, -300%) rotateY(2000deg); opacity: 0; filter: blur(5px); } 100% { transform: translate(-50%, -50%) rotateY(0deg); opacity: 1; filter: blur(0); } }
 
-        /* 8. Zipline */
-        .anim-zipline { animation: zipline 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s both; }
+        .anim-zipline { animation: zipline 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) var(--entrance-delay) both; }
         @keyframes zipline { 0% { transform: translate(-300%, -300%) rotateZ(-25deg); opacity: 0; } 80% { transform: translate(-40%, -40%) rotateZ(10deg); opacity: 1; } 100% { transform: translate(-50%, -50%) rotateZ(0deg); opacity: 1; } }
 
-        /* 9. Ice Breaker */
-        .anim-ice-breaker { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s 1.5s both; }
-        .anim-ice-breaker .player-photo { animation: iceMelt 1.5s ease-in 1.5s both; }
-        .anim-ice-breaker::before { content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:100px; height:10px; background:radial-gradient(ellipse, #ff4500, transparent); filter:blur(5px); animation: fireBurn 1.5s 1.5s both; z-index:25; }
+        .anim-ice-breaker { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
+        .anim-ice-breaker .player-photo { animation: iceMelt 1.5s ease-in var(--entrance-delay) both; }
+        .anim-ice-breaker::before { content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:100px; height:10px; background:radial-gradient(ellipse, #ff4500, transparent); filter:blur(5px); animation: fireBurn 1.5s var(--entrance-delay) both; z-index:25; }
         @keyframes iceMelt { 0% { filter: sepia(1) hue-rotate(180deg) saturate(3) brightness(1.5); } 100% { filter: sepia(0) hue-rotate(0) saturate(1) brightness(1) drop-shadow(0 20px 20px rgba(0,0,0,0.7)); } }
         @keyframes fireBurn { 0% { height: 10px; opacity:0; } 20% { height: 60px; opacity:1; } 90% { height: 60px; opacity:1; } 100% { height: 10px; opacity:0; } }
-
         @keyframes fadeIn { to { opacity: 1; } }
-        .anim-bench-burst { animation: benchBurst 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) 1.5s both; }
-        @keyframes benchBurst { 0% { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.1) rotateZ(0deg); opacity: 0; } 5% { left: 50%; top: 38%; transform: translate(-50%, -50%) scale(0.5) rotateZ(-35deg); opacity: 1; } 100% { left: var(--target-x); top: var(--target-y); transform: translate(-50%, -50%) scale(1) rotateZ(0deg); opacity: 1; } }
 
+        /* BENCH DROPS */
         .bench-node { z-index: 5; }
-        .bench-photo-container { width: 140px; height: 140px; border-radius: 50%; border: 4px solid var(--team-secondary); background-color: #222; box-shadow: 0 10px 25px rgba(0,0,0,0.4); z-index: 12; overflow: hidden; position: relative; box-sizing: border-box; }
-        .bench-photo { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top; transform: scale(1.15) translateY(5px); }
-        .bench-nameplate { background: #fff; color: var(--text-dark); padding: 4px 16px; font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 900; font-style: italic; text-transform: uppercase; white-space: nowrap; border-radius: 6px; border: 1px solid rgba(0,0,0,0.1); margin-top: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
+        @keyframes benchDropIn { 0% { transform: translate(-50%, -400px); opacity: 0; } 100% { transform: translate(-50%, -50%); opacity: 1; } }
 
+        /* --- SHOCKWAVE RING --- */
         .shockwave-ring { position: absolute; top: 50%; left: 50%; width: 200px; height: 200px; border-radius: 50%; border: 12px solid var(--team-primary); transform: translate(-50%, -50%) scale(0.5); opacity: 0; z-index: 11; pointer-events: none; }
         @keyframes ringExplode { 0% { transform: translate(-50%, -50%) scale(0.8); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(3.5); opacity: 0; border-width: 2px; } }
         .anim-shockwave { animation: ringExplode 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
 
+        /* ========================================================
+           HEADER ENTRANCE ANIMATIONS
+           ======================================================== */
         .anim-header-tag { animation: headerSlideDown 1s ease-out 2.5s forwards; opacity: 0; }
         .anim-team-name { animation: teamNameZoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.5s forwards; opacity: 0; }
         .anim-logo { animation: logoSpinIn 0.8s ease-out 2.5s forwards; opacity: 0; }
+
         @keyframes headerSlideDown { 0% { opacity: 0; transform: translateY(-40px); } 100% { opacity: 1; transform: translateY(0); } }
         @keyframes teamNameZoom { 0% { opacity: 0; transform: scale(1.8) rotate(-3deg); filter: blur(8px); } 100% { opacity: 1; transform: scale(1) rotate(0deg); filter: blur(0); } }
         @keyframes logoSpinIn { 0% { opacity: 0; transform: translateX(100px) rotate(90deg) scale(0.2); } 100% { opacity: 1; transform: translateX(0) rotate(0) scale(1); filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); } }
+
+        /* ========================================================
+           THE CLEAN BENCH EXIT
+           ======================================================== */
         @keyframes slideOffRight { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(1500%, -50%) scale(1); opacity: 0; } }
         @keyframes slideOffLeft { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(-1500%, -50%) scale(1); opacity: 0; } }
 
@@ -403,20 +351,6 @@
                     <img class="court-logo" src="" alt="">
                 </div>
                 
-                <div id="foil-pack-wrapper" class="foil-pack-wrapper">
-                    <div id="foil-top" class="foil-top"><div class="foil-sheen"></div></div>
-                    <div id="foil-body" class="foil-body">
-                        <div class="pack-sub-text">Official Starter Pack</div>
-                        <img id="pack-logo-img" class="pack-logo-img" src="" alt="">
-                        <div class="pack-text-label">
-                            <div class="pack-text-line" data-text="PLAYOFFS">PLAYOFFS</div>
-                            <div class="pack-text-line" data-text="GAME 2">GAME 2</div>
-                        </div>
-                        <div class="pack-bonus-text">+ BONUS BENCH CARDS</div>
-                        <div class="foil-sheen"></div>
-                    </div>
-                </div>
-
                 <div id="game2-text" class="neon-game-text" data-text="GAME 2">GAME 2</div>
 
                 <div id="players-container"></div>
@@ -486,13 +420,14 @@
         let spotlightWiden = false; 
         let roamingInterval;
         
-        let currentSpotX = 540;
-        let currentSpotY = 960;
-        let currentInnerR = 90;
-        let currentOuterR = 360;
+        // Upgraded to 4 Fast Spotlights!
+        let currentSpotX = 540; let currentSpotY = 960;
+        let currentInnerR = 90; let currentOuterR = 360;
         
         let roamSpot1 = { x: 200, y: 200, targetX: 200, targetY: 200 };
         let roamSpot2 = { x: 800, y: 1600, targetX: 800, targetY: 1600 };
+        let roamSpot3 = { x: 800, y: 200, targetX: 800, targetY: 200 };
+        let roamSpot4 = { x: 200, y: 1600, targetX: 200, targetY: 1600 };
         
         let activePrimaryHex = '#ffffff';
         let activeSecondaryHex = '#ffffff';
@@ -558,10 +493,11 @@
             currentInnerR += (targetInnerR - currentInnerR) * 0.05;
             currentOuterR += (targetOuterR - currentOuterR) * 0.05;
             
-            roamSpot1.x += (roamSpot1.targetX - roamSpot1.x) * 0.06;
-            roamSpot1.y += (roamSpot1.targetY - roamSpot1.y) * 0.06;
-            roamSpot2.x += (roamSpot2.targetX - roamSpot2.x) * 0.06;
-            roamSpot2.y += (roamSpot2.targetY - roamSpot2.y) * 0.06;
+            // Increased Spotlight Tracking Speed to 0.12!
+            roamSpot1.x += (roamSpot1.targetX - roamSpot1.x) * 0.12; roamSpot1.y += (roamSpot1.targetY - roamSpot1.y) * 0.12;
+            roamSpot2.x += (roamSpot2.targetX - roamSpot2.x) * 0.12; roamSpot2.y += (roamSpot2.targetY - roamSpot2.y) * 0.12;
+            roamSpot3.x += (roamSpot3.targetX - roamSpot3.x) * 0.12; roamSpot3.y += (roamSpot3.targetY - roamSpot3.y) * 0.12;
+            roamSpot4.x += (roamSpot4.targetX - roamSpot4.x) * 0.12; roamSpot4.y += (roamSpot4.targetY - roamSpot4.y) * 0.12;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.globalCompositeOperation = 'source-over';
@@ -569,10 +505,20 @@
             
             ctx.globalCompositeOperation = 'destination-out';
             drawHole(ctx, currentSpotX, currentSpotY, currentInnerR, currentOuterR);
-            if (!spotlightWiden) { drawHole(ctx, roamSpot1.x, roamSpot1.y, 30, 210); drawHole(ctx, roamSpot2.x, roamSpot2.y, 30, 210); }
+            if (!spotlightWiden) { 
+                drawHole(ctx, roamSpot1.x, roamSpot1.y, 30, 210); 
+                drawHole(ctx, roamSpot2.x, roamSpot2.y, 30, 210); 
+                drawHole(ctx, roamSpot3.x, roamSpot3.y, 30, 210); 
+                drawHole(ctx, roamSpot4.x, roamSpot4.y, 30, 210); 
+            }
             
             ctx.globalCompositeOperation = 'source-over';
-            if (!spotlightWiden) { drawColoredTint(ctx, roamSpot1.x, roamSpot1.y, 30, 210, activePrimaryHex); drawColoredTint(ctx, roamSpot2.x, roamSpot2.y, 30, 210, activeSecondaryHex); }
+            if (!spotlightWiden) { 
+                drawColoredTint(ctx, roamSpot1.x, roamSpot1.y, 30, 210, activePrimaryHex); 
+                drawColoredTint(ctx, roamSpot2.x, roamSpot2.y, 30, 210, activeSecondaryHex); 
+                drawColoredTint(ctx, roamSpot3.x, roamSpot3.y, 30, 210, activePrimaryHex); 
+                drawColoredTint(ctx, roamSpot4.x, roamSpot4.y, 30, 210, activeSecondaryHex); 
+            }
             drawMainHalo(ctx, currentSpotX, currentSpotY, currentInnerR, currentOuterR, activePrimaryHex, activeSecondaryHex);
             
             requestAnimationFrame(renderSpotlights);
@@ -588,8 +534,10 @@
                 }
                 return { x: rx, y: ry };
             }
-            const newSpot1 = getEvasiveTarget(); roamSpot1.targetX = newSpot1.x; roamSpot1.targetY = newSpot1.y;
-            const newSpot2 = getEvasiveTarget(); roamSpot2.targetX = newSpot2.x; roamSpot2.targetY = newSpot2.y;
+            const ns1 = getEvasiveTarget(); roamSpot1.targetX = ns1.x; roamSpot1.targetY = ns1.y;
+            const ns2 = getEvasiveTarget(); roamSpot2.targetX = ns2.x; roamSpot2.targetY = ns2.y;
+            const ns3 = getEvasiveTarget(); roamSpot3.targetX = ns3.x; roamSpot3.targetY = ns3.y;
+            const ns4 = getEvasiveTarget(); roamSpot4.targetX = ns4.x; roamSpot4.targetY = ns4.y;
         }
 
         function getNbaLogo(abbr) { if (!abbr) return ''; return `logos/${abbr}.svg`; }
@@ -707,38 +655,42 @@
             logoEl.classList.remove('anim-logo'); void logoEl.offsetWidth; logoEl.classList.add('anim-logo');
             
             const logos = document.querySelectorAll('.court-logo'); logos.forEach(logo => logo.src = logoUrl);
-            const packLogo = document.getElementById('pack-logo-img'); if (packLogo) packLogo.src = logoUrl;
             
             const watermarks = document.querySelectorAll('.broadcast-watermark');
             watermarks.forEach(wm => { wm.classList.remove('anim-watermark-drop'); void wm.offsetWidth; wm.classList.add('anim-watermark-drop'); });
             
             const gameText = document.getElementById('game2-text');
             if (gameText) { gameText.style.animation = 'none'; void gameText.offsetWidth; gameText.style.animation = ''; }
-            
-            const foilTop = document.getElementById('foil-top'); const foilBody = document.getElementById('foil-body');
-            if (foilTop) { foilTop.style.animation = 'none'; void foilTop.offsetWidth; foilTop.style.animation = ''; }
-            if (foilBody) { foilBody.style.animation = 'none'; void foilBody.offsetWidth; foilBody.style.animation = ''; }
 
             const container = document.getElementById('players-container'); container.innerHTML = '';
             const starters = game.rosters[targetAbbr].players.slice(0, 5); const bench = (game.rosters[targetAbbr].bench || []).slice(0, 7);
 
-            // RENDER BENCH (Bonus Cards!)
+            // RENDER BENCH (No cards! Just mini holograms dropping in)
             bench.forEach((player, index) => {
                 const dbPlayer = getPlayerData(player.name); const photoUrl = dbPlayer ? dbPlayer.photo : null;
+                const jerseyNum = dbPlayer && dbPlayer.jersey ? dbPlayer.jersey : "";
+                const pos = dbPlayer && dbPlayer.position ? dbPlayer.position : "RES";
                 const lastName = player.name.split(' ').pop().substring(0, 10); 
-                const photoHtml = (photoUrl && photoUrl.trim() !== '') ? `<img src="${photoUrl}" class="bench-photo" crossorigin="anonymous" onerror="handleImageError(this)">` : `<div class="fallback-silhouette"></div>`;
+                
+                const photoHtml = (photoUrl && photoUrl.trim() !== '') ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` : `<div class="fallback-silhouette"></div>`;
                 const benchSpacing = bench.length > 1 ? 75 / (bench.length - 1) : 0; const benchX = 12.5 + (index * benchSpacing); 
 
                 const html = `
-                    <div id="bench-node-${index}" class="player-node bench-node anim-bench-burst" style="--target-x: ${benchX}%; --target-y: -12%;">
-                        <div class="bench-photo-container">${photoHtml}</div>
-                        <div class="bench-nameplate">${lastName}</div>
+                    <div id="bench-node-${index}" class="player-node bench-node" style="left: ${benchX}%; top: -12%; animation: benchDropIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) ${3.5 + index * 0.1}s both;">
+                        <div class="player-cutout-wrapper" style="transform: scale(0.55);">
+                            ${photoHtml}
+                        </div>
+                        <div class="player-hud hud-reveal" style="transform: translate(-50%, -50%) scale(0.65); top: 50%;">
+                            <div class="hud-pos">${pos}</div>
+                            ${jerseyNum ? `<div class="hud-num">#${jerseyNum}</div>` : ''}
+                            <div class="hud-name">${lastName}</div>
+                        </div>
                     </div>
                 `;
                 container.insertAdjacentHTML('beforeend', html);
             });
 
-            // RENDER STARTERS (Transparent PNGs with Randomized Animations!)
+            // RENDER STARTERS (The 9-Play Engine!)
             const tagEl = document.getElementById('starting-tag'); tagEl.textContent = "STARTING 5";
             tagEl.style.color = "var(--text-dark)"; tagEl.style.textShadow = "1px 1px 0px rgba(255,255,255,0.5)";
             tagEl.classList.remove('anim-header-tag'); void tagEl.offsetWidth; tagEl.classList.add('anim-header-tag');
@@ -759,7 +711,7 @@
                 const randomAnimClass = shuffledAnims[index % shuffledAnims.length];
 
                 const html = `
-                    <div class="player-node starter-node ${randomAnimClass}" style="left: ${coords.x}%; top: ${coords.y}%;">
+                    <div class="player-node starter-node ${randomAnimClass}" style="left: ${coords.x}%; top: ${coords.y}%; --entrance-delay: ${baseDelay - 1.5}s;">
                         <div id="shockwave-${index}" class="shockwave-ring"></div>
                         <div id="player-wrap-${index}" class="player-cutout-wrapper">
                             ${photoHtml}
@@ -793,8 +745,12 @@
             setTimeout(() => {
                 if (captureArea) captureArea.classList.add('lights-out-mode');
                 trackingSpotlight = true; currentSpotX = 540; currentSpotY = 960; 
-                moveRoamingLights(); roamSpot1.x = roamSpot1.targetX; roamSpot1.y = roamSpot1.targetY; roamSpot2.x = roamSpot2.targetX; roamSpot2.y = roamSpot2.targetY;
-                renderSpotlights(); roamingInterval = setInterval(moveRoamingLights, 1500);
+                moveRoamingLights(); 
+                roamSpot1.x = roamSpot1.targetX; roamSpot1.y = roamSpot1.targetY; 
+                roamSpot2.x = roamSpot2.targetX; roamSpot2.y = roamSpot2.targetY;
+                roamSpot3.x = roamSpot3.targetX; roamSpot3.y = roamSpot3.targetY;
+                roamSpot4.x = roamSpot4.targetX; roamSpot4.y = roamSpot4.targetY;
+                renderSpotlights(); roamingInterval = setInterval(moveRoamingLights, 800); // Super fast target switching!
             }, 4110); 
 
             // Floodlight Finale
