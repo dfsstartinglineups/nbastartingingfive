@@ -69,32 +69,20 @@
 
         /* --- THE NEW BOTTOM BANNER (AD ZONE) --- */
         #bottom-banner {
-            position: absolute;
-            bottom: 0; left: 0; width: 100%; height: 120px;
-            background-color: var(--team-primary);
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0 40px; box-sizing: border-box;
-            border-top: 6px solid var(--team-secondary);
-            z-index: 100; /* Stays above the darkness */
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 120px;
+            background-color: var(--team-primary); display: flex; justify-content: space-between; align-items: center;
+            padding: 0 40px; box-sizing: border-box; border-top: 6px solid var(--team-secondary);
+            z-index: 100; box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
         }
-        .banner-left {
-            font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic;
-            font-size: 45px; color: #fff; text-transform: uppercase;
-            text-shadow: 3px 3px 0 var(--team-secondary); letter-spacing: 1px;
-        }
-        .banner-right {
-            font-family: 'Teko', sans-serif; font-weight: 600; font-size: 50px;
-            color: #fff; text-transform: uppercase; letter-spacing: 3px;
-            text-shadow: 2px 2px 0 var(--team-secondary); padding-top: 10px;
-        }
+        .banner-left { font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; font-size: 45px; color: #fff; text-transform: uppercase; text-shadow: 3px 3px 0 var(--team-secondary); letter-spacing: 1px; }
+        .banner-right { font-family: 'Teko', sans-serif; font-weight: 600; font-size: 50px; color: #fff; text-transform: uppercase; letter-spacing: 3px; text-shadow: 2px 2px 0 var(--team-secondary); padding-top: 10px; }
 
         /* --- CANVAS LIGHTING ENGINE --- */
         #spotlight-canvas { position: absolute; top: 0; left: 0; width: 1080px; height: 1920px; z-index: 20; opacity: 0; pointer-events: none; transition: opacity 1.5s ease; }
         .lights-out-mode #spotlight-canvas { opacity: 1; }
 
         /* ========================================================
-           THE TRANSPARENT PNG & TIGHT HUD SYSTEM (REVERTED TO PERFECT LAYOUT)
+           BULLETPROOF NESTED HUD SYSTEM
            ======================================================== */
         #players-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 15; pointer-events: none; }
         
@@ -103,31 +91,37 @@
             display: flex; flex-direction: column; align-items: center;
         }
         
+        /* The Wrapper is the master anchor. Everything scales inside it together. */
         .player-cutout-wrapper {
-            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+            position: relative; 
+            height: 280px; 
             display: flex; justify-content: center; align-items: flex-end; 
-            height: 280px; width: 100%; transition: all 0.4s ease;
+            transition: transform 0.4s ease;
         }
 
         .player-photo {
             height: 100%; width: auto; object-fit: contain; object-position: bottom center;
-            filter: drop-shadow(0 20px 15px rgba(0,0,0,0.7)); transition: all 0.4s ease;
+            filter: drop-shadow(0 20px 15px rgba(0,0,0,0.7)); transition: filter 0.4s ease;
         }
 
-        .player-highlight .player-photo {
+        /* Scales the entire wrapper, taking the HUD with it smoothly */
+        .player-highlight {
             transform: scale(1.15) translateY(-10px);
+        }
+        .player-highlight .player-photo {
             filter: brightness(1.2) drop-shadow(0 0 25px var(--team-primary)) drop-shadow(0 20px 15px rgba(0,0,0,0.9));
         }
 
+        /* HUD overlays the photo perfectly */
         .player-hud {
-            position: absolute; top: 50%; left: 50%; width: 250px; height: 300px;
-            transform: translate(-50%, -50%) scale(0.9); opacity: 0; pointer-events: none; z-index: 30;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; pointer-events: none; z-index: 30;
+            transition: opacity 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .hud-reveal { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        .hud-reveal { opacity: 1; }
 
         .hud-pos, .hud-num {
-            position: absolute; top: 40px; 
+            position: absolute; bottom: 40px; 
             font-family: 'Teko', sans-serif; font-size: 32px; font-weight: bold; color: var(--text-dark);
             background: #fff; padding: 2px 14px; border-radius: 6px; border: 4px solid var(--team-secondary);
             line-height: 1.1; box-shadow: 3px 3px 0 var(--team-primary);
@@ -136,12 +130,17 @@
         .hud-num { right: -15px; } 
 
         .hud-name {
-            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-            font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 28px; color: #fff;
+            position: absolute; bottom: -15px; 
+            left: 50%; transform: translateX(-50%);
+            font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 26px; color: #fff;
             text-align: center; white-space: nowrap; text-transform: uppercase;
             background: var(--team-primary); padding: 8px 24px; border-radius: 8px; border: 3px solid #fff;
             box-shadow: 0 10px 20px rgba(0,0,0,0.6), 4px 4px 0 var(--team-secondary);
         }
+
+        /* Bench overrides to fit the top row */
+        .bench-node .player-cutout-wrapper { height: 140px; }
+        .bench-node .hud-name { font-size: 16px; padding: 4px 16px; bottom: -10px; }
 
         /* ========================================================
            THE 9-PLAY RANDOMIZED ENTRANCE ANIMATIONS 
@@ -191,9 +190,6 @@
 
         @keyframes fadeIn { to { opacity: 1; } }
 
-        /* BENCH DROPS */
-        .bench-node { z-index: 5; }
-        .bench-node .hud-name { font-size: 16px; padding: 4px 12px; }
         @keyframes benchDropIn { 0% { transform: translate(-50%, -400px); opacity: 0; } 100% { transform: translate(-50%, -50%); opacity: 1; } }
 
         /* --- SHOCKWAVE RING --- */
@@ -215,8 +211,8 @@
         /* ========================================================
            THE CLEAN EXIT
            ======================================================== */
-        @keyframes slideOffRight { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(1500%, -50%) scale(1); opacity: 0; } }
-        @keyframes slideOffLeft { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(-1500%, -50%) scale(1); opacity: 0; } }
+        @keyframes slideOffRight { 0% { transform: translate(-50%, -50%); opacity: 1; } 100% { transform: translate(1500%, -50%); opacity: 0; } }
+        @keyframes slideOffLeft { 0% { transform: translate(-50%, -50%); opacity: 1; } 100% { transform: translate(-1500%, -50%); opacity: 0; } }
 
     </style>
 </head>
@@ -598,19 +594,19 @@
                 const benchSpacing = bench.length > 1 ? 75 / (bench.length - 1) : 0; const benchX = 12.5 + (index * benchSpacing); 
 
                 const html = `
-                    <div id="bench-node-${index}" class="player-node bench-node" style="left: ${benchX}%; top: -12%; animation: benchDropIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) ${3.5 + index * 0.1}s both;">
-                        <div class="player-cutout-wrapper" style="transform: scale(0.55);">
+                    <div id="bench-node-${index}" class="player-node bench-node" style="left: ${benchX}%; top: -8%; animation: benchDropIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) ${3.5 + index * 0.1}s both;">
+                        <div class="player-cutout-wrapper">
                             ${photoHtml}
-                        </div>
-                        <div class="player-hud hud-reveal" style="transform: translate(-50%, -50%) scale(0.65); top: 50%;">
-                            <div class="hud-name">${lastName}</div>
+                            <div class="player-hud hud-reveal">
+                                <div class="hud-name">${lastName}</div>
+                            </div>
                         </div>
                     </div>
                 `;
                 container.insertAdjacentHTML('beforeend', html);
             });
 
-            // RENDER STARTERS (The 9-Play Engine!)
+            // RENDER STARTERS
             const tagEl = document.getElementById('starting-tag'); tagEl.textContent = "STARTING 5";
             tagEl.style.color = "var(--text-dark)"; tagEl.style.textShadow = "1px 1px 0px rgba(255,255,255,0.5)";
             tagEl.classList.remove('anim-header-tag'); void tagEl.offsetWidth; tagEl.classList.add('anim-header-tag');
@@ -633,11 +629,11 @@
                         <div id="shockwave-${index}" class="shockwave-ring"></div>
                         <div id="player-wrap-${index}" class="player-cutout-wrapper">
                             ${photoHtml}
-                        </div>
-                        <div id="hud-${index}" class="player-hud">
-                            <div class="hud-pos">${pos}</div>
-                            ${jerseyNum ? `<div class="hud-num">#${jerseyNum}</div>` : ''}
-                            <div class="hud-name">${displayName}</div>
+                            <div id="hud-${index}" class="player-hud">
+                                <div class="hud-pos">${pos}</div>
+                                ${jerseyNum ? `<div class="hud-num">#${jerseyNum}</div>` : ''}
+                                <div class="hud-name">${displayName}</div>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -657,7 +653,7 @@
                 }, baseDelay * 1000);
             });
 
-            // Lights out at 4.11s
+            // Lights out
             setTimeout(() => {
                 if (captureArea) captureArea.classList.add('lights-out-mode');
                 trackingSpotlight = true; currentSpotX = 540; currentSpotY = 960; 
@@ -669,10 +665,8 @@
                 renderSpotlights(); roamingInterval = setInterval(moveRoamingLights, 1200); 
             }, 4110); 
 
-            // Floodlight Finale
             setTimeout(() => { spotlightWiden = true; activePlayerIndex = -1; }, 43500);
 
-            // Clean exit
             setTimeout(() => {
                 const benchNodes = document.querySelectorAll('.bench-node');
                 Array.from(benchNodes).forEach((node, idx) => {
