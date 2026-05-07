@@ -82,18 +82,19 @@
         .lights-out-mode #spotlight-canvas { opacity: 1; }
 
         /* ========================================================
-           THE TRANSPARENT PNG & TIGHT HUD SYSTEM
+           THE TRANSPARENT PNG & TIGHT HUD SYSTEM 
            ======================================================== */
         #players-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 15; pointer-events: none; }
         
         .player-node { 
             position: absolute; 
             display: flex; flex-direction: column; align-items: center;
+            width: 300px; height: 350px; transform: translate(-50%, -50%);
         }
         
         .player-cutout-wrapper {
             position: relative; 
-            height: 280px; 
+            width: 100%; height: 280px; 
             display: flex; justify-content: center; align-items: flex-end; 
             transition: transform 0.4s ease;
         }
@@ -113,19 +114,19 @@
         }
         .hud-reveal { opacity: 1; }
 
-        /* FIXED: Position and Number badges pulled up to frame the head perfectly */
+        /* FIXED: Pushed up to the ears, pulled inward tightly to bracket the head */
         .hud-pos, .hud-num {
             position: absolute; 
-            bottom: 160px; /* Anchored high up near the ears/cheeks */
-            font-family: 'Teko', sans-serif; font-size: 32px; font-weight: bold; color: var(--text-dark);
+            bottom: 190px; 
+            font-family: 'Teko', sans-serif; font-size: 36px; font-weight: bold; color: var(--text-dark);
             background: #fff; padding: 2px 14px; border-radius: 6px; border: 4px solid var(--team-secondary);
             line-height: 1.1; box-shadow: 3px 3px 0 var(--team-primary);
         }
-        .hud-pos { left: 15px; } /* Pulled inward towards the head */
-        .hud-num { right: 15px; } /* Pulled inward towards the head */
+        .hud-pos { left: 20px; } 
+        .hud-num { right: 20px; } 
 
         .hud-name {
-            position: absolute; bottom: -15px; /* Sits perfectly at the waist line */
+            position: absolute; bottom: -15px; 
             left: 50%; transform: translateX(-50%);
             font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 26px; color: #fff;
             text-align: center; white-space: nowrap; text-transform: uppercase;
@@ -133,6 +134,12 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.6), 4px 4px 0 var(--team-secondary);
         }
 
+        /* FIXED: Restored explicit width/height to Bench so they center mathematically */
+        .bench-node { 
+            z-index: 5; 
+            width: 150px; height: 200px; 
+            animation: benchDropIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) var(--entrance-delay) both;
+        }
         .bench-node .player-cutout-wrapper { height: 140px; }
         .bench-node .hud-name { font-size: 16px; padding: 4px 16px; bottom: -10px; }
 
@@ -183,6 +190,8 @@
         @keyframes fireBurn { 0% { height: 10px; opacity:0; } 20% { height: 60px; opacity:1; } 90% { height: 60px; opacity:1; } 100% { height: 10px; opacity:0; display:none; } }
 
         @keyframes fadeIn { to { opacity: 1; } }
+
+        @keyframes benchDropIn { 0% { transform: translate(-50%, -400px); opacity: 0; } 100% { transform: translate(-50%, -50%); opacity: 1; } }
 
         /* --- SHOCKWAVE RING --- */
         .shockwave-ring { position: absolute; top: 80%; left: 50%; width: 200px; height: 200px; border-radius: 50%; border: 12px solid var(--team-primary); transform: translate(-50%, -50%) scale(0.5); opacity: 0; z-index: 11; pointer-events: none; }
@@ -306,6 +315,7 @@
 
         const POSITIONS = ["PG", "SG", "SF", "PF", "C"];
         
+        // --- SPREAD COURT MAPPING FOR 1250px VERTICAL COURT ---
         const COURT_COORDS = [
             { x: 50, y: 25 }, 
             { x: 20, y: 48 }, 
@@ -314,6 +324,7 @@
             { x: 70, y: 78 }  
         ];
 
+        // --- THE 9-PLAY RANDOMIZED ENTRANCE ENGINE ---
         const ENTRANCE_STYLES = [
             "anim-hero-drop", "anim-speed-dash", "anim-cyber-scan",
             "anim-silhouette", "anim-arcade-spin", "anim-rift",
@@ -328,6 +339,7 @@
         let spotlightWiden = false; 
         let roamingInterval;
         
+        // 4 Fast Spotlights!
         let currentSpotX = 540; let currentSpotY = 960;
         let currentInnerR = 90; let currentOuterR = 360;
         
@@ -574,16 +586,18 @@
             const container = document.getElementById('players-container'); container.innerHTML = '';
             const starters = game.rosters[targetAbbr].players.slice(0, 5); const bench = (game.rosters[targetAbbr].bench || []).slice(0, 7);
 
-            // FIXED: Pushed the bench row physically higher up the court
+            // FIXED: Mathematically Centered Bench Spacing
+            const benchSpacing = bench.length > 1 ? 80 / (bench.length - 1) : 0; 
+            
             bench.forEach((player, index) => {
                 const dbPlayer = getPlayerData(player.name); const photoUrl = dbPlayer ? dbPlayer.photo : null;
                 const lastName = player.name.split(' ').pop().substring(0, 10); 
                 
                 const photoHtml = (photoUrl && photoUrl.trim() !== '') ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` : `<div class="fallback-silhouette"></div>`;
-                const benchSpacing = bench.length > 1 ? 75 / (bench.length - 1) : 0; const benchX = 12.5 + (index * benchSpacing); 
+                const benchX = 10 + (index * benchSpacing); 
 
                 const html = `
-                    <div id="bench-node-${index}" class="player-node bench-node" style="left: ${benchX}%; top: -24%; animation: benchDropIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) ${3.5 + index * 0.1}s both;">
+                    <div id="bench-node-${index}" class="player-node bench-node" style="left: ${benchX}%; top: -24%; --entrance-delay: ${3.5 + index * 0.1}s;">
                         <div class="player-cutout-wrapper">
                             ${photoHtml}
                             <div class="player-hud hud-reveal">
@@ -620,7 +634,7 @@
                             ${photoHtml}
                             <div id="hud-${index}" class="player-hud">
                                 <div class="hud-pos">${pos}</div>
-                                ${jerseyNum ? `<div class="hud-num">#${jerseyNum}</div>` : ''}
+                                ${jerseyNum ? `<div class="hud-num">${jerseyNum}</div>` : ''}
                                 <div class="hud-name">${displayName}</div>
                             </div>
                         </div>
