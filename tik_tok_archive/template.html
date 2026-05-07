@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA Starting 5 - Game 2 Transparent Holograms</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&family=Oswald:wght@500;700&family=Montserrat:ital,wght@0,800;1,900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --team-primary: #007ac1; 
+            --team-secondary: #ef3b24;
+            --bg-wood: #eacc98; 
+            --text-dark: #111; 
+        }
+
+        body { margin: 0; padding: 20px; background-color: #050302; font-family: 'Oswald', sans-serif; display: flex; flex-direction: column; align-items: center; }
+        
+        #controls { margin-bottom: 20px; background: #222; padding: 15px 25px; border-radius: 8px; display: flex; gap: 15px; align-items: center; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.8); z-index: 100; }
+        select, button, input { padding: 8px 16px; font-size: 16px; border-radius: 4px; border: 1px solid #555; background: #333; color: white; cursor: pointer; font-family: 'Oswald', sans-serif; }
+        button:hover { background: #555; }
+
+        /* --- TIKTOK VERTICAL FORMAT: 1080 x 1920 --- */
+        #capture-area {
+            width: 1080px; height: 1920px; background-color: var(--bg-wood);
+            background-image: repeating-linear-gradient(to right, rgba(0, 0, 0, 0.05) 0px, rgba(0, 0, 0, 0.05) 50px, rgba(255, 255, 255, 0.05) 50px, rgba(255, 255, 255, 0.05) 100px);
+            position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; box-shadow: 0 20px 50px rgba(0,0,0,0.9); color: var(--text-dark); border-top: 20px solid var(--team-primary); border-bottom: 20px solid var(--team-primary);
+        }
+
+        @keyframes arenaQuake { 0% { transform: translate(0, 0) scale(1); } 20% { transform: translate(-10px, 10px) scale(1.02); } 40% { transform: translate(10px, -10px) scale(1.02); } 60% { transform: translate(-10px, -5px) scale(1.02); } 80% { transform: translate(10px, 5px) scale(1.02); } 100% { transform: translate(0, 0) scale(1); } }
+        .quake-active { animation: arenaQuake 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97); }
+
+        .arena-glow { position: absolute; top: 0; left: 0; width: 100%; height: 600px; background: radial-gradient(ellipse at top, var(--team-primary) 0%, transparent 70%); opacity: 0.15; z-index: 1; pointer-events: none; }
+
+        #header { width: 100%; box-sizing: border-box; padding: 50px 60px 10px; display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 10; }
+        .header-left { display: flex; flex-direction: column; }
+        .starting-tag { font-family: 'Teko', sans-serif; font-size: 45px; color: var(--text-dark); text-transform: uppercase; letter-spacing: 3px; line-height: 1; text-shadow: 1px 1px 0px rgba(255,255,255,0.5); }
+        #team-name { font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; font-size: 90px; margin: 0; line-height: 0.9; text-transform: uppercase; letter-spacing: 1px; color: var(--team-primary); position: relative; z-index: 1; }
+        #team-name::before { content: attr(data-text); position: absolute; left: 0; top: 0; z-index: -1; -webkit-text-stroke: 8px #fff; text-shadow: 5px 5px 0px var(--team-secondary); }
+        #matchup-info { font-family: 'Oswald', sans-serif; font-size: 28px; color: #444; margin-top: 15px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
+        #team-logo { width: 180px; height: 180px; object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); }
+
+        /* --- COURT SETUP --- */
+        #court-scene { width: 100%; height: 1400px; position: absolute; bottom: 120px; display: flex; justify-content: center; align-items: flex-end; }
+        #court { width: 960px; height: 1250px; position: relative; border: 4px solid var(--team-primary); border-bottom: none; border-radius: 10px 10px 0 0; box-shadow: inset 0 0 50px rgba(0,0,0,0.1); }
+        .paint-area { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 320px; height: 450px; border: 4px solid var(--team-primary); border-bottom: none; background: rgba(0, 0, 0, 0.05); }
+        .free-throw-circle { position: absolute; bottom: 450px; left: 50%; transform: translateX(-50%); width: 120px; height: 60px; border: 4px solid var(--team-primary); border-bottom: none; border-radius: 60px 60px 0 0; background: transparent; z-index: 1; }
+        .three-point-arc { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 800px; height: 650px; border: 4px solid var(--team-primary); border-radius: 50% 50% 0 0; border-bottom: none; clip-path: inset(0 0 100px 0); box-sizing: border-box; }
+        .corner-three-left { position: absolute; bottom: 0; left: 80px; width: 4px; height: 101px; background: var(--team-primary); }
+        .corner-three-right { position: absolute; bottom: 0; right: 80px; width: 4px; height: 101px; background: var(--team-primary); }
+        .half-court-circle { position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%); width: 300px; height: 300px; border: 4px solid var(--team-primary); border-radius: 50%; }
+
+        /* --- WATERMARKS & CENTER TEXT --- */
+        .broadcast-watermark { position: absolute; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2; pointer-events: none; opacity: 0; }
+        .court-logo { width: 380px; height: 380px; object-fit: contain; filter: drop-shadow(0 0 30px rgba(255, 120, 0, 0.7)) sepia(0.3) hue-rotate(-20deg) saturate(1.5); }
+        .anim-watermark-drop { animation: watermarkDrop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.5s forwards; }
+        @keyframes watermarkDrop { 0% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); filter: blur(8px); } 100% { opacity: 0.35; transform: translate(-50%, -50%) scale(1); filter: blur(0px); } }
+
+        #game2-text {
+            position: absolute; top: 0%; left: 50%; transform: translate(-50%, -50%);
+            font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; font-size: 140px;
+            color: var(--team-primary); letter-spacing: 5px; text-transform: uppercase;
+            z-index: 18; white-space: nowrap; opacity: 0; animation: slideInText 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; animation-delay: 3.4s; pointer-events: none;
+        }
+        #game2-text::before { content: attr(data-text); position: absolute; left: 0; top: 0; z-index: -1; -webkit-text-stroke: 12px #fff; text-shadow: 6px 6px 0 var(--team-secondary), 0 15px 25px rgba(0,0,0,0.5); }
+        @keyframes slideInText { 0% { opacity: 0; transform: translate(-50%, -300px); filter: blur(10px); } 100% { opacity: 1; transform: translate(-50%, -50%); filter: blur(0px); } }
+
+        /* --- THE BOTTOM BANNER (AD ZONE) --- */
+        #bottom-banner {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 120px;
+            background-color: var(--team-primary); display: flex; justify-content: space-between; align-items: center;
+            padding: 0 40px; box-sizing: border-box; border-top: 6px solid var(--team-secondary);
+            z-index: 100; box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+        }
+        .banner-left { font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; font-size: 45px; color: #fff; text-transform: uppercase; text-shadow: 3px 3px 0 var(--team-secondary); letter-spacing: 1px; }
+        .banner-right { font-family: 'Teko', sans-serif; font-weight: 600; font-size: 50px; color: #fff; text-transform: uppercase; letter-spacing: 3px; text-shadow: 2px 2px 0 var(--team-secondary); padding-top: 10px; }
+
+        /* --- CANVAS LIGHTING ENGINE --- */
+        #spotlight-canvas { position: absolute; top: 0; left: 0; width: 1080px; height: 1920px; z-index: 20; opacity: 0; pointer-events: none; transition: opacity 1.5s ease; }
+        .lights-out-mode #spotlight-canvas { opacity: 1; }
+
+        /* ========================================================
+           THE TRANSPARENT PNG & TIGHT HUD SYSTEM
+           ======================================================== */
+        #players-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 15; pointer-events: none; }
+        
+        .player-node { 
+            position: absolute; 
+            display: flex; flex-direction: column; align-items: center;
+            width: 300px; height: 350px; transform: translate(-50%, -50%);
+        }
+        
+        .player-cutout-wrapper {
+            position: relative; 
+            width: 100%; height: 280px; 
+            display: flex; justify-content: center; align-items: flex-end; 
+            transition: transform 0.4s ease;
+        }
+
+        .player-photo {
+            height: 100%; width: auto; object-fit: contain; object-position: bottom center;
+            filter: drop-shadow(0 20px 15px rgba(0,0,0,0.7)); transition: filter 0.4s ease;
+        }
+
+        .player-highlight { transform: scale(1.15) translateY(-10px); }
+        .player-highlight .player-photo { filter: brightness(1.2) drop-shadow(0 0 25px var(--team-primary)) drop-shadow(0 20px 15px rgba(0,0,0,0.9)); }
+
+        .player-hud {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; pointer-events: none; z-index: 30;
+            transition: opacity 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .hud-reveal { opacity: 1; }
+
+        .hud-pos, .hud-num {
+            position: absolute; 
+            bottom: 190px; 
+            font-family: 'Teko', sans-serif; font-size: 36px; font-weight: bold; color: var(--text-dark);
+            background: #fff; padding: 2px 14px; border-radius: 6px; border: 4px solid var(--team-secondary);
+            line-height: 1.1; box-shadow: 3px 3px 0 var(--team-primary);
+        }
+        .hud-pos { left: 20px; } 
+        .hud-num { right: 20px; } 
+
+        .hud-name {
+            position: absolute; bottom: -15px; 
+            left: 50%; transform: translateX(-50%);
+            font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 26px; color: #fff;
+            text-align: center; white-space: nowrap; text-transform: uppercase;
+            background: var(--team-primary); padding: 8px 24px; border-radius: 8px; border: 3px solid #fff;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.6), 4px 4px 0 var(--team-secondary);
+        }
+
+        .bench-node { 
+            z-index: 5; 
+            width: 150px; height: 200px; 
+            animation: benchDropIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) var(--entrance-delay) both;
+        }
+        .bench-node .player-cutout-wrapper { height: 140px; }
+        .bench-node .hud-name { font-size: 16px; padding: 4px 16px; bottom: -10px; }
+
+        /* ========================================================
+           THE 9-PLAY RANDOMIZED ENTRANCE ANIMATIONS 
+           ======================================================== */
+        
+        .anim-hero-drop { animation: heroDrop 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) var(--entrance-delay) both; }
+        @keyframes heroDrop { 0% { transform: translate(-50%, -50%) scale(4); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+
+        .anim-speed-dash { animation: speedDash 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) var(--entrance-delay) both; }
+        @keyframes speedDash { 0% { transform: translate(-500%, -50%) skewX(-30deg); opacity: 0; filter: blur(10px); } 100% { transform: translate(-50%, -50%) skewX(0); opacity: 1; filter: blur(0); } }
+
+        .anim-cyber-scan { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
+        .anim-cyber-scan .player-photo { animation: cyberScan 1.2s ease-in-out var(--entrance-delay) both; }
+        .anim-cyber-scan::after { content:''; position:absolute; bottom:50px; left:-10%; width:120%; height:4px; background:cyan; box-shadow:0 0 15px cyan; animation: scanLine 1.2s linear var(--entrance-delay) both; z-index:25; }
+        @keyframes cyberScan { 0% { clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%); } 100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); } }
+        @keyframes scanLine { 0% { bottom: 50px; opacity:1; } 95% { bottom: 330px; opacity:1; } 100% { bottom: 330px; opacity:0; display:none;} }
+
+        .anim-silhouette { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
+        .anim-silhouette .player-photo { animation: silRise 1.2s ease-out var(--entrance-delay) both; }
+        @keyframes silRise { 0% { filter: brightness(0) drop-shadow(0 0 0 transparent); transform: translateY(30px); } 100% { filter: brightness(1) drop-shadow(0 20px 15px rgba(0,0,0,0.6)); transform: translateY(0); } }
+
+        .anim-arcade-spin { animation: arcadeSpin 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) var(--entrance-delay) both; }
+        @keyframes arcadeSpin { 0% { transform: translate(-50%, -50%) rotateY(1080deg) scale(2); opacity: 0; } 100% { transform: translate(-50%, -50%) rotateY(0deg) scale(1); opacity: 1; } }
+
+        .anim-rift { animation: riftPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) var(--entrance-delay) both; }
+        .anim-rift::after { content: ''; position: absolute; top: 50%; left: 50%; width: 300px; height: 400px; background: radial-gradient(circle, #0ff 0%, transparent 60%); transform: translate(-50%, -50%); mix-blend-mode: screen; animation: riftFlash 0.8s ease-out var(--entrance-delay) both; z-index:-1; }
+        @keyframes riftPop { 0% { transform: translate(-50%, -50%) scale(0.3); filter: grayscale(1) contrast(3) blur(10px); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); filter: grayscale(0) contrast(1) blur(0); opacity: 1; } }
+        @keyframes riftFlash { 0% { transform: translate(-50%, -50%) scale(0); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(2); opacity: 0; display: none; } }
+
+        .anim-taz-spin { animation: tazSpin 1s cubic-bezier(0.1, 0.8, 0.3, 1) var(--entrance-delay) both; }
+        .anim-taz-spin::before { content: ''; position: absolute; bottom: 30px; left: 50%; width: 200px; height: 50px; background: radial-gradient(ellipse, rgba(200,200,200,0.8), transparent 70%); filter: blur(4px); animation: dustCloud 1s ease-out var(--entrance-delay) both; z-index: 25; }
+        @keyframes tazSpin { 0% { transform: translate(300%, -200%) rotateY(3600deg); filter: blur(6px); opacity: 0; } 10% { opacity: 1; } 100% { transform: translate(-50%, -50%) rotateY(0deg); filter: blur(0); opacity: 1; } }
+        @keyframes dustCloud { 0% { transform: translateX(-50%) scale(0.2); opacity: 1; } 80% { transform: translateX(-50%) scale(1.5); opacity: 0.8; } 100% { transform: translateX(-50%) scale(2.5); opacity: 0; display: none; } }
+
+        .anim-zipline { animation: zipline 1s cubic-bezier(0.1, 0.8, 0.3, 1) var(--entrance-delay) both; }
+        .anim-zipline::after { content:''; position: absolute; top: -1500px; left: 50%; width: 2px; height: 1500px; background: #fff; transform-origin: bottom center; transform: rotate(-25deg); animation: cableSnap 1s var(--entrance-delay) both; z-index: -1; }
+        @keyframes zipline { 0% { transform: translate(-200%, -500%) rotateZ(-15deg); opacity: 0; } 10% { opacity: 1; } 80% { transform: translate(-45%, -45%) rotateZ(5deg); } 100% { transform: translate(-50%, -50%) rotateZ(0deg); opacity: 1; } }
+        @keyframes cableSnap { 0% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; display: none; } }
+
+        .anim-ice-breaker { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
+        .anim-ice-breaker .player-photo { animation: iceMelt 1.5s ease-in var(--entrance-delay) both; }
+        .anim-ice-breaker::after { content: ''; position: absolute; bottom: 40px; left: 50%; width: 250px; height: 300px; background: rgba(150, 220, 255, 0.3); border: 2px solid rgba(255,255,255,0.5); border-radius: 10px; backdrop-filter: blur(2px); transform-origin: bottom; transform: translateX(-50%); animation: blockMelt 1.5s ease-in var(--entrance-delay) both; z-index: 25; }
+        .anim-ice-breaker::before { content:''; position:absolute; bottom: 30px; left:50%; transform:translateX(-50%); width:120px; height:10px; background:radial-gradient(ellipse, #ff4500, #ffea00, transparent); filter:blur(5px); animation: fireBurn 1.5s var(--entrance-delay) both; z-index:26; }
+        @keyframes iceMelt { 0% { filter: sepia(1) hue-rotate(180deg) saturate(3) brightness(1.5); } 100% { filter: sepia(0) hue-rotate(0) saturate(1) brightness(1) drop-shadow(0 20px 15px rgba(0,0,0,0.7)); } }
+        @keyframes blockMelt { 0% { transform: translateX(-50%) scaleY(1); opacity: 1; } 80% { transform: translateX(-50%) scaleY(0.2); opacity: 0.8; } 100% { transform: translateX(-50%) scaleY(0); opacity: 0; display:none; } }
+        @keyframes fireBurn { 0% { height: 10px; opacity:0; } 20% { height: 60px; opacity:1; } 90% { height: 60px; opacity:1; } 100% { height: 10px; opacity:0; display:none; } }
+
+        @keyframes fadeIn { to { opacity: 1; } }
+
+        @keyframes benchDropIn { 0% { transform: translate(-50%, -400px); opacity: 0; } 100% { transform: translate(-50%, -50%); opacity: 1; } }
+
+        /* --- SHOCKWAVE RING --- */
+        .shockwave-ring { position: absolute; top: 80%; left: 50%; width: 200px; height: 200px; border-radius: 50%; border: 12px solid var(--team-primary); transform: translate(-50%, -50%) scale(0.5); opacity: 0; z-index: 11; pointer-events: none; }
+        @keyframes ringExplode { 0% { transform: translate(-50%, -50%) scale(0.8); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(3.5); opacity: 0; border-width: 2px; } }
+        .anim-shockwave { animation: ringExplode 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
+
+        /* ========================================================
+           HEADER ENTRANCE ANIMATIONS
+           ======================================================== */
+        .anim-header-tag { animation: headerSlideDown 1s ease-out 0.5s forwards; opacity: 0; }
+        .anim-team-name { animation: teamNameZoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s forwards; opacity: 0; }
+        .anim-logo { animation: logoSpinIn 0.8s ease-out 0.5s forwards; opacity: 0; }
+
+        @keyframes headerSlideDown { 0% { opacity: 0; transform: translateY(-40px); } 100% { opacity: 1; transform: translateY(0); } }
+        @keyframes teamNameZoom { 0% { opacity: 0; transform: scale(1.8) rotate(-3deg); filter: blur(8px); } 100% { opacity: 1; transform: scale(1) rotate(0deg); filter: blur(0); } }
+        @keyframes logoSpinIn { 0% { opacity: 0; transform: translateX(100px) rotate(90deg) scale(0.2); } 100% { opacity: 1; transform: translateX(0) rotate(0) scale(1); filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); } }
+
+        /* ========================================================
+           THE CLEAN EXIT
+           ======================================================== */
+        @keyframes slideOffRight { 0% { transform: translate(-50%, -50%); opacity: 1; } 100% { transform: translate(1500%, -50%); opacity: 0; } }
+        @keyframes slideOffLeft { 0% { transform: translate(-50%, -50%); opacity: 1; } 100% { transform: translate(-1500%, -50%); opacity: 0; } }
+
+    </style>
+</head>
+<body>
+
+    <div id="controls">
+        <label>Date:</label>
+        <input type="text" id="date-indicator" readonly style="width: 100px; text-align: center; background: #444; border: 1px solid #555; color: #ccc;">
+        
+        <label>Game:</label>
+        <select id="game-selector"></select>
+        
+        <label>Team:</label>
+        <select id="team-selector">
+            <option value="home">Home Team</option>
+            <option value="away">Away Team</option>
+        </select>
+        
+        <button onclick="takeScreenshot()">Simulate Screenshot</button>
+    </div>
+
+    <div id="capture-area">
+        <div class="arena-glow"></div>
+        
+        <div id="header">
+            <div class="header-left">
+                <div id="starting-tag" class="starting-tag anim-header-tag">Starting 5</div>
+                <h1 id="team-name" class="anim-team-name" data-text="LOADING...">LOADING...</h1>
+                <div id="matchup-info">FETCHING DATA...</div>
+            </div>
+            <img id="team-logo" class="anim-logo" src="" alt="Team Logo">
+        </div>
+
+        <div id="court-scene">
+            <div id="court">
+
+                <div class="half-court-circle"></div>
+                <div class="three-point-arc"></div>
+                <div class="corner-three-left"></div>
+                <div class="corner-three-right"></div>
+                <div class="free-throw-circle"></div>
+                <div class="paint-area"></div>
+                
+                <div id="center-watermark" class="broadcast-watermark" style="top: 0%;">
+                    <img class="court-logo" src="" alt="">
+                </div>
+                
+                <div id="paint-watermark" class="broadcast-watermark" style="top: 82%;">
+                    <img class="court-logo" src="" alt="">
+                </div>
+                
+                <div id="game2-text" class="neon-game-text" data-text="GAME 2">GAME 2</div>
+
+                <div id="players-container"></div>
+            </div>
+        </div>
+
+        <canvas id="spotlight-canvas" width="1080" height="1920"></canvas>
+
+        <div id="bottom-banner">
+            <div id="banner-team-name" class="banner-left">LOADING...</div>
+            <div class="banner-right">NBASTARTINGFIVE.COM</div>
+        </div>
+    </div>
+
+    <script>
+        const NBA_TEAMS = {
+            "ATL": { name: "Hawks", primary: "#e03a3e", secondary: "#c1d32f", id: 1610612737 },
+            "BOS": { name: "Celtics", primary: "#007A33", secondary: "#ba9653", id: 1610612738 },
+            "BKN": { name: "Nets", primary: "#000000", secondary: "#ffffff", id: 1610612751 }, 
+            "CHA": { name: "Hornets", primary: "#1d1160", secondary: "#00788c", id: 1610612766 },
+            "CHI": { name: "Bulls", primary: "#ce1141", secondary: "#000000", id: 1610612741 },
+            "CLE": { name: "Cavaliers", primary: "#860038", secondary: "#041e42", id: 1610612739 },
+            "DAL": { name: "Mavericks", primary: "#00538c", secondary: "#002b5e", id: 1610612742 },
+            "DEN": { name: "Nuggets", primary: "#0e2240", secondary: "#fec524", id: 1610612743 },
+            "DET": { name: "Pistons", primary: "#c8102e", secondary: "#1d42ba", id: 1610612765 },
+            "GSW": { name: "Warriors", primary: "#1d428a", secondary: "#ffc72c", id: 1610612744 },
+            "HOU": { name: "Rockets", primary: "#ce1141", secondary: "#000000", id: 1610612745 },
+            "IND": { name: "Pacers", primary: "#002d62", secondary: "#fdbb30", id: 1610612754 },
+            "LAC": { name: "Clippers", primary: "#c8102e", secondary: "#1d428a", id: 1610612746 },
+            "LAL": { name: "Lakers", primary: "#552583", secondary: "#fdb927", id: 1610612747 },
+            "MEM": { name: "Grizzlies", primary: "#5d76a9", secondary: "#12173f", id: 1610612763 },
+            "MIA": { name: "Heat", primary: "#98002e", secondary: "#f9a01b", id: 1610612748 },
+            "MIL": { name: "Bucks", primary: "#00471b", secondary: "#eee1c6", id: 1610612749 },
+            "MIN": { name: "Timberwolves", primary: "#0c2340", secondary: "#236192", id: 1610612750 },
+            "NOP": { name: "Pelicans", primary: "#0c2340", secondary: "#c8102e", id: 1610612740 },
+            "NYK": { name: "Knicks", primary: "#006bb6", secondary: "#f58426", id: 1610612752 },
+            "OKC": { name: "Thunder", primary: "#007ac1", secondary: "#ef3b24", id: 1610612760 },
+            "ORL": { name: "Magic", primary: "#0077c0", secondary: "#c4ced4", id: 1610612753 },
+            "PHI": { name: "76ers", primary: "#006bb6", secondary: "#ed174c", id: 1610612755 },
+            "PHX": { name: "Suns", primary: "#1d1160", secondary: "#e56020", id: 1610612756 },
+            "POR": { name: "Trail Blazers", primary: "#e03a3e", secondary: "#000000", id: 1610612757 },
+            "SAC": { name: "Kings", primary: "#5a2d81", secondary: "#63727a", id: 1610612758 },
+            "SAS": { name: "Spurs", primary: "#c4ced4", secondary: "#000000", id: 1610612759 },
+            "TOR": { name: "Raptors", primary: "#ce1141", secondary: "#000000", id: 1610612761 },
+            "UTA": { name: "Jazz", primary: "#002b5c", secondary: "#00471b", id: 1610612762 },
+            "WAS": { name: "Wizards", primary: "#002b5c", secondary: "#e31837", id: 1610612764 }
+        };
+
+        const POSITIONS = ["PG", "SG", "SF", "PF", "C"];
+        
+        // --- SPREAD COURT MAPPING FOR 1250px VERTICAL COURT ---
+        const COURT_COORDS = [
+            { x: 50, y: 18 }, // PG adjusted up from 25% to 18% 
+            { x: 20, y: 48 }, 
+            { x: 80, y: 48 }, 
+            { x: 30, y: 78 }, 
+            { x: 70, y: 78 }  
+        ];
+
+        // --- THE 9-PLAY RANDOMIZED ENTRANCE ENGINE ---
+        const ENTRANCE_STYLES = [
+            "anim-hero-drop", "anim-speed-dash", "anim-cyber-scan",
+            "anim-silhouette", "anim-arcade-spin", "anim-rift",
+            "anim-taz-spin", "anim-zipline", "anim-ice-breaker"
+        ];
+
+        let allGames = [];
+        let playerDatabase = {}; 
+
+        let activePlayerIndex = -1;
+        let trackingSpotlight = false;
+        let spotlightWiden = false; 
+        let roamingInterval;
+        
+        // 4 Fast Spotlights!
+        let currentSpotX = 540; let currentSpotY = 960;
+        let currentInnerR = 90; let currentOuterR = 360;
+        
+        let roamSpot1 = { x: 200, y: 200, targetX: 200, targetY: 200 };
+        let roamSpot2 = { x: 800, y: 1600, targetX: 800, targetY: 1600 };
+        let roamSpot3 = { x: 800, y: 200, targetX: 800, targetY: 200 };
+        let roamSpot4 = { x: 200, y: 1600, targetX: 200, targetY: 1600 };
+        
+        let activePrimaryHex = '#ffffff';
+        let activeSecondaryHex = '#ffffff';
+
+        function hexToRgba(hex, alpha) {
+            hex = hex.replace('#', '');
+            let r = parseInt(hex.length === 3 ? hex.slice(0, 1).repeat(2) : hex.slice(0, 2), 16);
+            let g = parseInt(hex.length === 3 ? hex.slice(1, 2).repeat(2) : hex.slice(2, 4), 16);
+            let b = parseInt(hex.length === 3 ? hex.slice(2, 3).repeat(2) : hex.slice(4, 6), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+
+        function drawHole(ctx, x, y, innerR, outerR) {
+            const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
+            grad.addColorStop(0, 'rgba(0, 0, 0, 1)');       
+            grad.addColorStop(0.3, 'rgba(0, 0, 0, 0.85)'); 
+            grad.addColorStop(0.6, 'rgba(0, 0, 0, 0.4)');
+            grad.addColorStop(1, 'rgba(0, 0, 0, 0)');       
+            ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(x, y, outerR, 0, Math.PI * 2); ctx.fill();
+        }
+
+        function drawColoredTint(ctx, x, y, innerR, outerR, hex) {
+            const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
+            grad.addColorStop(0, hexToRgba(hex, 0.65));       
+            grad.addColorStop(0.3, hexToRgba(hex, 0.45)); 
+            grad.addColorStop(0.6, hexToRgba(hex, 0.15));
+            grad.addColorStop(1, hexToRgba(hex, 0));       
+            ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(x, y, outerR, 0, Math.PI * 2); ctx.fill();
+        }
+
+        function drawMainHalo(ctx, x, y, innerR, outerR, color1, color2) {
+            const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
+            grad.addColorStop(0, 'rgba(0, 0, 0, 0)');      
+            grad.addColorStop(0.15, hexToRgba(color1, 0.65)); 
+            grad.addColorStop(0.6, hexToRgba(color2, 0.45)); 
+            grad.addColorStop(1, 'rgba(0, 0, 0, 0)'); 
+            ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(x, y, outerR, 0, Math.PI * 2); ctx.fill();
+        }
+
+        function renderSpotlights() {
+            if (!trackingSpotlight) return;
+            const canvas = document.getElementById('spotlight-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            
+            const starters = document.querySelectorAll('.starter-node');
+            let targetX = 540; let targetY = 960; 
+            
+            if (activePlayerIndex >= 0 && activePlayerIndex < starters.length) {
+                const target = starters[activePlayerIndex];
+                const captureArea = document.getElementById('capture-area').getBoundingClientRect();
+                const photoWrap = target.querySelector('.player-cutout-wrapper');
+                const targetRect = photoWrap.getBoundingClientRect();
+                targetX = (targetRect.left + targetRect.width / 2) - captureArea.left;
+                targetY = (targetRect.top + targetRect.height / 2) - captureArea.top;
+            }
+            
+            currentSpotX += (targetX - currentSpotX) * 0.3;
+            currentSpotY += (targetY - currentSpotY) * 0.3;
+            
+            const targetInnerR = spotlightWiden ? 800 : 120;
+            const targetOuterR = spotlightWiden ? 1800 : 450;
+            currentInnerR += (targetInnerR - currentInnerR) * 0.05;
+            currentOuterR += (targetOuterR - currentOuterR) * 0.05;
+            
+            roamSpot1.x += (roamSpot1.targetX - roamSpot1.x) * 0.07; roamSpot1.y += (roamSpot1.targetY - roamSpot1.y) * 0.07;
+            roamSpot2.x += (roamSpot2.targetX - roamSpot2.x) * 0.07; roamSpot2.y += (roamSpot2.targetY - roamSpot2.y) * 0.07;
+            roamSpot3.x += (roamSpot3.targetX - roamSpot3.x) * 0.07; roamSpot3.y += (roamSpot3.targetY - roamSpot3.y) * 0.07;
+            roamSpot4.x += (roamSpot4.targetX - roamSpot4.x) * 0.07; roamSpot4.y += (roamSpot4.targetY - roamSpot4.y) * 0.07;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.94)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.globalCompositeOperation = 'destination-out';
+            drawHole(ctx, currentSpotX, currentSpotY, currentInnerR, currentOuterR);
+            if (!spotlightWiden) { 
+                drawHole(ctx, roamSpot1.x, roamSpot1.y, 30, 210); 
+                drawHole(ctx, roamSpot2.x, roamSpot2.y, 30, 210); 
+                drawHole(ctx, roamSpot3.x, roamSpot3.y, 30, 210); 
+                drawHole(ctx, roamSpot4.x, roamSpot4.y, 30, 210); 
+            }
+            
+            ctx.globalCompositeOperation = 'source-over';
+            if (!spotlightWiden) { 
+                drawColoredTint(ctx, roamSpot1.x, roamSpot1.y, 30, 210, activePrimaryHex); 
+                drawColoredTint(ctx, roamSpot2.x, roamSpot2.y, 30, 210, activeSecondaryHex); 
+                drawColoredTint(ctx, roamSpot3.x, roamSpot3.y, 30, 210, activePrimaryHex); 
+                drawColoredTint(ctx, roamSpot4.x, roamSpot4.y, 30, 210, activeSecondaryHex); 
+            }
+            drawMainHalo(ctx, currentSpotX, currentSpotY, currentInnerR, currentOuterR, activePrimaryHex, activeSecondaryHex);
+            
+            requestAnimationFrame(renderSpotlights);
+        }
+
+        function moveRoamingLights() {
+            function getEvasiveTarget() {
+                let rx, ry; let attempts = 0; let isValid = false;
+                while (!isValid && attempts < 15) {
+                    rx = Math.floor(Math.random() * 880) + 100; ry = Math.floor(Math.random() * 1600) + 100; 
+                    const distToMain = Math.hypot(rx - currentSpotX, ry - currentSpotY);
+                    if (distToMain > 400) isValid = true; attempts++;
+                }
+                return { x: rx, y: ry };
+            }
+            const ns1 = getEvasiveTarget(); roamSpot1.targetX = ns1.x; roamSpot1.targetY = ns1.y;
+            const ns2 = getEvasiveTarget(); roamSpot2.targetX = ns2.x; roamSpot2.targetY = ns2.y;
+            const ns3 = getEvasiveTarget(); roamSpot3.targetX = ns3.x; roamSpot3.targetY = ns3.y;
+            const ns4 = getEvasiveTarget(); roamSpot4.targetX = ns4.x; roamSpot4.targetY = ns4.y;
+        }
+
+        function getNbaLogo(abbr) { if (!abbr) return ''; return `logos/${abbr}.svg`; }
+
+        function getPlayerData(playerName) {
+            if (!playerName) return null;
+            const nicknames = { "cam": "cameron", "cameron": "cam", "steph": "stephen", "stephen": "steph", "trey": "trae", "mo": "mohamed", "mohamed": "mo", "nico": "nicolas", "nicolas": "nico" };
+            const normalize = (str) => { return str.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\./g, ""); };
+            const cleanInput = normalize(playerName); const inputParts = cleanInput.split(" "); const firstName = inputParts[0]; const lastName = inputParts.slice(1).join(" ");
+            
+            for (const key in playerDatabase) {
+                const dbName = normalize(playerDatabase[key].name || ""); const dbShort = normalize(playerDatabase[key].short_name || "");
+                if (dbName === cleanInput || dbShort === cleanInput) return playerDatabase[key];
+            }
+            if (nicknames[firstName]) {
+                const nicknameVariant = nicknames[firstName] + " " + lastName;
+                for (const key in playerDatabase) {
+                    const dbName = normalize(playerDatabase[key].name || ""); const dbShort = normalize(playerDatabase[key].short_name || "");
+                    if (dbName === nicknameVariant || dbShort === nicknameVariant) return playerDatabase[key];
+                }
+            }
+            if (lastName.length > 2) {
+                for (const key in playerDatabase) {
+                    const dbName = normalize(playerDatabase[key].name || "");
+                    if (dbName.includes(lastName) && dbName.startsWith(firstName.charAt(0))) return playerDatabase[key];
+                }
+            }
+            return null; 
+        }
+
+        function handleImageError(img) { const container = img.parentElement; container.innerHTML = '<div class="fallback-silhouette"></div>'; }
+
+        async function loadData() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                let targetDate = urlParams.get('date');
+                if (!targetDate) {
+                    const estDate = new Date(new Date().toLocaleString("en-US", {timeZone: "America/New_York"}));
+                    const yyyy = estDate.getFullYear(); const mm = String(estDate.getMonth() + 1).padStart(2, '0'); const dd = String(estDate.getDate()).padStart(2, '0');
+                    targetDate = `${yyyy}-${mm}-${dd}`;
+                }
+                document.getElementById('date-indicator').value = targetDate;
+                
+                const timestamp = new Date().getTime();
+                const [nbaRes, playersRes] = await Promise.all([ fetch(`https://nbastartingfive.com/data/${targetDate}.json?v=${timestamp}`), fetch(`data/players.json?v=${timestamp}`) ]);
+
+                if (nbaRes.ok) {
+                    const data = await nbaRes.json();
+                    allGames = data.games.filter(g => {
+                        if (g.date !== targetDate) return false;
+                        if (!g.teams || !g.rosters) return false;
+                        const t1 = g.teams[0]; const t2 = g.teams[1];
+                        const hasRoster1 = g.rosters[t1] && g.rosters[t1].players && g.rosters[t1].players.length >= 5;
+                        const hasRoster2 = g.rosters[t2] && g.rosters[t2].players && g.rosters[t2].players.length >= 5;
+                        if (!hasRoster1 && !hasRoster2) return false; return true; 
+                    });
+                }
+                if (playersRes.ok) playerDatabase = await playersRes.json();
+            } catch (e) { console.error("Failed to load data.", e); }
+            
+            populateDropdown();
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const botTeam = urlParams.get('team'); const botSide = urlParams.get('side');
+            if (botTeam !== null) { const foundIndex = allGames.findIndex(g => g.teams.includes(botTeam)); if (foundIndex !== -1) document.getElementById('game-selector').value = foundIndex; }
+            if (botSide !== null) document.getElementById('team-selector').value = botSide;
+
+            if (allGames.length > 0) renderCard();
+            else { document.getElementById('team-name').textContent = "NO LINEUPS YET"; document.getElementById('team-name').setAttribute('data-text', "NO LINEUPS YET"); document.getElementById('matchup-info').textContent = "Check back closer to tipoff."; }
+        }
+
+        function populateDropdown() {
+            const select = document.getElementById('game-selector'); select.innerHTML = '';
+            allGames.forEach((g, idx) => {
+                const opt = document.createElement('option'); opt.value = idx;
+                const t1 = g.teams[0]; const t2 = g.teams[1];
+                const t1Verified = g.rosters[t1].is_official === true || (g.rosters[t1].players && g.rosters[t1].players.slice(0,5).every(p => p.verified === true));
+                const t2Verified = g.rosters[t2].is_official === true || (g.rosters[t2].players && g.rosters[t2].players.slice(0,5).every(p => p.verified === true));
+                opt.textContent = `${t1Verified ? t1 + ' (Confirmed)' : t1} @ ${t2Verified ? t2 + ' (Confirmed)' : t2}`; select.appendChild(opt);
+            });
+            select.addEventListener('change', () => renderCard()); document.getElementById('team-selector').addEventListener('change', () => renderCard());
+        }
+
+        function applyTeamTheme(abbr) {
+            const theme = NBA_TEAMS[abbr];
+            if (theme) {
+                let primaryColor = theme.primary === "#ffffff" ? theme.secondary : theme.primary;
+                document.documentElement.style.setProperty('--team-primary', primaryColor);
+                document.documentElement.style.setProperty('--team-secondary', theme.secondary);
+                activePrimaryHex = primaryColor; activeSecondaryHex = theme.secondary;
+            }
+        }
+
+        function renderCard() {
+            if(allGames.length === 0) return;
+            trackingSpotlight = false; spotlightWiden = false; activePlayerIndex = -1;
+            if (roamingInterval) clearInterval(roamingInterval);
+            const captureArea = document.getElementById('capture-area');
+            if (captureArea) captureArea.classList.remove('lights-out-mode');
+            currentInnerR = 90; currentOuterR = 360;
+
+            const gameIdx = document.getElementById('game-selector').value; const side = document.getElementById('team-selector').value; const game = allGames[gameIdx];
+            const awayAbbr = game.teams[0]; const homeAbbr = game.teams[1];
+            const targetAbbr = side === 'home' ? homeAbbr : awayAbbr; const oppAbbr = side === 'home' ? awayAbbr : homeAbbr; const isHome = side === 'home';
+            const targetData = NBA_TEAMS[targetAbbr]; const oppData = NBA_TEAMS[oppAbbr];
+
+            applyTeamTheme(targetAbbr);
+
+            const teamNameStr = targetData ? targetData.name : targetAbbr; const teamNameEl = document.getElementById('team-name');
+            teamNameEl.textContent = teamNameStr; teamNameEl.setAttribute('data-text', teamNameStr);
+            teamNameEl.classList.remove('anim-team-name'); void teamNameEl.offsetWidth; teamNameEl.classList.add('anim-team-name');
+            
+            document.getElementById('banner-team-name').textContent = teamNameStr;
+
+            document.getElementById('matchup-info').textContent = `${isHome ? 'VS' : '@'} ${oppData ? oppData.name : oppAbbr}  |  ${game.date}`;
+            
+            const logoUrl = getNbaLogo(targetAbbr); const logoEl = document.getElementById('team-logo'); logoEl.src = logoUrl;
+            logoEl.classList.remove('anim-logo'); void logoEl.offsetWidth; logoEl.classList.add('anim-logo');
+            
+            const logos = document.querySelectorAll('.court-logo'); logos.forEach(logo => logo.src = logoUrl);
+            
+            const watermarks = document.querySelectorAll('.broadcast-watermark');
+            watermarks.forEach(wm => { wm.classList.remove('anim-watermark-drop'); void wm.offsetWidth; wm.classList.add('anim-watermark-drop'); });
+            
+            const gameText = document.getElementById('game2-text');
+            if (gameText) { gameText.style.animation = 'none'; void gameText.offsetWidth; gameText.style.animation = ''; }
+
+            const container = document.getElementById('players-container'); container.innerHTML = '';
+            const starters = game.rosters[targetAbbr].players.slice(0, 5); const bench = (game.rosters[targetAbbr].bench || []).slice(0, 7);
+
+            // RENDER BENCH
+            const benchSpacing = bench.length > 1 ? 80 / (bench.length - 1) : 0; 
+            
+            bench.forEach((player, index) => {
+                const dbPlayer = getPlayerData(player.name); const photoUrl = dbPlayer ? dbPlayer.photo : null;
+                const lastName = player.name.split(' ').pop().substring(0, 10); 
+                
+                const photoHtml = (photoUrl && photoUrl.trim() !== '') ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` : `<div class="fallback-silhouette"></div>`;
+                const benchX = 10 + (index * benchSpacing); 
+
+                const html = `
+                    <div id="bench-node-${index}" class="player-node bench-node" style="left: ${benchX}%; top: -18%; --entrance-delay: ${3.5 + index * 0.1}s;">
+                        <div class="player-cutout-wrapper">
+                            ${photoHtml}
+                            <div class="player-hud hud-reveal">
+                                <div class="hud-name">${lastName}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+
+            // RENDER STARTERS
+            const tagEl = document.getElementById('starting-tag'); tagEl.textContent = "STARTING 5";
+            tagEl.style.color = "var(--text-dark)"; tagEl.style.textShadow = "1px 1px 0px rgba(255,255,255,0.5)";
+            tagEl.classList.remove('anim-header-tag'); void tagEl.offsetWidth; tagEl.classList.add('anim-header-tag');
+
+            let shuffledAnims = ENTRANCE_STYLES.sort(() => 0.5 - Math.random());
+
+            starters.forEach((player, index) => {
+                const pos = POSITIONS[index]; const coords = COURT_COORDS[index];
+                const dbPlayer = getPlayerData(player.name); const photoUrl = dbPlayer ? dbPlayer.photo : null;
+                const jerseyNum = dbPlayer && dbPlayer.jersey ? dbPlayer.jersey : "";
+                let displayName = player.name; if (displayName.length > 18) displayName = displayName.substring(0, 16) + '...';
+
+                const photoHtml = (photoUrl && photoUrl.trim() !== '') ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` : `<div class="fallback-silhouette"></div>`;
+                const delays = [10.93, 18.15, 26.17, 33.72, 40.87]; const baseDelay = delays[index]; 
+                
+                const randomAnimClass = shuffledAnims[index % shuffledAnims.length];
+
+                const html = `
+                    <div class="player-node starter-node ${randomAnimClass}" style="left: ${coords.x}%; top: ${coords.y}%; --entrance-delay: ${baseDelay - 1.5}s;">
+                        <div id="shockwave-${index}" class="shockwave-ring"></div>
+                        <div id="player-wrap-${index}" class="player-cutout-wrapper">
+                            ${photoHtml}
+                            <div id="hud-${index}" class="player-hud">
+                                <div class="hud-pos">${pos}</div>
+                                ${jerseyNum ? `<div class="hud-num">${jerseyNum}</div>` : ''}
+                                <div class="hud-name">${displayName}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+
+                setTimeout(() => { activePlayerIndex = index; }, (baseDelay - 1.5) * 1000);
+                
+                setTimeout(() => {
+                    document.getElementById(`player-wrap-${index}`).classList.add('player-highlight');
+                    document.getElementById(`hud-${index}`).classList.add('hud-reveal');
+                    
+                    const captureArea = document.getElementById('capture-area');
+                    captureArea.classList.remove('quake-active'); void captureArea.offsetWidth; captureArea.classList.add('quake-active');
+                    
+                    const shock = document.getElementById(`shockwave-${index}`);
+                    if(shock) { shock.classList.remove('anim-shockwave'); void shock.offsetWidth; shock.classList.add('anim-shockwave'); }
+                }, baseDelay * 1000);
+            });
+
+            // Lights out
+            setTimeout(() => {
+                if (captureArea) captureArea.classList.add('lights-out-mode');
+                trackingSpotlight = true; currentSpotX = 540; currentSpotY = 960; 
+                moveRoamingLights(); 
+                roamSpot1.x = roamSpot1.targetX; roamSpot1.y = roamSpot1.targetY; 
+                roamSpot2.x = roamSpot2.targetX; roamSpot2.y = roamSpot2.targetY;
+                roamSpot3.x = roamSpot3.targetX; roamSpot3.y = roamSpot3.targetY;
+                roamSpot4.x = roamSpot4.targetX; roamSpot4.y = roamSpot4.targetY;
+                renderSpotlights(); roamingInterval = setInterval(moveRoamingLights, 1200); 
+            }, 4110); 
+
+            setTimeout(() => { spotlightWiden = true; activePlayerIndex = -1; }, 43500);
+
+            setTimeout(() => {
+                const benchNodes = document.querySelectorAll('.bench-node');
+                Array.from(benchNodes).forEach((node, idx) => {
+                    node.style.animation = 'none'; node.style.transform = 'translate(-50%, -50%) scale(1)'; void node.offsetWidth; 
+                    const pushDir = idx % 2 === 0 ? 'slideOffLeft' : 'slideOffRight';
+                    node.style.animation = `${pushDir} 1.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards`;
+                });
+            }, 44200); 
+
+            setTimeout(() => {
+                if (captureArea) captureArea.classList.remove('lights-out-mode');
+                trackingSpotlight = false; if (roamingInterval) clearInterval(roamingInterval); 
+            }, 44500); 
+        }
+
+        function takeScreenshot() {
+            const capture = document.getElementById('capture-area'); capture.style.opacity = '0.5';
+            setTimeout(() => { capture.style.opacity = '1'; }, 100);
+            alert("Ready! Playwright will capture #capture-area as a 1080x1920 vertical video format.");
+        }
+
+        loadData();
+    </script>
+</body>
+</html>
