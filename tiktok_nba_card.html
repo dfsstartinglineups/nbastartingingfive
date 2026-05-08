@@ -135,14 +135,20 @@
         .bench-node .hud-name { font-size: 16px; padding: 4px 16px; bottom: -10px; }
 
         /* ========================================================
-           NEW: MASS TRANSIT BENCH ENTRANCES (SYNCED)
+           MASS TRANSIT BENCH ENTRANCES
            ======================================================== */
         .transit-vehicle { position: absolute; z-index: 40; pointer-events: none; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
 
-        .transit-bus-anim { animation: busDrive 3s linear 0.2s both; font-size: 150px; top: -28%; }
+        .transit-bus-anim { animation: busDrive 3s linear 0.2s both; font-size: 150px; top: -24%; }
+        /* NEW: Exhaust puffs out of the back of the bus! */
+        .transit-bus-anim::after { 
+            content: '💨'; position: absolute; left: 120px; top: 70px; 
+            font-size: 70px; animation: busSmoke 1.2s infinite; 
+        }
         @keyframes busDrive { 0% { transform: translateX(200px); left: 110%; } 100% { transform: translateX(-200px); left: -20%; } }
+        @keyframes busSmoke { 0% { transform: scale(0.5) translate(0, 0); opacity: 1; } 40% { transform: scale(1.5) translate(40px, -20px); opacity: 0; } 100% { transform: scale(0.5) translate(0, 0); opacity: 0; } }
 
-        .transit-train-anim { animation: trainDrive 3s linear 0.2s both; font-size: 150px; top: -28%; }
+        .transit-train-anim { animation: trainDrive 3s linear 0.2s both; font-size: 150px; top: -24%; }
         .transit-train-anim::after { 
             content: '💨'; position: absolute; left: 10px; top: -30px; 
             font-size: 80px; animation: trainPump 0.4s infinite; 
@@ -150,11 +156,10 @@
         @keyframes trainDrive { 0% { transform: translateX(200px); left: 110%; } 100% { transform: translateX(-200px); left: -20%; } }
         @keyframes trainPump { 0% { transform: scale(0.5) translate(0,0); opacity: 1; } 100% { transform: scale(1.5) translate(60px, -40px); opacity: 0; } }
 
-        /* Lowered slightly to -34% from -42% */
-        .transit-chopper-anim { animation: chopperFly 3s linear 0.2s both; font-size: 140px; top: -34%; }
+        /* FIXED: Pushed all the way up to -52% */
+        .transit-chopper-anim { animation: chopperFly 3s linear 0.2s both; font-size: 140px; top: -52%; }
         @keyframes chopperFly { 0% { transform: translateX(200px) rotate(-10deg); left: 110%; } 100% { transform: translateX(-200px) rotate(-10deg); left: -20%; } }
 
-        /* Individual UFO Fleet Lowered slightly to -240px from -300px */
         .bench-ufo { position: absolute; top: -240px; left: 50%; font-size: 100px; transform: translateX(-50%); animation: ufoHover 2s ease-in-out var(--entrance-delay) both; z-index: 20; }
         .bench-ufo::after { 
             content: ''; position: absolute; top: 80px; left: 50%; transform: translateX(-50%); 
