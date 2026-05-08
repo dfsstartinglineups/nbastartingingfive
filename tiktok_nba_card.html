@@ -58,7 +58,6 @@
         .anim-watermark-drop { animation: watermarkDrop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.5s forwards; }
         @keyframes watermarkDrop { 0% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); filter: blur(8px); } 100% { opacity: 0.35; transform: translate(-50%, -50%) scale(1); filter: blur(0px); } }
 
-        /* CHANGED TO GAME 3 */
         #game3-text {
             position: absolute; top: 0%; left: 50%; transform: translate(-50%, -50%);
             font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; font-size: 140px;
@@ -142,32 +141,35 @@
         .bench-node .hud-name { font-size: 16px; padding: 4px 16px; bottom: -10px; }
 
         /* ========================================================
-           NEW: MASS TRANSIT BENCH ENTRANCES (Slower & Upgraded)
+           NEW: MASS TRANSIT BENCH ENTRANCES
            ======================================================== */
         .transit-vehicle { position: absolute; z-index: 40; pointer-events: none; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
 
-        .transit-bus-anim { animation: busDrive 3s linear 0.2s both; font-size: 150px; top: -20%; }
-        @keyframes busDrive { 0% { transform: translateX(-200px); left: -10%; } 100% { transform: translateX(200px); left: 110%; } }
+        /* FIXED: Drive Right to Left */
+        .transit-bus-anim { animation: busDrive 3s linear 0.2s both; font-size: 150px; top: -24%; }
+        @keyframes busDrive { 0% { transform: translateX(200px); left: 110%; } 100% { transform: translateX(-200px); left: -20%; } }
 
-        /* UFO now hovers high, and each player gets their own scanning beam */
-        .transit-ufo-anim { animation: ufoHover 3.5s ease-in-out 0.2s both; font-size: 180px; top: -28%; left: 50%; transform: translateX(-50%); }
+        /* FIXED: UFO Hover pushed to the very top */
+        .transit-ufo-anim { animation: ufoHover 3.5s ease-in-out 0.2s both; font-size: 180px; top: -42%; left: 50%; transform: translateX(-50%); }
         @keyframes ufoHover { 0% { transform: translate(-50%, -400px); } 15%, 85% { transform: translate(-50%, 0); } 100% { transform: translate(-50%, -1000px); } }
 
-        .transit-train-anim { animation: trainDrive 3s linear 0.2s both; font-size: 150px; top: -20%; }
-        /* Dynamic Train Smoke Plume */
-        .transit-train-anim::after { content: '💨'; position: absolute; right: 80%; top: 10px; font-size: 80px; animation: trainPump 0.4s infinite; }
-        @keyframes trainDrive { 0% { transform: translateX(-200px); left: -10%; } 100% { transform: translateX(200px); left: 110%; } }
-        @keyframes trainPump { 0% { transform: scale(0.5) translate(0,0); opacity: 1; } 100% { transform: scale(1.5) translate(-40px, -40px); opacity: 0; } }
+        /* FIXED: Drive Right to Left + Smoke Plume on the stack */
+        .transit-train-anim { animation: trainDrive 3s linear 0.2s both; font-size: 150px; top: -24%; }
+        .transit-train-anim::after { 
+            content: '💨'; position: absolute; left: 5%; top: -20px; 
+            font-size: 80px; animation: trainPump 0.4s infinite; 
+        }
+        @keyframes trainDrive { 0% { transform: translateX(200px); left: 110%; } 100% { transform: translateX(-200px); left: -20%; } }
+        @keyframes trainPump { 0% { transform: scale(0.5) translate(0,0); opacity: 1; } 100% { transform: scale(1.5) translate(40px, -40px); opacity: 0; } }
 
-        /* Chopper flies super high */
-        .transit-chopper-anim { animation: chopperFly 3.5s linear 0.2s both; font-size: 140px; top: -30%; }
-        @keyframes chopperFly { 0% { transform: translateX(-200px) rotate(10deg); left: -10%; } 100% { transform: translateX(200px) rotate(10deg); left: 110%; } }
+        /* FIXED: Chopper fly Right to Left & very top */
+        .transit-chopper-anim { animation: chopperFly 3.5s linear 0.2s both; font-size: 140px; top: -42%; }
+        @keyframes chopperFly { 0% { transform: translateX(200px) rotate(-10deg); left: 110%; } 100% { transform: translateX(-200px) rotate(-10deg); left: -20%; } }
 
         /* Bench Drop Sub-Animations */
         .bench-pop { animation: benchPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) var(--entrance-delay) both; }
         @keyframes benchPop { 0% { transform: translate(-50%, -50%) scale(0) rotate(-20deg); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; } }
 
-        /* Individual UFO Beams */
         .bench-beam { animation: benchBeam 1.5s ease-out var(--entrance-delay) both; }
         .bench-beam::before { 
             content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
@@ -176,11 +178,6 @@
         }
         @keyframes benchBeam { 0%, 20% { transform: translate(-50%, -50px) scale(0.8); opacity: 0; filter: brightness(2) sepia(1) hue-rotate(90deg); } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; filter: brightness(1); } }
         @keyframes playerBeamFire { 0%, 10% { opacity: 0; transform: translateX(-50%) scaleY(0); transform-origin: top; } 20%, 80% { opacity: 1; transform: translateX(-50%) scaleY(1); } 90%, 100% { opacity: 0; transform: translateX(-50%) scaleY(0); transform-origin: bottom; display: none; } }
-
-        .bench-smoke { animation: benchSmoke 0.6s ease-out var(--entrance-delay) both; }
-        .bench-smoke::after { content: '💨'; position: absolute; font-size: 150px; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: smokeFade 1s ease-out var(--entrance-delay) both; z-index: 10; pointer-events: none; }
-        @keyframes benchSmoke { 0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; filter: blur(10px) brightness(1.5); } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; filter: blur(0) brightness(1); } }
-        @keyframes smokeFade { 0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
 
         .bench-para { animation: benchPara 2s ease-out var(--entrance-delay) both; }
         .bench-para::before { content: '🪂'; position: absolute; top: -80px; left: 50%; transform: translateX(-50%); font-size: 80px; animation: paraFade 2s ease-out var(--entrance-delay) both; z-index: 6; }
@@ -686,10 +683,14 @@
 
                 let animClass = "";
                 let baseDelay = 0.5;
-                if (transitStyle === 'bus') { animClass = "bench-pop"; baseDelay = 0.2 + (index * 0.3); }
+                
+                // Reversed Drop Timing: Vehicles now drive from Right to Left!
+                let reverseIdx = bench.length - 1 - index; 
+
+                if (transitStyle === 'bus') { animClass = "bench-pop"; baseDelay = 0.2 + (reverseIdx * 0.3); }
                 else if (transitStyle === 'ufo') { animClass = "bench-beam"; baseDelay = 0.8 + (index * 0.15); }
-                else if (transitStyle === 'train') { animClass = "bench-smoke"; baseDelay = 0.2 + (index * 0.3); }
-                else if (transitStyle === 'chopper') { animClass = "bench-para"; baseDelay = 0.2 + (index * 0.3); }
+                else if (transitStyle === 'train') { animClass = "bench-pop"; baseDelay = 0.2 + (reverseIdx * 0.3); }
+                else if (transitStyle === 'chopper') { animClass = "bench-para"; baseDelay = 0.2 + (reverseIdx * 0.3); }
 
                 const html = `
                     <div id="bench-node-${index}" class="player-node bench-node ${animClass}" style="left: ${benchX}%; top: -18%; --entrance-delay: ${baseDelay}s;">
