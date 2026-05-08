@@ -140,9 +140,8 @@
         .transit-vehicle { position: absolute; z-index: 40; pointer-events: none; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
 
         .transit-bus-anim { animation: busDrive 3s linear 0.2s both; font-size: 150px; top: -24%; }
-        /* NEW: Exhaust puffs out of the back of the bus! */
         .transit-bus-anim::after { 
-            content: '💨'; position: absolute; left: 120px; top: 70px; 
+            content: '💨'; position: absolute; left: 160px; top: 70px; 
             font-size: 70px; animation: busSmoke 1.2s infinite; 
         }
         @keyframes busDrive { 0% { transform: translateX(200px); left: 110%; } 100% { transform: translateX(-200px); left: -20%; } }
@@ -156,8 +155,7 @@
         @keyframes trainDrive { 0% { transform: translateX(200px); left: 110%; } 100% { transform: translateX(-200px); left: -20%; } }
         @keyframes trainPump { 0% { transform: scale(0.5) translate(0,0); opacity: 1; } 100% { transform: scale(1.5) translate(60px, -40px); opacity: 0; } }
 
-        /* FIXED: Pushed all the way up to -52% */
-        .transit-chopper-anim { animation: chopperFly 3s linear 0.2s both; font-size: 140px; top: -52%; }
+        .transit-chopper-anim { animation: chopperFly 3s linear 0.2s both; font-size: 140px; top: -46%; }
         @keyframes chopperFly { 0% { transform: translateX(200px) rotate(-10deg); left: 110%; } 100% { transform: translateX(-200px) rotate(-10deg); left: -20%; } }
 
         .bench-ufo { position: absolute; top: -240px; left: 50%; font-size: 100px; transform: translateX(-50%); animation: ufoHover 2s ease-in-out var(--entrance-delay) both; z-index: 20; }
