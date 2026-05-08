@@ -136,10 +136,47 @@
         .bench-node { 
             z-index: 5; 
             width: 150px; height: 200px; 
-            animation: benchDropIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) var(--entrance-delay) both;
         }
         .bench-node .player-cutout-wrapper { height: 140px; }
         .bench-node .hud-name { font-size: 16px; padding: 4px 16px; bottom: -10px; }
+
+        /* ========================================================
+           NEW: MASS TRANSIT BENCH ENTRANCES
+           ======================================================== */
+        .transit-vehicle { position: absolute; z-index: 40; pointer-events: none; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
+
+        .transit-bus-anim { animation: busDrive 1.2s linear 3s both; font-size: 150px; top: -20%; }
+        @keyframes busDrive { 0% { transform: translateX(-200px); left: -10%; } 100% { transform: translateX(200px); left: 110%; } }
+
+        .transit-ufo-anim { animation: ufoHover 2s ease-in-out 3s both; font-size: 180px; top: -26%; left: 50%; }
+        .transit-ufo-anim::after { 
+            content: ''; position: absolute; top: 120px; left: 50%; transform: translateX(-50%); 
+            width: 900px; height: 350px; background: linear-gradient(to bottom, rgba(0,255,100,0.6), transparent); 
+            filter: blur(10px); animation: ufoBeam 2s ease-in-out 3s both; z-index: -1; 
+        }
+        @keyframes ufoHover { 0% { transform: translate(-50%, -300px); } 15%, 85% { transform: translate(-50%, 0); } 100% { transform: translate(-50%, -1000px); } }
+        @keyframes ufoBeam { 0%, 15% { opacity: 0; } 25%, 75% { opacity: 1; } 85%, 100% { opacity: 0; } }
+
+        .transit-train-anim { animation: trainDrive 2s ease-in-out 3s both; font-size: 150px; top: -20%; left: 50%; white-space: nowrap; }
+        @keyframes trainDrive { 0% { transform: translate(-1000px, 0); } 30%, 70% { transform: translate(-50%, 0); opacity: 1; } 100% { transform: translate(-50%, 0); opacity: 0; } }
+
+        .transit-chopper-anim { animation: chopperFly 1.5s linear 3s both; font-size: 140px; top: -30%; }
+        @keyframes chopperFly { 0% { transform: translateX(-200px) rotate(10deg); left: -10%; } 100% { transform: translateX(200px) rotate(10deg); left: 110%; } }
+
+        /* Bench Drop Sub-Animations tied to the vehicles */
+        .bench-pop { animation: benchPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) var(--entrance-delay) both; }
+        @keyframes benchPop { 0% { transform: translate(-50%, -50%) scale(0) rotate(-20deg); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; } }
+
+        .bench-beam { animation: benchBeam 0.8s ease-out var(--entrance-delay) both; }
+        @keyframes benchBeam { 0% { transform: translate(-50%, 0px) scale(0.8); opacity: 0; filter: brightness(2) sepia(1) hue-rotate(90deg); } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; filter: brightness(1); } }
+
+        .bench-smoke { animation: benchSmoke 0.6s ease-out var(--entrance-delay) both; }
+        @keyframes benchSmoke { 0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; filter: blur(10px) brightness(1.5); } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; filter: blur(0) brightness(1); } }
+
+        .bench-para { animation: benchPara 1.2s ease-out var(--entrance-delay) both; }
+        .bench-para::before { content: '🪂'; position: absolute; top: -60px; left: 50%; transform: translateX(-50%); font-size: 60px; animation: paraFade 1.2s ease-out var(--entrance-delay) both; z-index: 6; }
+        @keyframes benchPara { 0% { transform: translate(-50%, -300px) rotate(-10deg); opacity: 0; } 20% { opacity: 1; } 100% { transform: translate(-50%, -50%) rotate(0deg); opacity: 1; } }
+        @keyframes paraFade { 0%, 80% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; transform: translate(-50%, -30px); display: none; } }
 
         /* ========================================================
            THE 10-PLAY RANDOMIZED ENTRANCE ANIMATIONS 
@@ -154,7 +191,6 @@
         /* 3. UPGRADED R2-D2 Cyber Scan */
         .anim-cyber-scan { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
         .anim-cyber-scan .player-photo { animation: r2d2Flicker 1.2s linear var(--entrance-delay) both; }
-        /* The Blue R2D2 Hologram Overlay */
         .anim-cyber-scan .player-cutout-wrapper::before {
             content: ''; position: absolute; top: 0; left: -10%; width: 120%; height: 100%;
             background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 255, 0.2) 2px, rgba(0, 255, 255, 0.2) 4px), rgba(0, 100, 255, 0.3);
@@ -162,7 +198,6 @@
             z-index: 20; transform-origin: bottom;
             animation: holoWipe 1.2s linear var(--entrance-delay) both;
         }
-        /* The Green Laser */
         .anim-cyber-scan .player-cutout-wrapper::after {
             content: ''; position: absolute; top: 0; left: -20%; width: 140%; height: 6px;
             background: #0f0; box-shadow: 0 0 15px #0f0, 0 0 30px #0f0;
@@ -232,7 +267,6 @@
         @keyframes beamDrop { 0% { opacity: 0; transform: translateX(-50%) scaleY(0); transform-origin: top; } 10% { opacity: 1; transform: translateX(-50%) scaleY(1); } 80% { opacity: 1; transform: translateX(-50%) scaleY(1) scaleX(1); filter: blur(8px); } 100% { opacity: 0; transform: translateX(-50%) scaleY(1) scaleX(0); filter: blur(2px); } }
 
         @keyframes fadeIn { to { opacity: 1; } }
-        @keyframes benchDropIn { 0% { transform: translate(-50%, -400px); opacity: 0; } 100% { transform: translate(-50%, -50%); opacity: 1; } }
 
         /* --- SHOCKWAVE RING --- */
         .shockwave-ring { position: absolute; top: 80%; left: 50%; width: 200px; height: 200px; border-radius: 50%; border: 12px solid var(--team-primary); transform: translate(-50%, -50%) scale(0.5); opacity: 0; z-index: 11; pointer-events: none; }
@@ -627,18 +661,35 @@
             const container = document.getElementById('players-container'); container.innerHTML = '';
             const starters = game.rosters[targetAbbr].players.slice(0, 5); const bench = (game.rosters[targetAbbr].bench || []).slice(0, 7);
 
-            // RENDER BENCH
+            // MASS TRANSIT BENCH ENGINE
+            const BENCH_ENTRANCES = ["bus", "ufo", "train", "chopper"];
+            const transitStyle = BENCH_ENTRANCES[Math.floor(Math.random() * BENCH_ENTRANCES.length)];
+
+            let vehicleHtml = '';
+            if (transitStyle === 'bus') vehicleHtml = `<div class="transit-vehicle transit-bus-anim">🚌</div>`;
+            else if (transitStyle === 'ufo') vehicleHtml = `<div class="transit-vehicle transit-ufo-anim">🛸</div>`;
+            else if (transitStyle === 'train') vehicleHtml = `<div class="transit-vehicle transit-train-anim">🚂💨💨💨</div>`;
+            else if (transitStyle === 'chopper') vehicleHtml = `<div class="transit-vehicle transit-chopper-anim">🚁</div>`;
+            
+            container.insertAdjacentHTML('beforeend', vehicleHtml);
+
             const benchSpacing = bench.length > 1 ? 80 / (bench.length - 1) : 0; 
             
             bench.forEach((player, index) => {
                 const dbPlayer = getPlayerData(player.name); const photoUrl = dbPlayer ? dbPlayer.photo : null;
                 const lastName = player.name.split(' ').pop().substring(0, 10); 
-                
                 const photoHtml = (photoUrl && photoUrl.trim() !== '') ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` : `<div class="fallback-silhouette"></div>`;
                 const benchX = 10 + (index * benchSpacing); 
 
+                let animClass = "";
+                let baseDelay = 3.5;
+                if (transitStyle === 'bus') { animClass = "bench-pop"; baseDelay = 3.2 + (index * 0.1); }
+                else if (transitStyle === 'ufo') { animClass = "bench-beam"; baseDelay = 3.7; }
+                else if (transitStyle === 'train') { animClass = "bench-smoke"; baseDelay = 3.8; }
+                else if (transitStyle === 'chopper') { animClass = "bench-para"; baseDelay = 3.3 + (index * 0.1); }
+
                 const html = `
-                    <div id="bench-node-${index}" class="player-node bench-node" style="left: ${benchX}%; top: -18%; --entrance-delay: ${3.5 + index * 0.1}s;">
+                    <div id="bench-node-${index}" class="player-node bench-node ${animClass}" style="left: ${benchX}%; top: -18%; --entrance-delay: ${baseDelay}s;">
                         <div class="player-cutout-wrapper">
                             ${photoHtml}
                             <div class="player-hud hud-reveal">
