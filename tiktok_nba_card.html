@@ -150,11 +150,12 @@
         @keyframes trainDrive { 0% { transform: translateX(200px); left: 110%; } 100% { transform: translateX(-200px); left: -20%; } }
         @keyframes trainPump { 0% { transform: scale(0.5) translate(0,0); opacity: 1; } 100% { transform: scale(1.5) translate(60px, -40px); opacity: 0; } }
 
-        .transit-chopper-anim { animation: chopperFly 3s linear 0.2s both; font-size: 140px; top: -55%; }
+        /* Lowered slightly to -34% from -42% */
+        .transit-chopper-anim { animation: chopperFly 3s linear 0.2s both; font-size: 140px; top: -34%; }
         @keyframes chopperFly { 0% { transform: translateX(200px) rotate(-10deg); left: 110%; } 100% { transform: translateX(-200px) rotate(-10deg); left: -20%; } }
 
-        /* Individual UFO Fleet */
-        .bench-ufo { position: absolute; top: -300px; left: 50%; font-size: 100px; transform: translateX(-50%); animation: ufoHover 2s ease-in-out var(--entrance-delay) both; z-index: 20; }
+        /* Individual UFO Fleet Lowered slightly to -240px from -300px */
+        .bench-ufo { position: absolute; top: -240px; left: 50%; font-size: 100px; transform: translateX(-50%); animation: ufoHover 2s ease-in-out var(--entrance-delay) both; z-index: 20; }
         .bench-ufo::after { 
             content: ''; position: absolute; top: 80px; left: 50%; transform: translateX(-50%); 
             width: 80px; height: 500px; background: linear-gradient(to bottom, rgba(0,255,100,0.8), transparent); 
@@ -674,7 +675,6 @@
                 let baseDelay = 0.5;
                 
                 // Reversed Drop Timing: Vehicles now drive from Right to Left (110% to -20%)
-                // We sync the pop by mapping the player's X coordinate to the vehicle's 3-second journey.
                 let hitTime = 3.0 * ((110 - benchX) / 130);
 
                 let extraHtml = '';
@@ -684,8 +684,8 @@
                 else if (transitStyle === 'chopper') { animClass = "bench-para"; baseDelay = 0.2 + hitTime; }
                 else if (transitStyle === 'ufo') { 
                     animClass = "bench-beam"; 
-                    baseDelay = 0.5 + (index * 0.15); // Stagger UFO drops
-                    extraHtml = `<div class="bench-ufo">🛸</div>`; // Each player gets a UFO!
+                    baseDelay = 0.5 + (index * 0.15); 
+                    extraHtml = `<div class="bench-ufo">🛸</div>`; 
                 }
 
                 const html = `
