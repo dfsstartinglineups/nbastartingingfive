@@ -135,9 +135,16 @@
         .bench-node .hud-name { font-size: 16px; padding: 4px 16px; bottom: -10px; }
 
         /* ========================================================
-           MASS TRANSIT BENCH ENTRANCES
+           MASS TRANSIT BENCH ENTRANCES (WITH LOGOS)
            ======================================================== */
-        .transit-vehicle { position: absolute; z-index: 40; pointer-events: none; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
+        .transit-vehicle { position: absolute; z-index: 40; pointer-events: none; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); line-height: 1; }
+        
+        /* The dynamically injected team logo */
+        .transit-logo { position: absolute; object-fit: contain; z-index: 50; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6)); }
+        .transit-bus-anim .transit-logo { top: 55%; left: 45%; width: 45px; height: 45px; transform: translate(-50%, -50%); }
+        .transit-train-anim .transit-logo { top: 55%; left: 75%; width: 35px; height: 35px; transform: translate(-50%, -50%); }
+        .transit-chopper-anim .transit-logo { top: 55%; left: 35%; width: 35px; height: 35px; transform: translate(-50%, -50%); }
+        .bench-ufo .transit-logo { top: 40%; left: 50%; width: 25px; height: 25px; transform: translate(-50%, -50%); }
 
         .transit-bus-anim { animation: busDrive 3s linear 0.2s both; font-size: 150px; top: -24%; }
         .transit-bus-anim::after { 
@@ -158,7 +165,7 @@
         .transit-chopper-anim { animation: chopperFly 3s linear 0.2s both; font-size: 140px; top: -46%; }
         @keyframes chopperFly { 0% { transform: translateX(200px) rotate(-10deg); left: 110%; } 100% { transform: translateX(-200px) rotate(-10deg); left: -20%; } }
 
-        .bench-ufo { position: absolute; top: -240px; left: 50%; font-size: 100px; transform: translateX(-50%); animation: ufoHover 2s ease-in-out var(--entrance-delay) both; z-index: 20; }
+        .bench-ufo { position: absolute; top: -240px; left: 50%; font-size: 100px; transform: translateX(-50%); animation: ufoHover 2s ease-in-out var(--entrance-delay) both; z-index: 20; line-height: 1; }
         .bench-ufo::after { 
             content: ''; position: absolute; top: 80px; left: 50%; transform: translateX(-50%); 
             width: 80px; height: 500px; background: linear-gradient(to bottom, rgba(0,255,100,0.8), transparent); 
@@ -660,9 +667,9 @@
             const transitStyle = BENCH_ENTRANCES[Math.floor(Math.random() * BENCH_ENTRANCES.length)];
 
             let vehicleHtml = '';
-            if (transitStyle === 'bus') vehicleHtml = `<div class="transit-vehicle transit-bus-anim">🚌</div>`;
-            else if (transitStyle === 'train') vehicleHtml = `<div class="transit-vehicle transit-train-anim">🚂</div>`;
-            else if (transitStyle === 'chopper') vehicleHtml = `<div class="transit-vehicle transit-chopper-anim">🚁</div>`;
+            if (transitStyle === 'bus') vehicleHtml = `<div class="transit-vehicle transit-bus-anim">🚌<img src="${logoUrl}" class="transit-logo"></div>`;
+            else if (transitStyle === 'train') vehicleHtml = `<div class="transit-vehicle transit-train-anim">🚂<img src="${logoUrl}" class="transit-logo"></div>`;
+            else if (transitStyle === 'chopper') vehicleHtml = `<div class="transit-vehicle transit-chopper-anim">🚁<img src="${logoUrl}" class="transit-logo"></div>`;
             
             if (vehicleHtml) container.insertAdjacentHTML('beforeend', vehicleHtml);
 
@@ -688,7 +695,7 @@
                 else if (transitStyle === 'ufo') { 
                     animClass = "bench-beam"; 
                     baseDelay = 0.5 + (index * 0.15); 
-                    extraHtml = `<div class="bench-ufo">🛸</div>`; 
+                    extraHtml = `<div class="bench-ufo">🛸<img src="${logoUrl}" class="transit-logo"></div>`; 
                 }
 
                 const html = `
