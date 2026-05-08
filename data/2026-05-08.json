@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 08, 07:41 PM ET",
+  "last_updated": "May 08, 07:42 PM ET",
   "player_news": [
     {
       "player_name": "Joel Embiid",
@@ -9,7 +9,7 @@
       "description": "Playing right ankle sprain hip soreness",
       "time_elapsed": "1.2h",
       "next_game": "Friday vs NYK",
-      "local_timestamp": 1778283707.545076
+      "local_timestamp": 1778283818.5689166
     },
     {
       "player_name": "Mitchell Robinson",
@@ -17,9 +17,9 @@
       "position": "C",
       "status_badge": "IN",
       "description": "Playing illness",
-      "time_elapsed": "2.0h",
+      "time_elapsed": "2.1h",
       "next_game": "Friday @PHI",
-      "local_timestamp": 1778283707.544076
+      "local_timestamp": 1778283818.5679166
     },
     {
       "player_name": "Josh Hart",
@@ -27,9 +27,9 @@
       "position": "SF",
       "status_badge": "IN",
       "description": "Playing left thumb sprain",
-      "time_elapsed": "2.0h",
+      "time_elapsed": "2.1h",
       "next_game": "Friday @PHI",
-      "local_timestamp": 1778283707.543076
+      "local_timestamp": 1778283818.5669167
     },
     {
       "player_name": "O.G. Anunoby",
@@ -39,7 +39,7 @@
       "description": "Out right hamstring strain",
       "time_elapsed": "2.1h",
       "next_game": "Friday @PHI",
-      "local_timestamp": 1778283707.5420759
+      "local_timestamp": 1778283818.5659165
     },
     {
       "player_name": "Anthony Edwards",
@@ -60,16 +60,6 @@
       "time_elapsed": "1.1d",
       "next_game": "Friday vs NYK",
       "local_timestamp": 1778275548.3359532
-    },
-    {
-      "player_name": "Ayo Dosunmu",
-      "team": "MIN",
-      "position": "SG",
-      "status_badge": "Q",
-      "description": "uestionable right heel soreness",
-      "time_elapsed": "1.1d",
-      "next_game": "Friday vs SAS",
-      "local_timestamp": 1778197414.7340965
     }
   ],
   "espn_schedule": {
@@ -458,6 +448,11 @@
                     "value": 31.0,
                     "displayValue": "31",
                     "period": 1
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 2
                   }
                 ],
                 "statistics": [
@@ -798,6 +793,11 @@
                     "value": 27.0,
                     "displayValue": "27",
                     "period": 1
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 2
                   }
                 ],
                 "statistics": [
@@ -1072,32 +1072,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401871161155",
+                "id": "401871161159",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "584",
+                  "text": "Substitution"
                 },
-                "text": "End of the 1st Quarter",
+                "text": "Josh Hart enters the game for Mikal Bridges",
                 "scoreValue": 0,
+                "team": {
+                  "id": "18"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
                   "homeWinPercentage": 0.482,
                   "awayWinPercentage": 0.518
-                }
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "3062679",
+                    "fullName": "Josh Hart",
+                    "displayName": "Josh Hart",
+                    "shortName": "J. Hart",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/3062679/josh-hart"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/3062679.png",
+                    "jersey": "3",
+                    "position": "G",
+                    "team": {
+                      "id": "18"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 1,
+              "clock": 699.0,
+              "displayClock": "11:39",
+              "period": 2,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "End of Period",
-                "detail": "End of 1st Quarter",
-                "shortDetail": "End of 1st"
+                "description": "In Progress",
+                "detail": "11:39 - 2nd Quarter",
+                "shortDetail": "11:39 - 2nd"
               }
             },
             "broadcasts": [
@@ -1215,17 +1242,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 1,
+          "clock": 699.0,
+          "displayClock": "11:39",
+          "period": 2,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "End of Period",
-            "detail": "End of 1st Quarter",
-            "shortDetail": "End of 1st"
+            "description": "In Progress",
+            "detail": "11:39 - 2nd Quarter",
+            "shortDetail": "11:39 - 2nd"
           }
         }
       },
@@ -2495,15 +2522,15 @@
                 }
               },
               "dk_slates": {
-                "23F23": {
-                  "salary": 9400,
-                  "proj": 41.6,
-                  "value": 4.43
-                },
                 "23ECC": {
                   "salary": 8400,
                   "proj": 41.6,
                   "value": 4.95
+                },
+                "23F23": {
+                  "salary": 9400,
+                  "proj": 41.6,
+                  "value": 4.43
                 }
               },
               "fd_positions": "PG",
@@ -2534,15 +2561,15 @@
                 }
               },
               "dk_slates": {
-                "23F23": {
-                  "salary": 4400,
-                  "proj": 21.4,
-                  "value": 4.86
-                },
                 "23ECC": {
                   "salary": 4000,
                   "proj": 21.4,
                   "value": 5.35
+                },
+                "23F23": {
+                  "salary": 4400,
+                  "proj": 21.4,
+                  "value": 4.86
                 }
               },
               "fd_positions": "PG/SG",
@@ -2573,15 +2600,15 @@
                 }
               },
               "dk_slates": {
-                "23F23": {
-                  "salary": 6400,
-                  "proj": 28.3,
-                  "value": 4.42
-                },
                 "23ECC": {
                   "salary": 5400,
                   "proj": 28.3,
                   "value": 5.24
+                },
+                "23F23": {
+                  "salary": 6400,
+                  "proj": 28.3,
+                  "value": 4.42
                 }
               },
               "fd_positions": "SG/SF",
@@ -2612,15 +2639,15 @@
                 }
               },
               "dk_slates": {
-                "23F23": {
-                  "salary": 8000,
-                  "proj": 34.6,
-                  "value": 4.33
-                },
                 "23ECC": {
                   "salary": 6600,
                   "proj": 34.6,
                   "value": 5.24
+                },
+                "23F23": {
+                  "salary": 8000,
+                  "proj": 34.6,
+                  "value": 4.33
                 }
               },
               "fd_positions": "SF/PF",
@@ -2651,15 +2678,15 @@
                 }
               },
               "dk_slates": {
-                "23F23": {
-                  "salary": 9800,
-                  "proj": 43.8,
-                  "value": 4.47
-                },
                 "23ECC": {
                   "salary": 8800,
                   "proj": 43.8,
                   "value": 4.98
+                },
+                "23F23": {
+                  "salary": 9800,
+                  "proj": 43.8,
+                  "value": 4.47
                 }
               },
               "fd_positions": "C/PF",
@@ -2692,15 +2719,15 @@
                 }
               },
               "dk_slates": {
-                "23F23": {
-                  "salary": 4000,
-                  "proj": 16.7,
-                  "value": 4.18
-                },
                 "23ECC": {
                   "salary": 3900,
                   "proj": 16.7,
                   "value": 4.28
+                },
+                "23F23": {
+                  "salary": 4000,
+                  "proj": 16.7,
+                  "value": 4.18
                 }
               },
               "fd_positions": "C",
@@ -2731,15 +2758,15 @@
                 }
               },
               "dk_slates": {
-                "23F23": {
-                  "salary": 3600,
-                  "proj": 11.2,
-                  "value": 3.11
-                },
                 "23ECC": {
                   "salary": 3700,
                   "proj": 11.2,
                   "value": 3.03
+                },
+                "23F23": {
+                  "salary": 3600,
+                  "proj": 11.2,
+                  "value": 3.11
                 }
               },
               "fd_positions": "SG/PG",
@@ -2770,15 +2797,15 @@
                 }
               },
               "dk_slates": {
-                "23F23": {
-                  "salary": 2800,
-                  "proj": 9.4,
-                  "value": 3.36
-                },
                 "23ECC": {
                   "salary": 3500,
                   "proj": 9.4,
                   "value": 2.69
+                },
+                "23F23": {
+                  "salary": 2800,
+                  "proj": 9.4,
+                  "value": 3.36
                 }
               },
               "fd_positions": "PG",
@@ -2809,15 +2836,15 @@
                 }
               },
               "dk_slates": {
-                "23F23": {
-                  "salary": 1000,
-                  "proj": 6.0,
-                  "value": 6.0
-                },
                 "23ECC": {
                   "salary": 3000,
                   "proj": 6.0,
                   "value": 2.0
+                },
+                "23F23": {
+                  "salary": 1000,
+                  "proj": 6.0,
+                  "value": 6.0
                 }
               },
               "fd_positions": "SG/SF",
@@ -2848,15 +2875,15 @@
                 }
               },
               "dk_slates": {
-                "23F23": {
-                  "salary": 2400,
-                  "proj": 0.4,
-                  "value": 0.18
-                },
                 "23ECC": {
                   "salary": 3400,
                   "proj": 0.4,
                   "value": 0.13
+                },
+                "23F23": {
+                  "salary": 2400,
+                  "proj": 0.4,
+                  "value": 0.18
                 }
               },
               "fd_positions": "C",
@@ -2887,13 +2914,13 @@
                 }
               },
               "dk_slates": {
-                "23F23": {
-                  "salary": 7600,
+                "23ECC": {
+                  "salary": 6500,
                   "proj": 0.0,
                   "value": 0.0
                 },
-                "23ECC": {
-                  "salary": 6500,
+                "23F23": {
+                  "salary": 7600,
                   "proj": 0.0,
                   "value": 0.0
                 }
@@ -2931,15 +2958,15 @@
                 }
               },
               "dk_slates": {
-                "23F23": {
-                  "salary": 9600,
-                  "proj": 45.0,
-                  "value": 4.69
-                },
                 "23ECC": {
                   "salary": 8600,
                   "proj": 45.0,
                   "value": 5.23
+                },
+                "23F23": {
+                  "salary": 9600,
+                  "proj": 45.0,
+                  "value": 4.69
                 }
               },
               "fd_positions": "PG",
@@ -2970,15 +2997,15 @@
                 }
               },
               "dk_slates": {
-                "23F23": {
-                  "salary": 7200,
-                  "proj": 30.1,
-                  "value": 4.18
-                },
                 "23ECC": {
                   "salary": 6300,
                   "proj": 30.1,
                   "value": 4.78
+                },
+                "23F23": {
+                  "salary": 7200,
+                  "proj": 30.1,
+                  "value": 4.18
                 }
               },
               "fd_positions": "SG/PG",
@@ -3009,15 +3036,15 @@
                 }
               },
               "dk_slates": {
-                "23F23": {
-                  "salary": 6200,
-                  "proj": 24.6,
-                  "value": 3.97
-                },
                 "23ECC": {
                   "salary": 5200,
                   "proj": 24.6,
                   "value": 4.73
+                },
+                "23F23": {
+                  "salary": 6200,
+                  "proj": 24.6,
+                  "value": 3.97
                 }
               },
               "fd_positions": "SF/PF",
@@ -3048,15 +3075,15 @@
                 }
               },
               "dk_slates": {
-                "23F23": {
-                  "salary": 8400,
-                  "proj": 34.8,
-                  "value": 4.14
-                },
                 "23ECC": {
                   "salary": 6900,
                   "proj": 34.8,
                   "value": 5.04
+                },
+                "23F23": {
+                  "salary": 8400,
+                  "proj": 34.8,
+                  "value": 4.14
                 }
               },
               "fd_positions": "SF/PF",
@@ -3087,15 +3114,15 @@
                 }
               },
               "dk_slates": {
-                "23F23": {
-                  "salary": 10000,
-                  "proj": 44.4,
-                  "value": 4.44
-                },
                 "23ECC": {
                   "salary": 8900,
                   "proj": 44.4,
                   "value": 4.99
+                },
+                "23F23": {
+                  "salary": 10000,
+                  "proj": 44.4,
+                  "value": 4.44
                 }
               },
               "fd_positions": "C",
@@ -3128,15 +3155,15 @@
                 }
               },
               "dk_slates": {
-                "23F23": {
-                  "salary": 4800,
-                  "proj": 17.1,
-                  "value": 3.56
-                },
                 "23ECC": {
                   "salary": 4200,
                   "proj": 17.1,
                   "value": 4.07
+                },
+                "23F23": {
+                  "salary": 4800,
+                  "proj": 17.1,
+                  "value": 3.56
                 }
               },
               "fd_positions": "SG/SF",
@@ -3167,15 +3194,15 @@
                 }
               },
               "dk_slates": {
-                "23F23": {
-                  "salary": 5400,
-                  "proj": 12.3,
-                  "value": 2.28
-                },
                 "23ECC": {
                   "salary": 4500,
                   "proj": 12.3,
                   "value": 2.73
+                },
+                "23F23": {
+                  "salary": 5400,
+                  "proj": 12.3,
+                  "value": 2.28
                 }
               },
               "fd_positions": "C",
@@ -3206,15 +3233,15 @@
                 }
               },
               "dk_slates": {
-                "23F23": {
-                  "salary": 1600,
-                  "proj": 6.8,
-                  "value": 4.24
-                },
                 "23ECC": {
                   "salary": 3100,
                   "proj": 6.8,
                   "value": 2.19
+                },
+                "23F23": {
+                  "salary": 1600,
+                  "proj": 6.8,
+                  "value": 4.24
                 }
               },
               "fd_positions": "PF",
@@ -3245,15 +3272,15 @@
                 }
               },
               "dk_slates": {
-                "23F23": {
-                  "salary": 1000,
-                  "proj": 3.5,
-                  "value": 3.5
-                },
                 "23ECC": {
                   "salary": 3000,
                   "proj": 3.5,
                   "value": 1.17
+                },
+                "23F23": {
+                  "salary": 1000,
+                  "proj": 3.5,
+                  "value": 3.5
                 }
               },
               "fd_positions": "SF",
@@ -3284,15 +3311,15 @@
                 }
               },
               "dk_slates": {
-                "23F23": {
-                  "salary": 3000,
-                  "proj": 3.5,
-                  "value": 1.17
-                },
                 "23ECC": {
                   "salary": 3500,
                   "proj": 3.5,
                   "value": 1.0
+                },
+                "23F23": {
+                  "salary": 3000,
+                  "proj": 3.5,
+                  "value": 1.17
                 }
               },
               "fd_positions": "C",
