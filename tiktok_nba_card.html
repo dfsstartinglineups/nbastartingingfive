@@ -135,18 +135,15 @@
         .bench-node .hud-name { font-size: 16px; padding: 4px 16px; bottom: -10px; }
 
         /* ========================================================
-           MASS TRANSIT BENCH ENTRANCES (WITH LOGOS)
+           MASS TRANSIT BENCH ENTRANCES (WITH LOGOS & TAXI/BULLET TRAIN)
            ======================================================== */
-        .transit-vehicle { position: absolute; z-index: 40; pointer-events: none; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); line-height: 1; }
+        .transit-vehicle { position: absolute; z-index: 40; pointer-events: none; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); line-height: 1; white-space: nowrap; }
         
-        /* The dynamically injected team logo */
         .transit-logo { position: absolute; object-fit: contain; z-index: 50; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6)); }
-        .transit-bus-anim .transit-logo { top: 55%; left: 45%; width: 45px; height: 45px; transform: translate(-50%, -50%); }
-        .transit-train-anim .transit-logo { top: 55%; left: 75%; width: 35px; height: 35px; transform: translate(-50%, -50%); }
-        .transit-chopper-anim .transit-logo { top: 55%; left: 35%; width: 35px; height: 35px; transform: translate(-50%, -50%); }
-        .bench-ufo .transit-logo { top: 40%; left: 50%; width: 25px; height: 25px; transform: translate(-50%, -50%); }
-
+        
+        /* City Bus */
         .transit-bus-anim { animation: busDrive 3s linear 0.2s both; font-size: 150px; top: -24%; }
+        .transit-bus-anim .transit-logo { top: 55%; left: 45%; width: 45px; height: 45px; transform: translate(-50%, -50%); }
         .transit-bus-anim::after { 
             content: '💨'; position: absolute; left: 160px; top: 70px; 
             font-size: 70px; animation: busSmoke 1.2s infinite; 
@@ -154,18 +151,24 @@
         @keyframes busDrive { 0% { transform: translateX(200px); left: 110%; } 100% { transform: translateX(-200px); left: -20%; } }
         @keyframes busSmoke { 0% { transform: scale(0.5) translate(0, 0); opacity: 1; } 40% { transform: scale(1.5) translate(40px, -20px); opacity: 0; } 100% { transform: scale(0.5) translate(0, 0); opacity: 0; } }
 
+        /* Double-Ended Bullet Train */
         .transit-train-anim { animation: trainDrive 3s linear 0.2s both; font-size: 150px; top: -24%; }
-        .transit-train-anim::after { 
-            content: '💨'; position: absolute; left: 10px; top: -30px; 
-            font-size: 80px; animation: trainPump 0.4s infinite; 
-        }
+        .transit-train-anim .transit-logo { top: 55%; left: 50%; width: 50px; height: 50px; transform: translate(-50%, -50%); }
         @keyframes trainDrive { 0% { transform: translateX(200px); left: 110%; } 100% { transform: translateX(-200px); left: -20%; } }
-        @keyframes trainPump { 0% { transform: scale(0.5) translate(0,0); opacity: 1; } 100% { transform: scale(1.5) translate(60px, -40px); opacity: 0; } }
 
+        /* Taxi Cab */
+        .transit-taxi-anim { animation: taxiDrive 3s linear 0.2s both; font-size: 130px; top: -22%; }
+        .transit-taxi-anim .transit-logo { top: 55%; left: 45%; width: 35px; height: 35px; transform: translate(-50%, -50%); }
+        @keyframes taxiDrive { 0% { transform: translateX(200px); left: 110%; } 100% { transform: translateX(-200px); left: -20%; } }
+
+        /* Helicopter */
         .transit-chopper-anim { animation: chopperFly 3s linear 0.2s both; font-size: 140px; top: -46%; }
+        .transit-chopper-anim .transit-logo { top: 55%; left: 35%; width: 35px; height: 35px; transform: translate(-50%, -50%); }
         @keyframes chopperFly { 0% { transform: translateX(200px) rotate(-10deg); left: 110%; } 100% { transform: translateX(-200px) rotate(-10deg); left: -20%; } }
 
+        /* UFO Fleet */
         .bench-ufo { position: absolute; top: -240px; left: 50%; font-size: 100px; transform: translateX(-50%); animation: ufoHover 2s ease-in-out var(--entrance-delay) both; z-index: 20; line-height: 1; }
+        .bench-ufo .transit-logo { top: 40%; left: 50%; width: 25px; height: 25px; transform: translate(-50%, -50%); }
         .bench-ufo::after { 
             content: ''; position: absolute; top: 80px; left: 50%; transform: translateX(-50%); 
             width: 80px; height: 500px; background: linear-gradient(to bottom, rgba(0,255,100,0.8), transparent); 
@@ -663,13 +666,14 @@
             const starters = game.rosters[targetAbbr].players.slice(0, 5); const bench = (game.rosters[targetAbbr].bench || []).slice(0, 7);
 
             // MASS TRANSIT BENCH ENGINE
-            const BENCH_ENTRANCES = ["bus", "ufo", "train", "chopper"];
+            const BENCH_ENTRANCES = ["bus", "ufo", "train", "chopper", "taxi"];
             const transitStyle = BENCH_ENTRANCES[Math.floor(Math.random() * BENCH_ENTRANCES.length)];
 
             let vehicleHtml = '';
             if (transitStyle === 'bus') vehicleHtml = `<div class="transit-vehicle transit-bus-anim">🚌<img src="${logoUrl}" class="transit-logo"></div>`;
-            else if (transitStyle === 'train') vehicleHtml = `<div class="transit-vehicle transit-train-anim">🚂<img src="${logoUrl}" class="transit-logo"></div>`;
+            else if (transitStyle === 'train') vehicleHtml = `<div class="transit-vehicle transit-train-anim" style="white-space: nowrap;">🚄<span style="display:inline-block; transform: scaleX(-1);">🚄</span><img src="${logoUrl}" class="transit-logo"></div>`;
             else if (transitStyle === 'chopper') vehicleHtml = `<div class="transit-vehicle transit-chopper-anim">🚁<img src="${logoUrl}" class="transit-logo"></div>`;
+            else if (transitStyle === 'taxi') vehicleHtml = `<div class="transit-vehicle transit-taxi-anim">🚕<img src="${logoUrl}" class="transit-logo"></div>`;
             
             if (vehicleHtml) container.insertAdjacentHTML('beforeend', vehicleHtml);
 
@@ -684,13 +688,12 @@
                 let animClass = "";
                 let baseDelay = 0.5;
                 
-                // Reversed Drop Timing: Vehicles now drive from Right to Left (110% to -20%)
+                // Reversed Drop Timing: Vehicles drive from Right to Left (110% to -20%)
                 let hitTime = 3.0 * ((110 - benchX) / 130);
 
                 let extraHtml = '';
 
-                if (transitStyle === 'bus') { animClass = "bench-pop"; baseDelay = 0.2 + hitTime; }
-                else if (transitStyle === 'train') { animClass = "bench-pop"; baseDelay = 0.2 + hitTime; }
+                if (transitStyle === 'bus' || transitStyle === 'taxi' || transitStyle === 'train') { animClass = "bench-pop"; baseDelay = 0.2 + hitTime; }
                 else if (transitStyle === 'chopper') { animClass = "bench-para"; baseDelay = 0.2 + hitTime; }
                 else if (transitStyle === 'ufo') { 
                     animClass = "bench-beam"; 
