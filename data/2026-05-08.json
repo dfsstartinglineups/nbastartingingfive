@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 08, 09:45 PM ET",
+  "last_updated": "May 08, 09:46 PM ET",
   "player_news": [
     {
       "player_name": "Ayo Dosunmu",
@@ -9,7 +9,7 @@
       "description": "Playing right heel soreness",
       "time_elapsed": "1.4h",
       "next_game": "Friday vs SAS",
-      "local_timestamp": 1778291145.878892
+      "local_timestamp": 1778291262.0716765
     },
     {
       "player_name": "Anthony Edwards",
@@ -19,7 +19,7 @@
       "description": "Playing left knee bone bruise",
       "time_elapsed": "2.0h",
       "next_game": "Friday vs SAS",
-      "local_timestamp": 1778291145.875892
+      "local_timestamp": 1778291262.0686765
     },
     {
       "player_name": "Joel Embiid",
@@ -27,9 +27,9 @@
       "position": "C",
       "status_badge": "IN",
       "description": "Playing right ankle sprain hip soreness",
-      "time_elapsed": "3.2h",
+      "time_elapsed": "3.3h",
       "next_game": "Friday vs NYK",
-      "local_timestamp": 1778291145.874892
+      "local_timestamp": 1778291262.0676765
     },
     {
       "player_name": "Mitchell Robinson",
@@ -39,7 +39,7 @@
       "description": "Playing illness",
       "time_elapsed": "4.1h",
       "next_game": "Friday @PHI",
-      "local_timestamp": 1778291145.873892
+      "local_timestamp": 1778291262.0666766
     },
     {
       "player_name": "Josh Hart",
@@ -49,7 +49,7 @@
       "description": "Playing left thumb sprain",
       "time_elapsed": "4.1h",
       "next_game": "Friday @PHI",
-      "local_timestamp": 1778291145.8728921
+      "local_timestamp": 1778291262.0656767
     },
     {
       "player_name": "O.G. Anunoby",
@@ -390,6 +390,7 @@
                 "type": "team",
                 "order": 0,
                 "homeAway": "home",
+                "winner": false,
                 "team": {
                   "id": "20",
                   "uid": "s:40~l:46~t:20",
@@ -719,7 +720,7 @@
                     ]
                   }
                 ],
-                "record": "0-2",
+                "record": "0-3",
                 "records": [
                   {
                     "name": "overall",
@@ -745,6 +746,7 @@
                 "type": "team",
                 "order": 1,
                 "homeAway": "away",
+                "winner": true,
                 "team": {
                   "id": "18",
                   "uid": "s:40~l:46~t:18",
@@ -1100,61 +1102,18 @@
                 "headline": "East Semifinals - Game 3"
               }
             ],
-            "situation": {
-              "lastPlay": {
-                "id": "401871161675",
-                "type": {
-                  "id": "155",
-                  "text": "Defensive Rebound"
-                },
-                "text": "Pacome Dadiet defensive rebound",
-                "scoreValue": 0,
-                "team": {
-                  "id": "18"
-                },
-                "probability": {
-                  "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.001,
-                  "awayWinPercentage": 0.999
-                },
-                "athletesInvolved": [
-                  {
-                    "id": "5211983",
-                    "fullName": "Pacome Dadiet",
-                    "displayName": "Pacome Dadiet",
-                    "shortName": "P. Dadiet",
-                    "links": [
-                      {
-                        "rel": [
-                          "playercard",
-                          "desktop",
-                          "athlete"
-                        ],
-                        "href": "https://www.espn.com/nba/player/_/id/5211983/pacome-dadiet"
-                      }
-                    ],
-                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/5211983.png",
-                    "jersey": "4",
-                    "position": "F",
-                    "team": {
-                      "id": "18"
-                    }
-                  }
-                ]
-              }
-            },
             "status": {
-              "clock": 17.7,
-              "displayClock": "17.7",
+              "clock": 0.0,
+              "displayClock": "0.0",
               "period": 4,
               "type": {
-                "id": "2",
-                "name": "STATUS_IN_PROGRESS",
-                "state": "in",
-                "completed": false,
-                "description": "In Progress",
-                "detail": "17.7 - 4th Quarter",
-                "shortDetail": "17.7 - 4th"
+                "id": "3",
+                "name": "STATUS_FINAL",
+                "state": "post",
+                "completed": true,
+                "description": "Final",
+                "detail": "Final",
+                "shortDetail": "Final"
               }
             },
             "broadcasts": [
@@ -1174,7 +1133,7 @@
             "series": {
               "type": "playoff",
               "title": "Playoff Series",
-              "summary": "NY leads series 2-0",
+              "summary": "NY leads series 3-0",
               "completed": false,
               "totalCompetitions": 7,
               "competitors": [
@@ -1188,7 +1147,7 @@
                 {
                   "id": "18",
                   "uid": "s:40~l:46~t:18",
-                  "wins": 2,
+                  "wins": 3,
                   "ties": 0,
                   "href": "http://sports.core.api.espn.pvt/v2/sports/basketball/leagues/nba/seasons/2026/teams/18?lang=en&region=us"
                 }
@@ -1234,11 +1193,11 @@
           {
             "language": "en-US",
             "rel": [
-              "live",
+              "summary",
               "desktop",
               "event"
             ],
-            "href": "https://www.espn.com/nba/game?gameId=401871161",
+            "href": "https://www.espn.com/nba/game/_/gameId/401871161/knicks-76ers",
             "text": "Gamecast",
             "shortText": "Gamecast",
             "isExternal": false,
@@ -1272,17 +1231,17 @@
           }
         ],
         "status": {
-          "clock": 17.7,
-          "displayClock": "17.7",
+          "clock": 0.0,
+          "displayClock": "0.0",
           "period": 4,
           "type": {
-            "id": "2",
-            "name": "STATUS_IN_PROGRESS",
-            "state": "in",
-            "completed": false,
-            "description": "In Progress",
-            "detail": "17.7 - 4th Quarter",
-            "shortDetail": "17.7 - 4th"
+            "id": "3",
+            "name": "STATUS_FINAL",
+            "state": "post",
+            "completed": true,
+            "description": "Final",
+            "detail": "Final",
+            "shortDetail": "Final"
           }
         }
       },
