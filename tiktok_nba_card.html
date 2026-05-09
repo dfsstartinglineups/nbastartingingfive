@@ -129,21 +129,26 @@
             background: var(--team-primary); padding: 8px 24px; border-radius: 8px; border: 3px solid #fff;
             box-shadow: 0 10px 20px rgba(0,0,0,0.6), 4px 4px 0 var(--team-secondary);
         }
+        
+        /* NEW: Typewriter letter styles */
+        .hud-reveal .typewriter-char { opacity: 0; animation: typeLetter 0.01s forwards; display: inline-block; }
+        @keyframes typeLetter { to { opacity: 1; } }
 
         .bench-node { z-index: 5; width: 150px; height: 200px; }
         .bench-node .player-cutout-wrapper { height: 140px; z-index: 10; }
         .bench-node .hud-name { font-size: 16px; padding: 4px 16px; bottom: -10px; }
 
         /* ========================================================
-           MASS TRANSIT BENCH ENTRANCES (WITH LOGOS & TAXI/BULLET TRAIN)
+           MASS TRANSIT BENCH ENTRANCES (SCALED LOGOS & SEAMLESS TRAIN)
            ======================================================== */
         .transit-vehicle { position: absolute; z-index: 40; pointer-events: none; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); line-height: 1; white-space: nowrap; }
         
+        /* The dynamically injected team logo - SCALED UP */
         .transit-logo { position: absolute; object-fit: contain; z-index: 50; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6)); }
         
         /* City Bus */
         .transit-bus-anim { animation: busDrive 3s linear 0.2s both; font-size: 150px; top: -24%; }
-        .transit-bus-anim .transit-logo { top: 55%; left: 45%; width: 45px; height: 45px; transform: translate(-50%, -50%); }
+        .transit-bus-anim .transit-logo { top: 55%; left: 45%; width: 65px; height: 65px; transform: translate(-50%, -50%); }
         .transit-bus-anim::after { 
             content: '💨'; position: absolute; left: 160px; top: 70px; 
             font-size: 70px; animation: busSmoke 1.2s infinite; 
@@ -151,24 +156,24 @@
         @keyframes busDrive { 0% { transform: translateX(200px); left: 110%; } 100% { transform: translateX(-200px); left: -20%; } }
         @keyframes busSmoke { 0% { transform: scale(0.5) translate(0, 0); opacity: 1; } 40% { transform: scale(1.5) translate(40px, -20px); opacity: 0; } 100% { transform: scale(0.5) translate(0, 0); opacity: 0; } }
 
-        /* Double-Ended Bullet Train */
+        /* Double-Ended Bullet Train (SEAMLESS) */
         .transit-train-anim { animation: trainDrive 3s linear 0.2s both; font-size: 150px; top: -24%; }
-        .transit-train-anim .transit-logo { top: 55%; left: 50%; width: 50px; height: 50px; transform: translate(-50%, -50%); }
+        .transit-train-anim .transit-logo { top: 55%; left: 48%; width: 75px; height: 75px; transform: translate(-50%, -50%); }
         @keyframes trainDrive { 0% { transform: translateX(200px); left: 110%; } 100% { transform: translateX(-200px); left: -20%; } }
 
         /* Taxi Cab */
         .transit-taxi-anim { animation: taxiDrive 3s linear 0.2s both; font-size: 130px; top: -22%; }
-        .transit-taxi-anim .transit-logo { top: 55%; left: 45%; width: 35px; height: 35px; transform: translate(-50%, -50%); }
+        .transit-taxi-anim .transit-logo { top: 55%; left: 45%; width: 55px; height: 55px; transform: translate(-50%, -50%); }
         @keyframes taxiDrive { 0% { transform: translateX(200px); left: 110%; } 100% { transform: translateX(-200px); left: -20%; } }
 
         /* Helicopter */
         .transit-chopper-anim { animation: chopperFly 3s linear 0.2s both; font-size: 140px; top: -46%; }
-        .transit-chopper-anim .transit-logo { top: 55%; left: 35%; width: 35px; height: 35px; transform: translate(-50%, -50%); }
+        .transit-chopper-anim .transit-logo { top: 55%; left: 35%; width: 50px; height: 50px; transform: translate(-50%, -50%); }
         @keyframes chopperFly { 0% { transform: translateX(200px) rotate(-10deg); left: 110%; } 100% { transform: translateX(-200px) rotate(-10deg); left: -20%; } }
 
         /* UFO Fleet */
         .bench-ufo { position: absolute; top: -240px; left: 50%; font-size: 100px; transform: translateX(-50%); animation: ufoHover 2s ease-in-out var(--entrance-delay) both; z-index: 20; line-height: 1; }
-        .bench-ufo .transit-logo { top: 40%; left: 50%; width: 25px; height: 25px; transform: translate(-50%, -50%); }
+        .bench-ufo .transit-logo { top: 40%; left: 50%; width: 40px; height: 40px; transform: translate(-50%, -50%); }
         .bench-ufo::after { 
             content: ''; position: absolute; top: 80px; left: 50%; transform: translateX(-50%); 
             width: 80px; height: 500px; background: linear-gradient(to bottom, rgba(0,255,100,0.8), transparent); 
@@ -671,7 +676,7 @@
 
             let vehicleHtml = '';
             if (transitStyle === 'bus') vehicleHtml = `<div class="transit-vehicle transit-bus-anim">🚌<img src="${logoUrl}" class="transit-logo"></div>`;
-            else if (transitStyle === 'train') vehicleHtml = `<div class="transit-vehicle transit-train-anim" style="white-space: nowrap;">🚄<span style="display:inline-block; transform: scaleX(-1);">🚄</span><img src="${logoUrl}" class="transit-logo"></div>`;
+            else if (transitStyle === 'train') vehicleHtml = `<div class="transit-vehicle transit-train-anim" style="white-space: nowrap;">🚄<span style="display:inline-block; transform: scaleX(-1); margin-left: -30px;">🚄</span><img src="${logoUrl}" class="transit-logo"></div>`;
             else if (transitStyle === 'chopper') vehicleHtml = `<div class="transit-vehicle transit-chopper-anim">🚁<img src="${logoUrl}" class="transit-logo"></div>`;
             else if (transitStyle === 'taxi') vehicleHtml = `<div class="transit-vehicle transit-taxi-anim">🚕<img src="${logoUrl}" class="transit-logo"></div>`;
             
@@ -728,6 +733,11 @@
                 const jerseyNum = dbPlayer && dbPlayer.jersey ? dbPlayer.jersey : "";
                 let displayName = player.name; if (displayName.length > 18) displayName = displayName.substring(0, 16) + '...';
 
+                // NEW: Typewriter letter logic
+                let spelledNameHtml = displayName.split('').map((char, idx) => {
+                    return `<span class="typewriter-char" style="animation-delay: ${idx * 0.05}s;">${char === ' ' ? '&nbsp;' : char}</span>`;
+                }).join('');
+
                 const photoHtml = (photoUrl && photoUrl.trim() !== '') ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` : `<div class="fallback-silhouette"></div>`;
                 const delays = [10.93, 18.15, 26.17, 33.72, 40.87]; const baseDelay = delays[index]; 
                 
@@ -741,7 +751,7 @@
                             <div id="hud-${index}" class="player-hud">
                                 <div class="hud-pos">${pos}</div>
                                 ${jerseyNum ? `<div class="hud-num">${jerseyNum}</div>` : ''}
-                                <div class="hud-name">${displayName}</div>
+                                <div class="hud-name">${spelledNameHtml}</div>
                             </div>
                         </div>
                     </div>
