@@ -130,7 +130,6 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.6), 4px 4px 0 var(--team-secondary);
         }
         
-        /* NEW: Typewriter letter styles */
         .hud-reveal .typewriter-char { opacity: 0; animation: typeLetter 0.01s forwards; display: inline-block; }
         @keyframes typeLetter { to { opacity: 1; } }
 
@@ -139,11 +138,10 @@
         .bench-node .hud-name { font-size: 16px; padding: 4px 16px; bottom: -10px; }
 
         /* ========================================================
-           MASS TRANSIT BENCH ENTRANCES (SCALED LOGOS & SEAMLESS TRAIN)
+           MASS TRANSIT BENCH ENTRANCES (WITH LOGOS & TAXI/BULLET TRAIN)
            ======================================================== */
         .transit-vehicle { position: absolute; z-index: 40; pointer-events: none; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); line-height: 1; white-space: nowrap; }
         
-        /* The dynamically injected team logo - SCALED UP */
         .transit-logo { position: absolute; object-fit: contain; z-index: 50; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6)); }
         
         /* City Bus */
@@ -156,9 +154,9 @@
         @keyframes busDrive { 0% { transform: translateX(200px); left: 110%; } 100% { transform: translateX(-200px); left: -20%; } }
         @keyframes busSmoke { 0% { transform: scale(0.5) translate(0, 0); opacity: 1; } 40% { transform: scale(1.5) translate(40px, -20px); opacity: 0; } 100% { transform: scale(0.5) translate(0, 0); opacity: 0; } }
 
-        /* Double-Ended Bullet Train (SEAMLESS) */
+        /* FIXED GAP: Double-Ended Bullet Train */
         .transit-train-anim { animation: trainDrive 3s linear 0.2s both; font-size: 150px; top: -24%; }
-        .transit-train-anim .transit-logo { top: 55%; left: 48%; width: 75px; height: 75px; transform: translate(-50%, -50%); }
+        .transit-train-anim .transit-logo { top: 55%; left: 45%; width: 75px; height: 75px; transform: translate(-50%, -50%); z-index: 60; }
         @keyframes trainDrive { 0% { transform: translateX(200px); left: 110%; } 100% { transform: translateX(-200px); left: -20%; } }
 
         /* Taxi Cab */
@@ -243,29 +241,32 @@
         @keyframes zipline { 0% { transform: translate(-200%, -500%) rotateZ(-15deg); opacity: 0; } 10% { opacity: 1; } 80% { transform: translate(-45%, -45%) rotateZ(5deg); } 100% { transform: translate(-50%, -50%) rotateZ(0deg); opacity: 1; } }
         @keyframes cableSnap { 0% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; display: none; } }
 
-        .anim-ice-breaker { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
-        .anim-ice-breaker .player-photo { animation: iceMelt 1.5s ease-in var(--entrance-delay) both; }
-        .anim-ice-breaker .player-cutout-wrapper::after { 
-            content: ''; position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
-            width: 260px; height: 320px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(150,220,255,0.2) 50%, rgba(255,255,255,0.1) 100%);
-            border: 3px solid rgba(255,255,255,0.6); border-radius: 5px;
-            box-shadow: inset 0 0 20px rgba(255,255,255,0.8), 0 10px 30px rgba(0,255,255,0.3);
-            backdrop-filter: blur(4px) contrast(1.2); transform-origin: bottom; 
-            animation: blockMelt 1.5s ease-in var(--entrance-delay) both; z-index: 25;
-            clip-path: polygon(10% 0, 90% 0, 100% 10%, 100% 100%, 0 100%, 0 10%);
+        /* NEW: Taxi Cab Starter Drop */
+        .anim-taxi-drop { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
+        .anim-taxi-drop .player-photo { animation: taxiPlayerPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) calc(var(--entrance-delay) + 0.8s) both; }
+        .anim-taxi-drop .player-cutout-wrapper::before { 
+            content: '🚖'; position: absolute; bottom: -20px; left: 50%; font-size: 150px; 
+            animation: oncomingTaxi 0.8s ease-in var(--entrance-delay) both; z-index: 25; 
         }
-        .anim-ice-breaker .player-cutout-wrapper::before { 
-            content:''; position:absolute; bottom: -20px; left:50%; transform:translateX(-50%);
-            width: 80px; height: 80px; background: #ffea00;
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; filter: blur(8px);
-            box-shadow: 0 -20px 20px 10px #ff4500, 0 -40px 30px 15px #b22222;
-            animation: fireBurn 1.5s var(--entrance-delay) both, flicker 0.1s infinite alternate; z-index:26; 
+        .anim-taxi-drop .player-cutout-wrapper::after { 
+            content: '🚕'; position: absolute; bottom: -20px; left: 50%; font-size: 150px; 
+            animation: sideTaxi 1s ease-in calc(var(--entrance-delay) + 0.8s) both; z-index: 26; 
         }
-        @keyframes iceMelt { 0% { filter: sepia(1) hue-rotate(180deg) saturate(3) brightness(1.5); } 100% { filter: sepia(0) hue-rotate(0) saturate(1) brightness(1) drop-shadow(0 20px 15px rgba(0,0,0,0.7)); } }
-        @keyframes blockMelt { 0% { transform: translateX(-50%) scaleY(1); opacity: 1; } 80% { transform: translateX(-50%) scaleY(0.2); opacity: 0.8; } 100% { transform: translateX(-50%) scaleY(0); opacity: 0; display:none; } }
-        @keyframes fireBurn { 0% { opacity:0; bottom:-50px;} 20% { opacity:1; bottom:-20px;} 90% { opacity:1; bottom:-20px;} 100% { opacity:0; bottom:-50px; display:none;} }
-        @keyframes flicker { 0% { transform: translateX(-50%) scale(1) skewX(2deg); } 100% { transform: translateX(-50%) scale(1.1) skewX(-2deg); } }
+        @keyframes oncomingTaxi { 0% { transform: translateX(-50%) translateY(-200px) scale(0); opacity: 0; } 10% { opacity: 1; } 99% { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; } 100% { transform: translateX(-50%) translateY(0) scale(1); opacity: 0; display: none; } }
+        @keyframes sideTaxi { 0% { transform: translateX(-50%); opacity: 1; } 20% { transform: translateX(-50%); opacity: 1; } 100% { transform: translateX(400px); opacity: 0; display: none; } }
+        @keyframes taxiPlayerPop { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+        /* NEW: Screen Smash Entrance */
+        .anim-screen-crack { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
+        .anim-screen-crack .player-photo { animation: jumpCrack 1.5s cubic-bezier(0.25, 1, 0.5, 1) var(--entrance-delay) both; z-index: 20; }
+        .anim-screen-crack .player-cutout-wrapper::after {
+            content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 250px; height: 250px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 50 l-30 -40 m30 40 l40 -20 m-40 20 l-20 40 m20 -40 l30 30 m-30 -30 l-10 -15 m10 15 l15 -5 m-15 5 l-5 15 m5 -15 l10 10 m-10 -10 l-15 5 m15 -5 l-20 -15" stroke="rgba(255,255,255,0.9)" stroke-width="1.5" fill="none"/><circle cx="50" cy="50" r="3" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="2"/></svg>');
+            background-size: cover; z-index: 50; animation: crackShatter 1.5s ease-in var(--entrance-delay) both; pointer-events: none;
+        }
+        @keyframes jumpCrack { 0%, 10% { transform: scale(0) translateY(0); opacity: 0; } 25%, 35% { transform: scale(2.5) translateY(-50px); opacity: 1; } 50%, 100% { transform: scale(1) translateY(0); opacity: 1; } }
+        @keyframes crackShatter { 0%, 24% { opacity: 0; transform: translateX(-50%) scale(1) translateY(0); } 25%, 35% { opacity: 1; transform: translateX(-50%) scale(1.5) translateY(-50px); filter: drop-shadow(0 0 10px white); } 70% { opacity: 0; transform: translateX(-50%) scale(1) translateY(300px) rotate(20deg); } 100% { opacity: 0; } }
 
         .anim-beam-in { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
         .anim-beam-in .player-photo { animation: beamPixelate 1.5s ease-out var(--entrance-delay) both; }
@@ -413,7 +414,7 @@
         const ENTRANCE_STYLES = [
             "anim-hero-drop", "anim-speed-dash", "anim-cyber-scan",
             "anim-silhouette", "anim-arcade-spin", "anim-rift",
-            "anim-taz-spin", "anim-zipline", "anim-ice-breaker", "anim-beam-in"
+            "anim-taz-spin", "anim-zipline", "anim-taxi-drop", "anim-screen-crack"
         ];
 
         let allGames = [];
@@ -676,7 +677,7 @@
 
             let vehicleHtml = '';
             if (transitStyle === 'bus') vehicleHtml = `<div class="transit-vehicle transit-bus-anim">🚌<img src="${logoUrl}" class="transit-logo"></div>`;
-            else if (transitStyle === 'train') vehicleHtml = `<div class="transit-vehicle transit-train-anim" style="white-space: nowrap;">🚄<span style="display:inline-block; transform: scaleX(-1); margin-left: -30px;">🚄</span><img src="${logoUrl}" class="transit-logo"></div>`;
+            else if (transitStyle === 'train') vehicleHtml = `<div class="transit-vehicle transit-train-anim">🚄<span style="display:inline-block; transform: scaleX(-1); margin-left: -65px;">🚄</span><img src="${logoUrl}" class="transit-logo"></div>`;
             else if (transitStyle === 'chopper') vehicleHtml = `<div class="transit-vehicle transit-chopper-anim">🚁<img src="${logoUrl}" class="transit-logo"></div>`;
             else if (transitStyle === 'taxi') vehicleHtml = `<div class="transit-vehicle transit-taxi-anim">🚕<img src="${logoUrl}" class="transit-logo"></div>`;
             
