@@ -138,11 +138,13 @@
         .bench-node .hud-name { font-size: 16px; padding: 4px 16px; bottom: -10px; }
 
         /* ========================================================
-           MASS TRANSIT BENCH ENTRANCES
+           MASS TRANSIT BENCH ENTRANCES (WITH LOGOS & TAXI/BULLET TRAIN)
            ======================================================== */
         .transit-vehicle { position: absolute; z-index: 40; pointer-events: none; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); line-height: 1; white-space: nowrap; }
+        
         .transit-logo { position: absolute; object-fit: contain; z-index: 50; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6)); }
         
+        /* City Bus */
         .transit-bus-anim { animation: busDrive 3s linear 0.2s both; font-size: 150px; top: -24%; }
         .transit-bus-anim .transit-logo { top: 55%; left: 45%; width: 65px; height: 65px; transform: translate(-50%, -50%); }
         .transit-bus-anim::after { 
@@ -152,14 +154,22 @@
         @keyframes busDrive { 0% { transform: translateX(200px); left: 110%; } 100% { transform: translateX(-200px); left: -20%; } }
         @keyframes busSmoke { 0% { transform: scale(0.5) translate(0, 0); opacity: 1; } 40% { transform: scale(1.5) translate(40px, -20px); opacity: 0; } 100% { transform: scale(0.5) translate(0, 0); opacity: 0; } }
 
+        /* Double-Ended Bullet Train (SEAMLESS) */
         .transit-train-anim { animation: trainDrive 3s linear 0.2s both; font-size: 150px; top: -24%; }
         .transit-train-anim .transit-logo { top: 55%; left: 48%; width: 75px; height: 75px; transform: translate(-50%, -50%); z-index: 60; }
         @keyframes trainDrive { 0% { transform: translateX(200px); left: 110%; } 100% { transform: translateX(-200px); left: -20%; } }
 
+        /* Taxi Cab */
+        .transit-taxi-anim { animation: taxiDrive 3s linear 0.2s both; font-size: 130px; top: -22%; }
+        .transit-taxi-anim .transit-logo { top: 55%; left: 45%; width: 55px; height: 55px; transform: translate(-50%, -50%); }
+        @keyframes taxiDrive { 0% { transform: translateX(200px); left: 110%; } 100% { transform: translateX(-200px); left: -20%; } }
+
+        /* Helicopter */
         .transit-chopper-anim { animation: chopperFly 3s linear 0.2s both; font-size: 140px; top: -46%; }
         .transit-chopper-anim .transit-logo { top: 55%; left: 35%; width: 50px; height: 50px; transform: translate(-50%, -50%); }
         @keyframes chopperFly { 0% { transform: translateX(200px) rotate(-10deg); left: 110%; } 100% { transform: translateX(-200px) rotate(-10deg); left: -20%; } }
 
+        /* UFO Fleet */
         .bench-ufo { position: absolute; top: -240px; left: 50%; font-size: 100px; transform: translateX(-50%); animation: ufoHover 2s ease-in-out var(--entrance-delay) both; z-index: 20; line-height: 1; }
         .bench-ufo .transit-logo { top: 40%; left: 50%; width: 40px; height: 40px; transform: translate(-50%, -50%); }
         .bench-ufo::after { 
@@ -173,8 +183,10 @@
         /* Bench Drop Sub-Animations */
         .bench-pop { animation: benchPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) var(--entrance-delay) both; }
         @keyframes benchPop { 0% { transform: translate(-50%, -50%) scale(0) rotate(-20deg); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; } }
+
         .bench-beam { animation: benchBeam 2s ease-out var(--entrance-delay) both; }
         @keyframes benchBeam { 0%, 25% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; filter: brightness(2) sepia(1) hue-rotate(90deg); } 50%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; filter: brightness(1); } }
+
         .bench-para { animation: benchPara 2s ease-out var(--entrance-delay) both; }
         .bench-para::before { content: '🪂'; position: absolute; top: -35px; left: 50%; transform: translateX(-50%); font-size: 70px; animation: paraFade 2s ease-out var(--entrance-delay) both; z-index: 1; }
         @keyframes benchPara { 0% { transform: translate(-50%, -400px) rotate(-10deg); opacity: 0; } 20% { opacity: 1; transform: translate(-50%, -200px) rotate(10deg); } 100% { transform: translate(-50%, -50%) rotate(0deg); opacity: 1; } }
@@ -231,19 +243,19 @@
 
         /* 9. NEW: 3D Taxi Y-to-X Drop-Off */
         .anim-taxi-drop { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
-        .anim-taxi-drop .player-photo { animation: taxiPlayerPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) calc(var(--entrance-delay) + 0.8s) both; }
+        .anim-taxi-drop .player-photo { animation: taxiPlayerPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) calc(var(--entrance-delay) + 1.2s) both; }
         .anim-taxi-drop .player-cutout-wrapper::before { 
             content: '🚖'; position: absolute; bottom: 0px; left: 50%; font-size: 150px; 
-            animation: oncomingTaxi 0.8s cubic-bezier(0.25, 1, 0.5, 1) var(--entrance-delay) both; z-index: 25; 
+            animation: oncomingTaxi 1.2s cubic-bezier(0.3, 0.1, 0.3, 1) var(--entrance-delay) both; z-index: 25; 
         }
         .anim-taxi-drop .player-cutout-wrapper::after { 
             content: '🚕'; position: absolute; bottom: 0px; left: 50%; font-size: 150px; 
-            opacity: 0; animation: sideTaxi 1s ease-in calc(var(--entrance-delay) + 0.8s) both; z-index: 26; 
+            opacity: 0; animation: sideTaxi 1s ease-in calc(var(--entrance-delay) + 1.2s) both; z-index: 26; 
         }
         @keyframes oncomingTaxi { 
-            0% { transform: translate(-50%, -1200px) scale(0.2); opacity: 0; } 
-            5% { opacity: 1; } 
-            99% { transform: translate(-50%, -20px) scale(1.5); opacity: 1; } 
+            0% { transform: translate(-50%, -1500px) scale(0.4); opacity: 0; } 
+            10% { opacity: 1; transform: translate(-50%, -1200px) scale(0.5); } 
+            95% { transform: translate(-50%, -20px) scale(1.5); opacity: 1; } 
             100% { transform: translate(-50%, -20px) scale(1.5); opacity: 0; display: none; } 
         }
         @keyframes sideTaxi { 
@@ -261,7 +273,7 @@
         .screen-crack-overlay {
             position: absolute; top: -50px; left: 50%; transform: translate(-50%, -50%);
             width: 800px; height: 800px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 50 L0 0 M50 50 L100 0 M50 50 L0 100 M50 50 L100 100 M50 50 L50 0 M50 50 L50 100 M50 50 L0 50 M50 50 L100 50 M20 20 Q50 10 80 20 Q90 50 80 80 Q50 90 20 80 Q10 50 20 20 M35 35 Q50 25 65 35 Q75 50 65 65 Q50 75 35 65 Q25 50 35 35" stroke="rgba(255,255,255,0.9)" stroke-width="0.8" fill="none"/><circle cx="50" cy="50" r="3" fill="none" stroke="rgba(255,255,255,1)" stroke-width="2"/></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M42 55 L5 15 M42 55 L25 0 M42 55 L75 5 M42 55 L100 35 M42 55 L85 95 M42 55 L45 100 M42 55 L10 85 M42 55 L0 60 M22 28 L35 15 M65 25 L45 35 M85 55 L60 70 M25 75 L38 65 M12 40 L28 48 M55 55 L65 45 M35 70 L48 85 M15 65 L28 55 M75 35 L85 20 M15 25 L25 40 M60 8 L50 25 M85 75 L70 85" stroke="rgba(255,255,255,0.95)" stroke-width="0.8" fill="none"/><path d="M42 55 l-10 -15 l-15 -5 l-10 -20 m30 40 l20 -15 l15 -20 m-35 35 l20 20 l15 15 m-35 -35 l-15 20 l-15 10" stroke="rgba(255,255,255,0.7)" stroke-width="1.2" fill="none"/><circle cx="42" cy="55" r="1.5" fill="white"/></svg>');
             background-size: contain; background-repeat: no-repeat;
             z-index: 60; pointer-events: none; opacity: 0;
             animation: crackShatter 1.5s ease-in calc(var(--entrance-delay) + 0.6s) both;
@@ -283,7 +295,6 @@
         @keyframes shardFall3 { 0% { opacity: 0; transform: translate(0, 0) rotate(0deg); } 1% { opacity: 1; } 100% { opacity: 0; transform: translate(-20px, 500px) rotate(-120deg); } }
         @keyframes shardFall4 { 0% { opacity: 0; transform: translate(0, 0) rotate(0deg); } 1% { opacity: 1; } 100% { opacity: 0; transform: translate(100px, 650px) rotate(90deg); } }
 
-        /* Beam In */
         .anim-beam-in { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
         .anim-beam-in .player-photo { animation: beamPixelate 1.5s ease-out var(--entrance-delay) both; }
         .anim-beam-in::before { 
@@ -710,7 +721,9 @@
                 let animClass = "";
                 let baseDelay = 0.5;
                 
+                // Reversed Drop Timing: Vehicles drive from Right to Left (110% to -20%)
                 let hitTime = 3.0 * ((110 - benchX) / 130);
+
                 let extraHtml = '';
 
                 if (transitStyle === 'bus' || transitStyle === 'taxi' || transitStyle === 'train') { animClass = "bench-pop"; baseDelay = 0.2 + hitTime; }
