@@ -154,7 +154,7 @@
         @keyframes busDrive { 0% { transform: translateX(200px); left: 110%; } 100% { transform: translateX(-200px); left: -20%; } }
         @keyframes busSmoke { 0% { transform: scale(0.5) translate(0, 0); opacity: 1; } 40% { transform: scale(1.5) translate(40px, -20px); opacity: 0; } 100% { transform: scale(0.5) translate(0, 0); opacity: 0; } }
 
-        /* Double-Ended Bullet Train (SEAMLESS) */
+        /* Double-Ended Bullet Train */
         .transit-train-anim { animation: trainDrive 3s linear 0.2s both; font-size: 150px; top: -24%; }
         .transit-train-anim .transit-logo { top: 55%; left: 48%; width: 75px; height: 75px; transform: translate(-50%, -50%); z-index: 60; }
         @keyframes trainDrive { 0% { transform: translateX(200px); left: 110%; } 100% { transform: translateX(-200px); left: -20%; } }
@@ -241,7 +241,7 @@
         @keyframes zipline { 0% { transform: translate(-200%, -500%) rotateZ(-15deg); opacity: 0; } 10% { opacity: 1; } 80% { transform: translate(-45%, -45%) rotateZ(5deg); } 100% { transform: translate(-50%, -50%) rotateZ(0deg); opacity: 1; } }
         @keyframes cableSnap { 0% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; display: none; } }
 
-        /* 9. NEW: 3D Taxi Y-to-X Drop-Off */
+        /* 9. Taxi Drop-Off */
         .anim-taxi-drop { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
         .anim-taxi-drop .player-photo { animation: taxiPlayerPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) calc(var(--entrance-delay) + 1.2s) both; }
         .anim-taxi-drop .player-cutout-wrapper::before { 
@@ -266,14 +266,14 @@
         }
         @keyframes taxiPlayerPop { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
-        /* 10. NEW: Gigantic Screen Smash & Falling Glass */
+        /* 10. NEW: Hairline Screen Smash & Falling Glass */
         .anim-screen-crack { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
         .anim-screen-crack .player-photo { animation: jumpCrack 1.5s cubic-bezier(0.25, 1, 0.5, 1) var(--entrance-delay) both; z-index: 20; }
         
         .screen-crack-overlay {
             position: absolute; top: -50px; left: 50%; transform: translate(-50%, -50%);
             width: 800px; height: 800px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M42 55 L5 15 M42 55 L25 0 M42 55 L75 5 M42 55 L100 35 M42 55 L85 95 M42 55 L45 100 M42 55 L10 85 M42 55 L0 60 M22 28 L35 15 M65 25 L45 35 M85 55 L60 70 M25 75 L38 65 M12 40 L28 48 M55 55 L65 45 M35 70 L48 85 M15 65 L28 55 M75 35 L85 20 M15 25 L25 40 M60 8 L50 25 M85 75 L70 85" stroke="rgba(255,255,255,0.95)" stroke-width="0.8" fill="none"/><path d="M42 55 l-10 -15 l-15 -5 l-10 -20 m30 40 l20 -15 l15 -20 m-35 35 l20 20 l15 15 m-35 -35 l-15 20 l-15 10" stroke="rgba(255,255,255,0.7)" stroke-width="1.2" fill="none"/><circle cx="42" cy="55" r="1.5" fill="white"/></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M42 55 L5 15 M42 55 L25 0 M42 55 L75 5 M42 55 L100 35 M42 55 L85 95 M42 55 L45 100 M42 55 L10 85 M42 55 L0 60 M22 28 L35 15 M65 25 L45 35 M85 55 L60 70 M25 75 L38 65 M12 40 L28 48 M55 55 L65 45 M35 70 L48 85 M15 65 L28 55 M75 35 L85 20 M15 25 L25 40 M60 8 L50 25 M85 75 L70 85" stroke="rgba(255,255,255,0.8)" stroke-width="0.25" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M42 55 l-10 -15 l-15 -5 l-10 -20 m30 40 l20 -15 l15 -20 m-35 35 l20 20 l15 15 m-35 -35 l-15 20 l-15 10" stroke="rgba(255,255,255,0.5)" stroke-width="0.15" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="42" cy="55" r="0.5" fill="white"/></svg>');
             background-size: contain; background-repeat: no-repeat;
             z-index: 60; pointer-events: none; opacity: 0;
             animation: crackShatter 1.5s ease-in calc(var(--entrance-delay) + 0.6s) both;
@@ -289,7 +289,9 @@
         .shard-4 { width: 50px; height: 20px; clip-path: polygon(0 0, 100% 50%, 20% 100%); margin-left: 50px; margin-top: 10px; animation: shardFall4 1.1s ease-in calc(var(--entrance-delay) + 0.6s) both; }
 
         @keyframes jumpCrack { 0% { transform: scale(0) translateY(0); opacity: 0; } 10% { opacity: 1; } 40% { transform: scale(3) translateY(-80px); opacity: 1; } 45% { transform: scale(3) translateY(-80px); opacity: 1; } 60% { transform: scale(1) translateY(0); opacity: 1; } 100% { transform: scale(1) translateY(0); opacity: 1; } }
-        @keyframes crackShatter { 0% { opacity: 0; transform: translate(-50%, -50%) scale(1); } 1% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: drop-shadow(0 0 10px white); } 70% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: drop-shadow(0 0 0px white); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(1); } }
+        /* Tighter shadow for a crisp glass break */
+        @keyframes crackShatter { 0% { opacity: 0; transform: translate(-50%, -50%) scale(1); } 1% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: drop-shadow(0 0 2px rgba(255,255,255,0.8)); } 70% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: drop-shadow(0 0 0px white); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(1); } }
+        
         @keyframes shardFall1 { 0% { opacity: 0; transform: translate(0, 0) rotate(0deg); } 1% { opacity: 1; } 100% { opacity: 0; transform: translate(-50px, 600px) rotate(180deg); } }
         @keyframes shardFall2 { 0% { opacity: 0; transform: translate(0, 0) rotate(0deg); } 1% { opacity: 1; } 100% { opacity: 0; transform: translate(80px, 700px) rotate(240deg); } }
         @keyframes shardFall3 { 0% { opacity: 0; transform: translate(0, 0) rotate(0deg); } 1% { opacity: 1; } 100% { opacity: 0; transform: translate(-20px, 500px) rotate(-120deg); } }
@@ -721,9 +723,7 @@
                 let animClass = "";
                 let baseDelay = 0.5;
                 
-                // Reversed Drop Timing: Vehicles drive from Right to Left (110% to -20%)
                 let hitTime = 3.0 * ((110 - benchX) / 130);
-
                 let extraHtml = '';
 
                 if (transitStyle === 'bus' || transitStyle === 'taxi' || transitStyle === 'train') { animClass = "bench-pop"; baseDelay = 0.2 + hitTime; }
