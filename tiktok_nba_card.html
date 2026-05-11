@@ -158,105 +158,104 @@
            ======================================================== */
         /* All starter animations are 3.0s total. 
            0-15%: Enter from bottom right.
-           15-45%: Walk along the bench line.
+           15-45%: Walk along the bench line (RAISED TO top: -12%).
            45-50%: Gather at launch pad.
            50-100%: Signature move to var(--final-x) and var(--final-y).
+           NOTE: ALL transforms strictly use translate(-50%, -50%) base centering.
         */
 
         .anim-jump-crash { animation: jumpCrash 3s ease-in-out var(--entrance-delay) both; }
         @keyframes jumpCrash {
-            0% { left: 120%; top: 100%; opacity: 0; transform: scale(1) translateY(0); }
-            5% { left: 110%; top: 100%; opacity: 1; transform: scale(1) translateY(0); }
-            15% { left: 90%; top: -5%; opacity: 1; transform: scale(1) translateY(0); }
-            45% { left: 10%; top: -5%; opacity: 1; transform: scale(1) translateY(0); }
-            50% { left: 10%; top: -5%; opacity: 1; transform: scale(1) translateY(10px); } /* Gather Dip */
-            75% { left: calc(5% + var(--final-x)/2); top: calc(-5% + var(--final-y)/2); opacity: 1; transform: scale(3) translateY(-80px); } /* Apex */
-            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: scale(1) translateY(0); }
+            0% { left: 120%; top: 100%; opacity: 0; transform: translate(-50%, -50%) scale(1); }
+            5% { left: 110%; top: 100%; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            15% { left: 90%; top: -12%; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            45% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            50% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -40%) scale(1); } /* Gather Dip */
+            75% { left: calc(5% + var(--final-x)/2); top: calc(-12% + var(--final-y)/2); opacity: 1; transform: translate(-50%, -50%) scale(3) translateY(-80px); } /* Apex */
+            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
 
         .anim-flips { animation: flipsMove 3s ease-in-out var(--entrance-delay) both; }
         @keyframes flipsMove {
-            0% { left: 120%; top: 100%; opacity: 0; transform: rotate(0deg); }
-            5% { left: 110%; top: 100%; opacity: 1; transform: rotate(0deg); }
-            15% { left: 90%; top: -5%; opacity: 1; transform: rotate(0deg); }
-            45% { left: 10%; top: -5%; opacity: 1; transform: rotate(0deg); }
-            50% { left: 10%; top: -5%; opacity: 1; transform: rotate(0deg) translateY(10px); }
-            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: rotate(-720deg) translateY(0); }
+            0% { left: 120%; top: 100%; opacity: 0; transform: translate(-50%, -50%) rotate(0deg); }
+            5% { left: 110%; top: 100%; opacity: 1; transform: translate(-50%, -50%) rotate(0deg); }
+            15% { left: 90%; top: -12%; opacity: 1; transform: translate(-50%, -50%) rotate(0deg); }
+            45% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%) rotate(0deg); }
+            50% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -40%) rotate(0deg); }
+            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) rotate(-720deg); }
         }
 
         .anim-strut { animation: strutMove 3s ease-in-out var(--entrance-delay) both; }
         @keyframes strutMove {
-            0% { left: 120%; top: 100%; opacity: 0; transform: scale(1); }
-            5% { left: 110%; top: 100%; opacity: 1; transform: scale(1); }
-            15% { left: 90%; top: -5%; opacity: 1; transform: scale(1); }
-            45% { left: 10%; top: -5%; opacity: 1; transform: scale(1); }
-            50% { left: 10%; top: -5%; opacity: 1; transform: scale(1); }
-            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: scale(1); }
+            0% { left: 120%; top: 100%; opacity: 0; transform: translate(-50%, -50%) scale(1); }
+            5% { left: 110%; top: 100%; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            15% { left: 90%; top: -12%; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            45% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            50% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
 
         .anim-taz { animation: tazMove 3s ease-in-out var(--entrance-delay) both; }
         @keyframes tazMove {
-            0% { left: 120%; top: 100%; opacity: 0; transform: rotateY(0deg); filter: blur(0); }
-            5% { left: 110%; top: 100%; opacity: 1; transform: rotateY(0deg); filter: blur(0); }
-            15% { left: 90%; top: -5%; opacity: 1; transform: rotateY(0deg); filter: blur(0); }
-            45% { left: 10%; top: -5%; opacity: 1; transform: rotateY(0deg); filter: blur(0); }
-            50% { left: 10%; top: -5%; opacity: 1; transform: rotateY(0deg); filter: blur(0); }
-            55% { left: 10%; top: -5%; opacity: 1; transform: rotateY(3600deg); filter: blur(8px); }
-            95% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: rotateY(7200deg); filter: blur(8px); }
-            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: rotateY(7200deg); filter: blur(0); }
+            0% { left: 120%; top: 100%; opacity: 0; transform: translate(-50%, -50%) rotateY(0deg); filter: blur(0); }
+            5% { left: 110%; top: 100%; opacity: 1; transform: translate(-50%, -50%) rotateY(0deg); filter: blur(0); }
+            15% { left: 90%; top: -12%; opacity: 1; transform: translate(-50%, -50%) rotateY(0deg); filter: blur(0); }
+            45% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%) rotateY(0deg); filter: blur(0); }
+            50% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%) rotateY(0deg); filter: blur(0); }
+            55% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%) rotateY(3600deg); filter: blur(8px); }
+            95% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) rotateY(7200deg); filter: blur(8px); }
+            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) rotateY(7200deg); filter: blur(0); }
         }
 
         .anim-teleport { animation: teleportMove 3s ease-in-out var(--entrance-delay) both; }
         @keyframes teleportMove {
-            0% { left: 120%; top: 100%; opacity: 0; }
-            5% { left: 110%; top: 100%; opacity: 1; filter: brightness(1); }
-            15% { left: 90%; top: -5%; opacity: 1; filter: brightness(1); }
-            45% { left: 10%; top: -5%; opacity: 1; filter: brightness(1); }
-            50% { left: 10%; top: -5%; opacity: 1; filter: brightness(3); transform: scaleY(2); } /* Beam out */
-            55% { left: 10%; top: -5%; opacity: 0; filter: brightness(3); transform: scaleY(3); }
-            60% { left: var(--final-x); top: var(--final-y); opacity: 0; filter: brightness(3); transform: scaleY(3); }
-            80% { left: var(--final-x); top: var(--final-y); opacity: 1; filter: brightness(3); transform: scaleY(2); } /* Beam in */
-            100% { left: var(--final-x); top: var(--final-y); opacity: 1; filter: brightness(1); transform: scaleY(1); }
+            0% { left: 120%; top: 100%; opacity: 0; transform: translate(-50%, -50%) scaleY(1); }
+            5% { left: 110%; top: 100%; opacity: 1; filter: brightness(1); transform: translate(-50%, -50%) scaleY(1); }
+            15% { left: 90%; top: -12%; opacity: 1; filter: brightness(1); transform: translate(-50%, -50%) scaleY(1); }
+            45% { left: 10%; top: -12%; opacity: 1; filter: brightness(1); transform: translate(-50%, -50%) scaleY(1); }
+            50% { left: 10%; top: -12%; opacity: 1; filter: brightness(3); transform: translate(-50%, -50%) scaleY(2); } 
+            55% { left: 10%; top: -12%; opacity: 0; filter: brightness(3); transform: translate(-50%, -50%) scaleY(3); }
+            60% { left: var(--final-x); top: var(--final-y); opacity: 0; filter: brightness(3); transform: translate(-50%, -50%) scaleY(3); }
+            80% { left: var(--final-x); top: var(--final-y); opacity: 1; filter: brightness(3); transform: translate(-50%, -50%) scaleY(2); } 
+            100% { left: var(--final-x); top: var(--final-y); opacity: 1; filter: brightness(1); transform: translate(-50%, -50%) scaleY(1); }
         }
 
         .anim-trapdoor { animation: trapdoorMove 3s ease-in-out var(--entrance-delay) both; }
         @keyframes trapdoorMove {
-            0% { left: 120%; top: 100%; opacity: 0; transform: translateY(0); }
-            5% { left: 110%; top: 100%; opacity: 1; transform: translateY(0); }
-            15% { left: 90%; top: -5%; opacity: 1; transform: translateY(0); }
-            45% { left: 10%; top: -5%; opacity: 1; transform: translateY(0); }
-            60% { left: 10%; top: -5%; opacity: 0; transform: translateY(150px); } /* Sink */
-            65% { left: var(--final-x); top: var(--final-y); opacity: 0; transform: translateY(150px); }
-            80% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translateY(150px); } /* Rise */
-            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translateY(0); }
+            0% { left: 120%; top: 100%; opacity: 0; transform: translate(-50%, -50%); }
+            5% { left: 110%; top: 100%; opacity: 1; transform: translate(-50%, -50%); }
+            15% { left: 90%; top: -12%; opacity: 1; transform: translate(-50%, -50%); }
+            45% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%); }
+            60% { left: 10%; top: -12%; opacity: 0; transform: translate(-50%, calc(-50% + 150px)); } 
+            65% { left: var(--final-x); top: var(--final-y); opacity: 0; transform: translate(-50%, calc(-50% + 150px)); }
+            80% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, calc(-50% + 150px)); } 
+            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); }
         }
 
-        /* 10. The Camera Smash Glass overlays (Synched to 75% of 3s = 2.25s) */
+        /* 10. The Camera Smash Glass overlays (Synched to exactly +3.0s when player hits the floor) */
         .screen-crack-overlay {
             position: absolute; top: -50px; left: 50%; transform: translate(-50%, -50%);
             width: 800px; height: 800px;
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M42 55 L5 15 M42 55 L25 0 M42 55 L75 5 M42 55 L100 35 M42 55 L85 95 M42 55 L45 100 M42 55 L10 85 M42 55 L0 60 M22 28 L35 15 M65 25 L45 35 M85 55 L60 70 M25 75 L38 65 M12 40 L28 48 M55 55 L65 45 M35 70 L48 85 M15 65 L28 55 M75 35 L85 20 M15 25 L25 40 M60 8 L50 25 M85 75 L70 85" stroke="rgba(255,255,255,0.8)" stroke-width="0.25" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M42 55 l-10 -15 l-15 -5 l-10 -20 m30 40 l20 -15 l15 -20 m-35 35 l20 20 l15 15 m-35 -35 l-15 20 l-15 10" stroke="rgba(255,255,255,0.5)" stroke-width="0.15" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="42" cy="55" r="0.5" fill="white"/></svg>');
             background-size: contain; background-repeat: no-repeat;
             z-index: 60; pointer-events: none; opacity: 0;
-            animation: crackShatter 1.5s ease-in calc(var(--entrance-delay) + 2.25s) both;
+            animation: crackShatter 1.5s ease-in calc(var(--entrance-delay) + 3.0s) both;
         }
         
         .glass-shard {
             position: absolute; top: 0; left: 50%; opacity: 0;
             background: rgba(255, 255, 255, 0.4); border: 1px solid rgba(255, 255, 255, 0.8); box-shadow: 0 0 10px rgba(255,255,255,0.5); z-index: 55;
         }
-        .shard-1 { width: 30px; height: 40px; clip-path: polygon(0 0, 100% 20%, 50% 100%); margin-left: -60px; margin-top: -30px; animation: shardFall1 1s ease-in calc(var(--entrance-delay) + 2.25s) both; }
-        .shard-2 { width: 40px; height: 50px; clip-path: polygon(10% 0, 100% 0, 80% 100%, 0 80%); margin-left: 20px; margin-top: -50px; animation: shardFall2 1.2s ease-in calc(var(--entrance-delay) + 2.25s) both; }
-        .shard-3 { width: 25px; height: 35px; clip-path: polygon(50% 0, 100% 100%, 0 100%); margin-left: -10px; margin-top: 20px; animation: shardFall3 0.9s ease-in calc(var(--entrance-delay) + 2.25s) both; }
-        .shard-4 { width: 50px; height: 20px; clip-path: polygon(0 0, 100% 50%, 20% 100%); margin-left: 50px; margin-top: 10px; animation: shardFall4 1.1s ease-in calc(var(--entrance-delay) + 2.25s) both; }
+        .shard-1 { width: 30px; height: 40px; clip-path: polygon(0 0, 100% 20%, 50% 100%); margin-left: -60px; margin-top: -30px; animation: shardFall1 1s ease-in calc(var(--entrance-delay) + 3.0s) both; }
+        .shard-2 { width: 40px; height: 50px; clip-path: polygon(10% 0, 100% 0, 80% 100%, 0 80%); margin-left: 20px; margin-top: -50px; animation: shardFall2 1.2s ease-in calc(var(--entrance-delay) + 3.0s) both; }
+        .shard-3 { width: 25px; height: 35px; clip-path: polygon(50% 0, 100% 100%, 0 100%); margin-left: -10px; margin-top: 20px; animation: shardFall3 0.9s ease-in calc(var(--entrance-delay) + 3.0s) both; }
+        .shard-4 { width: 50px; height: 20px; clip-path: polygon(0 0, 100% 50%, 20% 100%); margin-left: 50px; margin-top: 10px; animation: shardFall4 1.1s ease-in calc(var(--entrance-delay) + 3.0s) both; }
 
         @keyframes crackShatter { 0% { opacity: 0; transform: translate(-50%, -50%) scale(1); } 1% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: drop-shadow(0 0 2px rgba(255,255,255,0.8)); } 70% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: drop-shadow(0 0 0px white); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(1); } }
         @keyframes shardFall1 { 0% { opacity: 0; transform: translate(0, 0) rotate(0deg); } 1% { opacity: 1; } 100% { opacity: 0; transform: translate(-50px, 600px) rotate(180deg); } }
         @keyframes shardFall2 { 0% { opacity: 0; transform: translate(0, 0) rotate(0deg); } 1% { opacity: 1; } 100% { opacity: 0; transform: translate(80px, 700px) rotate(240deg); } }
         @keyframes shardFall3 { 0% { opacity: 0; transform: translate(0, 0) rotate(0deg); } 1% { opacity: 1; } 100% { opacity: 0; transform: translate(-20px, 500px) rotate(-120deg); } }
         @keyframes shardFall4 { 0% { opacity: 0; transform: translate(0, 0) rotate(0deg); } 1% { opacity: 1; } 100% { opacity: 0; transform: translate(100px, 650px) rotate(90deg); } }
-
-        @keyframes fadeIn { to { opacity: 1; } }
 
         /* --- SHOCKWAVE RING --- */
         .shockwave-ring { position: absolute; top: 80%; left: 50%; width: 200px; height: 200px; border-radius: 50%; border: 12px solid var(--team-primary); transform: translate(-50%, -50%) scale(0.5); opacity: 0; z-index: 11; pointer-events: none; }
