@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 10, 10:18 PM ET",
+  "last_updated": "May 10, 10:21 PM ET",
   "player_news": [
     {
       "player_name": "Anthony Edwards",
@@ -7,9 +7,9 @@
       "position": "SG",
       "status_badge": "RET",
       "description": "Has Returned",
-      "time_elapsed": "1.8h",
+      "time_elapsed": "1.9h",
       "next_game": "Sunday vs SAS",
-      "local_timestamp": 1778465985.7107284
+      "local_timestamp": 1778466165.1632884
     },
     {
       "player_name": "O.G. Anunoby",
@@ -19,7 +19,7 @@
       "description": "Out right hamstring strain",
       "time_elapsed": "7.2h",
       "next_game": "Sunday @PHI",
-      "local_timestamp": 1778465985.7057285
+      "local_timestamp": 1778466165.1582885
     },
     {
       "player_name": "Joel Embiid",
@@ -29,7 +29,7 @@
       "description": "Playing right hip soreness",
       "time_elapsed": "7.2h",
       "next_game": "Sunday vs NYK",
-      "local_timestamp": 1778465985.7047284
+      "local_timestamp": 1778466165.1572883
     },
     {
       "player_name": "Tyrese Maxey",
@@ -1735,6 +1735,7 @@
                 "type": "team",
                 "order": 0,
                 "homeAway": "home",
+                "winner": true,
                 "team": {
                   "id": "16",
                   "uid": "s:40~l:46~t:16",
@@ -2064,7 +2065,7 @@
                     ]
                   }
                 ],
-                "record": "1-2",
+                "record": "2-2",
                 "records": [
                   {
                     "name": "overall",
@@ -2090,6 +2091,7 @@
                 "type": "team",
                 "order": 1,
                 "homeAway": "away",
+                "winner": false,
                 "team": {
                   "id": "24",
                   "uid": "s:40~l:46~t:24",
@@ -2179,12 +2181,12 @@
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "39"
+                    "displayValue": "41"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "39.0"
+                    "displayValue": "41.0"
                   },
                   {
                     "name": "assists",
@@ -2194,7 +2196,7 @@
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "84"
+                    "displayValue": "86"
                   },
                   {
                     "name": "fieldGoalsMade",
@@ -2204,7 +2206,7 @@
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "48.8"
+                    "displayValue": "47.7"
                   },
                   {
                     "name": "freeThrowPct",
@@ -2229,12 +2231,12 @@
                   {
                     "name": "threePointPct",
                     "abbreviation": "3P%",
-                    "displayValue": "24.0"
+                    "displayValue": "23.1"
                   },
                   {
                     "name": "threePointFieldGoalsAttempted",
                     "abbreviation": "3PA",
-                    "displayValue": "25"
+                    "displayValue": "26"
                   },
                   {
                     "name": "threePointFieldGoalsMade",
@@ -2254,7 +2256,7 @@
                   {
                     "name": "threePointFieldGoalPct",
                     "abbreviation": "3P%",
-                    "displayValue": "24.0"
+                    "displayValue": "23.1"
                   }
                 ],
                 "leaders": [
@@ -2385,8 +2387,8 @@
                     "abbreviation": "RAT",
                     "leaders": [
                       {
-                        "displayValue": "24 PTS, 6 REB, 3 STL",
-                        "value": 40.849998474121094,
+                        "displayValue": "24 PTS, 7 REB, 3 STL",
+                        "value": 41.849998474121094,
                         "athlete": {
                           "id": "5037871",
                           "fullName": "Dylan Harper",
@@ -2419,7 +2421,7 @@
                     ]
                   }
                 ],
-                "record": "2-1",
+                "record": "2-2",
                 "records": [
                   {
                     "name": "overall",
@@ -2446,61 +2448,18 @@
                 "headline": "West Semifinals - Game 4"
               }
             ],
-            "situation": {
-              "lastPlay": {
-                "id": "401871155723",
-                "type": {
-                  "id": "584",
-                  "text": "Substitution"
-                },
-                "text": "enters the game for Keldon Johnson",
-                "scoreValue": 0,
-                "team": {
-                  "id": "24"
-                },
-                "probability": {
-                  "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.958,
-                  "awayWinPercentage": 0.04200000000000004
-                },
-                "athletesInvolved": [
-                  {
-                    "id": "4395723",
-                    "fullName": "Keldon Johnson",
-                    "displayName": "Keldon Johnson",
-                    "shortName": "K. Johnson",
-                    "links": [
-                      {
-                        "rel": [
-                          "playercard",
-                          "desktop",
-                          "athlete"
-                        ],
-                        "href": "https://www.espn.com/nba/player/_/id/4395723/keldon-johnson"
-                      }
-                    ],
-                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4395723.png",
-                    "jersey": "3",
-                    "position": "F",
-                    "team": {
-                      "id": "24"
-                    }
-                  }
-                ]
-              }
-            },
             "status": {
-              "clock": 9.8,
-              "displayClock": "9.8",
+              "clock": 0.0,
+              "displayClock": "0.0",
               "period": 4,
               "type": {
-                "id": "2",
-                "name": "STATUS_IN_PROGRESS",
-                "state": "in",
-                "completed": false,
-                "description": "In Progress",
-                "detail": "9.8 - 4th Quarter",
-                "shortDetail": "9.8 - 4th"
+                "id": "3",
+                "name": "STATUS_FINAL",
+                "state": "post",
+                "completed": true,
+                "description": "Final",
+                "detail": "Final",
+                "shortDetail": "Final"
               }
             },
             "broadcasts": [
@@ -2521,14 +2480,14 @@
             "series": {
               "type": "playoff",
               "title": "Playoff Series",
-              "summary": "SA leads series 2-1",
+              "summary": "Series tied 2-2",
               "completed": false,
               "totalCompetitions": 7,
               "competitors": [
                 {
                   "id": "16",
                   "uid": "s:40~l:46~t:16",
-                  "wins": 1,
+                  "wins": 2,
                   "ties": 0,
                   "href": "http://sports.core.api.espn.pvt/v2/sports/basketball/leagues/nba/seasons/2026/teams/16?lang=en&region=us"
                 },
@@ -2581,11 +2540,11 @@
           {
             "language": "en-US",
             "rel": [
-              "live",
+              "summary",
               "desktop",
               "event"
             ],
-            "href": "https://www.espn.com/nba/game?gameId=401871155",
+            "href": "https://www.espn.com/nba/game/_/gameId/401871155/spurs-timberwolves",
             "text": "Gamecast",
             "shortText": "Gamecast",
             "isExternal": false,
@@ -2607,6 +2566,18 @@
           {
             "language": "en-US",
             "rel": [
+              "highlights",
+              "desktop"
+            ],
+            "href": "https://www.espn.com/nba/video?gameId=401871155",
+            "text": "Highlights",
+            "shortText": "Highlights",
+            "isExternal": false,
+            "isPremium": false
+          },
+          {
+            "language": "en-US",
+            "rel": [
               "pbp",
               "desktop",
               "event"
@@ -2619,17 +2590,17 @@
           }
         ],
         "status": {
-          "clock": 9.8,
-          "displayClock": "9.8",
+          "clock": 0.0,
+          "displayClock": "0.0",
           "period": 4,
           "type": {
-            "id": "2",
-            "name": "STATUS_IN_PROGRESS",
-            "state": "in",
-            "completed": false,
-            "description": "In Progress",
-            "detail": "9.8 - 4th Quarter",
-            "shortDetail": "9.8 - 4th"
+            "id": "3",
+            "name": "STATUS_FINAL",
+            "state": "post",
+            "completed": true,
+            "description": "Final",
+            "detail": "Final",
+            "shortDetail": "Final"
           }
         }
       }
