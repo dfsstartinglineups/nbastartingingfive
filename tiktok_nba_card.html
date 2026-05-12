@@ -156,24 +156,17 @@
         /* ========================================================
            THE 2-PHASE STARTER JOURNEY (Tunnel Walk -> Signature Move)
            ======================================================== */
-        /* All starter animations are 3.0s total. 
-           0-15%: Enter from bottom right.
-           15-45%: Walk along the bench line.
-           45-50%: Gather at launch pad.
-           50-100%: Signature move to var(--final-x) and var(--final-y).
-        */
 
-        /* REFINED JUMP CRASH: Parabolic Physics */
         .anim-jump-crash { animation: jumpCrash 3s var(--entrance-delay) both; }
         @keyframes jumpCrash {
             0% { left: 120%; top: 100%; opacity: 0; transform: translate(-50%, -50%) scale(1); }
             5% { left: 110%; top: 100%; opacity: 1; transform: translate(-50%, -50%) scale(1); }
             15% { left: 90%; top: -12%; opacity: 1; transform: translate(-50%, -50%) scale(1); animation-timing-function: linear; }
             45% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%) scale(1); animation-timing-function: ease-in-out; }
-            50% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -40%) scale(1); animation-timing-function: cubic-bezier(0.1, 0.8, 0.3, 1); } /* Gather Dip & Explode */
-            60% { left: 10%; top: -50%; opacity: 0; transform: translate(-50%, -50%) scale(6); } /* Apex past camera */
-            65% { left: var(--final-x); top: -100%; opacity: 0; transform: translate(-50%, -50%) scale(3); animation-timing-function: cubic-bezier(0.5, 0, 1, 1); } /* Invisible path shift */
-            80% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) scale(1); } /* Heavy Slam Landing */
+            50% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -40%) scale(1); animation-timing-function: cubic-bezier(0.1, 0.8, 0.3, 1); } 
+            60% { left: 10%; top: -50%; opacity: 0; transform: translate(-50%, -50%) scale(6); } 
+            65% { left: var(--final-x); top: -100%; opacity: 0; transform: translate(-50%, -50%) scale(3); animation-timing-function: cubic-bezier(0.5, 0, 1, 1); } 
+            80% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) scale(1); } 
             100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
 
@@ -223,41 +216,41 @@
         }
 
         /* REFINED TRAPDOOR: Clip-Path "Solid Floor" Effect & Subterranean Trail */
-        .anim-trapdoor { animation: trapdoorMove 3s linear var(--entrance-delay) both; }
-        .anim-trapdoor .player-cutout-wrapper { animation: trapdoorSinkRise 3s linear var(--entrance-delay) both; }
+        .anim-trapdoor { animation: trapdoorMove 3s cubic-bezier(0.4, 0, 0.2, 1) var(--entrance-delay) both; }
+        .anim-trapdoor .player-photo { animation: trapdoorSinkRise 3s linear var(--entrance-delay) both; }
         
         .anim-trapdoor::after { 
             content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-            width: 100px; height: 30px; border-radius: 50%;
+            width: 150px; height: 50px; border-radius: 50%;
             background: radial-gradient(ellipse, var(--team-primary), transparent 70%);
-            filter: blur(8px); opacity: 0; z-index: -1;
+            box-shadow: 0 0 20px var(--team-primary), 0 0 40px var(--team-secondary);
+            filter: blur(4px); opacity: 0; z-index: -1;
             animation: trapdoorTrail 3s linear var(--entrance-delay) both;
         }
 
         @keyframes trapdoorMove {
             0% { left: 120%; top: 100%; opacity: 0; transform: translate(-50%, -50%); }
             5% { left: 110%; top: 100%; opacity: 1; transform: translate(-50%, -50%); }
-            15% { left: 90%; top: -12%; opacity: 1; transform: translate(-50%, -50%); }
-            45% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%); }
-            55% { left: 10%; top: -12%; transform: translate(-50%, -50%); } /* Sinking at launch pad */
-            70% { left: var(--final-x); top: var(--final-y); transform: translate(-50%, -50%); } /* Tunneling to final spot */
-            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); } /* Rising & Holding */
+            25% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%); } /* arrived at bench */
+            40% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%); } /* wait while sinking */
+            60% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); } /* tunneled to spot */
+            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); } /* settled */
         }
         
-        /* The Clip-Path physically cuts the player off as if going into the court */
+        /* The Clip-Path physically cuts the photo off exactly at its bottom boundary as it slides down */
         @keyframes trapdoorSinkRise {
-            0%, 45% { clip-path: inset(0 0 0% 0); transform: translateY(0); opacity: 1; }
-            55% { clip-path: inset(0 0 100% 0); transform: translateY(150px); opacity: 1; } /* Fully sunk */
-            56%, 69% { opacity: 0; transform: translateY(150px); } /* Invisible while moving underground */
-            70% { clip-path: inset(0 0 100% 0); transform: translateY(150px); opacity: 1; } /* Reappear sunk at final spot */
-            80%, 100% { clip-path: inset(0 0 0% 0); transform: translateY(0); opacity: 1; } /* Rise out */
+            0%, 25% { clip-path: inset(-50% -50% 0% -50%); transform: translateY(0%); opacity: 1; }
+            40% { clip-path: inset(-50% -50% 100% -50%); transform: translateY(100%); opacity: 1; } /* Sunk */
+            41%, 59% { opacity: 0; transform: translateY(100%); } /* Invisible while moving underground */
+            60% { clip-path: inset(-50% -50% 100% -50%); transform: translateY(100%); opacity: 1; } /* Reappear sunk at final spot */
+            75%, 100% { clip-path: inset(-50% -50% 0% -50%); transform: translateY(0%); opacity: 1; } /* Rise out */
         }
 
         /* The glowing dirt/energy streak moving under the floor */
         @keyframes trapdoorTrail {
-            0%, 50% { opacity: 0; transform: translateX(-50%) scale(0.5); }
-            55% { opacity: 1; transform: translateX(-50%) scale(1.5); } /* Glow appears when player sinks */
-            65% { opacity: 1; transform: translateX(-50%) scale(1.5); } /* Glow tracks to spot */
+            0%, 25% { opacity: 0; transform: translateX(-50%) scale(0.5); }
+            35% { opacity: 1; transform: translateX(-50%) scale(1.5); } /* Glow appears as they sink */
+            60% { opacity: 1; transform: translateX(-50%) scale(1.5); } /* Glow tracks to spot */
             70%, 100% { opacity: 0; transform: translateX(-50%) scale(0.5); } /* Glow fades as player rises */
         }
 
