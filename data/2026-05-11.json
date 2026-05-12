@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 12, 12:05 AM ET",
+  "last_updated": "May 12, 12:06 AM ET",
   "player_news": [
     {
       "player_name": "Caris LeVert",
@@ -9,7 +9,7 @@
       "description": "Playing right heel contusion",
       "time_elapsed": "4.6h",
       "next_game": "Monday @CLE",
-      "local_timestamp": 1778558741.059743
+      "local_timestamp": 1778558865.987826
     },
     {
       "player_name": "Kevin Huerter",
@@ -19,7 +19,7 @@
       "description": "Out left adductor strain",
       "time_elapsed": "4.6h",
       "next_game": "Monday @CLE",
-      "local_timestamp": 1778558741.058743
+      "local_timestamp": 1778558865.9868262
     },
     {
       "player_name": "Thomas Bryant",
@@ -29,7 +29,7 @@
       "description": "Playing low back spasms",
       "time_elapsed": "4.9h",
       "next_game": "Monday vs DET",
-      "local_timestamp": 1778558741.0577428
+      "local_timestamp": 1778558865.985826
     }
   ],
   "espn_schedule": {
@@ -73,7 +73,7 @@
               "full",
               "dark"
             ],
-            "lastUpdated": "2026-05-11T15:23Z"
+            "lastUpdated": "2026-05-11T13:52Z"
           }
         ],
         "calendarType": "day",
@@ -1788,6 +1788,11 @@
                     "value": 19.0,
                     "displayValue": "19",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -2133,6 +2138,11 @@
                     "value": 28.0,
                     "displayValue": "28",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -2407,32 +2417,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401871329346",
+                "id": "401871329348",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "584",
+                  "text": "Substitution"
                 },
-                "text": "End of the 2nd Quarter",
+                "text": "Isaiah Hartenstein enters the game for Alex Caruso",
                 "scoreValue": 0,
+                "team": {
+                  "id": "25"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
                   "homeWinPercentage": 0.25,
                   "awayWinPercentage": 0.75
-                }
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "4222252",
+                    "fullName": "Isaiah Hartenstein",
+                    "displayName": "Isaiah Hartenstein",
+                    "shortName": "I. Hartenstein",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/4222252/isaiah-hartenstein"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4222252.png",
+                    "jersey": "55",
+                    "position": "C",
+                    "team": {
+                      "id": "25"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 2,
+              "clock": 720.0,
+              "displayClock": "12:00",
+              "period": 3,
               "type": {
-                "id": "23",
-                "name": "STATUS_HALFTIME",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "Halftime",
-                "detail": "Halftime",
-                "shortDetail": "Halftime"
+                "description": "In Progress",
+                "detail": "12:00 - 3rd Quarter",
+                "shortDetail": "12:00 - 3rd"
               }
             },
             "broadcasts": [
@@ -2535,17 +2572,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 2,
+          "clock": 720.0,
+          "displayClock": "12:00",
+          "period": 3,
           "type": {
-            "id": "23",
-            "name": "STATUS_HALFTIME",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "Halftime",
-            "detail": "Halftime",
-            "shortDetail": "Halftime"
+            "description": "In Progress",
+            "detail": "12:00 - 3rd Quarter",
+            "shortDetail": "12:00 - 3rd"
           }
         }
       }
