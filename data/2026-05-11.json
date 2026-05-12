@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 11, 11:14 PM ET",
+  "last_updated": "May 11, 11:17 PM ET",
   "player_news": [
     {
       "player_name": "Caris LeVert",
@@ -7,9 +7,9 @@
       "position": "SG",
       "status_badge": "IN",
       "description": "Playing right heel contusion",
-      "time_elapsed": "3.7h",
+      "time_elapsed": "3.8h",
       "next_game": "Monday @CLE",
-      "local_timestamp": 1778555750.4129505
+      "local_timestamp": 1778555879.0009863
     },
     {
       "player_name": "Kevin Huerter",
@@ -17,9 +17,9 @@
       "position": "SF",
       "status_badge": "OUT",
       "description": "Out left adductor strain",
-      "time_elapsed": "3.7h",
+      "time_elapsed": "3.8h",
       "next_game": "Monday @CLE",
-      "local_timestamp": 1778555750.4119506
+      "local_timestamp": 1778555878.9999864
     },
     {
       "player_name": "Thomas Bryant",
@@ -27,9 +27,9 @@
       "position": "C",
       "status_badge": "IN",
       "description": "Playing low back spasms",
-      "time_elapsed": "4.0h",
+      "time_elapsed": "4.1h",
       "next_game": "Monday vs DET",
-      "local_timestamp": 1778555750.4109504
+      "local_timestamp": 1778555878.9989862
     }
   ],
   "espn_schedule": {
@@ -2123,6 +2123,11 @@
                     "value": 21.0,
                     "displayValue": "21",
                     "period": 1
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 2
                   }
                 ],
                 "statistics": [
@@ -2397,32 +2402,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401871329139",
+                "id": "401871329144",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "584",
+                  "text": "Substitution"
                 },
-                "text": "End of the 1st Quarter",
+                "text": "enters the game for Aaron Wiggins",
                 "scoreValue": 0,
+                "team": {
+                  "id": "25"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
                   "homeWinPercentage": 0.473,
                   "awayWinPercentage": 0.527
-                }
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "4397183",
+                    "fullName": "Aaron Wiggins",
+                    "displayName": "Aaron Wiggins",
+                    "shortName": "A. Wiggins",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/4397183/aaron-wiggins"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4397183.png",
+                    "jersey": "21",
+                    "position": "G",
+                    "team": {
+                      "id": "25"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 1,
+              "clock": 720.0,
+              "displayClock": "12:00",
+              "period": 2,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "End of Period",
-                "detail": "End of 1st Quarter",
-                "shortDetail": "End of 1st"
+                "description": "In Progress",
+                "detail": "12:00 - 2nd Quarter",
+                "shortDetail": "12:00 - 2nd"
               }
             },
             "broadcasts": [
@@ -2525,17 +2557,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 1,
+          "clock": 720.0,
+          "displayClock": "12:00",
+          "period": 2,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "End of Period",
-            "detail": "End of 1st Quarter",
-            "shortDetail": "End of 1st"
+            "description": "In Progress",
+            "detail": "12:00 - 2nd Quarter",
+            "shortDetail": "12:00 - 2nd"
           }
         }
       }
