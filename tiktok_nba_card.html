@@ -133,7 +133,8 @@
         .hud-reveal .typewriter-char { opacity: 0; animation: typeLetter 0.01s forwards; display: inline-block; }
         @keyframes typeLetter { to { opacity: 1; } }
 
-        .starter-node { left: var(--final-x); top: var(--final-y); }
+        /* ADDED Z-INDEX TO KEEP STARTERS IN FRONT OF BENCH */
+        .starter-node { left: var(--final-x); top: var(--final-y); z-index: 20; }
         .bench-node { z-index: 5; width: 150px; height: 200px; }
         .bench-node .player-cutout-wrapper { height: 140px; z-index: 10; }
         .bench-node .hud-name { font-size: 16px; padding: 4px 16px; bottom: -10px; }
@@ -144,8 +145,13 @@
         .bench-beam { animation: benchBeamAnim 0.8s ease-out var(--entrance-delay) both; }
         @keyframes benchBeamAnim { 0% { opacity: 0; filter: brightness(3) blur(10px) drop-shadow(0 0 20px var(--team-primary)); transform: translate(-50%, -50%) scale(0.9); } 100% { opacity: 1; filter: brightness(1) blur(0) drop-shadow(0); transform: translate(-50%, -50%) scale(1); } }
 
-        .bench-rise { animation: benchRiseAnim 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) var(--entrance-delay) both; }
-        @keyframes benchRiseAnim { 0% { opacity: 0; transform: translate(-50%, 150px); } 100% { opacity: 1; transform: translate(-50%, -50%); } }
+        /* UPGRADED BENCH RISE: "Solid Floor" Clip-Path Effect */
+        .bench-rise { opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
+        .bench-rise .player-photo { animation: benchSolidRise 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) var(--entrance-delay) both; }
+        @keyframes benchSolidRise { 
+            0% { clip-path: inset(-50% -50% 100% -50%); transform: translateY(100%); } 
+            100% { clip-path: inset(-50% -50% 0% -50%); transform: translateY(0%); } 
+        }
 
         .bench-drop { animation: benchDropAnim 1.2s cubic-bezier(0.25, 1, 0.5, 1) var(--entrance-delay) both; }
         @keyframes benchDropAnim { 0% { opacity: 0; transform: translate(-50%, -500px); } 100% { opacity: 1; transform: translate(-50%, -50%); } }
@@ -215,8 +221,8 @@
             100% { left: var(--final-x); top: var(--final-y); opacity: 1; filter: brightness(1); transform: translate(-50%, -50%) scaleY(1); }
         }
 
-        /* REFINED TRAPDOOR: Clip-Path "Solid Floor" Effect & Subterranean Trail */
-        .anim-trapdoor { animation: trapdoorMove 3s cubic-bezier(0.4, 0, 0.2, 1) var(--entrance-delay) both; }
+        /* REFINED TRAPDOOR: Restored Tunnel Walk, Slower Sink, Subterranean Trail */
+        .anim-trapdoor { animation: trapdoorMove 3s linear var(--entrance-delay) both; }
         .anim-trapdoor .player-photo { animation: trapdoorSinkRise 3s linear var(--entrance-delay) both; }
         
         .anim-trapdoor::after { 
@@ -231,27 +237,26 @@
         @keyframes trapdoorMove {
             0% { left: 120%; top: 100%; opacity: 0; transform: translate(-50%, -50%); }
             5% { left: 110%; top: 100%; opacity: 1; transform: translate(-50%, -50%); }
-            25% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%); } /* arrived at bench */
-            40% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%); } /* wait while sinking */
-            60% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); } /* tunneled to spot */
-            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); } /* settled */
+            15% { left: 90%; top: -12%; opacity: 1; transform: translate(-50%, -50%); }
+            45% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%); } /* Arrived at bench end */
+            60% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%); } /* Held position while sinking */
+            75% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); } /* Tunneled to spot */
+            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); } /* Settle & Rise */
         }
         
-        /* The Clip-Path physically cuts the photo off exactly at its bottom boundary as it slides down */
         @keyframes trapdoorSinkRise {
-            0%, 25% { clip-path: inset(-50% -50% 0% -50%); transform: translateY(0%); opacity: 1; }
-            40% { clip-path: inset(-50% -50% 100% -50%); transform: translateY(100%); opacity: 1; } /* Sunk */
-            41%, 59% { opacity: 0; transform: translateY(100%); } /* Invisible while moving underground */
-            60% { clip-path: inset(-50% -50% 100% -50%); transform: translateY(100%); opacity: 1; } /* Reappear sunk at final spot */
-            75%, 100% { clip-path: inset(-50% -50% 0% -50%); transform: translateY(0%); opacity: 1; } /* Rise out */
+            0%, 45% { clip-path: inset(-50% -50% 0% -50%); transform: translateY(0%); opacity: 1; }
+            60% { clip-path: inset(-50% -50% 100% -50%); transform: translateY(100%); opacity: 1; } /* Sunk */
+            61%, 74% { opacity: 0; transform: translateY(100%); } /* Invisible while moving underground */
+            75% { clip-path: inset(-50% -50% 100% -50%); transform: translateY(100%); opacity: 1; } /* Reappear sunk at final spot */
+            90%, 100% { clip-path: inset(-50% -50% 0% -50%); transform: translateY(0%); opacity: 1; } /* Rise out */
         }
 
-        /* The glowing dirt/energy streak moving under the floor */
         @keyframes trapdoorTrail {
-            0%, 25% { opacity: 0; transform: translateX(-50%) scale(0.5); }
-            35% { opacity: 1; transform: translateX(-50%) scale(1.5); } /* Glow appears as they sink */
-            60% { opacity: 1; transform: translateX(-50%) scale(1.5); } /* Glow tracks to spot */
-            70%, 100% { opacity: 0; transform: translateX(-50%) scale(0.5); } /* Glow fades as player rises */
+            0%, 45% { opacity: 0; transform: translateX(-50%) scale(0.5); }
+            55% { opacity: 1; transform: translateX(-50%) scale(1.5); } /* Glow appears as they sink */
+            75% { opacity: 1; transform: translateX(-50%) scale(1.5); } /* Glow tracks to spot */
+            85%, 100% { opacity: 0; transform: translateX(-50%) scale(0.5); } /* Glow fades as player rises */
         }
 
         @keyframes fadeIn { to { opacity: 1; } }
