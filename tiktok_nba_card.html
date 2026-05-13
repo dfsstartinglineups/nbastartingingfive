@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NBA Starting 5 - Game 3 Transparent Holograms</title>
+    <title>NBA Starting 5 - Game 5 Viral Hijack</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&family=Oswald:wght@500;700&family=Montserrat:ital,wght@0,800;1,900&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@
 
         body { margin: 0; padding: 20px; background-color: #050302; font-family: 'Oswald', sans-serif; display: flex; flex-direction: column; align-items: center; }
         
-        #controls { margin-bottom: 20px; background: #222; padding: 15px 25px; border-radius: 8px; display: flex; gap: 15px; align-items: center; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.8); z-index: 100; }
+        #controls { margin-bottom: 20px; background: #222; padding: 15px 25px; border-radius: 8px; display: flex; gap: 15px; align-items: center; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.8); z-index: 2000; }
         select, button, input { padding: 8px 16px; font-size: 16px; border-radius: 4px; border: 1px solid #555; background: #333; color: white; cursor: pointer; font-family: 'Oswald', sans-serif; }
         button:hover { background: #555; }
 
@@ -29,6 +29,79 @@
             position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; box-shadow: 0 20px 50px rgba(0,0,0,0.9); color: var(--text-dark); border-top: 20px solid var(--team-primary); border-bottom: 20px solid var(--team-primary);
         }
 
+        /* ========================================================
+           NEW: iMESSAGE VIRAL HIJACK OVERLAY
+           ======================================================== */
+        #hijack-overlay {
+            position: absolute; top: 0; left: 0; width: 1080px; height: 1920px;
+            background-color: #000; z-index: 1000;
+            display: flex; flex-direction: column; padding: 60px; box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            animation: hijackGlitch 3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+        
+        .hijack-header {
+            text-align: center; color: #fff; font-size: 36px; font-weight: 600; margin-top: 80px; margin-bottom: 120px;
+            display: flex; flex-direction: column; align-items: center; gap: 15px; letter-spacing: 0px;
+        }
+        
+        .hijack-avatar {
+            width: 110px; height: 110px; background: #333; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; font-size: 55px;
+        }
+        
+        .msg-bubble {
+            max-width: 75%; padding: 35px 45px; border-radius: 40px; font-size: 42px; line-height: 1.35;
+            opacity: 0; margin-bottom: 40px; font-weight: 500; letter-spacing: 0px;
+        }
+        
+        .msg-left {
+            align-self: flex-start; background: #262628; color: #fff; border-bottom-left-radius: 10px;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s forwards;
+        }
+        
+        .msg-right {
+            align-self: flex-end; background: #0b84ff; color: #fff; border-bottom-right-radius: 10px;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.8s forwards;
+        }
+        
+        .typing-indicator {
+            align-self: flex-start; background: #262628; border-radius: 40px; padding: 35px 45px;
+            display: flex; gap: 12px; border-bottom-left-radius: 10px; margin-bottom: 40px;
+            opacity: 0; animation: typeShow 0.8s ease-in-out 1.0s forwards;
+        }
+        
+        .typing-indicator span {
+            width: 20px; height: 20px; background: #888; border-radius: 50%;
+            animation: bounceDots 1.4s infinite ease-in-out both;
+        }
+        
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes popIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        
+        @keyframes typeShow { 
+            0% { opacity: 0; transform: scale(0.9); height: auto; margin-bottom: 40px; } 
+            10% { opacity: 1; transform: scale(1); } 
+            90% { opacity: 1; transform: scale(1); height: auto; margin-bottom: 40px; } 
+            100% { opacity: 0; transform: scale(0.9); height: 0; padding: 0; margin-bottom: 0; overflow: hidden; display: none; } 
+        }
+        
+        @keyframes bounceDots { 0%, 80%, 100% { transform: scale(0.6); opacity: 0.6; } 40% { transform: scale(1); opacity: 1; } }
+
+        @keyframes hijackGlitch {
+            0%, 83% { opacity: 1; transform: skewX(0) scale(1); filter: none; clip-path: inset(0 0 0 0); }
+            85% { transform: skewX(15deg) scale(1.05); filter: invert(1) hue-rotate(90deg) contrast(2); clip-path: inset(10% 0 30% 0); }
+            87% { transform: skewX(-20deg) scale(1.1); filter: invert(0) hue-rotate(0deg) contrast(3); clip-path: inset(40% 0 10% 0); }
+            89% { transform: skewX(25deg) scale(1.02); filter: invert(1) hue-rotate(180deg) saturate(3); clip-path: inset(0 0 50% 0); }
+            91% { transform: skewX(-10deg) scale(1.08); filter: invert(0) hue-rotate(0deg); clip-path: inset(20% 0 60% 0); }
+            93% { opacity: 1; transform: skewX(0) scale(1); filter: none; clip-path: inset(0 0 0 0); }
+            98% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; pointer-events: none; }
+        }
+
+        /* --- REST OF CSS --- */
         @keyframes arenaQuake { 0% { transform: translate(0, 0) scale(1); } 20% { transform: translate(-10px, 10px) scale(1.02); } 40% { transform: translate(10px, -10px) scale(1.02); } 60% { transform: translate(-10px, -5px) scale(1.02); } 80% { transform: translate(10px, 5px) scale(1.02); } 100% { transform: translate(0, 0) scale(1); } }
         .quake-active { animation: arenaQuake 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97); }
 
@@ -55,14 +128,17 @@
         /* --- WATERMARKS & CENTER TEXT --- */
         .broadcast-watermark { position: absolute; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2; pointer-events: none; opacity: 0; }
         .court-logo { width: 380px; height: 380px; object-fit: contain; filter: drop-shadow(0 0 30px rgba(255, 120, 0, 0.7)) sepia(0.3) hue-rotate(-20deg) saturate(1.5); }
-        .anim-watermark-drop { animation: watermarkDrop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.5s forwards; }
+        
+        /* SHIFTED: Added 3.0s (2.5 -> 5.5s) */
+        .anim-watermark-drop { animation: watermarkDrop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 5.5s forwards; }
         @keyframes watermarkDrop { 0% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); filter: blur(8px); } 100% { opacity: 0.35; transform: translate(-50%, -50%) scale(1); filter: blur(0px); } }
 
+        /* SHIFTED: Added 3.0s (3.4 -> 6.4s) */
         #game3-text {
             position: absolute; top: 0%; left: 50%; transform: translate(-50%, -50%);
             font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; font-size: 140px;
             color: var(--team-primary); letter-spacing: 5px; text-transform: uppercase;
-            z-index: 18; white-space: nowrap; opacity: 0; animation: slideInText 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; animation-delay: 3.4s; pointer-events: none;
+            z-index: 18; white-space: nowrap; opacity: 0; animation: slideInText 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; animation-delay: 6.4s; pointer-events: none;
         }
         #game3-text::before { content: attr(data-text); position: absolute; left: 0; top: 0; z-index: -1; -webkit-text-stroke: 12px #fff; text-shadow: 6px 6px 0 var(--team-secondary), 0 15px 25px rgba(0,0,0,0.5); }
         @keyframes slideInText { 0% { opacity: 0; transform: translate(-50%, -300px); filter: blur(10px); } 100% { opacity: 1; transform: translate(-50%, -50%); filter: blur(0px); } }
@@ -133,7 +209,6 @@
         .hud-reveal .typewriter-char { opacity: 0; animation: typeLetter 0.01s forwards; display: inline-block; }
         @keyframes typeLetter { to { opacity: 1; } }
 
-        /* ADDED Z-INDEX TO KEEP STARTERS IN FRONT OF BENCH */
         .starter-node { left: var(--final-x); top: var(--final-y); z-index: 20; }
         .bench-node { z-index: 5; width: 150px; height: 200px; }
         .bench-node .player-cutout-wrapper { height: 140px; z-index: 10; }
@@ -145,7 +220,6 @@
         .bench-beam { animation: benchBeamAnim 0.8s ease-out var(--entrance-delay) both; }
         @keyframes benchBeamAnim { 0% { opacity: 0; filter: brightness(3) blur(10px) drop-shadow(0 0 20px var(--team-primary)); transform: translate(-50%, -50%) scale(0.9); } 100% { opacity: 1; filter: brightness(1) blur(0) drop-shadow(0); transform: translate(-50%, -50%) scale(1); } }
 
-        /* UPGRADED BENCH RISE: "Solid Floor" Clip-Path Effect */
         .bench-rise { opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
         .bench-rise .player-photo { animation: benchSolidRise 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) var(--entrance-delay) both; }
         @keyframes benchSolidRise { 
@@ -221,8 +295,7 @@
             100% { left: var(--final-x); top: var(--final-y); opacity: 1; filter: brightness(1); transform: translate(-50%, -50%) scaleY(1); }
         }
 
-        /* REFINED TRAPDOOR: Restored Tunnel Walk, Slower Sink, Subterranean Trail */
-        .anim-trapdoor { animation: trapdoorMove 3s linear var(--entrance-delay) both; }
+        .anim-trapdoor { animation: trapdoorMove 3s cubic-bezier(0.4, 0, 0.2, 1) var(--entrance-delay) both; }
         .anim-trapdoor .player-photo { animation: trapdoorSinkRise 3s linear var(--entrance-delay) both; }
         
         .anim-trapdoor::after { 
@@ -237,26 +310,25 @@
         @keyframes trapdoorMove {
             0% { left: 120%; top: 100%; opacity: 0; transform: translate(-50%, -50%); }
             5% { left: 110%; top: 100%; opacity: 1; transform: translate(-50%, -50%); }
-            15% { left: 90%; top: -12%; opacity: 1; transform: translate(-50%, -50%); }
-            45% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%); } /* Arrived at bench end */
-            60% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%); } /* Held position while sinking */
-            75% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); } /* Tunneled to spot */
-            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); } /* Settle & Rise */
+            25% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%); } 
+            40% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%); } 
+            60% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); } 
+            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); } 
         }
         
         @keyframes trapdoorSinkRise {
-            0%, 45% { clip-path: inset(-50% -50% 0% -50%); transform: translateY(0%); opacity: 1; }
-            60% { clip-path: inset(-50% -50% 100% -50%); transform: translateY(100%); opacity: 1; } /* Sunk */
-            61%, 74% { opacity: 0; transform: translateY(100%); } /* Invisible while moving underground */
-            75% { clip-path: inset(-50% -50% 100% -50%); transform: translateY(100%); opacity: 1; } /* Reappear sunk at final spot */
-            90%, 100% { clip-path: inset(-50% -50% 0% -50%); transform: translateY(0%); opacity: 1; } /* Rise out */
+            0%, 25% { clip-path: inset(-50% -50% 0% -50%); transform: translateY(0%); opacity: 1; }
+            40% { clip-path: inset(-50% -50% 100% -50%); transform: translateY(100%); opacity: 1; } 
+            41%, 59% { opacity: 0; transform: translateY(100%); } 
+            60% { clip-path: inset(-50% -50% 100% -50%); transform: translateY(100%); opacity: 1; } 
+            75%, 100% { clip-path: inset(-50% -50% 0% -50%); transform: translateY(0%); opacity: 1; } 
         }
 
         @keyframes trapdoorTrail {
-            0%, 45% { opacity: 0; transform: translateX(-50%) scale(0.5); }
-            55% { opacity: 1; transform: translateX(-50%) scale(1.5); } /* Glow appears as they sink */
-            75% { opacity: 1; transform: translateX(-50%) scale(1.5); } /* Glow tracks to spot */
-            85%, 100% { opacity: 0; transform: translateX(-50%) scale(0.5); } /* Glow fades as player rises */
+            0%, 25% { opacity: 0; transform: translateX(-50%) scale(0.5); }
+            35% { opacity: 1; transform: translateX(-50%) scale(1.5); } 
+            60% { opacity: 1; transform: translateX(-50%) scale(1.5); } 
+            70%, 100% { opacity: 0; transform: translateX(-50%) scale(0.5); } 
         }
 
         @keyframes fadeIn { to { opacity: 1; } }
@@ -267,11 +339,12 @@
         .anim-shockwave { animation: ringExplode 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
 
         /* ========================================================
-           HEADER ENTRANCE ANIMATIONS
+           HEADER ENTRANCE ANIMATIONS (SHIFTED +3.0s)
            ======================================================== */
-        .anim-header-tag { animation: headerSlideDown 1s ease-out 0.5s forwards; opacity: 0; }
-        .anim-team-name { animation: teamNameZoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s forwards; opacity: 0; }
-        .anim-logo { animation: logoSpinIn 0.8s ease-out 0.5s forwards; opacity: 0; }
+        /* Changed from 0.5s to 3.5s to accommodate iMessage pre-roll */
+        .anim-header-tag { animation: headerSlideDown 1s ease-out 3.5s forwards; opacity: 0; }
+        .anim-team-name { animation: teamNameZoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.5s forwards; opacity: 0; }
+        .anim-logo { animation: logoSpinIn 0.8s ease-out 3.5s forwards; opacity: 0; }
 
         @keyframes headerSlideDown { 0% { opacity: 0; transform: translateY(-40px); } 100% { opacity: 1; transform: translateY(0); } }
         @keyframes teamNameZoom { 0% { opacity: 0; transform: scale(1.8) rotate(-3deg); filter: blur(8px); } 100% { opacity: 1; transform: scale(1) rotate(0deg); filter: blur(0); } }
@@ -304,6 +377,22 @@
     </div>
 
     <div id="capture-area">
+        
+        <div id="hijack-overlay">
+            <div class="hijack-header">
+                <div class="hijack-avatar">👤</div>
+                <span>Unknown Number</span>
+            </div>
+            
+            <div class="msg-bubble msg-left">Who's starting for the <span id="hijack-team-name">team</span> tonight?</div>
+            
+            <div class="typing-indicator">
+                <span></span><span></span><span></span>
+            </div>
+            
+            <div class="msg-bubble msg-right">I'm not sure.</div>
+        </div>
+        
         <div class="arena-glow"></div>
         
         <div id="header">
@@ -634,6 +723,9 @@
             teamNameEl.textContent = teamNameStr; teamNameEl.setAttribute('data-text', teamNameStr);
             teamNameEl.classList.remove('anim-team-name'); void teamNameEl.offsetWidth; teamNameEl.classList.add('anim-team-name');
             
+            // INJECT TEAM NAME INTO iMESSAGE OVERLAY
+            document.getElementById('hijack-team-name').textContent = teamNameStr;
+
             document.getElementById('banner-team-name').textContent = teamNameStr;
 
             document.getElementById('matchup-info').textContent = `${isHome ? 'VS' : '@'} ${oppData ? oppData.name : oppAbbr}  |  ${game.date}`;
@@ -664,7 +756,8 @@
                 const photoHtml = (photoUrl && photoUrl.trim() !== '') ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` : `<div class="fallback-silhouette"></div>`;
                 const benchX = 10 + (index * benchSpacing); 
 
-                let baseDelay = 0.5 + (index * 0.15); 
+                // SHIFTED: Base bench delay starts at +3.5s to wait for the 3s pre-roll hook
+                let baseDelay = 3.5 + (index * 0.15); 
 
                 const html = `
                     <div id="bench-node-${index}" class="player-node bench-node ${benchStyle}" style="left: ${benchX}%; top: -18%; --entrance-delay: ${baseDelay}s;">
@@ -697,10 +790,15 @@
                 }).join('');
 
                 const photoHtml = (photoUrl && photoUrl.trim() !== '') ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` : `<div class="fallback-silhouette"></div>`;
-                const delays = [10.93, 18.15, 26.17, 33.72, 40.87]; const baseDelay = delays[index]; 
+                
+                // SHIFTED: Added +3.0s to every starter delay array to accommodate the 3s pre-roll
+                const delays = [13.93, 21.15, 29.17, 36.72, 43.87]; 
+                const baseDelay = delays[index]; 
                 
                 const randomAnimClass = shuffledAnims[index % shuffledAnims.length];
 
+                // The animation will start 2 seconds before baseDelay, and take 3 seconds total.
+                // It completes exactly at baseDelay + 1.0s.
                 const html = `
                     <div class="player-node starter-node ${randomAnimClass}" style="--final-x: ${coords.x}%; --final-y: ${coords.y}%; --entrance-delay: ${baseDelay - 2.0}s;">
                         <div id="shockwave-${index}" class="shockwave-ring"></div>
@@ -732,7 +830,7 @@
                 }, (baseDelay + 1.0) * 1000);
             });
 
-            // Lights out
+            // SHIFTED: Lights out (+3s)
             setTimeout(() => {
                 if (captureArea) captureArea.classList.add('lights-out-mode');
                 trackingSpotlight = true; currentSpotX = 540; currentSpotY = 960; 
@@ -742,10 +840,12 @@
                 roamSpot3.x = roamSpot3.targetX; roamSpot3.y = roamSpot3.targetY;
                 roamSpot4.x = roamSpot4.targetX; roamSpot4.y = roamSpot4.targetY;
                 renderSpotlights(); roamingInterval = setInterval(moveRoamingLights, 1200); 
-            }, 4110); 
+            }, 7110); 
 
-            setTimeout(() => { spotlightWiden = true; activePlayerIndex = -1; }, 43500);
+            // SHIFTED: Spotlight widen (+3s)
+            setTimeout(() => { spotlightWiden = true; activePlayerIndex = -1; }, 46500);
 
+            // SHIFTED: Bench exit (+3s)
             setTimeout(() => {
                 const benchNodes = document.querySelectorAll('.bench-node');
                 Array.from(benchNodes).forEach((node, idx) => {
@@ -753,12 +853,13 @@
                     const pushDir = idx % 2 === 0 ? 'slideOffLeft' : 'slideOffRight';
                     node.style.animation = `${pushDir} 1.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards`;
                 });
-            }, 44200); 
+            }, 47200); 
 
+            // SHIFTED: Clean up (+3s)
             setTimeout(() => {
                 if (captureArea) captureArea.classList.remove('lights-out-mode');
                 trackingSpotlight = false; if (roamingInterval) clearInterval(roamingInterval); 
-            }, 44500); 
+            }, 47500); 
         }
 
         function takeScreenshot() {
