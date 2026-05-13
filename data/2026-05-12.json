@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 12, 10:40 PM ET",
+  "last_updated": "May 12, 10:42 PM ET",
   "player_news": [
     {
       "player_name": "Dylan Harper",
@@ -7,9 +7,9 @@
       "position": "PG",
       "status_badge": "IN",
       "description": "Playing left knee soreness",
-      "time_elapsed": "3.2h",
+      "time_elapsed": "3.3h",
       "next_game": "Tuesday vs MIN",
-      "local_timestamp": 1778640103.9240506
+      "local_timestamp": 1778640219.7331963
     },
     {
       "player_name": "De'Aaron Fox",
@@ -17,9 +17,9 @@
       "position": "PG",
       "status_badge": "IN",
       "description": "Playing left ankle soreness",
-      "time_elapsed": "3.2h",
+      "time_elapsed": "3.3h",
       "next_game": "Tuesday vs MIN",
-      "local_timestamp": 1778640103.9230506
+      "local_timestamp": 1778640219.7321963
     },
     {
       "player_name": "Victor Wembanyama",
@@ -29,7 +29,7 @@
       "description": "Playing",
       "time_elapsed": "1.4d",
       "next_game": "Tuesday vs MIN",
-      "local_timestamp": 1778640103.9100506
+      "local_timestamp": 1778640219.7191963
     }
   ],
   "espn_schedule": {
@@ -347,6 +347,7 @@
                 "type": "team",
                 "order": 0,
                 "homeAway": "home",
+                "winner": true,
                 "team": {
                   "id": "24",
                   "uid": "s:40~l:46~t:24",
@@ -436,12 +437,12 @@
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "49"
+                    "displayValue": "50"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "49.0"
+                    "displayValue": "50.0"
                   },
                   {
                     "name": "assists",
@@ -676,7 +677,7 @@
                     ]
                   }
                 ],
-                "record": "2-2",
+                "record": "3-2",
                 "records": [
                   {
                     "name": "overall",
@@ -702,6 +703,7 @@
                 "type": "team",
                 "order": 1,
                 "homeAway": "away",
+                "winner": false,
                 "team": {
                   "id": "16",
                   "uid": "s:40~l:46~t:16",
@@ -1031,7 +1033,7 @@
                     ]
                   }
                 ],
-                "record": "2-2",
+                "record": "2-3",
                 "records": [
                   {
                     "name": "overall",
@@ -1058,61 +1060,18 @@
                 "headline": "West Semifinals - Game 5"
               }
             ],
-            "situation": {
-              "lastPlay": {
-                "id": "401871156723",
-                "type": {
-                  "id": "91",
-                  "text": "No Shot (Default Shot)"
-                },
-                "text": "Joan Beringer blocks Bismack Biyombo 's 2-foot shot",
-                "scoreValue": 0,
-                "team": {
-                  "id": "24"
-                },
-                "probability": {
-                  "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.999,
-                  "awayWinPercentage": 0.0010000000000000009
-                },
-                "athletesInvolved": [
-                  {
-                    "id": "6427",
-                    "fullName": "Bismack Biyombo",
-                    "displayName": "Bismack Biyombo",
-                    "shortName": "B. Biyombo",
-                    "links": [
-                      {
-                        "rel": [
-                          "playercard",
-                          "desktop",
-                          "athlete"
-                        ],
-                        "href": "https://www.espn.com/nba/player/_/id/6427/bismack-biyombo"
-                      }
-                    ],
-                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/6427.png",
-                    "jersey": "18",
-                    "position": "C",
-                    "team": {
-                      "id": "24"
-                    }
-                  }
-                ]
-              }
-            },
             "status": {
-              "clock": 12.9,
-              "displayClock": "12.9",
+              "clock": 0.0,
+              "displayClock": "0.0",
               "period": 4,
               "type": {
-                "id": "2",
-                "name": "STATUS_IN_PROGRESS",
-                "state": "in",
-                "completed": false,
-                "description": "In Progress",
-                "detail": "12.9 - 4th Quarter",
-                "shortDetail": "12.9 - 4th"
+                "id": "3",
+                "name": "STATUS_FINAL",
+                "state": "post",
+                "completed": true,
+                "description": "Final",
+                "detail": "Final",
+                "shortDetail": "Final"
               }
             },
             "broadcasts": [
@@ -1133,14 +1092,14 @@
             "series": {
               "type": "playoff",
               "title": "Playoff Series",
-              "summary": "Series tied 2-2",
+              "summary": "SA leads series 3-2",
               "completed": false,
               "totalCompetitions": 7,
               "competitors": [
                 {
                   "id": "24",
                   "uid": "s:40~l:46~t:24",
-                  "wins": 2,
+                  "wins": 3,
                   "ties": 0,
                   "href": "http://sports.core.api.espn.pvt/v2/sports/basketball/leagues/nba/seasons/2026/teams/24?lang=en&region=us"
                 },
@@ -1208,11 +1167,11 @@
           {
             "language": "en-US",
             "rel": [
-              "live",
+              "summary",
               "desktop",
               "event"
             ],
-            "href": "https://www.espn.com/nba/game?gameId=401871156",
+            "href": "https://www.espn.com/nba/game/_/gameId/401871156/timberwolves-spurs",
             "text": "Gamecast",
             "shortText": "Gamecast",
             "isExternal": false,
@@ -1234,6 +1193,18 @@
           {
             "language": "en-US",
             "rel": [
+              "highlights",
+              "desktop"
+            ],
+            "href": "https://www.espn.com/nba/video?gameId=401871156",
+            "text": "Highlights",
+            "shortText": "Highlights",
+            "isExternal": false,
+            "isPremium": false
+          },
+          {
+            "language": "en-US",
+            "rel": [
               "pbp",
               "desktop",
               "event"
@@ -1246,17 +1217,17 @@
           }
         ],
         "status": {
-          "clock": 12.9,
-          "displayClock": "12.9",
+          "clock": 0.0,
+          "displayClock": "0.0",
           "period": 4,
           "type": {
-            "id": "2",
-            "name": "STATUS_IN_PROGRESS",
-            "state": "in",
-            "completed": false,
-            "description": "In Progress",
-            "detail": "12.9 - 4th Quarter",
-            "shortDetail": "12.9 - 4th"
+            "id": "3",
+            "name": "STATUS_FINAL",
+            "state": "post",
+            "completed": true,
+            "description": "Final",
+            "detail": "Final",
+            "shortDetail": "Final"
           }
         }
       }
