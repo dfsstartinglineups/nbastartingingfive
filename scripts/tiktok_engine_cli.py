@@ -260,7 +260,7 @@ def create_final_tiktok(silent_video_path, voiceover_path):
     
     try:
         video_clip = VideoFileClip(silent_video_path)
-        voice_clip = AudioFileClip(voiceover_path)
+        voice_clip = AudioFileClip(voiceover_path).set_start(3.0)
         
         audio_layers = [voice_clip]
         crowd_path = "data/crowd_cheer.mp3" 
