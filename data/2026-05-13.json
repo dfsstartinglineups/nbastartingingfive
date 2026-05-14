@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 13, 11:05 PM ET",
+  "last_updated": "May 13, 11:07 PM ET",
   "player_news": [
     {
       "player_name": "Caris LeVert",
@@ -9,7 +9,7 @@
       "description": "Playing right heel contusion",
       "time_elapsed": "3.6h",
       "next_game": "Wednesday vs CLE",
-      "local_timestamp": 1778727951.3232343
+      "local_timestamp": 1778728065.271058
     },
     {
       "player_name": "Kevin Huerter",
@@ -19,7 +19,7 @@
       "description": "Playing left adductor strain",
       "time_elapsed": "3.6h",
       "next_game": "Wednesday vs CLE",
-      "local_timestamp": 1778727951.3222344
+      "local_timestamp": 1778728065.2700582
     },
     {
       "player_name": "Duncan Robinson",
@@ -29,7 +29,7 @@
       "description": "Out low back soreness",
       "time_elapsed": "3.6h",
       "next_game": "Wednesday vs CLE",
-      "local_timestamp": 1778727951.3212342
+      "local_timestamp": 1778728065.269058
     },
     {
       "player_name": "Daniss Jenkins",
@@ -83,7 +83,7 @@
               "full",
               "dark"
             ],
-            "lastUpdated": "2026-05-13T17:09Z"
+            "lastUpdated": "2026-05-13T10:36Z"
           }
         ],
         "calendarType": "day",
@@ -357,6 +357,7 @@
                 "type": "team",
                 "order": 0,
                 "homeAway": "home",
+                "winner": false,
                 "team": {
                   "id": "8",
                   "uid": "s:40~l:46~t:8",
@@ -419,7 +420,7 @@
                   ],
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/det.png"
                 },
-                "score": "111",
+                "score": "113",
                 "linescores": [
                   {
                     "value": 29.0,
@@ -442,8 +443,8 @@
                     "period": 4
                   },
                   {
-                    "value": 8.0,
-                    "displayValue": "8",
+                    "value": 10.0,
+                    "displayValue": "10",
                     "period": 5
                   }
                 ],
@@ -461,22 +462,22 @@
                   {
                     "name": "assists",
                     "abbreviation": "AST",
-                    "displayValue": "27"
+                    "displayValue": "28"
                   },
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "94"
+                    "displayValue": "95"
                   },
                   {
                     "name": "fieldGoalsMade",
                     "abbreviation": "FGM",
-                    "displayValue": "41"
+                    "displayValue": "42"
                   },
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "43.6"
+                    "displayValue": "44.2"
                   },
                   {
                     "name": "freeThrowPct",
@@ -496,7 +497,7 @@
                   {
                     "name": "points",
                     "abbreviation": "PTS",
-                    "displayValue": "111"
+                    "displayValue": "113"
                   },
                   {
                     "name": "threePointPct",
@@ -516,12 +517,12 @@
                   {
                     "name": "avgPoints",
                     "abbreviation": "PTS",
-                    "displayValue": "111.0"
+                    "displayValue": "113.0"
                   },
                   {
                     "name": "avgAssists",
                     "abbreviation": "AST",
-                    "displayValue": "27.0"
+                    "displayValue": "28.0"
                   },
                   {
                     "name": "threePointFieldGoalPct",
@@ -691,7 +692,7 @@
                     ]
                   }
                 ],
-                "record": "2-2",
+                "record": "2-3",
                 "records": [
                   {
                     "name": "overall",
@@ -1051,7 +1052,7 @@
                     ]
                   }
                 ],
-                "record": "2-2",
+                "record": "3-2",
                 "records": [
                   {
                     "name": "overall",
@@ -1078,37 +1079,19 @@
                 "headline": "East Semifinals - Game 5"
               }
             ],
-            "situation": {
-              "lastPlay": {
-                "id": "401871337733",
-                "type": {
-                  "id": "16",
-                  "text": "Full Timeout"
-                },
-                "text": "Pistons Full timeout",
-                "scoreValue": 0,
-                "team": {
-                  "id": "8"
-                },
-                "probability": {
-                  "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.005,
-                  "awayWinPercentage": 0.995
-                }
-              }
-            },
             "status": {
-              "clock": 3.4,
-              "displayClock": "3.4",
+              "clock": 0.0,
+              "displayClock": "0.0",
               "period": 5,
               "type": {
-                "id": "2",
-                "name": "STATUS_IN_PROGRESS",
-                "state": "in",
-                "completed": false,
-                "description": "In Progress",
-                "detail": "3.4 - OT",
-                "shortDetail": "3.4 - OT"
+                "id": "3",
+                "name": "STATUS_FINAL",
+                "state": "post",
+                "completed": true,
+                "description": "Final",
+                "detail": "Final/OT",
+                "shortDetail": "Final/OT",
+                "altDetail": "OT"
               }
             },
             "broadcasts": [
@@ -1128,7 +1111,7 @@
             "series": {
               "type": "playoff",
               "title": "Playoff Series",
-              "summary": "Series tied 2-2",
+              "summary": "CLE leads series 3-2",
               "completed": false,
               "totalCompetitions": 7,
               "competitors": [
@@ -1142,7 +1125,7 @@
                 {
                   "id": "5",
                   "uid": "s:40~l:46~t:5",
-                  "wins": 2,
+                  "wins": 3,
                   "ties": 0,
                   "href": "http://sports.core.api.espn.pvt/v2/sports/basketball/leagues/nba/seasons/2026/teams/5?lang=en&region=us"
                 }
@@ -1190,11 +1173,11 @@
           {
             "language": "en-US",
             "rel": [
-              "live",
+              "summary",
               "desktop",
               "event"
             ],
-            "href": "https://www.espn.com/nba/game?gameId=401871337",
+            "href": "https://www.espn.com/nba/game/_/gameId/401871337/cavaliers-pistons",
             "text": "Gamecast",
             "shortText": "Gamecast",
             "isExternal": false,
@@ -1240,17 +1223,18 @@
           }
         ],
         "status": {
-          "clock": 3.4,
-          "displayClock": "3.4",
+          "clock": 0.0,
+          "displayClock": "0.0",
           "period": 5,
           "type": {
-            "id": "2",
-            "name": "STATUS_IN_PROGRESS",
-            "state": "in",
-            "completed": false,
-            "description": "In Progress",
-            "detail": "3.4 - OT",
-            "shortDetail": "3.4 - OT"
+            "id": "3",
+            "name": "STATUS_FINAL",
+            "state": "post",
+            "completed": true,
+            "description": "Final",
+            "detail": "Final/OT",
+            "shortDetail": "Final/OT",
+            "altDetail": "OT"
           }
         }
       }
