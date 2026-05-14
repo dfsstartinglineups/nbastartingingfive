@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 13, 09:31 PM ET",
+  "last_updated": "May 13, 09:33 PM ET",
   "player_news": [
     {
       "player_name": "Caris LeVert",
@@ -9,7 +9,7 @@
       "description": "Playing right heel contusion",
       "time_elapsed": "2.0h",
       "next_game": "Wednesday vs CLE",
-      "local_timestamp": 1778722312.7889204
+      "local_timestamp": 1778722421.7821026
     },
     {
       "player_name": "Kevin Huerter",
@@ -19,7 +19,7 @@
       "description": "Playing left adductor strain",
       "time_elapsed": "2.0h",
       "next_game": "Wednesday vs CLE",
-      "local_timestamp": 1778722312.7879205
+      "local_timestamp": 1778722421.7811027
     },
     {
       "player_name": "Duncan Robinson",
@@ -29,7 +29,7 @@
       "description": "Out low back soreness",
       "time_elapsed": "2.0h",
       "next_game": "Wednesday vs CLE",
-      "local_timestamp": 1778722312.7869203
+      "local_timestamp": 1778722421.7801025
     },
     {
       "player_name": "Daniss Jenkins",
@@ -430,6 +430,11 @@
                     "value": 31.0,
                     "displayValue": "31",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -451,7 +456,7 @@
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "46"
+                    "displayValue": "45"
                   },
                   {
                     "name": "fieldGoalsMade",
@@ -461,7 +466,7 @@
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "52.2"
+                    "displayValue": "53.3"
                   },
                   {
                     "name": "freeThrowPct",
@@ -775,6 +780,11 @@
                     "value": 25.0,
                     "displayValue": "25",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -796,7 +806,7 @@
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "33"
+                    "displayValue": "34"
                   },
                   {
                     "name": "fieldGoalsMade",
@@ -806,7 +816,7 @@
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "54.5"
+                    "displayValue": "52.9"
                   },
                   {
                     "name": "freeThrowPct",
@@ -1050,32 +1060,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401871337309",
+                "id": "401871337315",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "156",
+                  "text": "Offensive Rebound"
                 },
-                "text": "End of the 2nd Quarter",
+                "text": "Jarrett Allen offensive rebound",
                 "scoreValue": 0,
+                "team": {
+                  "id": "5"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.852,
-                  "awayWinPercentage": 0.14800000000000002
-                }
+                  "homeWinPercentage": 0.845,
+                  "awayWinPercentage": 0.15500000000000003
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "4066328",
+                    "fullName": "Jarrett Allen",
+                    "displayName": "Jarrett Allen",
+                    "shortName": "J. Allen",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/4066328/jarrett-allen"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4066328.png",
+                    "jersey": "31",
+                    "position": "C",
+                    "team": {
+                      "id": "5"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 2,
+              "clock": 692.0,
+              "displayClock": "11:32",
+              "period": 3,
               "type": {
-                "id": "23",
-                "name": "STATUS_HALFTIME",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "Halftime",
-                "detail": "Halftime",
-                "shortDetail": "Halftime"
+                "description": "In Progress",
+                "detail": "11:32 - 3rd Quarter",
+                "shortDetail": "11:32 - 3rd"
               }
             },
             "broadcasts": [
@@ -1207,17 +1244,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 2,
+          "clock": 692.0,
+          "displayClock": "11:32",
+          "period": 3,
           "type": {
-            "id": "23",
-            "name": "STATUS_HALFTIME",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "Halftime",
-            "detail": "Halftime",
-            "shortDetail": "Halftime"
+            "description": "In Progress",
+            "detail": "11:32 - 3rd Quarter",
+            "shortDetail": "11:32 - 3rd"
           }
         }
       }
