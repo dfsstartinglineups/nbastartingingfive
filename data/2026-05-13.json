@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 13, 10:09 PM ET",
+  "last_updated": "May 13, 10:11 PM ET",
   "player_news": [
     {
       "player_name": "Caris LeVert",
@@ -7,9 +7,9 @@
       "position": "SG",
       "status_badge": "IN",
       "description": "Playing right heel contusion",
-      "time_elapsed": "2.6h",
+      "time_elapsed": "2.7h",
       "next_game": "Wednesday vs CLE",
-      "local_timestamp": 1778724590.5296237
+      "local_timestamp": 1778724697.0295303
     },
     {
       "player_name": "Kevin Huerter",
@@ -17,9 +17,9 @@
       "position": "SF",
       "status_badge": "IN",
       "description": "Playing left adductor strain",
-      "time_elapsed": "2.6h",
+      "time_elapsed": "2.7h",
       "next_game": "Wednesday vs CLE",
-      "local_timestamp": 1778724590.5286238
+      "local_timestamp": 1778724697.0285304
     },
     {
       "player_name": "Duncan Robinson",
@@ -27,9 +27,9 @@
       "position": "SG",
       "status_badge": "OUT",
       "description": "Out low back soreness",
-      "time_elapsed": "2.6h",
+      "time_elapsed": "2.7h",
       "next_game": "Wednesday vs CLE",
-      "local_timestamp": 1778724590.5276237
+      "local_timestamp": 1778724697.0275302
     },
     {
       "player_name": "Daniss Jenkins",
@@ -37,7 +37,7 @@
       "position": "PG",
       "status_badge": "S",
       "description": "tarting",
-      "time_elapsed": "2.5h",
+      "time_elapsed": "2.6h",
       "next_game": "Wednesday vs CLE",
       "local_timestamp": 1778715579.6944566
     }
@@ -419,7 +419,7 @@
                   ],
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/det.png"
                 },
-                "score": "80",
+                "score": "83",
                 "linescores": [
                   {
                     "value": 29.0,
@@ -435,6 +435,11 @@
                     "value": 20.0,
                     "displayValue": "20",
                     "period": 3
+                  },
+                  {
+                    "value": 3.0,
+                    "displayValue": "3",
+                    "period": 4
                   }
                 ],
                 "statistics": [
@@ -785,6 +790,11 @@
                     "value": 32.0,
                     "displayValue": "32",
                     "period": 3
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 4
                   }
                 ],
                 "statistics": [
@@ -1060,32 +1070,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401871337483",
+                "id": "401871337487",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "584",
+                  "text": "Substitution"
                 },
-                "text": "End of the 3rd Quarter",
+                "text": "Dean Wade enters the game for Max Strus",
                 "scoreValue": 0,
+                "team": {
+                  "id": "5"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
                   "homeWinPercentage": 0.407,
                   "awayWinPercentage": 0.593
-                }
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "3912848",
+                    "fullName": "Dean Wade",
+                    "displayName": "Dean Wade",
+                    "shortName": "D. Wade",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/3912848/dean-wade"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/3912848.png",
+                    "jersey": "32",
+                    "position": "F",
+                    "team": {
+                      "id": "5"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 3,
+              "clock": 700.0,
+              "displayClock": "11:40",
+              "period": 4,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "End of Period",
-                "detail": "End of 3rd Quarter",
-                "shortDetail": "End of 3rd"
+                "description": "In Progress",
+                "detail": "11:40 - 4th Quarter",
+                "shortDetail": "11:40 - 4th"
               }
             },
             "broadcasts": [
@@ -1217,17 +1254,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 3,
+          "clock": 700.0,
+          "displayClock": "11:40",
+          "period": 4,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "End of Period",
-            "detail": "End of 3rd Quarter",
-            "shortDetail": "End of 3rd"
+            "description": "In Progress",
+            "detail": "11:40 - 4th Quarter",
+            "shortDetail": "11:40 - 4th"
           }
         }
       }
