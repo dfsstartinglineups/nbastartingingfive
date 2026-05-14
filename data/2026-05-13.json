@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 13, 10:45 PM ET",
+  "last_updated": "May 13, 10:47 PM ET",
   "player_news": [
     {
       "player_name": "Caris LeVert",
@@ -7,9 +7,9 @@
       "position": "SG",
       "status_badge": "IN",
       "description": "Playing right heel contusion",
-      "time_elapsed": "3.2h",
+      "time_elapsed": "3.3h",
       "next_game": "Wednesday vs CLE",
-      "local_timestamp": 1778726745.453176
+      "local_timestamp": 1778726867.3387463
     },
     {
       "player_name": "Kevin Huerter",
@@ -17,9 +17,9 @@
       "position": "SF",
       "status_badge": "IN",
       "description": "Playing left adductor strain",
-      "time_elapsed": "3.2h",
+      "time_elapsed": "3.3h",
       "next_game": "Wednesday vs CLE",
-      "local_timestamp": 1778726745.452176
+      "local_timestamp": 1778726867.3377464
     },
     {
       "player_name": "Duncan Robinson",
@@ -27,9 +27,9 @@
       "position": "SG",
       "status_badge": "OUT",
       "description": "Out low back soreness",
-      "time_elapsed": "3.2h",
+      "time_elapsed": "3.3h",
       "next_game": "Wednesday vs CLE",
-      "local_timestamp": 1778726745.451176
+      "local_timestamp": 1778726867.3367462
     },
     {
       "player_name": "Daniss Jenkins",
@@ -37,7 +37,7 @@
       "position": "PG",
       "status_badge": "S",
       "description": "tarting",
-      "time_elapsed": "3.1h",
+      "time_elapsed": "3.2h",
       "next_game": "Wednesday vs CLE",
       "local_timestamp": 1778715579.6944566
     }
@@ -440,6 +440,11 @@
                     "value": 23.0,
                     "displayValue": "23",
                     "period": 4
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 5
                   }
                 ],
                 "statistics": [
@@ -795,6 +800,11 @@
                     "value": 19.0,
                     "displayValue": "19",
                     "period": 4
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 5
                   }
                 ],
                 "statistics": [
@@ -1070,32 +1080,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401871337642",
+                "id": "401871337643",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "584",
+                  "text": "Substitution"
                 },
-                "text": "End of the 4th Quarter",
+                "text": "Tobias Harris enters the game for Caris LeVert",
                 "scoreValue": 0,
+                "team": {
+                  "id": "8"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
                   "homeWinPercentage": 0.5,
                   "awayWinPercentage": 0.5
-                }
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "6440",
+                    "fullName": "Tobias Harris",
+                    "displayName": "Tobias Harris",
+                    "shortName": "T. Harris",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/6440/tobias-harris"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/6440.png",
+                    "jersey": "12",
+                    "position": "F",
+                    "team": {
+                      "id": "8"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 4,
+              "clock": 298.0,
+              "displayClock": "4:58",
+              "period": 5,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "End of Period",
-                "detail": "End of 4th Quarter",
-                "shortDetail": "End of 4th"
+                "description": "In Progress",
+                "detail": "4:58 - OT",
+                "shortDetail": "4:58 - OT"
               }
             },
             "broadcasts": [
@@ -1227,17 +1264,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 4,
+          "clock": 298.0,
+          "displayClock": "4:58",
+          "period": 5,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "End of Period",
-            "detail": "End of 4th Quarter",
-            "shortDetail": "End of 4th"
+            "description": "In Progress",
+            "detail": "4:58 - OT",
+            "shortDetail": "4:58 - OT"
           }
         }
       }
