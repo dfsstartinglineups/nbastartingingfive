@@ -341,7 +341,6 @@
         /* ========================================================
            HEADER ENTRANCE ANIMATIONS (SHIFTED +3.0s)
            ======================================================== */
-        /* Changed from 0.5s to 3.5s to accommodate iMessage pre-roll */
         .anim-header-tag { animation: headerSlideDown 1s ease-out 3.5s forwards; opacity: 0; }
         .anim-team-name { animation: teamNameZoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.5s forwards; opacity: 0; }
         .anim-logo { animation: logoSpinIn 0.8s ease-out 3.5s forwards; opacity: 0; }
@@ -384,13 +383,13 @@
                 <span>Unknown Number</span>
             </div>
             
-            <div class="msg-bubble msg-left">Who's starting for the <span id="hijack-team-name">team</span> tonight?</div>
+            <div id="msg-bubble-1" class="msg-bubble msg-left">Who's starting for the <span id="hijack-team-name">team</span> tonight?</div>
             
             <div class="typing-indicator">
                 <span></span><span></span><span></span>
             </div>
             
-            <div class="msg-bubble msg-right">I'm not sure.</div>
+            <div id="msg-bubble-2" class="msg-bubble msg-right">I'm not sure.</div>
         </div>
         
         <div class="arena-glow"></div>
@@ -480,7 +479,6 @@
             { x: 70, y: 78 }  
         ];
 
-        // NEW 2-PHASE STARTER ENTRANCES
         const ENTRANCE_STYLES = [
             "anim-jump-crash", "anim-flips", "anim-strut", 
             "anim-taz", "anim-teleport", "anim-trapdoor"
@@ -675,6 +673,13 @@
             
             const urlParams = new URLSearchParams(window.location.search);
             const botTeam = urlParams.get('team'); const botSide = urlParams.get('side');
+            
+            // --- THE NEW URL RECEIVER FOR iMESSAGE HIJACK ---
+            const customMsg1 = urlParams.get('msg1');
+            const customMsg2 = urlParams.get('msg2');
+            if (customMsg1) { document.getElementById('msg-bubble-1').innerHTML = customMsg1; }
+            if (customMsg2) { document.getElementById('msg-bubble-2').innerHTML = customMsg2; }
+
             if (botTeam !== null) { const foundIndex = allGames.findIndex(g => g.teams.includes(botTeam)); if (foundIndex !== -1) document.getElementById('game-selector').value = foundIndex; }
             if (botSide !== null) document.getElementById('team-selector').value = botSide;
 
@@ -723,8 +728,11 @@
             teamNameEl.textContent = teamNameStr; teamNameEl.setAttribute('data-text', teamNameStr);
             teamNameEl.classList.remove('anim-team-name'); void teamNameEl.offsetWidth; teamNameEl.classList.add('anim-team-name');
             
-            // INJECT TEAM NAME INTO iMESSAGE OVERLAY
-            document.getElementById('hijack-team-name').textContent = teamNameStr;
+            // Only inject the generic team name if no custom message was provided
+            const urlParams = new URLSearchParams(window.location.search);
+            if (!urlParams.get('msg1')) {
+                document.getElementById('hijack-team-name').textContent = teamNameStr;
+            }
 
             document.getElementById('banner-team-name').textContent = teamNameStr;
 
@@ -744,7 +752,6 @@
             const container = document.getElementById('players-container'); container.innerHTML = '';
             const starters = game.rosters[targetAbbr].players.slice(0, 5); const bench = (game.rosters[targetAbbr].bench || []).slice(0, 7);
 
-            // GROUNDED BENCH ENTRANCES
             const BENCH_ENTRANCES = ["bench-beam", "bench-rise", "bench-drop", "bench-saunter"];
             const benchStyle = BENCH_ENTRANCES[Math.floor(Math.random() * BENCH_ENTRANCES.length)];
 
@@ -756,7 +763,6 @@
                 const photoHtml = (photoUrl && photoUrl.trim() !== '') ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` : `<div class="fallback-silhouette"></div>`;
                 const benchX = 10 + (index * benchSpacing); 
 
-                // SHIFTED: Base bench delay starts at +3.5s to wait for the 3s pre-roll hook
                 let baseDelay = 3.5 + (index * 0.15); 
 
                 const html = `
@@ -772,7 +778,6 @@
                 container.insertAdjacentHTML('beforeend', html);
             });
 
-            // RENDER STARTERS
             const tagEl = document.getElementById('starting-tag'); tagEl.textContent = "STARTING 5";
             tagEl.style.color = "var(--text-dark)"; tagEl.style.textShadow = "1px 1px 0px rgba(255,255,255,0.5)";
             tagEl.classList.remove('anim-header-tag'); void tagEl.offsetWidth; tagEl.classList.add('anim-header-tag');
@@ -791,14 +796,11 @@
 
                 const photoHtml = (photoUrl && photoUrl.trim() !== '') ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` : `<div class="fallback-silhouette"></div>`;
                 
-                // SHIFTED: Added +3.0s to every starter delay array to accommodate the 3s pre-roll
                 const delays = [13.93, 21.15, 29.17, 36.72, 43.87]; 
                 const baseDelay = delays[index]; 
                 
                 const randomAnimClass = shuffledAnims[index % shuffledAnims.length];
 
-                // The animation will start 2 seconds before baseDelay, and take 3 seconds total.
-                // It completes exactly at baseDelay + 1.0s.
                 const html = `
                     <div class="player-node starter-node ${randomAnimClass}" style="--final-x: ${coords.x}%; --final-y: ${coords.y}%; --entrance-delay: ${baseDelay - 2.0}s;">
                         <div id="shockwave-${index}" class="shockwave-ring"></div>
@@ -814,10 +816,8 @@
                 `;
                 container.insertAdjacentHTML('beforeend', html);
 
-                // Set spotlight to track them as soon as they spawn at the tunnel (baseDelay - 2.0s)
                 setTimeout(() => { activePlayerIndex = index; }, (baseDelay - 2.0) * 1000);
                 
-                // Trigger the HUD, Highlight, and Quake when they hit their final spot (baseDelay + 1.0s)
                 setTimeout(() => {
                     document.getElementById(`player-wrap-${index}`).classList.add('player-highlight');
                     document.getElementById(`hud-${index}`).classList.add('hud-reveal');
@@ -830,7 +830,6 @@
                 }, (baseDelay + 1.0) * 1000);
             });
 
-            // SHIFTED: Lights out (+3s)
             setTimeout(() => {
                 if (captureArea) captureArea.classList.add('lights-out-mode');
                 trackingSpotlight = true; currentSpotX = 540; currentSpotY = 960; 
@@ -842,10 +841,8 @@
                 renderSpotlights(); roamingInterval = setInterval(moveRoamingLights, 1200); 
             }, 7110); 
 
-            // SHIFTED: Spotlight widen (+3s)
             setTimeout(() => { spotlightWiden = true; activePlayerIndex = -1; }, 46500);
 
-            // SHIFTED: Bench exit (+3s)
             setTimeout(() => {
                 const benchNodes = document.querySelectorAll('.bench-node');
                 Array.from(benchNodes).forEach((node, idx) => {
@@ -855,7 +852,6 @@
                 });
             }, 47200); 
 
-            // SHIFTED: Clean up (+3s)
             setTimeout(() => {
                 if (captureArea) captureArea.classList.remove('lights-out-mode');
                 trackingSpotlight = false; if (roamingInterval) clearInterval(roamingInterval); 
