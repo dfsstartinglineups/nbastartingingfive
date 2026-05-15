@@ -101,9 +101,11 @@ async def record_nba_video():
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         context = await browser.new_context(
-            viewport={'width': 1080, 'height': 1080},
+            # UPDATED: Set viewport to the new TikTok Vertical dimensions
+            viewport={'width': 1080, 'height': 1920},
             record_video_dir=OUTPUT_DIR,
-            record_video_size={"width": 1080, "height": 1080}
+            # UPDATED: Tell Playwright to record a vertical video
+            record_video_size={"width": 1080, "height": 1920}
         )
         page = await context.new_page()
         
@@ -117,8 +119,8 @@ async def record_nba_video():
             }
         """)
         
-        print("⏳ Waiting 46 seconds for CSS animations to finish...")
-        await asyncio.sleep(46)
+        print("⏳ Waiting 50 seconds for CSS animations to finish...")
+        await asyncio.sleep(55)
         
         video_path = await page.video.path()
         await context.close()
@@ -153,7 +155,9 @@ def generate_announcer_audio():
         spoken_pos = SPOKEN_POSITIONS[i] if i < len(SPOKEN_POSITIONS) else "Flex"
         raw_name = player.get('name', 'Unknown')
         
+        
         db_player = get_player_data(raw_name, players_db)
+        raw_name = raw_name.replace("Shead","Shed")
                     
         jersey = db_player.get('jersey', '')
         
@@ -256,7 +260,7 @@ def create_final_tiktok(silent_video_path, voiceover_path):
     
     try:
         video_clip = VideoFileClip(silent_video_path)
-        voice_clip = AudioFileClip(voiceover_path)
+        voice_clip = AudioFileClip(voiceover_path).set_start(3.0)
         
         audio_layers = [voice_clip]
         crowd_path = "data/crowd_cheer.mp3" 
