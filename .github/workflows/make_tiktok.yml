@@ -12,6 +12,14 @@ on:
       date:
         description: 'Target Date (YYYY-MM-DD)'
         required: true
+      msg_1:
+        description: 'Hook Text 1 (Gray Bubble)'
+        required: false
+        default: 'Who is starting tonight?'
+      msg_2:
+        description: 'Hook Text 2 (Blue Bubble)'
+        required: false
+        default: 'I am not sure.'  
 
 # Gives the Action permission to push the video back to your repo
 permissions:
@@ -44,6 +52,8 @@ jobs:
           TARGET_TEAM: ${{ github.event.inputs.team }}
           TARGET_SIDE: ${{ github.event.inputs.side }}
           TARGET_DATE: ${{ github.event.inputs.date }}
+          MSG_1: ${{ github.event.inputs.msg_1 }}
+          MSG_2: ${{ github.event.inputs.msg_2 }}
           # --- NEW EMAIL SECRETS ---
           GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
