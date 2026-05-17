@@ -158,7 +158,7 @@ def generate_announcer_audio():
         print(f"⚠️ Could not load players.json: {e}")
 
     full_name = NBA_NAMES.get(TARGET_TEAM, TARGET_TEAM)
-    script = f"And now... the starting lineup for your... {full_name}! "
+    script = f"And now... the game seven starting lineup for your... {full_name}! "
     
     SPOKEN_POSITIONS = ["Point Guard", "Shooting Guard", "Small Forward", "Power Forward", "Center"]
     
