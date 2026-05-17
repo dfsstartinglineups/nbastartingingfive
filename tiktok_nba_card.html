@@ -111,17 +111,22 @@
         /* --- GAME 7 BURNING FLOOR EFFECT --- */
         #game3-text {
             position: absolute; top: 0%; left: 50%; transform: translate(-50%, -50%);
-            display: flex; gap: 2px;
+            display: flex; 
             /* z-index: 14 puts it perfectly ABOVE the watermark (2) but BELOW the starters (15) */
             z-index: 14; 
             pointer-events: none;
         }
 
         .fire-letter {
-            font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; font-size: 140px;
+            font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; 
+            font-size: 155px; /* Bumped up the size */
+            letter-spacing: -6px; /* Crunches the letters together like a single burn scar */
             text-transform: uppercase;
             opacity: 0;
-            color: #0a0a0a; /* Scorched black to look seared into the wood */
+            color: #0a0a0a; 
+            /* Stretches the text vertically for an imposing, aggressive stance */
+            display: inline-block;
+            transform: scaleY(1.15); 
             animation: 
                 searingDrop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
                 fireFlicker 0.15s ease-in-out infinite alternate;
@@ -132,30 +137,39 @@
         .fire-letter:nth-child(2) { animation-delay: 7.8s, 8.4s; }
         .fire-letter:nth-child(3) { animation-delay: 8.0s, 8.6s; }
         .fire-letter:nth-child(4) { animation-delay: 8.2s, 8.8s; }
-        .fire-letter:nth-child(5) { animation-delay: 8.4s, 9.0s; } /* Space */
+        .fire-letter:nth-child(5) { animation-delay: 8.4s, 9.0s; letter-spacing: 20px; } /* Widen the space between GAME and 7 */
         .fire-letter:nth-child(6) { animation-delay: 8.6s, 9.2s; } /* The 7 */
 
         @keyframes searingDrop {
             0% { 
-                opacity: 0; transform: scale(2.5) translateY(-50px); 
-                color: #fff; /* Starts white hot */
+                opacity: 0; transform: scale(2.5) translateY(-50px) scaleY(1.15); 
+                color: #fff; 
+                -webkit-text-stroke: 5px #fff; /* Starts with a white-hot thick edge */
                 text-shadow: 0 0 50px #fff, 0 -20px 60px #ffea00, 0 -40px 80px #ff4500;
             }
             20% { 
-                opacity: 1; transform: scale(0.9); 
+                opacity: 1; transform: scale(0.9) scaleY(1.15); 
                 color: #fff;
+                -webkit-text-stroke: 4px #ffea00; /* Cools to a yellow edge */
                 text-shadow: 0 0 30px #fff, 0 -10px 40px #ffea00, 0 -20px 60px #ff4500;
             }
             100% { 
-                opacity: 1; transform: scale(1) translateY(0); 
-                color: #0a0a0a; /* Settles into a charred black */
+                opacity: 1; transform: scale(1) translateY(0) scaleY(1.15); 
+                color: #111; /* The center turns to charred black */
+                -webkit-text-stroke: 3px #ff2a00; /* The edges settle into glowing embers */
                 text-shadow: 0 0 5px #ff4500, 0 -10px 15px #ff8c00, 0 -20px 25px #ff0000, 0 -30px 40px rgba(255, 69, 0, 0.5);
             }
         }
 
         @keyframes fireFlicker {
-            0% { text-shadow: 0 0 5px #ff4500, 0 -10px 15px #ff8c00, 0 -20px 25px #ff0000, 0 -30px 40px rgba(255, 69, 0, 0.5); }
-            100% { text-shadow: 0 0 8px #ff4500, 0 -15px 20px #ff8c00, 0 -25px 35px #ff0000, 0 -40px 50px rgba(255, 69, 0, 0.7); }
+            0% { 
+                text-shadow: 0 0 5px #ff4500, 0 -10px 15px #ff8c00, 0 -20px 25px #ff0000, 0 -30px 40px rgba(255, 69, 0, 0.5); 
+                -webkit-text-stroke: 3px #ff2a00; /* Base ember color */
+            }
+            100% { 
+                text-shadow: 0 0 8px #ff4500, 0 -15px 20px #ff8c00, 0 -25px 35px #ff0000, 0 -40px 50px rgba(255, 69, 0, 0.7); 
+                -webkit-text-stroke: 4px #ff5500; /* Embers flare up slightly hotter/brighter */
+            }
         }
 
         /* --- THE BOTTOM BANNER (AD ZONE) --- */
