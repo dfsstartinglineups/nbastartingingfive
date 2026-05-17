@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 17, 01:39 PM ET",
+  "last_updated": "May 17, 01:42 PM ET",
   "player_news": [
     {
       "player_name": "Larry Nance Jr.",
@@ -7,9 +7,9 @@
       "position": "C",
       "status_badge": "OUT",
       "description": "Out illness",
-      "time_elapsed": "26m",
+      "time_elapsed": "29m",
       "next_game": "Sunday @DET",
-      "local_timestamp": 1779039641.7524502
+      "local_timestamp": 1779039816.5493598
     },
     {
       "player_name": "Caris LeVert",
@@ -19,7 +19,7 @@
       "description": "uestionable right heel contusion",
       "time_elapsed": "2.7h",
       "next_game": "Sunday vs CLE",
-      "local_timestamp": 1779039641.74745
+      "local_timestamp": 1779039816.5443597
     },
     {
       "player_name": "Kevin Huerter",
@@ -29,7 +29,7 @@
       "description": "uestionable left adductor strain",
       "time_elapsed": "2.7h",
       "next_game": "Sunday vs CLE",
-      "local_timestamp": 1779039641.7464502
+      "local_timestamp": 1779039816.5433598
     },
     {
       "player_name": "Duncan Robinson",
@@ -39,7 +39,7 @@
       "description": "uestionable low back soreness",
       "time_elapsed": "2.7h",
       "next_game": "Sunday vs CLE",
-      "local_timestamp": 1779039641.7454503
+      "local_timestamp": 1779039816.5423598
     }
   ],
   "espn_schedule": {
@@ -1501,7 +1501,12 @@
     }
   },
   "slates": {
-    "fanduel": [],
+    "fanduel": [
+      {
+        "id": "1FDAE",
+        "name": "CLE @ DET SUN 8:00PM ET"
+      }
+    ],
     "draftkings": [
       {
         "id": "2418D",
@@ -1532,16 +1537,22 @@
           "logo": "https://a.espncdn.com/i/teamlogos/nba/500/cle.png",
           "players": [
             {
-              "pos": "Flex",
+              "pos": "PG/SG",
               "name": "James Harden",
-              "salary": 0,
-              "proj": 0.0,
-              "value": 0.0,
+              "salary": 11800,
+              "proj": 40.9,
+              "value": 3.47,
               "dk_pos": "PG",
               "dk_salary": 8200,
               "dk_proj": 43.1,
               "dk_value": 5.26,
-              "fd_slates": {},
+              "fd_slates": {
+                "1FDAE": {
+                  "salary": 11800,
+                  "proj": 40.9,
+                  "value": 3.47
+                }
+              },
               "dk_slates": {
                 "2418A": {
                   "salary": 9800,
@@ -1554,22 +1565,28 @@
                   "value": 5.26
                 }
               },
-              "fd_positions": "",
+              "fd_positions": "PG/SG",
               "dk_positions": "PG",
               "injury": "",
               "verified": false
             },
             {
-              "pos": "Flex",
+              "pos": "SG/PG",
               "name": "Donovan Mitchell",
-              "salary": 0,
-              "proj": 0.0,
-              "value": 0.0,
+              "salary": 12200,
+              "proj": 42.8,
+              "value": 3.51,
               "dk_pos": "SG",
               "dk_salary": 8500,
               "dk_proj": 44.3,
               "dk_value": 5.21,
-              "fd_slates": {},
+              "fd_slates": {
+                "1FDAE": {
+                  "salary": 12200,
+                  "proj": 42.8,
+                  "value": 3.51
+                }
+              },
               "dk_slates": {
                 "2418A": {
                   "salary": 10400,
@@ -1582,22 +1599,28 @@
                   "value": 5.21
                 }
               },
-              "fd_positions": "",
+              "fd_positions": "SG/PG",
               "dk_positions": "SG",
               "injury": "",
               "verified": false
             },
             {
-              "pos": "Flex",
+              "pos": "PF/SF",
               "name": "Dean Wade",
-              "salary": 0,
-              "proj": 0.0,
-              "value": 0.0,
+              "salary": 1600,
+              "proj": 10.1,
+              "value": 6.33,
               "dk_pos": "SF/PF",
               "dk_salary": 3300,
               "dk_proj": 10.1,
               "dk_value": 3.06,
-              "fd_slates": {},
+              "fd_slates": {
+                "1FDAE": {
+                  "salary": 1600,
+                  "proj": 10.1,
+                  "value": 6.33
+                }
+              },
               "dk_slates": {
                 "2418A": {
                   "salary": 2800,
@@ -1610,22 +1633,28 @@
                   "value": 3.06
                 }
               },
-              "fd_positions": "",
+              "fd_positions": "PF/SF",
               "dk_positions": "SF/PF",
               "injury": "",
               "verified": false
             },
             {
-              "pos": "Flex",
+              "pos": "PF/C",
               "name": "Evan Mobley",
-              "salary": 0,
-              "proj": 0.0,
-              "value": 0.0,
+              "salary": 10800,
+              "proj": 39.6,
+              "value": 3.67,
               "dk_pos": "PF/C",
               "dk_salary": 7600,
               "dk_proj": 39.5,
               "dk_value": 5.2,
-              "fd_slates": {},
+              "fd_slates": {
+                "1FDAE": {
+                  "salary": 10800,
+                  "proj": 39.6,
+                  "value": 3.67
+                }
+              },
               "dk_slates": {
                 "2418A": {
                   "salary": 9000,
@@ -1638,22 +1667,28 @@
                   "value": 5.2
                 }
               },
-              "fd_positions": "",
+              "fd_positions": "PF/C",
               "dk_positions": "PF/C",
               "injury": "",
               "verified": false
             },
             {
-              "pos": "Flex",
+              "pos": "C/PF",
               "name": "Jarrett Allen",
-              "salary": 0,
-              "proj": 0.0,
-              "value": 0.0,
+              "salary": 7600,
+              "proj": 32.1,
+              "value": 4.22,
               "dk_pos": "C",
               "dk_salary": 6000,
               "dk_proj": 32.0,
               "dk_value": 5.34,
-              "fd_slates": {},
+              "fd_slates": {
+                "1FDAE": {
+                  "salary": 7600,
+                  "proj": 32.1,
+                  "value": 4.22
+                }
+              },
               "dk_slates": {
                 "2418A": {
                   "salary": 7800,
@@ -1666,7 +1701,7 @@
                   "value": 5.34
                 }
               },
-              "fd_positions": "",
+              "fd_positions": "C/PF",
               "dk_positions": "C",
               "injury": "",
               "verified": false
@@ -1674,16 +1709,22 @@
           ],
           "bench": [
             {
-              "pos": "Flex",
+              "pos": "SG/SF",
               "name": "Max Strus",
-              "salary": 0,
-              "proj": 0.0,
-              "value": 0.0,
+              "salary": 3200,
+              "proj": 21.5,
+              "value": 6.73,
               "dk_pos": "SG/SF",
               "dk_salary": 4900,
               "dk_proj": 22.7,
               "dk_value": 4.63,
-              "fd_slates": {},
+              "fd_slates": {
+                "1FDAE": {
+                  "salary": 3200,
+                  "proj": 21.5,
+                  "value": 6.73
+                }
+              },
               "dk_slates": {
                 "2418A": {
                   "salary": 5800,
@@ -1696,22 +1737,28 @@
                   "value": 4.63
                 }
               },
-              "fd_positions": "",
+              "fd_positions": "SG/SF",
               "dk_positions": "SG/SF",
               "injury": "",
               "verified": false
             },
             {
-              "pos": "Flex",
+              "pos": "PG/SG",
               "name": "Dennis Schroder",
-              "salary": 0,
-              "proj": 0.0,
-              "value": 0.0,
+              "salary": 1800,
+              "proj": 13.6,
+              "value": 7.57,
               "dk_pos": "PG",
               "dk_salary": 3600,
               "dk_proj": 14.1,
               "dk_value": 3.92,
-              "fd_slates": {},
+              "fd_slates": {
+                "1FDAE": {
+                  "salary": 1800,
+                  "proj": 13.6,
+                  "value": 7.57
+                }
+              },
               "dk_slates": {
                 "2418A": {
                   "salary": 3400,
@@ -1724,22 +1771,28 @@
                   "value": 3.92
                 }
               },
-              "fd_positions": "",
+              "fd_positions": "PG/SG",
               "dk_positions": "PG",
               "injury": "",
               "verified": false
             },
             {
-              "pos": "Flex",
+              "pos": "SF/SG",
               "name": "Sam Merrill",
-              "salary": 0,
-              "proj": 0.0,
-              "value": 0.0,
+              "salary": 2000,
+              "proj": 11.2,
+              "value": 5.62,
               "dk_pos": "SG",
               "dk_salary": 3200,
               "dk_proj": 11.9,
               "dk_value": 3.7,
-              "fd_slates": {},
+              "fd_slates": {
+                "1FDAE": {
+                  "salary": 2000,
+                  "proj": 11.2,
+                  "value": 5.62
+                }
+              },
               "dk_slates": {
                 "2418A": {
                   "salary": 2000,
@@ -1752,7 +1805,7 @@
                   "value": 3.7
                 }
               },
-              "fd_positions": "",
+              "fd_positions": "SF/SG",
               "dk_positions": "SG",
               "injury": "",
               "verified": false
@@ -1763,16 +1816,22 @@
           "logo": "https://a.espncdn.com/i/teamlogos/nba/500/det.png",
           "players": [
             {
-              "pos": "Flex",
+              "pos": "PG",
               "name": "Cade Cunningham",
-              "salary": 0,
-              "proj": 0.0,
-              "value": 0.0,
+              "salary": 15600,
+              "proj": 49.2,
+              "value": 3.15,
               "dk_pos": "PG",
               "dk_salary": 10400,
               "dk_proj": 51.5,
               "dk_value": 4.95,
-              "fd_slates": {},
+              "fd_slates": {
+                "1FDAE": {
+                  "salary": 15600,
+                  "proj": 49.2,
+                  "value": 3.15
+                }
+              },
               "dk_slates": {
                 "2418A": {
                   "salary": 11600,
@@ -1785,22 +1844,28 @@
                   "value": 4.95
                 }
               },
-              "fd_positions": "",
+              "fd_positions": "PG",
               "dk_positions": "PG",
               "injury": "",
               "verified": false
             },
             {
-              "pos": "Flex",
+              "pos": "PG/SG",
               "name": "Daniss Jenkins",
-              "salary": 0,
-              "proj": 0.0,
-              "value": 0.0,
+              "salary": 5200,
+              "proj": 23.6,
+              "value": 4.53,
               "dk_pos": "PG",
               "dk_salary": 5300,
               "dk_proj": 24.0,
               "dk_value": 4.53,
-              "fd_slates": {},
+              "fd_slates": {
+                "1FDAE": {
+                  "salary": 5200,
+                  "proj": 23.6,
+                  "value": 4.53
+                }
+              },
               "dk_slates": {
                 "2418A": {
                   "salary": 6400,
@@ -1813,22 +1878,28 @@
                   "value": 4.53
                 }
               },
-              "fd_positions": "",
+              "fd_positions": "PG/SG",
               "dk_positions": "PG",
               "injury": "",
               "verified": false
             },
             {
-              "pos": "Flex",
+              "pos": "SF/SG",
               "name": "Ausar Thompson",
-              "salary": 0,
-              "proj": 0.0,
-              "value": 0.0,
+              "salary": 9200,
+              "proj": 29.8,
+              "value": 3.23,
               "dk_pos": "SF",
               "dk_salary": 6200,
               "dk_proj": 28.2,
               "dk_value": 4.55,
-              "fd_slates": {},
+              "fd_slates": {
+                "1FDAE": {
+                  "salary": 9200,
+                  "proj": 29.8,
+                  "value": 3.23
+                }
+              },
               "dk_slates": {
                 "2418A": {
                   "salary": 8000,
@@ -1841,22 +1912,28 @@
                   "value": 4.55
                 }
               },
-              "fd_positions": "",
+              "fd_positions": "SF/SG",
               "dk_positions": "SF",
               "injury": "",
               "verified": false
             },
             {
-              "pos": "Flex",
+              "pos": "PF/SF",
               "name": "Tobias Harris",
-              "salary": 0,
-              "proj": 0.0,
-              "value": 0.0,
+              "salary": 10000,
+              "proj": 33.1,
+              "value": 3.31,
               "dk_pos": "PF",
               "dk_salary": 7000,
               "dk_proj": 33.4,
               "dk_value": 4.77,
-              "fd_slates": {},
+              "fd_slates": {
+                "1FDAE": {
+                  "salary": 10000,
+                  "proj": 33.1,
+                  "value": 3.31
+                }
+              },
               "dk_slates": {
                 "2418A": {
                   "salary": 8600,
@@ -1869,22 +1946,28 @@
                   "value": 4.77
                 }
               },
-              "fd_positions": "",
+              "fd_positions": "PF/SF",
               "dk_positions": "PF",
               "injury": "",
               "verified": false
             },
             {
-              "pos": "Flex",
+              "pos": "C",
               "name": "Jalen Duren",
-              "salary": 0,
-              "proj": 0.0,
-              "value": 0.0,
+              "salary": 9600,
+              "proj": 29.9,
+              "value": 3.12,
               "dk_pos": "C",
               "dk_salary": 5600,
               "dk_proj": 30.5,
               "dk_value": 5.44,
-              "fd_slates": {},
+              "fd_slates": {
+                "1FDAE": {
+                  "salary": 9600,
+                  "proj": 29.9,
+                  "value": 3.12
+                }
+              },
               "dk_slates": {
                 "2418A": {
                   "salary": 7400,
@@ -1897,7 +1980,7 @@
                   "value": 5.44
                 }
               },
-              "fd_positions": "",
+              "fd_positions": "C",
               "dk_positions": "C",
               "injury": "",
               "verified": false
@@ -1905,16 +1988,22 @@
           ],
           "bench": [
             {
-              "pos": "Flex",
+              "pos": "SG/SF",
               "name": "Duncan Robinson",
-              "salary": 0,
-              "proj": 0.0,
-              "value": 0.0,
+              "salary": 4600,
+              "proj": 19.9,
+              "value": 4.32,
               "dk_pos": "SG/SF",
               "dk_salary": 4400,
               "dk_proj": 21.2,
               "dk_value": 4.81,
-              "fd_slates": {},
+              "fd_slates": {
+                "1FDAE": {
+                  "salary": 4600,
+                  "proj": 19.9,
+                  "value": 4.32
+                }
+              },
               "dk_slates": {
                 "2418A": {
                   "salary": 5400,
@@ -1927,22 +2016,28 @@
                   "value": 4.81
                 }
               },
-              "fd_positions": "",
+              "fd_positions": "SG/SF",
               "dk_positions": "SG/SF",
               "injury": "Q",
               "verified": false
             },
             {
-              "pos": "Flex",
+              "pos": "C",
               "name": "Paul Reed",
-              "salary": 0,
-              "proj": 0.0,
-              "value": 0.0,
+              "salary": 2800,
+              "proj": 20.4,
+              "value": 7.29,
               "dk_pos": "C",
               "dk_salary": 4300,
               "dk_proj": 19.3,
               "dk_value": 4.5,
-              "fd_slates": {},
+              "fd_slates": {
+                "1FDAE": {
+                  "salary": 2800,
+                  "proj": 20.4,
+                  "value": 7.29
+                }
+              },
               "dk_slates": {
                 "2418A": {
                   "salary": 4800,
@@ -1955,22 +2050,28 @@
                   "value": 4.5
                 }
               },
-              "fd_positions": "",
+              "fd_positions": "C",
               "dk_positions": "C",
               "injury": "",
               "verified": false
             },
             {
-              "pos": "Flex",
+              "pos": "SG/SF",
               "name": "Caris LeVert",
-              "salary": 0,
-              "proj": 0.0,
-              "value": 0.0,
+              "salary": 3800,
+              "proj": 17.5,
+              "value": 4.6,
               "dk_pos": "PG/SG",
               "dk_salary": 4000,
               "dk_proj": 17.7,
               "dk_value": 4.42,
-              "fd_slates": {},
+              "fd_slates": {
+                "1FDAE": {
+                  "salary": 3800,
+                  "proj": 17.5,
+                  "value": 4.6
+                }
+              },
               "dk_slates": {
                 "2418A": {
                   "salary": 4200,
@@ -1983,22 +2084,28 @@
                   "value": 4.42
                 }
               },
-              "fd_positions": "",
+              "fd_positions": "SG/SF",
               "dk_positions": "PG/SG",
               "injury": "Q",
               "verified": false
             },
             {
-              "pos": "Flex",
+              "pos": "PG",
               "name": "Marcus Sasser",
-              "salary": 0,
-              "proj": 0.0,
-              "value": 0.0,
+              "salary": 1600,
+              "proj": 5.7,
+              "value": 3.56,
               "dk_pos": "PG/SG",
               "dk_salary": 3200,
               "dk_proj": 5.9,
               "dk_value": 1.84,
-              "fd_slates": {},
+              "fd_slates": {
+                "1FDAE": {
+                  "salary": 1600,
+                  "proj": 5.7,
+                  "value": 3.56
+                }
+              },
               "dk_slates": {
                 "2418A": {
                   "salary": 1800,
@@ -2011,22 +2118,28 @@
                   "value": 1.84
                 }
               },
-              "fd_positions": "",
+              "fd_positions": "PG",
               "dk_positions": "PG/SG",
               "injury": "",
               "verified": false
             },
             {
-              "pos": "Flex",
+              "pos": "C/PF",
               "name": "Isaiah Stewart",
-              "salary": 0,
-              "proj": 0.0,
-              "value": 0.0,
+              "salary": 1400,
+              "proj": 3.1,
+              "value": 2.23,
               "dk_pos": "PF/C",
               "dk_salary": 3100,
               "dk_proj": 3.1,
               "dk_value": 1.0,
-              "fd_slates": {},
+              "fd_slates": {
+                "1FDAE": {
+                  "salary": 1400,
+                  "proj": 3.1,
+                  "value": 2.23
+                }
+              },
               "dk_slates": {
                 "2418A": {
                   "salary": 1400,
@@ -2039,7 +2152,7 @@
                   "value": 1.0
                 }
               },
-              "fd_positions": "",
+              "fd_positions": "C/PF",
               "dk_positions": "PF/C",
               "injury": "",
               "verified": false
