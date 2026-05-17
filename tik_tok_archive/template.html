@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NBA Starting 5 - Game 2 Transparent Holograms</title>
+    <title>NBA Starting 5 - Game 5 Viral Hijack</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&family=Oswald:wght@500;700&family=Montserrat:ital,wght@0,800;1,900&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@
 
         body { margin: 0; padding: 20px; background-color: #050302; font-family: 'Oswald', sans-serif; display: flex; flex-direction: column; align-items: center; }
         
-        #controls { margin-bottom: 20px; background: #222; padding: 15px 25px; border-radius: 8px; display: flex; gap: 15px; align-items: center; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.8); z-index: 100; }
+        #controls { margin-bottom: 20px; background: #222; padding: 15px 25px; border-radius: 8px; display: flex; gap: 15px; align-items: center; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.8); z-index: 2000; }
         select, button, input { padding: 8px 16px; font-size: 16px; border-radius: 4px; border: 1px solid #555; background: #333; color: white; cursor: pointer; font-family: 'Oswald', sans-serif; }
         button:hover { background: #555; }
 
@@ -29,6 +29,79 @@
             position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; box-shadow: 0 20px 50px rgba(0,0,0,0.9); color: var(--text-dark); border-top: 20px solid var(--team-primary); border-bottom: 20px solid var(--team-primary);
         }
 
+        /* ========================================================
+           NEW: iMESSAGE VIRAL HIJACK OVERLAY
+           ======================================================== */
+        #hijack-overlay {
+            position: absolute; top: 0; left: 0; width: 1080px; height: 1920px;
+            background-color: #000; z-index: 1000;
+            display: flex; flex-direction: column; padding: 60px; box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            animation: hijackGlitch 3.25s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+        
+        .hijack-header {
+            text-align: center; color: #fff; font-size: 36px; font-weight: 600; margin-top: 80px; margin-bottom: 120px;
+            display: flex; flex-direction: column; align-items: center; gap: 15px; letter-spacing: 0px;
+        }
+        
+        .hijack-avatar {
+            width: 110px; height: 110px; background: #333; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; font-size: 55px;
+        }
+        
+        .msg-bubble {
+            max-width: 75%; padding: 35px 45px; border-radius: 40px; font-size: 42px; line-height: 1.35;
+            opacity: 0; margin-bottom: 40px; font-weight: 500; letter-spacing: 0px;
+        }
+        
+        .msg-left {
+            align-self: flex-start; background: #262628; color: #fff; border-bottom-left-radius: 10px;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s forwards;
+        }
+        
+        .msg-right {
+            align-self: flex-end; background: #0b84ff; color: #fff; border-bottom-right-radius: 10px;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.8s forwards;
+        }
+        
+        .typing-indicator {
+            align-self: flex-start; background: #262628; border-radius: 40px; padding: 35px 45px;
+            display: flex; gap: 12px; border-bottom-left-radius: 10px; margin-bottom: 40px;
+            opacity: 0; animation: typeShow 0.8s ease-in-out 1.0s forwards;
+        }
+        
+        .typing-indicator span {
+            width: 20px; height: 20px; background: #888; border-radius: 50%;
+            animation: bounceDots 1.4s infinite ease-in-out both;
+        }
+        
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes popIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        
+        @keyframes typeShow { 
+            0% { opacity: 0; transform: scale(0.9); height: auto; margin-bottom: 40px; } 
+            10% { opacity: 1; transform: scale(1); } 
+            90% { opacity: 1; transform: scale(1); height: auto; margin-bottom: 40px; } 
+            100% { opacity: 0; transform: scale(0.9); height: 0; padding: 0; margin-bottom: 0; overflow: hidden; display: none; } 
+        }
+        
+        @keyframes bounceDots { 0%, 80%, 100% { transform: scale(0.6); opacity: 0.6; } 40% { transform: scale(1); opacity: 1; } }
+
+        @keyframes hijackGlitch {
+            0%, 83% { opacity: 1; transform: skewX(0) scale(1); filter: none; clip-path: inset(0 0 0 0); }
+            85% { transform: skewX(15deg) scale(1.05); filter: invert(1) hue-rotate(90deg) contrast(2); clip-path: inset(10% 0 30% 0); }
+            87% { transform: skewX(-20deg) scale(1.1); filter: invert(0) hue-rotate(0deg) contrast(3); clip-path: inset(40% 0 10% 0); }
+            89% { transform: skewX(25deg) scale(1.02); filter: invert(1) hue-rotate(180deg) saturate(3); clip-path: inset(0 0 50% 0); }
+            91% { transform: skewX(-10deg) scale(1.08); filter: invert(0) hue-rotate(0deg); clip-path: inset(20% 0 60% 0); }
+            93% { opacity: 1; transform: skewX(0) scale(1); filter: none; clip-path: inset(0 0 0 0); }
+            98% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; pointer-events: none; }
+        }
+
+        /* --- REST OF CSS --- */
         @keyframes arenaQuake { 0% { transform: translate(0, 0) scale(1); } 20% { transform: translate(-10px, 10px) scale(1.02); } 40% { transform: translate(10px, -10px) scale(1.02); } 60% { transform: translate(-10px, -5px) scale(1.02); } 80% { transform: translate(10px, 5px) scale(1.02); } 100% { transform: translate(0, 0) scale(1); } }
         .quake-active { animation: arenaQuake 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97); }
 
@@ -55,16 +128,19 @@
         /* --- WATERMARKS & CENTER TEXT --- */
         .broadcast-watermark { position: absolute; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2; pointer-events: none; opacity: 0; }
         .court-logo { width: 380px; height: 380px; object-fit: contain; filter: drop-shadow(0 0 30px rgba(255, 120, 0, 0.7)) sepia(0.3) hue-rotate(-20deg) saturate(1.5); }
-        .anim-watermark-drop { animation: watermarkDrop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.5s forwards; }
+        
+        /* SHIFTED: Added 3.0s (2.5 -> 5.5s) */
+        .anim-watermark-drop { animation: watermarkDrop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 5.5s forwards; }
         @keyframes watermarkDrop { 0% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); filter: blur(8px); } 100% { opacity: 0.35; transform: translate(-50%, -50%) scale(1); filter: blur(0px); } }
 
-        #game2-text {
+        /* SHIFTED: Added 3.0s (3.4 -> 6.4s) */
+        #game3-text {
             position: absolute; top: 0%; left: 50%; transform: translate(-50%, -50%);
             font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; font-size: 140px;
             color: var(--team-primary); letter-spacing: 5px; text-transform: uppercase;
-            z-index: 18; white-space: nowrap; opacity: 0; animation: slideInText 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; animation-delay: 3.4s; pointer-events: none;
+            z-index: 18; white-space: nowrap; opacity: 0; animation: slideInText 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; animation-delay: 6.4s; pointer-events: none;
         }
-        #game2-text::before { content: attr(data-text); position: absolute; left: 0; top: 0; z-index: -1; -webkit-text-stroke: 12px #fff; text-shadow: 6px 6px 0 var(--team-secondary), 0 15px 25px rgba(0,0,0,0.5); }
+        #game3-text::before { content: attr(data-text); position: absolute; left: 0; top: 0; z-index: -1; -webkit-text-stroke: 12px #fff; text-shadow: 6px 6px 0 var(--team-secondary), 0 15px 25px rgba(0,0,0,0.5); }
         @keyframes slideInText { 0% { opacity: 0; transform: translate(-50%, -300px); filter: blur(10px); } 100% { opacity: 1; transform: translate(-50%, -50%); filter: blur(0px); } }
 
         /* --- THE BOTTOM BANNER (AD ZONE) --- */
@@ -93,7 +169,7 @@
         }
         
         .player-cutout-wrapper {
-            position: relative; 
+            position: relative; z-index: 10;
             width: 100%; height: 280px; 
             display: flex; justify-content: center; align-items: flex-end; 
             transition: transform 0.4s ease;
@@ -115,124 +191,147 @@
         .hud-reveal { opacity: 1; }
 
         .hud-pos, .hud-num {
-            position: absolute; 
-            bottom: 190px; 
+            position: absolute; bottom: 190px; 
             font-family: 'Teko', sans-serif; font-size: 36px; font-weight: bold; color: var(--text-dark);
             background: #fff; padding: 2px 14px; border-radius: 6px; border: 4px solid var(--team-secondary);
             line-height: 1.1; box-shadow: 3px 3px 0 var(--team-primary);
         }
-        .hud-pos { left: 20px; } 
-        .hud-num { right: 20px; } 
+        .hud-pos { left: 20px; } .hud-num { right: 20px; } 
 
         .hud-name {
-            position: absolute; bottom: -15px; 
-            left: 50%; transform: translateX(-50%);
+            position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%);
             font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 26px; color: #fff;
             text-align: center; white-space: nowrap; text-transform: uppercase;
             background: var(--team-primary); padding: 8px 24px; border-radius: 8px; border: 3px solid #fff;
             box-shadow: 0 10px 20px rgba(0,0,0,0.6), 4px 4px 0 var(--team-secondary);
         }
+        
+        .hud-reveal .typewriter-char { opacity: 0; animation: typeLetter 0.01s forwards; display: inline-block; }
+        @keyframes typeLetter { to { opacity: 1; } }
 
-        .bench-node { 
-            z-index: 5; 
-            width: 150px; height: 200px; 
-            animation: benchDropIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) var(--entrance-delay) both;
-        }
-        .bench-node .player-cutout-wrapper { height: 140px; }
+        .starter-node { left: var(--final-x); top: var(--final-y); z-index: 20; }
+        .bench-node { z-index: 5; width: 150px; height: 200px; }
+        .bench-node .player-cutout-wrapper { height: 140px; z-index: 10; }
         .bench-node .hud-name { font-size: 16px; padding: 4px 16px; bottom: -10px; }
 
         /* ========================================================
-           THE 10-PLAY RANDOMIZED ENTRANCE ANIMATIONS 
+           OFFICIAL GROUNDED BENCH ENTRANCES
            ======================================================== */
+        .bench-beam { animation: benchBeamAnim 0.8s ease-out var(--entrance-delay) both; }
+        @keyframes benchBeamAnim { 0% { opacity: 0; filter: brightness(3) blur(10px) drop-shadow(0 0 20px var(--team-primary)); transform: translate(-50%, -50%) scale(0.9); } 100% { opacity: 1; filter: brightness(1) blur(0) drop-shadow(0); transform: translate(-50%, -50%) scale(1); } }
+
+        .bench-rise { opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
+        .bench-rise .player-photo { animation: benchSolidRise 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) var(--entrance-delay) both; }
+        @keyframes benchSolidRise { 
+            0% { clip-path: inset(-50% -50% 100% -50%); transform: translateY(100%); } 
+            100% { clip-path: inset(-50% -50% 0% -50%); transform: translateY(0%); } 
+        }
+
+        .bench-drop { animation: benchDropAnim 1.2s cubic-bezier(0.25, 1, 0.5, 1) var(--entrance-delay) both; }
+        @keyframes benchDropAnim { 0% { opacity: 0; transform: translate(-50%, -500px); } 100% { opacity: 1; transform: translate(-50%, -50%); } }
+
+        .bench-saunter { animation: benchSaunterAnim 1.5s ease-out var(--entrance-delay) both; }
+        @keyframes benchSaunterAnim { 0% { opacity: 0; transform: translate(500px, -50%); } 100% { opacity: 1; transform: translate(-50%, -50%); } }
+
+        /* ========================================================
+           THE 2-PHASE STARTER JOURNEY (Tunnel Walk -> Signature Move)
+           ======================================================== */
+
+        .anim-jump-crash { animation: jumpCrash 3s var(--entrance-delay) both; }
+        @keyframes jumpCrash {
+            0% { left: 120%; top: 100%; opacity: 0; transform: translate(-50%, -50%) scale(1); }
+            5% { left: 110%; top: 100%; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            15% { left: 90%; top: -12%; opacity: 1; transform: translate(-50%, -50%) scale(1); animation-timing-function: linear; }
+            45% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%) scale(1); animation-timing-function: ease-in-out; }
+            50% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -40%) scale(1); animation-timing-function: cubic-bezier(0.1, 0.8, 0.3, 1); } 
+            60% { left: 10%; top: -50%; opacity: 0; transform: translate(-50%, -50%) scale(6); } 
+            65% { left: var(--final-x); top: -100%; opacity: 0; transform: translate(-50%, -50%) scale(3); animation-timing-function: cubic-bezier(0.5, 0, 1, 1); } 
+            80% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) scale(1); } 
+            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .anim-flips { animation: flipsMove 3s ease-in-out var(--entrance-delay) both; }
+        @keyframes flipsMove {
+            0% { left: 120%; top: 100%; opacity: 0; transform: translate(-50%, -50%) rotate(0deg); }
+            5% { left: 110%; top: 100%; opacity: 1; transform: translate(-50%, -50%) rotate(0deg); }
+            15% { left: 90%; top: -12%; opacity: 1; transform: translate(-50%, -50%) rotate(0deg); }
+            45% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%) rotate(0deg); }
+            50% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -40%) rotate(0deg); }
+            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) rotate(-720deg); }
+        }
+
+        .anim-strut { animation: strutMove 3s ease-in-out var(--entrance-delay) both; }
+        @keyframes strutMove {
+            0% { left: 120%; top: 100%; opacity: 0; transform: translate(-50%, -50%) scale(1); }
+            5% { left: 110%; top: 100%; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            15% { left: 90%; top: -12%; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            45% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            50% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .anim-taz { animation: tazMove 3s ease-in-out var(--entrance-delay) both; }
+        @keyframes tazMove {
+            0% { left: 120%; top: 100%; opacity: 0; transform: translate(-50%, -50%) rotateY(0deg); filter: blur(0); }
+            5% { left: 110%; top: 100%; opacity: 1; transform: translate(-50%, -50%) rotateY(0deg); filter: blur(0); }
+            15% { left: 90%; top: -12%; opacity: 1; transform: translate(-50%, -50%) rotateY(0deg); filter: blur(0); }
+            45% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%) rotateY(0deg); filter: blur(0); }
+            50% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%) rotateY(0deg); filter: blur(0); }
+            55% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%) rotateY(3600deg); filter: blur(8px); }
+            95% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) rotateY(7200deg); filter: blur(8px); }
+            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) rotateY(7200deg); filter: blur(0); }
+        }
+
+        .anim-teleport { animation: teleportMove 3s ease-in-out var(--entrance-delay) both; }
+        @keyframes teleportMove {
+            0% { left: 120%; top: 100%; opacity: 0; transform: translate(-50%, -50%) scaleY(1); }
+            5% { left: 110%; top: 100%; opacity: 1; filter: brightness(1); transform: translate(-50%, -50%) scaleY(1); }
+            15% { left: 90%; top: -12%; opacity: 1; filter: brightness(1); transform: translate(-50%, -50%) scaleY(1); }
+            45% { left: 10%; top: -12%; opacity: 1; filter: brightness(1); transform: translate(-50%, -50%) scaleY(1); }
+            50% { left: 10%; top: -12%; opacity: 1; filter: brightness(3); transform: translate(-50%, -50%) scaleY(2); } 
+            55% { left: 10%; top: -12%; opacity: 0; filter: brightness(3); transform: translate(-50%, -50%) scaleY(3); }
+            60% { left: var(--final-x); top: var(--final-y); opacity: 0; filter: brightness(3); transform: translate(-50%, -50%) scaleY(3); }
+            80% { left: var(--final-x); top: var(--final-y); opacity: 1; filter: brightness(3); transform: translate(-50%, -50%) scaleY(2); } 
+            100% { left: var(--final-x); top: var(--final-y); opacity: 1; filter: brightness(1); transform: translate(-50%, -50%) scaleY(1); }
+        }
+
+        .anim-trapdoor { animation: trapdoorMove 3s cubic-bezier(0.4, 0, 0.2, 1) var(--entrance-delay) both; }
+        .anim-trapdoor .player-photo { animation: trapdoorSinkRise 3s linear var(--entrance-delay) both; }
         
-        .anim-hero-drop { animation: heroDrop 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) var(--entrance-delay) both; }
-        @keyframes heroDrop { 0% { transform: translate(-50%, -50%) scale(4); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
-
-        .anim-speed-dash { animation: speedDash 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) var(--entrance-delay) both; }
-        @keyframes speedDash { 0% { transform: translate(-500%, -50%) skewX(-30deg); opacity: 0; filter: blur(10px); } 100% { transform: translate(-50%, -50%) skewX(0); opacity: 1; filter: blur(0); } }
-
-        /* 3. UPGRADED R2-D2 Cyber Scan */
-        .anim-cyber-scan { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
-        .anim-cyber-scan .player-photo { animation: r2d2Flicker 1.2s linear var(--entrance-delay) both; }
-        /* The Blue R2D2 Hologram Overlay */
-        .anim-cyber-scan .player-cutout-wrapper::before {
-            content: ''; position: absolute; top: 0; left: -10%; width: 120%; height: 100%;
-            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 255, 0.2) 2px, rgba(0, 255, 255, 0.2) 4px), rgba(0, 100, 255, 0.3);
-            backdrop-filter: grayscale(1) sepia(1) hue-rotate(180deg) brightness(1.5);
-            z-index: 20; transform-origin: bottom;
-            animation: holoWipe 1.2s linear var(--entrance-delay) both;
-        }
-        /* The Green Laser */
-        .anim-cyber-scan .player-cutout-wrapper::after {
-            content: ''; position: absolute; top: 0; left: -20%; width: 140%; height: 6px;
-            background: #0f0; box-shadow: 0 0 15px #0f0, 0 0 30px #0f0;
-            animation: scanLineDown 1.2s linear var(--entrance-delay) both; z-index: 25;
-        }
-        @keyframes holoWipe { 0% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); } 100% { clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%); } }
-        @keyframes scanLineDown { 0% { top: 0%; opacity: 1; } 95% { top: 100%; opacity: 1; } 100% { top: 100%; opacity: 0; display: none; } }
-        @keyframes r2d2Flicker { 0%, 20%, 40% { filter: drop-shadow(0 0 10px cyan); opacity: 0.8; transform: translateX(-2px); } 10%, 30% { filter: drop-shadow(0 0 20px blue); opacity: 1; transform: translateX(2px); } 50%, 100% { filter: drop-shadow(0 20px 15px rgba(0,0,0,0.7)); opacity: 1; transform: translateX(0); } }
-
-        .anim-silhouette { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
-        .anim-silhouette .player-photo { animation: silRise 1.2s ease-out var(--entrance-delay) both; }
-        @keyframes silRise { 0% { filter: brightness(0) drop-shadow(0 0 0 transparent); transform: translateY(30px); } 100% { filter: brightness(1) drop-shadow(0 20px 15px rgba(0,0,0,0.6)); transform: translateY(0); } }
-
-        .anim-arcade-spin { animation: arcadeSpin 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) var(--entrance-delay) both; }
-        @keyframes arcadeSpin { 0% { transform: translate(-50%, -50%) rotateY(1080deg) scale(2); opacity: 0; } 100% { transform: translate(-50%, -50%) rotateY(0deg) scale(1); opacity: 1; } }
-
-        .anim-rift { animation: riftPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) var(--entrance-delay) both; }
-        .anim-rift::after { content: ''; position: absolute; top: 50%; left: 50%; width: 300px; height: 400px; background: radial-gradient(circle, #0ff 0%, transparent 60%); transform: translate(-50%, -50%); mix-blend-mode: screen; animation: riftFlash 0.8s ease-out var(--entrance-delay) both; z-index:-1; }
-        @keyframes riftPop { 0% { transform: translate(-50%, -50%) scale(0.3); filter: grayscale(1) contrast(3) blur(10px); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); filter: grayscale(0) contrast(1) blur(0); opacity: 1; } }
-        @keyframes riftFlash { 0% { transform: translate(-50%, -50%) scale(0); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(2); opacity: 0; display: none; } }
-
-        .anim-taz-spin { animation: tazSpin 1s cubic-bezier(0.1, 0.8, 0.3, 1) var(--entrance-delay) both; }
-        .anim-taz-spin::before { content: ''; position: absolute; bottom: 30px; left: 50%; width: 200px; height: 50px; background: radial-gradient(ellipse, rgba(200,200,200,0.8), transparent 70%); filter: blur(4px); animation: dustCloud 1s ease-out var(--entrance-delay) both; z-index: 25; }
-        @keyframes tazSpin { 0% { transform: translate(300%, -200%) rotateY(3600deg); filter: blur(6px); opacity: 0; } 10% { opacity: 1; } 100% { transform: translate(-50%, -50%) rotateY(0deg); filter: blur(0); opacity: 1; } }
-        @keyframes dustCloud { 0% { transform: translateX(-50%) scale(0.2); opacity: 1; } 80% { transform: translateX(-50%) scale(1.5); opacity: 0.8; } 100% { transform: translateX(-50%) scale(2.5); opacity: 0; display: none; } }
-
-        .anim-zipline { animation: zipline 1s cubic-bezier(0.1, 0.8, 0.3, 1) var(--entrance-delay) both; }
-        .anim-zipline::after { content:''; position: absolute; top: -1500px; left: 50%; width: 2px; height: 1500px; background: #fff; transform-origin: bottom center; transform: rotate(-25deg); animation: cableSnap 1s var(--entrance-delay) both; z-index: -1; }
-        @keyframes zipline { 0% { transform: translate(-200%, -500%) rotateZ(-15deg); opacity: 0; } 10% { opacity: 1; } 80% { transform: translate(-45%, -45%) rotateZ(5deg); } 100% { transform: translate(-50%, -50%) rotateZ(0deg); opacity: 1; } }
-        @keyframes cableSnap { 0% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; display: none; } }
-
-        /* 9. UPGRADED Ice Breaker (3D Block + Real Fire) */
-        .anim-ice-breaker { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
-        .anim-ice-breaker .player-photo { animation: iceMelt 1.5s ease-in var(--entrance-delay) both; }
-        .anim-ice-breaker .player-cutout-wrapper::after { 
+        .anim-trapdoor::after { 
             content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-            width: 260px; height: 320px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(150,220,255,0.2) 50%, rgba(255,255,255,0.1) 100%);
-            border: 3px solid rgba(255,255,255,0.6); border-radius: 5px;
-            box-shadow: inset 0 0 20px rgba(255,255,255,0.8), 0 10px 30px rgba(0,255,255,0.3);
-            backdrop-filter: blur(4px) contrast(1.2); transform-origin: bottom; 
-            animation: blockMelt 1.5s ease-in var(--entrance-delay) both; z-index: 25;
-            clip-path: polygon(10% 0, 90% 0, 100% 10%, 100% 100%, 0 100%, 0 10%);
+            width: 150px; height: 50px; border-radius: 50%;
+            background: radial-gradient(ellipse, var(--team-primary), transparent 70%);
+            box-shadow: 0 0 20px var(--team-primary), 0 0 40px var(--team-secondary);
+            filter: blur(4px); opacity: 0; z-index: -1;
+            animation: trapdoorTrail 3s linear var(--entrance-delay) both;
         }
-        .anim-ice-breaker .player-cutout-wrapper::before { 
-            content:''; position:absolute; bottom: -20px; left:50%; transform:translateX(-50%);
-            width: 80px; height: 80px; background: #ffea00;
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; filter: blur(8px);
-            box-shadow: 0 -20px 20px 10px #ff4500, 0 -40px 30px 15px #b22222;
-            animation: fireBurn 1.5s var(--entrance-delay) both, flicker 0.1s infinite alternate; z-index:26; 
-        }
-        @keyframes iceMelt { 0% { filter: sepia(1) hue-rotate(180deg) saturate(3) brightness(1.5); } 100% { filter: sepia(0) hue-rotate(0) saturate(1) brightness(1) drop-shadow(0 20px 15px rgba(0,0,0,0.7)); } }
-        @keyframes blockMelt { 0% { transform: translateX(-50%) scaleY(1); opacity: 1; } 80% { transform: translateX(-50%) scaleY(0.2); opacity: 0.8; } 100% { transform: translateX(-50%) scaleY(0); opacity: 0; display:none; } }
-        @keyframes fireBurn { 0% { opacity:0; bottom:-50px;} 20% { opacity:1; bottom:-20px;} 90% { opacity:1; bottom:-20px;} 100% { opacity:0; bottom:-50px; display:none;} }
-        @keyframes flicker { 0% { transform: translateX(-50%) scale(1) skewX(2deg); } 100% { transform: translateX(-50%) scale(1.1) skewX(-2deg); } }
 
-        /* 10. NEW Star Trek Beam-In */
-        .anim-beam-in { transform: translate(-50%, -50%); opacity: 0; animation: fadeIn 0.1s var(--entrance-delay) both; }
-        .anim-beam-in .player-photo { animation: beamPixelate 1.5s ease-out var(--entrance-delay) both; }
-        .anim-beam-in::before { 
-            content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-            width: 160px; height: 2000px; 
-            background: linear-gradient(to bottom, rgba(0, 150, 255, 0) 0%, rgba(0, 150, 255, 0.8) 80%, rgba(0, 255, 255, 0.9) 100%);
-            filter: blur(8px); animation: beamDrop 1.5s ease-in-out var(--entrance-delay) both; z-index: 25; pointer-events: none;
+        @keyframes trapdoorMove {
+            0% { left: 120%; top: 100%; opacity: 0; transform: translate(-50%, -50%); }
+            5% { left: 110%; top: 100%; opacity: 1; transform: translate(-50%, -50%); }
+            25% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%); } 
+            40% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%); } 
+            60% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); } 
+            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%); } 
         }
-        @keyframes beamPixelate { 0% { filter: brightness(3) blur(20px) contrast(5) hue-rotate(180deg); opacity: 0; transform: scaleY(2); } 50% { filter: brightness(2) blur(10px) contrast(3) hue-rotate(90deg); opacity: 0.8; transform: scaleY(1.2); } 80% { filter: brightness(1.2) blur(2px) contrast(1.1) hue-rotate(0deg); opacity: 1; transform: scaleY(1); } 100% { filter: brightness(1) blur(0px) contrast(1); opacity: 1; transform: scaleY(1); } }
-        @keyframes beamDrop { 0% { opacity: 0; transform: translateX(-50%) scaleY(0); transform-origin: top; } 10% { opacity: 1; transform: translateX(-50%) scaleY(1); } 80% { opacity: 1; transform: translateX(-50%) scaleY(1) scaleX(1); filter: blur(8px); } 100% { opacity: 0; transform: translateX(-50%) scaleY(1) scaleX(0); filter: blur(2px); } }
+        
+        @keyframes trapdoorSinkRise {
+            0%, 25% { clip-path: inset(-50% -50% 0% -50%); transform: translateY(0%); opacity: 1; }
+            40% { clip-path: inset(-50% -50% 100% -50%); transform: translateY(100%); opacity: 1; } 
+            41%, 59% { opacity: 0; transform: translateY(100%); } 
+            60% { clip-path: inset(-50% -50% 100% -50%); transform: translateY(100%); opacity: 1; } 
+            75%, 100% { clip-path: inset(-50% -50% 0% -50%); transform: translateY(0%); opacity: 1; } 
+        }
+
+        @keyframes trapdoorTrail {
+            0%, 25% { opacity: 0; transform: translateX(-50%) scale(0.5); }
+            35% { opacity: 1; transform: translateX(-50%) scale(1.5); } 
+            60% { opacity: 1; transform: translateX(-50%) scale(1.5); } 
+            70%, 100% { opacity: 0; transform: translateX(-50%) scale(0.5); } 
+        }
 
         @keyframes fadeIn { to { opacity: 1; } }
-        @keyframes benchDropIn { 0% { transform: translate(-50%, -400px); opacity: 0; } 100% { transform: translate(-50%, -50%); opacity: 1; } }
 
         /* --- SHOCKWAVE RING --- */
         .shockwave-ring { position: absolute; top: 80%; left: 50%; width: 200px; height: 200px; border-radius: 50%; border: 12px solid var(--team-primary); transform: translate(-50%, -50%) scale(0.5); opacity: 0; z-index: 11; pointer-events: none; }
@@ -240,11 +339,11 @@
         .anim-shockwave { animation: ringExplode 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
 
         /* ========================================================
-           HEADER ENTRANCE ANIMATIONS
+           HEADER ENTRANCE ANIMATIONS (SHIFTED +3.0s)
            ======================================================== */
-        .anim-header-tag { animation: headerSlideDown 1s ease-out 0.5s forwards; opacity: 0; }
-        .anim-team-name { animation: teamNameZoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s forwards; opacity: 0; }
-        .anim-logo { animation: logoSpinIn 0.8s ease-out 0.5s forwards; opacity: 0; }
+        .anim-header-tag { animation: headerSlideDown 1s ease-out 3.5s forwards; opacity: 0; }
+        .anim-team-name { animation: teamNameZoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.5s forwards; opacity: 0; }
+        .anim-logo { animation: logoSpinIn 0.8s ease-out 3.5s forwards; opacity: 0; }
 
         @keyframes headerSlideDown { 0% { opacity: 0; transform: translateY(-40px); } 100% { opacity: 1; transform: translateY(0); } }
         @keyframes teamNameZoom { 0% { opacity: 0; transform: scale(1.8) rotate(-3deg); filter: blur(8px); } 100% { opacity: 1; transform: scale(1) rotate(0deg); filter: blur(0); } }
@@ -277,6 +376,22 @@
     </div>
 
     <div id="capture-area">
+        
+        <div id="hijack-overlay">
+            <div class="hijack-header">
+                <div class="hijack-avatar">👤</div>
+                <span>Unknown Number</span>
+            </div>
+            
+            <div id="msg-bubble-1" class="msg-bubble msg-left">Who's starting for the <span id="hijack-team-name">team</span> tonight?</div>
+            
+            <div class="typing-indicator">
+                <span></span><span></span><span></span>
+            </div>
+            
+            <div id="msg-bubble-2" class="msg-bubble msg-right">I'm not sure.</div>
+        </div>
+        
         <div class="arena-glow"></div>
         
         <div id="header">
@@ -306,7 +421,7 @@
                     <img class="court-logo" src="" alt="">
                 </div>
                 
-                <div id="game2-text" class="neon-game-text" data-text="GAME 2">GAME 2</div>
+                <div id="game3-text" class="neon-game-text" data-text="GAME 6">GAME 6</div>
 
                 <div id="players-container"></div>
             </div>
@@ -356,20 +471,17 @@
 
         const POSITIONS = ["PG", "SG", "SF", "PF", "C"];
         
-        // --- SPREAD COURT MAPPING FOR 1250px VERTICAL COURT ---
         const COURT_COORDS = [
-            { x: 50, y: 18 }, // PG adjusted up from 25% to 18% 
+            { x: 50, y: 18 }, 
             { x: 20, y: 48 }, 
             { x: 80, y: 48 }, 
             { x: 30, y: 78 }, 
             { x: 70, y: 78 }  
         ];
 
-        // --- THE 10-PLAY RANDOMIZED ENTRANCE ENGINE ---
         const ENTRANCE_STYLES = [
-            "anim-hero-drop", "anim-speed-dash", "anim-cyber-scan",
-            "anim-silhouette", "anim-arcade-spin", "anim-rift",
-            "anim-taz-spin", "anim-zipline", "anim-ice-breaker", "anim-beam-in"
+            "anim-jump-crash", "anim-flips", "anim-strut", 
+            "anim-taz", "anim-teleport", "anim-trapdoor"
         ];
 
         let allGames = [];
@@ -380,7 +492,6 @@
         let spotlightWiden = false; 
         let roamingInterval;
         
-        // 4 Fast Spotlights!
         let currentSpotX = 540; let currentSpotY = 960;
         let currentInnerR = 90; let currentOuterR = 360;
         
@@ -441,6 +552,7 @@
                 const captureArea = document.getElementById('capture-area').getBoundingClientRect();
                 const photoWrap = target.querySelector('.player-cutout-wrapper');
                 const targetRect = photoWrap.getBoundingClientRect();
+                
                 targetX = (targetRect.left + targetRect.width / 2) - captureArea.left;
                 targetY = (targetRect.top + targetRect.height / 2) - captureArea.top;
             }
@@ -561,6 +673,13 @@
             
             const urlParams = new URLSearchParams(window.location.search);
             const botTeam = urlParams.get('team'); const botSide = urlParams.get('side');
+            
+            // --- THE NEW URL RECEIVER FOR iMESSAGE HIJACK ---
+            const customMsg1 = urlParams.get('msg1');
+            const customMsg2 = urlParams.get('msg2');
+            if (customMsg1) { document.getElementById('msg-bubble-1').innerHTML = customMsg1; }
+            if (customMsg2) { document.getElementById('msg-bubble-2').innerHTML = customMsg2; }
+
             if (botTeam !== null) { const foundIndex = allGames.findIndex(g => g.teams.includes(botTeam)); if (foundIndex !== -1) document.getElementById('game-selector').value = foundIndex; }
             if (botSide !== null) document.getElementById('team-selector').value = botSide;
 
@@ -609,6 +728,12 @@
             teamNameEl.textContent = teamNameStr; teamNameEl.setAttribute('data-text', teamNameStr);
             teamNameEl.classList.remove('anim-team-name'); void teamNameEl.offsetWidth; teamNameEl.classList.add('anim-team-name');
             
+            // Only inject the generic team name if no custom message was provided
+            const urlParams = new URLSearchParams(window.location.search);
+            if (!urlParams.get('msg1')) {
+                document.getElementById('hijack-team-name').textContent = teamNameStr;
+            }
+
             document.getElementById('banner-team-name').textContent = teamNameStr;
 
             document.getElementById('matchup-info').textContent = `${isHome ? 'VS' : '@'} ${oppData ? oppData.name : oppAbbr}  |  ${game.date}`;
@@ -621,24 +746,27 @@
             const watermarks = document.querySelectorAll('.broadcast-watermark');
             watermarks.forEach(wm => { wm.classList.remove('anim-watermark-drop'); void wm.offsetWidth; wm.classList.add('anim-watermark-drop'); });
             
-            const gameText = document.getElementById('game2-text');
+            const gameText = document.getElementById('game3-text');
             if (gameText) { gameText.style.animation = 'none'; void gameText.offsetWidth; gameText.style.animation = ''; }
 
             const container = document.getElementById('players-container'); container.innerHTML = '';
             const starters = game.rosters[targetAbbr].players.slice(0, 5); const bench = (game.rosters[targetAbbr].bench || []).slice(0, 7);
 
-            // RENDER BENCH
+            const BENCH_ENTRANCES = ["bench-beam", "bench-rise", "bench-drop", "bench-saunter"];
+            const benchStyle = BENCH_ENTRANCES[Math.floor(Math.random() * BENCH_ENTRANCES.length)];
+
             const benchSpacing = bench.length > 1 ? 80 / (bench.length - 1) : 0; 
             
             bench.forEach((player, index) => {
                 const dbPlayer = getPlayerData(player.name); const photoUrl = dbPlayer ? dbPlayer.photo : null;
                 const lastName = player.name.split(' ').pop().substring(0, 10); 
-                
                 const photoHtml = (photoUrl && photoUrl.trim() !== '') ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` : `<div class="fallback-silhouette"></div>`;
                 const benchX = 10 + (index * benchSpacing); 
 
+                let baseDelay = 3.5 + (index * 0.15); 
+
                 const html = `
-                    <div id="bench-node-${index}" class="player-node bench-node" style="left: ${benchX}%; top: -18%; --entrance-delay: ${3.5 + index * 0.1}s;">
+                    <div id="bench-node-${index}" class="player-node bench-node ${benchStyle}" style="left: ${benchX}%; top: -18%; --entrance-delay: ${baseDelay}s;">
                         <div class="player-cutout-wrapper">
                             ${photoHtml}
                             <div class="player-hud hud-reveal">
@@ -650,7 +778,6 @@
                 container.insertAdjacentHTML('beforeend', html);
             });
 
-            // RENDER STARTERS
             const tagEl = document.getElementById('starting-tag'); tagEl.textContent = "STARTING 5";
             tagEl.style.color = "var(--text-dark)"; tagEl.style.textShadow = "1px 1px 0px rgba(255,255,255,0.5)";
             tagEl.classList.remove('anim-header-tag'); void tagEl.offsetWidth; tagEl.classList.add('anim-header-tag');
@@ -663,27 +790,33 @@
                 const jerseyNum = dbPlayer && dbPlayer.jersey ? dbPlayer.jersey : "";
                 let displayName = player.name; if (displayName.length > 18) displayName = displayName.substring(0, 16) + '...';
 
+                let spelledNameHtml = displayName.split('').map((char, idx) => {
+                    return `<span class="typewriter-char" style="animation-delay: ${idx * 0.05}s;">${char === ' ' ? '&nbsp;' : char}</span>`;
+                }).join('');
+
                 const photoHtml = (photoUrl && photoUrl.trim() !== '') ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` : `<div class="fallback-silhouette"></div>`;
-                const delays = [10.93, 18.15, 26.17, 33.72, 40.87]; const baseDelay = delays[index]; 
+                
+                const delays = [13.93, 21.15, 29.17, 36.72, 43.87]; 
+                const baseDelay = delays[index]; 
                 
                 const randomAnimClass = shuffledAnims[index % shuffledAnims.length];
 
                 const html = `
-                    <div class="player-node starter-node ${randomAnimClass}" style="left: ${coords.x}%; top: ${coords.y}%; --entrance-delay: ${baseDelay - 1.5}s;">
+                    <div class="player-node starter-node ${randomAnimClass}" style="--final-x: ${coords.x}%; --final-y: ${coords.y}%; --entrance-delay: ${baseDelay - 2.0}s;">
                         <div id="shockwave-${index}" class="shockwave-ring"></div>
                         <div id="player-wrap-${index}" class="player-cutout-wrapper">
                             ${photoHtml}
                             <div id="hud-${index}" class="player-hud">
                                 <div class="hud-pos">${pos}</div>
                                 ${jerseyNum ? `<div class="hud-num">${jerseyNum}</div>` : ''}
-                                <div class="hud-name">${displayName}</div>
+                                <div class="hud-name">${spelledNameHtml}</div>
                             </div>
                         </div>
                     </div>
                 `;
                 container.insertAdjacentHTML('beforeend', html);
 
-                setTimeout(() => { activePlayerIndex = index; }, (baseDelay - 1.5) * 1000);
+                setTimeout(() => { activePlayerIndex = index; }, (baseDelay - 2.0) * 1000);
                 
                 setTimeout(() => {
                     document.getElementById(`player-wrap-${index}`).classList.add('player-highlight');
@@ -694,10 +827,9 @@
                     
                     const shock = document.getElementById(`shockwave-${index}`);
                     if(shock) { shock.classList.remove('anim-shockwave'); void shock.offsetWidth; shock.classList.add('anim-shockwave'); }
-                }, baseDelay * 1000);
+                }, (baseDelay + 1.0) * 1000);
             });
 
-            // Lights out
             setTimeout(() => {
                 if (captureArea) captureArea.classList.add('lights-out-mode');
                 trackingSpotlight = true; currentSpotX = 540; currentSpotY = 960; 
@@ -707,9 +839,9 @@
                 roamSpot3.x = roamSpot3.targetX; roamSpot3.y = roamSpot3.targetY;
                 roamSpot4.x = roamSpot4.targetX; roamSpot4.y = roamSpot4.targetY;
                 renderSpotlights(); roamingInterval = setInterval(moveRoamingLights, 1200); 
-            }, 4110); 
+            }, 7110); 
 
-            setTimeout(() => { spotlightWiden = true; activePlayerIndex = -1; }, 43500);
+            setTimeout(() => { spotlightWiden = true; activePlayerIndex = -1; }, 46500);
 
             setTimeout(() => {
                 const benchNodes = document.querySelectorAll('.bench-node');
@@ -718,12 +850,12 @@
                     const pushDir = idx % 2 === 0 ? 'slideOffLeft' : 'slideOffRight';
                     node.style.animation = `${pushDir} 1.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards`;
                 });
-            }, 44200); 
+            }, 47200); 
 
             setTimeout(() => {
                 if (captureArea) captureArea.classList.remove('lights-out-mode');
                 trackingSpotlight = false; if (roamingInterval) clearInterval(roamingInterval); 
-            }, 44500); 
+            }, 47500); 
         }
 
         function takeScreenshot() {
