@@ -108,27 +108,54 @@
         .anim-watermark-drop { animation: watermarkDrop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 5.5s forwards; }
         @keyframes watermarkDrop { 0% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); filter: blur(8px); } 100% { opacity: 0.35; transform: translate(-50%, -50%) scale(1); filter: blur(0px); } }
 
-        /* --- GAME 7 BURN EFFECT (Fires after lights go out at 7.11s) --- */
+        /* --- GAME 7 BURNING FLOOR EFFECT --- */
         #game3-text {
             position: absolute; top: 0%; left: 50%; transform: translate(-50%, -50%);
+            display: flex; gap: 2px;
+            /* z-index: 14 puts it perfectly ABOVE the watermark (2) but BELOW the starters (15) */
+            z-index: 14; 
+            pointer-events: none;
+        }
+
+        .fire-letter {
             font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; font-size: 140px;
-            color: var(--team-primary); letter-spacing: 5px; text-transform: uppercase;
-            /* Pushed z-index to 25 so it glows OVER the dark arena */
-            z-index: 25; white-space: nowrap; opacity: 0; pointer-events: none;
-            /* Delayed until 7.6s */
-            animation: burnInText 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 7.6s forwards;
+            text-transform: uppercase;
+            opacity: 0;
+            color: #0a0a0a; /* Scorched black to look seared into the wood */
+            animation: 
+                searingDrop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
+                fireFlicker 0.15s ease-in-out infinite alternate;
         }
-        #game3-text::before { 
-            content: attr(data-text); position: absolute; left: 0; top: 0; z-index: -1; 
-            -webkit-text-stroke: 12px #fff; 
-            text-shadow: 6px 6px 0 var(--team-secondary), 0 15px 25px rgba(0,0,0,0.5); 
+
+        /* Stagger the stamp and fire animations by 0.2s per letter */
+        .fire-letter:nth-child(1) { animation-delay: 7.6s, 8.2s; }
+        .fire-letter:nth-child(2) { animation-delay: 7.8s, 8.4s; }
+        .fire-letter:nth-child(3) { animation-delay: 8.0s, 8.6s; }
+        .fire-letter:nth-child(4) { animation-delay: 8.2s, 8.8s; }
+        .fire-letter:nth-child(5) { animation-delay: 8.4s, 9.0s; } /* Space */
+        .fire-letter:nth-child(6) { animation-delay: 8.6s, 9.2s; } /* The 7 */
+
+        @keyframes searingDrop {
+            0% { 
+                opacity: 0; transform: scale(2.5) translateY(-50px); 
+                color: #fff; /* Starts white hot */
+                text-shadow: 0 0 50px #fff, 0 -20px 60px #ffea00, 0 -40px 80px #ff4500;
+            }
+            20% { 
+                opacity: 1; transform: scale(0.9); 
+                color: #fff;
+                text-shadow: 0 0 30px #fff, 0 -10px 40px #ffea00, 0 -20px 60px #ff4500;
+            }
+            100% { 
+                opacity: 1; transform: scale(1) translateY(0); 
+                color: #0a0a0a; /* Settles into a charred black */
+                text-shadow: 0 0 5px #ff4500, 0 -10px 15px #ff8c00, 0 -20px 25px #ff0000, 0 -30px 40px rgba(255, 69, 0, 0.5);
+            }
         }
-        
-        @keyframes burnInText {
-            0% { opacity: 0; transform: translate(-50%, -50%) scale(2); filter: brightness(4) blur(30px) drop-shadow(0 0 100px #ff4500); }
-            15% { opacity: 1; transform: translate(-50%, -50%) scale(0.95); filter: brightness(2) blur(2px) drop-shadow(0 0 50px #ff4500); }
-            30% { transform: translate(-50%, -50%) scale(1.02); filter: brightness(1.5) blur(0px) drop-shadow(0 0 20px var(--team-secondary)); }
-            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: brightness(1) blur(0px); }
+
+        @keyframes fireFlicker {
+            0% { text-shadow: 0 0 5px #ff4500, 0 -10px 15px #ff8c00, 0 -20px 25px #ff0000, 0 -30px 40px rgba(255, 69, 0, 0.5); }
+            100% { text-shadow: 0 0 8px #ff4500, 0 -15px 20px #ff8c00, 0 -25px 35px #ff0000, 0 -40px 50px rgba(255, 69, 0, 0.7); }
         }
 
         /* --- THE BOTTOM BANNER (AD ZONE) --- */
@@ -403,7 +430,14 @@
                     <img class="court-logo" src="" alt="">
                 </div>
                 
-                <div id="game3-text" class="neon-game-text" data-text="GAME 7">GAME 7</div>
+                <div id="game3-text">
+                    <span class="fire-letter">G</span>
+                    <span class="fire-letter">A</span>
+                    <span class="fire-letter">M</span>
+                    <span class="fire-letter">E</span>
+                    <span class="fire-letter" style="width: 30px;">&nbsp;</span>
+                    <span class="fire-letter">7</span>
+                </div>
 
                 <div id="players-container"></div>
             </div>
@@ -716,8 +750,8 @@
             const watermarks = document.querySelectorAll('.broadcast-watermark');
             watermarks.forEach(wm => { wm.classList.remove('anim-watermark-drop'); void wm.offsetWidth; wm.classList.add('anim-watermark-drop'); });
             
-            const gameText = document.getElementById('game3-text');
-            if (gameText) { gameText.style.animation = 'none'; void gameText.offsetWidth; gameText.style.animation = ''; }
+            const fireLetters = document.querySelectorAll('.fire-letter');
+            fireLetters.forEach(letter => { letter.style.animation = 'none'; void letter.offsetWidth; letter.style.animation = ''; });
 
             const container = document.getElementById('players-container'); container.innerHTML = '';
             const starters = game.rosters[targetAbbr].players.slice(0, 5); const bench = (game.rosters[targetAbbr].bench || []).slice(0, 7);
