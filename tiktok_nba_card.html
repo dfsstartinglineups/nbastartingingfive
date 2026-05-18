@@ -741,12 +741,12 @@
             watermarks.forEach(wm => { wm.classList.remove('anim-watermark-drop'); void wm.offsetWidth; wm.classList.add('anim-watermark-drop'); });
             
             // --- STREET FIGHTER VS DATA INJECTION ---
-            // 1. Create a safe copy of the rosters so we don't mess up the PG-C court order
-            const awayRoster = [...game.rosters[awayAbbr].players];
-            const homeRoster = [...game.rosters[homeAbbr].players];
+            // 1. Combine starters and bench into a safe copy so we find the true #1 player
+            const awayRoster = [...game.rosters[awayAbbr].players, ...(game.rosters[awayAbbr].bench || [])];
+            const homeRoster = [...game.rosters[homeAbbr].players, ...(game.rosters[homeAbbr].bench || [])];
 
-            // 2. Defensive sorting: Extracts points even if they are strings or nested in stats
-            const getPts = (p) => parseFloat(p.projected_points || (p.stats && p.stats.projected_points) || 0);
+            // 2. Defensive sorting: Extract the "proj" key from your JSON
+            const getPts = (p) => parseFloat(p.proj || 0);
             awayRoster.sort((a, b) => getPts(b) - getPts(a));
             homeRoster.sort((a, b) => getPts(b) - getPts(a));
 
