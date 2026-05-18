@@ -63,19 +63,27 @@
         #sf-vs {
             position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(5);
             font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; font-size: 160px;
-            color: #fff; -webkit-text-stroke: 4px #ff0000; opacity: 0; z-index: 10;
-            text-shadow: 0 0 50px #ff0000;
+            color: #fff; opacity: 0; z-index: 10;
+            /* 8-Axis Shadow to fix inner triangles */
+            text-shadow: 
+                4px 4px 0 #ff0000, -4px -4px 0 #ff0000, 4px -4px 0 #ff0000, -4px 4px 0 #ff0000, 
+                0 4px 0 #ff0000, 0 -4px 0 #ff0000, 4px 0 0 #ff0000, -4px 0 0 #ff0000,
+                0 0 50px #ff0000;
             animation: slamCenter 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards;
         }
 
         #sf-game1 {
             position: absolute; left: 50%; top: 75%; transform: translate(-50%, -50%) scale(3);
             font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; font-size: 200px;
-            color: #ffea00; -webkit-text-stroke: 5px #ff0000; opacity: 0; z-index: 20;
-            text-shadow: 10px 10px 0 #000, 0 0 80px #ff0000;
+            color: #ffea00; opacity: 0; z-index: 20;
+            white-space: nowrap; /* Forces "GAME 1" to stay on exactly one line */
+            /* 8-Axis Shadow to fix inner triangles */
+            text-shadow: 
+                5px 5px 0 #ff0000, -5px -5px 0 #ff0000, 5px -5px 0 #ff0000, -5px 5px 0 #ff0000, 
+                0 5px 0 #ff0000, 0 -5px 0 #ff0000, 5px 0 0 #ff0000, -5px 0 0 #ff0000,
+                15px 15px 0 #000, 0 0 80px #ff0000;
             animation: slamCenter 0.2s cubic-bezier(0.1, 0.8, 0.3, 1) 2.6s forwards;
         }
-
         @keyframes dropSide {
             0% { opacity: 0; transform: translateY(-100px) scale(1.2); filter: blur(10px); }
             100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
@@ -737,9 +745,10 @@
             const awayRoster = [...game.rosters[awayAbbr].players];
             const homeRoster = [...game.rosters[homeAbbr].players];
 
-            // 2. Sort the copies by projected_points (highest to lowest)
-            awayRoster.sort((a, b) => (b.projected_points || 0) - (a.projected_points || 0));
-            homeRoster.sort((a, b) => (b.projected_points || 0) - (a.projected_points || 0));
+            // 2. Defensive sorting: Extracts points even if they are strings or nested in stats
+            const getPts = (p) => parseFloat(p.projected_points || (p.stats && p.stats.projected_points) || 0);
+            awayRoster.sort((a, b) => getPts(b) - getPts(a));
+            homeRoster.sort((a, b) => getPts(b) - getPts(a));
 
             // 3. Grab the top player from each team
             const topAway = awayRoster[0];
