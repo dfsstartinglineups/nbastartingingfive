@@ -52,13 +52,7 @@
         .sf-img-wrapper { height: 600px; display: flex; align-items: flex-end; }
         .sf-img { max-height: 100%; max-width: 400px; object-fit: contain; filter: drop-shadow(0 20px 20px rgba(0,0,0,0.8)); }
         
-        .sf-name {
-            font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; font-size: 65px;
-            color: #fff; text-transform: uppercase; margin-top: -20px; text-shadow: 4px 4px 0 #000;
-            /* Force the name plate to render ABOVE the player photo */
-            position: relative; 
-            z-index: 10; 
-        }
+        
 
         #sf-away { animation: dropSide 0.3s cubic-bezier(0.1, 0.8, 0.3, 1) 0.5s forwards; }
         #sf-home { animation: dropSide 0.3s cubic-bezier(0.1, 0.8, 0.3, 1) 1.9s forwards; }
@@ -390,12 +384,10 @@
             <div id="sf-container">
                 <div class="sf-player" id="sf-away">
                     <div class="sf-img-wrapper"><img id="vs-away-img" src="" class="sf-img" crossorigin="anonymous"></div>
-                    <div id="vs-away-name" class="sf-name">AWAY</div>
                 </div>
                 <div id="sf-vs">VS</div>
                 <div class="sf-player" id="sf-home">
                     <div class="sf-img-wrapper"><img id="vs-home-img" src="" class="sf-img" crossorigin="anonymous"></div>
-                    <div id="vs-home-name" class="sf-name">HOME</div>
                 </div>
                 <div id="sf-game1">GAME 1</div>
             </div>
@@ -763,11 +755,8 @@
 
             // 5. Inject into the DOM
             document.getElementById('vs-away-img').src = dbTopAway ? dbTopAway.photo : '';
-            document.getElementById('vs-away-name').textContent = topAway.name.split(' ').pop(); // Just the last name
-            
             document.getElementById('vs-home-img').src = dbTopHome ? dbTopHome.photo : '';
-            document.getElementById('vs-home-name').textContent = topHome.name.split(' ').pop();
-
+            
             const gameText = document.getElementById('game3-text');
             if (gameText) { gameText.style.animation = 'none'; void gameText.offsetWidth; gameText.style.animation = ''; }
 
