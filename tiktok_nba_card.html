@@ -573,11 +573,11 @@
             const targetOuterR = spotlightWiden ? 1800 : 450;
             currentInnerR += (targetInnerR - currentInnerR) * 0.05;
             currentOuterR += (targetOuterR - currentOuterR) * 0.05;
-            
-            roamSpot1.x += (roamSpot1.targetX - roamSpot1.x) * 0.07; roamSpot1.y += (roamSpot1.targetY - roamSpot1.y) * 0.07;
-            roamSpot2.x += (roamSpot2.targetX - roamSpot2.x) * 0.07; roamSpot2.y += (roamSpot2.targetY - roamSpot2.y) * 0.07;
-            roamSpot3.x += (roamSpot3.targetX - roamSpot3.x) * 0.07; roamSpot3.y += (roamSpot3.targetY - roamSpot3.y) * 0.07;
-            roamSpot4.x += (roamSpot4.targetX - roamSpot4.x) * 0.07; roamSpot4.y += (roamSpot4.targetY - roamSpot4.y) * 0.07;
+            const spotSpeed = 0.2;
+            roamSpot1.x += (roamSpot1.targetX - roamSpot1.x) * spotSpeed; roamSpot1.y += (roamSpot1.targetY - roamSpot1.y) * spotSpeed;
+            roamSpot2.x += (roamSpot2.targetX - roamSpot2.x) * spotSpeed; roamSpot2.y += (roamSpot2.targetY - roamSpot2.y) * spotSpeed;
+            roamSpot3.x += (roamSpot3.targetX - roamSpot3.x) * spotSpeed; roamSpot3.y += (roamSpot3.targetY - roamSpot3.y) * spotSpeed;
+            roamSpot4.x += (roamSpot4.targetX - roamSpot4.x) * spotSpeed; roamSpot4.y += (roamSpot4.targetY - roamSpot4.y) * spotSpeed;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.globalCompositeOperation = 'source-over';
