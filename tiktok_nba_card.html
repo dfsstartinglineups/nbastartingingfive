@@ -30,7 +30,7 @@
         }
 
         /* ========================================================
-           STREET FIGHTER VS HOOK (0 to 3.25s)
+           STREET FIGHTER VS HOOK (VERTICAL SEQUENCE)
            ======================================================== */
         #hijack-overlay {
             position: absolute; top: 0; left: 0; width: 1080px; height: 1920px;
@@ -41,52 +41,60 @@
         
         #sf-container {
             position: relative; width: 100%; height: 100%; 
-            display: flex; justify-content: space-between; align-items: center; padding: 0 50px; box-sizing: border-box;
+            /* Changed to column to stack Top Player -> VS -> Bottom Player */
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            padding: 50px 0; box-sizing: border-box;
         }
 
         .sf-player {
             display: flex; flex-direction: column; align-items: center; opacity: 0;
             filter: drop-shadow(0 0 30px rgba(255,255,255,0.2));
+            z-index: 5;
         }
 
-        .sf-img-wrapper { height: 600px; display: flex; align-items: flex-end; }
-        .sf-img { max-height: 100%; max-width: 400px; object-fit: contain; filter: drop-shadow(0 20px 20px rgba(0,0,0,0.8)); }
-        
-        
+        /* Scaled up the images significantly to fill the 1920px vertical space */
+        .sf-img-wrapper { height: 650px; display: flex; align-items: center; justify-content: center; }
+        .sf-img { max-height: 100%; max-width: 800px; object-fit: contain; filter: drop-shadow(0 20px 20px rgba(0,0,0,0.8)); }
 
-        #sf-away { animation: dropSide 0.3s cubic-bezier(0.1, 0.8, 0.3, 1) 0.5s forwards; }
-        #sf-home { animation: dropSide 0.3s cubic-bezier(0.1, 0.8, 0.3, 1) 1.9s forwards; }
+        #sf-away { animation: dropVertical 0.3s cubic-bezier(0.1, 0.8, 0.3, 1) 0.5s forwards; }
+        #sf-home { animation: dropVertical 0.3s cubic-bezier(0.1, 0.8, 0.3, 1) 1.9s forwards; }
         
         #sf-vs {
-            position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(5);
-            font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; font-size: 160px;
-            color: #fff; opacity: 0; z-index: 10;
-            /* 8-Axis Shadow to fix inner triangles */
+            /* Now part of the flex column, pulling the images tight around it */
+            font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; font-size: 180px;
+            color: #fff; opacity: 0; z-index: 10; margin: -60px 0; 
             text-shadow: 
                 4px 4px 0 #ff0000, -4px -4px 0 #ff0000, 4px -4px 0 #ff0000, -4px 4px 0 #ff0000, 
                 0 4px 0 #ff0000, 0 -4px 0 #ff0000, 4px 0 0 #ff0000, -4px 0 0 #ff0000,
                 0 0 50px #ff0000;
-            animation: slamCenter 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards;
+            /* Removed the absolute translate property so it centers perfectly in the flex container */
+            animation: slamVS 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards;
         }
 
         #sf-game1 {
-            position: absolute; left: 50%; top: 75%; transform: translate(-50%, -50%) scale(3);
-            font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; font-size: 200px;
+            /* Absolute positioned to smash perfectly center over everything at the climax */
+            position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(3);
+            font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; font-size: 240px;
             color: #ffea00; opacity: 0; z-index: 20;
-            white-space: nowrap; /* Forces "GAME 1" to stay on exactly one line */
-            /* 8-Axis Shadow to fix inner triangles */
+            white-space: nowrap; 
             text-shadow: 
                 5px 5px 0 #ff0000, -5px -5px 0 #ff0000, 5px -5px 0 #ff0000, -5px 5px 0 #ff0000, 
                 0 5px 0 #ff0000, 0 -5px 0 #ff0000, 5px 0 0 #ff0000, -5px 0 0 #ff0000,
                 15px 15px 0 #000, 0 0 80px #ff0000;
-            animation: slamCenter 0.2s cubic-bezier(0.1, 0.8, 0.3, 1) 2.6s forwards;
+            animation: slamGame 0.2s cubic-bezier(0.1, 0.8, 0.3, 1) 2.6s forwards;
         }
-        @keyframes dropSide {
-            0% { opacity: 0; transform: translateY(-100px) scale(1.2); filter: blur(10px); }
+
+        @keyframes dropVertical {
+            0% { opacity: 0; transform: translateY(-150px) scale(1.2); filter: blur(10px); }
             100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
         }
 
-        @keyframes slamCenter {
+        @keyframes slamVS {
+            0% { opacity: 0; transform: scale(4); filter: blur(20px); }
+            100% { opacity: 1; transform: scale(1); filter: blur(0); }
+        }
+
+        @keyframes slamGame {
             0% { opacity: 0; transform: translate(-50%, -50%) scale(4); filter: blur(20px); }
             100% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); }
         }
