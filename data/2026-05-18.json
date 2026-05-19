@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 18, 11:24 PM ET",
+  "last_updated": "May 18, 11:27 PM ET",
   "player_news": [
     {
       "player_name": "Luke Kornet",
@@ -7,9 +7,9 @@
       "position": "C",
       "status_badge": "IN",
       "description": "Playing left foot",
-      "time_elapsed": "3.7h",
+      "time_elapsed": "3.8h",
       "next_game": "Monday @OKC",
-      "local_timestamp": 1779161139.6027727
+      "local_timestamp": 1779161257.350692
     },
     {
       "player_name": "De'Aaron Fox",
@@ -19,7 +19,7 @@
       "description": "Out right ankle",
       "time_elapsed": "3.8h",
       "next_game": "Monday @OKC",
-      "local_timestamp": 1779161139.6017725
+      "local_timestamp": 1779161257.3496919
     },
     {
       "player_name": "Jalen Williams",
@@ -73,7 +73,7 @@
               "full",
               "dark"
             ],
-            "lastUpdated": "2026-05-17T22:39Z"
+            "lastUpdated": "2026-05-18T18:21Z"
           }
         ],
         "calendarType": "day",
@@ -449,6 +449,11 @@
                     "value": 7.0,
                     "displayValue": "7",
                     "period": 5
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 6
                   }
                 ],
                 "statistics": [
@@ -808,18 +813,23 @@
                     "value": 7.0,
                     "displayValue": "7",
                     "period": 5
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 6
                   }
                 ],
                 "statistics": [
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "54"
+                    "displayValue": "55"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "54.0"
+                    "displayValue": "55.0"
                   },
                   {
                     "name": "assists",
@@ -829,7 +839,7 @@
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "88"
+                    "displayValue": "90"
                   },
                   {
                     "name": "fieldGoalsMade",
@@ -839,7 +849,7 @@
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "42.0"
+                    "displayValue": "41.1"
                   },
                   {
                     "name": "freeThrowPct",
@@ -1082,32 +1092,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401873197756",
+                "id": "401873197772",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "155",
+                  "text": "Defensive Rebound"
                 },
-                "text": "End of the 1st  Overtime",
+                "text": "Luguentz Dort defensive rebound",
                 "scoreValue": 0,
+                "team": {
+                  "id": "25"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.5,
-                  "awayWinPercentage": 0.5
-                }
+                  "homeWinPercentage": 0.533,
+                  "awayWinPercentage": 0.46699999999999997
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "4397020",
+                    "fullName": "Luguentz Dort",
+                    "displayName": "Luguentz Dort",
+                    "shortName": "L. Dort",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/4397020/luguentz-dort"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4397020.png",
+                    "jersey": "5",
+                    "position": "G",
+                    "team": {
+                      "id": "25"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 5,
+              "clock": 281.0,
+              "displayClock": "4:41",
+              "period": 6,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "End of Period",
-                "detail": "End of OT",
-                "shortDetail": "End of OT"
+                "description": "In Progress",
+                "detail": "4:41 - 2OT",
+                "shortDetail": "4:41 - 2OT"
               }
             },
             "broadcasts": [
@@ -1241,17 +1278,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 5,
+          "clock": 281.0,
+          "displayClock": "4:41",
+          "period": 6,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "End of Period",
-            "detail": "End of OT",
-            "shortDetail": "End of OT"
+            "description": "In Progress",
+            "detail": "4:41 - 2OT",
+            "shortDetail": "4:41 - 2OT"
           }
         }
       }
