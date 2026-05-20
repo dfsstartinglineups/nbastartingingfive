@@ -565,4 +565,217 @@
         async function loadData() {
             try {
                 const urlParams = new URLSearchParams(window.location.search);
-                let targetDate
+                let targetDate = urlParams.get('date');
+                if (!targetDate) {
+                    const estDate = new Date(new Date().toLocaleString("en-US", {timeZone: "America/New_York"}));
+                    const yyyy = estDate.getFullYear(); const mm = String(estDate.getMonth() + 1).padStart(2, '0'); const dd = String(estDate.getDate()).padStart(2, '0');
+                    targetDate = `${yyyy}-${mm}-${dd}`;
+                }
+                document.getElementById('date-indicator').value = targetDate;
+                
+                const timestamp = new Date().getTime();
+                const [nbaRes, playersRes] = await Promise.all([ fetch(`https://nbastartingfive.com/data/${targetDate}.json?v=${timestamp}`), fetch(`data/players.json?v=${timestamp}`) ]);
+
+                if (nbaRes.ok) {
+                    const data = await nbaRes.json();
+                    allGames = data.games.filter(g => {
+                        if (g.date !== targetDate) return false;
+                        if (!g.teams || !g.rosters) return false;
+                        const t1 = g.teams[0]; const t2 = g.teams[1];
+                        const hasRoster1 = g.rosters[t1] && g.rosters[t1].players && g.rosters[t1].players.length >= 5;
+                        const hasRoster2 = g.rosters[t2] && g.rosters[t2].players && g.rosters[t2].players.length >= 5;
+                        if (!hasRoster1 && !hasRoster2) return false; return true; 
+                    });
+                }
+                if (playersRes.ok) playerDatabase = await playersRes.json();
+            } catch (e) { console.error("Failed to load data.", e); }
+            
+            populateDropdown();
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const botTeam = urlParams.get('team'); const botSide = urlParams.get('side');
+
+            if (botTeam !== null) { const foundIndex = allGames.findIndex(g => g.teams.includes(botTeam)); if (foundIndex !== -1) document.getElementById('game-selector').value = foundIndex; }
+            if (botSide !== null) document.getElementById('team-selector').value = botSide;
+
+            if (allGames.length > 0) renderCard();
+            else { document.getElementById('team-name').textContent = "NO LINEUPS YET"; document.getElementById('team-name').setAttribute('data-text', "NO LINEUPS YET"); document.getElementById('matchup-info').textContent = "Check back closer to tipoff."; }
+        }
+
+        function populateDropdown() {
+            const select = document.getElementById('game-selector'); select.innerHTML = '';
+            allGames.forEach((g, idx) => {
+                const opt = document.createElement('option'); opt.value = idx;
+                const t1 = g.teams[0]; const t2 = g.teams[1];
+                const t1Verified = g.rosters[t1].is_official === true || (g.rosters[t1].players && g.rosters[t1].players.slice(0,5).every(p => p.verified === true));
+                const t2Verified = g.rosters[t2].is_official === true || (g.rosters[t2].players && g.rosters[t2].players.slice(0,5).every(p => p.verified === true));
+                opt.textContent = `${t1Verified ? t1 + ' (Confirmed)' : t1} @ ${t2Verified ? t2 + ' (Confirmed)' : t2}`; select.appendChild(opt);
+            });
+            select.addEventListener('change', () => renderCard()); document.getElementById('team-selector').addEventListener('change', () => renderCard());
+        }
+
+        function applyTeamTheme(abbr) {
+            const theme = NBA_TEAMS[abbr];
+            if (theme) {
+                let primaryColor = theme.primary === "#ffffff" ? theme.secondary : theme.primary;
+                document.documentElement.style.setProperty('--team-primary', primaryColor);
+                document.documentElement.style.setProperty('--team-secondary', theme.secondary);
+                activePrimaryHex = primaryColor; activeSecondaryHex = theme.secondary;
+            }
+        }
+
+        function renderCard() {
+            if(allGames.length === 0) return;
+            trackingSpotlight = false; spotlightWiden = false; activePlayerIndex = -1;
+            if (roamingInterval) clearInterval(roamingInterval);
+            const captureArea = document.getElementById('capture-area');
+            if (captureArea) captureArea.classList.remove('lights-out-mode');
+            currentInnerR = 90; currentOuterR = 360;
+
+            const gameIdx = document.getElementById('game-selector').value; const side = document.getElementById('team-selector').value; const game = allGames[gameIdx];
+            const awayAbbr = game.teams[0]; const homeAbbr = game.teams[1];
+            const targetAbbr = side === 'home' ? homeAbbr : awayAbbr; const oppAbbr = side === 'home' ? awayAbbr : homeAbbr; const isHome = side === 'home';
+            const targetData = NBA_TEAMS[targetAbbr]; const oppData = NBA_TEAMS[oppAbbr];
+
+            applyTeamTheme(targetAbbr);
+
+            const teamNameStr = targetData ? targetData.name : targetAbbr; const teamNameEl = document.getElementById('team-name');
+            teamNameEl.textContent = teamNameStr; teamNameEl.setAttribute('data-text', teamNameStr);
+            teamNameEl.classList.remove('anim-team-name'); void teamNameEl.offsetWidth; teamNameEl.classList.add('anim-team-name');
+
+            document.getElementById('banner-team-name').textContent = teamNameStr;
+
+            document.getElementById('matchup-info').textContent = `${isHome ? 'VS' : '@'} ${oppData ? oppData.name : oppAbbr}  |  ${game.date}`;
+            
+            const logoUrl = getNbaLogo(targetAbbr); const logoEl = document.getElementById('team-logo'); logoEl.src = logoUrl;
+            logoEl.classList.remove('anim-logo'); void logoEl.offsetWidth; logoEl.classList.add('anim-logo');
+            
+            const logos = document.querySelectorAll('.court-logo'); logos.forEach(logo => logo.src = logoUrl);
+            
+            const watermarks = document.querySelectorAll('.broadcast-watermark');
+            watermarks.forEach(wm => { wm.classList.remove('anim-watermark-drop'); void wm.offsetWidth; wm.classList.add('anim-watermark-drop'); });
+            
+            const gameText = document.getElementById('game3-text');
+            if (gameText) { gameText.style.animation = 'none'; void gameText.offsetWidth; gameText.style.animation = ''; }
+
+            const container = document.getElementById('players-container'); container.innerHTML = '';
+            const starters = game.rosters[targetAbbr].players.slice(0, 5); const bench = (game.rosters[targetAbbr].bench || []).slice(0, 7);
+
+            const BENCH_ENTRANCES = ["bench-beam", "bench-rise", "bench-drop", "bench-saunter"];
+            const benchStyle = BENCH_ENTRANCES[Math.floor(Math.random() * BENCH_ENTRANCES.length)];
+
+            const benchSpacing = bench.length > 1 ? 80 / (bench.length - 1) : 0; 
+            
+            bench.forEach((player, index) => {
+                const dbPlayer = getPlayerData(player.name); const photoUrl = dbPlayer ? dbPlayer.photo : null;
+                const lastName = player.name.split(' ').pop().substring(0, 10); 
+                const photoHtml = (photoUrl && photoUrl.trim() !== '') ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` : `<div class="fallback-silhouette"></div>`;
+                const benchX = 10 + (index * benchSpacing); 
+
+                let baseDelay = 0.5 + (index * 0.15); 
+
+                const html = `
+                    <div id="bench-node-${index}" class="player-node bench-node ${benchStyle}" style="left: ${benchX}%; top: -18%; --entrance-delay: ${baseDelay}s;">
+                        <div class="player-cutout-wrapper">
+                            ${photoHtml}
+                            <div class="player-hud hud-reveal">
+                                <div class="hud-name">${lastName}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+
+            const tagEl = document.getElementById('starting-tag'); tagEl.textContent = "STARTING 5";
+            tagEl.style.color = "var(--text-dark)"; tagEl.style.textShadow = "1px 1px 0px rgba(255,255,255,0.5)";
+            tagEl.classList.remove('anim-header-tag'); void tagEl.offsetWidth; tagEl.classList.add('anim-header-tag');
+
+            let shuffledAnims = ENTRANCE_STYLES.sort(() => 0.5 - Math.random());
+
+            starters.forEach((player, index) => {
+                const pos = POSITIONS[index]; const coords = COURT_COORDS[index];
+                const dbPlayer = getPlayerData(player.name); const photoUrl = dbPlayer ? dbPlayer.photo : null;
+                const jerseyNum = dbPlayer && dbPlayer.jersey ? dbPlayer.jersey : "";
+                let displayName = player.name; if (displayName.length > 18) displayName = displayName.substring(0, 16) + '...';
+
+                let spelledNameHtml = displayName.split('').map((char, idx) => {
+                    return `<span class="typewriter-char" style="animation-delay: ${idx * 0.05}s;">${char === ' ' ? '&nbsp;' : char}</span>`;
+                }).join('');
+
+                const photoHtml = (photoUrl && photoUrl.trim() !== '') ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` : `<div class="fallback-silhouette"></div>`;
+                
+                // Shifted forward to account for the removed intro
+                const delays = [10.93, 18.15, 26.17, 33.72, 40.87]; 
+                const baseDelay = delays[index]; 
+                
+                const randomAnimClass = shuffledAnims[index % shuffledAnims.length];
+
+                const html = `
+                    <div class="player-node starter-node ${randomAnimClass}" style="--final-x: ${coords.x}%; --final-y: ${coords.y}%; --entrance-delay: ${baseDelay - 2.0}s;">
+                        <div id="shockwave-${index}" class="shockwave-ring"></div>
+                        <div id="player-wrap-${index}" class="player-cutout-wrapper">
+                            ${photoHtml}
+                            <div id="hud-${index}" class="player-hud">
+                                <div class="hud-pos">${pos}</div>
+                                ${jerseyNum ? `<div class="hud-num">${jerseyNum}</div>` : ''}
+                                <div class="hud-name">${spelledNameHtml}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+
+                setTimeout(() => { activePlayerIndex = index; }, (baseDelay - 2.0) * 1000);
+                
+                setTimeout(() => {
+                    document.getElementById(`player-wrap-${index}`).classList.add('player-highlight');
+                    document.getElementById(`hud-${index}`).classList.add('hud-reveal');
+                    
+                    const captureArea = document.getElementById('capture-area');
+                    captureArea.classList.remove('quake-active'); void captureArea.offsetWidth; captureArea.classList.add('quake-active');
+                    
+                    const shock = document.getElementById(`shockwave-${index}`);
+                    if(shock) { shock.classList.remove('anim-shockwave'); void shock.offsetWidth; shock.classList.add('anim-shockwave'); }
+                }, (baseDelay + 1.0) * 1000);
+            });
+
+            // Delay the blackout until 8.9 seconds
+            setTimeout(() => {
+                if (captureArea) captureArea.classList.add('lights-out-mode');
+                trackingSpotlight = true; currentSpotX = 540; currentSpotY = 960; 
+                moveRoamingLights(); 
+                roamSpot1.x = roamSpot1.targetX; roamSpot1.y = roamSpot1.targetY; 
+                roamSpot2.x = roamSpot2.targetX; roamSpot2.y = roamSpot2.targetY;
+                roamSpot3.x = roamSpot3.targetX; roamSpot3.y = roamSpot3.targetY;
+                roamSpot4.x = roamSpot4.targetX; roamSpot4.y = roamSpot4.targetY;
+                renderSpotlights(); roamingInterval = setInterval(moveRoamingLights, 600); 
+            }, 8900); 
+
+            setTimeout(() => { spotlightWiden = true; activePlayerIndex = -1; }, 47000);
+
+            setTimeout(() => {
+                const benchNodes = document.querySelectorAll('.bench-node');
+                Array.from(benchNodes).forEach((node, idx) => {
+                    node.style.animation = 'none'; node.style.transform = 'translate(-50%, -50%) scale(1)'; void node.offsetWidth; 
+                    const pushDir = idx % 2 === 0 ? 'slideOffLeft' : 'slideOffRight';
+                    node.style.animation = `${pushDir} 1.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards`;
+                });
+            }, 47700); 
+
+            setTimeout(() => {
+                if (captureArea) captureArea.classList.remove('lights-out-mode');
+                trackingSpotlight = false; if (roamingInterval) clearInterval(roamingInterval); 
+            }, 48000); 
+        }
+
+        function takeScreenshot() {
+            const capture = document.getElementById('capture-area'); capture.style.opacity = '0.5';
+            setTimeout(() => { capture.style.opacity = '1'; }, 100);
+            alert("Ready! Playwright will capture #capture-area as a 1080x1920 vertical video format.");
+        }
+
+        loadData();
+    </script>
+</body>
+</html>
