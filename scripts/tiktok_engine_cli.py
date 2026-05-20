@@ -158,7 +158,7 @@ def generate_announcer_audio():
         print(f"⚠️ Could not load players.json: {e}")
 
     full_name = NBA_NAMES.get(TARGET_TEAM, TARGET_TEAM)
-    script = f"And now... the Game One Eastern Conference Finals starting lineup for your... {full_name}! "
+    script = f"And now... the Game Two Western Conference Finals starting lineup for your... {full_name}! "
     
     SPOKEN_POSITIONS = ["Point Guard", "Shooting Guard", "Small Forward", "Power Forward", "Center"]
     
@@ -272,7 +272,7 @@ def create_final_tiktok(silent_video_path, voiceover_path):
     try:
         video_clip = VideoFileClip(silent_video_path)
         # Sets the AI Voiceover to start after the 3.0s iMessage Hook
-        voice_clip = AudioFileClip(voiceover_path).set_start(2.8)
+        voice_clip = AudioFileClip(voiceover_path).set_start(0.2)
         
         audio_layers = [voice_clip]
         crowd_path = "data/crowd_cheer.mp3" 
