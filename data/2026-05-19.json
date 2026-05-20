@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 19, 10:59 PM ET",
+  "last_updated": "May 19, 11:01 PM ET",
   "player_news": [
     {
       "player_name": "Larry Nance Jr.",
@@ -9,7 +9,7 @@
       "description": "Playing illness",
       "time_elapsed": "3.0h",
       "next_game": "Tuesday @NYK",
-      "local_timestamp": 1779245983.6603622
+      "local_timestamp": 1779246115.1392708
     },
     {
       "player_name": "O.G. Anunoby",
@@ -19,7 +19,7 @@
       "description": "uestionable right hamstring strain",
       "time_elapsed": "4.3h",
       "next_game": "Tuesday vs CLE",
-      "local_timestamp": 1779245983.659362
+      "local_timestamp": 1779246115.1382706
     }
   ],
   "espn_schedule": {
@@ -351,6 +351,7 @@
                 "type": "team",
                 "order": 0,
                 "homeAway": "home",
+                "winner": true,
                 "team": {
                   "id": "18",
                   "uid": "s:40~l:46~t:18",
@@ -710,6 +711,7 @@
                 "type": "team",
                 "order": 1,
                 "homeAway": "away",
+                "winner": false,
                 "team": {
                   "id": "5",
                   "uid": "s:40~l:46~t:5",
@@ -1044,6 +1046,7 @@
                     ]
                   }
                 ],
+                "record": "0-1",
                 "records": [
                   {
                     "name": "overall",
@@ -1070,61 +1073,19 @@
                 "headline": "East Finals - Game 1"
               }
             ],
-            "situation": {
-              "lastPlay": {
-                "id": "401873341762",
-                "type": {
-                  "id": "155",
-                  "text": "Defensive Rebound"
-                },
-                "text": "Jalen Brunson defensive rebound",
-                "scoreValue": 0,
-                "team": {
-                  "id": "18"
-                },
-                "probability": {
-                  "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.999,
-                  "awayWinPercentage": 0.0010000000000000009
-                },
-                "athletesInvolved": [
-                  {
-                    "id": "3934672",
-                    "fullName": "Jalen Brunson",
-                    "displayName": "Jalen Brunson",
-                    "shortName": "J. Brunson",
-                    "links": [
-                      {
-                        "rel": [
-                          "playercard",
-                          "desktop",
-                          "athlete"
-                        ],
-                        "href": "https://www.espn.com/nba/player/_/id/3934672/jalen-brunson"
-                      }
-                    ],
-                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/3934672.png",
-                    "jersey": "11",
-                    "position": "G",
-                    "team": {
-                      "id": "18"
-                    }
-                  }
-                ]
-              }
-            },
             "status": {
-              "clock": 23.6,
-              "displayClock": "23.6",
+              "clock": 0.0,
+              "displayClock": "0.0",
               "period": 5,
               "type": {
-                "id": "2",
-                "name": "STATUS_IN_PROGRESS",
-                "state": "in",
-                "completed": false,
-                "description": "In Progress",
-                "detail": "23.6 - OT",
-                "shortDetail": "23.6 - OT"
+                "id": "3",
+                "name": "STATUS_FINAL",
+                "state": "post",
+                "completed": true,
+                "description": "Final",
+                "detail": "Final/OT",
+                "shortDetail": "Final/OT",
+                "altDetail": "OT"
               }
             },
             "broadcasts": [
@@ -1144,14 +1105,14 @@
             "series": {
               "type": "playoff",
               "title": "Playoff Series",
-              "summary": "",
+              "summary": "NY leads series 1-0",
               "completed": false,
               "totalCompetitions": 7,
               "competitors": [
                 {
                   "id": "18",
                   "uid": "s:40~l:46~t:18",
-                  "wins": 0,
+                  "wins": 1,
                   "ties": 0,
                   "href": "http://sports.core.api.espn.pvt/v2/sports/basketball/leagues/nba/seasons/2026/teams/18?lang=en&region=us"
                 },
@@ -1206,11 +1167,11 @@
           {
             "language": "en-US",
             "rel": [
-              "live",
+              "summary",
               "desktop",
               "event"
             ],
-            "href": "https://www.espn.com/nba/game?gameId=401873341",
+            "href": "https://www.espn.com/nba/game/_/gameId/401873341/cavaliers-knicks",
             "text": "Gamecast",
             "shortText": "Gamecast",
             "isExternal": false,
@@ -1256,17 +1217,18 @@
           }
         ],
         "status": {
-          "clock": 23.6,
-          "displayClock": "23.6",
+          "clock": 0.0,
+          "displayClock": "0.0",
           "period": 5,
           "type": {
-            "id": "2",
-            "name": "STATUS_IN_PROGRESS",
-            "state": "in",
-            "completed": false,
-            "description": "In Progress",
-            "detail": "23.6 - OT",
-            "shortDetail": "23.6 - OT"
+            "id": "3",
+            "name": "STATUS_FINAL",
+            "state": "post",
+            "completed": true,
+            "description": "Final",
+            "detail": "Final/OT",
+            "shortDetail": "Final/OT",
+            "altDetail": "OT"
           }
         }
       }
