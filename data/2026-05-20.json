@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 20, 11:05 PM ET",
+  "last_updated": "May 20, 11:07 PM ET",
   "player_news": [
     {
       "player_name": "Dylan Harper",
@@ -7,9 +7,9 @@
       "position": "PG",
       "status_badge": "OUT",
       "description": "Will not return right leg",
-      "time_elapsed": "39m",
+      "time_elapsed": "40m",
       "next_game": "Wednesday @OKC",
-      "local_timestamp": 1779332748.9218712
+      "local_timestamp": 1779332873.9321904
     },
     {
       "player_name": "Jalen Williams",
@@ -17,9 +17,9 @@
       "position": "SF",
       "status_badge": "OUT",
       "description": "Will not return left hamstring tightness",
-      "time_elapsed": "1.0h",
+      "time_elapsed": "1.1h",
       "next_game": "Wednesday vs SAS",
-      "local_timestamp": 1779332748.919871
+      "local_timestamp": 1779332873.9301903
     },
     {
       "player_name": "De'Aaron Fox",
@@ -29,7 +29,7 @@
       "description": "Out right ankle",
       "time_elapsed": "3.5h",
       "next_game": "Wednesday @OKC",
-      "local_timestamp": 1779332748.9168713
+      "local_timestamp": 1779332873.9271905
     }
   ],
   "espn_schedule": {
@@ -361,6 +361,7 @@
                 "type": "team",
                 "order": 0,
                 "homeAway": "home",
+                "winner": true,
                 "team": {
                   "id": "25",
                   "uid": "s:40~l:46~t:25",
@@ -690,7 +691,7 @@
                     ]
                   }
                 ],
-                "record": "0-1",
+                "record": "1-1",
                 "records": [
                   {
                     "name": "overall",
@@ -716,6 +717,7 @@
                 "type": "team",
                 "order": 1,
                 "homeAway": "away",
+                "winner": false,
                 "team": {
                   "id": "24",
                   "uid": "s:40~l:46~t:24",
@@ -1045,6 +1047,7 @@
                     ]
                   }
                 ],
+                "record": "1-1",
                 "records": [
                   {
                     "name": "overall",
@@ -1071,61 +1074,18 @@
                 "headline": "West Finals - Game 2"
               }
             ],
-            "situation": {
-              "lastPlay": {
-                "id": "401873198741",
-                "type": {
-                  "id": "155",
-                  "text": "Defensive Rebound"
-                },
-                "text": "Cason Wallace defensive rebound",
-                "scoreValue": 0,
-                "team": {
-                  "id": "25"
-                },
-                "probability": {
-                  "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.999,
-                  "awayWinPercentage": 0.0010000000000000009
-                },
-                "athletesInvolved": [
-                  {
-                    "id": "4683692",
-                    "fullName": "Cason Wallace",
-                    "displayName": "Cason Wallace",
-                    "shortName": "C. Wallace",
-                    "links": [
-                      {
-                        "rel": [
-                          "playercard",
-                          "desktop",
-                          "athlete"
-                        ],
-                        "href": "https://www.espn.com/nba/player/_/id/4683692/cason-wallace"
-                      }
-                    ],
-                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4683692.png",
-                    "jersey": "22",
-                    "position": "G",
-                    "team": {
-                      "id": "25"
-                    }
-                  }
-                ]
-              }
-            },
             "status": {
-              "clock": 13.1,
-              "displayClock": "13.1",
+              "clock": 0.0,
+              "displayClock": "0.0",
               "period": 4,
               "type": {
-                "id": "2",
-                "name": "STATUS_IN_PROGRESS",
-                "state": "in",
-                "completed": false,
-                "description": "In Progress",
-                "detail": "13.1 - 4th Quarter",
-                "shortDetail": "13.1 - 4th"
+                "id": "3",
+                "name": "STATUS_FINAL",
+                "state": "post",
+                "completed": true,
+                "description": "Final",
+                "detail": "Final",
+                "shortDetail": "Final"
               }
             },
             "broadcasts": [
@@ -1146,14 +1106,14 @@
             "series": {
               "type": "playoff",
               "title": "Playoff Series",
-              "summary": "SA leads series 1-0",
+              "summary": "Series tied 1-1",
               "completed": false,
               "totalCompetitions": 7,
               "competitors": [
                 {
                   "id": "25",
                   "uid": "s:40~l:46~t:25",
-                  "wins": 0,
+                  "wins": 1,
                   "ties": 0,
                   "href": "http://sports.core.api.espn.pvt/v2/sports/basketball/leagues/nba/seasons/2026/teams/25?lang=en&region=us"
                 },
@@ -1221,11 +1181,11 @@
           {
             "language": "en-US",
             "rel": [
-              "live",
+              "summary",
               "desktop",
               "event"
             ],
-            "href": "https://www.espn.com/nba/game?gameId=401873198",
+            "href": "https://www.espn.com/nba/game/_/gameId/401873198/spurs-thunder",
             "text": "Gamecast",
             "shortText": "Gamecast",
             "isExternal": false,
@@ -1247,6 +1207,18 @@
           {
             "language": "en-US",
             "rel": [
+              "highlights",
+              "desktop"
+            ],
+            "href": "https://www.espn.com/nba/video?gameId=401873198",
+            "text": "Highlights",
+            "shortText": "Highlights",
+            "isExternal": false,
+            "isPremium": false
+          },
+          {
+            "language": "en-US",
+            "rel": [
               "pbp",
               "desktop",
               "event"
@@ -1259,17 +1231,17 @@
           }
         ],
         "status": {
-          "clock": 13.1,
-          "displayClock": "13.1",
+          "clock": 0.0,
+          "displayClock": "0.0",
           "period": 4,
           "type": {
-            "id": "2",
-            "name": "STATUS_IN_PROGRESS",
-            "state": "in",
-            "completed": false,
-            "description": "In Progress",
-            "detail": "13.1 - 4th Quarter",
-            "shortDetail": "13.1 - 4th"
+            "id": "3",
+            "name": "STATUS_FINAL",
+            "state": "post",
+            "completed": true,
+            "description": "Final",
+            "detail": "Final",
+            "shortDetail": "Final"
           }
         }
       }
