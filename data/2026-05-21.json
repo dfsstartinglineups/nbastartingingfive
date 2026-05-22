@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 21, 08:41 PM ET",
+  "last_updated": "May 21, 08:43 PM ET",
   "player_news": [],
   "espn_schedule": {
     "leagues": [
@@ -42,7 +42,7 @@
               "full",
               "dark"
             ],
-            "lastUpdated": "2026-05-20T18:14Z"
+            "lastUpdated": "2026-05-20T12:10Z"
           }
         ],
         "calendarType": "day",
@@ -398,18 +398,23 @@
                     "value": 24.0,
                     "displayValue": "24",
                     "period": 1
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 2
                   }
                 ],
                 "statistics": [
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "8"
+                    "displayValue": "9"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "8.0"
+                    "displayValue": "9.0"
                   },
                   {
                     "name": "assists",
@@ -737,6 +742,11 @@
                     "value": 27.0,
                     "displayValue": "27",
                     "period": 1
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 2
                   }
                 ],
                 "statistics": [
@@ -758,7 +768,7 @@
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "23"
+                    "displayValue": "24"
                   },
                   {
                     "name": "fieldGoalsMade",
@@ -768,7 +778,7 @@
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "43.5"
+                    "displayValue": "41.7"
                   },
                   {
                     "name": "freeThrowPct",
@@ -793,12 +803,12 @@
                   {
                     "name": "threePointPct",
                     "abbreviation": "3P%",
-                    "displayValue": "50.0"
+                    "displayValue": "45.5"
                   },
                   {
                     "name": "threePointFieldGoalsAttempted",
                     "abbreviation": "3PA",
-                    "displayValue": "10"
+                    "displayValue": "11"
                   },
                   {
                     "name": "threePointFieldGoalsMade",
@@ -818,7 +828,7 @@
                   {
                     "name": "threePointFieldGoalPct",
                     "abbreviation": "3P%",
-                    "displayValue": "50.0"
+                    "displayValue": "45.5"
                   }
                 ],
                 "leaders": [
@@ -1012,32 +1022,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401873342146",
+                "id": "401873342151",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "584",
+                  "text": "Substitution"
                 },
-                "text": "End of the 1st Quarter",
+                "text": "Josh Hart enters the game for Mitchell Robinson",
                 "scoreValue": 0,
+                "team": {
+                  "id": "18"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
                   "homeWinPercentage": 0.606,
                   "awayWinPercentage": 0.394
-                }
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "3062679",
+                    "fullName": "Josh Hart",
+                    "displayName": "Josh Hart",
+                    "shortName": "J. Hart",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/3062679/josh-hart"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/3062679.png",
+                    "jersey": "3",
+                    "position": "G",
+                    "team": {
+                      "id": "18"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 1,
+              "clock": 699.0,
+              "displayClock": "11:39",
+              "period": 2,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "End of Period",
-                "detail": "End of 1st Quarter",
-                "shortDetail": "End of 1st"
+                "description": "In Progress",
+                "detail": "11:39 - 2nd Quarter",
+                "shortDetail": "11:39 - 2nd"
               }
             },
             "broadcasts": [
@@ -1169,17 +1206,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 1,
+          "clock": 699.0,
+          "displayClock": "11:39",
+          "period": 2,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "End of Period",
-            "detail": "End of 1st Quarter",
-            "shortDetail": "End of 1st"
+            "description": "In Progress",
+            "detail": "11:39 - 2nd Quarter",
+            "shortDetail": "11:39 - 2nd"
           }
         }
       }
