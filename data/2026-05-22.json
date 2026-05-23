@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 22, 11:23 PM ET",
+  "last_updated": "May 22, 11:25 PM ET",
   "player_news": [
     {
       "player_name": "Jalen Williams",
@@ -9,7 +9,7 @@
       "description": "Out left hamstring soreness",
       "time_elapsed": "3.6h",
       "next_game": "Friday @SAS",
-      "local_timestamp": 1779506638.9438639
+      "local_timestamp": 1779506746.5170949
     },
     {
       "player_name": "Dylan Harper",
@@ -17,9 +17,9 @@
       "position": "PG",
       "status_badge": "IN",
       "description": "Playing right adductor soreness",
-      "time_elapsed": "3.6h",
+      "time_elapsed": "3.7h",
       "next_game": "Friday vs OKC",
-      "local_timestamp": 1779506638.942864
+      "local_timestamp": 1779506746.516095
     },
     {
       "player_name": "De'Aaron Fox",
@@ -27,9 +27,9 @@
       "position": "PG",
       "status_badge": "IN",
       "description": "Playing right ankle sprain",
-      "time_elapsed": "3.6h",
+      "time_elapsed": "3.7h",
       "next_game": "Friday vs OKC",
-      "local_timestamp": 1779506638.9418638
+      "local_timestamp": 1779506746.5150948
     }
   ],
   "espn_schedule": {
@@ -73,7 +73,7 @@
               "full",
               "dark"
             ],
-            "lastUpdated": "2026-05-21T13:44Z"
+            "lastUpdated": "2026-05-22T13:26Z"
           }
         ],
         "calendarType": "day",
@@ -361,6 +361,7 @@
                 "type": "team",
                 "order": 0,
                 "homeAway": "home",
+                "winner": false,
                 "team": {
                   "id": "24",
                   "uid": "s:40~l:46~t:24",
@@ -690,8 +691,7 @@
                     ]
                   }
                 ],
-                "winner": false,
-                "record": "1-1",
+                "record": "1-2",
                 "records": [
                   {
                     "name": "overall",
@@ -717,6 +717,7 @@
                 "type": "team",
                 "order": 1,
                 "homeAway": "away",
+                "winner": true,
                 "team": {
                   "id": "25",
                   "uid": "s:40~l:46~t:25",
@@ -1046,8 +1047,7 @@
                     ]
                   }
                 ],
-                "winner": true,
-                "record": "1-1",
+                "record": "2-1",
                 "records": [
                   {
                     "name": "overall",
@@ -1074,34 +1074,18 @@
                 "headline": "West Finals - Game 3"
               }
             ],
-            "situation": {
-              "lastPlay": {
-                "id": "401873199810",
-                "type": {
-                  "id": "412",
-                  "text": "End Period"
-                },
-                "text": "End of the 4th Quarter",
-                "scoreValue": 0,
-                "probability": {
-                  "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.0,
-                  "awayWinPercentage": 1.0
-                }
-              }
-            },
             "status": {
               "clock": 0.0,
               "displayClock": "0.0",
               "period": 4,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
-                "state": "in",
-                "completed": false,
-                "description": "End of Period",
-                "detail": "End of 4th Quarter",
-                "shortDetail": "End of 4th"
+                "id": "3",
+                "name": "STATUS_FINAL",
+                "state": "post",
+                "completed": true,
+                "description": "Final",
+                "detail": "Final",
+                "shortDetail": "Final"
               }
             },
             "broadcasts": [
@@ -1122,7 +1106,7 @@
             "series": {
               "type": "playoff",
               "title": "Playoff Series",
-              "summary": "Series tied 1-1",
+              "summary": "OKC leads series 2-1",
               "completed": false,
               "totalCompetitions": 7,
               "competitors": [
@@ -1136,7 +1120,7 @@
                 {
                   "id": "25",
                   "uid": "s:40~l:46~t:25",
-                  "wins": 1,
+                  "wins": 2,
                   "ties": 0,
                   "href": "http://sports.core.api.espn.pvt/v2/sports/basketball/leagues/nba/seasons/2026/teams/25?lang=en&region=us"
                 }
@@ -1197,11 +1181,11 @@
           {
             "language": "en-US",
             "rel": [
-              "live",
+              "summary",
               "desktop",
               "event"
             ],
-            "href": "https://www.espn.com/nba/game?gameId=401873199",
+            "href": "https://www.espn.com/nba/game/_/gameId/401873199/thunder-spurs",
             "text": "Gamecast",
             "shortText": "Gamecast",
             "isExternal": false,
@@ -1217,6 +1201,18 @@
             "href": "https://www.espn.com/nba/boxscore/_/gameId/401873199",
             "text": "Box Score",
             "shortText": "Box Score",
+            "isExternal": false,
+            "isPremium": false
+          },
+          {
+            "language": "en-US",
+            "rel": [
+              "highlights",
+              "desktop"
+            ],
+            "href": "https://www.espn.com/nba/video?gameId=401873199",
+            "text": "Highlights",
+            "shortText": "Highlights",
             "isExternal": false,
             "isPremium": false
           },
@@ -1239,13 +1235,13 @@
           "displayClock": "0.0",
           "period": 4,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
-            "state": "in",
-            "completed": false,
-            "description": "End of Period",
-            "detail": "End of 4th Quarter",
-            "shortDetail": "End of 4th"
+            "id": "3",
+            "name": "STATUS_FINAL",
+            "state": "post",
+            "completed": true,
+            "description": "Final",
+            "detail": "Final",
+            "shortDetail": "Final"
           }
         }
       }
