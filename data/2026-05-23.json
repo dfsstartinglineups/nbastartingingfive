@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 23, 08:46 PM ET",
+  "last_updated": "May 23, 08:49 PM ET",
   "player_news": [],
   "espn_schedule": {
     "leagues": [
@@ -42,7 +42,7 @@
               "full",
               "dark"
             ],
-            "lastUpdated": "2026-05-23T08:57Z"
+            "lastUpdated": "2026-05-22T13:26Z"
           }
         ],
         "calendarType": "day",
@@ -398,18 +398,23 @@
                     "value": 27.0,
                     "displayValue": "27",
                     "period": 1
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 2
                   }
                 ],
                 "statistics": [
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "6"
+                    "displayValue": "7"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "6.0"
+                    "displayValue": "7.0"
                   },
                   {
                     "name": "assists",
@@ -419,7 +424,7 @@
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "22"
+                    "displayValue": "23"
                   },
                   {
                     "name": "fieldGoalsMade",
@@ -429,7 +434,7 @@
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "54.5"
+                    "displayValue": "52.2"
                   },
                   {
                     "name": "freeThrowPct",
@@ -738,18 +743,23 @@
                     "value": 37.0,
                     "displayValue": "37",
                     "period": 1
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 2
                   }
                 ],
                 "statistics": [
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "7"
+                    "displayValue": "8"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "7.0"
+                    "displayValue": "8.0"
                   },
                   {
                     "name": "assists",
@@ -764,12 +774,12 @@
                   {
                     "name": "fieldGoalsMade",
                     "abbreviation": "FGM",
-                    "displayValue": "13"
+                    "displayValue": "12"
                   },
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "72.2"
+                    "displayValue": "66.7"
                   },
                   {
                     "name": "freeThrowPct",
@@ -789,7 +799,7 @@
                   {
                     "name": "points",
                     "abbreviation": "PTS",
-                    "displayValue": "39"
+                    "displayValue": "37"
                   },
                   {
                     "name": "threePointPct",
@@ -809,7 +819,7 @@
                   {
                     "name": "avgPoints",
                     "abbreviation": "PTS",
-                    "displayValue": "39.0"
+                    "displayValue": "37.0"
                   },
                   {
                     "name": "avgAssists",
@@ -830,8 +840,8 @@
                     "abbreviation": "Pts",
                     "leaders": [
                       {
-                        "displayValue": "13",
-                        "value": 13.0,
+                        "displayValue": "11",
+                        "value": 11.0,
                         "athlete": {
                           "id": "3136195",
                           "fullName": "Karl-Anthony Towns",
@@ -950,8 +960,8 @@
                     "abbreviation": "RAT",
                     "leaders": [
                       {
-                        "displayValue": "13 PTS",
-                        "value": 22.5,
+                        "displayValue": "11 PTS",
+                        "value": 18.700000762939453,
                         "athlete": {
                           "id": "3136195",
                           "fullName": "Karl-Anthony Towns",
@@ -1012,32 +1022,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401873343155",
+                "id": "401873343170",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "45",
+                  "text": "Personal Foul"
                 },
-                "text": "End of the 1st Quarter",
+                "text": "Landry Shamet personal foul",
                 "scoreValue": 0,
+                "team": {
+                  "id": "18"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.154,
-                  "awayWinPercentage": 0.846
-                }
+                  "homeWinPercentage": 0.195,
+                  "awayWinPercentage": 0.8049999999999999
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "3914044",
+                    "fullName": "Landry Shamet",
+                    "displayName": "Landry Shamet",
+                    "shortName": "L. Shamet",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/3914044/landry-shamet"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/3914044.png",
+                    "jersey": "44",
+                    "position": "G",
+                    "team": {
+                      "id": "18"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 1,
+              "clock": 687.0,
+              "displayClock": "11:27",
+              "period": 2,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "End of Period",
-                "detail": "End of 1st Quarter",
-                "shortDetail": "End of 1st"
+                "description": "In Progress",
+                "detail": "11:27 - 2nd Quarter",
+                "shortDetail": "11:27 - 2nd"
               }
             },
             "broadcasts": [
@@ -1169,17 +1206,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 1,
+          "clock": 687.0,
+          "displayClock": "11:27",
+          "period": 2,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "End of Period",
-            "detail": "End of 1st Quarter",
-            "shortDetail": "End of 1st"
+            "description": "In Progress",
+            "detail": "11:27 - 2nd Quarter",
+            "shortDetail": "11:27 - 2nd"
           }
         }
       }
