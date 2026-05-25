@@ -158,7 +158,7 @@ def generate_announcer_audio():
         print(f"⚠️ Could not load players.json: {e}")
 
     full_name = NBA_NAMES.get(TARGET_TEAM, TARGET_TEAM)
-    script = f"And now... the Game Four Eastern Conference Finals starting lineup for your... {full_name}! "
+    script = f"And now... the Game Four Eastern Conference Finals starting lineup for your... {full_name.upper()}! "
     
     SPOKEN_POSITIONS = ["Point Guard", "Shooting Guard", "Small Forward", "Power Forward", "Center"]
     
@@ -231,8 +231,9 @@ def generate_announcer_audio():
             script += f"number {jersey}... "
         # Split the name at the first space to create the dramatic arena pause
         name_parts = raw_name.split(" ", 1)
+        # Capitalizes the last name to force ElevenLabs to shout it
         if len(name_parts) > 1:
-            script += f"{name_parts[0]}... {name_parts[1]}! "
+            script += f"{name_parts[0]}... {name_parts[1].upper()}! "
         else:
             # Fallback just in case a player only has one name (e.g., Nene)
             script += f"{raw_name}! "
