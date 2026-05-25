@@ -229,7 +229,13 @@ def generate_announcer_audio():
             script += f"out of {college_or_home}... "
         if jersey:
             script += f"number {jersey}... "
-        script += f"{raw_name}! "
+        # Split the name at the first space to create the dramatic arena pause
+        name_parts = raw_name.split(" ", 1)
+        if len(name_parts) > 1:
+            script += f"{name_parts[0]}... {name_parts[1]}! "
+        else:
+            # Fallback just in case a player only has one name (e.g., Nene)
+            script += f"{raw_name}! "
         
     print(f"📜 Final Script: {script}")
     
