@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 25, 10:31 PM ET",
+  "last_updated": "May 25, 10:34 PM ET",
   "player_news": [
     {
       "player_name": "Dennis Schroder",
@@ -7,9 +7,9 @@
       "position": "PG",
       "status_badge": "OUT",
       "description": "Out illness",
-      "time_elapsed": "3.0h",
+      "time_elapsed": "3.1h",
       "next_game": "Monday vs NYK",
-      "local_timestamp": 1779762724.7678866
+      "local_timestamp": 1779762903.9685686
     }
   ],
   "espn_schedule": {
@@ -53,7 +53,7 @@
               "full",
               "dark"
             ],
-            "lastUpdated": "2026-05-25T04:02Z"
+            "lastUpdated": "2026-05-25T06:15Z"
           }
         ],
         "calendarType": "day",
@@ -341,6 +341,7 @@
                 "type": "team",
                 "order": 0,
                 "homeAway": "home",
+                "winner": false,
                 "team": {
                   "id": "5",
                   "uid": "s:40~l:46~t:5",
@@ -670,7 +671,7 @@
                     ]
                   }
                 ],
-                "record": "0-3",
+                "record": "0-4",
                 "records": [
                   {
                     "name": "overall",
@@ -696,6 +697,7 @@
                 "type": "team",
                 "order": 1,
                 "homeAway": "away",
+                "winner": true,
                 "team": {
                   "id": "18",
                   "uid": "s:40~l:46~t:18",
@@ -800,7 +802,7 @@
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "99"
+                    "displayValue": "98"
                   },
                   {
                     "name": "fieldGoalsMade",
@@ -810,7 +812,7 @@
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "48.5"
+                    "displayValue": "49.0"
                   },
                   {
                     "name": "freeThrowPct",
@@ -1025,7 +1027,6 @@
                     ]
                   }
                 ],
-                "winner": true,
                 "records": [
                   {
                     "name": "overall",
@@ -1083,8 +1084,8 @@
             "series": {
               "type": "playoff",
               "title": "Playoff Series",
-              "summary": "NY leads series 3-0",
-              "completed": false,
+              "summary": "NY wins series 4-0",
+              "completed": true,
               "totalCompetitions": 7,
               "competitors": [
                 {
@@ -1097,7 +1098,7 @@
                 {
                   "id": "18",
                   "uid": "s:40~l:46~t:18",
-                  "wins": 3,
+                  "wins": 4,
                   "ties": 0,
                   "href": "http://sports.core.api.espn.pvt/v2/sports/basketball/leagues/nba/seasons/2026/teams/18?lang=en&region=us"
                 }
@@ -1142,6 +1143,19 @@
           }
         ],
         "links": [
+          {
+            "language": "en-US",
+            "rel": [
+              "summary",
+              "desktop",
+              "event"
+            ],
+            "href": "https://www.espn.com/nba/game/_/gameId/401873344/knicks-cavaliers",
+            "text": "Gamecast",
+            "shortText": "Gamecast",
+            "isExternal": false,
+            "isPremium": false
+          },
           {
             "language": "en-US",
             "rel": [
