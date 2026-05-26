@@ -1,5 +1,5 @@
 {
-  "last_updated": "May 25, 09:28 PM ET",
+  "last_updated": "May 25, 09:31 PM ET",
   "player_news": [
     {
       "player_name": "Dennis Schroder",
@@ -9,7 +9,7 @@
       "description": "Out illness",
       "time_elapsed": "2.0h",
       "next_game": "Monday vs NYK",
-      "local_timestamp": 1779758931.152764
+      "local_timestamp": 1779759125.6890535
     }
   ],
   "espn_schedule": {
@@ -414,6 +414,11 @@
                     "value": 23.0,
                     "displayValue": "23",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -546,13 +551,13 @@
                     "abbreviation": "Reb",
                     "leaders": [
                       {
-                        "displayValue": "4",
-                        "value": 4.0,
+                        "displayValue": "3",
+                        "value": 3.0,
                         "athlete": {
-                          "id": "4432158",
-                          "fullName": "Evan Mobley",
-                          "displayName": "Evan Mobley",
-                          "shortName": "E. Mobley",
+                          "id": "3908809",
+                          "fullName": "Donovan Mitchell",
+                          "displayName": "Donovan Mitchell",
+                          "shortName": "D. Mitchell",
                           "links": [
                             {
                               "rel": [
@@ -560,13 +565,13 @@
                                 "desktop",
                                 "athlete"
                               ],
-                              "href": "https://www.espn.com/nba/player/_/id/4432158/evan-mobley"
+                              "href": "https://www.espn.com/nba/player/_/id/3908809/donovan-mitchell"
                             }
                           ],
-                          "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4432158.png",
-                          "jersey": "4",
+                          "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/3908809.png",
+                          "jersey": "45",
                           "position": {
-                            "abbreviation": "C"
+                            "abbreviation": "G"
                           },
                           "team": {
                             "id": "5"
@@ -759,6 +764,11 @@
                     "value": 30.0,
                     "displayValue": "30",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -972,7 +982,7 @@
                     "leaders": [
                       {
                         "displayValue": "10 PTS, 10 REB",
-                        "value": 30.299999237060547,
+                        "value": 29.5,
                         "athlete": {
                           "id": "3136195",
                           "fullName": "Karl-Anthony Towns",
@@ -1033,32 +1043,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401873344337",
+                "id": "401873344344",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "156",
+                  "text": "Offensive Rebound"
                 },
-                "text": "End of the 2nd Quarter",
+                "text": "Josh Hart offensive rebound",
                 "scoreValue": 0,
+                "team": {
+                  "id": "18"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.036,
-                  "awayWinPercentage": 0.964
-                }
+                  "homeWinPercentage": 0.03,
+                  "awayWinPercentage": 0.97
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "3062679",
+                    "fullName": "Josh Hart",
+                    "displayName": "Josh Hart",
+                    "shortName": "J. Hart",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/3062679/josh-hart"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/3062679.png",
+                    "jersey": "3",
+                    "position": "G",
+                    "team": {
+                      "id": "18"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 2,
+              "clock": 720.0,
+              "displayClock": "12:00",
+              "period": 3,
               "type": {
-                "id": "23",
-                "name": "STATUS_HALFTIME",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "Halftime",
-                "detail": "Halftime",
-                "shortDetail": "Halftime"
+                "description": "In Progress",
+                "detail": "12:00 - 3rd Quarter",
+                "shortDetail": "12:00 - 3rd"
               }
             },
             "broadcasts": [
@@ -1190,17 +1227,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 2,
+          "clock": 720.0,
+          "displayClock": "12:00",
+          "period": 3,
           "type": {
-            "id": "23",
-            "name": "STATUS_HALFTIME",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "Halftime",
-            "detail": "Halftime",
-            "shortDetail": "Halftime"
+            "description": "In Progress",
+            "detail": "12:00 - 3rd Quarter",
+            "shortDetail": "12:00 - 3rd"
           }
         }
       }
