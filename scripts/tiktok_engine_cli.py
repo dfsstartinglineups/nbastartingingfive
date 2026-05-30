@@ -60,9 +60,9 @@ async def record_nba_video():
             }
         """)
         
-        # Timeline climax is at 31s. Give it 5 seconds to hold on the final text.
-        print("⏳ Waiting 36 seconds for CSS animations to finish...")
-        await asyncio.sleep(36)
+        # Timeline climax is at 43s. Give it 5 seconds to hold on the final text.
+        print("⏳ Waiting 48 seconds for CSS animations to finish...")
+        await asyncio.sleep(48)
         
         video_path = await page.video.path()
         await context.close()
@@ -123,9 +123,10 @@ def build_audio_timeline():
 
     # Master list of tuples: (Timestamp, TextToSpeak, Filename)
     script_timeline = [
-        (0.0, "Game 7. Western Conference Finals.", "intro_1.mp3"),
-        (2.5, f"The {away_full}...", "intro_2.mp3"),
-        (3.5, f"...versus the {home_full}.", "intro_3.mp3")
+        # Push the start to 0.5s so the video stream catches the first word
+        (0.5, "ARE YOU READY?! It's Game 7 of the Western Conference Finals!", "intro_1.mp3"),
+        (3.0, f"The {away_full}...", "intro_2.mp3"),
+        (4.5, f"...versus the {home_full}.", "intro_3.mp3")
     ]
 
     SPOKEN_POSITIONS = ["Point Guard", "Shooting Guard", "Small Forward", "Power Forward", "Center"]
@@ -143,16 +144,16 @@ def build_audio_timeline():
         home_parts = home_name.split(" ", 1)
         home_shout = f"{home_parts[0]} {home_parts[1].upper()}!" if len(home_parts) > 1 else f"{home_name}!"
 
-        # Away Team (Top)
-        away_time = 5.0 + (i * 5.0)
+        # Away Team (Top) - Spaced out by 7 seconds per round
+        away_time = 6.0 + (i * 7.0)
         script_timeline.append((away_time, f"{AWAY_LEAD_INS[i]}... {away_shout}", f"away_{i}.mp3"))
 
-        # Home Team (Bottom)
-        home_time = 7.5 + (i * 5.0)
+        # Home Team (Bottom) - Offset by exactly 3.5 seconds
+        home_time = 9.5 + (i * 7.0)
         script_timeline.append((home_time, f"{HOME_LEAD_INS[i]}... {home_shout}", f"home_{i}.mp3"))
 
-    # Outro
-    script_timeline.append((31.0, "Win. Or go home.", "outro.mp3"))
+    # Outro hits exactly when the lights come on
+    script_timeline.append((43.0, "Win. Or go home.", "outro.mp3"))
 
     # Process all clips
     audio_assets = []
