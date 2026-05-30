@@ -81,7 +81,7 @@
         .reveal-game7 { opacity: 1 !important; transform: translate(-50%, -50%) scale(1) !important; }
 
         /* --- CANVAS LIGHTING ENGINE --- */
-        #spotlight-canvas { position: absolute; top: 0; left: 0; width: 1080px; height: 1920px; z-index: 20; opacity: 1; pointer-events: none; }
+        #spotlight-canvas { position: absolute; top: 0; left: 0; width: 1080px; height: 1920px; z-index: 20; opacity: 1; pointer-events: none; transition: opacity 1.0s ease; }
         
         /* ========================================================
            THE PLAYER CARDS
@@ -607,7 +607,9 @@
                 activeSpotlightTeam = 'climax';
                 document.getElementById('fault-line').classList.add('shatter-line');
                 document.getElementById('game7-text').classList.add('reveal-game7');
-            }, 31000); 
+                // Turn the arena lights fully back on
+                document.getElementById('spotlight-canvas').style.opacity = '0';
+            }, 31000);
         }
 
         function takeScreenshot() {
