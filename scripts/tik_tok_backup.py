@@ -5,6 +5,7 @@ import asyncio
 import requests
 import unicodedata
 import smtplib
+import urllib.parse
 from email.message import EmailMessage
 from playwright.async_api import async_playwright
 from moviepy.editor import VideoFileClip, AudioFileClip, CompositeAudioClip
@@ -17,6 +18,9 @@ ELEVENLABS_API_KEY = os.environ.get("ELEVENLABS_API_KEY")
 TARGET_TEAM = os.environ.get("TARGET_TEAM")
 TARGET_SIDE = os.environ.get("TARGET_SIDE")
 TARGET_DATE = os.environ.get("TARGET_DATE")
+MSG_1 = os.environ.get("MSG_1", "")  # NEW: Custom text for bubble 1
+MSG_2 = os.environ.get("MSG_2", "")  # NEW: Custom text for bubble 2
+
 #QvlD90AkjGTCqc9685Rq hype
 #6dcFFb31LVaCdYevmTAx  announcer
 #VOICE_ID = "JBFqnCBsd6RMkjVDRZzb" # Standard deep announcer voice
@@ -109,7 +113,13 @@ async def record_nba_video():
         )
         page = await context.new_page()
         
+        # Build the dynamic URL with the encoded custom messages
         url = f"https://nbastartingfive.com/tiktok_nba_card.html?date={TARGET_DATE}&team={TARGET_TEAM}&side={TARGET_SIDE}"
+        if MSG_1:
+            url += f"&msg1={urllib.parse.quote(MSG_1)}"
+        if MSG_2:
+            url += f"&msg2={urllib.parse.quote(MSG_2)}"
+
         await page.goto(url, wait_until="networkidle")
         
         await page.evaluate("""
@@ -119,8 +129,9 @@ async def record_nba_video():
             }
         """)
         
-        print("⏳ Waiting 50 seconds for CSS animations to finish...")
-        await asyncio.sleep(55)
+        # Extended to 58 seconds to account for the 3.0s iMessage hook
+        print("⏳ Waiting 58 seconds for CSS animations to finish...")
+        await asyncio.sleep(58)
         
         video_path = await page.video.path()
         await context.close()
@@ -147,7 +158,7 @@ def generate_announcer_audio():
         print(f"⚠️ Could not load players.json: {e}")
 
     full_name = NBA_NAMES.get(TARGET_TEAM, TARGET_TEAM)
-    script = f"And now... the starting lineup for your... {full_name}! "
+    script = f"And now... the Game Six Western Conference Finals starting lineup for your... {full_name.upper()}! "
     
     SPOKEN_POSITIONS = ["Point Guard", "Shooting Guard", "Small Forward", "Power Forward", "Center"]
     
@@ -218,7 +229,14 @@ def generate_announcer_audio():
             script += f"out of {college_or_home}... "
         if jersey:
             script += f"number {jersey}... "
-        script += f"{raw_name}! "
+        # Split the name at the first space to create the dramatic arena pause
+        name_parts = raw_name.split(" ", 1)
+        # Capitalizes the last name to force ElevenLabs to shout it
+        if len(name_parts) > 1:
+            script += f"{name_parts[0]}... {name_parts[1].upper()}! "
+        else:
+            # Fallback just in case a player only has one name (e.g., Nene)
+            script += f"{raw_name}! "
         
     print(f"📜 Final Script: {script}")
     
@@ -260,7 +278,8 @@ def create_final_tiktok(silent_video_path, voiceover_path):
     
     try:
         video_clip = VideoFileClip(silent_video_path)
-        voice_clip = AudioFileClip(voiceover_path).set_start(3.0)
+        # Sets the AI Voiceover to start after the 3.0s iMessage Hook
+        voice_clip = AudioFileClip(voiceover_path).set_start(0.2)
         
         audio_layers = [voice_clip]
         crowd_path = "data/crowd_cheer.mp3" 
@@ -273,7 +292,8 @@ def create_final_tiktok(silent_video_path, voiceover_path):
             base_crowd = full_crowd.volumex(0.1)
             audio_layers.append(base_crowd)
             
-            swell_times = [4.11, 10.93, 18.15, 26.17, 31.72, 38.87]
+            # Swells updated by exactly +3.0s to sync with new HTML physics
+            swell_times = [7.11, 13.93, 21.15, 29.17, 34.72, 41.87]
             
             for swell in swell_times:
                 end_time = min(swell + 3.0, video_clip.duration)
