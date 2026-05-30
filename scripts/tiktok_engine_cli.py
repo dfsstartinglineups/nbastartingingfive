@@ -34,6 +34,18 @@ NBA_NAMES = {
     "UTA": "Utah Jazz", "WAS": "Washington Wizards"
 }
 
+# The shorter nicknames to keep the cadence punchy
+SHORT_NAMES = {
+    "ATL": "Hawks", "BOS": "Celtics", "BKN": "Nets", "CHA": "Hornets", 
+    "CHI": "Bulls", "CLE": "Cavaliers", "DAL": "Mavericks", "DEN": "Nuggets", 
+    "DET": "Pistons", "GSW": "Warriors", "HOU": "Rockets", "IND": "Pacers", 
+    "LAC": "Clippers", "LAL": "Lakers", "MEM": "Grizzlies", "MIA": "Heat", 
+    "MIL": "Bucks", "MIN": "Timberwolves", "NOP": "Pelicans", "NYK": "Knicks", 
+    "OKC": "Thunder", "ORL": "Magic", "PHI": "76ers", "PHX": "Suns", 
+    "POR": "Trail Blazers", "SAC": "Kings", "SAS": "Spurs", "TOR": "Raptors", 
+    "UTA": "Jazz", "WAS": "Wizards"
+}
+
 # ==========================================
 # FUNCTIONS
 # ==========================================
@@ -60,9 +72,9 @@ async def record_nba_video():
             }
         """)
         
-        # Timeline climax is at 43s. Give it 5 seconds to hold on the final text.
-        print("⏳ Waiting 48 seconds for CSS animations to finish...")
-        await asyncio.sleep(48)
+        # Timeline climax is at 53s. Give it 5 seconds to hold on the final text.
+        print("⏳ Waiting 58 seconds for CSS animations to finish...")
+        await asyncio.sleep(58)
         
         video_path = await page.video.path()
         await context.close()
@@ -120,13 +132,14 @@ def build_audio_timeline():
 
     away_full = NBA_NAMES.get(away_team, away_team)
     home_full = NBA_NAMES.get(home_team, home_team)
+    
+    away_short = SHORT_NAMES.get(away_team, away_team)
+    home_short = SHORT_NAMES.get(home_team, home_team)
 
     # Master list of tuples: (Timestamp, TextToSpeak, Filename)
     script_timeline = [
         # Push the start to 0.5s so the video stream catches the first word
-        (0.5, "ARE YOU READY?! It's Game 7 of the Western Conference Finals!", "intro_1.mp3"),
-        (3.0, f"The {away_full}...", "intro_2.mp3"),
-        (4.5, f"...versus the {home_full}.", "intro_3.mp3")
+        (0.5, f"ARE YOU READY?! ... It's Game 7 of the Western Conference Finals! ... The {away_full} ... versus the {home_full}!", "intro_master.mp3")
     ]
 
     SPOKEN_POSITIONS = ["Point Guard", "Shooting Guard", "Small Forward", "Power Forward", "Center"]
@@ -139,21 +152,21 @@ def build_audio_timeline():
         
         # Capitalize last names for dramatic emphasis
         away_parts = away_name.split(" ", 1)
-        away_shout = f"{away_parts[0]} {away_parts[1].upper()}!" if len(away_parts) > 1 else f"{away_name}!"
+        away_shout = f"{away_parts[0]}... {away_parts[1].upper()}!" if len(away_parts) > 1 else f"{away_name}!"
         
         home_parts = home_name.split(" ", 1)
-        home_shout = f"{home_parts[0]} {home_parts[1].upper()}!" if len(home_parts) > 1 else f"{home_name}!"
+        home_shout = f"{home_parts[0]}... {home_parts[1].upper()}!" if len(home_parts) > 1 else f"{home_name}!"
 
-        # Away Team (Top) - Spaced out by 7 seconds per round
-        away_time = 6.0 + (i * 7.0)
-        script_timeline.append((away_time, f"{AWAY_LEAD_INS[i]}... {away_shout}", f"away_{i}.mp3"))
+        # Away Team (Top) - Spaced out by 9 seconds per round, offset is 4.5
+        away_time = 9.0 + (i * 9.0)
+        script_timeline.append((away_time, f"{AWAY_LEAD_INS[i]} for the {away_short}... {away_shout}", f"away_{i}.mp3"))
 
-        # Home Team (Bottom) - Offset by exactly 3.5 seconds
-        home_time = 9.5 + (i * 7.0)
-        script_timeline.append((home_time, f"{HOME_LEAD_INS[i]}... {home_shout}", f"home_{i}.mp3"))
+        # Home Team (Bottom) - Offset by exactly 4.5 seconds
+        home_time = 13.5 + (i * 9.0)
+        script_timeline.append((home_time, f"{HOME_LEAD_INS[i]} for the {home_short}... {home_shout}", f"home_{i}.mp3"))
 
     # Outro hits exactly when the lights come on
-    script_timeline.append((43.0, "Win. Or go home.", "outro.mp3"))
+    script_timeline.append((53.0, "Win. Or go home.", "outro.mp3"))
 
     # Process all clips
     audio_assets = []
