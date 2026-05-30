@@ -561,15 +561,15 @@
             roamingInterval = setInterval(moveRoamingLights, 600);
             moveRoamingLights();
 
-            // 3.0s: Away Logo Highlight
-            setTimeout(() => { activeSpotlightTeam = 'away_logo'; }, 3000);
+            // 5.5s: Away Logo Highlight
+            setTimeout(() => { activeSpotlightTeam = 'away_logo'; }, 5500);
 
-            // 4.5s: Both Logos Highlight
-            setTimeout(() => { activeSpotlightTeam = 'both_logos'; }, 4500);
+            // 8.0s: Both Logos Highlight
+            setTimeout(() => { activeSpotlightTeam = 'both_logos'; }, 8000);
             
-            // 9.0s: Start Player Loop (spaced out to 4.5s intervals)
+            // 11.0s: Start Player Loop (spaced out to 4.5s intervals per side)
             for(let i=0; i<5; i++) {
-                let awayDelay = 9.0 + (i * 9.0);
+                let awayDelay = 11.0 + (i * 9.0);
                 let homeDelay = awayDelay + 4.5;
                 
                 container.insertAdjacentHTML('beforeend', buildPlayerNode(awayStarters[i], i, 'away', AWAY_COORDS[i], awayDelay));
@@ -600,13 +600,13 @@
                 }, (homeDelay + 1.2) * 1000);
             }
 
-            // Timeline Climax at exactly 53.0s
+            // Timeline Climax exactly at 56.0s
             setTimeout(() => {
                 activeSpotlightTeam = 'climax';
                 document.getElementById('fault-line').classList.add('shatter-line');
                 document.getElementById('game7-text').classList.add('reveal-game7');
                 document.getElementById('spotlight-canvas').style.opacity = '0';
-            }, 53000); 
+            }, 56000); 
         }
 
         function takeScreenshot() {
