@@ -316,7 +316,6 @@
             const ctx = canvas.getContext('2d');
             const captureArea = document.getElementById('capture-area').getBoundingClientRect();
             
-            // Timeline Lighting Logic
             if (activeSpotlightTeam === 'none') {
                 targetAwaySpotR = 0;
                 targetHomeSpotR = 0;
@@ -563,16 +562,16 @@
             roamingInterval = setInterval(moveRoamingLights, 600);
             moveRoamingLights();
 
-            // 2.5s: Away Logo Highlight
-            setTimeout(() => { activeSpotlightTeam = 'away_logo'; }, 2500);
+            // 3.0s: Away Logo Highlight
+            setTimeout(() => { activeSpotlightTeam = 'away_logo'; }, 3000);
 
-            // 3.5s: Both Logos Highlight
-            setTimeout(() => { activeSpotlightTeam = 'both_logos'; }, 3500);
+            // 4.5s: Both Logos Highlight
+            setTimeout(() => { activeSpotlightTeam = 'both_logos'; }, 4500);
             
-            // 5.0s: Start Player Loop
+            // 6.0s: Start Player Loop (spaced out to 3.5s intervals)
             for(let i=0; i<5; i++) {
-                let awayDelay = 5.0 + (i * 5.0);
-                let homeDelay = awayDelay + 2.5;
+                let awayDelay = 6.0 + (i * 7.0);
+                let homeDelay = awayDelay + 3.5;
                 
                 container.insertAdjacentHTML('beforeend', buildPlayerNode(awayStarters[i], i, 'away', AWAY_COORDS[i], awayDelay));
                 container.insertAdjacentHTML('beforeend', buildPlayerNode(homeStarters[i], i, 'home', HOME_COORDS[i], homeDelay));
@@ -602,14 +601,13 @@
                 }, (homeDelay + 1.2) * 1000);
             }
 
-            // Timeline Climax (Approx 31 seconds)
+            // Timeline Climax pushed back to 43 seconds to accommodate the slower pace
             setTimeout(() => {
                 activeSpotlightTeam = 'climax';
                 document.getElementById('fault-line').classList.add('shatter-line');
                 document.getElementById('game7-text').classList.add('reveal-game7');
-                // Turn the arena lights fully back on
                 document.getElementById('spotlight-canvas').style.opacity = '0';
-            }, 31000);
+            }, 43000); 
         }
 
         function takeScreenshot() {
