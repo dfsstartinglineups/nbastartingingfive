@@ -72,9 +72,9 @@ async def record_nba_video():
             }
         """)
         
-        # Timeline climax is at 53s. Give it 5 seconds to hold on the final text.
-        print("⏳ Waiting 58 seconds for CSS animations to finish...")
-        await asyncio.sleep(58)
+        # Timeline climax is at 56s. Give it 5 seconds to hold on the final text.
+        print("⏳ Waiting 61 seconds for CSS animations to finish...")
+        await asyncio.sleep(61)
         
         video_path = await page.video.path()
         await context.close()
@@ -138,8 +138,10 @@ def build_audio_timeline():
 
     # Master list of tuples: (Timestamp, TextToSpeak, Filename)
     script_timeline = [
-        # Push the start to 0.5s so the video stream catches the first word
-        (0.5, f"ARE YOU READY?! ... It's Game 7 of the Western Conference Finals! ... The {away_full} ... versus the {home_full}!", "intro_master.mp3")
+        # Isolated "Three-Punch" Intro Sequence
+        (0.5, "ARE YOU READY?! It's Game 7 of the Western Conference Finals!", "intro_1.mp3"),
+        (5.5, f"The {away_full}...", "intro_2.mp3"),
+        (8.0, f"...versus the {home_full}.", "intro_3.mp3")
     ]
 
     SPOKEN_POSITIONS = ["Point Guard", "Shooting Guard", "Small Forward", "Power Forward", "Center"]
@@ -150,29 +152,27 @@ def build_audio_timeline():
         away_name = away_roster[i].get('name', 'Unknown')
         home_name = home_roster[i].get('name', 'Unknown')
         
-        # Capitalize last names for dramatic emphasis
         away_parts = away_name.split(" ", 1)
         away_shout = f"{away_parts[0]}... {away_parts[1].upper()}!" if len(away_parts) > 1 else f"{away_name}!"
         
         home_parts = home_name.split(" ", 1)
         home_shout = f"{home_parts[0]}... {home_parts[1].upper()}!" if len(home_parts) > 1 else f"{home_name}!"
 
-        # Away Team (Top) - Spaced out by 9 seconds per round, offset is 4.5
-        away_time = 9.0 + (i * 9.0)
+        # Away Team (Top) - Starts at 11.0s
+        away_time = 11.0 + (i * 9.0)
         script_timeline.append((away_time, f"{AWAY_LEAD_INS[i]} for the {away_short}... {away_shout}", f"away_{i}.mp3"))
 
-        # Home Team (Bottom) - Offset by exactly 4.5 seconds
-        home_time = 13.5 + (i * 9.0)
+        # Home Team (Bottom) - Offset by 4.5 seconds
+        home_time = 15.5 + (i * 9.0)
         script_timeline.append((home_time, f"{HOME_LEAD_INS[i]} for the {home_short}... {home_shout}", f"home_{i}.mp3"))
 
-    # Outro hits exactly when the lights come on
-    script_timeline.append((53.0, "Win. Or go home.", "outro.mp3"))
+    # Outro hits exactly when the lights come on at 56s
+    script_timeline.append((56.0, "Win. Or go home.", "outro.mp3"))
 
     # Process all clips
     audio_assets = []
     print(f"Generating {len(script_timeline)} individual audio files...")
     for start_time, text, filename in script_timeline:
-        # Quick sleep to prevent hitting ElevenLabs rate limits
         time.sleep(0.5)
         print(f"  -> Generating: [{start_time}s] '{text}'")
         filepath = generate_single_clip(text, filename)
@@ -189,7 +189,7 @@ def create_final_tiktok(silent_video_path, audio_assets):
         video_clip = VideoFileClip(silent_video_path)
         
         audio_layers = []
-        clip_references = [] # Keep track so we can close them and free memory
+        clip_references = []
         
         for start_time, filepath in audio_assets:
             if os.path.exists(filepath):
@@ -205,12 +205,10 @@ def create_final_tiktok(silent_video_path, audio_assets):
             
         final_video.write_videofile(final_output, codec="libx264", audio_codec="aac", fps=30, logger=None)
         
-        # Cleanup memory
         video_clip.close()
         for c in clip_references:
             c.close()
             
-        # Clean up temporary audio files
         for _, filepath in audio_assets:
             if os.path.exists(filepath):
                 os.remove(filepath)
