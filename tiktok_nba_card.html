@@ -84,20 +84,17 @@
         #spotlight-canvas { position: absolute; top: 0; left: 0; width: 1080px; height: 1920px; z-index: 20; opacity: 1; pointer-events: none; }
         
         /* ========================================================
-           THE PLAYER CARDS (FIX 1 & 2: Smaller & Properly Placed)
+           THE PLAYER CARDS
            ======================================================== */
         #players-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 15; pointer-events: none; }
         
         .player-node { 
             position: absolute; display: flex; flex-direction: column; align-items: center;
-            /* FIX 2: Bind the left attribute to the CSS variable so they go to their X coordinates! */
             left: var(--final-x);
-            /* FIX 1: Shrunk the card dimensions */
             width: 200px; height: 260px; transform: translate(-50%, -50%); z-index: 20;
         }
         
         .player-cutout-wrapper {
-            /* FIX 1: Shrunk the wrapper */
             position: relative; z-index: 10; width: 100%; height: 190px; 
             display: flex; justify-content: center; align-items: flex-end; 
             transition: transform 0.4s ease;
@@ -120,7 +117,6 @@
         .hud-reveal { opacity: 1; }
 
         .hud-pos, .hud-num {
-            /* FIX 1: Scaled down the badges */
             position: absolute; bottom: 140px; 
             font-family: 'Teko', sans-serif; font-size: 30px; font-weight: bold; color: var(--text-dark);
             background: #fff; padding: 2px 10px; border-radius: 6px; line-height: 1.1;
@@ -130,7 +126,6 @@
         .hud-pos { left: 5px; } .hud-num { right: 5px; } 
 
         .hud-name {
-            /* FIX 1: Scaled down the nameplate */
             position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%);
             font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 18px; color: #fff;
             text-align: center; white-space: nowrap; text-transform: uppercase;
@@ -258,18 +253,16 @@
         let allGames = [];
         let playerDatabase = {}; 
 
-        // FIX 3: True Theater Lighting
-        let activeSpotlightTeam = null; 
+        // Lighting System
+        let activeSpotlightTeam = 'none'; 
         let activePlayerIndex = -1;
         
-        // Independent radius tracking to let them smoothly turn on and off
         let currentAwaySpotR = 0; let targetAwaySpotR = 0;
         let currentHomeSpotR = 0; let targetHomeSpotR = 0;
         
         let awaySpot = { x: 540, y: 480, targetX: 540, targetY: 480 }; 
         let homeSpot = { x: 540, y: 1440, targetX: 540, targetY: 1440 }; 
         
-        // Roaming Spotlights
         let roamA1 = { x: 200, y: 200, targetX: 200, targetY: 200 };
         let roamA2 = { x: 800, y: 700, targetX: 800, targetY: 700 };
         let roamH1 = { x: 200, y: 1200, targetX: 200, targetY: 1200 };
@@ -288,7 +281,7 @@
         }
 
         function drawHole(ctx, x, y, innerR, outerR) {
-            if (outerR <= 1) return; // Don't draw if the spotlight is completely "off"
+            if (outerR <= 1) return; 
             const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
             grad.addColorStop(0, 'rgba(0, 0, 0, 1)');       
             grad.addColorStop(0.3, 'rgba(0, 0, 0, 0.85)'); 
@@ -323,12 +316,24 @@
             const ctx = canvas.getContext('2d');
             const captureArea = document.getElementById('capture-area').getBoundingClientRect();
             
-            // Define tracking logic based on the active team
-            targetAwaySpotR = 0;
-            targetHomeSpotR = 0;
-
-            if (activeSpotlightTeam === 'away') {
+            // Timeline Lighting Logic
+            if (activeSpotlightTeam === 'none') {
+                targetAwaySpotR = 0;
+                targetHomeSpotR = 0;
+                awaySpot.targetX = 540; awaySpot.targetY = 480;
+                homeSpot.targetX = 540; homeSpot.targetY = 1440;
+            } else if (activeSpotlightTeam === 'away_logo') {
                 targetAwaySpotR = 450;
+                targetHomeSpotR = 0;
+                awaySpot.targetX = 540; awaySpot.targetY = 480;
+            } else if (activeSpotlightTeam === 'both_logos') {
+                targetAwaySpotR = 450;
+                targetHomeSpotR = 450;
+                awaySpot.targetX = 540; awaySpot.targetY = 480;
+                homeSpot.targetX = 540; homeSpot.targetY = 1440;
+            } else if (activeSpotlightTeam === 'away') {
+                targetAwaySpotR = 450;
+                targetHomeSpotR = 0;
                 if (activePlayerIndex >= 0) {
                     const target = document.getElementById(`away-node-${activePlayerIndex}`);
                     if (target) {
@@ -339,6 +344,7 @@
                 }
             } else if (activeSpotlightTeam === 'home') {
                 targetHomeSpotR = 450;
+                targetAwaySpotR = 0;
                 if (activePlayerIndex >= 0) {
                     const target = document.getElementById(`home-node-${activePlayerIndex}`);
                     if (target) {
@@ -352,16 +358,13 @@
                 targetHomeSpotR = 2000;
             }
             
-            // Smoothly ease the positions
             const spotEase = 0.2;
             awaySpot.x += (awaySpot.targetX - awaySpot.x) * spotEase; awaySpot.y += (awaySpot.targetY - awaySpot.y) * spotEase;
             homeSpot.x += (homeSpot.targetX - homeSpot.x) * spotEase; homeSpot.y += (homeSpot.targetY - homeSpot.y) * spotEase;
             
-            // FIX 3: Smoothly ease the radiuses so they fade up and down dynamically
             currentAwaySpotR += (targetAwaySpotR - currentAwaySpotR) * 0.15;
             currentHomeSpotR += (targetHomeSpotR - currentHomeSpotR) * 0.15;
             
-            // Roaming Math
             const roamSpeed = 0.08;
             roamA1.x += (roamA1.targetX - roamA1.x) * roamSpeed; roamA1.y += (roamA1.targetY - roamA1.y) * roamSpeed;
             roamA2.x += (roamA2.targetX - roamA2.x) * roamSpeed; roamA2.y += (roamA2.targetY - roamA2.y) * roamSpeed;
@@ -371,7 +374,6 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.globalCompositeOperation = 'source-over';
             
-            // Pure 100% black so the screen is completely dead at the start
             ctx.fillStyle = `rgba(0, 0, 0, 1.0)`; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
@@ -551,8 +553,25 @@
             const container = document.getElementById('players-container'); 
             container.innerHTML = '';
             
+            // INTRO TIMELINE LOGIC
+            activeSpotlightTeam = 'none'; 
+            currentAwaySpotR = 0;
+            currentHomeSpotR = 0;
+            requestAnimationFrame(renderSpotlights);
+            
+            if (roamingInterval) clearInterval(roamingInterval);
+            roamingInterval = setInterval(moveRoamingLights, 600);
+            moveRoamingLights();
+
+            // 2.5s: Away Logo Highlight
+            setTimeout(() => { activeSpotlightTeam = 'away_logo'; }, 2500);
+
+            // 3.5s: Both Logos Highlight
+            setTimeout(() => { activeSpotlightTeam = 'both_logos'; }, 3500);
+            
+            // 5.0s: Start Player Loop
             for(let i=0; i<5; i++) {
-                let awayDelay = 4.0 + (i * 5.0);
+                let awayDelay = 5.0 + (i * 5.0);
                 let homeDelay = awayDelay + 2.5;
                 
                 container.insertAdjacentHTML('beforeend', buildPlayerNode(awayStarters[i], i, 'away', AWAY_COORDS[i], awayDelay));
@@ -583,21 +602,12 @@
                 }, (homeDelay + 1.2) * 1000);
             }
 
-            // Initialization logic
-            activeSpotlightTeam = null; 
-            currentAwaySpotR = 0;
-            currentHomeSpotR = 0;
-            requestAnimationFrame(renderSpotlights);
-            
-            if (roamingInterval) clearInterval(roamingInterval);
-            roamingInterval = setInterval(moveRoamingLights, 600);
-            moveRoamingLights();
-
+            // Timeline Climax (Approx 31 seconds)
             setTimeout(() => {
                 activeSpotlightTeam = 'climax';
                 document.getElementById('fault-line').classList.add('shatter-line');
                 document.getElementById('game7-text').classList.add('reveal-game7');
-            }, 30000); 
+            }, 31000); 
         }
 
         function takeScreenshot() {
