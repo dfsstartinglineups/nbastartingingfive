@@ -10,7 +10,6 @@
     
     <style>
         :root {
-            /* Fallback colors, overridden via JS */
             --away-primary: #1d428a; 
             --away-secondary: #ffc72c;
             --home-primary: #552583;
@@ -67,7 +66,6 @@
         /* --- WATERMARKS --- */
         .broadcast-watermark { position: absolute; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2; pointer-events: none; opacity: 0.15; }
         .court-logo { width: 420px; height: 420px; object-fit: contain; filter: grayscale(0.5) contrast(1.2); }
-        
         #top-watermark { top: 25%; }
         #bottom-watermark { top: 75%; }
 
@@ -83,32 +81,36 @@
         .reveal-game7 { opacity: 1 !important; transform: translate(-50%, -50%) scale(1) !important; }
 
         /* --- CANVAS LIGHTING ENGINE --- */
-        #spotlight-canvas { position: absolute; top: 0; left: 0; width: 1080px; height: 1920px; z-index: 20; opacity: 1; pointer-events: none; transition: opacity 0.5s ease; }
+        #spotlight-canvas { position: absolute; top: 0; left: 0; width: 1080px; height: 1920px; z-index: 20; opacity: 1; pointer-events: none; }
         
         /* ========================================================
-           THE PLAYER CARDS 
+           THE PLAYER CARDS (FIX 1 & 2: Smaller & Properly Placed)
            ======================================================== */
         #players-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 15; pointer-events: none; }
         
         .player-node { 
             position: absolute; display: flex; flex-direction: column; align-items: center;
-            width: 300px; height: 350px; transform: translate(-50%, -50%); z-index: 20;
+            /* FIX 2: Bind the left attribute to the CSS variable so they go to their X coordinates! */
+            left: var(--final-x);
+            /* FIX 1: Shrunk the card dimensions */
+            width: 200px; height: 260px; transform: translate(-50%, -50%); z-index: 20;
         }
         
         .player-cutout-wrapper {
-            position: relative; z-index: 10; width: 100%; height: 300px; 
+            /* FIX 1: Shrunk the wrapper */
+            position: relative; z-index: 10; width: 100%; height: 190px; 
             display: flex; justify-content: center; align-items: flex-end; 
             transition: transform 0.4s ease;
         }
 
         .player-photo {
             height: 100%; width: auto; object-fit: contain; object-position: bottom center;
-            filter: drop-shadow(0 20px 15px rgba(0,0,0,0.7)); transition: filter 0.4s ease;
+            filter: drop-shadow(0 15px 10px rgba(0,0,0,0.7)); transition: filter 0.4s ease;
         }
 
-        .player-highlight { transform: scale(1.15) translateY(-10px); }
-        .player-highlight.away-node .player-photo { filter: brightness(1.2) drop-shadow(0 0 25px var(--away-primary)) drop-shadow(0 20px 15px rgba(0,0,0,0.9)); }
-        .player-highlight.home-node .player-photo { filter: brightness(1.2) drop-shadow(0 0 25px var(--home-primary)) drop-shadow(0 20px 15px rgba(0,0,0,0.9)); }
+        .player-highlight { transform: scale(1.15) translateY(-5px); }
+        .player-highlight.away-node .player-photo { filter: brightness(1.2) drop-shadow(0 0 20px var(--away-primary)) drop-shadow(0 15px 10px rgba(0,0,0,0.9)); }
+        .player-highlight.home-node .player-photo { filter: brightness(1.2) drop-shadow(0 0 20px var(--home-primary)) drop-shadow(0 15px 10px rgba(0,0,0,0.9)); }
 
         .player-hud {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -118,23 +120,25 @@
         .hud-reveal { opacity: 1; }
 
         .hud-pos, .hud-num {
-            position: absolute; bottom: 210px; 
-            font-family: 'Teko', sans-serif; font-size: 38px; font-weight: bold; color: var(--text-dark);
-            background: #fff; padding: 2px 14px; border-radius: 6px; line-height: 1.1;
+            /* FIX 1: Scaled down the badges */
+            position: absolute; bottom: 140px; 
+            font-family: 'Teko', sans-serif; font-size: 30px; font-weight: bold; color: var(--text-dark);
+            background: #fff; padding: 2px 10px; border-radius: 6px; line-height: 1.1;
         }
-        .away-node .hud-pos, .away-node .hud-num { border: 4px solid var(--away-secondary); box-shadow: 3px 3px 0 var(--away-primary); }
-        .home-node .hud-pos, .home-node .hud-num { border: 4px solid var(--home-secondary); box-shadow: 3px 3px 0 var(--home-primary); }
-        .hud-pos { left: 10px; } .hud-num { right: 10px; } 
+        .away-node .hud-pos, .away-node .hud-num { border: 3px solid var(--away-secondary); box-shadow: 2px 2px 0 var(--away-primary); }
+        .home-node .hud-pos, .home-node .hud-num { border: 3px solid var(--home-secondary); box-shadow: 2px 2px 0 var(--home-primary); }
+        .hud-pos { left: 5px; } .hud-num { right: 5px; } 
 
         .hud-name {
+            /* FIX 1: Scaled down the nameplate */
             position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%);
-            font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 26px; color: #fff;
+            font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 18px; color: #fff;
             text-align: center; white-space: nowrap; text-transform: uppercase;
-            padding: 8px 24px; border-radius: 8px; border: 3px solid #fff;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+            padding: 6px 18px; border-radius: 6px; border: 2px solid #fff;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.6);
         }
-        .away-node .hud-name { background: var(--away-primary); box-shadow: 0 10px 20px rgba(0,0,0,0.6), 4px 4px 0 var(--away-secondary); }
-        .home-node .hud-name { background: var(--home-primary); box-shadow: 0 10px 20px rgba(0,0,0,0.6), 4px 4px 0 var(--home-secondary); }
+        .away-node .hud-name { background: var(--away-primary); box-shadow: 0 8px 15px rgba(0,0,0,0.6), 3px 3px 0 var(--away-secondary); }
+        .home-node .hud-name { background: var(--home-primary); box-shadow: 0 8px 15px rgba(0,0,0,0.6), 3px 3px 0 var(--home-secondary); }
         
         .hud-reveal .typewriter-char { opacity: 0; animation: typeLetter 0.01s forwards; display: inline-block; }
         @keyframes typeLetter { to { opacity: 1; } }
@@ -142,7 +146,6 @@
         /* ========================================================
            ENTRANCES
            ======================================================== */
-        /* Adjusted animations to drop straight in from top (away) or bottom (home) */
         .anim-drop-away { animation: dropAway 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) var(--entrance-delay) both; }
         @keyframes dropAway { 0% { top: -20%; opacity: 0; transform: translate(-50%, -50%) scale(1.5); filter: blur(5px); } 100% { top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); } }
 
@@ -150,7 +153,7 @@
         @keyframes dropHome { 0% { top: 120%; opacity: 0; transform: translate(-50%, -50%) scale(1.5); filter: blur(5px); } 100% { top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); } }
 
         /* SHOCKWAVE RING */
-        .shockwave-ring { position: absolute; top: 80%; left: 50%; width: 200px; height: 200px; border-radius: 50%; border: 12px solid #fff; transform: translate(-50%, -50%) scale(0.5); opacity: 0; z-index: 11; pointer-events: none; }
+        .shockwave-ring { position: absolute; top: 80%; left: 50%; width: 140px; height: 140px; border-radius: 50%; border: 8px solid #fff; transform: translate(-50%, -50%) scale(0.5); opacity: 0; z-index: 11; pointer-events: none; }
         .away-node .shockwave-ring { border-color: var(--away-primary); }
         .home-node .shockwave-ring { border-color: var(--home-primary); }
         @keyframes ringExplode { 0% { transform: translate(-50%, -50%) scale(0.8); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(3.5); opacity: 0; border-width: 2px; } }
@@ -244,38 +247,29 @@
         const POSITIONS = ["PG", "SG", "SF", "PF", "C"];
         
         // Coords relative to 0-100% of full vertical height (1920)
-        // Top Half (Away): y goes from 5% down to 40%
         const AWAY_COORDS = [
-            { x: 50, y: 38 }, // PG (Top of key)
-            { x: 20, y: 25 }, // SG (Wing)
-            { x: 80, y: 25 }, // SF (Wing)
-            { x: 30, y: 8 },  // PF (Block/Corner)
-            { x: 70, y: 8 }   // C (Block/Corner)
+            { x: 50, y: 38 }, { x: 20, y: 25 }, { x: 80, y: 25 }, { x: 30, y: 8 }, { x: 70, y: 8 }
         ];
 
-        // Bottom Half (Home): y goes from 60% down to 95%
         const HOME_COORDS = [
-            { x: 50, y: 62 }, // PG (Top of key)
-            { x: 20, y: 75 }, // SG (Wing)
-            { x: 80, y: 75 }, // SF (Wing)
-            { x: 30, y: 92 }, // PF (Block/Corner)
-            { x: 70, y: 92 }  // C (Block/Corner)
+            { x: 50, y: 62 }, { x: 20, y: 75 }, { x: 80, y: 75 }, { x: 30, y: 92 }, { x: 70, y: 92 }
         ];
 
         let allGames = [];
         let playerDatabase = {}; 
 
-        // Lighting Engine State
-        let activeSpotlightTeam = null; // 'away', 'home', or 'climax'
+        // FIX 3: True Theater Lighting
+        let activeSpotlightTeam = null; 
         let activePlayerIndex = -1;
-        let blackoutAlpha = 1.0; 
         
-        // DUAL Main Spotlights
-        let awaySpot = { x: 540, y: 480, targetX: 540, targetY: 480 }; // Default to Away Logo
-        let homeSpot = { x: 540, y: 1440, targetX: 540, targetY: 1440 }; // Default to Home Logo
-        let currentInnerR = 120; let currentOuterR = 450;
+        // Independent radius tracking to let them smoothly turn on and off
+        let currentAwaySpotR = 0; let targetAwaySpotR = 0;
+        let currentHomeSpotR = 0; let targetHomeSpotR = 0;
         
-        // 4 Roaming Spotlights
+        let awaySpot = { x: 540, y: 480, targetX: 540, targetY: 480 }; 
+        let homeSpot = { x: 540, y: 1440, targetX: 540, targetY: 1440 }; 
+        
+        // Roaming Spotlights
         let roamA1 = { x: 200, y: 200, targetX: 200, targetY: 200 };
         let roamA2 = { x: 800, y: 700, targetX: 800, targetY: 700 };
         let roamH1 = { x: 200, y: 1200, targetX: 200, targetY: 1200 };
@@ -294,6 +288,7 @@
         }
 
         function drawHole(ctx, x, y, innerR, outerR) {
+            if (outerR <= 1) return; // Don't draw if the spotlight is completely "off"
             const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
             grad.addColorStop(0, 'rgba(0, 0, 0, 1)');       
             grad.addColorStop(0.3, 'rgba(0, 0, 0, 0.85)'); 
@@ -302,16 +297,18 @@
             ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(x, y, outerR, 0, Math.PI * 2); ctx.fill();
         }
 
-        function drawColoredTint(ctx, x, y, innerR, outerR, hex) {
+        function drawColoredTint(ctx, x, y, innerR, outerR, hex, intensityMultiplier) {
+            if (outerR <= 1 || intensityMultiplier <= 0) return;
             const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
-            grad.addColorStop(0, hexToRgba(hex, 0.65));       
-            grad.addColorStop(0.3, hexToRgba(hex, 0.45)); 
-            grad.addColorStop(0.6, hexToRgba(hex, 0.15));
+            grad.addColorStop(0, hexToRgba(hex, 0.65 * intensityMultiplier));       
+            grad.addColorStop(0.3, hexToRgba(hex, 0.45 * intensityMultiplier)); 
+            grad.addColorStop(0.6, hexToRgba(hex, 0.15 * intensityMultiplier));
             grad.addColorStop(1, hexToRgba(hex, 0));       
             ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(x, y, outerR, 0, Math.PI * 2); ctx.fill();
         }
 
         function drawMainHalo(ctx, x, y, innerR, outerR, color1, color2) {
+            if (outerR <= 1) return;
             const grad = ctx.createRadialGradient(x, y, innerR, x, y, outerR);
             grad.addColorStop(0, 'rgba(0, 0, 0, 0)');      
             grad.addColorStop(0.15, hexToRgba(color1, 0.65)); 
@@ -326,37 +323,43 @@
             const ctx = canvas.getContext('2d');
             const captureArea = document.getElementById('capture-area').getBoundingClientRect();
             
-            // Default target returns to Logos if not tracking a player
-            awaySpot.targetX = 540; awaySpot.targetY = 480;
-            homeSpot.targetX = 540; homeSpot.targetY = 1440;
-            
-            if (activeSpotlightTeam === 'away' && activePlayerIndex >= 0) {
-                const target = document.getElementById(`away-node-${activePlayerIndex}`);
-                if (target) {
-                    const rect = target.querySelector('.player-cutout-wrapper').getBoundingClientRect();
-                    awaySpot.targetX = (rect.left + rect.width / 2) - captureArea.left;
-                    awaySpot.targetY = (rect.top + rect.height / 2) - captureArea.top;
+            // Define tracking logic based on the active team
+            targetAwaySpotR = 0;
+            targetHomeSpotR = 0;
+
+            if (activeSpotlightTeam === 'away') {
+                targetAwaySpotR = 450;
+                if (activePlayerIndex >= 0) {
+                    const target = document.getElementById(`away-node-${activePlayerIndex}`);
+                    if (target) {
+                        const rect = target.querySelector('.player-cutout-wrapper').getBoundingClientRect();
+                        awaySpot.targetX = (rect.left + rect.width / 2) - captureArea.left;
+                        awaySpot.targetY = (rect.top + rect.height / 2) - captureArea.top;
+                    }
                 }
-            } else if (activeSpotlightTeam === 'home' && activePlayerIndex >= 0) {
-                const target = document.getElementById(`home-node-${activePlayerIndex}`);
-                if (target) {
-                    const rect = target.querySelector('.player-cutout-wrapper').getBoundingClientRect();
-                    homeSpot.targetX = (rect.left + rect.width / 2) - captureArea.left;
-                    homeSpot.targetY = (rect.top + rect.height / 2) - captureArea.top;
+            } else if (activeSpotlightTeam === 'home') {
+                targetHomeSpotR = 450;
+                if (activePlayerIndex >= 0) {
+                    const target = document.getElementById(`home-node-${activePlayerIndex}`);
+                    if (target) {
+                        const rect = target.querySelector('.player-cutout-wrapper').getBoundingClientRect();
+                        homeSpot.targetX = (rect.left + rect.width / 2) - captureArea.left;
+                        homeSpot.targetY = (rect.top + rect.height / 2) - captureArea.top;
+                    }
                 }
+            } else if (activeSpotlightTeam === 'climax') {
+                targetAwaySpotR = 2000;
+                targetHomeSpotR = 2000;
             }
             
-            // Easing function for smooth movement
+            // Smoothly ease the positions
             const spotEase = 0.2;
             awaySpot.x += (awaySpot.targetX - awaySpot.x) * spotEase; awaySpot.y += (awaySpot.targetY - awaySpot.y) * spotEase;
             homeSpot.x += (homeSpot.targetX - homeSpot.x) * spotEase; homeSpot.y += (homeSpot.targetY - homeSpot.y) * spotEase;
             
-            // Handle Climax Widening
-            const isClimax = activeSpotlightTeam === 'climax';
-            const targetInnerR = isClimax ? 800 : 120;
-            const targetOuterR = isClimax ? 1800 : 450;
-            currentInnerR += (targetInnerR - currentInnerR) * 0.05;
-            currentOuterR += (targetOuterR - currentOuterR) * 0.05;
+            // FIX 3: Smoothly ease the radiuses so they fade up and down dynamically
+            currentAwaySpotR += (targetAwaySpotR - currentAwaySpotR) * 0.15;
+            currentHomeSpotR += (targetHomeSpotR - currentHomeSpotR) * 0.15;
             
             // Roaming Math
             const roamSpeed = 0.08;
@@ -367,55 +370,52 @@
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.globalCompositeOperation = 'source-over';
-            ctx.fillStyle = `rgba(0, 0, 0, ${blackoutAlpha})`; 
+            
+            // Pure 100% black so the screen is completely dead at the start
+            ctx.fillStyle = `rgba(0, 0, 0, 1.0)`; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
             ctx.globalCompositeOperation = 'destination-out';
-            drawHole(ctx, awaySpot.x, awaySpot.y, currentInnerR, currentOuterR);
-            drawHole(ctx, homeSpot.x, homeSpot.y, currentInnerR, currentOuterR);
+            drawHole(ctx, awaySpot.x, awaySpot.y, currentAwaySpotR * 0.25, currentAwaySpotR);
+            drawHole(ctx, homeSpot.x, homeSpot.y, currentHomeSpotR * 0.25, currentHomeSpotR);
             
-            if (!isClimax) { 
-                drawHole(ctx, roamA1.x, roamA1.y, 30, 210); 
-                drawHole(ctx, roamA2.x, roamA2.y, 30, 210); 
-                drawHole(ctx, roamH1.x, roamH1.y, 30, 210); 
-                drawHole(ctx, roamH2.x, roamH2.y, 30, 210); 
+            if (activeSpotlightTeam !== 'climax') { 
+                drawHole(ctx, roamA1.x, roamA1.y, 30, 210 * (currentAwaySpotR/450)); 
+                drawHole(ctx, roamA2.x, roamA2.y, 30, 210 * (currentAwaySpotR/450)); 
+                drawHole(ctx, roamH1.x, roamH1.y, 30, 210 * (currentHomeSpotR/450)); 
+                drawHole(ctx, roamH2.x, roamH2.y, 30, 210 * (currentHomeSpotR/450)); 
             }
             
             ctx.globalCompositeOperation = 'source-over';
-            if (!isClimax) { 
-                drawColoredTint(ctx, roamA1.x, roamA1.y, 30, 210, awayPrimaryHex); 
-                drawColoredTint(ctx, roamA2.x, roamA2.y, 30, 210, awaySecondaryHex); 
-                drawColoredTint(ctx, roamH1.x, roamH1.y, 30, 210, homePrimaryHex); 
-                drawColoredTint(ctx, roamH2.x, roamH2.y, 30, 210, homeSecondaryHex); 
+            if (activeSpotlightTeam !== 'climax') { 
+                drawColoredTint(ctx, roamA1.x, roamA1.y, 30, 210, awayPrimaryHex, currentAwaySpotR/450); 
+                drawColoredTint(ctx, roamA2.x, roamA2.y, 30, 210, awaySecondaryHex, currentAwaySpotR/450); 
+                drawColoredTint(ctx, roamH1.x, roamH1.y, 30, 210, homePrimaryHex, currentHomeSpotR/450); 
+                drawColoredTint(ctx, roamH2.x, roamH2.y, 30, 210, homeSecondaryHex, currentHomeSpotR/450); 
             }
-            drawMainHalo(ctx, awaySpot.x, awaySpot.y, currentInnerR, currentOuterR, awayPrimaryHex, awaySecondaryHex);
-            drawMainHalo(ctx, homeSpot.x, homeSpot.y, currentInnerR, currentOuterR, homePrimaryHex, homeSecondaryHex);
+            drawMainHalo(ctx, awaySpot.x, awaySpot.y, currentAwaySpotR * 0.25, currentAwaySpotR, awayPrimaryHex, awaySecondaryHex);
+            drawMainHalo(ctx, homeSpot.x, homeSpot.y, currentHomeSpotR * 0.25, currentHomeSpotR, homePrimaryHex, homeSecondaryHex);
             
             requestAnimationFrame(renderSpotlights);
         }
 
         function moveRoamingLights() {
-            function getEvasiveTarget(minY, maxY) {
+            function getEvasiveTarget(minY, maxY, mainSpot) {
                 let rx, ry; let attempts = 0; let isValid = false;
                 while (!isValid && attempts < 15) {
                     rx = Math.floor(Math.random() * 880) + 100; 
                     ry = Math.floor(Math.random() * (maxY - minY)) + minY; 
-                    
-                    // Away Spot Check vs Main Away Spot
-                    const distToA = Math.hypot(rx - awaySpot.x, ry - awaySpot.y);
-                    const distToH = Math.hypot(rx - homeSpot.x, ry - homeSpot.y);
-                    if (distToA > 300 && distToH > 300) isValid = true; 
+                    const distToMain = Math.hypot(rx - mainSpot.x, ry - mainSpot.y);
+                    if (distToMain > 300) isValid = true; 
                     attempts++;
                 }
                 return { x: rx, y: ry };
             }
             
-            // Top Half Limits: Y=100 to Y=860
-            const nsA1 = getEvasiveTarget(100, 860); roamA1.targetX = nsA1.x; roamA1.targetY = nsA1.y;
-            const nsA2 = getEvasiveTarget(100, 860); roamA2.targetX = nsA2.x; roamA2.targetY = nsA2.y;
-            // Bottom Half Limits: Y=1060 to Y=1820
-            const nsH1 = getEvasiveTarget(1060, 1820); roamH1.targetX = nsH1.x; roamH1.targetY = nsH1.y;
-            const nsH2 = getEvasiveTarget(1060, 1820); roamH2.targetX = nsH2.x; roamH2.targetY = nsH2.y;
+            const nsA1 = getEvasiveTarget(100, 860, awaySpot); roamA1.targetX = nsA1.x; roamA1.targetY = nsA1.y;
+            const nsA2 = getEvasiveTarget(100, 860, awaySpot); roamA2.targetX = nsA2.x; roamA2.targetY = nsA2.y;
+            const nsH1 = getEvasiveTarget(1060, 1820, homeSpot); roamH1.targetX = nsH1.x; roamH1.targetY = nsH1.y;
+            const nsH2 = getEvasiveTarget(1060, 1820, homeSpot); roamH2.targetX = nsH2.x; roamH2.targetY = nsH2.y;
         }
 
         function getNbaLogo(abbr) { if (!abbr) return ''; return `logos/${abbr}.svg`; }
@@ -530,7 +530,6 @@
             const awayAbbr = game.teams[0]; const homeAbbr = game.teams[1];
             const awayData = NBA_TEAMS[awayAbbr]; const homeData = NBA_TEAMS[homeAbbr];
 
-            // Apply Dual CSS Themes
             if(awayData) {
                 let pColor = awayData.primary === "#ffffff" ? awayData.secondary : awayData.primary;
                 document.documentElement.style.setProperty('--away-primary', pColor);
@@ -544,21 +543,13 @@
                 homePrimaryHex = pColor; homeSecondaryHex = homeData.secondary;
             }
 
-            // Set Logos
             document.getElementById('away-logo').src = getNbaLogo(awayAbbr);
             document.getElementById('home-logo').src = getNbaLogo(homeAbbr);
 
-            // Fetch Starters
             const awayStarters = game.rosters[awayAbbr].players.slice(0, 5);
             const homeStarters = game.rosters[homeAbbr].players.slice(0, 5);
             const container = document.getElementById('players-container'); 
             container.innerHTML = '';
-
-            // Generate "Tennis Match" Timeline
-            // Voiceover assumed pacing:
-            // 0.0s: "Are you ready?..."
-            // 2.0s: Spotlights Turn On
-            // 4.0s: Away PG -> 6.5s: Home PG -> 9.0s: Away SG -> 11.5s: Home SG ...
             
             for(let i=0; i<5; i++) {
                 let awayDelay = 4.0 + (i * 5.0);
@@ -567,7 +558,6 @@
                 container.insertAdjacentHTML('beforeend', buildPlayerNode(awayStarters[i], i, 'away', AWAY_COORDS[i], awayDelay));
                 container.insertAdjacentHTML('beforeend', buildPlayerNode(homeStarters[i], i, 'home', HOME_COORDS[i], homeDelay));
 
-                // Script Timeline Actions - Away
                 setTimeout(() => {
                     activeSpotlightTeam = 'away'; activePlayerIndex = i;
                     document.getElementById(`away-wrap-${i}`).classList.add('player-highlight');
@@ -580,7 +570,6 @@
                     if(shock) { shock.classList.remove('anim-shockwave'); void shock.offsetWidth; shock.classList.add('anim-shockwave'); }
                 }, (awayDelay + 1.2) * 1000);
 
-                // Script Timeline Actions - Home
                 setTimeout(() => {
                     activeSpotlightTeam = 'home'; activePlayerIndex = i;
                     document.getElementById(`home-wrap-${i}`).classList.add('player-highlight');
@@ -594,16 +583,16 @@
                 }, (homeDelay + 1.2) * 1000);
             }
 
-            // Start Lighting Engine Loop
-            blackoutAlpha = 0.95; 
+            // Initialization logic
             activeSpotlightTeam = null; 
+            currentAwaySpotR = 0;
+            currentHomeSpotR = 0;
             requestAnimationFrame(renderSpotlights);
             
             if (roamingInterval) clearInterval(roamingInterval);
             roamingInterval = setInterval(moveRoamingLights, 600);
             moveRoamingLights();
 
-            // Timeline Climax
             setTimeout(() => {
                 activeSpotlightTeam = 'climax';
                 document.getElementById('fault-line').classList.add('shatter-line');
@@ -614,7 +603,6 @@
         function takeScreenshot() {
             const capture = document.getElementById('capture-area'); capture.style.opacity = '0.5';
             setTimeout(() => { capture.style.opacity = '1'; }, 100);
-            alert("Ready! Playwright will capture #capture-area as a 1080x1920 vertical video format.");
         }
 
         loadData();
