@@ -147,7 +147,28 @@
 
         .starter-node { left: var(--final-x); top: var(--final-y); z-index: 20; }
         .bench-node { z-index: 5; width: 150px; height: 200px; }
-        .bench-node .player-cutout-wrapper { height: 140px; z-index: 10; }
+        .bench-node .player-cutout-wrapper { 
+            height: 140px; 
+            z-index: 10; 
+            /* Infinite bounce that delays exactly enough to let them finish their entrance first */
+            animation: benchBounce 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) infinite alternate;
+            animation-delay: calc(var(--entrance-delay) + 1.2s);
+        }
+
+        @keyframes benchBounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-25px); }
+        }
+
+        /* Chaotic Bench Mob Desync - Forces each player to bounce at a slightly different speed */
+        #bench-node-0 .player-cutout-wrapper { animation-duration: 0.32s; }
+        #bench-node-1 .player-cutout-wrapper { animation-duration: 0.41s; }
+        #bench-node-2 .player-cutout-wrapper { animation-duration: 0.35s; }
+        #bench-node-3 .player-cutout-wrapper { animation-duration: 0.39s; }
+        #bench-node-4 .player-cutout-wrapper { animation-duration: 0.31s; }
+        #bench-node-5 .player-cutout-wrapper { animation-duration: 0.44s; }
+        #bench-node-6 .player-cutout-wrapper { animation-duration: 0.36s; }
+
         .bench-node .hud-name { font-size: 16px; padding: 4px 16px; bottom: -10px; }
 
         /* ========================================================
@@ -178,22 +199,27 @@
             0% { left: 120%; top: 100%; opacity: 0; transform: translate(-50%, -50%) scale(1); }
             5% { left: 110%; top: 100%; opacity: 1; transform: translate(-50%, -50%) scale(1); }
             15% { left: 90%; top: -12%; opacity: 1; transform: translate(-50%, -50%) scale(1); animation-timing-function: linear; }
-            45% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%) scale(1); animation-timing-function: ease-in-out; }
-            50% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -40%) scale(1); animation-timing-function: cubic-bezier(0.1, 0.8, 0.3, 1); } 
-            60% { left: 10%; top: -50%; opacity: 0; transform: translate(-50%, -50%) scale(6); } 
-            65% { left: var(--final-x); top: -100%; opacity: 0; transform: translate(-50%, -50%) scale(3); animation-timing-function: cubic-bezier(0.5, 0, 1, 1); } 
+            /* Walk to center */
+            40% { left: 50%; top: -12%; opacity: 1; transform: translate(-50%, -50%) scale(1); animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1); }
+            /* Apex of the leap: Massive scale right into the camera lens */
+            55% { left: 50%; top: 50%; opacity: 1; transform: translate(-50%, -50%) scale(6); animation-timing-function: cubic-bezier(0.5, 0, 1, 1); } 
+            /* Crash down into final spot */
             80% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) scale(1); } 
             100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
 
         .anim-flips { animation: flipsMove 3s ease-in-out var(--entrance-delay) both; }
         @keyframes flipsMove {
-            0% { left: 120%; top: 100%; opacity: 0; transform: translate(-50%, -50%) rotate(0deg); }
-            5% { left: 110%; top: 100%; opacity: 1; transform: translate(-50%, -50%) rotate(0deg); }
-            15% { left: 90%; top: -12%; opacity: 1; transform: translate(-50%, -50%) rotate(0deg); }
-            45% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%) rotate(0deg); }
-            50% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -40%) rotate(0deg); }
-            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) rotate(-720deg); }
+            0% { left: 120%; top: 100%; opacity: 0; transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+            5% { left: 110%; top: 100%; opacity: 1; transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+            15% { left: 90%; top: -12%; opacity: 1; transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+            /* Walk to center */
+            40% { left: 50%; top: -12%; opacity: 1; transform: translate(-50%, -50%) rotate(0deg) scale(1); animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1); }
+            /* Launch high into the air and spin */
+            60% { left: calc(var(--final-x) + 10%); top: -45%; opacity: 1; transform: translate(-50%, -50%) rotate(-360deg) scale(2.2); animation-timing-function: ease-in; } 
+            /* Land and finish rotation */
+            80% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) rotate(-720deg) scale(1); }
+            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) rotate(-720deg) scale(1); }
         }
 
         .anim-strut { animation: strutMove 3s ease-in-out var(--entrance-delay) both; }
@@ -208,14 +234,16 @@
 
         .anim-taz { animation: tazMove 3s ease-in-out var(--entrance-delay) both; }
         @keyframes tazMove {
-            0% { left: 120%; top: 100%; opacity: 0; transform: translate(-50%, -50%) rotateY(0deg); filter: blur(0); }
-            5% { left: 110%; top: 100%; opacity: 1; transform: translate(-50%, -50%) rotateY(0deg); filter: blur(0); }
-            15% { left: 90%; top: -12%; opacity: 1; transform: translate(-50%, -50%) rotateY(0deg); filter: blur(0); }
-            45% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%) rotateY(0deg); filter: blur(0); }
-            50% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%) rotateY(0deg); filter: blur(0); }
-            55% { left: 10%; top: -12%; opacity: 1; transform: translate(-50%, -50%) rotateY(3600deg); filter: blur(8px); }
-            95% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) rotateY(7200deg); filter: blur(8px); }
-            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) rotateY(7200deg); filter: blur(0); }
+            0% { left: 120%; top: 100%; opacity: 0; transform: translate(-50%, -50%) rotateY(0deg) scale(1); filter: blur(0); }
+            5% { left: 110%; top: 100%; opacity: 1; transform: translate(-50%, -50%) rotateY(0deg) scale(1); filter: blur(0); }
+            15% { left: 90%; top: -12%; opacity: 1; transform: translate(-50%, -50%) rotateY(0deg) scale(1); filter: blur(0); }
+            /* Walk to center */
+            40% { left: 50%; top: -12%; opacity: 1; transform: translate(-50%, -50%) rotateY(0deg) scale(1); filter: blur(0); animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1); }
+            /* Launch into the air and become a blurred tornado */
+            60% { left: calc(var(--final-x) + 10%); top: -45%; opacity: 1; transform: translate(-50%, -50%) rotateY(3600deg) scale(2.2); filter: blur(6px); animation-timing-function: ease-in; } 
+            /* Slam into position */
+            80% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) rotateY(7200deg) scale(1); filter: blur(0); }
+            100% { left: var(--final-x); top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) rotateY(7200deg) scale(1); filter: blur(0); }
         }
 
         .anim-teleport { animation: teleportMove 3s ease-in-out var(--entrance-delay) both; }
@@ -342,7 +370,7 @@
                     <img class="court-logo" src="" alt="">
                 </div>
                 
-                <div id="game3-text" class="neon-game-text" data-text="GAME 2">GAME 2</div>
+                <div id="game3-text" class="neon-game-text" data-text="GAME 6">GAME 6</div>
 
                 <div id="players-container"></div>
             </div>
@@ -706,7 +734,7 @@
                 const photoHtml = (photoUrl && photoUrl.trim() !== '') ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` : `<div class="fallback-silhouette"></div>`;
                 
                 // Shifted forward to account for the removed intro
-                const delays = [10.93, 18.15, 26.17, 33.72, 40.87]; 
+                const delays = [12.43, 19.65, 27.67, 35.22, 42.37]; 
                 const baseDelay = delays[index]; 
                 
                 const randomAnimClass = shuffledAnims[index % shuffledAnims.length];
