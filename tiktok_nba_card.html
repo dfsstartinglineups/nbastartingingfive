@@ -241,7 +241,6 @@
 
         const POSITIONS = ["PG", "SG", "SF", "PF", "C"];
         
-        // Coords relative to 0-100% of full vertical height (1920)
         const AWAY_COORDS = [
             { x: 50, y: 38 }, { x: 20, y: 25 }, { x: 80, y: 25 }, { x: 30, y: 8 }, { x: 70, y: 8 }
         ];
@@ -568,10 +567,10 @@
             // 4.5s: Both Logos Highlight
             setTimeout(() => { activeSpotlightTeam = 'both_logos'; }, 4500);
             
-            // 6.0s: Start Player Loop (spaced out to 3.5s intervals)
+            // 9.0s: Start Player Loop (spaced out to 4.5s intervals)
             for(let i=0; i<5; i++) {
-                let awayDelay = 6.0 + (i * 7.0);
-                let homeDelay = awayDelay + 3.5;
+                let awayDelay = 9.0 + (i * 9.0);
+                let homeDelay = awayDelay + 4.5;
                 
                 container.insertAdjacentHTML('beforeend', buildPlayerNode(awayStarters[i], i, 'away', AWAY_COORDS[i], awayDelay));
                 container.insertAdjacentHTML('beforeend', buildPlayerNode(homeStarters[i], i, 'home', HOME_COORDS[i], homeDelay));
@@ -601,13 +600,13 @@
                 }, (homeDelay + 1.2) * 1000);
             }
 
-            // Timeline Climax pushed back to 43 seconds to accommodate the slower pace
+            // Timeline Climax at exactly 53.0s
             setTimeout(() => {
                 activeSpotlightTeam = 'climax';
                 document.getElementById('fault-line').classList.add('shatter-line');
                 document.getElementById('game7-text').classList.add('reveal-game7');
                 document.getElementById('spotlight-canvas').style.opacity = '0';
-            }, 43000); 
+            }, 53000); 
         }
 
         function takeScreenshot() {
