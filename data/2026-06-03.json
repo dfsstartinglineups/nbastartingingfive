@@ -1,5 +1,5 @@
 {
-  "last_updated": "Jun 03, 10:34 PM ET",
+  "last_updated": "Jun 03, 10:36 PM ET",
   "player_news": [
     {
       "player_name": "Jalen Brunson",
@@ -9,7 +9,7 @@
       "description": "Has Returned",
       "time_elapsed": "1.1h",
       "next_game": "Wednesday @SAS",
-      "local_timestamp": 1780540478.3918087
+      "local_timestamp": 1780540650.1898732
     },
     {
       "player_name": "Mitchell Robinson",
@@ -19,7 +19,7 @@
       "description": "Playing right hand fractured 5th metacarpal",
       "time_elapsed": "2.6h",
       "next_game": "Wednesday @SAS",
-      "local_timestamp": 1780540478.389809
+      "local_timestamp": 1780540650.1878734
     }
   ],
   "espn_schedule": {
@@ -426,6 +426,11 @@
                     "value": 21.0,
                     "displayValue": "21",
                     "period": 3
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 4
                   }
                 ],
                 "statistics": [
@@ -759,7 +764,7 @@
                   ],
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/ny.png"
                 },
-                "score": "76",
+                "score": "78",
                 "linescores": [
                   {
                     "value": 19.0,
@@ -775,6 +780,11 @@
                     "value": 28.0,
                     "displayValue": "28",
                     "period": 3
+                  },
+                  {
+                    "value": 2.0,
+                    "displayValue": "2",
+                    "period": 4
                   }
                 ],
                 "statistics": [
@@ -791,22 +801,22 @@
                   {
                     "name": "assists",
                     "abbreviation": "AST",
-                    "displayValue": "17"
+                    "displayValue": "18"
                   },
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "72"
+                    "displayValue": "74"
                   },
                   {
                     "name": "fieldGoalsMade",
                     "abbreviation": "FGM",
-                    "displayValue": "30"
+                    "displayValue": "31"
                   },
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "41.7"
+                    "displayValue": "41.9"
                   },
                   {
                     "name": "freeThrowPct",
@@ -826,7 +836,7 @@
                   {
                     "name": "points",
                     "abbreviation": "PTS",
-                    "displayValue": "76"
+                    "displayValue": "78"
                   },
                   {
                     "name": "threePointPct",
@@ -846,12 +856,12 @@
                   {
                     "name": "avgPoints",
                     "abbreviation": "PTS",
-                    "displayValue": "76.0"
+                    "displayValue": "78.0"
                   },
                   {
                     "name": "avgAssists",
                     "abbreviation": "AST",
-                    "displayValue": "17.0"
+                    "displayValue": "18.0"
                   },
                   {
                     "name": "threePointFieldGoalPct",
@@ -988,7 +998,7 @@
                     "leaders": [
                       {
                         "displayValue": "18 PTS, 10 REB",
-                        "value": 36.0,
+                        "value": 35.20000076293945,
                         "athlete": {
                           "id": "3136195",
                           "fullName": "Karl-Anthony Towns",
@@ -1049,32 +1059,35 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401859963531",
+                "id": "401859963542",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "156",
+                  "text": "Offensive Rebound"
                 },
-                "text": "End of the 3rd Quarter",
+                "text": "Knicks offensive team rebound",
                 "scoreValue": 0,
+                "team": {
+                  "id": "18"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.54,
-                  "awayWinPercentage": 0.45999999999999996
+                  "homeWinPercentage": 0.515,
+                  "awayWinPercentage": 0.485
                 }
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 3,
+              "clock": 669.0,
+              "displayClock": "11:09",
+              "period": 4,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "End of Period",
-                "detail": "End of 3rd Quarter",
-                "shortDetail": "End of 3rd"
+                "description": "In Progress",
+                "detail": "11:09 - 4th Quarter",
+                "shortDetail": "11:09 - 4th"
               }
             },
             "broadcasts": [
@@ -1206,17 +1219,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 3,
+          "clock": 669.0,
+          "displayClock": "11:09",
+          "period": 4,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "End of Period",
-            "detail": "End of 3rd Quarter",
-            "shortDetail": "End of 3rd"
+            "description": "In Progress",
+            "detail": "11:09 - 4th Quarter",
+            "shortDetail": "11:09 - 4th"
           }
         }
       }
