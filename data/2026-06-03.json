@@ -1,5 +1,5 @@
 {
-  "last_updated": "Jun 03, 09:57 PM ET",
+  "last_updated": "Jun 03, 10:01 PM ET",
   "player_news": [
     {
       "player_name": "Jalen Brunson",
@@ -7,9 +7,9 @@
       "position": "PG",
       "status_badge": "RET",
       "description": "Has Returned",
-      "time_elapsed": "29m",
+      "time_elapsed": "32m",
       "next_game": "Wednesday @SAS",
-      "local_timestamp": 1780538298.82888
+      "local_timestamp": 1780538499.2589586
     },
     {
       "player_name": "Mitchell Robinson",
@@ -19,7 +19,7 @@
       "description": "Playing right hand fractured 5th metacarpal",
       "time_elapsed": "2.0h",
       "next_game": "Wednesday @SAS",
-      "local_timestamp": 1780538298.8268802
+      "local_timestamp": 1780538499.2569587
     }
   ],
   "espn_schedule": {
@@ -421,6 +421,11 @@
                     "value": 28.0,
                     "displayValue": "28",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -765,6 +770,11 @@
                     "value": 29.0,
                     "displayValue": "29",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -1039,32 +1049,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401859963360",
+                "id": "401859963363",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "584",
+                  "text": "Substitution"
                 },
-                "text": "End of the 2nd Quarter",
+                "text": "Josh Hart enters the game for Landry Shamet",
                 "scoreValue": 0,
+                "team": {
+                  "id": "18"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
                   "homeWinPercentage": 0.773,
                   "awayWinPercentage": 0.22699999999999998
-                }
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "3062679",
+                    "fullName": "Josh Hart",
+                    "displayName": "Josh Hart",
+                    "shortName": "J. Hart",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/3062679/josh-hart"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/3062679.png",
+                    "jersey": "3",
+                    "position": "G",
+                    "team": {
+                      "id": "18"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 2,
+              "clock": 720.0,
+              "displayClock": "12:00",
+              "period": 3,
               "type": {
-                "id": "23",
-                "name": "STATUS_HALFTIME",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "Halftime",
-                "detail": "Halftime",
-                "shortDetail": "Halftime"
+                "description": "In Progress",
+                "detail": "12:00 - 3rd Quarter",
+                "shortDetail": "12:00 - 3rd"
               }
             },
             "broadcasts": [
@@ -1196,17 +1233,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 2,
+          "clock": 720.0,
+          "displayClock": "12:00",
+          "period": 3,
           "type": {
-            "id": "23",
-            "name": "STATUS_HALFTIME",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "Halftime",
-            "detail": "Halftime",
-            "shortDetail": "Halftime"
+            "description": "In Progress",
+            "detail": "12:00 - 3rd Quarter",
+            "shortDetail": "12:00 - 3rd"
           }
         }
       }
