@@ -139,9 +139,9 @@ def build_audio_timeline():
     # Master list of tuples: (Timestamp, TextToSpeak, Filename)
     script_timeline = [
         # Game 2 Must-Win Intro
-        (0.5, "New York stole Game 1... and now it's a Spurs MUST-WIN Game 2!", "intro_1.mp3"),
-        (5.5, f"The {away_full}...", "intro_2.mp3"),
-        (8.0, f"...versus the {home_full}.", "intro_3.mp3")
+        (0.5, "New York stole Game 1... now it's a MUST-WIN Game 2!", "intro_1.mp3"),
+        (5.5, f"The {away_full}!...", "intro_2.mp3"),
+        (8.0, f"...versus the {home_full}!.", "intro_3.mp3")
     ]
 
     SPOKEN_POSITIONS = ["Point Guard", "Shooting Guard", "Small Forward", "Power Forward", "Center"]
