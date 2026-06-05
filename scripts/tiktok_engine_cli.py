@@ -51,7 +51,7 @@ SHORT_NAMES = {
 # ==========================================
 
 async def record_nba_video():
-    print(f"🎥 Recording NBA Finals Game 1 Dual-Court for {TARGET_TEAM}...")
+    print(f"🎥 Recording NBA Finals Game 2 Dual-Court for {TARGET_TEAM}...")
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         context = await browser.new_context(
@@ -138,8 +138,8 @@ def build_audio_timeline():
 
     # Master list of tuples: (Timestamp, TextToSpeak, Filename)
     script_timeline = [
-        # Isolated "Three-Punch" Intro Sequence for NBA Finals
-        (0.5, "ARE YOU READY?! It's Game 1 of the NBA Finals!", "intro_1.mp3"),
+        # Game 2 Must-Win Intro
+        (0.5, "ARE YOU READY?! New York stole Game 1... and now it's a MUST-WIN Game 2!", "intro_1.mp3"),
         (5.5, f"The {away_full}...", "intro_2.mp3"),
         (8.0, f"...versus the {home_full}.", "intro_3.mp3")
     ]
@@ -166,8 +166,8 @@ def build_audio_timeline():
         home_time = 15.5 + (i * 9.0)
         script_timeline.append((home_time, f"{HOME_LEAD_INS[i]} for the {home_short}... {home_shout}", f"home_{i}.mp3"))
 
-    # Outro hits exactly when the lights come on at 56s
-    script_timeline.append((56.0, "Who will take the first step... to the ring?", "outro.mp3"))
+    # Game 2 Outro
+    script_timeline.append((56.0, "Will San Antonio answer... or will the Knicks take a stranglehold?", "outro.mp3"))
 
     # Process all clips
     audio_assets = []
@@ -183,7 +183,7 @@ def build_audio_timeline():
 
 def create_final_tiktok(silent_video_path, audio_assets):
     print("🎬 Stitching video and precision audio timeline together...")
-    final_output = os.path.join(OUTPUT_DIR, f"{TARGET_TEAM}_{TARGET_DATE}_game1_finals.mp4")
+    final_output = os.path.join(OUTPUT_DIR, f"{TARGET_TEAM}_{TARGET_DATE}_game2_finals.mp4")
     
     try:
         video_clip = VideoFileClip(silent_video_path)
@@ -215,7 +215,7 @@ def create_final_tiktok(silent_video_path, audio_assets):
         if os.path.exists(silent_video_path): 
             os.remove(silent_video_path)
         
-        print(f"🏆 Final NBA Finals Game 1 Video ready: {final_output}")
+        print(f"🏆 Final NBA Finals Game 2 Video ready: {final_output}")
         return final_output
     except Exception as e:
         print(f"❌ Video Stitching Failed: {e}")
@@ -233,10 +233,10 @@ def email_video(video_path):
         return
 
     msg = EmailMessage()
-    msg['Subject'] = f"🏀 NBA Finals Game 1 Hype Video: {TARGET_TEAM}"
+    msg['Subject'] = f"🏀 NBA Finals Game 2 Hype Video: {TARGET_TEAM}"
     msg['From'] = sender_email
     msg['To'] = target_email
-    msg.set_content(f"Your NBA Finals Game 1 TikTok dual-court video for {TARGET_TEAM} has been generated and is attached!")
+    msg.set_content(f"Your NBA Finals Game 2 TikTok dual-court video for {TARGET_TEAM} has been generated and is attached!")
 
     try:
         file_size_mb = os.path.getsize(video_path) / (1024 * 1024)
