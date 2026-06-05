@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NBA Finals Game 1 - Tale of the Tape</title>
+    <title>NBA Finals Game 2 - Tale of the Tape</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&family=Oswald:wght@500;700&family=Montserrat:ital,wght@0,800;1,900&display=swap" rel="stylesheet">
@@ -64,7 +64,7 @@
         .shatter-line { opacity: 0 !important; }
 
         /* --- WATERMARKS --- */
-        .broadcast-watermark { position: absolute; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2; pointer-events: none; opacity: 0.15; }
+        .broadcast-watermark { position: absolute; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2; pointer-events: none; opacity: 0.35; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5)); }
         .court-logo { width: 420px; height: 420px; object-fit: contain; filter: grayscale(0.5) contrast(1.2); }
         #top-watermark { top: 25%; }
         #bottom-watermark { top: 75%; }
@@ -72,7 +72,7 @@
         /* --- CLIMAX TEXT --- */
         #game7-text {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1.5);
-            font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; font-size: 85px;
+            font-family: 'Montserrat', sans-serif; font-weight: 900; font-style: italic; font-size: 75px;
             color: #fff; letter-spacing: 2px; text-transform: uppercase; text-align: center; line-height: 1.0;
             z-index: 100; white-space: nowrap; opacity: 0; pointer-events: none;
             text-shadow: 0 15px 30px rgba(0,0,0,0.9);
@@ -90,8 +90,7 @@
         
         .player-node { 
             position: absolute; display: flex; flex-direction: column; align-items: center;
-            left: var(--final-x);
-            width: 200px; height: 260px; transform: translate(-50%, -50%); z-index: 20;
+            width: 200px; height: 260px; z-index: 20;
         }
         
         .player-cutout-wrapper {
@@ -139,13 +138,29 @@
         @keyframes typeLetter { to { opacity: 1; } }
 
         /* ========================================================
-           ENTRANCES
+           3D JUMP ENTRANCES (Z-AXIS)
            ======================================================== */
-        .anim-drop-away { animation: dropAway 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) var(--entrance-delay) both; }
-        @keyframes dropAway { 0% { top: -20%; opacity: 0; transform: translate(-50%, -50%) scale(1.5); filter: blur(5px); } 100% { top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); } }
+        @keyframes jump0 { 0% { top: 120%; left: 50%; transform: translate(-50%, -50%) scale(0.2); opacity: 0; } 50% { top: 50%; left: 50%; transform: translate(-50%, -50%) scale(2.8); opacity: 1; } 100% { top: var(--final-y); left: var(--final-x); transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+        @keyframes jump1 { 0% { top: -20%; left: 50%; transform: translate(-50%, -50%) scale(0.2); opacity: 0; } 50% { top: 50%; left: 50%; transform: translate(-50%, -50%) scale(2.8); opacity: 1; } 100% { top: var(--final-y); left: var(--final-x); transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+        @keyframes jump2 { 0% { top: 50%; left: -20%; transform: translate(-50%, -50%) scale(0.2); opacity: 0; } 50% { top: 50%; left: 50%; transform: translate(-50%, -50%) scale(2.8); opacity: 1; } 100% { top: var(--final-y); left: var(--final-x); transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+        @keyframes jump3 { 0% { top: 50%; left: 120%; transform: translate(-50%, -50%) scale(0.2); opacity: 0; } 50% { top: 50%; left: 50%; transform: translate(-50%, -50%) scale(2.8); opacity: 1; } 100% { top: var(--final-y); left: var(--final-x); transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+        @keyframes jump4 { 0% { top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.2); opacity: 0; } 50% { top: 50%; left: 50%; transform: translate(-50%, -50%) scale(2.8); opacity: 1; } 100% { top: var(--final-y); left: var(--final-x); transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+        @keyframes jump5 { 0% { top: 120%; left: -20%; transform: translate(-50%, -50%) scale(0.2); opacity: 0; } 50% { top: 50%; left: 50%; transform: translate(-50%, -50%) scale(2.8); opacity: 1; } 100% { top: var(--final-y); left: var(--final-x); transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+        @keyframes jump6 { 0% { top: -20%; left: 120%; transform: translate(-50%, -50%) scale(0.2); opacity: 0; } 50% { top: 50%; left: 50%; transform: translate(-50%, -50%) scale(2.8); opacity: 1; } 100% { top: var(--final-y); left: var(--final-x); transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+        @keyframes jump7 { 0% { top: 120%; left: 120%; transform: translate(-50%, -50%) scale(0.2); opacity: 0; } 50% { top: 50%; left: 50%; transform: translate(-50%, -50%) scale(2.8); opacity: 1; } 100% { top: var(--final-y); left: var(--final-x); transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+        @keyframes jump8 { 0% { top: -20%; left: -20%; transform: translate(-50%, -50%) scale(0.2); opacity: 0; } 50% { top: 50%; left: 50%; transform: translate(-50%, -50%) scale(2.8); opacity: 1; } 100% { top: var(--final-y); left: var(--final-x); transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+        @keyframes jump9 { 0% { top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.2) rotate(-360deg); opacity: 0; } 50% { top: 50%; left: 50%; transform: translate(-50%, -50%) scale(2.8) rotate(-180deg); opacity: 1; } 100% { top: var(--final-y); left: var(--final-x); transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; } }
 
-        .anim-drop-home { animation: dropHome 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) var(--entrance-delay) both; }
-        @keyframes dropHome { 0% { top: 120%; opacity: 0; transform: translate(-50%, -50%) scale(1.5); filter: blur(5px); } 100% { top: var(--final-y); opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); } }
+        .anim-jump-0 { animation: jump0 1.2s cubic-bezier(0.25, 1, 0.5, 1) var(--entrance-delay) both; }
+        .anim-jump-1 { animation: jump1 1.2s cubic-bezier(0.25, 1, 0.5, 1) var(--entrance-delay) both; }
+        .anim-jump-2 { animation: jump2 1.2s cubic-bezier(0.25, 1, 0.5, 1) var(--entrance-delay) both; }
+        .anim-jump-3 { animation: jump3 1.2s cubic-bezier(0.25, 1, 0.5, 1) var(--entrance-delay) both; }
+        .anim-jump-4 { animation: jump4 1.2s cubic-bezier(0.25, 1, 0.5, 1) var(--entrance-delay) both; }
+        .anim-jump-5 { animation: jump5 1.2s cubic-bezier(0.25, 1, 0.5, 1) var(--entrance-delay) both; }
+        .anim-jump-6 { animation: jump6 1.2s cubic-bezier(0.25, 1, 0.5, 1) var(--entrance-delay) both; }
+        .anim-jump-7 { animation: jump7 1.2s cubic-bezier(0.25, 1, 0.5, 1) var(--entrance-delay) both; }
+        .anim-jump-8 { animation: jump8 1.2s cubic-bezier(0.25, 1, 0.5, 1) var(--entrance-delay) both; }
+        .anim-jump-9 { animation: jump9 1.2s cubic-bezier(0.25, 1, 0.5, 1) var(--entrance-delay) both; }
 
         /* SHOCKWAVE RING */
         .shockwave-ring { position: absolute; top: 80%; left: 50%; width: 140px; height: 140px; border-radius: 50%; border: 8px solid #fff; transform: translate(-50%, -50%) scale(0.5); opacity: 0; z-index: 11; pointer-events: none; }
@@ -199,7 +214,7 @@
             
             <div id="players-container"></div>
             
-            <div id="game7-text">NBA FINALS<br>WHO WILL TAKE<br>THE FIRST STEP<br>TO THE RING?</div>
+            <div id="game7-text">NBA FINALS<br>GAME 2<br>A MUST-WIN IN SAN ANTONIO</div>
         </div>
 
         <canvas id="spotlight-canvas" width="1080" height="1920"></canvas>
@@ -254,7 +269,8 @@
 
         // Lighting System
         let activeSpotlightTeam = 'none'; 
-        let activePlayerIndex = -1;
+        let activeAwayIndex = -1;
+        let activeHomeIndex = -1;
         
         let currentAwaySpotR = 0; let targetAwaySpotR = 0;
         let currentHomeSpotR = 0; let targetHomeSpotR = 0;
@@ -316,44 +332,46 @@
             const captureArea = document.getElementById('capture-area').getBoundingClientRect();
             
             if (activeSpotlightTeam === 'none') {
-                targetAwaySpotR = 0;
-                targetHomeSpotR = 0;
-                awaySpot.targetX = 540; awaySpot.targetY = 480;
-                homeSpot.targetX = 540; homeSpot.targetY = 1440;
+                targetAwaySpotR = 0; targetHomeSpotR = 0;
+            } else if (activeSpotlightTeam === 'blackout') {
+                targetAwaySpotR = 0; targetHomeSpotR = 0;
             } else if (activeSpotlightTeam === 'away_logo') {
-                targetAwaySpotR = 450;
-                targetHomeSpotR = 0;
+                targetAwaySpotR = 450; targetHomeSpotR = 0;
                 awaySpot.targetX = 540; awaySpot.targetY = 480;
             } else if (activeSpotlightTeam === 'both_logos') {
-                targetAwaySpotR = 450;
-                targetHomeSpotR = 450;
+                targetAwaySpotR = 450; targetHomeSpotR = 450;
                 awaySpot.targetX = 540; awaySpot.targetY = 480;
                 homeSpot.targetX = 540; homeSpot.targetY = 1440;
             } else if (activeSpotlightTeam === 'away') {
-                targetAwaySpotR = 450;
-                targetHomeSpotR = 0;
-                if (activePlayerIndex >= 0) {
-                    const target = document.getElementById(`away-node-${activePlayerIndex}`);
+                targetAwaySpotR = 450; targetHomeSpotR = 0;
+                if (activeAwayIndex >= 0) {
+                    const target = document.getElementById(`away-node-${activeAwayIndex}`);
                     if (target) {
                         const rect = target.querySelector('.player-cutout-wrapper').getBoundingClientRect();
                         awaySpot.targetX = (rect.left + rect.width / 2) - captureArea.left;
                         awaySpot.targetY = (rect.top + rect.height / 2) - captureArea.top;
                     }
                 }
-            } else if (activeSpotlightTeam === 'home') {
-                targetHomeSpotR = 450;
-                targetAwaySpotR = 0;
-                if (activePlayerIndex >= 0) {
-                    const target = document.getElementById(`home-node-${activePlayerIndex}`);
-                    if (target) {
-                        const rect = target.querySelector('.player-cutout-wrapper').getBoundingClientRect();
-                        homeSpot.targetX = (rect.left + rect.width / 2) - captureArea.left;
-                        homeSpot.targetY = (rect.top + rect.height / 2) - captureArea.top;
+            } else if (activeSpotlightTeam === 'staredown') {
+                targetAwaySpotR = 450; targetHomeSpotR = 450;
+                if (activeAwayIndex >= 0) {
+                    const targetA = document.getElementById(`away-node-${activeAwayIndex}`);
+                    if (targetA) {
+                        const rectA = targetA.querySelector('.player-cutout-wrapper').getBoundingClientRect();
+                        awaySpot.targetX = (rectA.left + rectA.width / 2) - captureArea.left;
+                        awaySpot.targetY = (rectA.top + rectA.height / 2) - captureArea.top;
+                    }
+                }
+                if (activeHomeIndex >= 0) {
+                    const targetH = document.getElementById(`home-node-${activeHomeIndex}`);
+                    if (targetH) {
+                        const rectH = targetH.querySelector('.player-cutout-wrapper').getBoundingClientRect();
+                        homeSpot.targetX = (rectH.left + rectH.width / 2) - captureArea.left;
+                        homeSpot.targetY = (rectH.top + rectH.height / 2) - captureArea.top;
                     }
                 }
             } else if (activeSpotlightTeam === 'climax') {
-                targetAwaySpotR = 2000;
-                targetHomeSpotR = 2000;
+                targetAwaySpotR = 2000; targetHomeSpotR = 2000;
             }
             
             const spotEase = 0.2;
@@ -379,7 +397,7 @@
             drawHole(ctx, awaySpot.x, awaySpot.y, currentAwaySpotR * 0.25, currentAwaySpotR);
             drawHole(ctx, homeSpot.x, homeSpot.y, currentHomeSpotR * 0.25, currentHomeSpotR);
             
-            if (activeSpotlightTeam !== 'climax') { 
+            if (activeSpotlightTeam !== 'climax' && activeSpotlightTeam !== 'blackout') { 
                 drawHole(ctx, roamA1.x, roamA1.y, 30, 210 * (currentAwaySpotR/450)); 
                 drawHole(ctx, roamA2.x, roamA2.y, 30, 210 * (currentAwaySpotR/450)); 
                 drawHole(ctx, roamH1.x, roamH1.y, 30, 210 * (currentHomeSpotR/450)); 
@@ -387,7 +405,7 @@
             }
             
             ctx.globalCompositeOperation = 'source-over';
-            if (activeSpotlightTeam !== 'climax') { 
+            if (activeSpotlightTeam !== 'climax' && activeSpotlightTeam !== 'blackout') { 
                 drawColoredTint(ctx, roamA1.x, roamA1.y, 30, 210, awayPrimaryHex, currentAwaySpotR/450); 
                 drawColoredTint(ctx, roamA2.x, roamA2.y, 30, 210, awaySecondaryHex, currentAwaySpotR/450); 
                 drawColoredTint(ctx, roamH1.x, roamH1.y, 30, 210, homePrimaryHex, currentHomeSpotR/450); 
@@ -411,11 +429,17 @@
                 }
                 return { x: rx, y: ry };
             }
-            
             const nsA1 = getEvasiveTarget(100, 860, awaySpot); roamA1.targetX = nsA1.x; roamA1.targetY = nsA1.y;
             const nsA2 = getEvasiveTarget(100, 860, awaySpot); roamA2.targetX = nsA2.x; roamA2.targetY = nsA2.y;
             const nsH1 = getEvasiveTarget(1060, 1820, homeSpot); roamH1.targetX = nsH1.x; roamH1.targetY = nsH1.y;
             const nsH2 = getEvasiveTarget(1060, 1820, homeSpot); roamH2.targetX = nsH2.x; roamH2.targetY = nsH2.y;
+        }
+
+        function triggerQuake() {
+            const captureArea = document.getElementById('capture-area');
+            captureArea.classList.remove('quake-active'); 
+            void captureArea.offsetWidth; 
+            captureArea.classList.add('quake-active');
         }
 
         function getNbaLogo(abbr) { if (!abbr) return ''; return `logos/${abbr}.svg`; }
@@ -506,7 +530,7 @@
             }).join('');
 
             const photoHtml = (photoUrl && photoUrl.trim() !== '') ? `<img src="${photoUrl}" class="player-photo" crossorigin="anonymous" onerror="handleImageError(this)">` : `<div class="fallback-silhouette"></div>`;
-            const animClass = teamType === 'away' ? 'anim-drop-away' : 'anim-drop-home';
+            const animClass = teamType === 'away' ? `anim-jump-${index * 2}` : `anim-jump-${index * 2 + 1}`;
             
             return `
                 <div id="${teamType}-node-${index}" class="player-node ${teamType}-node ${animClass}" style="--final-x: ${coords.x}%; --final-y: ${coords.y}%; --entrance-delay: ${delaySec}s;">
@@ -553,8 +577,7 @@
             
             // INTRO TIMELINE LOGIC
             activeSpotlightTeam = 'none'; 
-            currentAwaySpotR = 0;
-            currentHomeSpotR = 0;
+            currentAwaySpotR = 0; currentHomeSpotR = 0;
             requestAnimationFrame(renderSpotlights);
             
             if (roamingInterval) clearInterval(roamingInterval);
@@ -567,7 +590,7 @@
             // 8.0s: Both Logos Highlight
             setTimeout(() => { activeSpotlightTeam = 'both_logos'; }, 8000);
             
-            // 11.0s: Start Player Loop (spaced out to 4.5s intervals per side)
+            // 11.0s: Start Player Loop (Staredown and Blackout Logic)
             for(let i=0; i<5; i++) {
                 let awayDelay = 11.0 + (i * 9.0);
                 let homeDelay = awayDelay + 4.5;
@@ -575,29 +598,40 @@
                 container.insertAdjacentHTML('beforeend', buildPlayerNode(awayStarters[i], i, 'away', AWAY_COORDS[i], awayDelay));
                 container.insertAdjacentHTML('beforeend', buildPlayerNode(homeStarters[i], i, 'home', HOME_COORDS[i], homeDelay));
 
+                // Away Jump Launch
                 setTimeout(() => {
-                    activeSpotlightTeam = 'away'; activePlayerIndex = i;
+                    activeSpotlightTeam = 'away'; 
+                    activeAwayIndex = i;
+                }, awayDelay * 1000);
+
+                // Away Landing
+                setTimeout(() => {
                     document.getElementById(`away-wrap-${i}`).classList.add('player-highlight');
                     document.getElementById(`away-hud-${i}`).classList.add('hud-reveal');
-                    
-                    const captureArea = document.getElementById('capture-area');
-                    captureArea.classList.remove('quake-active'); void captureArea.offsetWidth; captureArea.classList.add('quake-active');
-                    
+                    triggerQuake();
                     const shock = document.getElementById(`away-shock-${i}`);
                     if(shock) { shock.classList.remove('anim-shockwave'); void shock.offsetWidth; shock.classList.add('anim-shockwave'); }
                 }, (awayDelay + 1.2) * 1000);
 
+                // Home Jump Launch (Staredown Begins)
                 setTimeout(() => {
-                    activeSpotlightTeam = 'home'; activePlayerIndex = i;
+                    activeSpotlightTeam = 'staredown'; 
+                    activeHomeIndex = i;
+                }, homeDelay * 1000);
+
+                // Home Landing
+                setTimeout(() => {
                     document.getElementById(`home-wrap-${i}`).classList.add('player-highlight');
                     document.getElementById(`home-hud-${i}`).classList.add('hud-reveal');
-                    
-                    const captureArea = document.getElementById('capture-area');
-                    captureArea.classList.remove('quake-active'); void captureArea.offsetWidth; captureArea.classList.add('quake-active');
-                    
+                    triggerQuake();
                     const shock = document.getElementById(`home-shock-${i}`);
                     if(shock) { shock.classList.remove('anim-shockwave'); void shock.offsetWidth; shock.classList.add('anim-shockwave'); }
                 }, (homeDelay + 1.2) * 1000);
+
+                // 1-Second Blackout Reset
+                setTimeout(() => {
+                    activeSpotlightTeam = 'blackout';
+                }, (homeDelay + 3.5) * 1000);
             }
 
             // Timeline Climax exactly at 56.0s
@@ -606,6 +640,7 @@
                 document.getElementById('fault-line').classList.add('shatter-line');
                 document.getElementById('game7-text').classList.add('reveal-game7');
                 document.getElementById('spotlight-canvas').style.opacity = '0';
+                triggerQuake();
             }, 56000); 
         }
 
