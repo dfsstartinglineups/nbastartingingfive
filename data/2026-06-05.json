@@ -1,5 +1,5 @@
 {
-  "last_updated": "Jun 05, 10:39 PM ET",
+  "last_updated": "Jun 05, 10:42 PM ET",
   "player_news": [
     {
       "player_name": "Mitchell Robinson",
@@ -9,7 +9,7 @@
       "description": "Playing right hand fractured 5th metacarpal",
       "time_elapsed": "3.4h",
       "next_game": "Friday @SAS",
-      "local_timestamp": 1780713649.8858342
+      "local_timestamp": 1780713814.1112256
     }
   ],
   "espn_schedule": {
@@ -416,6 +416,11 @@
                     "value": 23.0,
                     "displayValue": "23",
                     "period": 3
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 4
                   }
                 ],
                 "statistics": [
@@ -766,6 +771,11 @@
                     "value": 28.0,
                     "displayValue": "28",
                     "period": 3
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 4
                   }
                 ],
                 "statistics": [
@@ -782,7 +792,7 @@
                   {
                     "name": "assists",
                     "abbreviation": "AST",
-                    "displayValue": "21"
+                    "displayValue": "23"
                   },
                   {
                     "name": "fieldGoalsAttempted",
@@ -842,7 +852,7 @@
                   {
                     "name": "avgAssists",
                     "abbreviation": "AST",
-                    "displayValue": "21.0"
+                    "displayValue": "23.0"
                   },
                   {
                     "name": "threePointFieldGoalPct",
@@ -1040,32 +1050,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401859964524",
+                "id": "401859964528",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "584",
+                  "text": "Substitution"
                 },
-                "text": "End of the 3rd Quarter",
+                "text": "Devin Vassell enters the game for Julian Champagnie",
                 "scoreValue": 0,
+                "team": {
+                  "id": "24"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
                   "homeWinPercentage": 0.155,
                   "awayWinPercentage": 0.845
-                }
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "4395630",
+                    "fullName": "Devin Vassell",
+                    "displayName": "Devin Vassell",
+                    "shortName": "D. Vassell",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/4395630/devin-vassell"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4395630.png",
+                    "jersey": "24",
+                    "position": "G",
+                    "team": {
+                      "id": "24"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 3,
+              "clock": 720.0,
+              "displayClock": "12:00",
+              "period": 4,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "End of Period",
-                "detail": "End of 3rd Quarter",
-                "shortDetail": "End of 3rd"
+                "description": "In Progress",
+                "detail": "12:00 - 4th Quarter",
+                "shortDetail": "12:00 - 4th"
               }
             },
             "broadcasts": [
@@ -1197,17 +1234,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 3,
+          "clock": 720.0,
+          "displayClock": "12:00",
+          "period": 4,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "End of Period",
-            "detail": "End of 3rd Quarter",
-            "shortDetail": "End of 3rd"
+            "description": "In Progress",
+            "detail": "12:00 - 4th Quarter",
+            "shortDetail": "12:00 - 4th"
           }
         }
       }
