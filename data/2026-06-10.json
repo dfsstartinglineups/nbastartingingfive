@@ -1,5 +1,5 @@
 {
-  "last_updated": "Jun 10, 09:22 PM ET",
+  "last_updated": "Jun 10, 09:25 PM ET",
   "player_news": [
     {
       "player_name": "Mitchell Robinson",
@@ -53,7 +53,7 @@
               "full",
               "dark"
             ],
-            "lastUpdated": "2026-06-11T00:48Z"
+            "lastUpdated": "2026-06-10T03:45Z"
           }
         ],
         "calendarType": "day",
@@ -436,12 +436,17 @@
                   ],
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/ny.png"
                 },
-                "score": "22",
+                "score": "25",
                 "linescores": [
                   {
                     "value": 22.0,
                     "displayValue": "22",
                     "period": 1
+                  },
+                  {
+                    "value": 3.0,
+                    "displayValue": "3",
+                    "period": 2
                   }
                 ],
                 "statistics": [
@@ -818,6 +823,11 @@
                     "value": 41.0,
                     "displayValue": "41",
                     "period": 1
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 2
                   }
                 ],
                 "statistics": [
@@ -1093,32 +1103,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401859966189",
+                "id": "401859966192",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "584",
+                  "text": "Substitution"
                 },
-                "text": "End of the 1st Quarter",
+                "text": "Carter Bryant enters the game for Devin Vassell",
                 "scoreValue": 0,
+                "team": {
+                  "id": "24"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
                   "homeWinPercentage": 0.108,
                   "awayWinPercentage": 0.892
-                }
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "5061568",
+                    "fullName": "Carter Bryant",
+                    "displayName": "Carter Bryant",
+                    "shortName": "C. Bryant",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/5061568/carter-bryant"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/5061568.png",
+                    "jersey": "11",
+                    "position": "F",
+                    "team": {
+                      "id": "24"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 1,
+              "clock": 720.0,
+              "displayClock": "12:00",
+              "period": 2,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "End of Period",
-                "detail": "End of 1st Quarter",
-                "shortDetail": "End of 1st"
+                "description": "In Progress",
+                "detail": "12:00 - 2nd Quarter",
+                "shortDetail": "12:00 - 2nd"
               }
             },
             "broadcasts": [
@@ -1250,17 +1287,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 1,
+          "clock": 720.0,
+          "displayClock": "12:00",
+          "period": 2,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "End of Period",
-            "detail": "End of 1st Quarter",
-            "shortDetail": "End of 1st"
+            "description": "In Progress",
+            "detail": "12:00 - 2nd Quarter",
+            "shortDetail": "12:00 - 2nd"
           }
         }
       }
