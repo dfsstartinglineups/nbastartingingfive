@@ -1,5 +1,5 @@
 {
-  "last_updated": "Oct 22, 11:39 PM ET",
+  "last_updated": "Oct 22, 11:42 PM ET",
   "player_news": [],
   "espn_schedule": {
     "leagues": [
@@ -42,7 +42,7 @@
               "full",
               "dark"
             ],
-            "lastUpdated": "2026-10-22T04:29Z"
+            "lastUpdated": "2026-10-22T23:41Z"
           }
         ],
         "calendarType": "day",
@@ -1781,6 +1781,11 @@
                     "value": 26.0,
                     "displayValue": "26",
                     "period": 3
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 4
                   }
                 ],
                 "statistics": [
@@ -1802,7 +1807,7 @@
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "69"
+                    "displayValue": "70"
                   },
                   {
                     "name": "fieldGoalsMade",
@@ -1812,7 +1817,7 @@
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "39.1"
+                    "displayValue": "38.6"
                   },
                   {
                     "name": "freeThrowPct",
@@ -2167,18 +2172,23 @@
                     "value": 16.0,
                     "displayValue": "16",
                     "period": 3
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 4
                   }
                 ],
                 "statistics": [
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "41"
+                    "displayValue": "42"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "41.0"
+                    "displayValue": "42.0"
                   },
                   {
                     "name": "assists",
@@ -2436,32 +2446,59 @@
             "notes": [],
             "situation": {
               "lastPlay": {
-                "id": "401909094527",
+                "id": "401909094540",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "155",
+                  "text": "Defensive Rebound"
                 },
-                "text": "End of the 3rd Quarter",
+                "text": "Alpha Diallo defensive rebound",
                 "scoreValue": 0,
+                "team": {
+                  "id": "7"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.859,
-                  "awayWinPercentage": 0.14100000000000001
-                }
+                  "homeWinPercentage": 0.849,
+                  "awayWinPercentage": 0.15100000000000002
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "4065813",
+                    "fullName": "Alpha Diallo",
+                    "displayName": "Alpha Diallo",
+                    "shortName": "A. Diallo",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/4065813/alpha-diallo"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4065813.png",
+                    "jersey": "11",
+                    "position": "F",
+                    "team": {
+                      "id": "7"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 3,
+              "clock": 689.0,
+              "displayClock": "11:29",
+              "period": 4,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "End of Period",
-                "detail": "End of 3rd Quarter",
-                "shortDetail": "End of 3rd"
+                "description": "In Progress",
+                "detail": "11:29 - 4th Quarter",
+                "shortDetail": "11:29 - 4th"
               }
             },
             "broadcasts": [
@@ -2555,17 +2592,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 3,
+          "clock": 689.0,
+          "displayClock": "11:29",
+          "period": 4,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "End of Period",
-            "detail": "End of 3rd Quarter",
-            "shortDetail": "End of 3rd"
+            "description": "In Progress",
+            "detail": "11:29 - 4th Quarter",
+            "shortDetail": "11:29 - 4th"
           }
         }
       }
