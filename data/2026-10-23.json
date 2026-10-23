@@ -1,5 +1,5 @@
 {
-  "last_updated": "Oct 23, 06:00 PM ET",
+  "last_updated": "Oct 23, 06:03 PM ET",
   "player_news": [],
   "espn_schedule": {
     "leagues": [
@@ -385,6 +385,11 @@
                     "value": 42.0,
                     "displayValue": "42",
                     "period": 3
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 4
                   }
                 ],
                 "statistics": [
@@ -771,6 +776,11 @@
                     "value": 41.0,
                     "displayValue": "41",
                     "period": 3
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 4
                   }
                 ],
                 "statistics": [
@@ -787,7 +797,7 @@
                   {
                     "name": "assists",
                     "abbreviation": "AST",
-                    "displayValue": "22"
+                    "displayValue": "23"
                   },
                   {
                     "name": "fieldGoalsAttempted",
@@ -847,7 +857,7 @@
                   {
                     "name": "avgAssists",
                     "abbreviation": "AST",
-                    "displayValue": "22.0"
+                    "displayValue": "23.0"
                   },
                   {
                     "name": "threePointFieldGoalPct",
@@ -1040,32 +1050,35 @@
             "notes": [],
             "situation": {
               "lastPlay": {
-                "id": "401909848573",
+                "id": "401909848584",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "155",
+                  "text": "Defensive Rebound"
                 },
-                "text": "End of the 3rd Quarter",
+                "text": "Bulls defensive team rebound",
                 "scoreValue": 0,
+                "team": {
+                  "id": "4"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.635,
-                  "awayWinPercentage": 0.365
+                  "homeWinPercentage": 0.612,
+                  "awayWinPercentage": 0.388
                 }
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 3,
+              "clock": 690.0,
+              "displayClock": "11:30",
+              "period": 4,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "End of Period",
-                "detail": "End of 3rd Quarter",
-                "shortDetail": "End of 3rd"
+                "description": "In Progress",
+                "detail": "11:30 - 4th Quarter",
+                "shortDetail": "11:30 - 4th"
               }
             },
             "broadcasts": [
@@ -1179,17 +1192,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 3,
+          "clock": 690.0,
+          "displayClock": "11:30",
+          "period": 4,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "End of Period",
-            "detail": "End of 3rd Quarter",
-            "shortDetail": "End of 3rd"
+            "description": "In Progress",
+            "detail": "11:30 - 4th Quarter",
+            "shortDetail": "11:30 - 4th"
           }
         }
       },
