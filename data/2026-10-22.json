@@ -1,5 +1,5 @@
 {
-  "last_updated": "Oct 23, 12:18 AM ET",
+  "last_updated": "Oct 23, 12:21 AM ET",
   "player_news": [],
   "espn_schedule": {
     "leagues": [
@@ -42,7 +42,7 @@
               "full",
               "dark"
             ],
-            "lastUpdated": "2026-10-23T02:05Z"
+            "lastUpdated": "2026-10-22T23:41Z"
           }
         ],
         "calendarType": "day",
@@ -1666,6 +1666,7 @@
                 "type": "team",
                 "order": 0,
                 "homeAway": "home",
+                "winner": true,
                 "team": {
                   "id": "25",
                   "uid": "s:40~l:46~t:25",
@@ -2035,14 +2036,14 @@
                 "records": [
                   {
                     "name": "overall",
-                    "abbreviation": "Total",
+                    "abbreviation": "Game",
                     "type": "total",
-                    "summary": "1-0"
+                    "summary": "2-0"
                   },
                   {
                     "name": "Home",
                     "type": "home",
-                    "summary": "0-0"
+                    "summary": "1-0"
                   },
                   {
                     "name": "Road",
@@ -2057,6 +2058,7 @@
                 "type": "team",
                 "order": 1,
                 "homeAway": "away",
+                "winner": false,
                 "team": {
                   "id": "7",
                   "uid": "s:40~l:46~t:7",
@@ -2426,9 +2428,9 @@
                 "records": [
                   {
                     "name": "overall",
-                    "abbreviation": "Total",
+                    "abbreviation": "Game",
                     "type": "total",
-                    "summary": "0-0"
+                    "summary": "0-1"
                   },
                   {
                     "name": "Home",
@@ -2438,67 +2440,24 @@
                   {
                     "name": "Road",
                     "type": "road",
-                    "summary": "0-0"
+                    "summary": "0-1"
                   }
                 ]
               }
             ],
             "notes": [],
-            "situation": {
-              "lastPlay": {
-                "id": "401909094732",
-                "type": {
-                  "id": "91",
-                  "text": "No Shot (Default Shot)"
-                },
-                "text": "Ryan Nembhard makes 2-foot shot",
-                "scoreValue": 2,
-                "team": {
-                  "id": "7"
-                },
-                "probability": {
-                  "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.999,
-                  "awayWinPercentage": 0.0010000000000000009
-                },
-                "athletesInvolved": [
-                  {
-                    "id": "4433629",
-                    "fullName": "Ryan Nembhard",
-                    "displayName": "Ryan Nembhard",
-                    "shortName": "R. Nembhard",
-                    "links": [
-                      {
-                        "rel": [
-                          "playercard",
-                          "desktop",
-                          "athlete"
-                        ],
-                        "href": "https://www.espn.com/nba/player/_/id/4433629/ryan-nembhard"
-                      }
-                    ],
-                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4433629.png",
-                    "jersey": "9",
-                    "position": "G",
-                    "team": {
-                      "id": "7"
-                    }
-                  }
-                ]
-              }
-            },
             "status": {
-              "clock": 4.5,
-              "displayClock": "4.5",
+              "clock": 0.0,
+              "displayClock": "0.0",
               "period": 4,
               "type": {
-                "id": "2",
-                "name": "STATUS_IN_PROGRESS",
-                "state": "in",
-                "completed": false,
-                "description": "In Progress",
-                "detail": "4.5 - 4th Quarter",
-                "shortDetail": "4.5 - 4th"
+                "id": "3",
+                "name": "STATUS_FINAL",
+                "state": "post",
+                "completed": true,
+                "description": "Final",
+                "detail": "Final",
+                "shortDetail": "Final"
               }
             },
             "broadcasts": [
@@ -2542,11 +2501,11 @@
           {
             "language": "en-US",
             "rel": [
-              "live",
+              "summary",
               "desktop",
               "event"
             ],
-            "href": "https://www.espn.com/nba/game?gameId=401909094",
+            "href": "https://www.espn.com/nba/game/_/gameId/401909094/nuggets-thunder",
             "text": "Gamecast",
             "shortText": "Gamecast",
             "isExternal": false,
@@ -2592,17 +2551,17 @@
           }
         ],
         "status": {
-          "clock": 4.5,
-          "displayClock": "4.5",
+          "clock": 0.0,
+          "displayClock": "0.0",
           "period": 4,
           "type": {
-            "id": "2",
-            "name": "STATUS_IN_PROGRESS",
-            "state": "in",
-            "completed": false,
-            "description": "In Progress",
-            "detail": "4.5 - 4th Quarter",
-            "shortDetail": "4.5 - 4th"
+            "id": "3",
+            "name": "STATUS_FINAL",
+            "state": "post",
+            "completed": true,
+            "description": "Final",
+            "detail": "Final",
+            "shortDetail": "Final"
           }
         }
       }
