@@ -1,5 +1,5 @@
 {
-  "last_updated": "Oct 25, 09:21 AM ET",
+  "last_updated": "Oct 25, 09:30 AM ET",
   "player_news": [],
   "espn_schedule": {
     "leagues": [
@@ -463,6 +463,24 @@
                     "displayValue": "35.8"
                   }
                 ],
+                "records": [
+                  {
+                    "name": "overall",
+                    "abbreviation": "Total",
+                    "type": "total",
+                    "summary": "1-1"
+                  },
+                  {
+                    "name": "Home",
+                    "type": "home",
+                    "summary": "1-0"
+                  },
+                  {
+                    "name": "Road",
+                    "type": "road",
+                    "summary": "0-1"
+                  }
+                ],
                 "leaders": [
                   {
                     "name": "pointsPerGame",
@@ -623,24 +641,6 @@
                         }
                       }
                     ]
-                  }
-                ],
-                "records": [
-                  {
-                    "name": "overall",
-                    "abbreviation": "Total",
-                    "type": "total",
-                    "summary": "1-1"
-                  },
-                  {
-                    "name": "Home",
-                    "type": "home",
-                    "summary": "1-0"
-                  },
-                  {
-                    "name": "Road",
-                    "type": "road",
-                    "summary": "0-1"
                   }
                 ]
               },
@@ -7168,12 +7168,12 @@
                     }
                   ]
                 },
-                "details": "PHI -1.5",
+                "details": "DET -1.5",
                 "overUnder": 227.5,
-                "spread": -1.5,
+                "spread": 1.5,
                 "awayTeamOdds": {
-                  "favorite": false,
-                  "underdog": true,
+                  "favorite": true,
+                  "underdog": false,
                   "team": {
                     "id": "8",
                     "uid": "s:40~l:46~t:8",
@@ -7185,8 +7185,8 @@
                   "favoriteAtOpen": false
                 },
                 "homeTeamOdds": {
-                  "favorite": true,
-                  "underdog": false,
+                  "favorite": false,
+                  "underdog": true,
                   "team": {
                     "id": "20",
                     "uid": "s:40~l:46~t:20",
@@ -7202,7 +7202,7 @@
                   "shortDisplayName": "ML",
                   "home": {
                     "close": {
-                      "odds": "-112",
+                      "odds": "-108",
                       "link": {
                         "language": "en-US",
                         "rel": [
@@ -7234,7 +7234,7 @@
                   },
                   "away": {
                     "close": {
-                      "odds": "-108",
+                      "odds": "-112",
                       "link": {
                         "language": "en-US",
                         "rel": [
@@ -7270,8 +7270,8 @@
                   "shortDisplayName": "Spread",
                   "home": {
                     "close": {
-                      "line": "-1.5",
-                      "odds": "-102",
+                      "line": "+1.5",
+                      "odds": "-118",
                       "link": {
                         "language": "en-US",
                         "rel": [
@@ -7279,7 +7279,7 @@
                           "desktop",
                           "bets"
                         ],
-                        "href": "https://sportsbook.draftkings.com/gateway?s=__s__&wpcid=__wpcid__&wpsrc=413&wpcn=ESPN&wpscn=Widget&wpcrn=BetSlipDeepLink&wpscid=__wpscid__&wpcrid=xx&preurl=https%3A%2F%2Fsportsbook.draftkings.com%2Fevent%2F34888879%3Foutcomes%3D0HC86898039N150_1",
+                        "href": "https://sportsbook.draftkings.com/gateway?s=__s__&wpcid=__wpcid__&wpsrc=413&wpcn=ESPN&wpscn=Widget&wpcrn=BetSlipDeepLink&wpscid=__wpscid__&wpcrid=xx&preurl=https%3A%2F%2Fsportsbook.draftkings.com%2Fevent%2F34888879%3Foutcomes%3D0HC86898039P150_1",
                         "text": "Home Point Spread",
                         "shortText": "Home Point Spread",
                         "isExternal": true,
@@ -7292,7 +7292,7 @@
                             "gameId": 401909866,
                             "betSide": "none",
                             "betType": "straight",
-                            "betDetails": "Spread:PHI-1.5"
+                            "betDetails": "Spread:PHI+1.5"
                           }
                         }
                       }
@@ -7304,8 +7304,8 @@
                   },
                   "away": {
                     "close": {
-                      "line": "+1.5",
-                      "odds": "-118",
+                      "line": "-1.5",
+                      "odds": "-102",
                       "link": {
                         "language": "en-US",
                         "rel": [
@@ -7313,7 +7313,7 @@
                           "desktop",
                           "bets"
                         ],
-                        "href": "https://sportsbook.draftkings.com/gateway?s=__s__&wpcid=__wpcid__&wpsrc=413&wpcn=ESPN&wpscn=Widget&wpcrn=BetSlipDeepLink&wpscid=__wpscid__&wpcrid=xx&preurl=https%3A%2F%2Fsportsbook.draftkings.com%2Fevent%2F34888879%3Foutcomes%3D0HC86898039P150_3",
+                        "href": "https://sportsbook.draftkings.com/gateway?s=__s__&wpcid=__wpcid__&wpsrc=413&wpcn=ESPN&wpscn=Widget&wpcrn=BetSlipDeepLink&wpscid=__wpscid__&wpcrid=xx&preurl=https%3A%2F%2Fsportsbook.draftkings.com%2Fevent%2F34888879%3Foutcomes%3D0HC86898039N150_3",
                         "text": "Away Point Spread",
                         "shortText": "Away Point Spread",
                         "isExternal": true,
@@ -7326,7 +7326,7 @@
                             "gameId": 401909866,
                             "betSide": "none",
                             "betType": "straight",
-                            "betDetails": "Spread:DET+1.5"
+                            "betDetails": "Spread:DET-1.5"
                           }
                         }
                       }
@@ -9697,7 +9697,7 @@
         "PHI"
       ],
       "meta": {
-        "spread": "PHI -1.5",
+        "spread": "DET -1.5",
         "total": "227.5",
         "time": "7:30 PM"
       },
