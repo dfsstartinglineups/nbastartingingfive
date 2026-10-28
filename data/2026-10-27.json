@@ -1,5 +1,5 @@
 {
-  "last_updated": "Oct 27, 09:21 PM ET",
+  "last_updated": "Oct 27, 09:24 PM ET",
   "player_news": [],
   "espn_schedule": {
     "leagues": [
@@ -385,6 +385,11 @@
                     "value": 30.0,
                     "displayValue": "30",
                     "period": 3
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 4
                   }
                 ],
                 "statistics": [
@@ -406,7 +411,7 @@
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "63"
+                    "displayValue": "64"
                   },
                   {
                     "name": "fieldGoalsMade",
@@ -416,7 +421,7 @@
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "47.6"
+                    "displayValue": "46.9"
                   },
                   {
                     "name": "freeThrowPct",
@@ -441,12 +446,12 @@
                   {
                     "name": "threePointPct",
                     "abbreviation": "3P%",
-                    "displayValue": "32.3"
+                    "displayValue": "31.3"
                   },
                   {
                     "name": "threePointFieldGoalsAttempted",
                     "abbreviation": "3PA",
-                    "displayValue": "31"
+                    "displayValue": "32"
                   },
                   {
                     "name": "threePointFieldGoalsMade",
@@ -466,7 +471,7 @@
                   {
                     "name": "threePointFieldGoalPct",
                     "abbreviation": "3P%",
-                    "displayValue": "32.3"
+                    "displayValue": "31.3"
                   }
                 ],
                 "leaders": [
@@ -771,18 +776,23 @@
                     "value": 21.0,
                     "displayValue": "21",
                     "period": 3
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 4
                   }
                 ],
                 "statistics": [
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "30"
+                    "displayValue": "31"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "30.0"
+                    "displayValue": "31.0"
                   },
                   {
                     "name": "assists",
@@ -1040,32 +1050,59 @@
             "notes": [],
             "situation": {
               "lastPlay": {
-                "id": "401909877515",
+                "id": "401909877528",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "155",
+                  "text": "Defensive Rebound"
                 },
-                "text": "End of the 3rd Quarter",
+                "text": "Noah Clowney defensive rebound",
                 "scoreValue": 0,
+                "team": {
+                  "id": "17"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.842,
-                  "awayWinPercentage": 0.15800000000000003
-                }
+                  "homeWinPercentage": 0.828,
+                  "awayWinPercentage": 0.17200000000000004
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "4712896",
+                    "fullName": "Noah Clowney",
+                    "displayName": "Noah Clowney",
+                    "shortName": "N. Clowney",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/4712896/noah-clowney"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4712896.png",
+                    "jersey": "21",
+                    "position": "F",
+                    "team": {
+                      "id": "17"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 3,
+              "clock": 683.0,
+              "displayClock": "11:23",
+              "period": 4,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "End of Period",
-                "detail": "End of 3rd Quarter",
-                "shortDetail": "End of 3rd"
+                "description": "In Progress",
+                "detail": "11:23 - 4th Quarter",
+                "shortDetail": "11:23 - 4th"
               }
             },
             "broadcasts": [
@@ -1158,17 +1195,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 3,
+          "clock": 683.0,
+          "displayClock": "11:23",
+          "period": 4,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "End of Period",
-            "detail": "End of 3rd Quarter",
-            "shortDetail": "End of 3rd"
+            "description": "In Progress",
+            "detail": "11:23 - 4th Quarter",
+            "shortDetail": "11:23 - 4th"
           }
         }
       },
@@ -1345,7 +1382,7 @@
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "47"
+                    "displayValue": "46"
                   },
                   {
                     "name": "fieldGoalsMade",
@@ -1355,7 +1392,7 @@
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "34.0"
+                    "displayValue": "34.8"
                   },
                   {
                     "name": "freeThrowPct",
@@ -1711,12 +1748,12 @@
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "30"
+                    "displayValue": "29"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "30.0"
+                    "displayValue": "29.0"
                   },
                   {
                     "name": "assists",
