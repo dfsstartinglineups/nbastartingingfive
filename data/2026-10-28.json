@@ -1,5 +1,5 @@
 {
-  "last_updated": "Oct 28, 11:24 PM ET",
+  "last_updated": "Oct 28, 11:27 PM ET",
   "player_news": [],
   "espn_schedule": {
     "leagues": [
@@ -12799,7 +12799,7 @@
             "id": "401909890",
             "uid": "s:40~l:46~e:401909890~c:401909890",
             "date": "2026-10-29T01:00Z",
-            "attendance": 0,
+            "attendance": 17867,
             "type": {
               "id": "1",
               "abbreviation": "STD"
@@ -12945,6 +12945,11 @@
                     "value": 20.0,
                     "displayValue": "20",
                     "period": 4
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 5
                   }
                 ],
                 "statistics": [
@@ -12966,7 +12971,7 @@
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "85"
+                    "displayValue": "86"
                   },
                   {
                     "name": "fieldGoalsMade",
@@ -12976,7 +12981,7 @@
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "43.5"
+                    "displayValue": "43.0"
                   },
                   {
                     "name": "freeThrowPct",
@@ -13001,12 +13006,12 @@
                   {
                     "name": "threePointPct",
                     "abbreviation": "3P%",
-                    "displayValue": "37.1"
+                    "displayValue": "36.1"
                   },
                   {
                     "name": "threePointFieldGoalsAttempted",
                     "abbreviation": "3PA",
-                    "displayValue": "35"
+                    "displayValue": "36"
                   },
                   {
                     "name": "threePointFieldGoalsMade",
@@ -13026,7 +13031,7 @@
                   {
                     "name": "threePointFieldGoalPct",
                     "abbreviation": "3P%",
-                    "displayValue": "37.1"
+                    "displayValue": "36.1"
                   }
                 ],
                 "leaders": [
@@ -13336,18 +13341,23 @@
                     "value": 20.0,
                     "displayValue": "20",
                     "period": 4
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 5
                   }
                 ],
                 "statistics": [
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "46"
+                    "displayValue": "47"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "46.0"
+                    "displayValue": "47.0"
                   },
                   {
                     "name": "assists",
@@ -13468,8 +13478,8 @@
                     "abbreviation": "Reb",
                     "leaders": [
                       {
-                        "displayValue": "12",
-                        "value": 12.0,
+                        "displayValue": "13",
+                        "value": 13.0,
                         "athlete": {
                           "id": "5104157",
                           "fullName": "Victor Wembanyama",
@@ -13548,8 +13558,8 @@
                     "abbreviation": "RAT",
                     "leaders": [
                       {
-                        "displayValue": "32 PTS, 12 REB",
-                        "value": 61.0,
+                        "displayValue": "32 PTS, 13 REB",
+                        "value": 62.0,
                         "athlete": {
                           "id": "5104157",
                           "fullName": "Victor Wembanyama",
@@ -13605,32 +13615,59 @@
             "notes": [],
             "situation": {
               "lastPlay": {
-                "id": "401909890669",
+                "id": "401909890681",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "87",
+                  "text": "Out of Bounds - Lost Ball Turnover"
                 },
-                "text": "End of the 4th Quarter",
+                "text": "De'Aaron Fox out of bounds lost ball turnover",
                 "scoreValue": 0,
+                "team": {
+                  "id": "24"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.5,
-                  "awayWinPercentage": 0.5
-                }
+                  "homeWinPercentage": 0.533,
+                  "awayWinPercentage": 0.46699999999999997
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "4066259",
+                    "fullName": "De'Aaron Fox",
+                    "displayName": "De'Aaron Fox",
+                    "shortName": "D. Fox",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/4066259/deaaron-fox"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4066259.png",
+                    "jersey": "4",
+                    "position": "G",
+                    "team": {
+                      "id": "24"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 4,
+              "clock": 254.0,
+              "displayClock": "4:14",
+              "period": 5,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "End of Period",
-                "detail": "End of 4th Quarter",
-                "shortDetail": "End of 4th"
+                "description": "In Progress",
+                "detail": "4:14 - OT",
+                "shortDetail": "4:14 - OT"
               }
             },
             "broadcasts": [
@@ -13760,17 +13797,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 4,
+          "clock": 254.0,
+          "displayClock": "4:14",
+          "period": 5,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "End of Period",
-            "detail": "End of 4th Quarter",
-            "shortDetail": "End of 4th"
+            "description": "In Progress",
+            "detail": "4:14 - OT",
+            "shortDetail": "4:14 - OT"
           }
         }
       },
@@ -13915,7 +13952,7 @@
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/dal.png",
                   "logoDark": "https://a.espncdn.com/i/teamlogos/nba/500-dark/scoreboard/dal.png"
                 },
-                "score": "82",
+                "score": "84",
                 "linescores": [
                   {
                     "value": 33.0,
@@ -13928,8 +13965,8 @@
                     "period": 2
                   },
                   {
-                    "value": 17.0,
-                    "displayValue": "17",
+                    "value": 19.0,
+                    "displayValue": "19",
                     "period": 3
                   }
                 ],
@@ -13937,12 +13974,12 @@
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "34"
+                    "displayValue": "35"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "34.0"
+                    "displayValue": "35.0"
                   },
                   {
                     "name": "assists",
@@ -13952,27 +13989,27 @@
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "69"
+                    "displayValue": "71"
                   },
                   {
                     "name": "fieldGoalsMade",
                     "abbreviation": "FGM",
-                    "displayValue": "31"
+                    "displayValue": "32"
                   },
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "44.9"
+                    "displayValue": "45.1"
                   },
                   {
                     "name": "freeThrowPct",
                     "abbreviation": "FT%",
-                    "displayValue": "88.9"
+                    "displayValue": "80.0"
                   },
                   {
                     "name": "freeThrowsAttempted",
                     "abbreviation": "FTA",
-                    "displayValue": "9"
+                    "displayValue": "10"
                   },
                   {
                     "name": "freeThrowsMade",
@@ -13982,7 +14019,7 @@
                   {
                     "name": "points",
                     "abbreviation": "PTS",
-                    "displayValue": "82"
+                    "displayValue": "84"
                   },
                   {
                     "name": "threePointPct",
@@ -14002,7 +14039,7 @@
                   {
                     "name": "avgPoints",
                     "abbreviation": "PTS",
-                    "displayValue": "82.0"
+                    "displayValue": "84.0"
                   },
                   {
                     "name": "avgAssists",
@@ -14023,8 +14060,8 @@
                     "abbreviation": "Pts",
                     "leaders": [
                       {
-                        "displayValue": "20",
-                        "value": 20.0,
+                        "displayValue": "22",
+                        "value": 22.0,
                         "athlete": {
                           "id": "5041939",
                           "fullName": "Cooper Flagg",
@@ -14143,8 +14180,8 @@
                     "abbreviation": "RAT",
                     "leaders": [
                       {
-                        "displayValue": "20 PTS, 7 AST",
-                        "value": 34.5,
+                        "displayValue": "22 PTS, 7 AST",
+                        "value": 36.70000076293945,
                         "athlete": {
                           "id": "5041939",
                           "fullName": "Cooper Flagg",
@@ -14301,7 +14338,7 @@
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/okc.png",
                   "logoDark": "https://a.espncdn.com/i/teamlogos/nba/500-dark/scoreboard/okc.png"
                 },
-                "score": "72",
+                "score": "73",
                 "linescores": [
                   {
                     "value": 30.0,
@@ -14314,8 +14351,8 @@
                     "period": 2
                   },
                   {
-                    "value": 13.0,
-                    "displayValue": "13",
+                    "value": 14.0,
+                    "displayValue": "14",
                     "period": 3
                   }
                 ],
@@ -14323,12 +14360,12 @@
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "32"
+                    "displayValue": "34"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "32.0"
+                    "displayValue": "34.0"
                   },
                   {
                     "name": "assists",
@@ -14338,7 +14375,7 @@
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "63"
+                    "displayValue": "65"
                   },
                   {
                     "name": "fieldGoalsMade",
@@ -14348,37 +14385,37 @@
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "42.9"
+                    "displayValue": "41.5"
                   },
                   {
                     "name": "freeThrowPct",
                     "abbreviation": "FT%",
-                    "displayValue": "92.3"
+                    "displayValue": "93.3"
                   },
                   {
                     "name": "freeThrowsAttempted",
                     "abbreviation": "FTA",
-                    "displayValue": "13"
+                    "displayValue": "15"
                   },
                   {
                     "name": "freeThrowsMade",
                     "abbreviation": "FTM",
-                    "displayValue": "12"
+                    "displayValue": "14"
                   },
                   {
                     "name": "points",
                     "abbreviation": "PTS",
-                    "displayValue": "71"
+                    "displayValue": "73"
                   },
                   {
                     "name": "threePointPct",
                     "abbreviation": "3P%",
-                    "displayValue": "20.0"
+                    "displayValue": "19.2"
                   },
                   {
                     "name": "threePointFieldGoalsAttempted",
                     "abbreviation": "3PA",
-                    "displayValue": "25"
+                    "displayValue": "26"
                   },
                   {
                     "name": "threePointFieldGoalsMade",
@@ -14388,7 +14425,7 @@
                   {
                     "name": "avgPoints",
                     "abbreviation": "PTS",
-                    "displayValue": "71.0"
+                    "displayValue": "73.0"
                   },
                   {
                     "name": "avgAssists",
@@ -14398,7 +14435,7 @@
                   {
                     "name": "threePointFieldGoalPct",
                     "abbreviation": "3P%",
-                    "displayValue": "20.0"
+                    "displayValue": "19.2"
                   }
                 ],
                 "leaders": [
@@ -14586,27 +14623,27 @@
             "notes": [],
             "situation": {
               "lastPlay": {
-                "id": "401909891480",
+                "id": "401909891496",
                 "type": {
-                  "id": "43",
-                  "text": "Loose Ball Foul"
+                  "id": "98",
+                  "text": "Free Throw - 1 of 2"
                 },
-                "text": "P.J. Washington loose ball foul",
+                "text": "Walter Clayton Jr. misses free throw 1 of 2",
                 "scoreValue": 0,
                 "team": {
                   "id": "6"
                 },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.724,
-                  "awayWinPercentage": 0.276
+                  "homeWinPercentage": 0.855,
+                  "awayWinPercentage": 0.14500000000000002
                 },
                 "athletesInvolved": [
                   {
-                    "id": "4278078",
-                    "fullName": "P.J. Washington",
-                    "displayName": "P.J. Washington",
-                    "shortName": "P.J. Washington",
+                    "id": "4896372",
+                    "fullName": "Walter Clayton Jr.",
+                    "displayName": "Walter Clayton Jr.",
+                    "shortName": "W. Clayton Jr.",
                     "links": [
                       {
                         "rel": [
@@ -14614,12 +14651,12 @@
                           "desktop",
                           "athlete"
                         ],
-                        "href": "https://www.espn.com/nba/player/_/id/4278078/pj-washington"
+                        "href": "https://www.espn.com/nba/player/_/id/4896372/walter-clayton-jr"
                       }
                     ],
-                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4278078.png",
-                    "jersey": "25",
-                    "position": "F",
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4896372.png",
+                    "jersey": "1",
+                    "position": "G",
                     "team": {
                       "id": "6"
                     }
@@ -14628,8 +14665,8 @@
               }
             },
             "status": {
-              "clock": 224.0,
-              "displayClock": "3:44",
+              "clock": 170.0,
+              "displayClock": "2:50",
               "period": 3,
               "type": {
                 "id": "2",
@@ -14637,8 +14674,8 @@
                 "state": "in",
                 "completed": false,
                 "description": "In Progress",
-                "detail": "3:44 - 3rd Quarter",
-                "shortDetail": "3:44 - 3rd"
+                "detail": "2:50 - 3rd Quarter",
+                "shortDetail": "2:50 - 3rd"
               }
             },
             "broadcasts": [
@@ -14806,8 +14843,8 @@
           }
         ],
         "status": {
-          "clock": 224.0,
-          "displayClock": "3:44",
+          "clock": 170.0,
+          "displayClock": "2:50",
           "period": 3,
           "type": {
             "id": "2",
@@ -14815,8 +14852,8 @@
             "state": "in",
             "completed": false,
             "description": "In Progress",
-            "detail": "3:44 - 3rd Quarter",
-            "shortDetail": "3:44 - 3rd"
+            "detail": "2:50 - 3rd Quarter",
+            "shortDetail": "2:50 - 3rd"
           }
         }
       },
@@ -14961,7 +14998,7 @@
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/lac.png",
                   "logoDark": "https://a.espncdn.com/i/teamlogos/nba/500-dark/scoreboard/lac.png"
                 },
-                "score": "34",
+                "score": "31",
                 "linescores": [
                   {
                     "value": 22.0,
@@ -14969,8 +15006,8 @@
                     "period": 1
                   },
                   {
-                    "value": 12.0,
-                    "displayValue": "12",
+                    "value": 9.0,
+                    "displayValue": "9",
                     "period": 2
                   }
                 ],
