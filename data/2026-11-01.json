@@ -1,5 +1,5 @@
 {
-  "last_updated": "Nov 01, 04:51 PM ET",
+  "last_updated": "Nov 01, 04:55 PM ET",
   "player_news": [],
   "espn_schedule": {
     "leagues": [
@@ -380,18 +380,23 @@
                     "value": 27.0,
                     "displayValue": "27",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "21"
+                    "displayValue": "22"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "21.0"
+                    "displayValue": "22.0"
                   },
                   {
                     "name": "assists",
@@ -761,6 +766,11 @@
                     "value": 31.0,
                     "displayValue": "31",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -782,7 +792,7 @@
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "47"
+                    "displayValue": "48"
                   },
                   {
                     "name": "fieldGoalsMade",
@@ -792,7 +802,7 @@
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "44.7"
+                    "displayValue": "43.8"
                   },
                   {
                     "name": "freeThrowPct",
@@ -817,12 +827,12 @@
                   {
                     "name": "threePointPct",
                     "abbreviation": "3P%",
-                    "displayValue": "22.7"
+                    "displayValue": "21.7"
                   },
                   {
                     "name": "threePointFieldGoalsAttempted",
                     "abbreviation": "3PA",
-                    "displayValue": "22"
+                    "displayValue": "23"
                   },
                   {
                     "name": "threePointFieldGoalsMade",
@@ -842,7 +852,7 @@
                   {
                     "name": "threePointFieldGoalPct",
                     "abbreviation": "3P%",
-                    "displayValue": "22.7"
+                    "displayValue": "21.7"
                   }
                 ],
                 "leaders": [
@@ -1030,32 +1040,59 @@
             "notes": [],
             "situation": {
               "lastPlay": {
-                "id": "401909903337",
+                "id": "401909903347",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "91",
+                  "text": "No Shot (Default Shot)"
                 },
-                "text": "End of the 2nd Quarter",
+                "text": "Jayson Tatum misses shot",
                 "scoreValue": 0,
+                "team": {
+                  "id": "2"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
                   "homeWinPercentage": 0.254,
                   "awayWinPercentage": 0.746
-                }
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "4065648",
+                    "fullName": "Jayson Tatum",
+                    "displayName": "Jayson Tatum",
+                    "shortName": "J. Tatum",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/4065648/jayson-tatum"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4065648.png",
+                    "jersey": "0",
+                    "position": "F",
+                    "team": {
+                      "id": "2"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 2,
+              "clock": 717.0,
+              "displayClock": "11:57",
+              "period": 3,
               "type": {
-                "id": "23",
-                "name": "STATUS_HALFTIME",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "Halftime",
-                "detail": "Halftime",
-                "shortDetail": "Halftime"
+                "description": "In Progress",
+                "detail": "11:57 - 3rd Quarter",
+                "shortDetail": "11:57 - 3rd"
               }
             },
             "broadcasts": [
@@ -1131,17 +1168,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 2,
+          "clock": 717.0,
+          "displayClock": "11:57",
+          "period": 3,
           "type": {
-            "id": "23",
-            "name": "STATUS_HALFTIME",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "Halftime",
-            "detail": "Halftime",
-            "shortDetail": "Halftime"
+            "description": "In Progress",
+            "detail": "11:57 - 3rd Quarter",
+            "shortDetail": "11:57 - 3rd"
           }
         }
       },
@@ -1762,24 +1799,6 @@
                     "rankDisplayValue": "1st"
                   }
                 ],
-                "records": [
-                  {
-                    "name": "overall",
-                    "abbreviation": "Total",
-                    "type": "total",
-                    "summary": "0-5"
-                  },
-                  {
-                    "name": "Home",
-                    "type": "home",
-                    "summary": "0-3"
-                  },
-                  {
-                    "name": "Road",
-                    "type": "road",
-                    "summary": "0-2"
-                  }
-                ],
                 "leaders": [
                   {
                     "name": "pointsPerGame",
@@ -1940,6 +1959,24 @@
                         }
                       }
                     ]
+                  }
+                ],
+                "records": [
+                  {
+                    "name": "overall",
+                    "abbreviation": "Total",
+                    "type": "total",
+                    "summary": "0-5"
+                  },
+                  {
+                    "name": "Home",
+                    "type": "home",
+                    "summary": "0-3"
+                  },
+                  {
+                    "name": "Road",
+                    "type": "road",
+                    "summary": "0-2"
                   }
                 ]
               }
