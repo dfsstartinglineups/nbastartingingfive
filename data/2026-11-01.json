@@ -1,5 +1,5 @@
 {
-  "last_updated": "Nov 01, 09:06 PM ET",
+  "last_updated": "Nov 01, 09:10 PM ET",
   "player_news": [],
   "espn_schedule": {
     "leagues": [
@@ -3169,6 +3169,11 @@
                     "value": 29.0,
                     "displayValue": "29",
                     "period": 1
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 2
                   }
                 ],
                 "statistics": [
@@ -3545,18 +3550,23 @@
                     "value": 37.0,
                     "displayValue": "37",
                     "period": 1
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 2
                   }
                 ],
                 "statistics": [
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "12"
+                    "displayValue": "13"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "12.0"
+                    "displayValue": "13.0"
                   },
                   {
                     "name": "assists",
@@ -3566,7 +3576,7 @@
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "22"
+                    "displayValue": "23"
                   },
                   {
                     "name": "fieldGoalsMade",
@@ -3576,7 +3586,7 @@
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "59.1"
+                    "displayValue": "56.5"
                   },
                   {
                     "name": "freeThrowPct",
@@ -3601,12 +3611,12 @@
                   {
                     "name": "threePointPct",
                     "abbreviation": "3P%",
-                    "displayValue": "54.5"
+                    "displayValue": "50.0"
                   },
                   {
                     "name": "threePointFieldGoalsAttempted",
                     "abbreviation": "3PA",
-                    "displayValue": "11"
+                    "displayValue": "12"
                   },
                   {
                     "name": "threePointFieldGoalsMade",
@@ -3626,7 +3636,7 @@
                   {
                     "name": "threePointFieldGoalPct",
                     "abbreviation": "3P%",
-                    "displayValue": "54.5"
+                    "displayValue": "50.0"
                   }
                 ],
                 "leaders": [
@@ -3677,13 +3687,13 @@
                     "abbreviation": "Reb",
                     "leaders": [
                       {
-                        "displayValue": "3",
-                        "value": 3.0,
+                        "displayValue": "4",
+                        "value": 4.0,
                         "athlete": {
-                          "id": "3936099",
-                          "fullName": "Derrick Jones Jr.",
-                          "displayName": "Derrick Jones Jr.",
-                          "shortName": "D. Jones Jr.",
+                          "id": "4432170",
+                          "fullName": "Isaiah Jackson",
+                          "displayName": "Isaiah Jackson",
+                          "shortName": "I. Jackson",
                           "links": [
                             {
                               "rel": [
@@ -3691,11 +3701,11 @@
                                 "desktop",
                                 "athlete"
                               ],
-                              "href": "https://www.espn.com/nba/player/_/id/3936099/derrick-jones-jr"
+                              "href": "https://www.espn.com/nba/player/_/id/4432170/isaiah-jackson"
                             }
                           ],
-                          "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/3936099.png",
-                          "jersey": "5",
+                          "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4432170.png",
+                          "jersey": "23",
                           "position": {
                             "abbreviation": "F"
                           },
@@ -3814,32 +3824,59 @@
             "notes": [],
             "situation": {
               "lastPlay": {
-                "id": "401909905159",
+                "id": "401909905166",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "156",
+                  "text": "Offensive Rebound"
                 },
-                "text": "End of the 1st Quarter",
+                "text": "Keaton Wagler offensive rebound",
                 "scoreValue": 0,
+                "team": {
+                  "id": "12"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.449,
-                  "awayWinPercentage": 0.5509999999999999
-                }
+                  "homeWinPercentage": 0.428,
+                  "awayWinPercentage": 0.5720000000000001
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "5254165",
+                    "fullName": "Keaton Wagler",
+                    "displayName": "Keaton Wagler",
+                    "shortName": "K. Wagler",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/5254165/keaton-wagler"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/5254165.png",
+                    "jersey": "1",
+                    "position": "G",
+                    "team": {
+                      "id": "12"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 1,
+              "clock": 701.0,
+              "displayClock": "11:41",
+              "period": 2,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "End of Period",
-                "detail": "End of 1st Quarter",
-                "shortDetail": "End of 1st"
+                "description": "In Progress",
+                "detail": "11:41 - 2nd Quarter",
+                "shortDetail": "11:41 - 2nd"
               }
             },
             "broadcasts": [
@@ -3920,17 +3957,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 1,
+          "clock": 701.0,
+          "displayClock": "11:41",
+          "period": 2,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "End of Period",
-            "detail": "End of 1st Quarter",
-            "shortDetail": "End of 1st"
+            "description": "In Progress",
+            "detail": "11:41 - 2nd Quarter",
+            "shortDetail": "11:41 - 2nd"
           }
         }
       },
