@@ -1,5 +1,5 @@
 {
-  "last_updated": "Nov 07, 06:57 PM ET",
+  "last_updated": "Nov 07, 07:01 PM ET",
   "player_news": [],
   "espn_schedule": {
     "leagues": [
@@ -384,6 +384,11 @@
                     "value": 37.0,
                     "displayValue": "37",
                     "period": 3
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 4
                   }
                 ],
                 "statistics": [
@@ -770,18 +775,23 @@
                     "value": 26.0,
                     "displayValue": "26",
                     "period": 3
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 4
                   }
                 ],
                 "statistics": [
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "38"
+                    "displayValue": "39"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "38.0"
+                    "displayValue": "39.0"
                   },
                   {
                     "name": "assists",
@@ -791,7 +801,7 @@
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "75"
+                    "displayValue": "77"
                   },
                   {
                     "name": "fieldGoalsMade",
@@ -801,7 +811,7 @@
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "49.3"
+                    "displayValue": "48.1"
                   },
                   {
                     "name": "freeThrowPct",
@@ -902,8 +912,8 @@
                     "abbreviation": "Reb",
                     "leaders": [
                       {
-                        "displayValue": "8",
-                        "value": 8.0,
+                        "displayValue": "10",
+                        "value": 10.0,
                         "athlete": {
                           "id": "3112335",
                           "fullName": "Nikola Jokic",
@@ -982,8 +992,8 @@
                     "abbreviation": "RAT",
                     "leaders": [
                       {
-                        "displayValue": "19 PTS, 8 REB, 8 AST",
-                        "value": 41.20000076293945,
+                        "displayValue": "19 PTS, 10 REB, 8 AST",
+                        "value": 41.599998474121094,
                         "athlete": {
                           "id": "3112335",
                           "fullName": "Nikola Jokic",
@@ -1044,32 +1054,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401909938507",
+                "id": "401909938515",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "584",
+                  "text": "Substitution"
                 },
-                "text": "End of the 3rd Quarter",
+                "text": "Marvin Bagley III enters the game for Trevon Brazile",
                 "scoreValue": 0,
+                "team": {
+                  "id": "7"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
                   "homeWinPercentage": 0.037,
                   "awayWinPercentage": 0.963
-                }
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "4277848",
+                    "fullName": "Marvin Bagley III",
+                    "displayName": "Marvin Bagley III",
+                    "shortName": "M. Bagley III",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/4277848/marvin-bagley-iii"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4277848.png",
+                    "jersey": "3",
+                    "position": "F",
+                    "team": {
+                      "id": "7"
+                    }
+                  }
+                ]
               }
             },
             "status": {
               "clock": 0.0,
               "displayClock": "0.0",
-              "period": 3,
+              "period": 4,
               "type": {
                 "id": "2",
                 "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
                 "description": "In Progress",
-                "detail": "0.0 - 3rd Quarter",
-                "shortDetail": "0.0 - 3rd"
+                "detail": "0.0 - 4th Quarter",
+                "shortDetail": "0.0 - 4th"
               }
             },
             "broadcasts": [
@@ -1184,15 +1221,15 @@
         "status": {
           "clock": 0.0,
           "displayClock": "0.0",
-          "period": 3,
+          "period": 4,
           "type": {
             "id": "2",
             "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
             "description": "In Progress",
-            "detail": "0.0 - 3rd Quarter",
-            "shortDetail": "0.0 - 3rd"
+            "detail": "0.0 - 4th Quarter",
+            "shortDetail": "0.0 - 4th"
           }
         }
       },
