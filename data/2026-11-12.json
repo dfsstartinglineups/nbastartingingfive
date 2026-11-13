@@ -1,5 +1,5 @@
 {
-  "last_updated": "Nov 12, 10:16 PM ET",
+  "last_updated": "Nov 12, 10:18 PM ET",
   "player_news": [],
   "espn_schedule": {
     "leagues": [
@@ -42,7 +42,7 @@
               "full",
               "dark"
             ],
-            "lastUpdated": "2026-11-12T13:06Z"
+            "lastUpdated": "2026-11-12T06:52Z"
           }
         ],
         "calendarType": "day",
@@ -2602,6 +2602,7 @@
                 "type": "team",
                 "order": 0,
                 "homeAway": "home",
+                "winner": true,
                 "team": {
                   "id": "16",
                   "uid": "s:40~l:46~t:16",
@@ -2971,14 +2972,14 @@
                 "records": [
                   {
                     "name": "overall",
-                    "abbreviation": "Total",
+                    "abbreviation": "Game",
                     "type": "total",
-                    "summary": "8-3"
+                    "summary": "9-3"
                   },
                   {
                     "name": "Home",
                     "type": "home",
-                    "summary": "4-1"
+                    "summary": "5-1"
                   },
                   {
                     "name": "Road",
@@ -2993,6 +2994,7 @@
                 "type": "team",
                 "order": 1,
                 "homeAway": "away",
+                "winner": false,
                 "team": {
                   "id": "6",
                   "uid": "s:40~l:46~t:6",
@@ -3362,9 +3364,9 @@
                 "records": [
                   {
                     "name": "overall",
-                    "abbreviation": "Total",
+                    "abbreviation": "Game",
                     "type": "total",
-                    "summary": "7-4"
+                    "summary": "7-5"
                   },
                   {
                     "name": "Home",
@@ -3374,67 +3376,24 @@
                   {
                     "name": "Road",
                     "type": "road",
-                    "summary": "2-2"
+                    "summary": "2-3"
                   }
                 ]
               }
             ],
             "notes": [],
-            "situation": {
-              "lastPlay": {
-                "id": "401909978707",
-                "type": {
-                  "id": "155",
-                  "text": "Defensive Rebound"
-                },
-                "text": "Joan Beringer defensive rebound",
-                "scoreValue": 0,
-                "team": {
-                  "id": "16"
-                },
-                "probability": {
-                  "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.999,
-                  "awayWinPercentage": 0.0010000000000000009
-                },
-                "athletesInvolved": [
-                  {
-                    "id": "5279133",
-                    "fullName": "Joan Beringer",
-                    "displayName": "Joan Beringer",
-                    "shortName": "J. Beringer",
-                    "links": [
-                      {
-                        "rel": [
-                          "playercard",
-                          "desktop",
-                          "athlete"
-                        ],
-                        "href": "https://www.espn.com/nba/player/_/id/5279133/joan-beringer"
-                      }
-                    ],
-                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/5279133.png",
-                    "jersey": "19",
-                    "position": "F",
-                    "team": {
-                      "id": "16"
-                    }
-                  }
-                ]
-              }
-            },
             "status": {
-              "clock": 8.6,
-              "displayClock": "8.6",
+              "clock": 0.0,
+              "displayClock": "0.0",
               "period": 4,
               "type": {
-                "id": "2",
-                "name": "STATUS_IN_PROGRESS",
-                "state": "in",
-                "completed": false,
-                "description": "In Progress",
-                "detail": "8.6 - 4th Quarter",
-                "shortDetail": "8.6 - 4th"
+                "id": "3",
+                "name": "STATUS_FINAL",
+                "state": "post",
+                "completed": true,
+                "description": "Final",
+                "detail": "Final",
+                "shortDetail": "Final"
               }
             },
             "broadcasts": [
@@ -3513,11 +3472,11 @@
           {
             "language": "en-US",
             "rel": [
-              "live",
+              "summary",
               "desktop",
               "event"
             ],
-            "href": "https://www.espn.com/nba/game?gameId=401909978",
+            "href": "https://www.espn.com/nba/game/_/gameId/401909978/mavericks-timberwolves",
             "text": "Gamecast",
             "shortText": "Gamecast",
             "isExternal": false,
@@ -3563,17 +3522,17 @@
           }
         ],
         "status": {
-          "clock": 8.6,
-          "displayClock": "8.6",
+          "clock": 0.0,
+          "displayClock": "0.0",
           "period": 4,
           "type": {
-            "id": "2",
-            "name": "STATUS_IN_PROGRESS",
-            "state": "in",
-            "completed": false,
-            "description": "In Progress",
-            "detail": "8.6 - 4th Quarter",
-            "shortDetail": "8.6 - 4th"
+            "id": "3",
+            "name": "STATUS_FINAL",
+            "state": "post",
+            "completed": true,
+            "description": "Final",
+            "detail": "Final",
+            "shortDetail": "Final"
           }
         }
       },
