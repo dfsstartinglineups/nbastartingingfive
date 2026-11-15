@@ -1,5 +1,5 @@
 {
-  "last_updated": "Nov 15, 05:28 PM ET",
+  "last_updated": "Nov 15, 05:30 PM ET",
   "player_news": [],
   "espn_schedule": {
     "leagues": [
@@ -42,7 +42,7 @@
               "full",
               "dark"
             ],
-            "lastUpdated": "2026-11-15T05:45Z"
+            "lastUpdated": "2026-11-14T23:32Z"
           }
         ],
         "calendarType": "day",
@@ -1542,6 +1542,11 @@
                     "value": 30.0,
                     "displayValue": "30",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -1923,6 +1928,11 @@
                     "value": 31.0,
                     "displayValue": "31",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -2192,32 +2202,59 @@
             "notes": [],
             "situation": {
               "lastPlay": {
-                "id": "401909986390",
+                "id": "401909986400",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "584",
+                  "text": "Substitution"
                 },
-                "text": "End of the 2nd Quarter",
+                "text": "Walker Kessler enters the game for Jarred Vanderbilt",
                 "scoreValue": 0,
+                "team": {
+                  "id": "13"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
                   "homeWinPercentage": 0.16,
                   "awayWinPercentage": 0.84
-                }
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "4433136",
+                    "fullName": "Walker Kessler",
+                    "displayName": "Walker Kessler",
+                    "shortName": "W. Kessler",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/4433136/walker-kessler"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4433136.png",
+                    "jersey": "14",
+                    "position": "C",
+                    "team": {
+                      "id": "13"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 2,
+              "clock": 720.0,
+              "displayClock": "12:00",
+              "period": 3,
               "type": {
-                "id": "23",
-                "name": "STATUS_HALFTIME",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "Halftime",
-                "detail": "Halftime",
-                "shortDetail": "Halftime"
+                "description": "In Progress",
+                "detail": "12:00 - 3rd Quarter",
+                "shortDetail": "12:00 - 3rd"
               }
             },
             "broadcasts": [
@@ -2362,17 +2399,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 2,
+          "clock": 720.0,
+          "displayClock": "12:00",
+          "period": 3,
           "type": {
-            "id": "23",
-            "name": "STATUS_HALFTIME",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "Halftime",
-            "detail": "Halftime",
-            "shortDetail": "Halftime"
+            "description": "In Progress",
+            "detail": "12:00 - 3rd Quarter",
+            "shortDetail": "12:00 - 3rd"
           }
         }
       },
@@ -2534,12 +2571,12 @@
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "15"
+                    "displayValue": "16"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "15.0"
+                    "displayValue": "16.0"
                   },
                   {
                     "name": "assists",
@@ -2549,7 +2586,7 @@
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "31"
+                    "displayValue": "34"
                   },
                   {
                     "name": "fieldGoalsMade",
@@ -2559,17 +2596,17 @@
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "54.8"
+                    "displayValue": "50.0"
                   },
                   {
                     "name": "freeThrowPct",
                     "abbreviation": "FT%",
-                    "displayValue": "85.7"
+                    "displayValue": "75.0"
                   },
                   {
                     "name": "freeThrowsAttempted",
                     "abbreviation": "FTA",
-                    "displayValue": "7"
+                    "displayValue": "8"
                   },
                   {
                     "name": "freeThrowsMade",
@@ -2584,12 +2621,12 @@
                   {
                     "name": "threePointPct",
                     "abbreviation": "3P%",
-                    "displayValue": "36.4"
+                    "displayValue": "30.8"
                   },
                   {
                     "name": "threePointFieldGoalsAttempted",
                     "abbreviation": "3PA",
-                    "displayValue": "11"
+                    "displayValue": "13"
                   },
                   {
                     "name": "threePointFieldGoalsMade",
@@ -2609,7 +2646,7 @@
                   {
                     "name": "threePointFieldGoalPct",
                     "abbreviation": "3P%",
-                    "displayValue": "36.4"
+                    "displayValue": "30.8"
                   }
                 ],
                 "leaders": [
@@ -2741,7 +2778,7 @@
                     "leaders": [
                       {
                         "displayValue": "9 PTS",
-                        "value": 14.75,
+                        "value": 13.949999809265137,
                         "athlete": {
                           "id": "4396907",
                           "fullName": "Darius Garland",
@@ -2898,7 +2935,7 @@
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/cha.png",
                   "logoDark": "https://a.espncdn.com/i/teamlogos/nba/500-dark/scoreboard/cha.png"
                 },
-                "score": "40",
+                "score": "45",
                 "linescores": [
                   {
                     "value": 21.0,
@@ -2906,8 +2943,8 @@
                     "period": 1
                   },
                   {
-                    "value": 19.0,
-                    "displayValue": "19",
+                    "value": 24.0,
+                    "displayValue": "24",
                     "period": 2
                   }
                 ],
@@ -2915,82 +2952,82 @@
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "24"
+                    "displayValue": "27"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "24.0"
+                    "displayValue": "27.0"
                   },
                   {
                     "name": "assists",
                     "abbreviation": "AST",
-                    "displayValue": "10"
+                    "displayValue": "11"
                   },
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "45"
+                    "displayValue": "47"
                   },
                   {
                     "name": "fieldGoalsMade",
                     "abbreviation": "FGM",
-                    "displayValue": "14"
+                    "displayValue": "15"
                   },
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "31.1"
+                    "displayValue": "31.9"
                   },
                   {
                     "name": "freeThrowPct",
                     "abbreviation": "FT%",
-                    "displayValue": "75.0"
+                    "displayValue": "83.3"
                   },
                   {
                     "name": "freeThrowsAttempted",
                     "abbreviation": "FTA",
-                    "displayValue": "4"
+                    "displayValue": "6"
                   },
                   {
                     "name": "freeThrowsMade",
                     "abbreviation": "FTM",
-                    "displayValue": "3"
+                    "displayValue": "5"
                   },
                   {
                     "name": "points",
                     "abbreviation": "PTS",
-                    "displayValue": "40"
+                    "displayValue": "45"
                   },
                   {
                     "name": "threePointPct",
                     "abbreviation": "3P%",
-                    "displayValue": "33.3"
+                    "displayValue": "35.7"
                   },
                   {
                     "name": "threePointFieldGoalsAttempted",
                     "abbreviation": "3PA",
-                    "displayValue": "27"
+                    "displayValue": "28"
                   },
                   {
                     "name": "threePointFieldGoalsMade",
                     "abbreviation": "3PM",
-                    "displayValue": "9"
+                    "displayValue": "10"
                   },
                   {
                     "name": "avgPoints",
                     "abbreviation": "PTS",
-                    "displayValue": "40.0"
+                    "displayValue": "45.0"
                   },
                   {
                     "name": "avgAssists",
                     "abbreviation": "AST",
-                    "displayValue": "10.0"
+                    "displayValue": "11.0"
                   },
                   {
                     "name": "threePointFieldGoalPct",
                     "abbreviation": "3P%",
-                    "displayValue": "33.3"
+                    "displayValue": "35.7"
                   }
                 ],
                 "leaders": [
@@ -3041,8 +3078,8 @@
                     "abbreviation": "Reb",
                     "leaders": [
                       {
-                        "displayValue": "7",
-                        "value": 7.0,
+                        "displayValue": "9",
+                        "value": 9.0,
                         "athlete": {
                           "id": "4433249",
                           "fullName": "Moussa Diabate",
@@ -3121,13 +3158,13 @@
                     "abbreviation": "RAT",
                     "leaders": [
                       {
-                        "displayValue": "7 REB",
-                        "value": 13.399999618530273,
+                        "displayValue": "10 PTS",
+                        "value": 17.0,
                         "athlete": {
-                          "id": "4433249",
-                          "fullName": "Moussa Diabate",
-                          "displayName": "Moussa Diabate",
-                          "shortName": "M. Diabate",
+                          "id": "3135045",
+                          "fullName": "Grayson Allen",
+                          "displayName": "Grayson Allen",
+                          "shortName": "G. Allen",
                           "links": [
                             {
                               "rel": [
@@ -3135,13 +3172,13 @@
                                 "desktop",
                                 "athlete"
                               ],
-                              "href": "https://www.espn.com/nba/player/_/id/4433249/moussa-diabate"
+                              "href": "https://www.espn.com/nba/player/_/id/3135045/grayson-allen"
                             }
                           ],
-                          "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4433249.png",
-                          "jersey": "14",
+                          "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/3135045.png",
+                          "jersey": "8",
                           "position": {
-                            "abbreviation": "F"
+                            "abbreviation": "G"
                           },
                           "team": {
                             "id": "30"
@@ -3178,27 +3215,27 @@
             "notes": [],
             "situation": {
               "lastPlay": {
-                "id": "401909987306",
+                "id": "401909987322",
                 "type": {
-                  "id": "584",
-                  "text": "Substitution"
+                  "id": "155",
+                  "text": "Defensive Rebound"
                 },
-                "text": "Grant Williams enters the game for Christian Anderson",
+                "text": "Rui Hachimura defensive rebound",
                 "scoreValue": 0,
                 "team": {
-                  "id": "30"
+                  "id": "12"
                 },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.695,
-                  "awayWinPercentage": 0.30500000000000005
+                  "homeWinPercentage": 0.518,
+                  "awayWinPercentage": 0.482
                 },
                 "athletesInvolved": [
                   {
-                    "id": "4066218",
-                    "fullName": "Grant Williams",
-                    "displayName": "Grant Williams",
-                    "shortName": "G. Williams",
+                    "id": "4066648",
+                    "fullName": "Rui Hachimura",
+                    "displayName": "Rui Hachimura",
+                    "shortName": "R. Hachimura",
                     "links": [
                       {
                         "rel": [
@@ -3206,22 +3243,22 @@
                           "desktop",
                           "athlete"
                         ],
-                        "href": "https://www.espn.com/nba/player/_/id/4066218/grant-williams"
+                        "href": "https://www.espn.com/nba/player/_/id/4066648/rui-hachimura"
                       }
                     ],
-                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4066218.png",
-                    "jersey": "2",
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4066648.png",
+                    "jersey": "28",
                     "position": "F",
                     "team": {
-                      "id": "30"
+                      "id": "12"
                     }
                   }
                 ]
               }
             },
             "status": {
-              "clock": 264.0,
-              "displayClock": "4:24",
+              "clock": 174.0,
+              "displayClock": "2:54",
               "period": 2,
               "type": {
                 "id": "2",
@@ -3229,8 +3266,8 @@
                 "state": "in",
                 "completed": false,
                 "description": "In Progress",
-                "detail": "4:24 - 2nd Quarter",
-                "shortDetail": "4:24 - 2nd"
+                "detail": "2:54 - 2nd Quarter",
+                "shortDetail": "2:54 - 2nd"
               }
             },
             "broadcasts": [
@@ -3322,8 +3359,8 @@
           }
         ],
         "status": {
-          "clock": 264.0,
-          "displayClock": "4:24",
+          "clock": 174.0,
+          "displayClock": "2:54",
           "period": 2,
           "type": {
             "id": "2",
@@ -3331,8 +3368,8 @@
             "state": "in",
             "completed": false,
             "description": "In Progress",
-            "detail": "4:24 - 2nd Quarter",
-            "shortDetail": "4:24 - 2nd"
+            "detail": "2:54 - 2nd Quarter",
+            "shortDetail": "2:54 - 2nd"
           }
         }
       },
@@ -3477,11 +3514,11 @@
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/utah.png",
                   "logoDark": "https://a.espncdn.com/i/teamlogos/nba/500-dark/scoreboard/utah.png"
                 },
-                "score": "22",
+                "score": "28",
                 "linescores": [
                   {
-                    "value": 22.0,
-                    "displayValue": "22",
+                    "value": 28.0,
+                    "displayValue": "28",
                     "period": 1
                   }
                 ],
@@ -3489,32 +3526,32 @@
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "9"
+                    "displayValue": "10"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "9.0"
+                    "displayValue": "10.0"
                   },
                   {
                     "name": "assists",
                     "abbreviation": "AST",
-                    "displayValue": "5"
+                    "displayValue": "7"
                   },
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "17"
+                    "displayValue": "19"
                   },
                   {
                     "name": "fieldGoalsMade",
                     "abbreviation": "FGM",
-                    "displayValue": "9"
+                    "displayValue": "11"
                   },
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "52.9"
+                    "displayValue": "57.9"
                   },
                   {
                     "name": "freeThrowPct",
@@ -3534,37 +3571,37 @@
                   {
                     "name": "points",
                     "abbreviation": "PTS",
-                    "displayValue": "22"
+                    "displayValue": "28"
                   },
                   {
                     "name": "threePointPct",
                     "abbreviation": "3P%",
-                    "displayValue": "66.7"
+                    "displayValue": "75.0"
                   },
                   {
                     "name": "threePointFieldGoalsAttempted",
                     "abbreviation": "3PA",
-                    "displayValue": "6"
+                    "displayValue": "8"
                   },
                   {
                     "name": "threePointFieldGoalsMade",
                     "abbreviation": "3PM",
-                    "displayValue": "4"
+                    "displayValue": "6"
                   },
                   {
                     "name": "avgPoints",
                     "abbreviation": "PTS",
-                    "displayValue": "22.0"
+                    "displayValue": "28.0"
                   },
                   {
                     "name": "avgAssists",
                     "abbreviation": "AST",
-                    "displayValue": "5.0"
+                    "displayValue": "7.0"
                   },
                   {
                     "name": "threePointFieldGoalPct",
                     "abbreviation": "3P%",
-                    "displayValue": "66.7"
+                    "displayValue": "75.0"
                   }
                 ],
                 "leaders": [
@@ -3696,7 +3733,7 @@
                     "leaders": [
                       {
                         "displayValue": "7 PTS",
-                        "value": 11.199999809265137,
+                        "value": 12.600000381469727,
                         "athlete": {
                           "id": "4277919",
                           "fullName": "Mo Bamba",
@@ -3853,11 +3890,11 @@
                   "logo": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/sa.png",
                   "logoDark": "https://a.espncdn.com/i/teamlogos/nba/500-dark/scoreboard/sa.png"
                 },
-                "score": "18",
+                "score": "23",
                 "linescores": [
                   {
-                    "value": 18.0,
-                    "displayValue": "18",
+                    "value": 21.0,
+                    "displayValue": "21",
                     "period": 1
                   }
                 ],
@@ -3875,22 +3912,22 @@
                   {
                     "name": "assists",
                     "abbreviation": "AST",
-                    "displayValue": "3"
+                    "displayValue": "4"
                   },
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "16"
+                    "displayValue": "18"
                   },
                   {
                     "name": "fieldGoalsMade",
                     "abbreviation": "FGM",
-                    "displayValue": "7"
+                    "displayValue": "8"
                   },
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "43.8"
+                    "displayValue": "44.4"
                   },
                   {
                     "name": "freeThrowPct",
@@ -3910,37 +3947,37 @@
                   {
                     "name": "points",
                     "abbreviation": "PTS",
-                    "displayValue": "18"
+                    "displayValue": "21"
                   },
                   {
                     "name": "threePointPct",
                     "abbreviation": "3P%",
-                    "displayValue": "25.0"
+                    "displayValue": "40.0"
                   },
                   {
                     "name": "threePointFieldGoalsAttempted",
                     "abbreviation": "3PA",
-                    "displayValue": "4"
+                    "displayValue": "5"
                   },
                   {
                     "name": "threePointFieldGoalsMade",
                     "abbreviation": "3PM",
-                    "displayValue": "1"
+                    "displayValue": "2"
                   },
                   {
                     "name": "avgPoints",
                     "abbreviation": "PTS",
-                    "displayValue": "18.0"
+                    "displayValue": "21.0"
                   },
                   {
                     "name": "avgAssists",
                     "abbreviation": "AST",
-                    "displayValue": "3.0"
+                    "displayValue": "4.0"
                   },
                   {
                     "name": "threePointFieldGoalPct",
                     "abbreviation": "3P%",
-                    "displayValue": "25.0"
+                    "displayValue": "40.0"
                   }
                 ],
                 "leaders": [
@@ -3951,13 +3988,13 @@
                     "abbreviation": "Pts",
                     "leaders": [
                       {
-                        "displayValue": "4",
-                        "value": 4.0,
+                        "displayValue": "5",
+                        "value": 5.0,
                         "athlete": {
-                          "id": "5104157",
-                          "fullName": "Victor Wembanyama",
-                          "displayName": "Victor Wembanyama",
-                          "shortName": "V. Wembanyama",
+                          "id": "3134916",
+                          "fullName": "Jordan McLaughlin",
+                          "displayName": "Jordan McLaughlin",
+                          "shortName": "J. McLaughlin",
                           "links": [
                             {
                               "rel": [
@@ -3965,13 +4002,13 @@
                                 "desktop",
                                 "athlete"
                               ],
-                              "href": "https://www.espn.com/nba/player/_/id/5104157/victor-wembanyama"
+                              "href": "https://www.espn.com/nba/player/_/id/3134916/jordan-mclaughlin"
                             }
                           ],
-                          "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/5104157.png",
-                          "jersey": "1",
+                          "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/3134916.png",
+                          "jersey": "0",
                           "position": {
-                            "abbreviation": "F"
+                            "abbreviation": "G"
                           },
                           "team": {
                             "id": "24"
@@ -4128,26 +4165,50 @@
             "notes": [],
             "situation": {
               "lastPlay": {
-                "id": "401909988120",
+                "id": "401909988133",
                 "type": {
-                  "id": "16",
-                  "text": "Full Timeout"
+                  "id": "62",
+                  "text": "Bad Pass\nTurnover"
                 },
-                "text": "Spurs Full timeout",
+                "text": "Brice Sensabaugh bad pass\nturnover (Jordan McLaughlin steals)",
                 "scoreValue": 0,
                 "team": {
-                  "id": "24"
+                  "id": "26"
                 },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.178,
-                  "awayWinPercentage": 0.8220000000000001
-                }
+                  "homeWinPercentage": 0.24,
+                  "awayWinPercentage": 0.76
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "5105839",
+                    "fullName": "Brice Sensabaugh",
+                    "displayName": "Brice Sensabaugh",
+                    "shortName": "B. Sensabaugh",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/5105839/brice-sensabaugh"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/5105839.png",
+                    "jersey": "28",
+                    "position": "F",
+                    "team": {
+                      "id": "26"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 234.0,
-              "displayClock": "3:54",
+              "clock": 138.0,
+              "displayClock": "2:18",
               "period": 1,
               "type": {
                 "id": "2",
@@ -4155,8 +4216,8 @@
                 "state": "in",
                 "completed": false,
                 "description": "In Progress",
-                "detail": "3:54 - 1st Quarter",
-                "shortDetail": "3:54 - 1st"
+                "detail": "2:18 - 1st Quarter",
+                "shortDetail": "2:18 - 1st"
               }
             },
             "broadcasts": [
@@ -4285,8 +4346,8 @@
           }
         ],
         "status": {
-          "clock": 234.0,
-          "displayClock": "3:54",
+          "clock": 138.0,
+          "displayClock": "2:18",
           "period": 1,
           "type": {
             "id": "2",
@@ -4294,8 +4355,8 @@
             "state": "in",
             "completed": false,
             "description": "In Progress",
-            "detail": "3:54 - 1st Quarter",
-            "shortDetail": "3:54 - 1st"
+            "detail": "2:18 - 1st Quarter",
+            "shortDetail": "2:18 - 1st"
           }
         }
       },
@@ -5129,8 +5190,8 @@
             },
             "tickets": [
               {
-                "summary": "Tickets as low as $108",
-                "numberAvailable": 908,
+                "summary": "Tickets as low as $99",
+                "numberAvailable": 519,
                 "links": [
                   {
                     "href": "https://www.vividseats.com/boston-celtics-tickets-td-garden-11-15-2026/production/7433122?wsUser=717"
@@ -5179,7 +5240,7 @@
               {
                 "provider": {
                   "id": "100",
-                  "name": "Draft Kings",
+                  "name": "DraftKings",
                   "priority": 1,
                   "logos": [
                     {
@@ -5195,7 +5256,7 @@
                       ]
                     }
                   ],
-                  "displayName": "Draft Kings"
+                  "displayName": "DraftKings"
                 },
                 "details": "BOS -14.5",
                 "overUnder": 217.5,
@@ -5238,7 +5299,7 @@
                           "home",
                           "desktop",
                           "bets",
-                          "draft-kings"
+                          "draftkings"
                         ],
                         "href": "https://sportsbook.draftkings.com/gateway?s=__s__&wpcid=__wpcid__&wpsrc=413&wpcn=ESPN&wpscn=Widget&wpcrn=BetSlipDeepLink&wpscid=__wpscid__&wpcrid=xx&preurl=https%3A%2F%2Fsportsbook.draftkings.com%2Fevent%2F35014750%3Foutcomes%3D0ML87230835_1",
                         "text": "Home Bet",
@@ -5270,7 +5331,7 @@
                           "away",
                           "desktop",
                           "bets",
-                          "draft-kings"
+                          "draftkings"
                         ],
                         "href": "https://sportsbook.draftkings.com/gateway?s=__s__&wpcid=__wpcid__&wpsrc=413&wpcn=ESPN&wpscn=Widget&wpcrn=BetSlipDeepLink&wpscid=__wpscid__&wpcrid=xx&preurl=https%3A%2F%2Fsportsbook.draftkings.com%2Fevent%2F35014750%3Foutcomes%3D0ML87230835_3",
                         "text": "Away Bet",
@@ -6330,8 +6391,8 @@
             },
             "tickets": [
               {
-                "summary": "Tickets as low as $47",
-                "numberAvailable": 209,
+                "summary": "Tickets as low as $50",
+                "numberAvailable": 138,
                 "links": [
                   {
                     "href": "https://www.vividseats.com/toronto-raptors-tickets-scotiabank-arena-11-15-2026/production/7432941?wsUser=717"
@@ -6349,7 +6410,7 @@
               {
                 "provider": {
                   "id": "100",
-                  "name": "Draft Kings",
+                  "name": "DraftKings",
                   "priority": 1,
                   "logos": [
                     {
@@ -6366,9 +6427,9 @@
                     }
                   ]
                 },
-                "details": "NY -4.5",
+                "details": "NY -3.5",
                 "overUnder": 217.5,
-                "spread": 4.5,
+                "spread": 3.5,
                 "awayTeamOdds": {
                   "favorite": true,
                   "underdog": false,
@@ -6400,14 +6461,14 @@
                   "shortDisplayName": "ML",
                   "home": {
                     "close": {
-                      "odds": "+154",
+                      "odds": "+132",
                       "link": {
                         "language": "en-US",
                         "rel": [
                           "home",
                           "desktop",
                           "bets",
-                          "draft-kings"
+                          "draftkings"
                         ],
                         "href": "https://sportsbook.draftkings.com/gateway?s=__s__&wpcid=__wpcid__&wpsrc=413&wpcn=ESPN&wpscn=Widget&wpcrn=BetSlipDeepLink&wpscid=__wpscid__&wpcrid=xx&preurl=https%3A%2F%2Fsportsbook.draftkings.com%2Fevent%2F35014772%3Foutcomes%3D0ML87230869_1",
                         "text": "Home Bet",
@@ -6432,14 +6493,14 @@
                   },
                   "away": {
                     "close": {
-                      "odds": "-184",
+                      "odds": "-157",
                       "link": {
                         "language": "en-US",
                         "rel": [
                           "away",
                           "desktop",
                           "bets",
-                          "draft-kings"
+                          "draftkings"
                         ],
                         "href": "https://sportsbook.draftkings.com/gateway?s=__s__&wpcid=__wpcid__&wpsrc=413&wpcn=ESPN&wpscn=Widget&wpcrn=BetSlipDeepLink&wpscid=__wpscid__&wpcrid=xx&preurl=https%3A%2F%2Fsportsbook.draftkings.com%2Fevent%2F35014772%3Foutcomes%3D0ML87230869_3",
                         "text": "Away Bet",
@@ -6468,8 +6529,8 @@
                   "shortDisplayName": "Spread",
                   "home": {
                     "close": {
-                      "line": "+4.5",
-                      "odds": "-115",
+                      "line": "+3.5",
+                      "odds": "-106",
                       "link": {
                         "language": "en-US",
                         "rel": [
@@ -6477,7 +6538,7 @@
                           "desktop",
                           "bets"
                         ],
-                        "href": "https://sportsbook.draftkings.com/gateway?s=__s__&wpcid=__wpcid__&wpsrc=413&wpcn=ESPN&wpscn=Widget&wpcrn=BetSlipDeepLink&wpscid=__wpscid__&wpcrid=xx&preurl=https%3A%2F%2Fsportsbook.draftkings.com%2Fevent%2F35014772%3Foutcomes%3D0HC87230869P450_1",
+                        "href": "https://sportsbook.draftkings.com/gateway?s=__s__&wpcid=__wpcid__&wpsrc=413&wpcn=ESPN&wpscn=Widget&wpcrn=BetSlipDeepLink&wpscid=__wpscid__&wpcrid=xx&preurl=https%3A%2F%2Fsportsbook.draftkings.com%2Fevent%2F35014772%3Foutcomes%3D0HC87230869P350_1",
                         "text": "Home Point Spread",
                         "shortText": "Home Point Spread",
                         "isExternal": true,
@@ -6490,7 +6551,7 @@
                             "gameId": 401909990,
                             "betSide": "none",
                             "betType": "straight",
-                            "betDetails": "Spread:TOR+4.5"
+                            "betDetails": "Spread:TOR+3.5"
                           }
                         }
                       }
@@ -6502,8 +6563,8 @@
                   },
                   "away": {
                     "close": {
-                      "line": "-4.5",
-                      "odds": "-106",
+                      "line": "-3.5",
+                      "odds": "-114",
                       "link": {
                         "language": "en-US",
                         "rel": [
@@ -6511,7 +6572,7 @@
                           "desktop",
                           "bets"
                         ],
-                        "href": "https://sportsbook.draftkings.com/gateway?s=__s__&wpcid=__wpcid__&wpsrc=413&wpcn=ESPN&wpscn=Widget&wpcrn=BetSlipDeepLink&wpscid=__wpscid__&wpcrid=xx&preurl=https%3A%2F%2Fsportsbook.draftkings.com%2Fevent%2F35014772%3Foutcomes%3D0HC87230869N450_3",
+                        "href": "https://sportsbook.draftkings.com/gateway?s=__s__&wpcid=__wpcid__&wpsrc=413&wpcn=ESPN&wpscn=Widget&wpcrn=BetSlipDeepLink&wpscid=__wpscid__&wpcrid=xx&preurl=https%3A%2F%2Fsportsbook.draftkings.com%2Fevent%2F35014772%3Foutcomes%3D0HC87230869N350_3",
                         "text": "Away Point Spread",
                         "shortText": "Away Point Spread",
                         "isExternal": true,
@@ -6524,7 +6585,7 @@
                             "gameId": 401909990,
                             "betSide": "none",
                             "betType": "straight",
-                            "betDetails": "Spread:NY-4.5"
+                            "betDetails": "Spread:NY-3.5"
                           }
                         }
                       }
@@ -6541,7 +6602,7 @@
                   "over": {
                     "close": {
                       "line": "o217.5",
-                      "odds": "-115",
+                      "odds": "-113",
                       "link": {
                         "language": "en-US",
                         "rel": [
@@ -6575,7 +6636,7 @@
                   "under": {
                     "close": {
                       "line": "u217.5",
-                      "odds": "-105",
+                      "odds": "-107",
                       "link": {
                         "language": "en-US",
                         "rel": [
@@ -7540,7 +7601,7 @@
               {
                 "provider": {
                   "id": "100",
-                  "name": "Draft Kings",
+                  "name": "DraftKings",
                   "priority": 1,
                   "logos": [
                     {
@@ -7598,7 +7659,7 @@
                           "home",
                           "desktop",
                           "bets",
-                          "draft-kings"
+                          "draftkings"
                         ],
                         "href": "https://sportsbook.draftkings.com/gateway?s=__s__&wpcid=__wpcid__&wpsrc=413&wpcn=ESPN&wpscn=Widget&wpcrn=BetSlipDeepLink&wpscid=__wpscid__&wpcrid=xx&preurl=https%3A%2F%2Fsportsbook.draftkings.com%2Fevent%2F35014773%3Foutcomes%3D0ML87230870_1",
                         "text": "Home Bet",
@@ -7630,7 +7691,7 @@
                           "away",
                           "desktop",
                           "bets",
-                          "draft-kings"
+                          "draftkings"
                         ],
                         "href": "https://sportsbook.draftkings.com/gateway?s=__s__&wpcid=__wpcid__&wpsrc=413&wpcn=ESPN&wpscn=Widget&wpcrn=BetSlipDeepLink&wpscid=__wpscid__&wpcrid=xx&preurl=https%3A%2F%2Fsportsbook.draftkings.com%2Fevent%2F35014773%3Foutcomes%3D0ML87230870_3",
                         "text": "Away Bet",
@@ -8748,7 +8809,7 @@
               {
                 "provider": {
                   "id": "100",
-                  "name": "Draft Kings",
+                  "name": "DraftKings",
                   "priority": 1,
                   "logos": [
                     {
@@ -8806,7 +8867,7 @@
                           "home",
                           "desktop",
                           "bets",
-                          "draft-kings"
+                          "draftkings"
                         ],
                         "href": "https://sportsbook.draftkings.com/gateway?s=__s__&wpcid=__wpcid__&wpsrc=413&wpcn=ESPN&wpscn=Widget&wpcrn=BetSlipDeepLink&wpscid=__wpscid__&wpcrid=xx&preurl=https%3A%2F%2Fsportsbook.draftkings.com%2Fevent%2F35014774%3Foutcomes%3D0ML87230871_1",
                         "text": "Home Bet",
@@ -8838,7 +8899,7 @@
                           "away",
                           "desktop",
                           "bets",
-                          "draft-kings"
+                          "draftkings"
                         ],
                         "href": "https://sportsbook.draftkings.com/gateway?s=__s__&wpcid=__wpcid__&wpsrc=413&wpcn=ESPN&wpscn=Widget&wpcrn=BetSlipDeepLink&wpscid=__wpscid__&wpcrid=xx&preurl=https%3A%2F%2Fsportsbook.draftkings.com%2Fevent%2F35014774%3Foutcomes%3D0ML87230871_3",
                         "text": "Away Bet",
@@ -9956,7 +10017,7 @@
               {
                 "provider": {
                   "id": "100",
-                  "name": "Draft Kings",
+                  "name": "DraftKings",
                   "priority": 1,
                   "logos": [
                     {
@@ -10014,7 +10075,7 @@
                           "home",
                           "desktop",
                           "bets",
-                          "draft-kings"
+                          "draftkings"
                         ],
                         "href": "https://sportsbook.draftkings.com/gateway?s=__s__&wpcid=__wpcid__&wpsrc=413&wpcn=ESPN&wpscn=Widget&wpcrn=BetSlipDeepLink&wpscid=__wpscid__&wpcrid=xx&preurl=https%3A%2F%2Fsportsbook.draftkings.com%2Fevent%2F35014775%3Foutcomes%3D0ML87230872_1",
                         "text": "Home Bet",
@@ -10046,7 +10107,7 @@
                           "away",
                           "desktop",
                           "bets",
-                          "draft-kings"
+                          "draftkings"
                         ],
                         "href": "https://sportsbook.draftkings.com/gateway?s=__s__&wpcid=__wpcid__&wpsrc=413&wpcn=ESPN&wpscn=Widget&wpcrn=BetSlipDeepLink&wpscid=__wpscid__&wpcrid=xx&preurl=https%3A%2F%2Fsportsbook.draftkings.com%2Fevent%2F35014775%3Foutcomes%3D0ML87230872_3",
                         "text": "Away Bet",
@@ -10287,7 +10348,7 @@
     ],
     "provider": {
       "id": "100",
-      "name": "Draft Kings",
+      "name": "DraftKings",
       "priority": 1,
       "logos": [
         {
@@ -10303,7 +10364,7 @@
           ]
         }
       ],
-      "displayName": "Draft Kings"
+      "displayName": "DraftKings"
     }
   },
   "slates": {
@@ -11112,7 +11173,7 @@
         "TOR"
       ],
       "meta": {
-        "spread": "NY -4.5",
+        "spread": "NY -3.5",
         "total": "217.5",
         "time": "6:00 PM"
       },
