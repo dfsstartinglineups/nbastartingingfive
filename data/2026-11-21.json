@@ -1,5 +1,5 @@
 {
-  "last_updated": "Nov 21, 02:15 PM ET",
+  "last_updated": "Nov 21, 02:18 PM ET",
   "player_news": [],
   "espn_schedule": {
     "leagues": [
@@ -244,7 +244,7 @@
             "id": "401910023",
             "uid": "s:40~l:46~e:401910023~c:401910023",
             "date": "2026-11-21T18:00Z",
-            "attendance": 0,
+            "attendance": 21043,
             "type": {
               "id": "1",
               "abbreviation": "STD"
@@ -380,6 +380,11 @@
                     "value": 31.0,
                     "displayValue": "31",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -761,6 +766,11 @@
                     "value": 29.0,
                     "displayValue": "29",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -1030,32 +1040,59 @@
             "notes": [],
             "situation": {
               "lastPlay": {
-                "id": "401910023330",
+                "id": "401910023333",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "584",
+                  "text": "Substitution"
                 },
-                "text": "End of the 2nd Quarter",
+                "text": "Kentavious Caldwell-Pope enters the game for Anfernee Simons",
                 "scoreValue": 0,
+                "team": {
+                  "id": "20"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.807,
-                  "awayWinPercentage": 0.19299999999999995
-                }
+                  "homeWinPercentage": 0.778,
+                  "awayWinPercentage": 0.22199999999999998
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "2581018",
+                    "fullName": "Kentavious Caldwell-Pope",
+                    "displayName": "Kentavious Caldwell-Pope",
+                    "shortName": "K. Caldwell-Pope",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/2581018/kentavious-caldwell-pope"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/2581018.png",
+                    "jersey": "1",
+                    "position": "G",
+                    "team": {
+                      "id": "20"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 2,
+              "clock": 720.0,
+              "displayClock": "12:00",
+              "period": 3,
               "type": {
-                "id": "23",
-                "name": "STATUS_HALFTIME",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "Halftime",
-                "detail": "Halftime",
-                "shortDetail": "Halftime"
+                "description": "In Progress",
+                "detail": "12:00 - 3rd Quarter",
+                "shortDetail": "12:00 - 3rd"
               }
             },
             "broadcasts": [
@@ -1163,17 +1200,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 2,
+          "clock": 720.0,
+          "displayClock": "12:00",
+          "period": 3,
           "type": {
-            "id": "23",
-            "name": "STATUS_HALFTIME",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "Halftime",
-            "detail": "Halftime",
-            "shortDetail": "Halftime"
+            "description": "In Progress",
+            "detail": "12:00 - 3rd Quarter",
+            "shortDetail": "12:00 - 3rd"
           }
         }
       },
