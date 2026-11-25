@@ -1,5 +1,5 @@
 {
-  "last_updated": "Nov 24, 09:24 PM ET",
+  "last_updated": "Nov 24, 09:27 PM ET",
   "player_news": [],
   "espn_schedule": {
     "leagues": [
@@ -1301,18 +1301,23 @@
                     "value": 21.0,
                     "displayValue": "21",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "22"
+                    "displayValue": "23"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "22.0"
+                    "displayValue": "23.0"
                   },
                   {
                     "name": "assists",
@@ -1514,7 +1519,7 @@
                     "leaders": [
                       {
                         "displayValue": "17 PTS",
-                        "value": 27.200000762939453,
+                        "value": 28.200000762939453,
                         "athlete": {
                           "id": "5174563",
                           "fullName": "Kyshawn George",
@@ -1682,6 +1687,11 @@
                     "value": 46.0,
                     "displayValue": "46",
                     "period": 2
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 3
                   }
                 ],
                 "statistics": [
@@ -1703,7 +1713,7 @@
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "51"
+                    "displayValue": "52"
                   },
                   {
                     "name": "fieldGoalsMade",
@@ -1713,7 +1723,7 @@
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "56.9"
+                    "displayValue": "55.8"
                   },
                   {
                     "name": "freeThrowPct",
@@ -1738,12 +1748,12 @@
                   {
                     "name": "threePointPct",
                     "abbreviation": "3P%",
-                    "displayValue": "57.7"
+                    "displayValue": "55.6"
                   },
                   {
                     "name": "threePointFieldGoalsAttempted",
                     "abbreviation": "3PA",
-                    "displayValue": "26"
+                    "displayValue": "27"
                   },
                   {
                     "name": "threePointFieldGoalsMade",
@@ -1763,7 +1773,7 @@
                   {
                     "name": "threePointFieldGoalPct",
                     "abbreviation": "3P%",
-                    "displayValue": "57.7"
+                    "displayValue": "55.6"
                   }
                 ],
                 "leaders": [
@@ -1956,32 +1966,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401909315369",
+                "id": "401909315374",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "155",
+                  "text": "Defensive Rebound"
                 },
-                "text": "End of the 2nd Quarter",
+                "text": "Kyshawn George defensive rebound",
                 "scoreValue": 0,
+                "team": {
+                  "id": "27"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
                   "homeWinPercentage": 0.001,
                   "awayWinPercentage": 0.999
-                }
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "5174563",
+                    "fullName": "Kyshawn George",
+                    "displayName": "Kyshawn George",
+                    "shortName": "K. George",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/5174563/kyshawn-george"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/5174563.png",
+                    "jersey": "18",
+                    "position": "F",
+                    "team": {
+                      "id": "27"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 2,
+              "clock": 700.0,
+              "displayClock": "11:40",
+              "period": 3,
               "type": {
-                "id": "23",
-                "name": "STATUS_HALFTIME",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "Halftime",
-                "detail": "Halftime",
-                "shortDetail": "Halftime"
+                "description": "In Progress",
+                "detail": "11:40 - 3rd Quarter",
+                "shortDetail": "11:40 - 3rd"
               }
             },
             "broadcasts": [
@@ -2061,17 +2098,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 2,
+          "clock": 700.0,
+          "displayClock": "11:40",
+          "period": 3,
           "type": {
-            "id": "23",
-            "name": "STATUS_HALFTIME",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "Halftime",
-            "detail": "Halftime",
-            "shortDetail": "Halftime"
+            "description": "In Progress",
+            "detail": "11:40 - 3rd Quarter",
+            "shortDetail": "11:40 - 3rd"
           }
         }
       },
@@ -2999,9 +3036,9 @@
                   ],
                   "displayName": "DraftKings"
                 },
-                "details": "DEN -8.5",
+                "details": "DEN -7.5",
                 "overUnder": 234.5,
-                "spread": -8.5,
+                "spread": -7.5,
                 "awayTeamOdds": {
                   "favorite": false,
                   "underdog": true,
@@ -3033,7 +3070,7 @@
                   "shortDisplayName": "ML",
                   "home": {
                     "close": {
-                      "odds": "-297",
+                      "odds": "-277",
                       "link": {
                         "language": "en-US",
                         "rel": [
@@ -3065,7 +3102,7 @@
                   },
                   "away": {
                     "close": {
-                      "odds": "+241",
+                      "odds": "+227",
                       "link": {
                         "language": "en-US",
                         "rel": [
@@ -3101,8 +3138,8 @@
                   "shortDisplayName": "Spread",
                   "home": {
                     "close": {
-                      "line": "-8.5",
-                      "odds": "-108",
+                      "line": "-7.5",
+                      "odds": "-113",
                       "link": {
                         "language": "en-US",
                         "rel": [
@@ -3110,7 +3147,7 @@
                           "desktop",
                           "bets"
                         ],
-                        "href": "https://sportsbook.draftkings.com/gateway?s=__s__&wpcid=__wpcid__&wpsrc=413&wpcn=ESPN&wpscn=Widget&wpcrn=BetSlipDeepLink&wpscid=__wpscid__&wpcrid=xx&preurl=https%3A%2F%2Fsportsbook.draftkings.com%2Fevent%2F34516246%3Foutcomes%3D0HC85859635N850_1",
+                        "href": "https://sportsbook.draftkings.com/gateway?s=__s__&wpcid=__wpcid__&wpsrc=413&wpcn=ESPN&wpscn=Widget&wpcrn=BetSlipDeepLink&wpscid=__wpscid__&wpcrid=xx&preurl=https%3A%2F%2Fsportsbook.draftkings.com%2Fevent%2F34516246%3Foutcomes%3D0HC85859635N750_1",
                         "text": "Home Point Spread",
                         "shortText": "Home Point Spread",
                         "isExternal": true,
@@ -3123,7 +3160,7 @@
                             "gameId": 401909316,
                             "betSide": "none",
                             "betType": "straight",
-                            "betDetails": "Spread:DEN-8.5"
+                            "betDetails": "Spread:DEN-7.5"
                           }
                         }
                       }
@@ -3135,8 +3172,8 @@
                   },
                   "away": {
                     "close": {
-                      "line": "+8.5",
-                      "odds": "-112",
+                      "line": "+7.5",
+                      "odds": "-107",
                       "link": {
                         "language": "en-US",
                         "rel": [
@@ -3144,7 +3181,7 @@
                           "desktop",
                           "bets"
                         ],
-                        "href": "https://sportsbook.draftkings.com/gateway?s=__s__&wpcid=__wpcid__&wpsrc=413&wpcn=ESPN&wpscn=Widget&wpcrn=BetSlipDeepLink&wpscid=__wpscid__&wpcrid=xx&preurl=https%3A%2F%2Fsportsbook.draftkings.com%2Fevent%2F34516246%3Foutcomes%3D0HC85859635P850_3",
+                        "href": "https://sportsbook.draftkings.com/gateway?s=__s__&wpcid=__wpcid__&wpsrc=413&wpcn=ESPN&wpscn=Widget&wpcrn=BetSlipDeepLink&wpscid=__wpscid__&wpcrid=xx&preurl=https%3A%2F%2Fsportsbook.draftkings.com%2Fevent%2F34516246%3Foutcomes%3D0HC85859635P750_3",
                         "text": "Away Point Spread",
                         "shortText": "Away Point Spread",
                         "isExternal": true,
@@ -3157,7 +3194,7 @@
                             "gameId": 401909316,
                             "betSide": "none",
                             "betType": "straight",
-                            "betDetails": "Spread:DAL+8.5"
+                            "betDetails": "Spread:DAL+7.5"
                           }
                         }
                       }
@@ -3742,7 +3779,7 @@
         "DEN"
       ],
       "meta": {
-        "spread": "DEN -8.5",
+        "spread": "DEN -7.5",
         "total": "234.5",
         "time": "10:00 PM"
       },
