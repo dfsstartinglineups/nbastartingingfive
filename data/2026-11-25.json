@@ -1,5 +1,5 @@
 {
-  "last_updated": "Nov 25, 05:36 PM ET",
+  "last_updated": "Nov 25, 05:40 PM ET",
   "player_news": [],
   "espn_schedule": {
     "leagues": [
@@ -375,6 +375,11 @@
                     "value": 29.0,
                     "displayValue": "29",
                     "period": 1
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 2
                   }
                 ],
                 "statistics": [
@@ -396,7 +401,7 @@
                   {
                     "name": "fieldGoalsAttempted",
                     "abbreviation": "FGA",
-                    "displayValue": "25"
+                    "displayValue": "26"
                   },
                   {
                     "name": "fieldGoalsMade",
@@ -406,7 +411,7 @@
                   {
                     "name": "fieldGoalPct",
                     "abbreviation": "FG%",
-                    "displayValue": "44.0"
+                    "displayValue": "42.3"
                   },
                   {
                     "name": "freeThrowPct",
@@ -431,12 +436,12 @@
                   {
                     "name": "threePointPct",
                     "abbreviation": "3P%",
-                    "displayValue": "50.0"
+                    "displayValue": "42.9"
                   },
                   {
                     "name": "threePointFieldGoalsAttempted",
                     "abbreviation": "3PA",
-                    "displayValue": "6"
+                    "displayValue": "7"
                   },
                   {
                     "name": "threePointFieldGoalsMade",
@@ -456,7 +461,7 @@
                   {
                     "name": "threePointFieldGoalPct",
                     "abbreviation": "3P%",
-                    "displayValue": "50.0"
+                    "displayValue": "42.9"
                   }
                 ],
                 "leaders": [
@@ -751,18 +756,23 @@
                     "value": 32.0,
                     "displayValue": "32",
                     "period": 1
+                  },
+                  {
+                    "value": 0.0,
+                    "displayValue": "0",
+                    "period": 2
                   }
                 ],
                 "statistics": [
                   {
                     "name": "rebounds",
                     "abbreviation": "REB",
-                    "displayValue": "12"
+                    "displayValue": "13"
                   },
                   {
                     "name": "avgRebounds",
                     "abbreviation": "REB",
-                    "displayValue": "12.0"
+                    "displayValue": "13.0"
                   },
                   {
                     "name": "assists",
@@ -1025,32 +1035,59 @@
             ],
             "situation": {
               "lastPlay": {
-                "id": "401909317154",
+                "id": "401909317168",
                 "type": {
-                  "id": "412",
-                  "text": "End Period"
+                  "id": "155",
+                  "text": "Defensive Rebound"
                 },
-                "text": "End of the 1st Quarter",
+                "text": "Bam Adebayo defensive rebound",
                 "scoreValue": 0,
+                "team": {
+                  "id": "14"
+                },
                 "probability": {
                   "tiePercentage": 0.0,
-                  "homeWinPercentage": 0.547,
-                  "awayWinPercentage": 0.45299999999999996
-                }
+                  "homeWinPercentage": 0.531,
+                  "awayWinPercentage": 0.469
+                },
+                "athletesInvolved": [
+                  {
+                    "id": "4066261",
+                    "fullName": "Bam Adebayo",
+                    "displayName": "Bam Adebayo",
+                    "shortName": "B. Adebayo",
+                    "links": [
+                      {
+                        "rel": [
+                          "playercard",
+                          "desktop",
+                          "athlete"
+                        ],
+                        "href": "https://www.espn.com/nba/player/_/id/4066261/bam-adebayo"
+                      }
+                    ],
+                    "headshot": "https://a.espncdn.com/i/headshots/nba/players/full/4066261.png",
+                    "jersey": "13",
+                    "position": "C",
+                    "team": {
+                      "id": "14"
+                    }
+                  }
+                ]
               }
             },
             "status": {
-              "clock": 0.0,
-              "displayClock": "0.0",
-              "period": 1,
+              "clock": 692.0,
+              "displayClock": "11:32",
+              "period": 2,
               "type": {
-                "id": "22",
-                "name": "STATUS_END_PERIOD",
+                "id": "2",
+                "name": "STATUS_IN_PROGRESS",
                 "state": "in",
                 "completed": false,
-                "description": "End of Period",
-                "detail": "End of 1st Quarter",
-                "shortDetail": "End of 1st"
+                "description": "In Progress",
+                "detail": "11:32 - 2nd Quarter",
+                "shortDetail": "11:32 - 2nd"
               }
             },
             "broadcasts": [
@@ -1132,17 +1169,17 @@
           }
         ],
         "status": {
-          "clock": 0.0,
-          "displayClock": "0.0",
-          "period": 1,
+          "clock": 692.0,
+          "displayClock": "11:32",
+          "period": 2,
           "type": {
-            "id": "22",
-            "name": "STATUS_END_PERIOD",
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
             "state": "in",
             "completed": false,
-            "description": "End of Period",
-            "detail": "End of 1st Quarter",
-            "shortDetail": "End of 1st"
+            "description": "In Progress",
+            "detail": "11:32 - 2nd Quarter",
+            "shortDetail": "11:32 - 2nd"
           }
         }
       },
@@ -3155,8 +3192,8 @@
             },
             "tickets": [
               {
-                "summary": "Tickets as low as $206",
-                "numberAvailable": 796,
+                "summary": "Tickets as low as $219",
+                "numberAvailable": 658,
                 "links": [
                   {
                     "href": "https://www.vividseats.com/new-york-knicks-tickets-madison-square-garden-10-31-2026--sports-nba-basketball/production/7419668?wsUser=717"
@@ -5330,24 +5367,6 @@
                     "displayValue": "38.1"
                   }
                 ],
-                "records": [
-                  {
-                    "name": "overall",
-                    "abbreviation": "Total",
-                    "type": "total",
-                    "summary": "4-12"
-                  },
-                  {
-                    "name": "Home",
-                    "type": "home",
-                    "summary": "4-4"
-                  },
-                  {
-                    "name": "Road",
-                    "type": "road",
-                    "summary": "0-8"
-                  }
-                ],
                 "leaders": [
                   {
                     "name": "pointsPerGame",
@@ -5508,6 +5527,24 @@
                         }
                       }
                     ]
+                  }
+                ],
+                "records": [
+                  {
+                    "name": "overall",
+                    "abbreviation": "Total",
+                    "type": "total",
+                    "summary": "4-12"
+                  },
+                  {
+                    "name": "Home",
+                    "type": "home",
+                    "summary": "4-4"
+                  },
+                  {
+                    "name": "Road",
+                    "type": "road",
+                    "summary": "0-8"
                   }
                 ]
               }
@@ -10146,24 +10183,6 @@
                     "rankDisplayValue": "1st"
                   }
                 ],
-                "records": [
-                  {
-                    "name": "overall",
-                    "abbreviation": "Total",
-                    "type": "total",
-                    "summary": "15-3"
-                  },
-                  {
-                    "name": "Home",
-                    "type": "home",
-                    "summary": "7-3"
-                  },
-                  {
-                    "name": "Road",
-                    "type": "road",
-                    "summary": "8-0"
-                  }
-                ],
                 "leaders": [
                   {
                     "name": "pointsPerGame",
@@ -10324,6 +10343,24 @@
                         }
                       }
                     ]
+                  }
+                ],
+                "records": [
+                  {
+                    "name": "overall",
+                    "abbreviation": "Total",
+                    "type": "total",
+                    "summary": "15-3"
+                  },
+                  {
+                    "name": "Home",
+                    "type": "home",
+                    "summary": "7-3"
+                  },
+                  {
+                    "name": "Road",
+                    "type": "road",
+                    "summary": "8-0"
                   }
                 ]
               }
